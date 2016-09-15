@@ -75,7 +75,6 @@
 		BE0CF33E1D8B209A00344F8A /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2DD1D8B209A00344F8A /* Utilities.swift */; };
 		BE0CF33F1D8B209A00344F8A /* MapCameraAnimations.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2DE1D8B209A00344F8A /* MapCameraAnimations.swift */; };
 		BE0CF3401D8B209A00344F8A /* PoiDetailsImagesCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2DF1D8B209A00344F8A /* PoiDetailsImagesCollectionViewCell.swift */; };
-		BE0CF3411D8B209A00344F8A /* RouteBuilderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2E01D8B209A00344F8A /* RouteBuilderViewController.swift */; };
 		BE0CF3421D8B209A00344F8A /* RouteProviderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2E11D8B209A00344F8A /* RouteProviderViewController.swift */; };
 		BE0CF3431D8B209A00344F8A /* RouteSummaryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2E21D8B209A00344F8A /* RouteSummaryTableViewCell.swift */; };
 		BE0CF3441D8B209A00344F8A /* UserPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2E31D8B209A00344F8A /* UserPreferences.swift */; };
@@ -86,14 +85,11 @@
 		BE0CF3491D8B209A00344F8A /* PickerGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2E81D8B209A00344F8A /* PickerGroupView.swift */; };
 		BE0CF34A1D8B209A00344F8A /* PickerViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2E91D8B209A00344F8A /* PickerViewCell.swift */; };
 		BE0CF34B1D8B209A00344F8A /* PoiRegionConfigurationViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2EA1D8B209A00344F8A /* PoiRegionConfigurationViewCell.swift */; };
-		BE0CF34C1D8B209A00344F8A /* RouteBuilderSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2EB1D8B209A00344F8A /* RouteBuilderSectionHeader.swift */; };
-		BE0CF34D1D8B209A00344F8A /* RouteNameViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2EC1D8B209A00344F8A /* RouteNameViewCell.swift */; };
 		BE0CF34E1D8B209A00344F8A /* searchRouteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2ED1D8B209A00344F8A /* searchRouteTableViewCell.swift */; };
 		BE0CF34F1D8B209A00344F8A /* TextFieldViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2EE1D8B209A00344F8A /* TextFieldViewCell.swift */; };
 		BE0CF3501D8B209A00344F8A /* CategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2EF1D8B209A00344F8A /* CategoryCollectionViewCell.swift */; };
 		BE0CF3511D8B209A00344F8A /* ChangePassword.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2F01D8B209A00344F8A /* ChangePassword.swift */; };
 		BE0CF3521D8B209A00344F8A /* PickerCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2F11D8B209A00344F8A /* PickerCategoryView.swift */; };
-		BE0CF3541D8B209A00344F8A /* RouteBuilderPoiViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2F31D8B209A00344F8A /* RouteBuilderPoiViewCell.swift */; };
 		BE0CF3551D8B209A00344F8A /* DBAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2F41D8B209A00344F8A /* DBAlertController.swift */; };
 		BE0CF3571D8B209A00344F8A /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2F61D8B209A00344F8A /* LocationManager.swift */; };
 		BE0CF3581D8B209A00344F8A /* PoiNotificationUserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2F71D8B209A00344F8A /* PoiNotificationUserInfo.swift */; };
@@ -110,7 +106,6 @@
 		BE2FF2C21D8B267D00C0395A /* SearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2FF2C11D8B267D00C0395A /* SearchController.swift */; };
 		BE2FF2C91D8B280B00C0395A /* CallOutAccessoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE2FF2C41D8B280B00C0395A /* CallOutAccessoryView.xib */; };
 		BE2FF2CA1D8B280B00C0395A /* CallOutLeftAccessoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE2FF2C51D8B280B00C0395A /* CallOutLeftAccessoryView.xib */; };
-		BE2FF2CB1D8B280B00C0395A /* RouteBuilderSectionHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE2FF2C61D8B280B00C0395A /* RouteBuilderSectionHeader.xib */; };
 		BE2FF2CC1D8B280B00C0395A /* PickerCategoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE2FF2C71D8B280B00C0395A /* PickerCategoryView.xib */; };
 		BE2FF2CD1D8B280B00C0395A /* PickerGroupView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE2FF2C81D8B280B00C0395A /* PickerGroupView.xib */; };
 		BEA7BA9F1D8B01E5005D2D21 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA7BA9E1D8B01E5005D2D21 /* AppDelegate.swift */; };
@@ -208,7 +203,6 @@
 		BE0CF2DD1D8B209A00344F8A /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		BE0CF2DE1D8B209A00344F8A /* MapCameraAnimations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapCameraAnimations.swift; sourceTree = "<group>"; };
 		BE0CF2DF1D8B209A00344F8A /* PoiDetailsImagesCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PoiDetailsImagesCollectionViewCell.swift; sourceTree = "<group>"; };
-		BE0CF2E01D8B209A00344F8A /* RouteBuilderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteBuilderViewController.swift; sourceTree = "<group>"; };
 		BE0CF2E11D8B209A00344F8A /* RouteProviderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteProviderViewController.swift; sourceTree = "<group>"; };
 		BE0CF2E21D8B209A00344F8A /* RouteSummaryTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteSummaryTableViewCell.swift; sourceTree = "<group>"; };
 		BE0CF2E31D8B209A00344F8A /* UserPreferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserPreferences.swift; sourceTree = "<group>"; };
@@ -219,14 +213,11 @@
 		BE0CF2E81D8B209A00344F8A /* PickerGroupView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PickerGroupView.swift; sourceTree = "<group>"; };
 		BE0CF2E91D8B209A00344F8A /* PickerViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PickerViewCell.swift; sourceTree = "<group>"; };
 		BE0CF2EA1D8B209A00344F8A /* PoiRegionConfigurationViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PoiRegionConfigurationViewCell.swift; sourceTree = "<group>"; };
-		BE0CF2EB1D8B209A00344F8A /* RouteBuilderSectionHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteBuilderSectionHeader.swift; sourceTree = "<group>"; };
-		BE0CF2EC1D8B209A00344F8A /* RouteNameViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteNameViewCell.swift; sourceTree = "<group>"; };
 		BE0CF2ED1D8B209A00344F8A /* searchRouteTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = searchRouteTableViewCell.swift; sourceTree = "<group>"; };
 		BE0CF2EE1D8B209A00344F8A /* TextFieldViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFieldViewCell.swift; sourceTree = "<group>"; };
 		BE0CF2EF1D8B209A00344F8A /* CategoryCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryCollectionViewCell.swift; sourceTree = "<group>"; };
 		BE0CF2F01D8B209A00344F8A /* ChangePassword.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePassword.swift; sourceTree = "<group>"; };
 		BE0CF2F11D8B209A00344F8A /* PickerCategoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PickerCategoryView.swift; sourceTree = "<group>"; };
-		BE0CF2F31D8B209A00344F8A /* RouteBuilderPoiViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteBuilderPoiViewCell.swift; sourceTree = "<group>"; };
 		BE0CF2F41D8B209A00344F8A /* DBAlertController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBAlertController.swift; sourceTree = "<group>"; };
 		BE0CF2F61D8B209A00344F8A /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		BE0CF2F71D8B209A00344F8A /* PoiNotificationUserInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PoiNotificationUserInfo.swift; sourceTree = "<group>"; };
@@ -245,7 +236,6 @@
 		BE2FF2C31D8B274C00C0395A /* AnyPOI.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = AnyPOI.entitlements; sourceTree = "<group>"; };
 		BE2FF2C41D8B280B00C0395A /* CallOutAccessoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CallOutAccessoryView.xib; sourceTree = "<group>"; };
 		BE2FF2C51D8B280B00C0395A /* CallOutLeftAccessoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CallOutLeftAccessoryView.xib; sourceTree = "<group>"; };
-		BE2FF2C61D8B280B00C0395A /* RouteBuilderSectionHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RouteBuilderSectionHeader.xib; sourceTree = "<group>"; };
 		BE2FF2C71D8B280B00C0395A /* PickerCategoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PickerCategoryView.xib; sourceTree = "<group>"; };
 		BE2FF2C81D8B280B00C0395A /* PickerGroupView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PickerGroupView.xib; sourceTree = "<group>"; };
 		BEA7BA9B1D8B01E5005D2D21 /* AnyPOI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AnyPOI.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -315,7 +305,6 @@
 				BE2FF2CF1D8B296100C0395A /* Utilities */,
 				BE2FF2D01D8B299A00C0395A /* Database */,
 				BE2FF2E31D8B316200C0395A /* ContainerVC */,
-				BE2FF2E01D8B2FCF00C0395A /* RouteBuilderVC */,
 				BE0CF2FB1D8B209A00344F8A /* MapCell.temp_caseinsensitive_rename.swift */,
 				BEA7BA9E1D8B01E5005D2D21 /* AppDelegate.swift */,
 				BE2FF2E41D8B317F00C0395A /* Rsc */,
@@ -328,7 +317,6 @@
 			children = (
 				BE2FF2C41D8B280B00C0395A /* CallOutAccessoryView.xib */,
 				BE2FF2C51D8B280B00C0395A /* CallOutLeftAccessoryView.xib */,
-				BE2FF2C61D8B280B00C0395A /* RouteBuilderSectionHeader.xib */,
 				BE2FF2C71D8B280B00C0395A /* PickerCategoryView.xib */,
 				BE2FF2C81D8B280B00C0395A /* PickerGroupView.xib */,
 				BEA7BAA21D8B01E5005D2D21 /* Main.storyboard */,
@@ -523,17 +511,6 @@
 				BE0CF2D81D8B209A00344F8A /* PoiDetailImageViewController.swift */,
 			);
 			name = POIDetailsImageVC;
-			sourceTree = "<group>";
-		};
-		BE2FF2E01D8B2FCF00C0395A /* RouteBuilderVC */ = {
-			isa = PBXGroup;
-			children = (
-				BE0CF2EB1D8B209A00344F8A /* RouteBuilderSectionHeader.swift */,
-				BE0CF2F31D8B209A00344F8A /* RouteBuilderPoiViewCell.swift */,
-				BE0CF2E01D8B209A00344F8A /* RouteBuilderViewController.swift */,
-				BE0CF2EC1D8B209A00344F8A /* RouteNameViewCell.swift */,
-			);
-			name = RouteBuilderVC;
 			sourceTree = "<group>";
 		};
 		BE2FF2E11D8B2FFC00C0395A /* RouteProviderVC */ = {
@@ -819,7 +796,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BE2FF2CB1D8B280B00C0395A /* RouteBuilderSectionHeader.xib in Resources */,
 				BE2FF2CA1D8B280B00C0395A /* CallOutLeftAccessoryView.xib in Resources */,
 				BE2FF2CD1D8B280B00C0395A /* PickerGroupView.xib in Resources */,
 				BE2FF2CC1D8B280B00C0395A /* PickerCategoryView.xib in Resources */,
@@ -905,11 +881,9 @@
 				BE0CF3181D8B209A00344F8A /* POIDetailsViewController.swift in Sources */,
 				BE0CF3391D8B209A00344F8A /* PoiDetailImageViewController.swift in Sources */,
 				BE0CF3271D8B209A00344F8A /* searchPoiViewCell.swift in Sources */,
-				BE0CF34D1D8B209A00344F8A /* RouteNameViewCell.swift in Sources */,
 				BE0CF3081D8B209A00344F8A /* RouteManager.swift in Sources */,
 				BE0CF3121D8B209A00344F8A /* GroupOfInterest.swift in Sources */,
 				BE0CF3521D8B209A00344F8A /* PickerCategoryView.swift in Sources */,
-				BE0CF3541D8B209A00344F8A /* RouteBuilderPoiViewCell.swift in Sources */,
 				BE0CF3511D8B209A00344F8A /* ChangePassword.swift in Sources */,
 				BE0CF3291D8B209A00344F8A /* WikipediaCell.swift in Sources */,
 				BE0CF3461D8B209A00344F8A /* ColorCollectionViewCell.swift in Sources */,
@@ -968,7 +942,6 @@
 				BE0CF3171D8B209A00344F8A /* MovePOIsViewController.swift in Sources */,
 				BE0CF3241D8B209A00344F8A /* RoutesTableViewCell.swift in Sources */,
 				BE0CF3351D8B209A00344F8A /* MailActivityItemSource.swift in Sources */,
-				BE0CF3411D8B209A00344F8A /* RouteBuilderViewController.swift in Sources */,
 				BE0CF3251D8B209A00344F8A /* RouteUtilties.swift in Sources */,
 				BE0CF35C1D8B209A00344F8A /* MapCell.temp_caseinsensitive_rename.swift in Sources */,
 				BE2FF2BF1D8B256D00C0395A /* Route+CoreDataProperties.swift in Sources */,
@@ -977,7 +950,6 @@
 				BE0CF3201D8B209A00344F8A /* Route.swift in Sources */,
 				BE0CF32B1D8B209A00344F8A /* WikipediaUtils.swift in Sources */,
 				BE0CF3481D8B209A00344F8A /* GroupPickerViewCell.swift in Sources */,
-				BE0CF34C1D8B209A00344F8A /* RouteBuilderSectionHeader.swift in Sources */,
 				BE0CF34B1D8B209A00344F8A /* PoiRegionConfigurationViewCell.swift in Sources */,
 				BE0CF30D1D8B209A00344F8A /* CategoryTableViewCell.swift in Sources */,
 				BE2FF2BD1D8B256D00C0395A /* PointOfInterest+CoreDataProperties.swift in Sources */,
