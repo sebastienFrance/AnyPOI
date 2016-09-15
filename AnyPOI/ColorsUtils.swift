@@ -1,0 +1,47 @@
+//
+//  ColorsUtils.swift
+//  SimplePOI
+//
+//  Created by Sébastien Brugalières on 05/05/2016.
+//  Copyright © 2016 Sébastien Brugalières. All rights reserved.
+//
+
+import UIKit
+
+class ColorsUtils {
+    static func defaultGroupColor() -> UIColor {
+        return UIColor(hue: CGFloat(0.3), saturation: CGFloat(1.0), brightness: CGFloat(1.0), alpha: 1.0)
+    }
+    
+    static func contactsGroupColor() -> UIColor {
+        return UIColor(hue: CGFloat(0.6), saturation: CGFloat(1.0), brightness: CGFloat(1.0), alpha: 1.0)
+    }
+    
+    static func initColors() -> [UIColor] {
+        
+        var colors = [UIColor]()
+        // 0.91, 1.1... to make sure the last value will be included
+        for hue in (0.0).stride(through: 0.91, by: 0.1){
+            for saturation in (0.6).stride(to: 1.1, by: 0.2) {
+                for brightness in (0.6).stride(through: 1.1, by: 0.2) {
+                    colors.append(UIColor(hue: CGFloat(hue), saturation: CGFloat(saturation), brightness: CGFloat(brightness), alpha: 1.0))
+                }
+            }
+        }
+        
+        return colors
+    }
+
+    // Returns the index of the given color in the colors array. When the color is not in the array
+    // then the returned value is -1
+    static func findColorIndex(color:UIColor, inColors:[UIColor]) -> Int {
+        for i in 0..<inColors.count {
+            let currentColor = inColors[i]
+            if color.description == currentColor.description {
+                return i
+            }
+        }
+        return -1
+    }
+
+}

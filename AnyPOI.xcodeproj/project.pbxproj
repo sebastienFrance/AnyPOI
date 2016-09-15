@@ -7,8 +7,113 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0F382B0CA1F4FB823A13E9E5 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE16A0CA19DE97FD2626AC38 /* Pods.framework */; };
+		BE0CF2FD1D8B209A00344F8A /* ContactsUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF29C1D8B209A00344F8A /* ContactsUtilities.swift */; };
+		BE0CF2FE1D8B209A00344F8A /* ContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF29D1D8B209A00344F8A /* ContactsViewController.swift */; };
+		BE0CF2FF1D8B209A00344F8A /* ContactTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF29E1D8B209A00344F8A /* ContactTableViewCell.swift */; };
+		BE0CF3001D8B209A00344F8A /* ContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF29F1D8B209A00344F8A /* ContainerViewController.swift */; };
+		BE0CF3011D8B209A00344F8A /* CustomCalloutAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2A01D8B209A00344F8A /* CustomCalloutAccessoryView.swift */; };
+		BE0CF3021D8B209A00344F8A /* CustomCalloutLeftAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2A11D8B209A00344F8A /* CustomCalloutLeftAccessoryView.swift */; };
+		BE0CF3031D8B209A00344F8A /* LeftMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2A21D8B209A00344F8A /* LeftMenuViewController.swift */; };
+		BE0CF3041D8B209A00344F8A /* MapUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2A31D8B209A00344F8A /* MapUtils.swift */; };
+		BE0CF3051D8B209A00344F8A /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2A41D8B209A00344F8A /* MapViewController.swift */; };
+		BE0CF3061D8B209A00344F8A /* PoiCalloutDelegateImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2A51D8B209A00344F8A /* PoiCalloutDelegateImpl.swift */; };
+		BE0CF3071D8B209A00344F8A /* POIsGroupListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2A61D8B209A00344F8A /* POIsGroupListViewController.swift */; };
+		BE0CF3081D8B209A00344F8A /* RouteManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2A71D8B209A00344F8A /* RouteManager.swift */; };
+		BE0CF3091D8B209A00344F8A /* RoutesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2A81D8B209A00344F8A /* RoutesViewController.swift */; };
+		BE0CF30A1D8B209A00344F8A /* WayPointPinAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2A91D8B209A00344F8A /* WayPointPinAnnotationView.swift */; };
+		BE0CF30B1D8B209A00344F8A /* WikipediaLocalSearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2AA1D8B209A00344F8A /* WikipediaLocalSearchTableViewCell.swift */; };
+		BE0CF30C1D8B209A00344F8A /* CategoriesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2AB1D8B209A00344F8A /* CategoriesTableViewCell.swift */; };
+		BE0CF30D1D8B209A00344F8A /* CategoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2AC1D8B209A00344F8A /* CategoryTableViewCell.swift */; };
+		BE0CF30E1D8B209A00344F8A /* CategoryUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2AD1D8B209A00344F8A /* CategoryUtils.swift */; };
+		BE0CF30F1D8B209A00344F8A /* CityGroupCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2AE1D8B209A00344F8A /* CityGroupCell.swift */; };
+		BE0CF3101D8B209A00344F8A /* DrawingUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2AF1D8B209A00344F8A /* DrawingUtils.swift */; };
+		BE0CF3111D8B209A00344F8A /* GroupConfiguratorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2B01D8B209A00344F8A /* GroupConfiguratorViewController.swift */; };
+		BE0CF3121D8B209A00344F8A /* GroupOfInterest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2B11D8B209A00344F8A /* GroupOfInterest.swift */; };
+		BE0CF3131D8B209A00344F8A /* LocalSearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2B21D8B209A00344F8A /* LocalSearchTableViewCell.swift */; };
+		BE0CF3141D8B209A00344F8A /* LocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2B31D8B209A00344F8A /* LocationCell.swift */; };
+		BE0CF3151D8B209A00344F8A /* MonitoredPoisGroupCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2B41D8B209A00344F8A /* MonitoredPoisGroupCell.swift */; };
+		BE0CF3161D8B209A00344F8A /* MovePOIsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2B51D8B209A00344F8A /* MovePOIsTableViewCell.swift */; };
+		BE0CF3171D8B209A00344F8A /* MovePOIsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2B61D8B209A00344F8A /* MovePOIsViewController.swift */; };
+		BE0CF3181D8B209A00344F8A /* POIDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2B71D8B209A00344F8A /* POIDetailsViewController.swift */; };
+		BE0CF3191D8B209A00344F8A /* PoiEditorGroupViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2B81D8B209A00344F8A /* PoiEditorGroupViewCell.swift */; };
+		BE0CF31A1D8B209A00344F8A /* PoiEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2B91D8B209A00344F8A /* PoiEditorViewController.swift */; };
+		BE0CF31B1D8B209A00344F8A /* POIGroupCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2BA1D8B209A00344F8A /* POIGroupCell.swift */; };
+		BE0CF31C1D8B209A00344F8A /* PointOfInterest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2BB1D8B209A00344F8A /* PointOfInterest.swift */; };
+		BE0CF31D1D8B209A00344F8A /* POISimpleViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2BC1D8B209A00344F8A /* POISimpleViewCell.swift */; };
+		BE0CF31E1D8B209A00344F8A /* PoisMapAreaTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2BD1D8B209A00344F8A /* PoisMapAreaTableViewCell.swift */; };
+		BE0CF31F1D8B209A00344F8A /* POIsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2BE1D8B209A00344F8A /* POIsViewController.swift */; };
+		BE0CF3201D8B209A00344F8A /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2BF1D8B209A00344F8A /* Route.swift */; };
+		BE0CF3211D8B209A00344F8A /* RouteDetailsViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2C01D8B209A00344F8A /* RouteDetailsViewCell.swift */; };
+		BE0CF3221D8B209A00344F8A /* RouteDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2C11D8B209A00344F8A /* RouteDetailsViewController.swift */; };
+		BE0CF3231D8B209A00344F8A /* RouteEditorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2C21D8B209A00344F8A /* RouteEditorController.swift */; };
+		BE0CF3241D8B209A00344F8A /* RoutesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2C31D8B209A00344F8A /* RoutesTableViewCell.swift */; };
+		BE0CF3251D8B209A00344F8A /* RouteUtilties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2C41D8B209A00344F8A /* RouteUtilties.swift */; };
+		BE0CF3261D8B209A00344F8A /* searchGroupViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2C51D8B209A00344F8A /* searchGroupViewCell.swift */; };
+		BE0CF3271D8B209A00344F8A /* searchPoiViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2C61D8B209A00344F8A /* searchPoiViewCell.swift */; };
+		BE0CF3281D8B209A00344F8A /* Wikipedia.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2C71D8B209A00344F8A /* Wikipedia.swift */; };
+		BE0CF3291D8B209A00344F8A /* WikipediaCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2C81D8B209A00344F8A /* WikipediaCell.swift */; };
+		BE0CF32A1D8B209A00344F8A /* WikipediaRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2C91D8B209A00344F8A /* WikipediaRequest.swift */; };
+		BE0CF32B1D8B209A00344F8A /* WikipediaUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2CA1D8B209A00344F8A /* WikipediaUtils.swift */; };
+		BE0CF32C1D8B209A00344F8A /* LeftMenuAboutTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2CB1D8B209A00344F8A /* LeftMenuAboutTableViewCell.swift */; };
+		BE0CF32D1D8B209A00344F8A /* LeftMenuTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2CC1D8B209A00344F8A /* LeftMenuTableViewCell.swift */; };
+		BE0CF32E1D8B209A00344F8A /* OptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2CD1D8B209A00344F8A /* OptionsViewController.swift */; };
+		BE0CF32F1D8B209A00344F8A /* POIDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2CE1D8B209A00344F8A /* POIDataManager.swift */; };
+		BE0CF3301D8B209A00344F8A /* RouteDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2CF1D8B209A00344F8A /* RouteDataSource.swift */; };
+		BE0CF3311D8B209A00344F8A /* ContactsSynchronization.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2D01D8B209A00344F8A /* ContactsSynchronization.swift */; };
+		BE0CF3321D8B209A00344F8A /* DimmerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2D11D8B209A00344F8A /* DimmerExtension.swift */; };
+		BE0CF3331D8B209A00344F8A /* FlyoverWayPoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2D21D8B209A00344F8A /* FlyoverWayPoints.swift */; };
+		BE0CF3341D8B209A00344F8A /* ImageAcvitityItemSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2D31D8B209A00344F8A /* ImageAcvitityItemSource.swift */; };
+		BE0CF3351D8B209A00344F8A /* MailActivityItemSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2D41D8B209A00344F8A /* MailActivityItemSource.swift */; };
+		BE0CF3361D8B209A00344F8A /* MessageActivityItemSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2D51D8B209A00344F8A /* MessageActivityItemSource.swift */; };
+		BE0CF3371D8B209A00344F8A /* NavigationURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2D61D8B209A00344F8A /* NavigationURL.swift */; };
+		BE0CF3381D8B209A00344F8A /* PoiBoundingBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2D71D8B209A00344F8A /* PoiBoundingBox.swift */; };
+		BE0CF3391D8B209A00344F8A /* PoiDetailImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2D81D8B209A00344F8A /* PoiDetailImageViewController.swift */; };
+		BE0CF33A1D8B209A00344F8A /* PoiDetailsImagesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2D91D8B209A00344F8A /* PoiDetailsImagesTableViewCell.swift */; };
+		BE0CF33C1D8B209A00344F8A /* SearchControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2DB1D8B209A00344F8A /* SearchControllerDelegate.swift */; };
+		BE0CF33D1D8B209A00344F8A /* UserAuthentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2DC1D8B209A00344F8A /* UserAuthentication.swift */; };
+		BE0CF33E1D8B209A00344F8A /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2DD1D8B209A00344F8A /* Utilities.swift */; };
+		BE0CF33F1D8B209A00344F8A /* MapCameraAnimations.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2DE1D8B209A00344F8A /* MapCameraAnimations.swift */; };
+		BE0CF3401D8B209A00344F8A /* PoiDetailsImagesCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2DF1D8B209A00344F8A /* PoiDetailsImagesCollectionViewCell.swift */; };
+		BE0CF3411D8B209A00344F8A /* RouteBuilderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2E01D8B209A00344F8A /* RouteBuilderViewController.swift */; };
+		BE0CF3421D8B209A00344F8A /* RouteProviderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2E11D8B209A00344F8A /* RouteProviderViewController.swift */; };
+		BE0CF3431D8B209A00344F8A /* RouteSummaryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2E21D8B209A00344F8A /* RouteSummaryTableViewCell.swift */; };
+		BE0CF3441D8B209A00344F8A /* UserPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2E31D8B209A00344F8A /* UserPreferences.swift */; };
+		BE0CF3451D8B209A00344F8A /* WayPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2E41D8B209A00344F8A /* WayPoint.swift */; };
+		BE0CF3461D8B209A00344F8A /* ColorCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2E51D8B209A00344F8A /* ColorCollectionViewCell.swift */; };
+		BE0CF3471D8B209A00344F8A /* ColorsUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2E61D8B209A00344F8A /* ColorsUtils.swift */; };
+		BE0CF3481D8B209A00344F8A /* GroupPickerViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2E71D8B209A00344F8A /* GroupPickerViewCell.swift */; };
+		BE0CF3491D8B209A00344F8A /* PickerGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2E81D8B209A00344F8A /* PickerGroupView.swift */; };
+		BE0CF34A1D8B209A00344F8A /* PickerViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2E91D8B209A00344F8A /* PickerViewCell.swift */; };
+		BE0CF34B1D8B209A00344F8A /* PoiRegionConfigurationViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2EA1D8B209A00344F8A /* PoiRegionConfigurationViewCell.swift */; };
+		BE0CF34C1D8B209A00344F8A /* RouteBuilderSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2EB1D8B209A00344F8A /* RouteBuilderSectionHeader.swift */; };
+		BE0CF34D1D8B209A00344F8A /* RouteNameViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2EC1D8B209A00344F8A /* RouteNameViewCell.swift */; };
+		BE0CF34E1D8B209A00344F8A /* searchRouteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2ED1D8B209A00344F8A /* searchRouteTableViewCell.swift */; };
+		BE0CF34F1D8B209A00344F8A /* TextFieldViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2EE1D8B209A00344F8A /* TextFieldViewCell.swift */; };
+		BE0CF3501D8B209A00344F8A /* CategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2EF1D8B209A00344F8A /* CategoryCollectionViewCell.swift */; };
+		BE0CF3511D8B209A00344F8A /* ChangePassword.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2F01D8B209A00344F8A /* ChangePassword.swift */; };
+		BE0CF3521D8B209A00344F8A /* PickerCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2F11D8B209A00344F8A /* PickerCategoryView.swift */; };
+		BE0CF3541D8B209A00344F8A /* RouteBuilderPoiViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2F31D8B209A00344F8A /* RouteBuilderPoiViewCell.swift */; };
+		BE0CF3551D8B209A00344F8A /* DBAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2F41D8B209A00344F8A /* DBAlertController.swift */; };
+		BE0CF3571D8B209A00344F8A /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2F61D8B209A00344F8A /* LocationManager.swift */; };
+		BE0CF3581D8B209A00344F8A /* PoiNotificationUserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2F71D8B209A00344F8A /* PoiNotificationUserInfo.swift */; };
+		BE0CF35A1D8B209A00344F8A /* WikipediaPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2F91D8B209A00344F8A /* WikipediaPageViewController.swift */; };
+		BE0CF35B1D8B209A00344F8A /* DescriptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2FA1D8B209A00344F8A /* DescriptionCell.swift */; };
+		BE0CF35C1D8B209A00344F8A /* MapCell.temp_caseinsensitive_rename.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2FB1D8B209A00344F8A /* MapCell.temp_caseinsensitive_rename.swift */; };
+		BE0CF35D1D8B209A00344F8A /* MapImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2FC1D8B209A00344F8A /* MapImageCell.swift */; };
+		BE0CF3611D8B21C800344F8A /* DatabaseAccess.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF35E1D8B21C800344F8A /* DatabaseAccess.swift */; };
+		BE0CF3621D8B21C800344F8A /* GeoLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF35F1D8B21C800344F8A /* GeoLocation.swift */; };
+		BE2FF2BD1D8B256D00C0395A /* PointOfInterest+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2FF2B91D8B256D00C0395A /* PointOfInterest+CoreDataProperties.swift */; };
+		BE2FF2BE1D8B256D00C0395A /* GroupOfInterest+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2FF2BA1D8B256D00C0395A /* GroupOfInterest+CoreDataProperties.swift */; };
+		BE2FF2BF1D8B256D00C0395A /* Route+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2FF2BB1D8B256D00C0395A /* Route+CoreDataProperties.swift */; };
+		BE2FF2C01D8B256D00C0395A /* WayPoint+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2FF2BC1D8B256D00C0395A /* WayPoint+CoreDataProperties.swift */; };
+		BE2FF2C21D8B267D00C0395A /* SearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2FF2C11D8B267D00C0395A /* SearchController.swift */; };
+		BE2FF2C91D8B280B00C0395A /* CallOutAccessoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE2FF2C41D8B280B00C0395A /* CallOutAccessoryView.xib */; };
+		BE2FF2CA1D8B280B00C0395A /* CallOutLeftAccessoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE2FF2C51D8B280B00C0395A /* CallOutLeftAccessoryView.xib */; };
+		BE2FF2CB1D8B280B00C0395A /* RouteBuilderSectionHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE2FF2C61D8B280B00C0395A /* RouteBuilderSectionHeader.xib */; };
+		BE2FF2CC1D8B280B00C0395A /* PickerCategoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE2FF2C71D8B280B00C0395A /* PickerCategoryView.xib */; };
+		BE2FF2CD1D8B280B00C0395A /* PickerGroupView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE2FF2C81D8B280B00C0395A /* PickerGroupView.xib */; };
 		BEA7BA9F1D8B01E5005D2D21 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA7BA9E1D8B01E5005D2D21 /* AppDelegate.swift */; };
-		BEA7BAA11D8B01E5005D2D21 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA7BAA01D8B01E5005D2D21 /* ViewController.swift */; };
 		BEA7BAA41D8B01E5005D2D21 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BEA7BAA21D8B01E5005D2D21 /* Main.storyboard */; };
 		BEA7BAA71D8B01E5005D2D21 /* AnyPOI.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BEA7BAA51D8B01E5005D2D21 /* AnyPOI.xcdatamodeld */; };
 		BEA7BAA91D8B01E5005D2D21 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BEA7BAA81D8B01E5005D2D21 /* Assets.xcassets */; };
@@ -35,9 +140,116 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9AEB286247FFA011A043E591 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		BE0CF29C1D8B209A00344F8A /* ContactsUtilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsUtilities.swift; sourceTree = "<group>"; };
+		BE0CF29D1D8B209A00344F8A /* ContactsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsViewController.swift; sourceTree = "<group>"; };
+		BE0CF29E1D8B209A00344F8A /* ContactTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactTableViewCell.swift; sourceTree = "<group>"; };
+		BE0CF29F1D8B209A00344F8A /* ContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContainerViewController.swift; sourceTree = "<group>"; };
+		BE0CF2A01D8B209A00344F8A /* CustomCalloutAccessoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomCalloutAccessoryView.swift; sourceTree = "<group>"; };
+		BE0CF2A11D8B209A00344F8A /* CustomCalloutLeftAccessoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomCalloutLeftAccessoryView.swift; sourceTree = "<group>"; };
+		BE0CF2A21D8B209A00344F8A /* LeftMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftMenuViewController.swift; sourceTree = "<group>"; };
+		BE0CF2A31D8B209A00344F8A /* MapUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapUtils.swift; sourceTree = "<group>"; };
+		BE0CF2A41D8B209A00344F8A /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		BE0CF2A51D8B209A00344F8A /* PoiCalloutDelegateImpl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PoiCalloutDelegateImpl.swift; sourceTree = "<group>"; };
+		BE0CF2A61D8B209A00344F8A /* POIsGroupListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = POIsGroupListViewController.swift; sourceTree = "<group>"; };
+		BE0CF2A71D8B209A00344F8A /* RouteManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteManager.swift; sourceTree = "<group>"; };
+		BE0CF2A81D8B209A00344F8A /* RoutesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoutesViewController.swift; sourceTree = "<group>"; };
+		BE0CF2A91D8B209A00344F8A /* WayPointPinAnnotationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WayPointPinAnnotationView.swift; sourceTree = "<group>"; };
+		BE0CF2AA1D8B209A00344F8A /* WikipediaLocalSearchTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WikipediaLocalSearchTableViewCell.swift; sourceTree = "<group>"; };
+		BE0CF2AB1D8B209A00344F8A /* CategoriesTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoriesTableViewCell.swift; sourceTree = "<group>"; };
+		BE0CF2AC1D8B209A00344F8A /* CategoryTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryTableViewCell.swift; sourceTree = "<group>"; };
+		BE0CF2AD1D8B209A00344F8A /* CategoryUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryUtils.swift; sourceTree = "<group>"; };
+		BE0CF2AE1D8B209A00344F8A /* CityGroupCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CityGroupCell.swift; sourceTree = "<group>"; };
+		BE0CF2AF1D8B209A00344F8A /* DrawingUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawingUtils.swift; sourceTree = "<group>"; };
+		BE0CF2B01D8B209A00344F8A /* GroupConfiguratorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupConfiguratorViewController.swift; sourceTree = "<group>"; };
+		BE0CF2B11D8B209A00344F8A /* GroupOfInterest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupOfInterest.swift; sourceTree = "<group>"; };
+		BE0CF2B21D8B209A00344F8A /* LocalSearchTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalSearchTableViewCell.swift; sourceTree = "<group>"; };
+		BE0CF2B31D8B209A00344F8A /* LocationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationCell.swift; sourceTree = "<group>"; };
+		BE0CF2B41D8B209A00344F8A /* MonitoredPoisGroupCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonitoredPoisGroupCell.swift; sourceTree = "<group>"; };
+		BE0CF2B51D8B209A00344F8A /* MovePOIsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovePOIsTableViewCell.swift; sourceTree = "<group>"; };
+		BE0CF2B61D8B209A00344F8A /* MovePOIsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovePOIsViewController.swift; sourceTree = "<group>"; };
+		BE0CF2B71D8B209A00344F8A /* POIDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = POIDetailsViewController.swift; sourceTree = "<group>"; };
+		BE0CF2B81D8B209A00344F8A /* PoiEditorGroupViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PoiEditorGroupViewCell.swift; sourceTree = "<group>"; };
+		BE0CF2B91D8B209A00344F8A /* PoiEditorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PoiEditorViewController.swift; sourceTree = "<group>"; };
+		BE0CF2BA1D8B209A00344F8A /* POIGroupCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = POIGroupCell.swift; sourceTree = "<group>"; };
+		BE0CF2BB1D8B209A00344F8A /* PointOfInterest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PointOfInterest.swift; sourceTree = "<group>"; };
+		BE0CF2BC1D8B209A00344F8A /* POISimpleViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = POISimpleViewCell.swift; sourceTree = "<group>"; };
+		BE0CF2BD1D8B209A00344F8A /* PoisMapAreaTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PoisMapAreaTableViewCell.swift; sourceTree = "<group>"; };
+		BE0CF2BE1D8B209A00344F8A /* POIsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = POIsViewController.swift; sourceTree = "<group>"; };
+		BE0CF2BF1D8B209A00344F8A /* Route.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
+		BE0CF2C01D8B209A00344F8A /* RouteDetailsViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteDetailsViewCell.swift; sourceTree = "<group>"; };
+		BE0CF2C11D8B209A00344F8A /* RouteDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteDetailsViewController.swift; sourceTree = "<group>"; };
+		BE0CF2C21D8B209A00344F8A /* RouteEditorController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteEditorController.swift; sourceTree = "<group>"; };
+		BE0CF2C31D8B209A00344F8A /* RoutesTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoutesTableViewCell.swift; sourceTree = "<group>"; };
+		BE0CF2C41D8B209A00344F8A /* RouteUtilties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteUtilties.swift; sourceTree = "<group>"; };
+		BE0CF2C51D8B209A00344F8A /* searchGroupViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = searchGroupViewCell.swift; sourceTree = "<group>"; };
+		BE0CF2C61D8B209A00344F8A /* searchPoiViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = searchPoiViewCell.swift; sourceTree = "<group>"; };
+		BE0CF2C71D8B209A00344F8A /* Wikipedia.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Wikipedia.swift; sourceTree = "<group>"; };
+		BE0CF2C81D8B209A00344F8A /* WikipediaCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WikipediaCell.swift; sourceTree = "<group>"; };
+		BE0CF2C91D8B209A00344F8A /* WikipediaRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WikipediaRequest.swift; sourceTree = "<group>"; };
+		BE0CF2CA1D8B209A00344F8A /* WikipediaUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WikipediaUtils.swift; sourceTree = "<group>"; };
+		BE0CF2CB1D8B209A00344F8A /* LeftMenuAboutTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftMenuAboutTableViewCell.swift; sourceTree = "<group>"; };
+		BE0CF2CC1D8B209A00344F8A /* LeftMenuTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftMenuTableViewCell.swift; sourceTree = "<group>"; };
+		BE0CF2CD1D8B209A00344F8A /* OptionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionsViewController.swift; sourceTree = "<group>"; };
+		BE0CF2CE1D8B209A00344F8A /* POIDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = POIDataManager.swift; sourceTree = "<group>"; };
+		BE0CF2CF1D8B209A00344F8A /* RouteDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteDataSource.swift; sourceTree = "<group>"; };
+		BE0CF2D01D8B209A00344F8A /* ContactsSynchronization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsSynchronization.swift; sourceTree = "<group>"; };
+		BE0CF2D11D8B209A00344F8A /* DimmerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DimmerExtension.swift; sourceTree = "<group>"; };
+		BE0CF2D21D8B209A00344F8A /* FlyoverWayPoints.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlyoverWayPoints.swift; sourceTree = "<group>"; };
+		BE0CF2D31D8B209A00344F8A /* ImageAcvitityItemSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageAcvitityItemSource.swift; sourceTree = "<group>"; };
+		BE0CF2D41D8B209A00344F8A /* MailActivityItemSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MailActivityItemSource.swift; sourceTree = "<group>"; };
+		BE0CF2D51D8B209A00344F8A /* MessageActivityItemSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageActivityItemSource.swift; sourceTree = "<group>"; };
+		BE0CF2D61D8B209A00344F8A /* NavigationURL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationURL.swift; sourceTree = "<group>"; };
+		BE0CF2D71D8B209A00344F8A /* PoiBoundingBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PoiBoundingBox.swift; sourceTree = "<group>"; };
+		BE0CF2D81D8B209A00344F8A /* PoiDetailImageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PoiDetailImageViewController.swift; sourceTree = "<group>"; };
+		BE0CF2D91D8B209A00344F8A /* PoiDetailsImagesTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PoiDetailsImagesTableViewCell.swift; sourceTree = "<group>"; };
+		BE0CF2DB1D8B209A00344F8A /* SearchControllerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchControllerDelegate.swift; sourceTree = "<group>"; };
+		BE0CF2DC1D8B209A00344F8A /* UserAuthentication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserAuthentication.swift; sourceTree = "<group>"; };
+		BE0CF2DD1D8B209A00344F8A /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
+		BE0CF2DE1D8B209A00344F8A /* MapCameraAnimations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapCameraAnimations.swift; sourceTree = "<group>"; };
+		BE0CF2DF1D8B209A00344F8A /* PoiDetailsImagesCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PoiDetailsImagesCollectionViewCell.swift; sourceTree = "<group>"; };
+		BE0CF2E01D8B209A00344F8A /* RouteBuilderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteBuilderViewController.swift; sourceTree = "<group>"; };
+		BE0CF2E11D8B209A00344F8A /* RouteProviderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteProviderViewController.swift; sourceTree = "<group>"; };
+		BE0CF2E21D8B209A00344F8A /* RouteSummaryTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteSummaryTableViewCell.swift; sourceTree = "<group>"; };
+		BE0CF2E31D8B209A00344F8A /* UserPreferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserPreferences.swift; sourceTree = "<group>"; };
+		BE0CF2E41D8B209A00344F8A /* WayPoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WayPoint.swift; sourceTree = "<group>"; };
+		BE0CF2E51D8B209A00344F8A /* ColorCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorCollectionViewCell.swift; sourceTree = "<group>"; };
+		BE0CF2E61D8B209A00344F8A /* ColorsUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorsUtils.swift; sourceTree = "<group>"; };
+		BE0CF2E71D8B209A00344F8A /* GroupPickerViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupPickerViewCell.swift; sourceTree = "<group>"; };
+		BE0CF2E81D8B209A00344F8A /* PickerGroupView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PickerGroupView.swift; sourceTree = "<group>"; };
+		BE0CF2E91D8B209A00344F8A /* PickerViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PickerViewCell.swift; sourceTree = "<group>"; };
+		BE0CF2EA1D8B209A00344F8A /* PoiRegionConfigurationViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PoiRegionConfigurationViewCell.swift; sourceTree = "<group>"; };
+		BE0CF2EB1D8B209A00344F8A /* RouteBuilderSectionHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteBuilderSectionHeader.swift; sourceTree = "<group>"; };
+		BE0CF2EC1D8B209A00344F8A /* RouteNameViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteNameViewCell.swift; sourceTree = "<group>"; };
+		BE0CF2ED1D8B209A00344F8A /* searchRouteTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = searchRouteTableViewCell.swift; sourceTree = "<group>"; };
+		BE0CF2EE1D8B209A00344F8A /* TextFieldViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFieldViewCell.swift; sourceTree = "<group>"; };
+		BE0CF2EF1D8B209A00344F8A /* CategoryCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryCollectionViewCell.swift; sourceTree = "<group>"; };
+		BE0CF2F01D8B209A00344F8A /* ChangePassword.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePassword.swift; sourceTree = "<group>"; };
+		BE0CF2F11D8B209A00344F8A /* PickerCategoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PickerCategoryView.swift; sourceTree = "<group>"; };
+		BE0CF2F31D8B209A00344F8A /* RouteBuilderPoiViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteBuilderPoiViewCell.swift; sourceTree = "<group>"; };
+		BE0CF2F41D8B209A00344F8A /* DBAlertController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBAlertController.swift; sourceTree = "<group>"; };
+		BE0CF2F61D8B209A00344F8A /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		BE0CF2F71D8B209A00344F8A /* PoiNotificationUserInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PoiNotificationUserInfo.swift; sourceTree = "<group>"; };
+		BE0CF2F91D8B209A00344F8A /* WikipediaPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WikipediaPageViewController.swift; sourceTree = "<group>"; };
+		BE0CF2FA1D8B209A00344F8A /* DescriptionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DescriptionCell.swift; sourceTree = "<group>"; };
+		BE0CF2FB1D8B209A00344F8A /* MapCell.temp_caseinsensitive_rename.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapCell.temp_caseinsensitive_rename.swift; sourceTree = "<group>"; };
+		BE0CF2FC1D8B209A00344F8A /* MapImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapImageCell.swift; sourceTree = "<group>"; };
+		BE0CF35E1D8B21C800344F8A /* DatabaseAccess.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseAccess.swift; sourceTree = "<group>"; };
+		BE0CF35F1D8B21C800344F8A /* GeoLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeoLocation.swift; sourceTree = "<group>"; };
+		BE16A0CA19DE97FD2626AC38 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BE2FF2B91D8B256D00C0395A /* PointOfInterest+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PointOfInterest+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		BE2FF2BA1D8B256D00C0395A /* GroupOfInterest+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "GroupOfInterest+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		BE2FF2BB1D8B256D00C0395A /* Route+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Route+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		BE2FF2BC1D8B256D00C0395A /* WayPoint+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "WayPoint+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		BE2FF2C11D8B267D00C0395A /* SearchController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchController.swift; sourceTree = "<group>"; };
+		BE2FF2C31D8B274C00C0395A /* AnyPOI.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = AnyPOI.entitlements; sourceTree = "<group>"; };
+		BE2FF2C41D8B280B00C0395A /* CallOutAccessoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CallOutAccessoryView.xib; sourceTree = "<group>"; };
+		BE2FF2C51D8B280B00C0395A /* CallOutLeftAccessoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CallOutLeftAccessoryView.xib; sourceTree = "<group>"; };
+		BE2FF2C61D8B280B00C0395A /* RouteBuilderSectionHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RouteBuilderSectionHeader.xib; sourceTree = "<group>"; };
+		BE2FF2C71D8B280B00C0395A /* PickerCategoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PickerCategoryView.xib; sourceTree = "<group>"; };
+		BE2FF2C81D8B280B00C0395A /* PickerGroupView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PickerGroupView.xib; sourceTree = "<group>"; };
 		BEA7BA9B1D8B01E5005D2D21 /* AnyPOI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AnyPOI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BEA7BA9E1D8B01E5005D2D21 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		BEA7BAA01D8B01E5005D2D21 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		BEA7BAA31D8B01E5005D2D21 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		BEA7BAA61D8B01E5005D2D21 /* AnyPOI.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = AnyPOI.xcdatamodel; sourceTree = "<group>"; };
 		BEA7BAA81D8B01E5005D2D21 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -49,6 +261,7 @@
 		BEA7BABD1D8B01E5005D2D21 /* AnyPOIUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AnyPOIUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BEA7BAC11D8B01E5005D2D21 /* AnyPOIUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyPOIUITests.swift; sourceTree = "<group>"; };
 		BEA7BAC31D8B01E5005D2D21 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C69B0EFCEBF29F5E7437465D /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +269,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0F382B0CA1F4FB823A13E9E5 /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -76,6 +290,373 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		15C8D98F43281F7E3E758DB1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				BE16A0CA19DE97FD2626AC38 /* Pods.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		449EB797A2240F44729E761F /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				9AEB286247FFA011A043E591 /* Pods.debug.xcconfig */,
+				C69B0EFCEBF29F5E7437465D /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		BE0CF3651D8B222500344F8A /* src */ = {
+			isa = PBXGroup;
+			children = (
+				BE2FF2CE1D8B284F00C0395A /* Interfaces */,
+				BE3A14451D8B233E002549D0 /* dataModel */,
+				BE2FF2CF1D8B296100C0395A /* Utilities */,
+				BE2FF2D01D8B299A00C0395A /* Database */,
+				BE2FF2E31D8B316200C0395A /* ContainerVC */,
+				BE2FF2E01D8B2FCF00C0395A /* RouteBuilderVC */,
+				BE0CF2FB1D8B209A00344F8A /* MapCell.temp_caseinsensitive_rename.swift */,
+				BEA7BA9E1D8B01E5005D2D21 /* AppDelegate.swift */,
+				BE2FF2E41D8B317F00C0395A /* Rsc */,
+			);
+			name = src;
+			sourceTree = "<group>";
+		};
+		BE2FF2CE1D8B284F00C0395A /* Interfaces */ = {
+			isa = PBXGroup;
+			children = (
+				BE2FF2C41D8B280B00C0395A /* CallOutAccessoryView.xib */,
+				BE2FF2C51D8B280B00C0395A /* CallOutLeftAccessoryView.xib */,
+				BE2FF2C61D8B280B00C0395A /* RouteBuilderSectionHeader.xib */,
+				BE2FF2C71D8B280B00C0395A /* PickerCategoryView.xib */,
+				BE2FF2C81D8B280B00C0395A /* PickerGroupView.xib */,
+				BEA7BAA21D8B01E5005D2D21 /* Main.storyboard */,
+			);
+			name = Interfaces;
+			sourceTree = "<group>";
+		};
+		BE2FF2CF1D8B296100C0395A /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				BE2FF2E61D8B31C700C0395A /* Contacts */,
+				BE2FF2E51D8B31B700C0395A /* Map */,
+				BE2FF2E71D8B31DE00C0395A /* Wikipedia */,
+				BE2FF2E91D8B322F00C0395A /* ActivitySource */,
+				BE2FF2EA1D8B325200C0395A /* Others */,
+				BE2FF2E81D8B320E00C0395A /* Route */,
+			);
+			name = Utilities;
+			sourceTree = "<group>";
+		};
+		BE2FF2D01D8B299A00C0395A /* Database */ = {
+			isa = PBXGroup;
+			children = (
+				BE0CF2BF1D8B209A00344F8A /* Route.swift */,
+				BE0CF2BB1D8B209A00344F8A /* PointOfInterest.swift */,
+				BE0CF2E41D8B209A00344F8A /* WayPoint.swift */,
+				BE0CF2B11D8B209A00344F8A /* GroupOfInterest.swift */,
+				BE0CF35E1D8B21C800344F8A /* DatabaseAccess.swift */,
+				BE0CF2CE1D8B209A00344F8A /* POIDataManager.swift */,
+			);
+			name = Database;
+			sourceTree = "<group>";
+		};
+		BE2FF2D11D8B2AE400C0395A /* ContactsVC */ = {
+			isa = PBXGroup;
+			children = (
+				BE0CF29E1D8B209A00344F8A /* ContactTableViewCell.swift */,
+				BE0CF29D1D8B209A00344F8A /* ContactsViewController.swift */,
+			);
+			name = ContactsVC;
+			sourceTree = "<group>";
+		};
+		BE2FF2D21D8B2AF800C0395A /* MapVC */ = {
+			isa = PBXGroup;
+			children = (
+				BE2FF2D11D8B2AE400C0395A /* ContactsVC */,
+				BE2FF2E11D8B2FFC00C0395A /* RouteProviderVC */,
+				BE0CF2A41D8B209A00344F8A /* MapViewController.swift */,
+				BE0CF2A01D8B209A00344F8A /* CustomCalloutAccessoryView.swift */,
+				BE0CF2A11D8B209A00344F8A /* CustomCalloutLeftAccessoryView.swift */,
+				BE0CF2A51D8B209A00344F8A /* PoiCalloutDelegateImpl.swift */,
+				BE0CF2A91D8B209A00344F8A /* WayPointPinAnnotationView.swift */,
+				BE2FF2D41D8B2B6A00C0395A /* SearchController */,
+				BE2FF2D31D8B2B2000C0395A /* Route */,
+			);
+			name = MapVC;
+			sourceTree = "<group>";
+		};
+		BE2FF2D31D8B2B2000C0395A /* Route */ = {
+			isa = PBXGroup;
+			children = (
+				BE0CF2C11D8B209A00344F8A /* RouteDetailsViewController.swift */,
+				BE0CF2A71D8B209A00344F8A /* RouteManager.swift */,
+				BE0CF2C01D8B209A00344F8A /* RouteDetailsViewCell.swift */,
+				BE0CF2E21D8B209A00344F8A /* RouteSummaryTableViewCell.swift */,
+			);
+			name = Route;
+			sourceTree = "<group>";
+		};
+		BE2FF2D41D8B2B6A00C0395A /* SearchController */ = {
+			isa = PBXGroup;
+			children = (
+				BE2FF2C11D8B267D00C0395A /* SearchController.swift */,
+				BE0CF2DB1D8B209A00344F8A /* SearchControllerDelegate.swift */,
+				BE0CF2EF1D8B209A00344F8A /* CategoryCollectionViewCell.swift */,
+				BE0CF2C51D8B209A00344F8A /* searchGroupViewCell.swift */,
+				BE0CF2C61D8B209A00344F8A /* searchPoiViewCell.swift */,
+				BE0CF2B21D8B209A00344F8A /* LocalSearchTableViewCell.swift */,
+				BE0CF2AC1D8B209A00344F8A /* CategoryTableViewCell.swift */,
+				BE0CF2ED1D8B209A00344F8A /* searchRouteTableViewCell.swift */,
+				BE0CF2AA1D8B209A00344F8A /* WikipediaLocalSearchTableViewCell.swift */,
+			);
+			name = SearchController;
+			sourceTree = "<group>";
+		};
+		BE2FF2D51D8B2B9C00C0395A /* LeftMenuVC */ = {
+			isa = PBXGroup;
+			children = (
+				BE0CF2A21D8B209A00344F8A /* LeftMenuViewController.swift */,
+				BE0CF2CB1D8B209A00344F8A /* LeftMenuAboutTableViewCell.swift */,
+				BE0CF2CC1D8B209A00344F8A /* LeftMenuTableViewCell.swift */,
+			);
+			name = LeftMenuVC;
+			sourceTree = "<group>";
+		};
+		BE2FF2D61D8B2CCF00C0395A /* GroupListVC */ = {
+			isa = PBXGroup;
+			children = (
+				BE2FF2DC1D8B2F1C00C0395A /* POIsViewController */,
+				BE2FF2D81D8B2DC300C0395A /* GroupConfiguratorVC */,
+				BE0CF2A61D8B209A00344F8A /* POIsGroupListViewController.swift */,
+				BE0CF2B41D8B209A00344F8A /* MonitoredPoisGroupCell.swift */,
+				BE0CF2BA1D8B209A00344F8A /* POIGroupCell.swift */,
+				BE0CF2AE1D8B209A00344F8A /* CityGroupCell.swift */,
+			);
+			name = GroupListVC;
+			sourceTree = "<group>";
+		};
+		BE2FF2D71D8B2D0C00C0395A /* RoutesVC */ = {
+			isa = PBXGroup;
+			children = (
+				BE0CF2A81D8B209A00344F8A /* RoutesViewController.swift */,
+				BE0CF2C31D8B209A00344F8A /* RoutesTableViewCell.swift */,
+			);
+			name = RoutesVC;
+			sourceTree = "<group>";
+		};
+		BE2FF2D81D8B2DC300C0395A /* GroupConfiguratorVC */ = {
+			isa = PBXGroup;
+			children = (
+				BE0CF2B01D8B209A00344F8A /* GroupConfiguratorViewController.swift */,
+				BE0CF2E51D8B209A00344F8A /* ColorCollectionViewCell.swift */,
+			);
+			name = GroupConfiguratorVC;
+			sourceTree = "<group>";
+		};
+		BE2FF2D91D8B2DFB00C0395A /* MovePOIs */ = {
+			isa = PBXGroup;
+			children = (
+				BE0CF2B61D8B209A00344F8A /* MovePOIsViewController.swift */,
+				BE0CF2B51D8B209A00344F8A /* MovePOIsTableViewCell.swift */,
+			);
+			name = MovePOIs;
+			sourceTree = "<group>";
+		};
+		BE2FF2DA1D8B2E1500C0395A /* POIDetailsVC */ = {
+			isa = PBXGroup;
+			children = (
+				BE2FF2E21D8B303C00C0395A /* WikipediaPageVC */,
+				BE2FF2DB1D8B2E8B00C0395A /* POIEditorVC */,
+				BE2FF2DF1D8B2FB100C0395A /* POIDetailsImageVC */,
+				BE0CF2B71D8B209A00344F8A /* POIDetailsViewController.swift */,
+				BE0CF2FC1D8B209A00344F8A /* MapImageCell.swift */,
+				BE0CF2D91D8B209A00344F8A /* PoiDetailsImagesTableViewCell.swift */,
+				BE0CF2B31D8B209A00344F8A /* LocationCell.swift */,
+				BE0CF2C81D8B209A00344F8A /* WikipediaCell.swift */,
+				BE0CF2FA1D8B209A00344F8A /* DescriptionCell.swift */,
+				BE0CF2DF1D8B209A00344F8A /* PoiDetailsImagesCollectionViewCell.swift */,
+			);
+			name = POIDetailsVC;
+			sourceTree = "<group>";
+		};
+		BE2FF2DB1D8B2E8B00C0395A /* POIEditorVC */ = {
+			isa = PBXGroup;
+			children = (
+				BE0CF2B91D8B209A00344F8A /* PoiEditorViewController.swift */,
+				BE0CF2B81D8B209A00344F8A /* PoiEditorGroupViewCell.swift */,
+				BE0CF2EA1D8B209A00344F8A /* PoiRegionConfigurationViewCell.swift */,
+				BE0CF2E91D8B209A00344F8A /* PickerViewCell.swift */,
+				BE0CF2F11D8B209A00344F8A /* PickerCategoryView.swift */,
+				BE0CF2E71D8B209A00344F8A /* GroupPickerViewCell.swift */,
+				BE0CF2E81D8B209A00344F8A /* PickerGroupView.swift */,
+				BE0CF2EE1D8B209A00344F8A /* TextFieldViewCell.swift */,
+				BE0CF2AB1D8B209A00344F8A /* CategoriesTableViewCell.swift */,
+			);
+			name = POIEditorVC;
+			sourceTree = "<group>";
+		};
+		BE2FF2DC1D8B2F1C00C0395A /* POIsViewController */ = {
+			isa = PBXGroup;
+			children = (
+				BE2FF2DA1D8B2E1500C0395A /* POIDetailsVC */,
+				BE2FF2D91D8B2DFB00C0395A /* MovePOIs */,
+				BE0CF2BE1D8B209A00344F8A /* POIsViewController.swift */,
+				BE0CF2BD1D8B209A00344F8A /* PoisMapAreaTableViewCell.swift */,
+				BE0CF2BC1D8B209A00344F8A /* POISimpleViewCell.swift */,
+			);
+			name = POIsViewController;
+			sourceTree = "<group>";
+		};
+		BE2FF2DE1D8B2F8600C0395A /* OptionsVC */ = {
+			isa = PBXGroup;
+			children = (
+				BE0CF2CD1D8B209A00344F8A /* OptionsViewController.swift */,
+			);
+			name = OptionsVC;
+			sourceTree = "<group>";
+		};
+		BE2FF2DF1D8B2FB100C0395A /* POIDetailsImageVC */ = {
+			isa = PBXGroup;
+			children = (
+				BE0CF2D81D8B209A00344F8A /* PoiDetailImageViewController.swift */,
+			);
+			name = POIDetailsImageVC;
+			sourceTree = "<group>";
+		};
+		BE2FF2E01D8B2FCF00C0395A /* RouteBuilderVC */ = {
+			isa = PBXGroup;
+			children = (
+				BE0CF2EB1D8B209A00344F8A /* RouteBuilderSectionHeader.swift */,
+				BE0CF2F31D8B209A00344F8A /* RouteBuilderPoiViewCell.swift */,
+				BE0CF2E01D8B209A00344F8A /* RouteBuilderViewController.swift */,
+				BE0CF2EC1D8B209A00344F8A /* RouteNameViewCell.swift */,
+			);
+			name = RouteBuilderVC;
+			sourceTree = "<group>";
+		};
+		BE2FF2E11D8B2FFC00C0395A /* RouteProviderVC */ = {
+			isa = PBXGroup;
+			children = (
+				BE0CF2E11D8B209A00344F8A /* RouteProviderViewController.swift */,
+			);
+			name = RouteProviderVC;
+			sourceTree = "<group>";
+		};
+		BE2FF2E21D8B303C00C0395A /* WikipediaPageVC */ = {
+			isa = PBXGroup;
+			children = (
+				BE0CF2F91D8B209A00344F8A /* WikipediaPageViewController.swift */,
+			);
+			name = WikipediaPageVC;
+			sourceTree = "<group>";
+		};
+		BE2FF2E31D8B316200C0395A /* ContainerVC */ = {
+			isa = PBXGroup;
+			children = (
+				BE2FF2D51D8B2B9C00C0395A /* LeftMenuVC */,
+				BE2FF2D21D8B2AF800C0395A /* MapVC */,
+				BE2FF2D61D8B2CCF00C0395A /* GroupListVC */,
+				BE2FF2D71D8B2D0C00C0395A /* RoutesVC */,
+				BE2FF2DE1D8B2F8600C0395A /* OptionsVC */,
+				BE0CF29F1D8B209A00344F8A /* ContainerViewController.swift */,
+			);
+			name = ContainerVC;
+			sourceTree = "<group>";
+		};
+		BE2FF2E41D8B317F00C0395A /* Rsc */ = {
+			isa = PBXGroup;
+			children = (
+				BEA7BAA81D8B01E5005D2D21 /* Assets.xcassets */,
+				BEA7BAAA1D8B01E5005D2D21 /* LaunchScreen.storyboard */,
+				BEA7BAAD1D8B01E5005D2D21 /* Info.plist */,
+				BEA7BAA51D8B01E5005D2D21 /* AnyPOI.xcdatamodeld */,
+			);
+			name = Rsc;
+			sourceTree = "<group>";
+		};
+		BE2FF2E51D8B31B700C0395A /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				BE0CF35F1D8B21C800344F8A /* GeoLocation.swift */,
+				BE0CF2A31D8B209A00344F8A /* MapUtils.swift */,
+				BE0CF2D21D8B209A00344F8A /* FlyoverWayPoints.swift */,
+				BE0CF2D71D8B209A00344F8A /* PoiBoundingBox.swift */,
+				BE0CF2F61D8B209A00344F8A /* LocationManager.swift */,
+				BE0CF2DE1D8B209A00344F8A /* MapCameraAnimations.swift */,
+			);
+			name = Map;
+			sourceTree = "<group>";
+		};
+		BE2FF2E61D8B31C700C0395A /* Contacts */ = {
+			isa = PBXGroup;
+			children = (
+				BE0CF2D01D8B209A00344F8A /* ContactsSynchronization.swift */,
+				BE0CF29C1D8B209A00344F8A /* ContactsUtilities.swift */,
+			);
+			name = Contacts;
+			sourceTree = "<group>";
+		};
+		BE2FF2E71D8B31DE00C0395A /* Wikipedia */ = {
+			isa = PBXGroup;
+			children = (
+				BE0CF2C71D8B209A00344F8A /* Wikipedia.swift */,
+				BE0CF2C91D8B209A00344F8A /* WikipediaRequest.swift */,
+				BE0CF2CA1D8B209A00344F8A /* WikipediaUtils.swift */,
+			);
+			name = Wikipedia;
+			sourceTree = "<group>";
+		};
+		BE2FF2E81D8B320E00C0395A /* Route */ = {
+			isa = PBXGroup;
+			children = (
+				BE0CF2C41D8B209A00344F8A /* RouteUtilties.swift */,
+				BE0CF2CF1D8B209A00344F8A /* RouteDataSource.swift */,
+				BE0CF2C21D8B209A00344F8A /* RouteEditorController.swift */,
+			);
+			name = Route;
+			sourceTree = "<group>";
+		};
+		BE2FF2E91D8B322F00C0395A /* ActivitySource */ = {
+			isa = PBXGroup;
+			children = (
+				BE0CF2D31D8B209A00344F8A /* ImageAcvitityItemSource.swift */,
+				BE0CF2D41D8B209A00344F8A /* MailActivityItemSource.swift */,
+				BE0CF2D51D8B209A00344F8A /* MessageActivityItemSource.swift */,
+			);
+			name = ActivitySource;
+			sourceTree = "<group>";
+		};
+		BE2FF2EA1D8B325200C0395A /* Others */ = {
+			isa = PBXGroup;
+			children = (
+				BE0CF2E31D8B209A00344F8A /* UserPreferences.swift */,
+				BE0CF2DC1D8B209A00344F8A /* UserAuthentication.swift */,
+				BE0CF2AD1D8B209A00344F8A /* CategoryUtils.swift */,
+				BE0CF2AF1D8B209A00344F8A /* DrawingUtils.swift */,
+				BE0CF2D61D8B209A00344F8A /* NavigationURL.swift */,
+				BE0CF2E61D8B209A00344F8A /* ColorsUtils.swift */,
+				BE0CF2F01D8B209A00344F8A /* ChangePassword.swift */,
+				BE0CF2F71D8B209A00344F8A /* PoiNotificationUserInfo.swift */,
+				BE0CF2DD1D8B209A00344F8A /* Utilities.swift */,
+				BE0CF2D11D8B209A00344F8A /* DimmerExtension.swift */,
+				BE0CF2F41D8B209A00344F8A /* DBAlertController.swift */,
+			);
+			name = Others;
+			sourceTree = "<group>";
+		};
+		BE3A14451D8B233E002549D0 /* dataModel */ = {
+			isa = PBXGroup;
+			children = (
+				BE2FF2B91D8B256D00C0395A /* PointOfInterest+CoreDataProperties.swift */,
+				BE2FF2BA1D8B256D00C0395A /* GroupOfInterest+CoreDataProperties.swift */,
+				BE2FF2BB1D8B256D00C0395A /* Route+CoreDataProperties.swift */,
+				BE2FF2BC1D8B256D00C0395A /* WayPoint+CoreDataProperties.swift */,
+			);
+			name = dataModel;
+			sourceTree = "<group>";
+		};
 		BEA7BA921D8B01E5005D2D21 = {
 			isa = PBXGroup;
 			children = (
@@ -83,6 +664,8 @@
 				BEA7BAB51D8B01E5005D2D21 /* AnyPOITests */,
 				BEA7BAC01D8B01E5005D2D21 /* AnyPOIUITests */,
 				BEA7BA9C1D8B01E5005D2D21 /* Products */,
+				449EB797A2240F44729E761F /* Pods */,
+				15C8D98F43281F7E3E758DB1 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -99,13 +682,8 @@
 		BEA7BA9D1D8B01E5005D2D21 /* AnyPOI */ = {
 			isa = PBXGroup;
 			children = (
-				BEA7BA9E1D8B01E5005D2D21 /* AppDelegate.swift */,
-				BEA7BAA01D8B01E5005D2D21 /* ViewController.swift */,
-				BEA7BAA21D8B01E5005D2D21 /* Main.storyboard */,
-				BEA7BAA81D8B01E5005D2D21 /* Assets.xcassets */,
-				BEA7BAAA1D8B01E5005D2D21 /* LaunchScreen.storyboard */,
-				BEA7BAAD1D8B01E5005D2D21 /* Info.plist */,
-				BEA7BAA51D8B01E5005D2D21 /* AnyPOI.xcdatamodeld */,
+				BE2FF2C31D8B274C00C0395A /* AnyPOI.entitlements */,
+				BE0CF3651D8B222500344F8A /* src */,
 			);
 			path = AnyPOI;
 			sourceTree = "<group>";
@@ -135,9 +713,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = BEA7BAC61D8B01E5005D2D21 /* Build configuration list for PBXNativeTarget "AnyPOI" */;
 			buildPhases = (
+				A350C3D00968E9E48136ADB4 /* Check Pods Manifest.lock */,
 				BEA7BA971D8B01E5005D2D21 /* Sources */,
 				BEA7BA981D8B01E5005D2D21 /* Frameworks */,
 				BEA7BA991D8B01E5005D2D21 /* Resources */,
+				A23CA58671797206B20A3537 /* Embed Pods Frameworks */,
+				3440C215AAF4620C4CAF6CEE /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -196,6 +777,12 @@
 				TargetAttributes = {
 					BEA7BA9A1D8B01E5005D2D21 = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = 7VVU8FW2ME;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 					BEA7BAB11D8B01E5005D2D21 = {
 						CreatedOnToolsVersion = 7.3.1;
@@ -232,6 +819,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BE2FF2CB1D8B280B00C0395A /* RouteBuilderSectionHeader.xib in Resources */,
+				BE2FF2CA1D8B280B00C0395A /* CallOutLeftAccessoryView.xib in Resources */,
+				BE2FF2CD1D8B280B00C0395A /* PickerGroupView.xib in Resources */,
+				BE2FF2CC1D8B280B00C0395A /* PickerCategoryView.xib in Resources */,
+				BE2FF2C91D8B280B00C0395A /* CallOutAccessoryView.xib in Resources */,
 				BEA7BAAC1D8B01E5005D2D21 /* LaunchScreen.storyboard in Resources */,
 				BEA7BAA91D8B01E5005D2D21 /* Assets.xcassets in Resources */,
 				BEA7BAA41D8B01E5005D2D21 /* Main.storyboard in Resources */,
@@ -254,14 +846,161 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		3440C215AAF4620C4CAF6CEE /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A23CA58671797206B20A3537 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A350C3D00968E9E48136ADB4 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		BEA7BA971D8B01E5005D2D21 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BE0CF3571D8B209A00344F8A /* LocationManager.swift in Sources */,
+				BE0CF3431D8B209A00344F8A /* RouteSummaryTableViewCell.swift in Sources */,
+				BE0CF3281D8B209A00344F8A /* Wikipedia.swift in Sources */,
+				BE0CF3181D8B209A00344F8A /* POIDetailsViewController.swift in Sources */,
+				BE0CF3391D8B209A00344F8A /* PoiDetailImageViewController.swift in Sources */,
+				BE0CF3271D8B209A00344F8A /* searchPoiViewCell.swift in Sources */,
+				BE0CF34D1D8B209A00344F8A /* RouteNameViewCell.swift in Sources */,
+				BE0CF3081D8B209A00344F8A /* RouteManager.swift in Sources */,
+				BE0CF3121D8B209A00344F8A /* GroupOfInterest.swift in Sources */,
+				BE0CF3521D8B209A00344F8A /* PickerCategoryView.swift in Sources */,
+				BE0CF3541D8B209A00344F8A /* RouteBuilderPoiViewCell.swift in Sources */,
+				BE0CF3511D8B209A00344F8A /* ChangePassword.swift in Sources */,
+				BE0CF3291D8B209A00344F8A /* WikipediaCell.swift in Sources */,
+				BE0CF3461D8B209A00344F8A /* ColorCollectionViewCell.swift in Sources */,
+				BE0CF30C1D8B209A00344F8A /* CategoriesTableViewCell.swift in Sources */,
+				BE0CF3061D8B209A00344F8A /* PoiCalloutDelegateImpl.swift in Sources */,
+				BE0CF33A1D8B209A00344F8A /* PoiDetailsImagesTableViewCell.swift in Sources */,
+				BE0CF3151D8B209A00344F8A /* MonitoredPoisGroupCell.swift in Sources */,
+				BE0CF2FF1D8B209A00344F8A /* ContactTableViewCell.swift in Sources */,
+				BE0CF33E1D8B209A00344F8A /* Utilities.swift in Sources */,
+				BE0CF31C1D8B209A00344F8A /* PointOfInterest.swift in Sources */,
+				BE0CF30A1D8B209A00344F8A /* WayPointPinAnnotationView.swift in Sources */,
 				BEA7BAA71D8B01E5005D2D21 /* AnyPOI.xcdatamodeld in Sources */,
-				BEA7BAA11D8B01E5005D2D21 /* ViewController.swift in Sources */,
+				BE0CF35A1D8B209A00344F8A /* WikipediaPageViewController.swift in Sources */,
+				BE0CF3071D8B209A00344F8A /* POIsGroupListViewController.swift in Sources */,
+				BE0CF3011D8B209A00344F8A /* CustomCalloutAccessoryView.swift in Sources */,
+				BE2FF2BE1D8B256D00C0395A /* GroupOfInterest+CoreDataProperties.swift in Sources */,
+				BE0CF33F1D8B209A00344F8A /* MapCameraAnimations.swift in Sources */,
+				BE2FF2C01D8B256D00C0395A /* WayPoint+CoreDataProperties.swift in Sources */,
+				BE0CF3471D8B209A00344F8A /* ColorsUtils.swift in Sources */,
+				BE0CF3091D8B209A00344F8A /* RoutesViewController.swift in Sources */,
+				BE0CF34A1D8B209A00344F8A /* PickerViewCell.swift in Sources */,
+				BE0CF32F1D8B209A00344F8A /* POIDataManager.swift in Sources */,
+				BE0CF3211D8B209A00344F8A /* RouteDetailsViewCell.swift in Sources */,
+				BE0CF34E1D8B209A00344F8A /* searchRouteTableViewCell.swift in Sources */,
+				BE0CF3101D8B209A00344F8A /* DrawingUtils.swift in Sources */,
+				BE0CF3001D8B209A00344F8A /* ContainerViewController.swift in Sources */,
+				BE0CF3441D8B209A00344F8A /* UserPreferences.swift in Sources */,
+				BE0CF3191D8B209A00344F8A /* PoiEditorGroupViewCell.swift in Sources */,
+				BE0CF3421D8B209A00344F8A /* RouteProviderViewController.swift in Sources */,
+				BE0CF3031D8B209A00344F8A /* LeftMenuViewController.swift in Sources */,
+				BE0CF3501D8B209A00344F8A /* CategoryCollectionViewCell.swift in Sources */,
+				BE0CF32A1D8B209A00344F8A /* WikipediaRequest.swift in Sources */,
+				BE0CF3131D8B209A00344F8A /* LocalSearchTableViewCell.swift in Sources */,
+				BE0CF3041D8B209A00344F8A /* MapUtils.swift in Sources */,
+				BE0CF31B1D8B209A00344F8A /* POIGroupCell.swift in Sources */,
+				BE0CF35D1D8B209A00344F8A /* MapImageCell.swift in Sources */,
+				BE0CF30B1D8B209A00344F8A /* WikipediaLocalSearchTableViewCell.swift in Sources */,
+				BE0CF2FD1D8B209A00344F8A /* ContactsUtilities.swift in Sources */,
+				BE0CF3491D8B209A00344F8A /* PickerGroupView.swift in Sources */,
+				BE0CF3611D8B21C800344F8A /* DatabaseAccess.swift in Sources */,
+				BE0CF3111D8B209A00344F8A /* GroupConfiguratorViewController.swift in Sources */,
+				BE0CF31A1D8B209A00344F8A /* PoiEditorViewController.swift in Sources */,
+				BE0CF3161D8B209A00344F8A /* MovePOIsTableViewCell.swift in Sources */,
+				BE0CF3051D8B209A00344F8A /* MapViewController.swift in Sources */,
+				BE0CF30E1D8B209A00344F8A /* CategoryUtils.swift in Sources */,
+				BE0CF3371D8B209A00344F8A /* NavigationURL.swift in Sources */,
+				BE0CF3551D8B209A00344F8A /* DBAlertController.swift in Sources */,
+				BE0CF3311D8B209A00344F8A /* ContactsSynchronization.swift in Sources */,
+				BE0CF3581D8B209A00344F8A /* PoiNotificationUserInfo.swift in Sources */,
+				BE0CF3221D8B209A00344F8A /* RouteDetailsViewController.swift in Sources */,
+				BE2FF2C21D8B267D00C0395A /* SearchController.swift in Sources */,
+				BE0CF33C1D8B209A00344F8A /* SearchControllerDelegate.swift in Sources */,
+				BE0CF32D1D8B209A00344F8A /* LeftMenuTableViewCell.swift in Sources */,
+				BE0CF3401D8B209A00344F8A /* PoiDetailsImagesCollectionViewCell.swift in Sources */,
+				BE0CF31D1D8B209A00344F8A /* POISimpleViewCell.swift in Sources */,
+				BE0CF3171D8B209A00344F8A /* MovePOIsViewController.swift in Sources */,
+				BE0CF3241D8B209A00344F8A /* RoutesTableViewCell.swift in Sources */,
+				BE0CF3351D8B209A00344F8A /* MailActivityItemSource.swift in Sources */,
+				BE0CF3411D8B209A00344F8A /* RouteBuilderViewController.swift in Sources */,
+				BE0CF3251D8B209A00344F8A /* RouteUtilties.swift in Sources */,
+				BE0CF35C1D8B209A00344F8A /* MapCell.temp_caseinsensitive_rename.swift in Sources */,
+				BE2FF2BF1D8B256D00C0395A /* Route+CoreDataProperties.swift in Sources */,
+				BE0CF3381D8B209A00344F8A /* PoiBoundingBox.swift in Sources */,
+				BE0CF31E1D8B209A00344F8A /* PoisMapAreaTableViewCell.swift in Sources */,
+				BE0CF3201D8B209A00344F8A /* Route.swift in Sources */,
+				BE0CF32B1D8B209A00344F8A /* WikipediaUtils.swift in Sources */,
+				BE0CF3481D8B209A00344F8A /* GroupPickerViewCell.swift in Sources */,
+				BE0CF34C1D8B209A00344F8A /* RouteBuilderSectionHeader.swift in Sources */,
+				BE0CF34B1D8B209A00344F8A /* PoiRegionConfigurationViewCell.swift in Sources */,
+				BE0CF30D1D8B209A00344F8A /* CategoryTableViewCell.swift in Sources */,
+				BE2FF2BD1D8B256D00C0395A /* PointOfInterest+CoreDataProperties.swift in Sources */,
+				BE0CF3231D8B209A00344F8A /* RouteEditorController.swift in Sources */,
+				BE0CF35B1D8B209A00344F8A /* DescriptionCell.swift in Sources */,
+				BE0CF30F1D8B209A00344F8A /* CityGroupCell.swift in Sources */,
+				BE0CF3321D8B209A00344F8A /* DimmerExtension.swift in Sources */,
+				BE0CF3361D8B209A00344F8A /* MessageActivityItemSource.swift in Sources */,
+				BE0CF3301D8B209A00344F8A /* RouteDataSource.swift in Sources */,
+				BE0CF3621D8B21C800344F8A /* GeoLocation.swift in Sources */,
+				BE0CF3451D8B209A00344F8A /* WayPoint.swift in Sources */,
+				BE0CF31F1D8B209A00344F8A /* POIsViewController.swift in Sources */,
+				BE0CF3331D8B209A00344F8A /* FlyoverWayPoints.swift in Sources */,
 				BEA7BA9F1D8B01E5005D2D21 /* AppDelegate.swift in Sources */,
+				BE0CF3261D8B209A00344F8A /* searchGroupViewCell.swift in Sources */,
+				BE0CF3141D8B209A00344F8A /* LocationCell.swift in Sources */,
+				BE0CF32C1D8B209A00344F8A /* LeftMenuAboutTableViewCell.swift in Sources */,
+				BE0CF2FE1D8B209A00344F8A /* ContactsViewController.swift in Sources */,
+				BE0CF3341D8B209A00344F8A /* ImageAcvitityItemSource.swift in Sources */,
+				BE0CF32E1D8B209A00344F8A /* OptionsViewController.swift in Sources */,
+				BE0CF33D1D8B209A00344F8A /* UserAuthentication.swift in Sources */,
+				BE0CF34F1D8B209A00344F8A /* TextFieldViewCell.swift in Sources */,
+				BE0CF3021D8B209A00344F8A /* CustomCalloutLeftAccessoryView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -403,8 +1142,11 @@
 		};
 		BEA7BAC71D8B01E5005D2D21 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9AEB286247FFA011A043E591 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = AnyPOI/AnyPOI.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = AnyPOI/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sebastien.AnyPOI;
@@ -414,8 +1156,11 @@
 		};
 		BEA7BAC81D8B01E5005D2D21 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C69B0EFCEBF29F5E7437465D /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = AnyPOI/AnyPOI.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = AnyPOI/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sebastien.AnyPOI;
@@ -488,6 +1233,7 @@
 				BEA7BAC81D8B01E5005D2D21 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		BEA7BAC91D8B01E5005D2D21 /* Build configuration list for PBXNativeTarget "AnyPOITests" */ = {
 			isa = XCConfigurationList;
@@ -496,6 +1242,7 @@
 				BEA7BACB1D8B01E5005D2D21 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		BEA7BACC1D8B01E5005D2D21 /* Build configuration list for PBXNativeTarget "AnyPOIUITests" */ = {
 			isa = XCConfigurationList;
@@ -504,6 +1251,7 @@
 				BEA7BACE1D8B01E5005D2D21 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
