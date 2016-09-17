@@ -95,7 +95,6 @@
 		BE0CF3581D8B209A00344F8A /* PoiNotificationUserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2F71D8B209A00344F8A /* PoiNotificationUserInfo.swift */; };
 		BE0CF35A1D8B209A00344F8A /* WikipediaPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2F91D8B209A00344F8A /* WikipediaPageViewController.swift */; };
 		BE0CF35B1D8B209A00344F8A /* DescriptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2FA1D8B209A00344F8A /* DescriptionCell.swift */; };
-		BE0CF35C1D8B209A00344F8A /* MapCell.temp_caseinsensitive_rename.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2FB1D8B209A00344F8A /* MapCell.temp_caseinsensitive_rename.swift */; };
 		BE0CF35D1D8B209A00344F8A /* MapImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2FC1D8B209A00344F8A /* MapImageCell.swift */; };
 		BE0CF3611D8B21C800344F8A /* DatabaseAccess.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF35E1D8B21C800344F8A /* DatabaseAccess.swift */; };
 		BE0CF3621D8B21C800344F8A /* GeoLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF35F1D8B21C800344F8A /* GeoLocation.swift */; };
@@ -108,6 +107,22 @@
 		BE2FF2CA1D8B280B00C0395A /* CallOutLeftAccessoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE2FF2C51D8B280B00C0395A /* CallOutLeftAccessoryView.xib */; };
 		BE2FF2CC1D8B280B00C0395A /* PickerCategoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE2FF2C71D8B280B00C0395A /* PickerCategoryView.xib */; };
 		BE2FF2CD1D8B280B00C0395A /* PickerGroupView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE2FF2C81D8B280B00C0395A /* PickerGroupView.xib */; };
+		BE9833F11D8D55C600B174A7 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE9833F01D8D55C600B174A7 /* NotificationCenter.framework */; };
+		BE9833F41D8D55C600B174A7 /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE9833F31D8D55C600B174A7 /* TodayViewController.swift */; };
+		BE9833F71D8D55C600B174A7 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE9833F51D8D55C600B174A7 /* MainInterface.storyboard */; };
+		BE9833FB1D8D55C600B174A7 /* AnyPOITodayWidget.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = BE9833EF1D8D55C600B174A7 /* AnyPOITodayWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		BE9834011D8D578A00B174A7 /* TodayViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE9834001D8D578A00B174A7 /* TodayViewCell.swift */; };
+		BE9834041D8D57CE00B174A7 /* PointOfInterest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE9834031D8D57CE00B174A7 /* PointOfInterest.swift */; };
+		BE9834061D8D580600B174A7 /* GroupOfInterest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE9834051D8D580600B174A7 /* GroupOfInterest.swift */; };
+		BE9834091D8D583B00B174A7 /* SimpleLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE9834081D8D583B00B174A7 /* SimpleLocationManager.swift */; };
+		BE98340A1D8D58AC00B174A7 /* PointOfInterest+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2FF2B91D8B256D00C0395A /* PointOfInterest+CoreDataProperties.swift */; };
+		BE98340B1D8D58AC00B174A7 /* GroupOfInterest+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2FF2BA1D8B256D00C0395A /* GroupOfInterest+CoreDataProperties.swift */; };
+		BE98340C1D8D58EF00B174A7 /* PoiBoundingBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2D71D8B209A00344F8A /* PoiBoundingBox.swift */; };
+		BE98340E1D8D598400B174A7 /* GeoLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF35F1D8B21C800344F8A /* GeoLocation.swift */; };
+		BE98340F1D8D598400B174A7 /* DatabaseAccess.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF35E1D8B21C800344F8A /* DatabaseAccess.swift */; };
+		BE9834101D8D598400B174A7 /* NavigationURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2D61D8B209A00344F8A /* NavigationURL.swift */; };
+		BE9834111D8D616C00B174A7 /* AnyPOI.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BEA7BAA51D8B01E5005D2D21 /* AnyPOI.xcdatamodeld */; };
+		BE9834151D8D654400B174A7 /* AnyPOITodayWidget.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = BE9834141D8D654400B174A7 /* AnyPOITodayWidget.entitlements */; };
 		BEA7BA9F1D8B01E5005D2D21 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA7BA9E1D8B01E5005D2D21 /* AppDelegate.swift */; };
 		BEA7BAA41D8B01E5005D2D21 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BEA7BAA21D8B01E5005D2D21 /* Main.storyboard */; };
 		BEA7BAA71D8B01E5005D2D21 /* AnyPOI.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BEA7BAA51D8B01E5005D2D21 /* AnyPOI.xcdatamodeld */; };
@@ -118,6 +133,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		BE9833F91D8D55C600B174A7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BEA7BA931D8B01E5005D2D21 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BE9833EE1D8D55C600B174A7;
+			remoteInfo = AnyPOITodayWidget;
+		};
 		BEA7BAB31D8B01E5005D2D21 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BEA7BA931D8B01E5005D2D21 /* Project object */;
@@ -133,6 +155,20 @@
 			remoteInfo = AnyPOI;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		BE9833FF1D8D55C600B174A7 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				BE9833FB1D8D55C600B174A7 /* AnyPOITodayWidget.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		9AEB286247FFA011A043E591 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -223,7 +259,6 @@
 		BE0CF2F71D8B209A00344F8A /* PoiNotificationUserInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PoiNotificationUserInfo.swift; sourceTree = "<group>"; };
 		BE0CF2F91D8B209A00344F8A /* WikipediaPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WikipediaPageViewController.swift; sourceTree = "<group>"; };
 		BE0CF2FA1D8B209A00344F8A /* DescriptionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DescriptionCell.swift; sourceTree = "<group>"; };
-		BE0CF2FB1D8B209A00344F8A /* MapCell.temp_caseinsensitive_rename.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapCell.temp_caseinsensitive_rename.swift; sourceTree = "<group>"; };
 		BE0CF2FC1D8B209A00344F8A /* MapImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapImageCell.swift; sourceTree = "<group>"; };
 		BE0CF35E1D8B21C800344F8A /* DatabaseAccess.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseAccess.swift; sourceTree = "<group>"; };
 		BE0CF35F1D8B21C800344F8A /* GeoLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeoLocation.swift; sourceTree = "<group>"; };
@@ -238,6 +273,16 @@
 		BE2FF2C51D8B280B00C0395A /* CallOutLeftAccessoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CallOutLeftAccessoryView.xib; sourceTree = "<group>"; };
 		BE2FF2C71D8B280B00C0395A /* PickerCategoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PickerCategoryView.xib; sourceTree = "<group>"; };
 		BE2FF2C81D8B280B00C0395A /* PickerGroupView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PickerGroupView.xib; sourceTree = "<group>"; };
+		BE9833EF1D8D55C600B174A7 /* AnyPOITodayWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = AnyPOITodayWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		BE9833F01D8D55C600B174A7 /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
+		BE9833F31D8D55C600B174A7 /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
+		BE9833F61D8D55C600B174A7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		BE9833F81D8D55C600B174A7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BE9834001D8D578A00B174A7 /* TodayViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodayViewCell.swift; sourceTree = "<group>"; };
+		BE9834031D8D57CE00B174A7 /* PointOfInterest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PointOfInterest.swift; sourceTree = "<group>"; };
+		BE9834051D8D580600B174A7 /* GroupOfInterest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupOfInterest.swift; sourceTree = "<group>"; };
+		BE9834081D8D583B00B174A7 /* SimpleLocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleLocationManager.swift; sourceTree = "<group>"; };
+		BE9834141D8D654400B174A7 /* AnyPOITodayWidget.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = AnyPOITodayWidget.entitlements; sourceTree = "<group>"; };
 		BEA7BA9B1D8B01E5005D2D21 /* AnyPOI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AnyPOI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BEA7BA9E1D8B01E5005D2D21 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BEA7BAA31D8B01E5005D2D21 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -255,6 +300,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		BE9833EC1D8D55C600B174A7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BE9833F11D8D55C600B174A7 /* NotificationCenter.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		BEA7BA981D8B01E5005D2D21 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -284,6 +337,7 @@
 			isa = PBXGroup;
 			children = (
 				BE16A0CA19DE97FD2626AC38 /* Pods.framework */,
+				BE9833F01D8D55C600B174A7 /* NotificationCenter.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -300,12 +354,12 @@
 		BE0CF3651D8B222500344F8A /* src */ = {
 			isa = PBXGroup;
 			children = (
+				BE98340D1D8D595000B174A7 /* Shared */,
 				BE2FF2CE1D8B284F00C0395A /* Interfaces */,
 				BE3A14451D8B233E002549D0 /* dataModel */,
 				BE2FF2CF1D8B296100C0395A /* Utilities */,
 				BE2FF2D01D8B299A00C0395A /* Database */,
 				BE2FF2E31D8B316200C0395A /* ContainerVC */,
-				BE0CF2FB1D8B209A00344F8A /* MapCell.temp_caseinsensitive_rename.swift */,
 				BEA7BA9E1D8B01E5005D2D21 /* AppDelegate.swift */,
 				BE2FF2E41D8B317F00C0395A /* Rsc */,
 			);
@@ -344,7 +398,6 @@
 				BE0CF2BB1D8B209A00344F8A /* PointOfInterest.swift */,
 				BE0CF2E41D8B209A00344F8A /* WayPoint.swift */,
 				BE0CF2B11D8B209A00344F8A /* GroupOfInterest.swift */,
-				BE0CF35E1D8B21C800344F8A /* DatabaseAccess.swift */,
 				BE0CF2CE1D8B209A00344F8A /* POIDataManager.swift */,
 			);
 			name = Database;
@@ -556,10 +609,8 @@
 		BE2FF2E51D8B31B700C0395A /* Map */ = {
 			isa = PBXGroup;
 			children = (
-				BE0CF35F1D8B21C800344F8A /* GeoLocation.swift */,
 				BE0CF2A31D8B209A00344F8A /* MapUtils.swift */,
 				BE0CF2D21D8B209A00344F8A /* FlyoverWayPoints.swift */,
-				BE0CF2D71D8B209A00344F8A /* PoiBoundingBox.swift */,
 				BE0CF2F61D8B209A00344F8A /* LocationManager.swift */,
 				BE0CF2DE1D8B209A00344F8A /* MapCameraAnimations.swift */,
 			);
@@ -612,7 +663,6 @@
 				BE0CF2DC1D8B209A00344F8A /* UserAuthentication.swift */,
 				BE0CF2AD1D8B209A00344F8A /* CategoryUtils.swift */,
 				BE0CF2AF1D8B209A00344F8A /* DrawingUtils.swift */,
-				BE0CF2D61D8B209A00344F8A /* NavigationURL.swift */,
 				BE0CF2E61D8B209A00344F8A /* ColorsUtils.swift */,
 				BE0CF2F01D8B209A00344F8A /* ChangePassword.swift */,
 				BE0CF2F71D8B209A00344F8A /* PoiNotificationUserInfo.swift */,
@@ -634,12 +684,55 @@
 			name = dataModel;
 			sourceTree = "<group>";
 		};
+		BE9833F21D8D55C600B174A7 /* AnyPOITodayWidget */ = {
+			isa = PBXGroup;
+			children = (
+				BE9834141D8D654400B174A7 /* AnyPOITodayWidget.entitlements */,
+				BE9834071D8D582600B174A7 /* Shared */,
+				BE9834021D8D57AC00B174A7 /* DataModel */,
+				BE9833F31D8D55C600B174A7 /* TodayViewController.swift */,
+				BE9834001D8D578A00B174A7 /* TodayViewCell.swift */,
+				BE9833F51D8D55C600B174A7 /* MainInterface.storyboard */,
+				BE9833F81D8D55C600B174A7 /* Info.plist */,
+			);
+			path = AnyPOITodayWidget;
+			sourceTree = "<group>";
+		};
+		BE9834021D8D57AC00B174A7 /* DataModel */ = {
+			isa = PBXGroup;
+			children = (
+				BE9834031D8D57CE00B174A7 /* PointOfInterest.swift */,
+				BE9834051D8D580600B174A7 /* GroupOfInterest.swift */,
+			);
+			name = DataModel;
+			sourceTree = "<group>";
+		};
+		BE9834071D8D582600B174A7 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				BE9834081D8D583B00B174A7 /* SimpleLocationManager.swift */,
+			);
+			name = Shared;
+			sourceTree = "<group>";
+		};
+		BE98340D1D8D595000B174A7 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				BE0CF35F1D8B21C800344F8A /* GeoLocation.swift */,
+				BE0CF2D71D8B209A00344F8A /* PoiBoundingBox.swift */,
+				BE0CF35E1D8B21C800344F8A /* DatabaseAccess.swift */,
+				BE0CF2D61D8B209A00344F8A /* NavigationURL.swift */,
+			);
+			name = Shared;
+			sourceTree = "<group>";
+		};
 		BEA7BA921D8B01E5005D2D21 = {
 			isa = PBXGroup;
 			children = (
 				BEA7BA9D1D8B01E5005D2D21 /* AnyPOI */,
 				BEA7BAB51D8B01E5005D2D21 /* AnyPOITests */,
 				BEA7BAC01D8B01E5005D2D21 /* AnyPOIUITests */,
+				BE9833F21D8D55C600B174A7 /* AnyPOITodayWidget */,
 				BEA7BA9C1D8B01E5005D2D21 /* Products */,
 				449EB797A2240F44729E761F /* Pods */,
 				15C8D98F43281F7E3E758DB1 /* Frameworks */,
@@ -652,6 +745,7 @@
 				BEA7BA9B1D8B01E5005D2D21 /* AnyPOI.app */,
 				BEA7BAB21D8B01E5005D2D21 /* AnyPOITests.xctest */,
 				BEA7BABD1D8B01E5005D2D21 /* AnyPOIUITests.xctest */,
+				BE9833EF1D8D55C600B174A7 /* AnyPOITodayWidget.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -686,6 +780,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		BE9833EE1D8D55C600B174A7 /* AnyPOITodayWidget */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BE9833FC1D8D55C600B174A7 /* Build configuration list for PBXNativeTarget "AnyPOITodayWidget" */;
+			buildPhases = (
+				BE9833EB1D8D55C600B174A7 /* Sources */,
+				BE9833EC1D8D55C600B174A7 /* Frameworks */,
+				BE9833ED1D8D55C600B174A7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AnyPOITodayWidget;
+			productName = AnyPOITodayWidget;
+			productReference = BE9833EF1D8D55C600B174A7 /* AnyPOITodayWidget.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		BEA7BA9A1D8B01E5005D2D21 /* AnyPOI */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = BEA7BAC61D8B01E5005D2D21 /* Build configuration list for PBXNativeTarget "AnyPOI" */;
@@ -696,10 +807,12 @@
 				BEA7BA991D8B01E5005D2D21 /* Resources */,
 				A23CA58671797206B20A3537 /* Embed Pods Frameworks */,
 				3440C215AAF4620C4CAF6CEE /* Copy Pods Resources */,
+				BE9833FF1D8D55C600B174A7 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				BE9833FA1D8D55C600B174A7 /* PBXTargetDependency */,
 			);
 			name = AnyPOI;
 			productName = AnyPOI;
@@ -752,6 +865,10 @@
 				LastUpgradeCheck = 0730;
 				ORGANIZATIONNAME = "Sébastien Brugalières";
 				TargetAttributes = {
+					BE9833EE1D8D55C600B174A7 = {
+						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = 7VVU8FW2ME;
+					};
 					BEA7BA9A1D8B01E5005D2D21 = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = 7VVU8FW2ME;
@@ -787,11 +904,21 @@
 				BEA7BA9A1D8B01E5005D2D21 /* AnyPOI */,
 				BEA7BAB11D8B01E5005D2D21 /* AnyPOITests */,
 				BEA7BABC1D8B01E5005D2D21 /* AnyPOIUITests */,
+				BE9833EE1D8D55C600B174A7 /* AnyPOITodayWidget */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		BE9833ED1D8D55C600B174A7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BE9833F71D8D55C600B174A7 /* MainInterface.storyboard in Resources */,
+				BE9834151D8D654400B174A7 /* AnyPOITodayWidget.entitlements in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		BEA7BA991D8B01E5005D2D21 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -871,6 +998,25 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		BE9833EB1D8D55C600B174A7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BE98340F1D8D598400B174A7 /* DatabaseAccess.swift in Sources */,
+				BE9834061D8D580600B174A7 /* GroupOfInterest.swift in Sources */,
+				BE9834011D8D578A00B174A7 /* TodayViewCell.swift in Sources */,
+				BE9834111D8D616C00B174A7 /* AnyPOI.xcdatamodeld in Sources */,
+				BE9834041D8D57CE00B174A7 /* PointOfInterest.swift in Sources */,
+				BE9834091D8D583B00B174A7 /* SimpleLocationManager.swift in Sources */,
+				BE9833F41D8D55C600B174A7 /* TodayViewController.swift in Sources */,
+				BE98340B1D8D58AC00B174A7 /* GroupOfInterest+CoreDataProperties.swift in Sources */,
+				BE98340E1D8D598400B174A7 /* GeoLocation.swift in Sources */,
+				BE98340C1D8D58EF00B174A7 /* PoiBoundingBox.swift in Sources */,
+				BE9834101D8D598400B174A7 /* NavigationURL.swift in Sources */,
+				BE98340A1D8D58AC00B174A7 /* PointOfInterest+CoreDataProperties.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		BEA7BA971D8B01E5005D2D21 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -943,7 +1089,6 @@
 				BE0CF3241D8B209A00344F8A /* RoutesTableViewCell.swift in Sources */,
 				BE0CF3351D8B209A00344F8A /* MailActivityItemSource.swift in Sources */,
 				BE0CF3251D8B209A00344F8A /* RouteUtilties.swift in Sources */,
-				BE0CF35C1D8B209A00344F8A /* MapCell.temp_caseinsensitive_rename.swift in Sources */,
 				BE2FF2BF1D8B256D00C0395A /* Route+CoreDataProperties.swift in Sources */,
 				BE0CF3381D8B209A00344F8A /* PoiBoundingBox.swift in Sources */,
 				BE0CF31E1D8B209A00344F8A /* PoisMapAreaTableViewCell.swift in Sources */,
@@ -995,6 +1140,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		BE9833FA1D8D55C600B174A7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BE9833EE1D8D55C600B174A7 /* AnyPOITodayWidget */;
+			targetProxy = BE9833F91D8D55C600B174A7 /* PBXContainerItemProxy */;
+		};
 		BEA7BAB41D8B01E5005D2D21 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = BEA7BA9A1D8B01E5005D2D21 /* AnyPOI */;
@@ -1008,6 +1158,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		BE9833F51D8D55C600B174A7 /* MainInterface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BE9833F61D8D55C600B174A7 /* Base */,
+			);
+			name = MainInterface.storyboard;
+			sourceTree = "<group>";
+		};
 		BEA7BAA21D8B01E5005D2D21 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1027,6 +1185,32 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		BE9833FD1D8D55C600B174A7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = AnyPOITodayWidget/AnyPOITodayWidget.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = AnyPOITodayWidget/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.sebastien.AnyPOI.AnyPOITodayWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		BE9833FE1D8D55C600B174A7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = AnyPOITodayWidget/AnyPOITodayWidget.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = AnyPOITodayWidget/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.sebastien.AnyPOI.AnyPOITodayWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
 		BEA7BAC41D8B01E5005D2D21 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1119,6 +1303,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = AnyPOI/AnyPOI.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = AnyPOI/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sebastien.AnyPOI;
@@ -1133,6 +1318,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = AnyPOI/AnyPOI.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = AnyPOI/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sebastien.AnyPOI;
@@ -1189,6 +1375,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		BE9833FC1D8D55C600B174A7 /* Build configuration list for PBXNativeTarget "AnyPOITodayWidget" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BE9833FD1D8D55C600B174A7 /* Debug */,
+				BE9833FE1D8D55C600B174A7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		BEA7BA961D8B01E5005D2D21 /* Build configuration list for PBXProject "AnyPOI" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

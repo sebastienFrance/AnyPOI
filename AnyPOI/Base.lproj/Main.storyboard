@@ -770,7 +770,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="New-York-brume" translatesAutoresizingMaskIntoConstraints="NO" id="JVL-ri-hiY">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="MuseeOrsay01" translatesAutoresizingMaskIntoConstraints="NO" id="JVL-ri-hiY">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="128"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="128" id="avb-Eg-4l7"/>
@@ -813,8 +813,8 @@
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="W8D-2D-Bgp">
                                                     <rect key="frame" x="8" y="8" width="524" height="111"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PinPOI" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iTM-2A-fYL">
-                                                            <rect key="frame" x="211" y="0.0" width="102" height="52"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Any POI" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iTM-2A-fYL">
+                                                            <rect key="frame" x="202" y="0.0" width="121" height="52"/>
                                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="32"/>
                                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
@@ -3244,8 +3244,8 @@
         <image name="Google_Maps" width="256" height="256"/>
         <image name="Home-30" width="30" height="30"/>
         <image name="Menu-30" width="30" height="30"/>
+        <image name="MuseeOrsay01" width="667" height="139"/>
         <image name="Near Me-40" width="40" height="40"/>
-        <image name="New-York-brume" width="1020" height="400"/>
         <image name="Phone Filled-40" width="40" height="40"/>
         <image name="Safari Filled-40" width="40" height="40"/>
         <image name="Sedan-40" width="40" height="40"/>

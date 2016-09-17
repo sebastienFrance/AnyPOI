@@ -9,9 +9,19 @@
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
+		<key>AnyPOITodayWidget.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>4</integer>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>BE9833EE1D8D55C600B174A7</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>BEA7BA9A1D8B01E5005D2D21</key>
 		<dict>
 			<key>primary</key>

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="maf-EC-0gt">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <scenes>
+        <!--Today View Controller-->
+        <scene sceneID="IIQ-Fe-Qdk">
+            <objects>
+                <viewController id="maf-EC-0gt" customClass="TodayViewController" customModule="AnyPOITodayWidget" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="K13-KD-MXd"/>
+                        <viewControllerLayoutGuide type="bottom" id="2Hu-w9-CYU"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" simulatedAppContext="notificationCenter" id="wlK-e9-SQk">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="280"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="50" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="shb-hI-ask">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="288"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" priority="999" constant="220" id="gkY-gW-WvU"/>
+                                </constraints>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TodayViewCellId" rowHeight="50" id="q9w-5n-eRq" customClass="TodayViewCell" customModule="AnyPOITodayWidget" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="320" height="50"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="q9w-5n-eRq" id="aRx-os-N99">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="d1Q-hZ-prd">
+                                                    <rect key="frame" x="8" y="8" width="304" height="33"/>
+                                                    <subviews>
+                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xdl-tD-SEu" customClass="MKPinAnnotationView">
+                                                            <rect key="frame" x="0.0" y="0.0" width="30" height="33"/>
+                                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" priority="999" constant="30" id="Gew-s6-YLD"/>
+                                                                <constraint firstAttribute="height" priority="999" constant="30" id="QWH-VT-CdB"/>
+                                                            </constraints>
+                                                        </view>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zkG-vn-zPo">
+                                                            <rect key="frame" x="35" y="0.0" width="269" height="33"/>
+                                                            <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                </stackView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="d1Q-hZ-prd" firstAttribute="bottom" secondItem="aRx-os-N99" secondAttribute="bottomMargin" id="bIx-eh-RFc"/>
+                                                <constraint firstItem="d1Q-hZ-prd" firstAttribute="top" secondItem="aRx-os-N99" secondAttribute="topMargin" id="tdU-CZ-MI8"/>
+                                                <constraint firstItem="d1Q-hZ-prd" firstAttribute="leading" secondItem="aRx-os-N99" secondAttribute="leadingMargin" id="we2-No-0lp"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="d1Q-hZ-prd" secondAttribute="trailing" id="xBZ-OE-7PR"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="pinAnnotation" destination="xdl-tD-SEu" id="5KC-Fc-DY2"/>
+                                            <outlet property="poiDisplayName" destination="zkG-vn-zPo" id="mUd-gF-kE9"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TodayViewEmptyCellId" textLabel="d2P-0M-MDc" style="IBUITableViewCellStyleDefault" id="M0j-1R-Lng">
+                                        <rect key="frame" x="0.0" y="78" width="320" height="50"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="M0j-1R-Lng" id="hKW-YR-z6r">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="d2P-0M-MDc">
+                                                    <rect key="frame" x="15" y="0.0" width="290" height="49"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="shb-hI-ask" firstAttribute="leading" secondItem="wlK-e9-SQk" secondAttribute="leading" id="Fch-IB-QVK"/>
+                            <constraint firstItem="shb-hI-ask" firstAttribute="top" secondItem="K13-KD-MXd" secondAttribute="bottom" id="RbO-eh-cUe"/>
+                            <constraint firstItem="shb-hI-ask" firstAttribute="trailing" secondItem="wlK-e9-SQk" secondAttribute="trailing" id="aK4-98-ce4"/>
+                            <constraint firstItem="2Hu-w9-CYU" firstAttribute="top" secondItem="shb-hI-ask" secondAttribute="bottomMargin" id="gRj-yU-Y6z"/>
+                        </constraints>
+                    </view>
+                    <extendedEdge key="edgesForExtendedLayout"/>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <nil key="simulatedTopBarMetrics"/>
+                    <nil key="simulatedBottomBarMetrics"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="320" height="280"/>
+                    <connections>
+                        <outlet property="theTableView" destination="shb-hI-ask" id="Cvg-5k-I4R"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5m4-ar-h30" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-318" y="-707"/>
+        </scene>
+    </scenes>
+</document>

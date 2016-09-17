@@ -2,6 +2,27 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>citymapper</string>
+		<string>waze</string>
+		<string>comgooglemaps</string>
+	</array>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>AnyPOI</string>
+			</array>
+			<key>CFBundleURLName</key>
+			<string>com.sebastien.AnyPOI</string>
+		</dict>
+	</array>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Used to show your position on Map and for route.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Used to detect when you enter/exit from a region.</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>
