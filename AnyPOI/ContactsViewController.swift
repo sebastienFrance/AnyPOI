@@ -131,7 +131,7 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
             
             let phoneNumber = currentLabeledValue.value as? CNPhoneNumber
             
-            cell.phoneLabel?.text = ContactsViewController.CNlabelTranslation(currentLabeledValue.label)
+            cell.phoneLabel?.text = ContactsViewController.CNlabelTranslation(currentLabeledValue.label ?? "")
             cell.phoneNumber?.text = phoneNumber!.stringValue
             
             if currentLabeledValue.label == CNLabelPhoneNumberiPhone {
@@ -145,7 +145,7 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
             let currentLabeledValue = contact!.emailAddresses[indexPath.row]
             let email = currentLabeledValue.value as? String
             
-            cell.phoneLabel?.text = ContactsViewController.CNlabelTranslation(currentLabeledValue.label)
+            cell.phoneLabel?.text = ContactsViewController.CNlabelTranslation(currentLabeledValue.label ?? "")
             cell.phoneNumber?.text = email
             cell.faceTimeButton.hidden = true
             break

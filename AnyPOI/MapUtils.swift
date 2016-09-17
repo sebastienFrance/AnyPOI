@@ -356,7 +356,7 @@ class MapUtils {
         let snapshotImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
-        return snapshotImage
+        return snapshotImage!
     }
     
     // MARK: Utils

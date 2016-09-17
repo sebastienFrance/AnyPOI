@@ -55,14 +55,18 @@ class NavigationURL {
     
     static func showPoiOnMapURL(poi:PointOfInterest) -> NSURL? {
         
-        let params = urlParameters([Parameters.action : Actions.showPoiOnMap,
-                                    Parameters.poiId  : poi.objectID.URIRepresentation().absoluteString])
-        
-        print("URL: \(params)")
-        
-        return NSURL(string: "\(baseURL)://?\(params)")
+        if let poiURI = poi.objectID.URIRepresentation().absoluteString {
+            let params = urlParameters([Parameters.action : Actions.showPoiOnMap,
+                                        Parameters.poiId  : poiURI])
+            
+            print("URL: \(params)")
+            return NSURL(string: "\(baseURL)://?\(params)")
+        } else {
+            return nil
+        }
     }
     
+
     private static func urlParameters(paramValues:[String:String]) -> String {
         var allParameters = ""
         for (param, value) in paramValues {

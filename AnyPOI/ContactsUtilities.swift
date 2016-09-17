@@ -83,13 +83,15 @@ class ContactsUtilities {
             var otherNumber:CNPhoneNumber?
             for currentLabeledValue in contact.phoneNumbers {
                 
-                switch currentLabeledValue.label {
-                case CNLabelPhoneNumberMain:
-                    return currentLabeledValue.value as? CNPhoneNumber
-                case CNLabelPhoneNumberiPhone, CNLabelPhoneNumberMobile, CNLabelWork, CNLabelHome:
-                    otherNumber = currentLabeledValue.value as? CNPhoneNumber
-                default:
-                    break
+                if let phoneLabel = currentLabeledValue.label {
+                    switch phoneLabel {
+                    case CNLabelPhoneNumberMain:
+                        return currentLabeledValue.value as? CNPhoneNumber
+                    case CNLabelPhoneNumberiPhone, CNLabelPhoneNumberMobile, CNLabelWork, CNLabelHome:
+                        otherNumber = currentLabeledValue.value as? CNPhoneNumber
+                    default:
+                        break
+                    }
                 }
             }
             

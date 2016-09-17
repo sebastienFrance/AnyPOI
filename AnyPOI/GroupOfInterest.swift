@@ -107,7 +107,7 @@ class GroupOfInterest: NSManagedObject {
         
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
-        return image
+        return image!
     }
     
     private static func createPinImageForGroup(group:GroupOfInterest, imageSize:CGFloat = 25.0) -> UIImage? {

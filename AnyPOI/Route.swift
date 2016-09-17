@@ -247,9 +247,11 @@ class Route: NSManagedObject {
     }
     
     func removeFromSpotLight() {
-        CSSearchableIndex.defaultSearchableIndex().deleteSearchableItemsWithIdentifiers([objectID.URIRepresentation().absoluteString]) { error in
-            if let theError = error {
-                print("\(#function) Error Route \(self.routeName!) cannot be removed from Spotlightn, error: \(theError.localizedDescription)")
+        if let URI = objectID.URIRepresentation().absoluteString {
+            CSSearchableIndex.defaultSearchableIndex().deleteSearchableItemsWithIdentifiers([URI]) { error in
+                if let theError = error {
+                    print("\(#function) Error Route \(self.routeName!) cannot be removed from Spotlightn, error: \(theError.localizedDescription)")
+                }
             }
         }
     }

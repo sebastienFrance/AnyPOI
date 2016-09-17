@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>AnyPOI will show your photos near your Point Of Interests. </string>
+	<key>NSContactsUsageDescription</key>
+	<string>AnyPOI will create Point Of Interests for your contacts.</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>citymapper</string>
@@ -20,9 +24,9 @@
 		</dict>
 	</array>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Used to show your position on Map and for route.</string>
+	<string>AnyPOI will show your position on Map and for route.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Used to detect when you enter/exit from a region.</string>
+	<string>AnyPOI will detect when you enter/exit from a region.</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>
