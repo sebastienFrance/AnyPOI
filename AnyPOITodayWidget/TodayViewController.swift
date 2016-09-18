@@ -12,7 +12,7 @@ import CoreData
 import CoreLocation
 import MapKit
 
-class TodayViewController: UIViewController, NCWidgetProviding, UITableViewDataSource, UITableViewDelegate, LocationUpdateDelegate {
+class TodayViewController: UIViewController {
     
     @IBOutlet weak var theTableView: UITableView! {
         didSet {
@@ -35,16 +35,32 @@ class TodayViewController: UIViewController, NCWidgetProviding, UITableViewDataS
         
         if let location = LocationManager.sharedInstance.locationManager?.location {
             matchingPOI = getPoisAround(location)
-            resetTableViewSize()
+        }
+        
+        if #available(iOSApplicationExtension 10.0, *) {
+            self.extensionContext!.widgetLargestAvailableDisplayMode = .Expanded
+        } else {
+            // Fallback on earlier versions
         }
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        resetTableViewSize()
+     
+    }
+    
+    // Reload the tableView and update the Widget height
     private func resetTableViewSize() {
+        theTableView.reloadData()
         if matchingPOI.count > 0 {
-            preferredContentSize = CGSizeMake(0.0, CGFloat(matchingPOI.count) * 50.0)
+            //            preferredContentSize = CGSizeMake(0.0, CGFloat(matchingPOI.count) * 50.0)
+            preferredContentSize = theTableView.contentSize
             theTableView.separatorStyle = .SingleLine
         } else {
-            preferredContentSize = CGSizeMake(0.0, 50.0)
+            preferredContentSize = theTableView.contentSize
+           // preferredContentSize = CGSizeMake(0.0, 50.0)
             theTableView.separatorStyle = .None
         }
     }
@@ -54,17 +70,7 @@ class TodayViewController: UIViewController, NCWidgetProviding, UITableViewDataS
         matchingPOI.removeAll()
     }
     
-    func locationUpdated(locations: [CLLocation]) {
-        if let location = locations.last {
-            let pois = getPoisAround(location)
-            if !isSamePOIs(pois) {
-                matchingPOI = pois
-                theTableView.reloadData()
-            }
-        }
-    }
-    
-    
+    // Returns True when the POI array is identical to the current Array
     private func isSamePOIs(pois:[PointOfInterest]) -> Bool {
         if matchingPOI.count == pois.count {
             for i in 0...(matchingPOI.count - 1) {
@@ -78,11 +84,20 @@ class TodayViewController: UIViewController, NCWidgetProviding, UITableViewDataS
         }
     }
     
-    private func getPoisAround(location:CLLocation) -> [PointOfInterest]{
-        return PoiBoundingBox.getPoiAroundCurrentLocation(location, radius: 10, maxResult: 5)
+    private struct Cste {
+        static let radiusInKm = 10.0
+        static let maxRequestedResults = 5
     }
     
+    private func getPoisAround(location:CLLocation) -> [PointOfInterest] {
+        return PoiBoundingBox.getPoiAroundCurrentLocation(location, radius: Cste.radiusInKm, maxResult: Cste.maxRequestedResults)
+    }
+}
+
+extension TodayViewController: NCWidgetProviding {
     // MARK: NCWidgetProviding
+    
+    // Update the Wiget content if the list of POIs has changed
     func widgetPerformUpdateWithCompletionHandler(completionHandler: ((NCUpdateResult) -> Void)) {
         if let location = LocationManager.sharedInstance.locationManager?.location {
             let pois = getPoisAround(location)
@@ -91,8 +106,6 @@ class TodayViewController: UIViewController, NCWidgetProviding, UITableViewDataS
             } else {
                 matchingPOI = pois
                 resetTableViewSize()
-                theTableView.reloadData()
-                
                 completionHandler(NCUpdateResult.NewData)
             }
         } else {
@@ -104,6 +117,33 @@ class TodayViewController: UIViewController, NCWidgetProviding, UITableViewDataS
         return UIEdgeInsetsZero
     }
     
+    @available(iOSApplicationExtension 10.0, *)
+    func widgetActiveDisplayModeDidChange(activeDisplayMode: NCWidgetDisplayMode, withMaximumSize maxSize: CGSize) {
+        if activeDisplayMode == NCWidgetDisplayMode.Compact {
+            self.preferredContentSize = CGSizeMake(0.0, 200.0)
+        }
+        else if activeDisplayMode == NCWidgetDisplayMode.Expanded {
+            self.preferredContentSize = theTableView.contentSize
+        }
+        
+    }
+}
+
+extension TodayViewController: LocationUpdateDelegate{
+    
+    // Update the list of POIs when the user location has changed
+    func locationUpdated(locations: [CLLocation]) {
+        if let location = locations.last {
+            let pois = getPoisAround(location)
+            if !isSamePOIs(pois) {
+                matchingPOI = pois
+                theTableView.reloadData()
+            }
+        }
+    }
+}
+
+extension TodayViewController: UITableViewDataSource, UITableViewDelegate {
     // MARK: TableViewDatasource
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
@@ -113,7 +153,7 @@ class TodayViewController: UIViewController, NCWidgetProviding, UITableViewDataS
         return matchingPOI.count > 0 ? matchingPOI.count : 1
     }
     
-    struct CellIndentifier {
+    private struct CellIndentifier {
         static let CellPoiAroundPositionId = "TodayViewCellId"
         static let CellEmptyCellId = "TodayViewEmptyCellId"
     }
@@ -126,6 +166,13 @@ class TodayViewController: UIViewController, NCWidgetProviding, UITableViewDataS
         } else {
             let cell = tableView.dequeueReusableCellWithIdentifier(CellIndentifier.CellEmptyCellId, forIndexPath: indexPath)
             cell.textLabel?.text = "No point of interest near your position"
+            
+            if #available(iOSApplicationExtension 10.0, *) {
+                cell.textLabel?.textColor = UIColor.blackColor()
+            } else {
+                cell.textLabel?.textColor = UIColor.lightGrayColor()
+            }
+
             return cell
         }
     }
@@ -133,6 +180,8 @@ class TodayViewController: UIViewController, NCWidgetProviding, UITableViewDataS
     // MARK: TableViewDelegate
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if matchingPOI.count > 0 {
+            
+            // Open AnyPOI App with the selected POI
             
             if let url = NavigationURL.showPoiOnMapURL(matchingPOI[indexPath.row]) {
                 extensionContext?.openURL(url, completionHandler: nil)

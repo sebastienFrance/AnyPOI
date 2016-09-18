@@ -725,6 +725,13 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
     @IBAction func handleLongPressGesture(sender: UILongPressGestureRecognizer) {
         switch (sender.state) {
         case .Ended:
+            if #available(iOS 10.0, *) {
+                let feedbackGenerator = UIImpactFeedbackGenerator.init(style: .Medium)
+                feedbackGenerator.impactOccurred()
+            } else {
+                // Fallback on earlier versions
+            }
+            
             // Add the new POI in database
             // The Poi will be added on the Map thanks to DB notifications
             let coordinates = theMapView.convertPoint(sender.locationInView(theMapView), toCoordinateFromView: theMapView)

@@ -355,7 +355,7 @@
 			isa = PBXGroup;
 			children = (
 				BE98340D1D8D595000B174A7 /* Shared */,
-				BE2FF2CE1D8B284F00C0395A /* Interfaces */,
+				BE2FF2CE1D8B284F00C0395A /* Storyboards */,
 				BE3A14451D8B233E002549D0 /* dataModel */,
 				BE2FF2CF1D8B296100C0395A /* Utilities */,
 				BE2FF2D01D8B299A00C0395A /* Database */,
@@ -366,7 +366,7 @@
 			name = src;
 			sourceTree = "<group>";
 		};
-		BE2FF2CE1D8B284F00C0395A /* Interfaces */ = {
+		BE2FF2CE1D8B284F00C0395A /* Storyboards */ = {
 			isa = PBXGroup;
 			children = (
 				BE2FF2C41D8B280B00C0395A /* CallOutAccessoryView.xib */,
@@ -375,7 +375,7 @@
 				BE2FF2C81D8B280B00C0395A /* PickerGroupView.xib */,
 				BEA7BAA21D8B01E5005D2D21 /* Main.storyboard */,
 			);
-			name = Interfaces;
+			name = Storyboards;
 			sourceTree = "<group>";
 		};
 		BE2FF2CF1D8B296100C0395A /* Utilities */ = {
@@ -1191,6 +1191,7 @@
 				CODE_SIGN_ENTITLEMENTS = AnyPOITodayWidget/AnyPOITodayWidget.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = AnyPOITodayWidget/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sebastien.AnyPOI.AnyPOITodayWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1205,6 +1206,7 @@
 				CODE_SIGN_ENTITLEMENTS = AnyPOITodayWidget/AnyPOITodayWidget.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = AnyPOITodayWidget/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sebastien.AnyPOI.AnyPOITodayWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1307,10 +1309,12 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = AnyPOI/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sebastien.AnyPOI;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 2.3;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -1323,10 +1327,12 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = AnyPOI/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sebastien.AnyPOI;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 2.3;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

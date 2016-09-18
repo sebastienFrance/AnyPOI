@@ -2,31 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>AnyPOI will show your photos near your Point Of Interests. </string>
-	<key>NSContactsUsageDescription</key>
-	<string>AnyPOI will create Point Of Interests for your contacts.</string>
-	<key>LSApplicationQueriesSchemes</key>
-	<array>
-		<string>citymapper</string>
-		<string>waze</string>
-		<string>comgooglemaps</string>
-	</array>
-	<key>CFBundleURLTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>AnyPOI</string>
-			</array>
-			<key>CFBundleURLName</key>
-			<string>com.sebastien.AnyPOI</string>
-		</dict>
-	</array>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>AnyPOI will show your position on Map and for route.</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>AnyPOI will detect when you enter/exit from a region.</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>
@@ -43,10 +18,37 @@
 	<string>1.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>com.sebastien.AnyPOI</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>AnyPOI</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>3</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>citymapper</string>
+		<string>waze</string>
+		<string>comgooglemaps</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCalendarsUsageDescription</key>
+	<string>AnyPOI allows to create geo-localized events to your calendar.</string>
+	<key>NSContactsUsageDescription</key>
+	<string>AnyPOI will create Point Of Interests for your contacts.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>AnyPOI will detect when you enter/exit from a region.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>AnyPOI will show your position on Map and for route.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>AnyPOI will show your photos near your Point Of Interests. </string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
