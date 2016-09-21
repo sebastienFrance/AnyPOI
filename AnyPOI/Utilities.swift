@@ -82,34 +82,31 @@ class Utilities {
         }
     }
     
-    static func openSafariFrom(viewController:UIViewController, url:String?, subTitle:String?, delegate:SFSafariViewControllerDelegate) {
+    static func openSafariFrom(viewController:UIViewController, url:String?, delegate:SFSafariViewControllerDelegate) {
         if let URL = url {
             if let formatedURL = "\(URL)".stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLFragmentAllowedCharacterSet()) {
                 if let myURL = NSURL(string: formatedURL) {
-                    openSafariFrom(viewController, url: myURL, subTitle: subTitle, delegate: delegate)
+                    openSafariFrom(viewController, url: myURL, delegate: delegate)
                 }
             }
         }
     }
     
-    static func openSafariFrom(viewController:UIViewController, url:NSURL?, subTitle:String?, delegate:SFSafariViewControllerDelegate) {
+    static func openSafariFrom(viewController:UIViewController, url:NSURL?, delegate:SFSafariViewControllerDelegate) {
         if let myURL = url {
+
+            
             let safari = SFSafariViewController(URL: myURL)
             safari.delegate = delegate
-            
             viewController.navigationController?.toolbarHidden = true
-            
             viewController.showViewController(safari, sender: nil)
             
-            PKHUD.sharedHUD.dimsBackground = true
-            HUD.show(.Progress)
-            let hudBaseView = PKHUD.sharedHUD.contentView as! PKHUDSquareBaseView
-            if let theSubTitle = subTitle {
-                hudBaseView.titleLabel.text = "Page loading for"
-                hudBaseView.subtitleLabel.text = theSubTitle
-            } else {
-                hudBaseView.titleLabel.text = "Page loading"
-            }
+//            PKHUD.sharedHUD.userInteractionOnUnderlyingViewsEnabled = true
+//            PKHUD.sharedHUD.dimsBackground = true
+//            HUD.show(.Progress)
+//            let hudBaseView = PKHUD.sharedHUD.contentView as! PKHUDSquareBaseView
+//            hudBaseView.titleLabel.text = "Page loading"
+
         }
     }
 

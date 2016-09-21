@@ -108,7 +108,7 @@ extension PoiCalloutDelegateImpl : PoiCalloutDelegate {
             let viewAnnotation = theMapView.viewForAnnotation(poi)
             let calloutAccessoryView = viewAnnotation?.detailCalloutAccessoryView as? CustomCalloutAccessoryView
             
-            Utilities.openSafariFrom(viewController, url: calloutAccessoryView?.URL, subTitle:poi.poiDisplayName, delegate:self)
+            Utilities.openSafariFrom(viewController, url: calloutAccessoryView?.URL, delegate:self)
         }
     }
     

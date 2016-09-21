@@ -144,9 +144,15 @@ class POIsViewController: UIViewController  {
     //MARK: Utils
     private func getPois(withFilter:Bool) -> [PointOfInterest] {
         if !withFilter {
-            return pois ?? extractPOIsFromDatabase(false)
+            if pois == nil {
+                pois = extractPOIsFromDatabase(false)
+            }
+            return pois!
         } else {
-            return poisWithFilters ?? extractPOIsFromDatabase(true)
+            if poisWithFilters == nil {
+                poisWithFilters = extractPOIsFromDatabase(true)
+            }
+            return poisWithFilters!
         }
     }
     

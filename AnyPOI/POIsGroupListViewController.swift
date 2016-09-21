@@ -86,7 +86,7 @@ class POIsGroupListViewController: UIViewController, UITableViewDataSource, UITa
         
         searchController.searchBar.sizeToFit()
         searchController.searchBar.delegate = self
-        searchController.searchBar.placeholder = "Group name"
+        searchController.searchBar.placeholder = NSLocalizedString("GroupNamePlaceHolderSearchBar", comment: "")
         searchController.obscuresBackgroundDuringPresentation = false // Mandatory when opening the search controller on itself
         // Don't hide the navigation bar, it will be just covered by the SearchController (it will avoid the tableview to slide below
         // the searchController
@@ -249,9 +249,9 @@ class POIsGroupListViewController: UIViewController, UITableViewDataSource, UITa
         
         switch (section) {
         case SectionIndex.poiGroups:
-            return "User group"
+            return NSLocalizedString("UserGroupSectionHeader", comment: "")
         case SectionIndex.monitoredPois:
-            return "Monitored"
+            return NSLocalizedString("MonitoredSectionHeader", comment: "")
         default:
             return getCountryName(section)
         }
@@ -272,7 +272,7 @@ class POIsGroupListViewController: UIViewController, UITableViewDataSource, UITa
         if (row - 1) < cities.count {
             return searchFilter.isEmpty ? cities[row - 1] : cities[row]
         } else {
-            return "unknown city"
+            return NSLocalizedString("UnknownCity", comment: "")
         }
     }
 
@@ -280,13 +280,13 @@ class POIsGroupListViewController: UIViewController, UITableViewDataSource, UITa
         if let country = getCountryForIndex(indexPath.section) {
             return getCityNameFromCountry(country, row: indexPath.row)
         } else {
-            return "unknown country"
+            return NSLocalizedString("UnknownCountry", comment: "")
         }
     }
     
     
     private func getCountryName(section:Int) -> String {
-        return getCountryForIndex(section)?.countryName ?? "Unknown country"
+        return getCountryForIndex(section)?.countryName ?? NSLocalizedString("UnknownCountry", comment: "")
     }
     
     private struct cellIdentifier {
@@ -316,7 +316,7 @@ class POIsGroupListViewController: UIViewController, UITableViewDataSource, UITa
     private func getCountryOrCityTableViewCell(tableView: UITableView, indexPath:NSIndexPath) -> UITableViewCell {
         if indexPath.row == 0 && searchFilter.isEmpty {
             let theCell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier.CityGroupCell, forIndexPath: indexPath) as! CityGroupCell
-            theCell.cityNameLabel.text  = "All"
+            theCell.cityNameLabel.text  = NSLocalizedString("AllFomCountry", comment: "")
             return theCell
         } else {
             let theCell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier.CityGroupCell, forIndexPath: indexPath) as! CityGroupCell

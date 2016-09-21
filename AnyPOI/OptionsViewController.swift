@@ -110,12 +110,12 @@ class OptionsViewController: UITableViewController, PasswordConfigurationDelegat
         UserPreferences.sharedInstance.wikipediaNearByDistance = Int(sliderWikiNearByDistance.value)
         let distanceFormatter = NSLengthFormatter()
         distanceFormatter.unitStyle = .Short
-        labelWikiNearByDistance.text = "Near by \(distanceFormatter.stringFromMeters(Double(sliderWikiNearByDistance.value)))"
+        labelWikiNearByDistance.text = "\(NSLocalizedString("NearBy",comment:"")) \(distanceFormatter.stringFromMeters(Double(sliderWikiNearByDistance.value)))"
     }
     
     @IBAction func updateWikiMaxResults(sender: UISlider) {
         UserPreferences.sharedInstance.wikipediaMaxResults = Int(sliderWikiMaxResults.value)
-        labelWikiMaxResults.text = "Max results \(Int(sliderWikiMaxResults.value))"
+        labelWikiMaxResults.text = "\(NSLocalizedString("MaxResults",comment:"")) \(Int(sliderWikiMaxResults.value))"
     }
     
     @IBAction func updateDefaultTransportType(sender: UISegmentedControl) {
@@ -174,8 +174,8 @@ class OptionsViewController: UITableViewController, PasswordConfigurationDelegat
         PKHUD.sharedHUD.dimsBackground = true
         HUD.show(.Progress)
         let hudBaseView = PKHUD.sharedHUD.contentView as! PKHUDSquareBaseView
-        hudBaseView.titleLabel.text = "Geocoding"
-        hudBaseView.subtitleLabel.text = "\(contactSync.contactsToSynchronize()) addresses"
+        hudBaseView.titleLabel.text = NSLocalizedString("Geocoding",comment:"")
+        hudBaseView.subtitleLabel.text = "\(contactSync.contactsToSynchronize()) \(NSLocalizedString("Adresses",comment:""))"
 
         contactSync.synchronize()
     }
@@ -188,7 +188,7 @@ class OptionsViewController: UITableViewController, PasswordConfigurationDelegat
             performPasswordChange()
         } else {
             isDisablingPassword = true
-            userAuthentication.requestOneShotAuthentication("Disable authentication")
+            userAuthentication.requestOneShotAuthentication(NSLocalizedString("DisablePasswordAuthentication",comment:""))
         }
     }
     
@@ -200,11 +200,11 @@ class OptionsViewController: UITableViewController, PasswordConfigurationDelegat
                 UserPreferences.sharedInstance.authenticationTouchIdEnabled = true
             } else {
                 switchEnableTouchId.on = false
-                Utilities.showAlertMessage(self, title: "TouchId error", error: error!)
+                Utilities.showAlertMessage(self, title: NSLocalizedString("TouchIdError",comment:""), error: error!)
             }
         } else {
             isDisablingPassword = false
-            userAuthentication.requestOneShotAuthentication("Disable TouchId for authentication")
+            userAuthentication.requestOneShotAuthentication(NSLocalizedString("DisableTouchIdAuthentication",comment:""))
         }
     }
 

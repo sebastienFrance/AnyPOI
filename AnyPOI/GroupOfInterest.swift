@@ -79,6 +79,7 @@ class GroupOfInterest: NSManagedObject {
         }
     }
     
+    
     private static func getPinImageForGroup(group:GroupOfInterest, imageSize:CGFloat = 25.0) -> UIImage? {
         if let image = pinImagesCacheForGroup[group.objectID] {
             return image

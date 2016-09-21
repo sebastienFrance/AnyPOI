@@ -1,0 +1,30 @@
+/* 
+  Localizable.strings
+  AnyPOI
+
+  Created by Sébastien Brugalières on 21/09/2016.
+  Copyright © 2016 Sébastien Brugalières. All rights reserved.
+*/
+
+"MapMenuTitle"="Carte";
+"PointOfInterestMenuTitle"="Points d'intérêts";
+"TravelsMenuTitle"="Voyages";
+"OptionsMenuTitle"="Options";
+"NearBy"="Distance de";
+"MaxResults"="Résultats max";
+"Geocoding"="Géocodage";
+"Addresses"="adresses";
+"DisablePasswordAuthentication"="Désactiver l'authentification par mot de passe";
+"TouchIdError"="Erreur TouchId";
+"DisableTouchIdAuthentication"="Désactiver l'authentification par TouchId";
+"MapSearchPlaceHolder"="Lieu, Point d'intérêt, adresse...";
+"UserGroupSectionHeader"="Vos groupes";
+"MonitoredSectionHeader"="Surveillance";
+"GroupNamePlaceHolderSearchBar"="Nom du groupe";
+"UnknownCity"="Ville inconnue";
+"UnknownCountry"="Pays inconnu";
+"AllFomCountry"="Tout";
+"DefaultGroupName"="Défaut";
+"DefaultGroupDescription"="Groupe par défaut";
+"ContactsGroupName"="Contacts";
+"ContactsGroupDescription"="Groupe par défaut pour les contacts";

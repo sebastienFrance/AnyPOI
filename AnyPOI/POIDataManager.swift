@@ -34,15 +34,15 @@ class POIDataManager {
     
     struct defaultGroupCste {
         static let groupId = 0
-        static let displayName = "Default"
-        static let groupDescription = "Default POIs group"
+        static let displayName = NSLocalizedString("DefaultGroupName", comment: "")
+        static let groupDescription = NSLocalizedString("DefaultGroupDescription", comment: "")
         static let groupColor = ColorsUtils.defaultGroupColor()
     }
     
     private struct defaultContactGroupCste {
         static let groupId = 1
-        static let displayName = "Contacts"
-        static let groupDescription = "Default group for Contacts"
+        static let displayName = NSLocalizedString("ContactsGroupName", comment: "")
+        static let groupDescription = NSLocalizedString("ContactsGroupDescription", comment: "")
         static let groupColor = ColorsUtils.contactsGroupColor()
     }
 

@@ -269,9 +269,9 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
     
     @IBAction func showURL(sender: UIButton) {
         if let theContact = contact {
-            Utilities.openSafariFrom(self, url: ContactsUtilities.extractURL(theContact), subTitle: poi.poiDisplayName, delegate: self)
+            Utilities.openSafariFrom(self, url: ContactsUtilities.extractURL(theContact), delegate: self)
         } else {
-            Utilities.openSafariFrom(self, url: poi.poiURL, subTitle: poi.poiDisplayName, delegate: self)
+            Utilities.openSafariFrom(self, url: poi.poiURL, delegate: self)
         }
     }
     
@@ -287,9 +287,8 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
     
     @IBAction func showWikipediaURL(sender: UIButton) {
         let wikipedia = poi.wikipedias[sender.tag]
-        let url = WikipediaUtils.getMobileURLForPageId(wikipedia.pageId)
-        let safari = SFSafariViewController(URL: NSURL(string: url)!)
-        showViewController(safari, sender: nil)
+        let wikiURL = WikipediaUtils.getMobileURLForPageId(wikipedia.pageId)
+        Utilities.openSafariFrom(self, url: wikiURL, delegate: self)
     }
     
     @IBAction func goToWikipedia(sender: UIButton) {
@@ -313,7 +312,7 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
         controller.dismissViewControllerAnimated(true, completion: nil)
     }
     
-    //MAKRK: SFSafariViewControllerDelegate
+    //MARK: SFSafariViewControllerDelegate
     func safariViewController(controller: SFSafariViewController, didCompleteInitialLoad didLoadSuccessfully: Bool) {
         HUD.hide()
     }

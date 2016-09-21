@@ -10,7 +10,7 @@ import UIKit
 
 class LeftMenuViewController: UIViewController {
     
-    let menuTitles = ["Map", "Point of interests", "Travels", "Options"]
+    let menuTitles = [NSLocalizedString("MapMenuTitle",comment:""), NSLocalizedString("PointOfInterestMenuTitle",comment:""), NSLocalizedString("TravelsMenuTitle",comment:""), NSLocalizedString("OptionsMenuTitle",comment:"")]
 
     @IBOutlet weak var theTableView: UITableView! {
         didSet {

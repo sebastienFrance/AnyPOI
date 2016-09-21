@@ -381,7 +381,7 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
         
         theSearchController!.searchBar.sizeToFit()
         theSearchController!.searchBar.delegate = self
-        theSearchController!.searchBar.placeholder = "Place, POI/Group name"
+        theSearchController!.searchBar.placeholder = NSLocalizedString("MapSearchPlaceHolder", comment: "")
         theSearchController!.hidesNavigationBarDuringPresentation = true
         theSearchController!.dimsBackgroundDuringPresentation = true
         
