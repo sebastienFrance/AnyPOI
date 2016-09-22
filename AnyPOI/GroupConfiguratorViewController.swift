@@ -78,12 +78,12 @@ class GroupConfiguratorViewController: UIViewController, UITextFieldDelegate, UI
     @IBAction func saveButtonPushed(sender: UIButton) {
         if let theGroup = group {
             // Update an existing group
-            theGroup.groupDisplayName = groupNameTextField.text ?? "No descriptions"
+            theGroup.groupDisplayName = groupNameTextField.text ?? ""
             theGroup.color = colors[selectedColorIndex]
             POIDataManager.sharedInstance.updatePOIGroup(theGroup)
          } else {
             // Create a new group
-            let groupDescription = groupDescriptionTextField.text ?? "No descriptions"
+            let groupDescription = groupDescriptionTextField.text ?? ""
             POIDataManager.sharedInstance.addGroup(groupName: groupNameTextField.text!, groupDescription: groupDescription, groupColor:colors[selectedColorIndex])
         }
         POIDataManager.sharedInstance.commitDatabase()

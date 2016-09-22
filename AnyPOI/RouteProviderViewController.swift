@@ -32,7 +32,7 @@ class RouteProviderViewController: UIViewController {
     private weak var mapController:RouteProviderDelegate!
 
     func initializeWith(sourceCoordinate:CLLocationCoordinate2D, targetPoi:PointOfInterest, delegate:RouteProviderDelegate) {
-        sourceLabel = "Current location"
+        sourceLabel = NSLocalizedString("CurrentLocationRouteProviderViewController", comment: "")
         self.sourceCoordinate = sourceCoordinate
         targetCoordinate = targetPoi.coordinate
         targetLabel = targetPoi.poiDisplayName!
@@ -84,6 +84,7 @@ class RouteProviderViewController: UIViewController {
                                      transportType: transportType)
         endRouteController()
     }
+    
     @IBAction func googleMapButtonPushed(sender: UIButton) {
         var transportType = "driving"
         if googleTransportType.selectedSegmentIndex == 1 {

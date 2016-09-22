@@ -73,7 +73,7 @@ class POIsViewController: UIViewController  {
     
     func showMonitoredPois() {
         displayMode = .monitoredPois
-        areaName = "Monitored POIs"
+        areaName = NSLocalizedString("MonitoredPOIs", comment: "")
     }
     
     func showGroup(group:GroupOfInterest) {
@@ -191,17 +191,17 @@ class POIsViewController: UIViewController  {
     private func startEditingMode() {
         theTableView.allowsMultipleSelectionDuringEditing = true
         theTableView.setEditing(true, animated: true)
-        moveButton.title = "Move"
+        moveButton.title = NSLocalizedString("MoveSelectedPOIsButtonTitle", comment: "")
         moveButton.enabled = false
-        selectButton.title = "Done"
+        selectButton.title = NSLocalizedString("MoveDoneButtonTitle", comment: "")
     }
     
     private func stopEditingMode() {
         theTableView.allowsMultipleSelectionDuringEditing = false
         theTableView.setEditing(false, animated: true)
-        moveButton.title = "Move all"
+        moveButton.title = NSLocalizedString("MoveAllPOIsButtonTitle", comment: "")
         moveButton.enabled = true
-        selectButton.title = "Select"
+        selectButton.title = NSLocalizedString("MoveSelectButtonTitle", comment: "")
     }
 
     // Display all POIs without any filter in the Map
@@ -341,7 +341,7 @@ extension POIsViewController : UISearchResultsUpdating, UISearchControllerDelega
         
         searchController.searchBar.sizeToFit()
         searchController.searchBar.delegate = self
-        searchController.searchBar.placeholder = "POI name"
+        searchController.searchBar.placeholder = NSLocalizedString("POIsSearchBarPlaceholder", comment: "")
         searchController.obscuresBackgroundDuringPresentation = false // Mandatory when opening the search controller on itself
         // Don't hide the navigation bar, it will be just covered by the SearchController (it will avoid the tableview to slide below
         // the searchController
@@ -426,10 +426,10 @@ extension POIsViewController : UITableViewDataSource, UITableViewDelegate {
             } else {
                 let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier.cellForEmptyGroupId, forIndexPath: indexPath)
                 if getPois(false).count > 0 {
-                    cell.textLabel?.text = "No POIs matching \(searchFilter)"
+                    cell.textLabel?.text = "\(NSLocalizedString("POIsNoPOIsMatchingSearch", comment: "")) \(searchFilter)"
                     cell.textLabel?.textColor = UIColor.greenColor()
                 } else {
-                    cell.textLabel?.text = "No POIs in this group"
+                    cell.textLabel?.text = NSLocalizedString("POIsNoPOIsInGoup", comment: "")
                     cell.textLabel?.textColor = UIColor.redColor()
                 }
                 return cell

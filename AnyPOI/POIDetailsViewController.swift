@@ -192,9 +192,9 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
 
     // MARK: Buttons
     @IBAction func deletePoiPushed(sender: UIButton) {
-        let deleteConfirmationBox = UIAlertController(title: "Warning", message: "Delete \(poi.poiDisplayName!)?", preferredStyle: .Alert)
-        deleteConfirmationBox.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
-        deleteConfirmationBox.addAction(UIAlertAction(title: "Ok", style: .Default, handler: { alertAction in
+        let deleteConfirmationBox = UIAlertController(title: NSLocalizedString("Warning", comment: ""), message: "\(NSLocalizedString("Delete", comment: "")) \(poi.poiDisplayName!)?", preferredStyle: .Alert)
+        deleteConfirmationBox.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .Cancel, handler: nil))
+        deleteConfirmationBox.addAction(UIAlertAction(title: NSLocalizedString("Ok", comment: ""), style: .Default, handler: { alertAction in
             POIDataManager.sharedInstance.deletePOI(POI: self.poi)
             POIDataManager.sharedInstance.commitDatabase()
             self.navigationController?.popViewControllerAnimated(true)
@@ -355,7 +355,7 @@ extension POIDetailsViewController : UITableViewDataSource, UITableViewDelegate 
     }
     
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return section == Sections.wikipedia ? "Wikipedia" : nil
+        return section == Sections.wikipedia ? NSLocalizedString("Wikipedia", comment: "") : nil
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {

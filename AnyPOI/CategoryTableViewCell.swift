@@ -15,7 +15,7 @@ class CategoryTableViewCell: UITableViewCell {
     
     func initWithCategory(newCategory:Int) {
         if CategoryUtils.isEmptyCategory(newCategory) {
-            categoryLabel?.text = "No Category"
+            categoryLabel?.text = NSLocalizedString("NoCategoryCategoryTableViewCell", comment: "")
             categoryImageStackView.hidden = true
         } else {
             categoryLabel?.text = "\(CategoryUtils.getLabelCategoryForIndex(newCategory))"

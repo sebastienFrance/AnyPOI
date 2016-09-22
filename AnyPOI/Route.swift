@@ -178,9 +178,9 @@ class Route: NSManagedObject {
             if wayPoints.count > 1 {
                 return "\(wayPoints[0].wayPointPoi!.poiDisplayName!) ➔ \(wayPoints.last!.wayPointPoi!.poiDisplayName!)"
             } else if wayPoints.count == 1 {
-                return "\(wayPoints[0].wayPointPoi!.poiDisplayName!) ➔ Not yet defined"
+                return "\(wayPoints[0].wayPointPoi!.poiDisplayName!) ➔ \(NSLocalizedString("RouteNoDestination", comment: ""))"
             } else {
-                return "Route is not yet defined"
+                return NSLocalizedString("RouteNotDefined", comment: "")
             }
         }
     }
@@ -215,11 +215,9 @@ class Route: NSManagedObject {
         }
 
         //FIXEDME: 😡 Translate I18N
-        keywords.append("voyage")
-        keywords.append("vacances")
-        keywords.append("route")
-        keywords.append("itineraire")
-        keywords.append("chemin")
+        keywords.append(NSLocalizedString("SpotlightKeywordTravel", comment: ""))
+        keywords.append(NSLocalizedString("SpotlightKeywordHolidays", comment: ""))
+        keywords.append(NSLocalizedString("SpotlightKeywordRoute", comment: ""))
         attributeSet.keywords = keywords
         
         

@@ -21,11 +21,11 @@ class RouteEditorController {
     
     func modifyRoute(parentViewController:UIViewController, delegate:RouteEditorDelegate,route:Route) {
         
-        let routeTitle = "Update route"
-        createRouteController = UIAlertController(title: routeTitle, message: "Give new route name", preferredStyle: .Alert)
+        let routeTitle = NSLocalizedString("UpdateRouteRouteEditorController", comment: "")
+        createRouteController = UIAlertController(title: routeTitle, message: NSLocalizedString("GetNewRouteNameRouteEditorController", comment: ""), preferredStyle: .Alert)
         
         createRouteController!.addTextFieldWithConfigurationHandler()  { textField in
-            textField.placeholder = "Enter route name"
+            textField.placeholder = NSLocalizedString("RouteNameRouteEditorControllerPlaceholder", comment: "")
             textField.secureTextEntry = false
             textField.autocorrectionType = .Yes
             textField.autocapitalizationType = .Sentences
@@ -36,14 +36,14 @@ class RouteEditorController {
             textField.addTarget(self, action: #selector(RouteEditorController.checkRouteName(_:)), forControlEvents: .AllEditingEvents)
         }
         
-        let okButton = UIAlertAction(title: "Save", style: .Default) { alertAction in
+        let okButton = UIAlertAction(title: NSLocalizedString("Save", comment: ""), style: .Default) { alertAction in
             let routeName = self.createRouteController!.textFields?[0].text
             route.routeName = routeName
             POIDataManager.sharedInstance.commitDatabase()
             delegate.routeUpdated(route)
         }
         
-        let cancelButton = UIAlertAction(title: "Cancel", style: .Default) { alertAction in
+        let cancelButton = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .Default) { alertAction in
             delegate.routeEditorCancelled()
         }
         
@@ -55,11 +55,11 @@ class RouteEditorController {
     
     func createRouteWith(parentViewController:UIViewController, delegate:RouteEditorDelegate, routeName:String = "", pois:[PointOfInterest] = [PointOfInterest]()) {
         
-        let routeTitle = "Create Route"
-        createRouteController = UIAlertController(title: routeTitle, message: "Give route name", preferredStyle: .Alert)
+        let routeTitle = NSLocalizedString("CreateRouteRouteEditorController", comment: "")
+        createRouteController = UIAlertController(title: routeTitle, message: NSLocalizedString("GetNewRouteNameRouteEditorController", comment: ""), preferredStyle: .Alert)
         
         createRouteController!.addTextFieldWithConfigurationHandler()  { textField in
-            textField.placeholder = "Enter route name"
+            textField.placeholder = NSLocalizedString("RouteNameRouteEditorControllerPlaceholder", comment: "")
             textField.secureTextEntry = false
             textField.autocorrectionType = .Yes
             textField.autocapitalizationType = .Sentences
@@ -70,7 +70,7 @@ class RouteEditorController {
             textField.addTarget(self, action: #selector(RouteEditorController.checkRouteName(_:)), forControlEvents: .AllEditingEvents)
         }
         
-        let okButton = UIAlertAction(title: "Save", style: .Default) { alertAction in
+        let okButton = UIAlertAction(title: NSLocalizedString("Save", comment: ""), style: .Default) { alertAction in
             let routeName = self.createRouteController!.textFields?[0].text
             
             let newRoute = POIDataManager.sharedInstance.addRoute(routeName!, routePath:pois)
@@ -78,7 +78,7 @@ class RouteEditorController {
             POIDataManager.sharedInstance.commitDatabase()
         }
         
-        let cancelButton = UIAlertAction(title: "Cancel", style: .Default) { alertAction in
+        let cancelButton = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .Default) { alertAction in
             delegate.routeEditorCancelled()
         }
         

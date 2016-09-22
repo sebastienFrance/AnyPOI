@@ -28,4 +28,61 @@
 "DefaultGroupDescription"="Default group";
 "ContactsGroupName"="Contacts";
 "ContactsGroupDescription"="Default group for Contacts";
+"MonitoredPOIs"="Monitored POIs";
+"MoveSelectedPOIsButtonTitle"="Move";
+"MoveAllPOIsButtonTitle"="Move all";
+"MoveDoneButtonTitle"="Done";
+"MoveSelectButtonTitle"="Select";
+"POIsSearchBarPlaceholder"="Point of interest";
+"POIsNoPOIsMatchingSearch"="No POI matching";
+"POIsNoPOIsInGoup"="No POI in this group";
+"Warning"="Warning";
+"Delete"="Delete";
+"Cancel"="Cancel";
+"Save"="Save";
+"Ok"="Ok";
+"Wikipedia"="Wikipedia";
+"MaxMonitoredPOIReached"="Maximum number of POIs under monitoring reached. Disable another one to activate this one";
+"PoiEditorRegionMonitoringSectionName"="Region monitoring";
+"Unknown"="Unknown";
+"PoiEditorPOINamePlaceholder"="POI name";
+"PoiEditorPOIDescriptionPlaceholder"="POI description";
+"Radius"="Radius";
+"RouteNotDefined"="Route is not yet defined";
+"RouteNoDestination"="Destination not defined";
+"SpotlightKeywordTravel"="travel";
+"SpotlightKeywordRoute"="route";
+"SpotlightKeywordHolidays"="holidays";
+"GroupDisplayedOnMapSearchController"="Groups displayed on Map";
+"GroupDisplayedSearchController"="Groups";
+"POIsDisplayedOnMapSearchController"="Points Of Interests on Map";
+"POIsDisplayedSearchController"="Points Of Interests";
+"LocalSearchSearchController"="Local Search";
+"RoutesSearchController"="Routes";
+"NoCategoryCategoryTableViewCell"="No Category";
+"NoWaypointsSearchRouteTableViewCell"="No waypoints";
+"CurrentLocationRouteProviderViewController"="Current location";
+"PhoneLabelMain"="Main";
+"PhoneLabeliPhone"="iPhone";
+"PhoneLabelMobile"="Mobile";
+"PhoneLabelWork"="Work";
+"PhoneLabelHome"="Home";
+"PhoneLabelPager"="Pager";
+"PhoneLabelHomeFax"="Home fax";
+"PhoneLabelWorkFax"="Work fax";
+"PhoneLabelOtherFax"="Other fax";
+"PhoneLabelOther"="Other";
+"UnknownFromToRouteDatasource"="Unknown From/To";
+"FullDirectionRouteDatasource"="Full direction for";
+"NoRouteInfoRouteDatasource"="No route info";
+"UpdateRouteRouteEditorController"="Update route";
+"GetNewRouteNameRouteEditorController"="Enter route name";
+"RouteNameRouteEditorControllerPlaceholder"="Enter route name";
+"CreateRouteRouteEditorController"="Create Route";
+
+
+
+
+
+
 

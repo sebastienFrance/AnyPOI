@@ -104,7 +104,7 @@ class RouteDataSource {
                     toDisplayName = toPOI?.poiDisplayName {
                     return "\(fromDisplayName) ➔ \(toDisplayName)"
                 } else {
-                    return "Unknown From/To"
+                    return NSLocalizedString("UnknownFromToRouteDatasource", comment: "")
                 }
             }
         }
@@ -112,7 +112,7 @@ class RouteDataSource {
     
     var allRouteName:String! {
         get {
-            return "Full direction for \(theRoute.routeName!)"
+            return "\(NSLocalizedString("FullDirectionRouteDatasource", comment: "")) \(theRoute.routeName!)"
         }
     }
     

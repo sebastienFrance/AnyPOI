@@ -514,7 +514,7 @@
 		BE2FF2DA1D8B2E1500C0395A /* POIDetailsVC */ = {
 			isa = PBXGroup;
 			children = (
-				BE2FF2E21D8B303C00C0395A /* WikipediaPageVC */,
+				BE2FF2E21D8B303C00C0395A /* WikipediaPageVC_ToBeDeleted */,
 				BE2FF2DB1D8B2E8B00C0395A /* POIEditorVC */,
 				BE2FF2DF1D8B2FB100C0395A /* POIDetailsImageVC */,
 				BE0CF2B71D8B209A00344F8A /* POIDetailsViewController.swift */,
@@ -580,12 +580,12 @@
 			name = RouteProviderVC;
 			sourceTree = "<group>";
 		};
-		BE2FF2E21D8B303C00C0395A /* WikipediaPageVC */ = {
+		BE2FF2E21D8B303C00C0395A /* WikipediaPageVC_ToBeDeleted */ = {
 			isa = PBXGroup;
 			children = (
 				BE0CF2F91D8B209A00344F8A /* WikipediaPageViewController.swift */,
 			);
-			name = WikipediaPageVC;
+			name = WikipediaPageVC_ToBeDeleted;
 			sourceTree = "<group>";
 		};
 		BE2FF2E31D8B316200C0395A /* ContainerVC */ = {

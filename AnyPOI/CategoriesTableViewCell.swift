@@ -13,16 +13,6 @@ class CategoriesTableViewCell: UITableViewCell {
     @IBOutlet weak var collectionView: UICollectionView!
     
     @IBOutlet weak var scopeFilterSegmentedControl: UISegmentedControl!
-//    override func awakeFromNib() {
-//        super.awakeFromNib()
-//        // Initialization code
-//    }
-//
-//    override func setSelected(selected: Bool, animated: Bool) {
-//        super.setSelected(selected, animated: animated)
-//
-//        // Configure the view for the selected state
-//    }
     
     func initWith(selectedFilter:SearchController.ScopeFilter) {
         switch selectedFilter {

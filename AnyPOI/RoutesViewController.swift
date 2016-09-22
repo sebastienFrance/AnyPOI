@@ -64,8 +64,6 @@ class RoutesViewController: UIViewController, RouteEditorDelegate, ContainerView
     }
     
     deinit {
-        print("RoutesViewController deallocated!")
-        
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
 

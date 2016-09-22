@@ -106,7 +106,7 @@ class PoiEditorViewController: UIViewController {
             if !LocationManager.sharedInstance.isMaxMonitoredRegionReached() {
                 LocationManager.sharedInstance.startMonitoringRegion(thePoi)
             } else {
-                Utilities.showAlertMessage(self, title: "POI monitoring error", message: "Reached maximum number of POIs that can be monitored simultaneously. Advice, disable an old one to activate this one")
+                Utilities.showAlertMessage(self, title: NSLocalizedString("Warning", comment: ""), message: NSLocalizedString("MaxMonitoredPOIReached", comment: ""))
             }
         } else if (oldPoiRegionNotifyEnter || oldPoiRegionNotifyExit) && (!newRegionEnter && !newRegionExit) {
             // Stop region monitoring
@@ -218,9 +218,9 @@ extension PoiEditorViewController: UITableViewDataSource, UITableViewDelegate {
         case Sections.properties:
             return nil
         case Sections.regionMonitoring:
-            return "Region monitoring"
+            return NSLocalizedString("PoiEditorRegionMonitoringSectionName", comment: "")
         default:
-            return "Unknown section"
+            return NSLocalizedString("Unknown", comment: "")
         }
     }
     
@@ -394,14 +394,14 @@ extension PoiEditorViewController: UITableViewDataSource, UITableViewDelegate {
             let theCell = theTableView.dequeueReusableCellWithIdentifier(cellIdentifier.textFieldCellId, forIndexPath: indexPath) as! TextFieldViewCell
             theCell.theTextField.text = thePoi.poiDisplayName
             theCell.theTextField.delegate = self
-            theCell.theTextField.placeholder = "Display name"
+            theCell.theTextField.placeholder = NSLocalizedString("PoiEditorPOINamePlaceholder", comment: "")
             theCell.theTextField.tag = Cste.poiDisplayNameTextField
             return theCell
         case .poiDescription:
             let theCell = theTableView.dequeueReusableCellWithIdentifier(cellIdentifier.textFieldCellId, forIndexPath: indexPath) as! TextFieldViewCell
             theCell.theTextField.text = thePoi.poiDescription
             theCell.theTextField.delegate = self
-            theCell.theTextField.placeholder = "Description"
+            theCell.theTextField.placeholder = NSLocalizedString("PoiEditorPOIDescriptionPlaceholder", comment: "")
             theCell.theTextField.tag = Cste.poiDescriptionTextField
             return theCell
         case .poiCategory:

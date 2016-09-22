@@ -70,28 +70,27 @@ class ContactsViewController: UIViewController   {
     private static func CNlabelTranslation(label:String) -> String {
         switch label {
         case CNLabelPhoneNumberMain:
-            return "Main"
+            return NSLocalizedString("PhoneLabelMain", comment: "")
         case CNLabelPhoneNumberiPhone:
-            return "iPhone"
+            return NSLocalizedString("PhoneLabeliPhone", comment: "")
         case CNLabelPhoneNumberMobile:
-            return "Mobile"
+            return NSLocalizedString("PhoneLabelMobile", comment: "")
         case CNLabelWork:
-            return "Work"
+            return NSLocalizedString("PhoneLabelWork", comment: "")
         case CNLabelHome:
-            return "Home"
+            return NSLocalizedString("PhoneLabelHome", comment: "")
         case CNLabelPhoneNumberPager:
-            return "Pager"
+            return NSLocalizedString("PhoneLabelPager", comment: "")
         case CNLabelPhoneNumberHomeFax:
-            return "Home fax"
+            return NSLocalizedString("PhoneLabelHomeFax", comment: "")
         case CNLabelPhoneNumberWorkFax:
-            return "Work fax"
+            return NSLocalizedString("PhoneLabelWorkFax", comment: "")
         case CNLabelPhoneNumberOtherFax:
-            return "Other fax"
+            return NSLocalizedString("PhoneLabelOtherFax", comment: "")
         default:
-            return "Other"
+            return NSLocalizedString("PhoneLabelOther", comment: "")
         }
     }
-
 }
 
 extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {

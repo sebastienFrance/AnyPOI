@@ -30,7 +30,7 @@ class searchRouteTableViewCell: UITableViewCell {
             endDisplayName = route.endWayPoint?.wayPointPoi?.poiDisplayName {
             fromTo.text = startDisplayName + " to " + endDisplayName
         } else {
-            fromTo.text = "No waypoints"
+            fromTo.text = NSLocalizedString("NoWaypointsSearchRouteTableViewCell", comment: "")
         }
     }
 }
