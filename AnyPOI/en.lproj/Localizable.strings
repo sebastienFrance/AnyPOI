@@ -41,6 +41,8 @@
 "Cancel"="Cancel";
 "Save"="Save";
 "Ok"="Ok";
+"Error"="Error";
+"Close"="Close";
 "Wikipedia"="Wikipedia";
 "MaxMonitoredPOIReached"="Maximum number of POIs under monitoring reached. Disable another one to activate this one";
 "PoiEditorRegionMonitoringSectionName"="Region monitoring";
@@ -79,6 +81,47 @@
 "GetNewRouteNameRouteEditorController"="Enter route name";
 "RouteNameRouteEditorControllerPlaceholder"="Enter route name";
 "CreateRouteRouteEditorController"="Create Route";
+"EnterPasswordChangePassword"="Enter your password";
+"NewPasswordMustBeDifferentChangePassword"="New password must be different from old password";
+"PasswordConfigurationChangePassword"="Password configuration";
+"OldPasswordChangePassword"="old password";
+"NewPasswordChangePassword"="new password";
+"RetypeNewPasswordChangePassword"="re-type new password";
+"OldOrNewPasswordWrongChangePassword"="Old or new passwords are wrong.";
+"PasswordsNotEquals"="Passwords are not equals.";
+"NoAddressUtilities"="no address";
+"NoDescriptionWikipedia"="No description";
+"LocationServicesOffLocationManager"="Location services are off";
+"BackgroundLocationDisabledLocationManager"="Background location is disabled";
+"BackgroundMessageLocationManager"="To use background location you must turn on 'Always' in the Location Services Settings";
+"SettingsLocationManager"="Settings";
+"EnteringRegionLocationManager"="Entering";
+"ExitingRegionLocationManager"="Exiting";
+"CategoryLabelUnknown"="Unknown";
+"CategoryLabelCoffee"="Cofee";
+"CategoryLabelRestaurant"="Restaurant";
+"CategoryLabelWineBar"="Wine bar";
+"CategoryLabelBar"="Bar";
+"CategoryLabelMuseum"="Museum";
+"CategoryLabelNightClub"="Night club";
+"CategoryLabelStation"="Station";
+"CategoryLabelOpera"="Opera";
+"CategoryLabelHospital"="Hospital";
+"CategoryLabelPharmacy"="Pharmacy";
+"CategoryLabelChurch"="Church";
+"CategoryLabelStadium"="Stadium";
+"CategoryLabelGasStation"="Gas station";
+"CategoryLabelCourtHouse"="Court house";
+"CategoryLabelAirport"="Airport";
+"CategoryLabelTheater"="Theater";
+"CategoryLabelPark"="Park";
+"CategoryLabelParking"="Parking";
+"CategoryLabelPizzeria"="Pizzeria";
+"CategoryLabelATM"="ATM";
+"CategoryLabelBank"="Bank";
+"CategoryLabelShopping"="Shopping";
+"CategoryLabelHotel"="Hotel";
+
 
 
 

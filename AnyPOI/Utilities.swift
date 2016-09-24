@@ -18,7 +18,7 @@ class Utilities {
     static func showAlertMessage(viewController: UIViewController, title:String, message:String) {
         // Show that nothing was found for this search
         let alertView = UIAlertController.init(title: title, message: message, preferredStyle: .Alert)
-        let actionClose = UIAlertAction(title: "Close", style: .Cancel) { alertAction in
+        let actionClose = UIAlertAction(title: NSLocalizedString("Close", comment: ""), style: .Cancel) { alertAction in
             alertView.dismissViewControllerAnimated(true, completion: nil)
         }
 
@@ -29,7 +29,7 @@ class Utilities {
     static func showAlertMessage(viewController: UIViewController, title:String, error:NSError) {
         // Show that nothing was found for this search
         let alertView = UIAlertController.init(title: title, message: error.localizedDescription, preferredStyle: .Alert)
-        let actionClose = UIAlertAction(title: "Close", style: .Cancel) { alertAction in
+        let actionClose = UIAlertAction(title: NSLocalizedString("Close", comment: ""), style: .Cancel) { alertAction in
             alertView.dismissViewControllerAnimated(true, completion: nil)
         }
 
@@ -68,7 +68,7 @@ class Utilities {
         if let addressDictionary = placemark.addressDictionary {
             return ABCreateStringWithAddressDictionary(addressDictionary, false)
         } else {
-            return "no address"
+            return NSLocalizedString("NoAddressUtilities", comment: "")
         }
     }
     

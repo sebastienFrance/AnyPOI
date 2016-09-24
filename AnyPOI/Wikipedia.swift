@@ -22,7 +22,7 @@ class Wikipedia {
         }
     }
     
-    var extract = "No description"
+    var extract = NSLocalizedString("NoDescriptionWikipedia", comment: "")
     
     init(title:String, latitude:Double, longitude:Double, pageId:Int, distance:Float) {
         self.title = title

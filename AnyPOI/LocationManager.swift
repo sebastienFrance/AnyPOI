@@ -130,13 +130,13 @@ class LocationManager : NSObject, CLLocationManagerDelegate {
     private func requestAlwaysAuthorization() {
         let authorizationStatus  = CLLocationManager.authorizationStatus()
         if authorizationStatus == .AuthorizedWhenInUse || authorizationStatus == .Denied {
-            let title = authorizationStatus == .Denied ? "Location services are off" : "Background location is not enabled"
+            let title = authorizationStatus == .Denied ? NSLocalizedString("LocationServicesOffLocationManager", comment: "") : NSLocalizedString("BackgroundLocationDisabledLocationManager", comment: "")
 
             // Create the AlertController to display the request
-            let alertController = DBAlertController(title: title, message: "To use background location you must turn on 'Always' in the Location Services Settings", preferredStyle: .Alert)
+            let alertController = DBAlertController(title: title, message: NSLocalizedString("BackgroundMessageLocationManager", comment: ""), preferredStyle: .Alert)
             
-            let cancelButton = UIAlertAction(title: "Cancel", style: .Default, handler: nil)
-            let settingsButton = UIAlertAction(title: "Settings", style: UIAlertActionStyle.Default) { action in
+            let cancelButton = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .Default, handler: nil)
+            let settingsButton = UIAlertAction(title: NSLocalizedString("SettingsLocationManager", comment: ""), style: UIAlertActionStyle.Default) { action in
                 let settingURL = NSURL(string: UIApplicationOpenSettingsURLString)
                 UIApplication.sharedApplication().openURL(settingURL!)
             }
@@ -176,7 +176,7 @@ class LocationManager : NSObject, CLLocationManagerDelegate {
     func locationManager(manager: CLLocationManager, didEnterRegion region: CLRegion) {
         if let poi = POIDataManager.sharedInstance.findPOIWithRegiondId(region.identifier) {
             if poi.poiRegionNotifyEnter {
-                LocationManager.notifyRegionUpdate(poi, message:"Entering \(poi.poiDisplayName!)")
+                LocationManager.notifyRegionUpdate(poi, message:"\(NSLocalizedString("EnteringRegionLocationManager", comment: "")) \(poi.poiDisplayName!)")
             }
         } else {
             print("\(#function): Error, didEnterRegion but not found the related POI! We should remove this CLRegion for the monitored list")
@@ -186,7 +186,7 @@ class LocationManager : NSObject, CLLocationManagerDelegate {
     func locationManager(manager: CLLocationManager, didExitRegion region: CLRegion) {
         if let poi = POIDataManager.sharedInstance.findPOIWithRegiondId(region.identifier) {
             if poi.poiRegionNotifyExit {
-                LocationManager.notifyRegionUpdate(poi, message:"Exiting \(poi.poiDisplayName!)")
+                LocationManager.notifyRegionUpdate(poi, message:"\(NSLocalizedString("ExitingRegionLocationManager", comment: "")) \(poi.poiDisplayName!)")
             }
         } else {
             print("\(#function): Error, didEnterRegion but not found the related POI! We should remove this CLRegion for the monitored list")
