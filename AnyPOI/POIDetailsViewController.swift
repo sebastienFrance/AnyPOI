@@ -17,8 +17,9 @@ import ContactsUI
 import Photos
 import AVKit
 import EventKitUI
+import MessageUI
 
-class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate,  EKEventEditViewDelegate {
+class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate,  EKEventEditViewDelegate, ContactsDelegate {
 
     @IBOutlet weak var theTableView: UITableView! {
         didSet {
@@ -189,6 +190,11 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
         //theTableView.reloadData()
         theTableView.reloadSections(NSIndexSet(index: Sections.wikipedia), withRowAnimation: .Fade)
     }
+    
+    // MARK: ContactsDelegate
+    func endContacts() {
+        stopDim()
+    }
 
     // MARK: Buttons
     @IBAction func deletePoiPushed(sender: UIButton) {
@@ -258,15 +264,45 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
         
         presentViewController(activityController, animated: true, completion: nil)
     }
+    @IBAction func startMail(sender: UIButton) {
+        if poi.poiIsContact {
+            if let contact = ContactsUtilities.getContactForDetailedDescription(poi.poiContactIdentifier!) {
+                if contact.emailAddresses.count > 1 {
+                    performSegueWithIdentifier(storyboard.openEmailsId, sender: poi)
+                } else {
+                    // To be completed, start a mail !
+                    if MFMailComposeViewController.canSendMail() {
+                        let currentLabeledValue = contact.emailAddresses[0]
+                        if let email = currentLabeledValue.value as? String {
+                            let mailComposer = MFMailComposeViewController()
+                            mailComposer.setToRecipients([email])
+                            mailComposer.mailComposeDelegate = self
+                            presentViewController(mailComposer, animated: true, completion: nil)
+                        }
+                    }
+                    
+                }
+            }
+        }
+
+    }
 
     @IBAction func startPhoneCall(sender: UIButton) {
-        if let theContact = contact {
-            Utilities.startPhoneCall(ContactsUtilities.extractPhoneNumber(theContact)?.stringValue)
+        
+        if let contact = ContactsUtilities.getContactForDetailedDescription(poi.poiContactIdentifier!) {
+            if contact.phoneNumbers.count > 1 {
+                performSegueWithIdentifier(storyboard.openPhonesId, sender: nil)
+            } else {
+                if let phoneNumber = ContactsUtilities.extractPhoneNumber(contact) {
+                    Utilities.startPhoneCall(phoneNumber.stringValue)
+                }
+            }
         } else {
             Utilities.startPhoneCall(poi.poiPhoneNumber)
         }
+
     }
-    
+
     @IBAction func showURL(sender: UIButton) {
         if let theContact = contact {
             Utilities.openSafariFrom(self, url: ContactsUtilities.extractURL(theContact), delegate: self)
@@ -320,6 +356,8 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
     private struct storyboard {
         static let showPoiEditor = "showPoiEditor"
         static let showImageDetailsId = "showImageDetailsId"
+        static let openPhonesId = "openPhones"
+        static let openEmailsId = "openEmails"
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -329,6 +367,18 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
         } else if segue.identifier == storyboard.showImageDetailsId {
             let viewController = segue.destinationViewController as! PoiDetailImageViewController
             viewController.initWithAsset(sender as! PHAsset)
+        } else if segue.identifier == storyboard.openPhonesId {
+            let viewController = segue.destinationViewController as! ContactsViewController
+            viewController.delegate = self
+            viewController.poi = poi
+            viewController.mode = .phone
+            startDim()
+        } else if segue.identifier == storyboard.openEmailsId {
+            let viewController = segue.destinationViewController as! ContactsViewController
+            viewController.delegate = self
+            viewController.poi = poi
+            viewController.mode = .email
+            startDim()
         }
     }
 }
@@ -463,6 +513,13 @@ extension POIDetailsViewController : UITableViewDataSource, UITableViewDelegate 
         }
     }
 }
+
+extension POIDetailsViewController: MFMailComposeViewControllerDelegate {
+    func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
+        controller.dismissViewControllerAnimated(true, completion: nil)
+    }
+}
+
 
 extension POIDetailsViewController : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     //MARK: UICollectionViewDataSource

@@ -62,8 +62,6 @@ class RouteProviderViewController: UIViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-       
-      //  navigationController?.setToolbarHidden(true, animated: true)
     }
     
     func endRouteController() {

@@ -234,10 +234,10 @@
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="POIGroupListCellId" rowHeight="110" id="0Mk-5M-Kea" customClass="POIGroupCell" customModule="AnyPOI" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="57" width="375" height="110"/>
+                                        <rect key="frame" x="0.0" y="92" width="375" height="110"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="0Mk-5M-Kea" id="Uf6-Cr-dQ3">
-                                            <frame key="frameInset" width="342" height="110"/>
+                                            <frame key="frameInset" width="342" height="109"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="cQI-gc-h1f" userLabel="Container">
@@ -309,10 +309,10 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="MonitoredPoisGroupCellId" rowHeight="75" id="esH-OK-9No" customClass="MonitoredPoisGroupCell" customModule="AnyPOI" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="129" width="375" height="75"/>
+                                        <rect key="frame" x="0.0" y="202" width="375" height="75"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="esH-OK-9No" id="ueN-7v-kgn">
-                                            <frame key="frameInset" width="342" height="75"/>
+                                            <frame key="frameInset" width="342" height="74"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Tag-Mq-x2T">
@@ -342,10 +342,10 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="CityGroupCellId" rowHeight="87" id="ziA-2p-snD" customClass="CityGroupCell" customModule="AnyPOI" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="176" width="375" height="87"/>
+                                        <rect key="frame" x="0.0" y="277" width="375" height="87"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ziA-2p-snD" id="1Jt-R0-O9L">
-                                            <frame key="frameInset" width="342" height="87"/>
+                                            <frame key="frameInset" width="342" height="86"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="SPQ-DS-F8K">
@@ -422,10 +422,10 @@
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="POISimpleCellId" rowHeight="114" id="hQw-rQ-9fw" customClass="POISimpleViewCell" customModule="AnyPOI" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="57" width="375" height="114"/>
+                                        <rect key="frame" x="0.0" y="92" width="375" height="114"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hQw-rQ-9fw" id="b1y-zi-IDL">
-                                            <frame key="frameInset" minX="0.0%" minY="0.0%" width="342" height="114"/>
+                                            <frame key="frameInset" minX="0.0%" minY="0.0%" width="342" height="113"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="O2M-aj-7SV" userLabel="All">
@@ -486,7 +486,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cellForEmptyGroupId" textLabel="McI-3Q-trZ" rowHeight="58" style="IBUITableViewCellStyleDefault" id="tH9-mz-uK9">
-                                        <rect key="frame" x="0.0" y="132" width="375" height="59"/>
+                                        <rect key="frame" x="0.0" y="206" width="375" height="58"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="tH9-mz-uK9" id="Ygo-dn-4gZ">
                                             <frame key="frameInset" minX="0.0%" minY="0.0%" width="375" height="57"/>
@@ -503,7 +503,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="cellPoisMapAreaId" rowHeight="171" id="v4U-Fb-ifI" customClass="PoisMapAreaTableViewCell" customModule="AnyPOI" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="157" width="375" height="171"/>
+                                        <rect key="frame" x="0.0" y="264" width="375" height="171"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="v4U-Fb-ifI" id="2V6-uT-dxu">
                                             <frame key="frameInset" minX="0.0%" minY="0.0%" width="375" height="170"/>
@@ -591,10 +591,10 @@
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="moveToGroupCellId" rowHeight="86" id="Ulh-sC-dOb" customClass="MovePOIsTableViewCell" customModule="AnyPOI" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="15" width="375" height="87"/>
+                                        <rect key="frame" x="0.0" y="28" width="375" height="86"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Ulh-sC-dOb" id="PBs-N4-gFW">
-                                            <frame key="frameInset" minX="0.0%" minY="0.0%" width="1000" height="86"/>
+                                            <frame key="frameInset" minX="0.0%" minY="0.0%" width="375" height="85"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Bxl-WN-xr5">
@@ -641,14 +641,14 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="moveCellHeaderId" textLabel="rGL-UX-2fU" style="IBUITableViewCellStyleDefault" id="Jmu-Jn-F76">
-                                        <rect key="frame" x="0.0" y="64" width="375" height="86"/>
+                                        <rect key="frame" x="0.0" y="114" width="375" height="86"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Jmu-Jn-F76" id="CyB-ax-EX6">
-                                            <rect key="frame" x="0.0" y="0.0" width="1000" height="86"/>
+                                            <frame key="frameInset" minX="0.0%" minY="0.0%" width="375" height="85"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Select a new group for POIs" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="rGL-UX-2fU">
-                                                    <frame key="frameInset" minX="15" width="970" height="85.5"/>
+                                                    <frame key="frameInset" minX="15" width="345" height="85"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -728,10 +728,10 @@
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="LeftMenuCellId" rowHeight="69" id="GWj-1j-tZC" customClass="LeftMenuTableViewCell" customModule="AnyPOI" customModuleProvider="target">
-                                        <rect key="frame" x="-1" y="28" width="376" height="69"/>
+                                        <rect key="frame" x="0.0" y="28" width="375" height="69"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="GWj-1j-tZC" id="d5V-Oh-WY3">
-                                            <frame key="frameInset" width="1000" height="69"/>
+                                            <frame key="frameInset" width="375" height="68"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title of Menu" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BOG-hm-vjt">
@@ -750,10 +750,10 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="MenuAboutCellId" rowHeight="128" id="8tk-j5-Upz">
-                                        <rect key="frame" x="-1" y="46" width="376" height="128"/>
+                                        <rect key="frame" x="0.0" y="97" width="375" height="128"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="8tk-j5-Upz" id="5HM-zP-jqU">
-                                            <frame key="frameInset" width="1000" height="128"/>
+                                            <frame key="frameInset" width="375" height="127"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="W8D-2D-Bgp">
@@ -826,7 +826,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Standard" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="3I3-Qg-6R4">
-                                                    <frame key="frameInset" minX="15" width="321" height="49.5"/>
+                                                    <frame key="frameInset" minX="15" width="321" height="49"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -843,7 +843,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Hybrid Flyover" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Loz-2d-0fo">
-                                                    <frame key="frameInset" minX="15" width="321" height="49.5"/>
+                                                    <frame key="frameInset" minX="15" width="321" height="49"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -857,10 +857,10 @@
                             <tableViewSection headerTitle="Map" id="IYb-8L-JEj">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="50" id="f97-hp-ngT" userLabel="Buildings">
-                                        <rect key="frame" x="0.0" y="212" width="375" height="50"/>
+                                        <rect key="frame" x="0.0" y="213" width="375" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="f97-hp-ngT" id="K9h-Ve-Vqo">
-                                            <frame key="frameInset" width="375" height="49"/>
+                                            <frame key="frameInset" width="375" height="50"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="kdH-nU-OqL">
@@ -887,10 +887,10 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="50" id="8xT-9I-yvZ" userLabel="Compass">
-                                        <rect key="frame" x="0.0" y="262" width="375" height="50"/>
+                                        <rect key="frame" x="0.0" y="263" width="375" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="8xT-9I-yvZ" id="Uyy-Yv-40m">
-                                            <frame key="frameInset" width="375" height="49"/>
+                                            <frame key="frameInset" width="375" height="50"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="1S8-Ce-XDR">
@@ -917,10 +917,10 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="50" id="jLg-Dt-wgo" userLabel="Scale">
-                                        <rect key="frame" x="0.0" y="312" width="375" height="50"/>
+                                        <rect key="frame" x="0.0" y="313" width="375" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jLg-Dt-wgo" id="KfA-os-Qiy">
-                                            <frame key="frameInset" width="375" height="49"/>
+                                            <frame key="frameInset" width="375" height="50"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Zt3-tR-Mng">
@@ -947,10 +947,10 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="50" id="8JB-fs-tIn" userLabel="Traffic">
-                                        <rect key="frame" x="0.0" y="362" width="375" height="50"/>
+                                        <rect key="frame" x="0.0" y="363" width="375" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="8JB-fs-tIn" id="zeY-aB-gfZ">
-                                            <frame key="frameInset" width="375" height="49"/>
+                                            <frame key="frameInset" width="375" height="50"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="wWn-7I-l0i">
@@ -977,10 +977,10 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="50" id="uZs-ay-XNN" userLabel="Animations">
-                                        <rect key="frame" x="0.0" y="412" width="375" height="50"/>
+                                        <rect key="frame" x="0.0" y="413" width="375" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="uZs-ay-XNN" id="mRb-lc-PCB">
-                                            <frame key="frameInset" width="375" height="49"/>
+                                            <frame key="frameInset" width="375" height="50"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="dMP-N4-g4u">
@@ -1011,10 +1011,10 @@
                             <tableViewSection headerTitle="Wikipedia" id="xSg-vy-Fnp">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="50" id="zVj-Fw-Crj">
-                                        <rect key="frame" x="0.0" y="518" width="375" height="50"/>
+                                        <rect key="frame" x="0.0" y="520" width="375" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="zVj-Fw-Crj" id="X3U-hp-Mes">
-                                            <frame key="frameInset" width="375" height="49"/>
+                                            <frame key="frameInset" width="375" height="50"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="meD-wV-mmu">
@@ -1041,10 +1041,10 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="50" id="KXt-5x-RZ5">
-                                        <rect key="frame" x="0.0" y="568" width="375" height="50"/>
+                                        <rect key="frame" x="0.0" y="570" width="375" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KXt-5x-RZ5" id="p4u-Cv-1IN">
-                                            <frame key="frameInset" width="375" height="49"/>
+                                            <frame key="frameInset" width="375" height="50"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="xjg-LP-cB1">
@@ -1075,10 +1075,10 @@
                             <tableViewSection headerTitle="Contacts" id="ex8-aA-aWy">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="50" id="lej-Z2-zKy" userLabel="Change Password">
-                                        <rect key="frame" x="0.0" y="674" width="375" height="50"/>
+                                        <rect key="frame" x="0.0" y="677" width="375" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="lej-Z2-zKy" id="Azy-He-w6h">
-                                            <frame key="frameInset" width="375" height="49"/>
+                                            <frame key="frameInset" width="375" height="50"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="nwH-l6-csi">
@@ -1105,10 +1105,10 @@
                             <tableViewSection headerTitle="Route" id="CiU-3s-hUF">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="50" id="sUz-Lb-Jd9">
-                                        <rect key="frame" x="0.0" y="780" width="375" height="50"/>
+                                        <rect key="frame" x="0.0" y="784" width="375" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="sUz-Lb-Jd9" id="l5u-TD-Nig">
-                                            <frame key="frameInset" width="375" height="49"/>
+                                            <frame key="frameInset" width="375" height="50"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Val-P7-QkB">
@@ -1143,10 +1143,10 @@
                             <tableViewSection headerTitle="Authentication" id="77O-X0-Rhj">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="50" id="hGT-6k-okS" userLabel="Change Password">
-                                        <rect key="frame" x="0.0" y="886" width="375" height="50"/>
+                                        <rect key="frame" x="0.0" y="891" width="375" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hGT-6k-okS" id="3K3-qS-jBZ">
-                                            <frame key="frameInset" width="375" height="49"/>
+                                            <frame key="frameInset" width="375" height="50"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="EnD-Zu-jlX">
@@ -1169,10 +1169,10 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="50" id="0Sr-gP-BbZ" userLabel="EnablePassword">
-                                        <rect key="frame" x="0.0" y="936" width="375" height="50"/>
+                                        <rect key="frame" x="0.0" y="941" width="375" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="0Sr-gP-BbZ" id="gmq-4K-yV6">
-                                            <frame key="frameInset" width="375" height="49"/>
+                                            <frame key="frameInset" width="375" height="50"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="iw2-7q-P1Z">
@@ -1199,10 +1199,10 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="50" id="Bgj-2f-IRJ" userLabel="EnableTouchId">
-                                        <rect key="frame" x="0.0" y="986" width="375" height="50"/>
+                                        <rect key="frame" x="0.0" y="991" width="375" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Bgj-2f-IRJ" id="bwj-cl-xCB">
-                                            <frame key="frameInset" width="375" height="49"/>
+                                            <frame key="frameInset" width="375" height="50"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="cAh-ds-olx">
@@ -1274,7 +1274,7 @@
                                 <rect key="frame" x="0.0" y="92" width="375" height="123"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Gpa-z8-5ht" id="Uzb-3C-EjP">
-                                    <frame key="frameInset" width="375" height="123"/>
+                                    <frame key="frameInset" width="375" height="122"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Mbe-Jp-S5i" userLabel="MainStackView">
@@ -1363,7 +1363,7 @@
                                 <rect key="frame" x="0.0" y="215" width="375" height="106"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="fmS-X4-9gt" id="JHc-YC-q5F">
-                                    <frame key="frameInset" width="375" height="106"/>
+                                    <frame key="frameInset" width="375" height="105"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="zyk-NG-5zS">
@@ -1427,7 +1427,7 @@
                                 <rect key="frame" x="0.0" y="321" width="375" height="125"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="9AE-85-B9i" id="dDI-gR-0wk">
-                                    <frame key="frameInset" width="375" height="125"/>
+                                    <frame key="frameInset" width="375" height="124"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="nIx-T7-15K" userLabel="PoiCell">
@@ -1503,7 +1503,7 @@
                                 <rect key="frame" x="0.0" y="446" width="375" height="130"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="VxW-Uk-H9K" id="OML-Ta-HLg">
-                                    <frame key="frameInset" width="375" height="130"/>
+                                    <frame key="frameInset" width="375" height="129"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="MN7-uT-uVt">
@@ -1571,7 +1571,7 @@
                                 <rect key="frame" x="0.0" y="576" width="375" height="91"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="vLa-Cm-8CT" id="LJ7-tA-a7H">
-                                    <frame key="frameInset" width="375" height="91"/>
+                                    <frame key="frameInset" width="375" height="90"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="koE-XE-CrC">
@@ -1637,7 +1637,7 @@
                                 <rect key="frame" x="0.0" y="667" width="375" height="91"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="VNX-el-3Uh" id="r8j-gN-Msn">
-                                    <frame key="frameInset" width="375" height="91"/>
+                                    <frame key="frameInset" width="375" height="90"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="UD4-rq-Cia">
@@ -1697,7 +1697,7 @@
                                         <rect key="frame" x="0.0" y="92" width="375" height="120"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="D1y-7g-BVs" id="yVz-Zz-BbH">
-                                            <frame key="frameInset" width="375" height="120"/>
+                                            <frame key="frameInset" width="375" height="119"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="2KW-t4-p7L">
@@ -1710,7 +1710,7 @@
                                                     </collectionViewFlowLayout>
                                                     <cells>
                                                         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="poiImageCellId" id="lQW-dg-vhy" customClass="PoiDetailsImagesCollectionViewCell" customModule="AnyPOI" customModuleProvider="target">
-                                                            <rect key="frame" x="5" y="5.5" width="110" height="101"/>
+                                                            <rect key="frame" x="5" y="6" width="110" height="101"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                                                 <rect key="frame" x="0.0" y="0.0" width="110" height="101"/>
@@ -1745,7 +1745,7 @@
                                         <rect key="frame" x="0.0" y="212" width="375" height="130"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="iLM-aN-Bqk" id="9vu-u7-aWW">
-                                            <frame key="frameInset" width="375" height="130"/>
+                                            <frame key="frameInset" width="375" height="129"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="mwC-4T-OuD">
@@ -1767,7 +1767,7 @@
                                         <rect key="frame" x="0.0" y="342" width="375" height="170"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nzl-0T-iDN" id="QJc-ia-eww">
-                                            <frame key="frameInset" width="375" height="170"/>
+                                            <frame key="frameInset" width="375" height="169"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="z3D-kf-gEK">
@@ -1819,6 +1819,13 @@
                                                         </stackView>
                                                         <stackView opaque="NO" contentMode="scaleToFill" distribution="equalCentering" translatesAutoresizingMaskIntoConstraints="NO" id="eEx-zK-9vT" userLabel="PhoneAndWebSite">
                                                             <subviews>
+                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5cG-gf-ef0">
+                                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                                                    <state key="normal" title="Contact details"/>
+                                                                    <connections>
+                                                                        <action selector="showContactDetails:" destination="4R0-kF-9qZ" eventType="touchUpInside" id="pnB-1o-Ovr"/>
+                                                                    </connections>
+                                                                </button>
                                                                 <button opaque="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FYz-3W-Zm0">
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" secondItem="FYz-3W-Zm0" secondAttribute="height" multiplier="1:1" id="aTR-ih-UIh"/>
@@ -1828,25 +1835,25 @@
                                                                         <action selector="showURL:" destination="4R0-kF-9qZ" eventType="touchUpInside" id="Ztd-IO-4wF"/>
                                                                     </connections>
                                                                 </button>
-                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5cG-gf-ef0">
-                                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
-                                                                    <state key="normal" title="Contact details"/>
+                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KJS-Mp-55F">
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="width" secondItem="KJS-Mp-55F" secondAttribute="height" multiplier="1:1" id="UdV-Tu-z4I"/>
+                                                                    </constraints>
+                                                                    <state key="normal" title="Button" image="Message-40"/>
                                                                     <connections>
-                                                                        <action selector="showContactDetails:" destination="4R0-kF-9qZ" eventType="touchUpInside" id="pnB-1o-Ovr"/>
+                                                                        <action selector="startMail:" destination="4R0-kF-9qZ" eventType="touchUpInside" id="fTY-zf-jcm"/>
                                                                     </connections>
                                                                 </button>
                                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="bottom" translatesAutoresizingMaskIntoConstraints="NO" id="tL1-h6-PB5" userLabel="Phone Group">
                                                                     <subviews>
                                                                         <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="uiK-Sx-gHc" userLabel="Phone">
                                                                             <subviews>
-                                                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" image="Phone Filled-40" translatesAutoresizingMaskIntoConstraints="NO" id="DC8-s2-dvV">
-                                                                                    <constraints>
-                                                                                        <constraint firstAttribute="width" secondItem="DC8-s2-dvV" secondAttribute="height" multiplier="1:1" id="Hbq-ge-IBO"/>
-                                                                                    </constraints>
-                                                                                </imageView>
                                                                                 <button opaque="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xuR-mw-r9O">
+                                                                                    <constraints>
+                                                                                        <constraint firstAttribute="width" secondItem="xuR-mw-r9O" secondAttribute="height" multiplier="1:1" id="OvD-LN-v0L"/>
+                                                                                    </constraints>
                                                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
-                                                                                    <state key="normal" title="+33 1 39 50 33 72">
+                                                                                    <state key="normal" image="Phone Filled-40">
                                                                                         <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                                     </state>
                                                                                     <connections>
@@ -1899,8 +1906,8 @@
                                         <connections>
                                             <outlet property="groupImage" destination="iIy-k5-GPc" id="Yns-lm-WS6"/>
                                             <outlet property="groupName" destination="P0N-Sb-Vhe" id="SLX-MM-lJT"/>
+                                            <outlet property="mailButton" destination="KJS-Mp-55F" id="fAa-Ja-XF6"/>
                                             <outlet property="phoneNumberButton" destination="xuR-mw-r9O" id="uc3-Nm-Rnh"/>
-                                            <outlet property="phoneNumberImageView" destination="DC8-s2-dvV" id="SO9-vW-Ech"/>
                                             <outlet property="poiCategoryHeight" destination="8Ua-hJ-Je4" id="h9w-ZX-bnj"/>
                                             <outlet property="poiCategoryImage" destination="75w-gF-gau" id="h5Y-ym-gcG"/>
                                             <outlet property="poiCategoryWidth" destination="AKA-pf-oYQ" id="TzR-eY-kEj"/>
@@ -1914,7 +1921,7 @@
                                         <rect key="frame" x="0.0" y="512" width="375" height="106"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="GFl-F1-bzO" id="Z6F-SI-ne2">
-                                            <frame key="frameInset" width="375" height="106"/>
+                                            <frame key="frameInset" width="375" height="105"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Eee-4h-SWd">
@@ -1994,6 +2001,8 @@
                     <connections>
                         <outlet property="theTableView" destination="0To-pq-cR2" id="L4B-LL-2PM"/>
                         <segue destination="gV2-fa-4mi" kind="show" identifier="showImageDetailsId" id="TBJ-Ok-45A"/>
+                        <segue destination="DO2-pI-BM5" kind="presentation" identifier="openPhones" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="y9T-lr-gle"/>
+                        <segue destination="DO2-pI-BM5" kind="presentation" identifier="openEmails" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="wND-00-xTV"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="08s-XZ-nAA" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2074,7 +2083,7 @@
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="groupDescriptionCellId" rowHeight="40" id="1Ak-Pg-09O" userLabel="Poi properties" customClass="PoiEditorGroupViewCell" customModule="AnyPOI" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="16" width="375" height="40"/>
+                                        <rect key="frame" x="0.0" y="28" width="375" height="40"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="1Ak-Pg-09O" id="7Mg-xp-nNW">
                                             <frame key="frameInset" width="375" height="40"/>
@@ -2109,7 +2118,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="textFieldCellId" rowHeight="53" id="BWB-MR-cb8" customClass="TextFieldViewCell" customModule="AnyPOI" customModuleProvider="target">
-                                        <rect key="frame" x="-1" y="39" width="376" height="53"/>
+                                        <rect key="frame" x="0.0" y="68" width="375" height="53"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="BWB-MR-cb8" id="9ls-N4-q3q">
                                             <frame key="frameInset" width="375" height="53"/>
@@ -2172,7 +2181,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cellPickerId" rowHeight="80" id="EvP-Ky-NFx" customClass="PickerViewCell" customModule="AnyPOI" customModuleProvider="target">
-                                        <rect key="frame" x="-1" y="107" width="376" height="80"/>
+                                        <rect key="frame" x="0.0" y="190" width="375" height="80"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="EvP-Ky-NFx" id="gnk-Ik-nIB">
                                             <frame key="frameInset" width="375" height="80"/>
@@ -2192,7 +2201,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cellGroupPickerId" rowHeight="80" id="oRI-X7-J0O" customClass="GroupPickerViewCell" customModule="AnyPOI" customModuleProvider="target">
-                                        <rect key="frame" x="-1" y="153" width="376" height="80"/>
+                                        <rect key="frame" x="0.0" y="270" width="375" height="80"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="oRI-X7-J0O" id="FbB-Hm-OtZ">
                                             <frame key="frameInset" width="375" height="80"/>
@@ -2212,7 +2221,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="poiRegionConfigurationCellId" rowHeight="130" id="V5a-o1-DdZ" userLabel="Region Properties" customClass="PoiRegionConfigurationViewCell" customModule="AnyPOI" customModuleProvider="target">
-                                        <rect key="frame" x="-1" y="190" width="376" height="130"/>
+                                        <rect key="frame" x="0.0" y="350" width="375" height="130"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="V5a-o1-DdZ" id="3aI-Cu-FSZ">
                                             <frame key="frameInset" width="375" height="130"/>
@@ -2280,7 +2289,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="poiRegionMapViewCellId" id="2fS-OV-4u1">
-                                        <rect key="frame" x="-1" y="271" width="376" height="85"/>
+                                        <rect key="frame" x="0.0" y="480" width="375" height="85"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2fS-OV-4u1" id="JOx-uf-QzW">
                                             <frame key="frameInset" width="375" height="85"/>
@@ -2563,7 +2572,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BsG-sK-nd4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="842" y="-139"/>
+            <point key="canvasLocation" x="1614" y="770"/>
         </scene>
         <!--Route Provider View Controller-->
         <scene sceneID="KV9-a3-i54">
@@ -2726,10 +2735,10 @@
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="routesCellId" rowHeight="103" id="zXm-10-QtA" customClass="RoutesTableViewCell" customModule="AnyPOI" customModuleProvider="target">
-                                        <rect key="frame" x="-1" y="57" width="376" height="103"/>
+                                        <rect key="frame" x="0.0" y="92" width="375" height="103"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="zXm-10-QtA" id="4LH-To-mNx">
-                                            <frame key="frameInset" minX="0.0%" minY="0.0%" width="1000" height="102"/>
+                                            <frame key="frameInset" minX="0.0%" minY="0.0%" width="375" height="102"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="ZpW-z4-n0r">
@@ -2822,10 +2831,10 @@
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="routeDetailsCellId" rowHeight="163" id="lNp-MF-d99" customClass="RouteDetailsViewCell" customModule="AnyPOI" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="14" width="374" height="163"/>
+                                        <rect key="frame" x="0.0" y="28" width="375" height="163"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="lNp-MF-d99" id="jP2-XS-gfh">
-                                            <frame key="frameInset" width="1000" height="162"/>
+                                            <frame key="frameInset" width="375" height="162"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="vYO-Hi-Sgh">
@@ -2908,10 +2917,10 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="routeSummaryId" rowHeight="67" id="sNT-Tr-91j" customClass="RouteSummaryTableViewCell" customModule="AnyPOI" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="109" width="374" height="68"/>
+                                        <rect key="frame" x="0.0" y="191" width="375" height="67"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="sNT-Tr-91j" id="7jG-d8-fia">
-                                            <frame key="frameInset" width="1000" height="67"/>
+                                            <frame key="frameInset" width="375" height="66"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="AcV-gy-KSr">
@@ -2989,6 +2998,7 @@
         <image name="Google_Maps" width="256" height="256"/>
         <image name="Home-30" width="30" height="30"/>
         <image name="Menu-30" width="30" height="30"/>
+        <image name="Message-40" width="40" height="40"/>
         <image name="MuseeOrsay01" width="667" height="139"/>
         <image name="Near Me-40" width="40" height="40"/>
         <image name="Phone Filled-40" width="40" height="40"/>
@@ -3002,7 +3012,7 @@
     <inferredMetricsTieBreakers>
         <segue reference="x1P-Hs-QhB"/>
         <segue reference="Aql-wV-tP4"/>
-        <segue reference="ja5-0d-MwK"/>
         <segue reference="PCd-sW-8OU"/>
+        <segue reference="wND-00-xTV"/>
     </inferredMetricsTieBreakers>
 </document>

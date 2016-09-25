@@ -21,8 +21,8 @@ class LocationCell: UITableViewCell {
     @IBOutlet weak var poiDescription: UILabel!
     @IBOutlet weak var groupImage: UIImageView!
     
+    @IBOutlet weak var mailButton: UIButton!
     @IBOutlet weak var phoneNumberButton: UIButton!
-    @IBOutlet weak var phoneNumberImageView: UIImageView!
     @IBOutlet weak var urlButton: UIButton!
 
     @IBOutlet weak var showContactDetailsButton: UIButton!
@@ -37,16 +37,26 @@ class LocationCell: UITableViewCell {
     }
     
     private func enablePhoneNumber(phoneNumber:String) {
-        phoneNumberButton.setTitle(phoneNumber, forState: .Normal)
+        //phoneNumberButton.setTitle(phoneNumber, forState: .Normal)
         phoneNumberButton.enabled = true
-        phoneNumberImageView.hidden = false
+         phoneNumberButton.hidden = false
     }
     
     private func disablePhoneNumber() {
         phoneNumberButton.enabled = false
         phoneNumberButton.hidden = true
-        phoneNumberImageView.hidden = true
     }
+    
+    private func enableMail() {
+        mailButton.enabled = true
+        mailButton.hidden = false
+    }
+    
+    private func disableMail() {
+        mailButton.enabled = false
+        mailButton.hidden = true
+    }
+
     
     private func initURL(url:String?) {
         if url != nil {
@@ -87,6 +97,8 @@ class LocationCell: UITableViewCell {
         }
         
         showContactDetailsButton.hidden = true
+        
+        disableMail()
 
         initPhoneNumber(poi.poiPhoneNumber)
         initURL(poi.poiURL)
@@ -129,6 +141,13 @@ class LocationCell: UITableViewCell {
             } else {
                 poiCategoryImage.hidden = true
             }
+            
+            if theContact.emailAddresses.count == 0 {
+                disableMail()
+            } else {
+                enableMail()
+            }
+
             
         } else {
             disablePhoneNumber()

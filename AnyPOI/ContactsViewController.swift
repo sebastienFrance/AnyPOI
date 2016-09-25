@@ -10,6 +10,11 @@ import UIKit
 import Contacts
 import MessageUI
 
+protocol ContactsDelegate : class {
+    func endContacts()
+}
+
+
 class ContactsViewController: UIViewController   {
 
     @IBOutlet weak var backgroundView: UIView!
@@ -28,6 +33,8 @@ class ContactsViewController: UIViewController   {
         case phone, email
     }
     
+    weak var delegate:ContactsDelegate!
+    
     var mode = ModeType.phone
     
     var poi:PointOfInterest?
@@ -40,8 +47,26 @@ class ContactsViewController: UIViewController   {
         backgroundView.layer.cornerRadius = 10.0;
         backgroundView.layer.masksToBounds = true;
         
+        view.alpha = 1.0
+       // 1
+        let blurEffect = UIBlurEffect(style: .Light)
+        // 2
+        let blurView = UIVisualEffectView(effect: blurEffect)
+        // 3
+        blurView.translatesAutoresizingMaskIntoConstraints = false
+        view.insertSubview(blurView, atIndex: 0)
+
+        
         theTableView.reloadData()
 
+    }
+    
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+//         view.backgroundColor = UIColor.grayColor()
+//        view.alpha = 0.4
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -51,6 +76,7 @@ class ContactsViewController: UIViewController   {
 
     @IBAction func closeButtonPushed(sender: AnyObject) {
         dismissViewControllerAnimated(true, completion: nil)
+        delegate.endContacts()
     }
     
     @IBAction func faceTimeButtonPushed(sender: UIButton) {
@@ -61,6 +87,7 @@ class ContactsViewController: UIViewController   {
                 if UIApplication.sharedApplication().canOpenURL(facetimeURL) {
                     UIApplication.sharedApplication().openURL(facetimeURL)
                     dismissViewControllerAnimated(true, completion: nil)
+                    delegate.endContacts()
                 }
             }
         }
@@ -161,6 +188,8 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
             let phoneNumber = currentLabeledValue.value as? CNPhoneNumber
             Utilities.startPhoneCall(phoneNumber!.stringValue)
             dismissViewControllerAnimated(true, completion: nil)
+            delegate.endContacts()
+
         case .email:
             if MFMailComposeViewController.canSendMail() {
                 let currentLabeledValue = contact!.emailAddresses[indexPath.row]
@@ -181,6 +210,7 @@ extension ContactsViewController: MFMailComposeViewControllerDelegate {
     func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
         controller.dismissViewControllerAnimated(true) {
             self.dismissViewControllerAnimated(true, completion: nil)
+            self.delegate.endContacts()
         }
     }
 }

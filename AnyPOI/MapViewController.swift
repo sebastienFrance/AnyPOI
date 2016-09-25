@@ -16,7 +16,7 @@ import SafariServices
 import PKHUD
 import Contacts
 
-class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAnimationsDelegate, RouteProviderDelegate, DismissModalViewController, RouteEditorDelegate, ContainerViewControllerDelegate {
+class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAnimationsDelegate, RouteProviderDelegate, DismissModalViewController, RouteEditorDelegate, ContainerViewControllerDelegate, ContactsDelegate {
 
     
     //MARK: var Information view
@@ -360,6 +360,11 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
     
     //MARK: RouteProviderDelegate
     func endRouteProvider() {
+        stopDim()
+    }
+    
+    //MARK: ContactsDelegate
+    func endContacts() {
         stopDim()
     }
 
@@ -803,11 +808,15 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
             let viewController = segue.destinationViewController as! RouteDetailsViewController
             viewController.wayPointsDelegate = self
         } else if segue.identifier == storyboard.openPhonesId {
+            startDim()
             let viewController = segue.destinationViewController as! ContactsViewController
+            viewController.delegate = self
             viewController.poi = sender as? PointOfInterest
             viewController.mode = .phone
         } else if segue.identifier == storyboard.openEmailsId {
-            let viewController = segue.destinationViewController as! ContactsViewController
+            startDim()
+           let viewController = segue.destinationViewController as! ContactsViewController
+            viewController.delegate = self
             viewController.poi = sender as? PointOfInterest
             viewController.mode = .email 
         }
