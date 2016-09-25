@@ -58,17 +58,13 @@ class PickerViewCell: UITableViewCell, UIPickerViewDataSource, UIPickerViewDeleg
     }
     
     func pickerView(pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusingView view: UIView?) -> UIView {
-        if let categoryView = view as? PickerCategoryView {
-            (categoryView.categoryImage.image, categoryView.categoryLabel.text) = CategoryUtils.getCategoryForIndex(row)
-            
-            return categoryView
-        } else {
+        var categoryView = view as? PickerCategoryView
+        if categoryView == nil {
             let nib = UINib(nibName: Storyboard.pickerCategoryView, bundle: nil)
-            let categoryView = nib.instantiateWithOwner(nil, options: nil)[0] as! PickerCategoryView
-            (categoryView.categoryImage.image, categoryView.categoryLabel.text) = CategoryUtils.getCategoryForIndex(row)
-
-            return categoryView
+            categoryView = nib.instantiateWithOwner(nil, options: nil)[0] as? PickerCategoryView
+            (categoryView!.categoryImage.image, categoryView!.categoryLabel.text) = CategoryUtils.getCategoryForIndex(row)
         }
+        return categoryView!
     }
     
     func pickerView(pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {

@@ -12,11 +12,12 @@ class PoiEditorGroupViewCell: UITableViewCell {
 
     @IBOutlet weak var groupTitle: UILabel!
     
-    @IBOutlet weak var groupColor: UIView!
+    @IBOutlet weak var groupIconImage: UIImageView!
+
     
     func initWith(group:GroupOfInterest) {
         groupTitle.text = group.groupDisplayName
-        DrawingUtils.insertCircleForGroup(groupColor, fillColor:group.color)
+        groupIconImage.image = group.iconImage
     }
 
 }
