@@ -69,19 +69,16 @@ class GroupPickerViewCell: UITableViewCell, UIPickerViewDataSource, UIPickerView
     }
     
     func pickerView(pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusingView view: UIView?) -> UIView {
-        if let groupView = view as? PickerGroupView {
-            groupView.groupLabel.text = groups[row].groupDisplayName
-            
-            DrawingUtils.insertCircleForGroup(groupView.groupColorView, fillColor: groups[row].color)
-            return groupView
-        } else {
+        var groupView = view as? PickerGroupView
+        if groupView == nil {
             let nib = UINib(nibName: Storyboard.pickerGroupView, bundle: nil)
-            let groupView = nib.instantiateWithOwner(nil, options: nil)[0] as! PickerGroupView
-            
-            groupView.groupLabel.text = groups[row].groupDisplayName
-            DrawingUtils.insertCircleForGroup(groupView.groupColorView, fillColor: groups[row].color)
-            return groupView
+            groupView = nib.instantiateWithOwner(nil, options: nil)[0] as? PickerGroupView
         }
+        
+        groupView!.groupLabel.text = groups[row].groupDisplayName
+        groupView!.groupImage.image = groups[row].iconImage
+        return groupView!
+
     }
     
     func pickerView(pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {

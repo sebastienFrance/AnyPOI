@@ -15,12 +15,6 @@ class TodayViewCell: UITableViewCell {
     @IBOutlet weak var poiDisplayName: UILabel!
     
     @IBOutlet weak var pinImage: UIImageView!
-//    static func customizePinForTableView(thePinAnnotation: MKPinAnnotationView, poi:PointOfInterest) {
-//        thePinAnnotation.animatesDrop = false
-//        thePinAnnotation.canShowCallout = false
-//        
-//        thePinAnnotation.pinTintColor = NSKeyedUnarchiver.unarchiveObjectWithData(poi.parentGroup?.groupColor as! NSData) as! UIColor
-//    }
     
     private static func createPinImageForGroup(poi:PointOfInterest, imageSize:CGFloat = 25.0) -> UIImage? {
         let annotationView = MKPinAnnotationView(frame: CGRectMake(0, 0, imageSize, imageSize))

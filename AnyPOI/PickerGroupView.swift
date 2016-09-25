@@ -10,6 +10,7 @@ import UIKit
 
 class PickerGroupView: UIView {
 
-    @IBOutlet weak var groupColorView: UIView!
+
+    @IBOutlet weak var groupImage: UIImageView!
     @IBOutlet weak var groupLabel: UILabel!
 }
