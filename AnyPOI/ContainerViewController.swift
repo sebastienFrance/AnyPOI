@@ -42,7 +42,7 @@ class ContainerViewController: UIViewController {
     private var leftViewController:LeftMenuViewController?
     
     // Current CenterViewController displayed on the screen
-    private var currentApplicationViewController:UIViewController!
+    private var currentApplicationViewController:UINavigationController!
     private var currentCenterDisplay = CenterViewOptions.Map
 
     // Status of the left panel
@@ -196,14 +196,8 @@ class ContainerViewController: UIViewController {
             panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(ContainerViewController.handlePanGesture(_:)))
             currentApplicationViewController.view.addGestureRecognizer(panGestureRecognizer!)
             
-            if currentApplicationViewController === mapViewNavigationController {
-                MapViewController.instance?.enableGestureRecognizer(false)
-            } else {
-                if let navController = currentApplicationViewController as? UINavigationController {
-                    if let containerDelegate = navController.topViewController as? ContainerViewControllerDelegate {
-                        containerDelegate.enableGestureRecognizer(false)
-                    }
-                }
+            if let containerDelegate = currentApplicationViewController.topViewController as? ContainerViewControllerDelegate {
+                containerDelegate.enableGestureRecognizer(false)
             }
         }
     }
@@ -241,6 +235,7 @@ class ContainerViewController: UIViewController {
 
 }
 
+//MARK: CenterViewControllerDelegate
 extension ContainerViewController : CenterViewControllerDelegate {
     
     // Called by a centerViewController to display immediately the MapViewController
@@ -276,14 +271,8 @@ extension ContainerViewController : CenterViewControllerDelegate {
         } else {
             if let gestureRecognizer = panGestureRecognizer {
                 currentApplicationViewController.view.removeGestureRecognizer(gestureRecognizer)
-                if currentApplicationViewController == mapViewNavigationController {
-                    MapViewController.instance?.enableGestureRecognizer(true)
-                } else {
-                    if let navController = currentApplicationViewController as? UINavigationController {
-                        if let containerDelegate = navController.topViewController as? ContainerViewControllerDelegate {
-                            containerDelegate.enableGestureRecognizer(true)
-                        }
-                    }
+                if let containerDelegate = currentApplicationViewController.topViewController as? ContainerViewControllerDelegate {
+                    containerDelegate.enableGestureRecognizer(true)
                 }
             }
         }
@@ -292,9 +281,11 @@ extension ContainerViewController : CenterViewControllerDelegate {
     }
 }
 
+// MARK: UIGestureRecognizerDelegate
 extension ContainerViewController: UIGestureRecognizerDelegate {
-    // MARK: Gesture recognizer
     
+    
+    // When the right ViewController has been moved from more than 50% then it automatically replaces the left menu
     func handlePanGesture(recognizer: UIPanGestureRecognizer) {
         
         switch(recognizer.state) {
@@ -312,19 +303,11 @@ extension ContainerViewController: UIGestureRecognizerDelegate {
                 if !hasMovedGreaterThanHalfway {
                     if let gestureRecognizer = panGestureRecognizer {
                         currentApplicationViewController.view.removeGestureRecognizer(gestureRecognizer)
-                        if currentApplicationViewController == mapViewNavigationController {
-                            MapViewController.instance?.enableGestureRecognizer(true)
-                        } else {
-                            if let navController = currentApplicationViewController as? UINavigationController {
-                                if let containerDelegate = navController.topViewController as? ContainerViewControllerDelegate {
-                                    containerDelegate.enableGestureRecognizer(true)
-                                }
-                            }
-                            
+                        if let containerDelegate = currentApplicationViewController.topViewController as? ContainerViewControllerDelegate {
+                            containerDelegate.enableGestureRecognizer(true)
                         }
                     }
                 }
-
             }
         default:
             break
