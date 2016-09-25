@@ -987,6 +987,9 @@ extension MapViewController : FlyoverWayPointsDelegate {
     //MARK: FlyoverWayPointsDelegate
     func flyoverWillStartAnimation() {
         isFlyoverRunning = true
+        
+        // Disable to idleTimer during the flyover to avoid the screen dims
+        UIApplication.sharedApplication().idleTimerDisabled = true
         hideStatusBar = true
         if isRouteMode  {
             displayRouteInterfaces(false)
@@ -1002,10 +1005,12 @@ extension MapViewController : FlyoverWayPointsDelegate {
     func flyoverWillEndAnimation(urgentStop:Bool) {
         isFlyoverRunning = false
         
+        // Restore the idleTimer
+        UIApplication.sharedApplication().idleTimerDisabled = false
         hideStatusBar = false
         navigationController?.navigationBarHidden = false
-
-       displayRouteInterfaces(true)
+        
+        displayRouteInterfaces(true)
         userLocationButton.hidden = false
         
         setNeedsStatusBarAppearanceUpdate() // Request to show the status bar
