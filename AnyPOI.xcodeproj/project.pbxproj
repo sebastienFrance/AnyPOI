@@ -131,6 +131,7 @@
 		BEA7BAAC1D8B01E5005D2D21 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BEA7BAAA1D8B01E5005D2D21 /* LaunchScreen.storyboard */; };
 		BEA7BAB71D8B01E5005D2D21 /* AnyPOITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA7BAB61D8B01E5005D2D21 /* AnyPOITests.swift */; };
 		BEA7BAC21D8B01E5005D2D21 /* AnyPOIUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA7BAC11D8B01E5005D2D21 /* AnyPOIUITests.swift */; };
+		BEDC10541D97D4D1000C6A0D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BEDC10561D97D4D1000C6A0D /* InfoPlist.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -302,6 +303,8 @@
 		BEA7BABD1D8B01E5005D2D21 /* AnyPOIUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AnyPOIUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BEA7BAC11D8B01E5005D2D21 /* AnyPOIUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyPOIUITests.swift; sourceTree = "<group>"; };
 		BEA7BAC31D8B01E5005D2D21 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BEDC10551D97D4D1000C6A0D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		BEDC10571D97D4D7000C6A0D /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		C69B0EFCEBF29F5E7437465D /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -607,6 +610,7 @@
 				BEA7BAA81D8B01E5005D2D21 /* Assets.xcassets */,
 				BEA7BAAA1D8B01E5005D2D21 /* LaunchScreen.storyboard */,
 				BEA7BAAD1D8B01E5005D2D21 /* Info.plist */,
+				BEDC10561D97D4D1000C6A0D /* InfoPlist.strings */,
 				BEA7BAA51D8B01E5005D2D21 /* AnyPOI.xcdatamodeld */,
 				BE4A880E1D93137900A0DE2F /* Localizable.strings */,
 			);
@@ -938,6 +942,7 @@
 				BEA7BAAC1D8B01E5005D2D21 /* LaunchScreen.storyboard in Resources */,
 				BE4A880C1D93137900A0DE2F /* Localizable.strings in Resources */,
 				BEA7BAA91D8B01E5005D2D21 /* Assets.xcassets in Resources */,
+				BEDC10541D97D4D1000C6A0D /* InfoPlist.strings in Resources */,
 				BEA7BAA41D8B01E5005D2D21 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1203,6 +1208,15 @@
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
+		BEDC10561D97D4D1000C6A0D /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BEDC10551D97D4D1000C6A0D /* en */,
+				BEDC10571D97D4D7000C6A0D /* fr */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
@@ -1372,6 +1386,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sebastien.AnyPOITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 2.3;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AnyPOI.app/AnyPOI";
 			};
 			name = Debug;
@@ -1384,6 +1399,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sebastien.AnyPOITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 2.3;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AnyPOI.app/AnyPOI";
 			};
 			name = Release;
@@ -1395,6 +1411,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sebastien.AnyPOIUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 2.3;
 				TEST_TARGET_NAME = AnyPOI;
 			};
 			name = Debug;
@@ -1406,6 +1423,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sebastien.AnyPOIUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 2.3;
 				TEST_TARGET_NAME = AnyPOI;
 			};
 			name = Release;

@@ -1,0 +1,12 @@
+/* 
+  InfoPlist.strings
+  AnyPOI
+
+  Created by Sébastien Brugalières on 25/09/2016.
+  Copyright © 2016 Sébastien Brugalières. All rights reserved.
+*/
+"NSCalendarsUsageDescription"="To create geo-localized events to your calendar.";
+"NSContactsUsageDescription"="To create Point Of Interests for your contacts.";
+"NSLocationAlwaysUsageDescription"="To detect when you enter/exit from a region near a point of interest.";
+"NSLocationWhenInUseUsageDescription"="To show your position on map.";
+"NSPhotoLibraryUsageDescription"="To show your photos near your Point Of Interests.";

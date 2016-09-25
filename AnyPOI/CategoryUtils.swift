@@ -74,10 +74,8 @@ class CategoryUtils {
     
     static func getAllCategoriesLabel() -> [String] {
         var categories = [String]()
-        var index = 0
         for category in categoryIcons {
-            categories[index] = CategoryUtils.categoryFromIcons[category]!
-            index += 1
+            categories.append(CategoryUtils.categoryFromIcons[category]!)
         }
         
         return categories
