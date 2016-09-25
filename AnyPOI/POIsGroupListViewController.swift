@@ -45,6 +45,13 @@ class POIsGroupListViewController: UIViewController, UITableViewDataSource, UITa
         container?.toggleLeftPanel()
     }
     
+    func enableGestureRecognizer(enable:Bool) {
+        if isViewLoaded() {
+            theTableView.userInteractionEnabled = enable
+        }
+    }
+
+    
     //MARK: Initializations
     override func viewDidLoad() {
         super.viewDidLoad()

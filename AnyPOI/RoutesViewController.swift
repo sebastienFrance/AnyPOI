@@ -29,7 +29,12 @@ class RoutesViewController: UIViewController, RouteEditorDelegate, ContainerView
         container?.toggleLeftPanel()
     }
 
-    
+    func enableGestureRecognizer(enable:Bool) {
+        if isViewLoaded() {
+        theTableView.userInteractionEnabled = enable
+        }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         

@@ -11,6 +11,8 @@ import UIKit
 protocol ContainerViewControllerDelegate : class {
     weak var container:ContainerViewController? {get set}
     var isStartedByLeftMenu:Bool {get set}
+    
+    func enableGestureRecognizer(enable:Bool)
 }
 
 
@@ -55,6 +57,9 @@ class ContainerViewController: UIViewController {
             showShadowForCenterViewController(shouldShowShadow)
         }
     }
+    
+    private var panGestureRecognizer:UIPanGestureRecognizer?
+
 
     //MARK: Initialization
     override func viewDidLoad() {
@@ -103,7 +108,6 @@ class ContainerViewController: UIViewController {
         }
     }
 
-    private var panGestureRecognizer:UIPanGestureRecognizer?
     
     
     // This Method is called by the Left Menu only, when the user select the view to be displayed
@@ -112,7 +116,6 @@ class ContainerViewController: UIViewController {
             currentApplicationViewController.view.removeGestureRecognizer(gestureRecognizer)
         }
 
-        
         switch viewType {
         case .Map:
             removeCurrentCenterViewController()
@@ -195,6 +198,12 @@ class ContainerViewController: UIViewController {
             
             if currentApplicationViewController === mapViewNavigationController {
                 MapViewController.instance?.enableGestureRecognizer(false)
+            } else {
+                if let navController = currentApplicationViewController as? UINavigationController {
+                    if let containerDelegate = navController.topViewController as? ContainerViewControllerDelegate {
+                        containerDelegate.enableGestureRecognizer(false)
+                    }
+                }
             }
         }
     }
@@ -269,6 +278,12 @@ extension ContainerViewController : CenterViewControllerDelegate {
                 currentApplicationViewController.view.removeGestureRecognizer(gestureRecognizer)
                 if currentApplicationViewController == mapViewNavigationController {
                     MapViewController.instance?.enableGestureRecognizer(true)
+                } else {
+                    if let navController = currentApplicationViewController as? UINavigationController {
+                        if let containerDelegate = navController.topViewController as? ContainerViewControllerDelegate {
+                            containerDelegate.enableGestureRecognizer(true)
+                        }
+                    }
                 }
             }
         }
@@ -299,6 +314,13 @@ extension ContainerViewController: UIGestureRecognizerDelegate {
                         currentApplicationViewController.view.removeGestureRecognizer(gestureRecognizer)
                         if currentApplicationViewController == mapViewNavigationController {
                             MapViewController.instance?.enableGestureRecognizer(true)
+                        } else {
+                            if let navController = currentApplicationViewController as? UINavigationController {
+                                if let containerDelegate = navController.topViewController as? ContainerViewControllerDelegate {
+                                    containerDelegate.enableGestureRecognizer(true)
+                                }
+                            }
+                            
                         }
                     }
                 }

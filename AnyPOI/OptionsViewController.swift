@@ -48,6 +48,11 @@ class OptionsViewController: UITableViewController, PasswordConfigurationDelegat
         container?.toggleLeftPanel()
     }
 
+    func enableGestureRecognizer(enable:Bool) {
+        if isViewLoaded() {
+            tableView.userInteractionEnabled = enable
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
