@@ -56,11 +56,12 @@ class GroupConfiguratorViewController: UIViewController, UITextFieldDelegate, UI
         groupNameTextField.delegate = self
         groupNameTextField.becomeFirstResponder()
         enableSaveButton()
+        colorsCollectionView.reloadData()
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        
+      
         // Move the collectionView on the group color
         colorsCollectionView.scrollToItemAtIndexPath(NSIndexPath(forRow: selectedColorIndex, inSection: 0), atScrollPosition: .Left, animated: true)
     }
@@ -140,13 +141,14 @@ class GroupConfiguratorViewController: UIViewController, UITextFieldDelegate, UI
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(CollectionViewCell.colorCellId, forIndexPath: indexPath) as! ColorCollectionViewCell
-        
         let stroke = selectedColorIndex == indexPath.row ? true : false
-        DrawingUtils.insertCircleForGroup(cell.colorView, fillColor: colors[indexPath.row], withStroke: stroke)
+        
+        cell.colorImage.image = DrawingUtils.getImageForColor(colors[indexPath.row], imageSize: 25.0, lineWidth: stroke ? 2.0 : 0.0)
         return cell
      }
 
     //MARK: UICollectionViewDelegate
+    
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         if selectedColorIndex != indexPath.row {
             // Refresh the unselected and selected colors

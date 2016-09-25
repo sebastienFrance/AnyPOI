@@ -10,5 +10,6 @@ import UIKit
 
 class ColorCollectionViewCell: UICollectionViewCell {
     
-    @IBOutlet weak var colorView: UIView!
+    @IBOutlet weak var colorImage: UIImageView!
+   // @IBOutlet weak var colorView: UIView!
 }

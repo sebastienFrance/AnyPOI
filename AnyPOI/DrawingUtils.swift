@@ -11,50 +11,25 @@ import CoreData
 
 class DrawingUtils {
     
-    struct layersName {
-        static let circleForGroup = "CircleForGroup"
-    }
-    
-    static func insertCircleForGroup(view:UIView, fillColor:UIColor, withStroke:Bool = false) {
-        insertCircleInWithStroke(view, fillColor: fillColor, strokeColor: UIColor.blackColor(), lineWidth: withStroke ? 5 : 1)
-    }
-    
-    static func insertCircleIn(view:UIView, fillColor:UIColor) {
-        if let subLayers = view.layer.sublayers {
-            if subLayers.count > 0 && subLayers[subLayers.count - 1].name == layersName.circleForGroup {
-                subLayers[subLayers.count - 1].removeFromSuperlayer()
-            }
-        }
+    static func getImageForColor(fillColor:UIColor, imageSize:CGFloat = 25.0, lineWidth:CGFloat = 1.0) -> UIImage {
+        let size = CGSizeMake(imageSize, imageSize)
         
+        UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
         let background = CAShapeLayer()
-        view.layer.addSublayer(background)
-        let rect = view.bounds
+        let rect = CGRectMake(lineWidth / 2.0,
+                              lineWidth / 2.0,
+                              imageSize - (lineWidth),imageSize - (lineWidth))
         let path = UIBezierPath(ovalInRect: rect)
         background.path = path.CGPath
-        background.frame = view.layer.bounds
         background.fillColor = fillColor.CGColor
-        background.name = layersName.circleForGroup
-    }
-    
-    static func insertCircleInWithStroke(view:UIView, fillColor:UIColor, strokeColor:UIColor, lineWidth:CGFloat) {
-        if let subLayers = view.layer.sublayers {
-            if subLayers.count > 0 && subLayers[subLayers.count - 1].name == layersName.circleForGroup {
-                subLayers[subLayers.count - 1].removeFromSuperlayer()
-            }
-        }
-
-        let background = CAShapeLayer()
-        view.layer.addSublayer(background)
-        let rect = view.bounds
-        let path = UIBezierPath(ovalInRect: rect)
-        background.path = path.CGPath
-        background.frame = view.layer.bounds
-        background.fillColor = fillColor.CGColor
-        background.strokeColor = strokeColor.CGColor
+        background.strokeColor = UIColor.blackColor().CGColor
         background.lineWidth = lineWidth
-        background.name = layersName.circleForGroup
+        background.setNeedsDisplay()
+        background.renderInContext(UIGraphicsGetCurrentContext()!)
+        
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return image!
     }
-
-
 
 }
