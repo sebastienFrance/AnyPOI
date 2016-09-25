@@ -112,8 +112,13 @@ class CustomCalloutAccessoryView: UIView {
     }
     
     private func initPhoneNumber(contact:CNContact) {
-        if let phone = ContactsUtilities.extractPhoneNumber(contact) {
+        if contact.phoneNumbers.count > 0 {
             phoneButton.hidden = false
+            if contact.phoneNumbers.count > 1 {
+                phoneButton.setImage(UIImage(named: "PhoneSeverals Filled-40"), forState: .Normal)
+            } else {
+                phoneButton.setImage(UIImage(named: "Phone Filled-40"), forState: .Normal)
+            }
         } else {
             disablePhoneNumber()
         }
@@ -123,6 +128,11 @@ class CustomCalloutAccessoryView: UIView {
         if contact.emailAddresses.count == 0 {
             disableMail()
         } else {
+            if contact.emailAddresses.count > 1 {
+                emailButton.setImage(UIImage(named: "MessageSeverals-40"), forState: .Normal)
+            } else {
+                emailButton.setImage(UIImage(named: "Message-40"), forState: .Normal)
+            }
             enableMail()
         }
     }
