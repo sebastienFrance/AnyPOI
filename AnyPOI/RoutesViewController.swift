@@ -31,7 +31,7 @@ class RoutesViewController: UIViewController, RouteEditorDelegate, ContainerView
 
     func enableGestureRecognizer(enable:Bool) {
         if isViewLoaded() {
-        theTableView.userInteractionEnabled = enable
+            theTableView.userInteractionEnabled = enable
         }
     }
 
@@ -106,6 +106,7 @@ class RoutesViewController: UIViewController, RouteEditorDelegate, ContainerView
 }
 
 extension RoutesViewController: UITableViewDataSource, UITableViewDelegate {
+ 
     //MARK: UITableViewDataSource
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return POIDataManager.sharedInstance.getAllRoutes().count

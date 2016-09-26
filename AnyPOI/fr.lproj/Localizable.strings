@@ -43,6 +43,8 @@
 "Ok"="Ok";
 "Error"="Erreur";
 "Close"="Fermer";
+"Flyover"="Flyover";
+"Navigation"="Navigation";
 "Wikipedia"="Wikipedia";
 "MaxMonitoredPOIReached"="Nombre maximal de POIs sous surveillance atteint. Désactivez en un autre pour activer celui-ci";
 "PoiEditorRegionMonitoringSectionName"="Surveillance de région";
@@ -85,7 +87,7 @@
 "NewPasswordMustBeDifferentChangePassword"="Le nouveau mot de passe doit être différent de l'ancien";
 "PasswordConfigurationChangePassword"="Configuration du mot de passe";
 "OldPasswordChangePassword"="ancien mot de passe";
-"NewPasswordChangePassword"="nouveau mot de passer";
+"NewPasswordChangePassword"="nouveau mot de passe";
 "RetypeNewPasswordChangePassword"="Re-tapez votre mot de passe";
 "OldOrNewPasswordWrongChangePassword"="L'ancien ou ne nouveau mot de passe est incorrect";
 "PasswordsNotEquals"="Les mots de passes sont diffèrents";
@@ -97,6 +99,16 @@
 "SettingsLocationManager"="Règlages";
 "EnteringRegionLocationManager"="Entrée";
 "ExitingRegionLocationManager"="Sortie";
+"RouteFromCurrentLocationRouteManager"="Itinéraire depuis vôtre position";
+"HideRouteFromCurrentLocationRouteManager"="Supprimer l'itinéraire depuis vôtre position";
+"LoadingDirectionRouteManager"="Calcul de l'itinéraire";
+"FromCurrentLocationRouteManager"="De vôtre position";
+"POIUsedSeveralTimesDoWeDeleteItRouteManager"="est utilisé à plusieurs reprises, voulez-vous pour le supprimer?";
+"AsEndPoint"="Comme arrivée";
+"AsStartPoint"="Comme départ";
+"WhereRouteManager"="Où ?";
+"AddWayPointRouteManager"="Ajouter";
+"FromRouteManager"="De";
 "CategoryLabelUnknown"="Inconnue";
 "CategoryLabelCoffee"="Café";
 "CategoryLabelRestaurant"="Restaurant";

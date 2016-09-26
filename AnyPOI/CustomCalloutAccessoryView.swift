@@ -62,6 +62,16 @@ class CustomCalloutAccessoryView: UIView {
     }
     
     private func configureForSimplePoi(poi:PointOfInterest) {
+        configureCategory(poi)
+        
+        configureURL(poi.poiURL)
+        configurePhoneNumber(poi.poiPhoneNumber)
+        
+        emailButton.hidden = true
+        navigationStackView.hidden = phoneButton.hidden && webSiteButton.hidden && emailButton.hidden
+   }
+    
+    private func configureCategory(poi:PointOfInterest) {
         if let image = poi.categoryIcon {
             categoryImage.image = image
             categoryImage.hidden = false
@@ -71,47 +81,48 @@ class CustomCalloutAccessoryView: UIView {
         } else {
             categoryImage.hidden = true
         }
-        
-        if poi.poiURL == nil && poi.poiPhoneNumber == nil {
-            navigationStackView.hidden = true
-        } else {
-            navigationStackView.hidden = false
-            initURL(poi.poiURL)
-            
-            if let phoneNumber = poi.poiPhoneNumber  {
-                enablePhoneNumber(phoneNumber)
-            } else {
-                disablePhoneNumber()
-            }
-        }
-        
-        disableMail()
     }
     
-    private func configureForContact(poi:PointOfInterest) {
-        if let theContact = ContactsUtilities.getContactForDetailedDescription(poi.poiContactIdentifier!) {
-            if let thumbail = theContact.thumbnailImageData {
-                categoryImage.hidden = false
-                categoryImage.image = UIImage(data: thumbail)
-                categoryImageHeightConstraint.constant = 70
-                categoryImageWidthConstraint.constant = 70
-            } else {
-                categoryImage.hidden = true
-            }
-            
-            initPhoneNumber(theContact)
-            initURL(theContact)
-            initMail(theContact)
-            navigationStackView.hidden =  phoneButton.hidden && webSiteButton.hidden && emailButton.hidden
+    private func configureContactThumbail(contact:CNContact) {
+        if let thumbail = contact.thumbnailImageData {
+            categoryImage.hidden = false
+            categoryImage.image = UIImage(data: thumbail)
+            categoryImageHeightConstraint.constant = 70
+            categoryImageWidthConstraint.constant = 70
         } else {
-            disablePhoneNumber()
-            disableURL()
-            disableMail()
             categoryImage.hidden = true
         }
     }
     
-    private func initPhoneNumber(contact:CNContact) {
+    private func configureForContact(poi:PointOfInterest) {
+        if let theContact = ContactsUtilities.getContactForDetailedDescription(poi.poiContactIdentifier!) {
+            configureContactThumbail(theContact)
+            configurePhoneNumber(theContact)
+            configureURL(ContactsUtilities.extractURL(theContact))
+            configureMail(theContact)
+        } else {
+            phoneButton.hidden = true
+            webSiteButton.hidden = true
+            emailButton.hidden = true
+            categoryImage.hidden = true
+        }
+        navigationStackView.hidden = phoneButton.hidden && webSiteButton.hidden && emailButton.hidden
+   }
+    
+    private func configureMail(contact:CNContact) {
+        if contact.emailAddresses.count == 0 {
+            emailButton.hidden = true
+        } else {
+            if contact.emailAddresses.count > 1 {
+                emailButton.setImage(UIImage(named: "MessageSeverals-40"), forState: .Normal)
+            } else {
+                emailButton.setImage(UIImage(named: "Message-40"), forState: .Normal)
+            }
+            emailButton.hidden = false
+        }
+    }
+    
+    private func configurePhoneNumber(contact:CNContact) {
         if contact.phoneNumbers.count > 0 {
             phoneButton.hidden = false
             if contact.phoneNumbers.count > 1 {
@@ -120,61 +131,28 @@ class CustomCalloutAccessoryView: UIView {
                 phoneButton.setImage(UIImage(named: "Phone Filled-40"), forState: .Normal)
             }
         } else {
-            disablePhoneNumber()
+            phoneButton.hidden = true
         }
     }
-    
-    private func initMail(contact:CNContact) {
-        if contact.emailAddresses.count == 0 {
-            disableMail()
+
+    private func configurePhoneNumber(phoneNumber:String?) {
+        if let thePhoneNumber = phoneNumber {
+            self.phoneNumber = thePhoneNumber
+            phoneButton.hidden = false
         } else {
-            if contact.emailAddresses.count > 1 {
-                emailButton.setImage(UIImage(named: "MessageSeverals-40"), forState: .Normal)
-            } else {
-                emailButton.setImage(UIImage(named: "Message-40"), forState: .Normal)
-            }
-            enableMail()
+            phoneButton.hidden = true
         }
     }
     
-    private func enablePhoneNumber(phoneNumber:String) {
-        self.phoneNumber = phoneNumber
-        phoneButton.hidden = false
-    }
     
-    private func disablePhoneNumber() {
-        phoneButton.hidden = true
-    }
-    
-    private func enableMail() {
-        emailButton.hidden = false
-    }
-    
-    private func disableMail() {
-        emailButton.hidden = true
-    }
-    
-    private func initURL(contact:CNContact) {
-        if let url = ContactsUtilities.extractURL(contact) {
-            URL = url
-            enableURL()
-        } else {
-            disableURL()
-        }
-    }
-    
-    private func initURL(url:String?) {
+    private func configureURL(url:String?) {
         URL = url
-        url != nil ? enableURL() : disableURL()
+        if url != nil {
+            webSiteButton.enabled = true
+            webSiteButton.hidden = false
+        } else {
+            webSiteButton.enabled = false
+            webSiteButton.hidden = true
+        }
     }
-    
-    private func enableURL() {
-        webSiteButton.enabled = true
-        webSiteButton.hidden = false
-    }
-    private func disableURL() {
-        webSiteButton.enabled = false
-        webSiteButton.hidden = true
-    }
-    
 }

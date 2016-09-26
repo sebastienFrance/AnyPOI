@@ -43,6 +43,8 @@
 "Ok"="Ok";
 "Error"="Error";
 "Close"="Close";
+"Flyover"="Flyover";
+"Navigation"="Navigation";
 "Wikipedia"="Wikipedia";
 "MaxMonitoredPOIReached"="Maximum number of POIs under monitoring reached. Disable another one to activate this one";
 "PoiEditorRegionMonitoringSectionName"="Region monitoring";
@@ -97,6 +99,16 @@
 "SettingsLocationManager"="Settings";
 "EnteringRegionLocationManager"="Entering";
 "ExitingRegionLocationManager"="Exiting";
+"RouteFromCurrentLocationRouteManager"="Route from current location";
+"HideRouteFromCurrentLocationRouteManager"="Hide route from current location";
+"LoadingDirectionRouteManager"="Loading directions";
+"FromCurrentLocationRouteManager"="from current location";
+"POIUsedSeveralTimesDoWeDeleteItRouteManager"="is used several times, do you want to remove it?";
+"AsEndPointRouteManager"="As end point";
+"AsStartPointRouteManager"="As starting point";
+"WhereRouteManager"="Where ?";
+"AddWayPointRouteManager"="Add";
+"FromRouteManager"="From";
 "CategoryLabelUnknown"="Unknown";
 "CategoryLabelCoffee"="Cofee";
 "CategoryLabelRestaurant"="Restaurant";

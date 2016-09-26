@@ -15,7 +15,7 @@
 "2WX-yq-HQd.text" = "Circulation";
 
 /* Class = "UILabel"; text = "Group description"; ObjectID = "2dT-me-hf0"; */
-"2dT-me-hf0.text" = "Group description";
+"2dT-me-hf0.text" = "Description du groupe";
 
 /* Class = "UIButton"; normalTitle = "Synchronize contacts"; ObjectID = "2iZ-K2-671"; */
 "2iZ-K2-671.normalTitle" = "Synchroniser les contacts";
@@ -33,7 +33,7 @@
 "4Ah-J9-dJu.text" = "title";
 
 /* Class = "UIButton"; normalTitle = "Save"; ObjectID = "4yw-MH-QgK"; */
-"4yw-MH-QgK.normalTitle" = "Save";
+"4yw-MH-QgK.normalTitle" = "Enregistrer";
 
 /* Class = "UILabel"; text = "Paris to New-York city"; ObjectID = "5Zb-Oe-5wh"; */
 "5Zb-Oe-5wh.text" = "Paris à New-York city";
@@ -54,7 +54,7 @@
 "BOG-hm-vjt.text" = "Title of Menu";
 
 /* Class = "UIButton"; normalTitle = "Edit"; ObjectID = "BkF-e2-Lxu"; */
-"BkF-e2-Lxu.normalTitle" = "Edit";
+"BkF-e2-Lxu.normalTitle" = "Editer";
 
 /* Class = "UIButton"; normalTitle = "Actions"; ObjectID = "Bp0-Cw-Rkl"; */
 "Bp0-Cw-Rkl.normalTitle" = "Actions";
@@ -66,7 +66,7 @@
 "Bwo-aN-erz.text" = "Activer TouchId";
 
 /* Class = "UITableViewSection"; headerTitle = "Route"; ObjectID = "CiU-3s-hUF"; */
-"CiU-3s-hUF.headerTitle" = "Route";
+"CiU-3s-hUF.headerTitle" = "Itinéraire";
 
 /* Class = "UILabel"; text = "Label"; ObjectID = "DUP-UF-C0Q"; */
 "DUP-UF-C0Q.text" = "Label";
@@ -102,16 +102,16 @@
 "GPB-Oe-4Vh.text" = "textField";
 
 /* Class = "UIButton"; normalTitle = "Group details"; ObjectID = "ICG-Zk-Ve5"; */
-"ICG-Zk-Ve5.normalTitle" = "Group details";
+"ICG-Zk-Ve5.normalTitle" = "Détails du groupe";
 
 /* Class = "UITableViewSection"; headerTitle = "Map"; ObjectID = "IYb-8L-JEj"; */
-"IYb-8L-JEj.headerTitle" = "Map";
+"IYb-8L-JEj.headerTitle" = "Carte";
 
 /* Class = "UILabel"; text = "RouteName"; ObjectID = "Iju-3j-vV7"; */
-"Iju-3j-vV7.text" = "RouteName";
+"Iju-3j-vV7.text" = "Nom de l'itinéraire";
 
 /* Class = "UIButton"; normalTitle = "Add"; ObjectID = "It7-PM-mqo"; */
-"It7-PM-mqo.normalTitle" = "Add";
+"It7-PM-mqo.normalTitle" = "Ajouter";
 
 /* Class = "UILabel"; text = "Animations"; ObjectID = "JtE-aT-a1k"; */
 "JtE-aT-a1k.text" = "Animations";
@@ -123,13 +123,13 @@
 "Kgk-FE-Zs7.text" = "Icons from Icons8 (https://icons8.com/license)";
 
 /* Class = "UIButton"; normalTitle = "Edit"; ObjectID = "KxF-Gx-x7P"; */
-"KxF-Gx-x7P.normalTitle" = "Edit";
+"KxF-Gx-x7P.normalTitle" = "Editer";
 
 /* Class = "UIButton"; normalTitle = "Cancel"; ObjectID = "L8r-ps-ifA"; */
 "L8r-ps-ifA.normalTitle" = "Annuler";
 
 /* Class = "UITextField"; placeholder = "Group description"; ObjectID = "LdY-Nm-oBM"; */
-"LdY-Nm-oBM.placeholder" = "Group description";
+"LdY-Nm-oBM.placeholder" = "Description du groupe";
 
 /* Class = "UILabel"; text = "Description"; ObjectID = "LlB-sB-d3h"; */
 "LlB-sB-d3h.text" = "Description";
@@ -156,7 +156,7 @@
 "Muh-Hq-1xV.text" = "Activer le mot de passe";
 
 /* Class = "UILabel"; text = "Group name"; ObjectID = "NZS-7J-1fN"; */
-"NZS-7J-1fN.text" = "Group name";
+"NZS-7J-1fN.text" = "Nom du groupe";
 
 /* Class = "UILabel"; text = "Description"; ObjectID = "O17-9g-Ho8"; */
 "O17-9g-Ho8.text" = "Description";
@@ -165,13 +165,13 @@
 "Osa-bZ-u1d.text" = "Distance de";
 
 /* Class = "UILabel"; text = "Group"; ObjectID = "P0N-Sb-Vhe"; */
-"P0N-Sb-Vhe.text" = "Group";
+"P0N-Sb-Vhe.text" = "Groupe";
 
 /* Class = "UILabel"; text = "Abstract article"; ObjectID = "Pew-en-duH"; */
-"Pew-en-duH.text" = "Abstract article";
+"Pew-en-duH.text" = "Résumé";
 
 /* Class = "UILabel"; text = "Group name"; ObjectID = "Pwb-D0-faK"; */
-"Pwb-D0-faK.text" = "Group name";
+"Pwb-D0-faK.text" = "Nom du groupe";
 
 /* Class = "UILabel"; text = "Max results"; ObjectID = "QSq-qO-Lne"; */
 "QSq-qO-Lne.text" = "Résultats max";
@@ -180,10 +180,10 @@
 "RCv-Ve-YIe.normalTitle" = "Button";
 
 /* Class = "UIButton"; normalTitle = "Details"; ObjectID = "RG4-Rl-Pi1"; */
-"RG4-Rl-Pi1.normalTitle" = "Details";
+"RG4-Rl-Pi1.normalTitle" = "Détails";
 
 /* Class = "UIBarButtonItem"; title = "Move all"; ObjectID = "SHQ-bE-aws"; */
-"SHQ-bE-aws.title" = "Move all";
+"SHQ-bE-aws.title" = "Déplacer tout";
 
 /* Class = "UIButton"; normalTitle = "FaceTime"; ObjectID = "SIW-j8-iQJ"; */
 "SIW-j8-iQJ.normalTitle" = "FaceTime";
@@ -192,52 +192,52 @@
 "Sov-u8-H6Y.text" = "Départ/Arrivée";
 
 /* Class = "UILabel"; text = "Name"; ObjectID = "TYy-1f-TC3"; */
-"TYy-1f-TC3.text" = "Name";
+"TYy-1f-TC3.text" = "Nom";
 
 /* Class = "UIBarButtonItem"; title = "Select"; ObjectID = "TsY-xA-bSL"; */
-"TsY-xA-bSL.title" = "Select";
+"TsY-xA-bSL.title" = "Sélectionner";
 
 /* Class = "UILabel"; text = "From"; ObjectID = "UUR-c6-dz1"; */
-"UUR-c6-dz1.text" = "From";
+"UUR-c6-dz1.text" = "De";
 
 /* Class = "UILabel"; text = "Label"; ObjectID = "VKx-pQ-Vxb"; */
 "VKx-pQ-Vxb.text" = "Label";
 
 /* Class = "UIButton"; normalTitle = "Edit"; ObjectID = "Wds-yO-gNS"; */
-"Wds-yO-gNS.normalTitle" = "Edit";
+"Wds-yO-gNS.normalTitle" = "Editer";
 
 /* Class = "UIButton"; normalTitle = "Map"; ObjectID = "Wep-Al-LpV"; */
-"Wep-Al-LpV.normalTitle" = "Map";
+"Wep-Al-LpV.normalTitle" = "Carte";
 
 /* Class = "UINavigationItem"; title = "Routes"; ObjectID = "WmH-dS-2vc"; */
-"WmH-dS-2vc.title" = "Routes";
+"WmH-dS-2vc.title" = "Itinéraires";
 
 /* Class = "UINavigationItem"; title = "POI Groups "; ObjectID = "YJU-DB-MLL"; */
-"YJU-DB-MLL.title" = "POI Groups ";
+"YJU-DB-MLL.title" = "Groupes de POIs";
 
 /* Class = "UILabel"; text = "Group Title"; ObjectID = "ZQ6-OV-CHb"; */
-"ZQ6-OV-CHb.text" = "Group Title";
+"ZQ6-OV-CHb.text" = "Titre du groupe";
 
 /* Class = "UIButton"; normalTitle = "Edit"; ObjectID = "a01-WS-5gJ"; */
-"a01-WS-5gJ.normalTitle" = "Edit";
+"a01-WS-5gJ.normalTitle" = "Editer";
 
 /* Class = "UILabel"; text = "Scroll to pick a color"; ObjectID = "a2S-GS-L1L"; */
 "a2S-GS-L1L.text" = "Sélectionner une couleur";
 
 /* Class = "UIBarButtonItem"; title = "Exit"; ObjectID = "aQS-LN-PCb"; */
-"aQS-LN-PCb.title" = "Exit";
+"aQS-LN-PCb.title" = "Sortir";
 
 /* Class = "UILabel"; text = "Group description"; ObjectID = "ark-gt-hpQ"; */
-"ark-gt-hpQ.text" = "Group description";
+"ark-gt-hpQ.text" = "Description du groupe";
 
 /* Class = "UILabel"; text = "Detailed Address"; ObjectID = "bF3-FZ-V0E"; */
-"bF3-FZ-V0E.text" = "Detailed Address";
+"bF3-FZ-V0E.text" = "Adresse détaillée";
 
 /* Class = "UIButton"; normalTitle = "Add"; ObjectID = "cEu-al-kRC"; */
-"cEu-al-kRC.normalTitle" = "Add";
+"cEu-al-kRC.normalTitle" = "Ajouter";
 
 /* Class = "UILabel"; text = "Abstract article"; ObjectID = "cUz-o5-Sll"; */
-"cUz-o5-Sll.text" = "Abstract article";
+"cUz-o5-Sll.text" = "Résumé";
 
 /* Class = "UILabel"; text = "Title"; ObjectID = "dGt-jr-WZV"; */
 "dGt-jr-WZV.text" = "Title";
@@ -255,10 +255,10 @@
 "e7h-DW-np7.segmentTitles[2]" = "POIs...";
 
 /* Class = "UILabel"; text = "Address"; ObjectID = "eOe-mF-vqU"; */
-"eOe-mF-vqU.text" = "Address";
+"eOe-mF-vqU.text" = "Adresse";
 
 /* Class = "UILabel"; text = "City or Country name"; ObjectID = "el4-2b-Nwz"; */
-"el4-2b-Nwz.text" = "City or Country name";
+"el4-2b-Nwz.text" = "Ville ou pays";
 
 /* Class = "UITableViewSection"; headerTitle = "Contacts"; ObjectID = "ex8-aA-aWy"; */
 "ex8-aA-aWy.headerTitle" = "Contacts";
@@ -276,7 +276,7 @@
 "gbH-Zp-Qr5.text" = "127,4km in 02:40 with 4 steps";
 
 /* Class = "UILabel"; text = "Address"; ObjectID = "gzv-nI-8xg"; */
-"gzv-nI-8xg.text" = "Address";
+"gzv-nI-8xg.text" = "Adresse";
 
 /* Class = "UILabel"; text = "Monitored POIs"; ObjectID = "hSi-Rz-cYX"; */
 "hSi-Rz-cYX.text" = "POIs sous surveillance";
@@ -297,16 +297,16 @@
 "m7h-WG-BP9.text" = "Notifier l'entrée de la région";
 
 /* Class = "UIViewController"; title = "POI List"; ObjectID = "miy-gh-wKC"; */
-"miy-gh-wKC.title" = "POI List";
+"miy-gh-wKC.title" = "List de POIs";
 
 /* Class = "UILabel"; text = "Address"; ObjectID = "mv5-7d-Rzp"; */
-"mv5-7d-Rzp.text" = "Address";
+"mv5-7d-Rzp.text" = "Adresse";
 
 /* Class = "UINavigationItem"; title = "Route details"; ObjectID = "nIU-NE-UD8"; */
 "nIU-NE-UD8.title" = "Route details";
 
 /* Class = "UIButton"; normalTitle = "Add"; ObjectID = "nRR-pB-nVp"; */
-"nRR-pB-nVp.normalTitle" = "Add";
+"nRR-pB-nVp.normalTitle" = "Ajouter";
 
 /* Class = "UILabel"; text = "Code & Design: Sébastien Brugalières"; ObjectID = "o6A-yK-qkE"; */
 "o6A-yK-qkE.text" = "Code & Conception: Sébastien Brugalières";
@@ -324,7 +324,7 @@
 "pl0-Kj-AfN.text" = "Description";
 
 /* Class = "UITextField"; placeholder = "Group name"; ObjectID = "qFF-xO-aFw"; */
-"qFF-xO-aFw.placeholder" = "Group name";
+"qFF-xO-aFw.placeholder" = "Nom du groupe";
 
 /* Class = "UIButton"; normalTitle = "Button"; ObjectID = "qM6-0c-L3i"; */
 "qM6-0c-L3i.normalTitle" = "Button";
@@ -336,7 +336,7 @@
 "rGL-UX-2fU.text" = "Sélectionnez un nouveau groupe pour les POIs";
 
 /* Class = "UIViewController"; title = "Group List"; ObjectID = "rf3-AK-XI1"; */
-"rf3-AK-XI1.title" = "Group List";
+"rf3-AK-XI1.title" = "Liste des groupes";
 
 /* Class = "UILabel"; text = "Distance"; ObjectID = "tvg-1z-YGf"; */
 "tvg-1z-YGf.text" = "Distance";
@@ -345,19 +345,19 @@
 "ubp-8S-RpJ.title" = "Options";
 
 /* Class = "UIButton"; normalTitle = "Close"; ObjectID = "vI4-FM-GKY"; */
-"vI4-FM-GKY.normalTitle" = "Close";
+"vI4-FM-GKY.normalTitle" = "Fermer";
 
 /* Class = "UILabel"; text = "Buildings"; ObjectID = "vsm-qm-kIN"; */
 "vsm-qm-kIN.text" = "Bâtiments";
 
 /* Class = "UILabel"; text = "Address"; ObjectID = "w4k-OC-gT5"; */
-"w4k-OC-gT5.text" = "Address";
+"w4k-OC-gT5.text" = "Adresse";
 
 /* Class = "UITableViewSection"; headerTitle = "Wikipedia"; ObjectID = "xSg-vy-Fnp"; */
 "xSg-vy-Fnp.headerTitle" = "Wikipedia";
 
 /* Class = "UIButton"; normalTitle = "Edit"; ObjectID = "xTm-go-fwR"; */
-"xTm-go-fwR.normalTitle" = "Edit";
+"xTm-go-fwR.normalTitle" = "Editer";
 
 /* Class = "UIButton"; normalTitle = "+33 1 39 50 33 72"; ObjectID = "xuR-mw-r9O"; */
 "xuR-mw-r9O.normalTitle" = "+33 1 39 50 33 72";
@@ -366,4 +366,4 @@
 "zgy-Ll-maA.text" = "0608183246";
 
 /* Class = "UINavigationItem"; title = "POI Details"; ObjectID = "zh9-aw-7Yj"; */
-"zh9-aw-7Yj.title" = "POI Details";
+"zh9-aw-7Yj.title" = "Détails du POI";

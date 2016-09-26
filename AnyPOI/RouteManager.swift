@@ -114,20 +114,20 @@ class RouteManager: NSObject {
         PKHUD.sharedHUD.dimsBackground = true
         HUD.show(.Progress)
         let hudBaseView = PKHUD.sharedHUD.contentView as! PKHUDSquareBaseView
-        hudBaseView.titleLabel.text = "Loading directions"
+        hudBaseView.titleLabel.text = NSLocalizedString("LoadingDirectionRouteManager", comment: "")
         
         routeDirectionCounter = routeDatasource.theRoute.routeToReloadCounter
         
         // DirectionStarting always provide a wayPoint as parameter
         if let userInfo = notification.userInfo {
             let startingWayPoint = userInfo[Route.DirectionStartingParameters.startingWayPoint] as! WayPoint
-            hudBaseView.subtitleLabel.text = "From \(startingWayPoint.wayPointPoi!.poiDisplayName!) 0/\(routeDirectionCounter)"
+            hudBaseView.subtitleLabel.text = "\(NSLocalizedString("FromRouteManager", comment: "")) \(startingWayPoint.wayPointPoi!.poiDisplayName!) 0/\(routeDirectionCounter)"
         }
     }
     
     func directionForWayPointUpdated(notification : NSNotification) {
         let hudBaseView = PKHUD.sharedHUD.contentView as! PKHUDSquareBaseView
-        hudBaseView.subtitleLabel.text = "From \(routeDatasource.fromPOI!.poiDisplayName!) \(routeDirectionCounter - routeDatasource.theRoute.routeToReloadCounter)/\(routeDirectionCounter)"
+        hudBaseView.subtitleLabel.text = "\(NSLocalizedString("FromRouteManager", comment: "")) \(routeDatasource.fromPOI!.poiDisplayName!) \(routeDirectionCounter - routeDatasource.theRoute.routeToReloadCounter)/\(routeDirectionCounter)"
         
         routeDisplayInfos.refreshRouteAllOverlays()
         displayRouteInfos()
@@ -301,16 +301,16 @@ class RouteManager: NSObject {
         if routeDatasource.isBeforeRouteSections && !routeDatasource.wayPoints.isEmpty {
             
             // Request to the user if the POI must be added as the start or as the end of the route
-            let alertActionSheet = UIAlertController(title: "Add \(poi.poiDisplayName!)", message: "Where ?", preferredStyle: .ActionSheet)
-            alertActionSheet.addAction(UIAlertAction(title: "As starting point", style: .Default) { alertAction in
+            let alertActionSheet = UIAlertController(title: "\(NSLocalizedString("AddWayPointRouteManager", comment: "")) \(poi.poiDisplayName!)", message: NSLocalizedString("WhereRouteManager", comment: ""), preferredStyle: .ActionSheet)
+            alertActionSheet.addAction(UIAlertAction(title: NSLocalizedString("AsStartPointRouteManager", comment: ""), style: .Default) { alertAction in
                 self.insertPoiInRoute(poi, atPosition: .head)
                 })
-            alertActionSheet.addAction(UIAlertAction(title: "As end point", style: .Default) { alertAction in
+            alertActionSheet.addAction(UIAlertAction(title: NSLocalizedString("AsEndPointRouteManager", comment: ""), style: .Default) { alertAction in
                 self.insertPoiInRoute(poi, atPosition: .tail)
                 })
             
             
-            alertActionSheet.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
+            alertActionSheet.addAction(UIAlertAction(title: NSLocalizedString("Ok", comment: ""), style: .Cancel, handler: nil))
             routeDisplayInfos.getViewController().presentViewController(alertActionSheet, animated: true, completion: nil)
             
         } else {
@@ -404,9 +404,9 @@ class RouteManager: NSObject {
                 // we request user confirm the Poi must be fully removed from the route
                 if routeDatasource.isBeforeRouteSections ||
                     (routeDatasource.fromPOI != selectedPoi && routeDatasource.toPOI != selectedPoi) {
-                    let alertActionSheet = UIAlertController(title: "Warning", message: "\(selectedPoi.poiDisplayName!) is used several times, do you want to remove it?", preferredStyle: .Alert)
-                    alertActionSheet.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
-                    alertActionSheet.addAction(UIAlertAction(title: "Ok", style: .Default) {  alertAction in
+                    let alertActionSheet = UIAlertController(title: NSLocalizedString("Warning", comment: ""), message: "\(selectedPoi.poiDisplayName!) \(NSLocalizedString("POIUsedSeveralTimesDoWeDeleteItRouteManager", comment: ""))", preferredStyle: .Alert)
+                    alertActionSheet.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .Cancel, handler: nil))
+                    alertActionSheet.addAction(UIAlertAction(title: NSLocalizedString("Ok", comment: ""), style: .Default) {  alertAction in
                         
                         self.removePoiAndRefresh(selectedPoi)
                         })
@@ -550,15 +550,15 @@ class RouteManager: NSObject {
             PKHUD.sharedHUD.dimsBackground = true
             HUD.show(.Progress)
             let hudBaseView = PKHUD.sharedHUD.contentView as! PKHUDSquareBaseView
-            hudBaseView.titleLabel.text = "Loading directions"
-            hudBaseView.subtitleLabel.text = "from current location"
+            hudBaseView.titleLabel.text =  NSLocalizedString("LoadingDirectionRouteManager", comment: "")
+            hudBaseView.subtitleLabel.text = NSLocalizedString("FromCurrentLocationRouteManager", comment: "")
             
             // ask the direction
             let routeDirections = MKDirections(request: routeRequest)
             routeDirections.calculateDirectionsWithCompletionHandler { routeResponse, routeError in
                 HUD.hide()
                 if let error = routeError {
-                    Utilities.showAlertMessage(self.routeDisplayInfos.getViewController(), title:"Route error", error: error)
+                    Utilities.showAlertMessage(self.routeDisplayInfos.getViewController(), title:NSLocalizedString("Warning", comment: ""), error: error)
                     self.isRouteFromCurrentLocationDisplayed = false
                 } else {
                     // Get the first route direction from the response
@@ -613,11 +613,11 @@ class RouteManager: NSObject {
     // - Delete To/From WayPoint
     func showActions() {
         let alertActionSheet = UIAlertController(title: "\(routeDatasource.fromPOI!.poiDisplayName!) ➔ \(routeDatasource.toPOI!.poiDisplayName!)", message: "", preferredStyle: .ActionSheet)
-        alertActionSheet.addAction(UIAlertAction(title: "Flyover", style: .Default) { alertAction in
+        alertActionSheet.addAction(UIAlertAction(title:  NSLocalizedString("Flyover", comment: ""), style: .Default) { alertAction in
             self.routeDisplayInfos.doFlyover(self.routeDatasource)
             })
         
-        alertActionSheet.addAction(UIAlertAction(title: "Navigation", style: .Default) { alertAction in
+        alertActionSheet.addAction(UIAlertAction(title: NSLocalizedString("Navigation", comment: ""), style: .Default) { alertAction in
             self.performNavigation()
             })
         
@@ -625,26 +625,26 @@ class RouteManager: NSObject {
         if !routeDatasource.isBeforeRouteSections {
             
             if !isRouteFromCurrentLocationDisplayed {
-                let title = "Route from current location ➔ \(routeDatasource.toPOI!.poiDisplayName!)"
+                let title = "\(NSLocalizedString("RouteFromCurrentLocationRouteManager", comment: "")) ➔ \(routeDatasource.toPOI!.poiDisplayName!)"
                 alertActionSheet.addAction(UIAlertAction(title: title, style: .Default) { alertAction in
                     self.buildRouteFromCurrentLocation(self.routeDatasource.fromWayPoint!.transportType!)
                     })
             } else {
-                alertActionSheet.addAction(UIAlertAction(title: "Hide route from current location", style: .Default) { alertAction in
+                alertActionSheet.addAction(UIAlertAction(title: NSLocalizedString("HideRouteFromCurrentLocationRouteManager", comment: ""), style: .Default) { alertAction in
                     self.removeRouteFromCurrentLocation()
                     })
             }
             
-            alertActionSheet.addAction(UIAlertAction(title: "Delete \(routeDatasource.fromPOI!.poiDisplayName!)", style: .Destructive) { alertAction in
+            alertActionSheet.addAction(UIAlertAction(title: "\(NSLocalizedString("Delete", comment: "")) \(routeDatasource.fromPOI!.poiDisplayName!)", style: .Destructive) { alertAction in
                 self.removePoiAndRefresh(self.routeDatasource.fromPOI!)
                 })
             
-            alertActionSheet.addAction(UIAlertAction(title: "Delete \(routeDatasource.toPOI!.poiDisplayName!)", style: .Destructive) { alertAction in
+            alertActionSheet.addAction(UIAlertAction(title: "\(NSLocalizedString("Delete", comment: "")) \(routeDatasource.toPOI!.poiDisplayName!)", style: .Destructive) { alertAction in
                 self.removePoiAndRefresh(self.routeDatasource.toPOI!)
                 })
         }
         
-        alertActionSheet.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
+        alertActionSheet.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .Cancel, handler: nil))
         routeDisplayInfos.getViewController().presentViewController(alertActionSheet, animated: true, completion: nil)
         
     }
