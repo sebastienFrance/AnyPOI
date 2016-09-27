@@ -21,13 +21,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UserAuthenticationDelegat
     
     private var poiToShowOnMap:PointOfInterest?
     private var routeToShowOnMap:Route?
+    
+    private var markCurrentLocation = false
+    
+    private struct ShortcutAction {
+        static let markCurrentLocation = "com.sebastien.AnyPOI.POICurrentLocation"
+    }
 
     // This method is called only when the App start from scratch. 
     // We must:
     // 1- Initialize the User Authentication
     // 2- Start user location
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        
+        print("\(#function)")
+       
         if userAuthentication == nil {
             userAuthentication = UserAuthentication(delegate: self)
         }
@@ -37,7 +44,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UserAuthenticationDelegat
         if (UIApplication.instancesRespondToSelector(#selector(UIApplication.registerUserNotificationSettings(_:)))) {
             application.registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [.Alert, .Sound] , categories: nil))
         }
+        
+//        if let shortcutItem = launchOptions?[UIApplicationLaunchOptionsShortcutItemKey] as? UIApplicationShortcutItem {
+//            handleActionShortcut(shortcutItem)
+//        }
+//    
 
+        
         return true
     }
     
@@ -59,7 +72,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UserAuthenticationDelegat
     //
     // When TouchId is enabled, we have one more applicationWillResignActive() + applicationDidBecomeActive() due to request authentication
     func application(app: UIApplication, openURL url: NSURL, options: [String : AnyObject]) -> Bool {
-        
+        print("\(#function)")
+       
         if let poiId = NavigationURL(openURL: url).getPoi(), poi = POIDataManager.sharedInstance.getPOIWithURI(NSURL(string: poiId)!) {
             poiToShowOnMap = poi
             return true
@@ -89,6 +103,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UserAuthenticationDelegat
     //
     // When TouchId is enabled, we have one more applicationWillResignActive() + applicationDidBecomeActive() due to request authentication
     func application(application: UIApplication, continueUserActivity userActivity: NSUserActivity, restorationHandler: ([AnyObject]?) -> Void) -> Bool {
+        print("\(#function)")
         poiToShowOnMap = nil
         routeToShowOnMap = nil
 
@@ -120,10 +135,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UserAuthenticationDelegat
        return false
     }
     
+    // Called when the Application is started by a Shortcut from the home screen
+    func application(application: UIApplication, performActionForShortcutItem shortcutItem: UIApplicationShortcutItem, completionHandler: (Bool) -> Void) {
+        handleActionShortcut(shortcutItem)
+    }
+    
+    private func handleActionShortcut(shortcutItem: UIApplicationShortcutItem) {
+        
+        if shortcutItem.type == ShortcutAction.markCurrentLocation {
+            markCurrentLocation = true
+            if UserAuthentication.isUserAuthenticated {
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.performNavigation()
+                }
+            }
+
+        } else {
+            print("ApplicationShortcutItem unknown")
+        }
+        
+    }
+    
     // Warning: When TouchId is requesting authentication, this method is called
     // When the Authentication has been done successfully then the applicationDidBecomeActive is called
     func applicationWillResignActive(application: UIApplication) {
-        print("\(#function)")
     }
 
     // When the App goes to background it is no more authenticated
@@ -134,7 +169,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UserAuthenticationDelegat
 
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
     func applicationWillEnterForeground(application: UIApplication) {
-        print("\(#function)")
     }
 
     // When the App becomes active and if we need authentication then we request it
@@ -164,14 +198,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UserAuthenticationDelegat
 
     private func performNavigation() {
         // Perform navigation to the Poi or Route if needed
-        if let poi = poiToShowOnMap, mapController = MapViewController.instance where mapController.isViewLoaded() {
-            poiToShowOnMap = nil
-            navigateToMapViewControllerFromAnywhere(UIApplication.sharedApplication())
-            mapController.showPOIOnMap(poi)
-        } else if let route = routeToShowOnMap, mapController = MapViewController.instance where mapController.isViewLoaded() {
-            routeToShowOnMap = nil
-            navigateToMapViewControllerFromAnywhere(UIApplication.sharedApplication())
-            mapController.enableRouteModeWith(route)
+        if let mapController = MapViewController.instance where mapController.isViewLoaded() {
+            if let poi = poiToShowOnMap {
+                poiToShowOnMap = nil
+                navigateToMapViewControllerFromAnywhere(UIApplication.sharedApplication())
+                mapController.showPOIOnMap(poi)
+            } else if let route = routeToShowOnMap {
+                routeToShowOnMap = nil
+                navigateToMapViewControllerFromAnywhere(UIApplication.sharedApplication())
+                mapController.enableRouteModeWith(route)
+            } else if markCurrentLocation {
+                markCurrentLocation = false
+                navigateToMapViewControllerFromAnywhere(UIApplication.sharedApplication())
+                if let userCoordinate = LocationManager.sharedInstance.locationManager?.location?.coordinate {
+                    mapController.showLocationOnMap(userCoordinate)
+                    let addedPOI = mapController.addPoiOnOnMapLocation(userCoordinate)
+                    mapController.selectPoiOnMap(addedPOI)
+                } else {
+                    Utilities.showAlertMessage(mapController, title: NSLocalizedString("Warning", comment: ""), message: NSLocalizedString("UserLocationNotAvailableAppDelegate", comment: ""))
+                }
+            } else {
+                print("\(#function) unknown action")
+            }
         }
     }
     

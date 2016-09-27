@@ -109,6 +109,13 @@
 "WhereRouteManager"="Où ?";
 "AddWayPointRouteManager"="Ajouter";
 "FromRouteManager"="De";
+"UserLocationNotAvailableAppDelegate"="Données de localisation non disponible. Vérifier qu'AnyPOI a l'autorisation necessaire";
+"AuthenticationUserAuthentication"="Authentification";
+"EnterPasswordUserAuthentication"="Entrez votre mot de passe";
+"InvalidPasswordUserAuthentication"="Mot de passe incorrect";
+"TryAgainPasswordUserAuthentication"="Essayez à nouveau";
+"AccessPrivateDataUserAuthentication"="L'accès aux données privées";
+"YourPasswordUserAuthentication"="Votre mot de passe";
 "CategoryLabelUnknown"="Inconnue";
 "CategoryLabelCoffee"="Café";
 "CategoryLabelRestaurant"="Restaurant";

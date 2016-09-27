@@ -10,3 +10,4 @@
 "NSLocationAlwaysUsageDescription"="To detect when you enter/exit from a region near a point of interest.";
 "NSLocationWhenInUseUsageDescription"="To show your position on map.";
 "NSPhotoLibraryUsageDescription"="To show your photos near your Point Of Interests.";
+"SHORTCUT_ADD_CURRENT_LOCATION"="Add POI for current location";

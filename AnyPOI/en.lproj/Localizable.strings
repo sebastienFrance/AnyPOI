@@ -7,7 +7,7 @@
 */
 
 "MapMenuTitle"="Map";
-"PointOfInterestMenuTitle"="Point Of Interests";
+"PointOfInterestMenuTitle"="Point of Interests";
 "TravelsMenuTitle"="Travels";
 "OptionsMenuTitle"="Options";
 "NearBy"="Near by";
@@ -109,6 +109,13 @@
 "WhereRouteManager"="Where ?";
 "AddWayPointRouteManager"="Add";
 "FromRouteManager"="From";
+"UserLocationNotAvailableAppDelegate"="Cannot get user location, check location service is enable for AnyPOI";
+"AuthenticationUserAuthentication"="Authentication";
+"EnterPasswordUserAuthentication"="Please, enter your password";
+"InvalidPasswordUserAuthentication"="Invalid password";
+"TryAgainPasswordUserAuthentication"="Please, try again";
+"AccessPrivateDataUserAuthentication"="Access to private data";
+"YourPasswordUserAuthentication"="Your password";
 "CategoryLabelUnknown"="Unknown";
 "CategoryLabelCoffee"="Cofee";
 "CategoryLabelRestaurant"="Restaurant";

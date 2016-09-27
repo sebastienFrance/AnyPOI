@@ -393,6 +393,19 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
         presentViewController(theSearchController!, animated: true, completion: nil)
     }
 
+    
+    func showLocationOnMap(coordinate:CLLocationCoordinate2D) {
+        mapAnimation.fromCurrentMapLocationTo(coordinate)
+    }
+    
+    func addPoiOnOnMapLocation(coordinate:CLLocationCoordinate2D) -> PointOfInterest {
+        return POIDataManager.sharedInstance.addPOI(coordinate, camera:theMapView.camera)
+    }
+    
+    func selectPoiOnMap(poi:PointOfInterest) {
+        theMapView.selectAnnotation(poi, animated: true)
+    }
+    
     //MARK: SearchControllerDelegate
     func showPOIOnMap(poi : PointOfInterest) {
         // Mandatory to hide the UISearchController

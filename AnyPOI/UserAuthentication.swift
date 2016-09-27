@@ -63,9 +63,9 @@ class UserAuthentication {
     // MARK: Blocking Authentication
     // Block user while the user password is not correct
     private func loopOnPasswordAuthentication() {
-        let userPasswordController = getUserPasswordController("Authentication", message:"Please, enter your password")
+        let userPasswordController = getUserPasswordController(NSLocalizedString("AuthenticationUserAuthentication", comment: ""), message:NSLocalizedString("EnterPasswordUserAuthentication", comment: ""))
         
-        let okButton = UIAlertAction(title: "OK", style: .Default) { alertAction in
+        let okButton = UIAlertAction(title: NSLocalizedString("Ok", comment: ""), style: .Default) { alertAction in
             if let password = userPasswordController.textFields?[0].text {
                 if password == UserPreferences.sharedInstance.authenticationPassword {
                     UserAuthentication.isUserAuthenticated = true
@@ -93,7 +93,7 @@ class UserAuthentication {
     private func loopOnInvalidPassword() {
         if let theWindow = UIApplication.sharedApplication().delegate?.window {
             if let rootVC = theWindow?.rootViewController {
-                let alertView = UIAlertController.init(title: "Invalid password", message: "Please, try again", preferredStyle: .Alert)
+                let alertView = UIAlertController.init(title: NSLocalizedString("InvalidPasswordUserAuthentication", comment: ""), message: NSLocalizedString("TryAgainPasswordUserAuthentication", comment: ""), preferredStyle: .Alert)
                 let actionClose = UIAlertAction(title: "Close", style: .Cancel) { alertAction in
                     alertView.dismissViewControllerAnimated(true, completion: nil)
                     self.loopOnPasswordAuthentication()
@@ -110,7 +110,7 @@ class UserAuthentication {
         let context = LAContext()
         var error:NSError?
         if context.canEvaluatePolicy(.DeviceOwnerAuthenticationWithBiometrics, error: &error) {
-            context.evaluatePolicy(.DeviceOwnerAuthenticationWithBiometrics, localizedReason: "Access to private data") { result, error in
+            context.evaluatePolicy(.DeviceOwnerAuthenticationWithBiometrics, localizedReason: NSLocalizedString("AccessPrivateDataUserAuthentication", comment: "")) { result, error in
                 if result {
                     // Must be called on the Main thread because some GUI operations will be done
                     dispatch_async(dispatch_get_main_queue()) {
@@ -142,9 +142,9 @@ class UserAuthentication {
     // authenticationDone() is called on the delegate only when the password has been validated otherwise
     // authenticationFailure() is called
     private func oneShotAuthenticationWithPassword(reason:String) {
-        let userPasswordController = getUserPasswordController("Authentication", message:reason)
+        let userPasswordController = getUserPasswordController(NSLocalizedString("AuthenticationUserAuthentication", comment: ""), message:reason)
         
-        let okButton = UIAlertAction(title: "OK", style: .Default) { alertAction in
+        let okButton = UIAlertAction(title: NSLocalizedString("Ok", comment: ""), style: .Default) { alertAction in
             if let password = userPasswordController.textFields?[0].text {
                 if password == UserPreferences.sharedInstance.authenticationPassword {
                     self.delegate.authenticationDone()
@@ -158,7 +158,7 @@ class UserAuthentication {
         }
         
         // On cancel button we consider the authentication has failed
-        let cancelButton = UIAlertAction(title: "Cancel", style: .Cancel) { alertAction in
+        let cancelButton = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .Cancel) { alertAction in
             self.delegate.authenticationFailure()
         }
         
@@ -215,7 +215,7 @@ class UserAuthentication {
     private func getUserPasswordController(title:String, message:String) -> UIAlertController {
         let userPasswordController = UIAlertController(title: title, message: message, preferredStyle: .Alert)
         userPasswordController.addTextFieldWithConfigurationHandler()  { textField in
-            textField.placeholder = "Your password"
+            textField.placeholder = NSLocalizedString("YourPasswordUserAuthentication", comment: "")
             textField.secureTextEntry = true
             textField.autocorrectionType = .No
             textField.autocapitalizationType = .None
