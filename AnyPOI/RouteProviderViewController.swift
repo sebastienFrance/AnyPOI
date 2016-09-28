@@ -8,6 +8,7 @@
 
 import UIKit
 import MapKit
+import UberRides
 
 protocol RouteProviderDelegate : class {
     func endRouteProvider()
@@ -23,6 +24,7 @@ class RouteProviderViewController: UIViewController {
     
     @IBOutlet weak var cancelButton: UIButton!
     
+    @IBOutlet weak var uberView: UIView!
     private var sourceCoordinate:CLLocationCoordinate2D!
     private var targetCoordinate:CLLocationCoordinate2D!
     
@@ -58,6 +60,13 @@ class RouteProviderViewController: UIViewController {
         backgroundView.layer.masksToBounds = true;
         
         routeDescription.text = "\(sourceLabel) to \(targetLabel)"
+        
+        let button = RideRequestButton()
+        uberView.addSubview(button)
+        
+        let location = CLLocation(latitude: targetCoordinate.latitude, longitude: targetCoordinate.longitude)
+        let builder = RideParametersBuilder().setDropoffLocation(location, nickname: "\(targetLabel)")
+        button.rideParameters = builder.build()
     }
     
     override func viewWillAppear(animated: Bool) {

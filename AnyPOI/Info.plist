@@ -54,6 +54,8 @@
 	<false/>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
+		<string>uberauth</string>
+		<string>uber</string>
 		<string>citymapper</string>
 		<string>waze</string>
 		<string>comgooglemaps</string>
@@ -91,5 +93,18 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+    <key>UberClientID</key>
+    <string>[Your Client ID]</string>
+    <key>UberDisplayName</key>
+    <string>[Your App Name]</string>
+    <key>UberCallbackURIs</key>
+    <array>
+        <dict>
+            <key>UberCallbackURIType</key>
+            <string>General</string>
+            <key>URIString</key>
+            <string>[callback://your_callback_uri]</string>
+        </dict>
+    </array>
 </dict>
 </plist>

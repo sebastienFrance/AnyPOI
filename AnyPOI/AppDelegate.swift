@@ -11,6 +11,7 @@ import CoreData
 import CoreLocation
 import LocalAuthentication
 import CoreSpotlight
+import UberRides
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UserAuthenticationDelegate {
@@ -46,6 +47,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UserAuthenticationDelegat
         if (UIApplication.instancesRespondToSelector(#selector(UIApplication.registerUserNotificationSettings(_:)))) {
             application.registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [.Alert, .Sound] , categories: nil))
         }
+        
+        // If true, all requests will hit the sandbox, useful for testing
+        Configuration.setSandboxEnabled(true)
+        // If true, Native login will try and fallback to using Authorization Code Grant login (for privileged scopes). Otherwise will redirect to App store
+        Configuration.setFallbackEnabled(false)
         
         return true
     }
