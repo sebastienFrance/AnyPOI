@@ -11,3 +11,4 @@
 "NSLocationWhenInUseUsageDescription"="To show your position on map.";
 "NSPhotoLibraryUsageDescription"="To show your photos near your Point Of Interests.";
 "SHORTCUT_ADD_CURRENT_LOCATION"="Add POI for current location";
+"SHORTCUT_SEARCH_POI"="Search Points of Interests";

@@ -11,3 +11,4 @@
 "NSLocationWhenInUseUsageDescription"="Pour afficher votre position sur la carte.";
 "NSPhotoLibraryUsageDescription"="Pour afficher vos photos à proximité d'un point d'intérêt.";
 "SHORTCUT_ADD_CURRENT_LOCATION"="Créer un POI sur vôtre position";
+"SHORTCUT_SEARCH_POI"="Rechercher des points d'intérêts";

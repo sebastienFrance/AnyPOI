@@ -22,10 +22,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UserAuthenticationDelegat
     private var poiToShowOnMap:PointOfInterest?
     private var routeToShowOnMap:Route?
     
-    private var markCurrentLocation = false
+    private var shortcutMarkCurrentLocation = false
+    private var shortcutSearchPOIs = false
     
     private struct ShortcutAction {
         static let markCurrentLocation = "com.sebastien.AnyPOI.POICurrentLocation"
+        static let searchPOIs = "com.sebastien.AnyPOI.SearchPOI"
     }
 
     // This method is called only when the App start from scratch. 
@@ -44,12 +46,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UserAuthenticationDelegat
         if (UIApplication.instancesRespondToSelector(#selector(UIApplication.registerUserNotificationSettings(_:)))) {
             application.registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [.Alert, .Sound] , categories: nil))
         }
-        
-//        if let shortcutItem = launchOptions?[UIApplicationLaunchOptionsShortcutItemKey] as? UIApplicationShortcutItem {
-//            handleActionShortcut(shortcutItem)
-//        }
-//    
-
         
         return true
     }
@@ -140,22 +136,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UserAuthenticationDelegat
         handleActionShortcut(shortcutItem)
     }
     
-    private func handleActionShortcut(shortcutItem: UIApplicationShortcutItem) {
-        
-        if shortcutItem.type == ShortcutAction.markCurrentLocation {
-            markCurrentLocation = true
-            if UserAuthentication.isUserAuthenticated {
-                dispatch_async(dispatch_get_main_queue()) {
-                    self.performNavigation()
-                }
-            }
-
-        } else {
-            print("ApplicationShortcutItem unknown")
-        }
-        
-    }
-    
     // Warning: When TouchId is requesting authentication, this method is called
     // When the Authentication has been done successfully then the applicationDidBecomeActive is called
     func applicationWillResignActive(application: UIApplication) {
@@ -169,6 +149,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UserAuthenticationDelegat
 
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
     func applicationWillEnterForeground(application: UIApplication) {
+        print("\(#function)")
     }
 
     // When the App becomes active and if we need authentication then we request it
@@ -196,6 +177,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UserAuthenticationDelegat
         print("\(#function) Warning, we should never enter in this code")
     }
 
+    func performActionOnStartup() {
+        performNavigation()
+    }
+    
+    //MARK: Utilities
+    private func handleActionShortcut(shortcutItem: UIApplicationShortcutItem) {
+        
+        if shortcutItem.type == ShortcutAction.markCurrentLocation {
+            shortcutMarkCurrentLocation = true
+        } else if shortcutItem.type == ShortcutAction.searchPOIs {
+            shortcutSearchPOIs = true
+
+        } else {
+            return
+        }
+        
+        if UserAuthentication.isUserAuthenticated {
+            dispatch_async(dispatch_get_main_queue()) {
+                self.performNavigation()
+            }
+        }
+
+    }
+    
+
     private func performNavigation() {
         // Perform navigation to the Poi or Route if needed
         if let mapController = MapViewController.instance where mapController.isViewLoaded() {
@@ -207,8 +213,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UserAuthenticationDelegat
                 routeToShowOnMap = nil
                 navigateToMapViewControllerFromAnywhere(UIApplication.sharedApplication())
                 mapController.enableRouteModeWith(route)
-            } else if markCurrentLocation {
-                markCurrentLocation = false
+            } else if shortcutMarkCurrentLocation {
+                shortcutMarkCurrentLocation = false
                 navigateToMapViewControllerFromAnywhere(UIApplication.sharedApplication())
                 if let userCoordinate = LocationManager.sharedInstance.locationManager?.location?.coordinate {
                     mapController.showLocationOnMap(userCoordinate)
@@ -217,6 +223,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UserAuthenticationDelegat
                 } else {
                     Utilities.showAlertMessage(mapController, title: NSLocalizedString("Warning", comment: ""), message: NSLocalizedString("UserLocationNotAvailableAppDelegate", comment: ""))
                 }
+            } else if shortcutSearchPOIs {
+                shortcutSearchPOIs = false
+                navigateToMapViewControllerFromAnywhere(UIApplication.sharedApplication())
+                mapController.showSearchController()
             } else {
                 print("\(#function) unknown action")
             }

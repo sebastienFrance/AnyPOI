@@ -150,9 +150,6 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
         MapViewController.instance = self
         
         
-        //FIXEDME: 😡😡⚡️⚡️ Should be moved to ViewWillAppear()
-        mapAnimation = MapCameraAnimations(mapView: theMapView, mapCameraDelegate: self)
-        mapAnimation.fromCurrentMapLocationTo(UserPreferences.sharedInstance.mapLatestCoordinate, withAnimation: false)
         
         // Subscribe all notifications to update the MapView
         subscribeNotifications()
@@ -211,9 +208,17 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
                                                          object: nil)
     }
 
+    // Called only once?
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-    }
+        
+        mapAnimation = MapCameraAnimations(mapView: theMapView, mapCameraDelegate: self)
+        mapAnimation.fromCurrentMapLocationTo(UserPreferences.sharedInstance.mapLatestCoordinate, withAnimation: false)
+
+        // If an Action triggered during the startup has not yet been executed, we execute it!
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        appDelegate.performActionOnStartup()
+     }
     
     func prepareViewFromNavigation() {
         stopDim(0.0)
@@ -370,6 +375,10 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
 
     //MARK: Search Controller
     @IBAction func startSearchController(sender: UIBarButtonItem) {
+        showSearchController()
+    }
+    
+    func showSearchController() {
         let mySearchController = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("SearchControllerId") as! SearchController
         
         theSearchController = UISearchController(searchResultsController: mySearchController)
@@ -391,6 +400,7 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
         theSearchController!.dimsBackgroundDuringPresentation = true
         
         presentViewController(theSearchController!, animated: true, completion: nil)
+
     }
 
     
