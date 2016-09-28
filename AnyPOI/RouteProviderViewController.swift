@@ -62,10 +62,14 @@ class RouteProviderViewController: UIViewController {
         routeDescription.text = "\(sourceLabel) to \(targetLabel)"
         
         let button = RideRequestButton()
+        
         uberView.addSubview(button)
         
-        let location = CLLocation(latitude: targetCoordinate.latitude, longitude: targetCoordinate.longitude)
-        let builder = RideParametersBuilder().setDropoffLocation(location, nickname: "\(targetLabel)")
+        let targetLocation = CLLocation(latitude: targetCoordinate.latitude, longitude: targetCoordinate.longitude)
+        let sourceLocation = CLLocation(latitude: sourceCoordinate.latitude, longitude: sourceCoordinate.longitude)
+        let builder = RideParametersBuilder()
+        builder.setPickupLocation(sourceLocation, nickname: "\(sourceLabel)")
+        builder.setDropoffLocation(targetLocation, nickname: "\(targetLabel)")
         button.rideParameters = builder.build()
     }
     
