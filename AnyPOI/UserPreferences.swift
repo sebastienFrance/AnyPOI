@@ -31,7 +31,9 @@ class UserPreferences {
     
         static let MapLatestLatitude = "MapLatestLatitude"
         static let MapLatestLongitude = "MapLatestLongitude"
-        
+        static let MapLatestSpanLatitude = "MapLatestSpanLatitude"
+        static let MapLatestSpanLongitude = "MapLatestSpanLongitude"
+
         static let WikipediaNearByDistance = "WikipediaNearByDistance"
         static let WikipediaMaxResults = "WikipediaMaxResults"
         
@@ -47,6 +49,7 @@ class UserPreferences {
     private let defaultCamera = MKMapCamera(lookingAtCenterCoordinate: CLLocationCoordinate2DMake(0.0, 0.0), fromDistance: 38814229, pitch:0, heading: 0)
     private let defaultRegion = MKCoordinateRegion(center: CLLocationCoordinate2DMake(0.0, 0.0), span: MKCoordinateSpanMake(1.0, 1.0))
     private let defaultMapCoordinate = CLLocationCoordinate2DMake(0.0, 0.0)
+    
     init() {
         if NSUserDefaults.standardUserDefaults().stringForKey(keys.TestParameter) == nil {
             let userDefaults = NSUserDefaults.standardUserDefaults()
@@ -59,7 +62,7 @@ class UserPreferences {
             mapShowTraffic = true
             mapAnimations = true
             
-            mapLatestCoordinate = defaultMapCoordinate
+            mapLatestMapRegion = defaultRegion
             
             wikipediaNearByDistance = 10000
             wikipediaMaxResults = 10
@@ -128,15 +131,21 @@ class UserPreferences {
         }
     }
 
-    var mapLatestCoordinate: CLLocationCoordinate2D {
+    var mapLatestMapRegion : MKCoordinateRegion {
         get {
             let mapLatitude = NSUserDefaults.standardUserDefaults().doubleForKey(keys.MapLatestLatitude)
             let mapLongitude = NSUserDefaults.standardUserDefaults().doubleForKey(keys.MapLatestLongitude)
-            return CLLocationCoordinate2D(latitude: mapLatitude, longitude: mapLongitude)
+            let mapSpanLatitude = NSUserDefaults.standardUserDefaults().doubleForKey(keys.MapLatestSpanLatitude)
+            let mapSpanLongitude = NSUserDefaults.standardUserDefaults().doubleForKey(keys.MapLatestSpanLongitude)
+
+            return MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: mapLatitude, longitude: mapLongitude),
+                                      span: MKCoordinateSpanMake(mapSpanLatitude, mapSpanLongitude))
         }
         set {
-            NSUserDefaults.standardUserDefaults().setDouble(newValue.latitude, forKey: keys.MapLatestLatitude)
-            NSUserDefaults.standardUserDefaults().setDouble(newValue.longitude, forKey: keys.MapLatestLongitude)
+            NSUserDefaults.standardUserDefaults().setDouble(newValue.center.latitude, forKey: keys.MapLatestLatitude)
+            NSUserDefaults.standardUserDefaults().setDouble(newValue.center.longitude, forKey: keys.MapLatestLongitude)
+            NSUserDefaults.standardUserDefaults().setDouble(newValue.span.latitudeDelta, forKey: keys.MapLatestSpanLatitude)
+            NSUserDefaults.standardUserDefaults().setDouble(newValue.span.longitudeDelta, forKey: keys.MapLatestSpanLongitude)
         }
     }
 

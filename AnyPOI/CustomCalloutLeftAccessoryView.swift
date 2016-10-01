@@ -12,6 +12,7 @@ class CustomCalloutLeftAccessoryView: UIView {
     
     @IBOutlet weak var addWayPointButton: UIButton!
     @IBOutlet weak var removeWayPointButton: UIButton!
+    @IBOutlet weak var routeFromCurrentLocationButton: UIButton!
     
     func configureWith(delegate:PoiCalloutDelegate, type:MapUtils.PinAnnotationType) {
         
@@ -19,16 +20,24 @@ class CustomCalloutLeftAccessoryView: UIView {
         case .normal:
             disableRemoveWayPoint()
             enableAddWayPoint(delegate)
+            disableRouteFromCurrentLocation()
           break
         case .routeEnd:
             enableRemoveWayPoint(delegate)
             disableAddWayPoint()
+            if !(MapViewController.instance?.routeDatasource?.isBeforeRouteSections)! {
+                enableRouteFromCurrentLocation(delegate)
+            } else {
+                disableRouteFromCurrentLocation()
+            }
         case .routeStart:
             enableAddWayPoint(delegate)
             enableRemoveWayPoint(delegate)
+            disableRouteFromCurrentLocation()
         case .waypoint:
             enableAddWayPoint(delegate)
             enableRemoveWayPoint(delegate)
+            disableRouteFromCurrentLocation()
        }
     }
     
@@ -40,7 +49,7 @@ class CustomCalloutLeftAccessoryView: UIView {
     
     func disableAddWayPoint() {
         addWayPointButton.hidden = true
-        addWayPointButton.removeTarget(nil, action: #selector(PoiCalloutDelegate.trashWayPoint(_:)), forControlEvents: .TouchUpInside)
+        addWayPointButton.removeTarget(nil, action: #selector(PoiCalloutDelegate.addWayPoint(_:)), forControlEvents: .TouchUpInside)
     }
     
     private func enableRemoveWayPoint(delegate:PoiCalloutDelegate) {
@@ -53,5 +62,25 @@ class CustomCalloutLeftAccessoryView: UIView {
         removeWayPointButton.hidden = true
         removeWayPointButton.removeTarget(nil, action: #selector(PoiCalloutDelegate.trashWayPoint(_:)), forControlEvents: .TouchUpInside)
     }
+    
+    private func enableRouteFromCurrentLocation(delegate:PoiCalloutDelegate) {
+        if let routeManager = MapViewController.instance?.routeManager {
+            if routeManager.isRouteFromCurrentLocationDisplayed {
+                routeFromCurrentLocationButton.tintColor = UIColor.redColor()
+            } else {
+                routeFromCurrentLocationButton.tintColor = MapViewController.instance!.view.tintColor
+            }
+        }
+        
+        routeFromCurrentLocationButton.hidden = false
+        routeFromCurrentLocationButton.removeTarget(nil, action: #selector(PoiCalloutDelegate.showRouteFromCurrentLocation(_:)), forControlEvents: .TouchUpInside)
+        routeFromCurrentLocationButton.addTarget(delegate, action: #selector(PoiCalloutDelegate.showRouteFromCurrentLocation(_:)), forControlEvents: .TouchUpInside)
+    }
+    
+    private func disableRouteFromCurrentLocation() {
+        routeFromCurrentLocationButton.hidden = true
+        addWayPointButton.removeTarget(nil, action: #selector(PoiCalloutDelegate.showRouteFromCurrentLocation(_:)), forControlEvents: .TouchUpInside)
+    }
+
 
 }

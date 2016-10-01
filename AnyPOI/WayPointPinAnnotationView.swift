@@ -66,7 +66,7 @@ class WayPointPinAnnotationView : MKPinAnnotationView {
             let nib = UINib(nibName: "CallOutLeftAccessoryView", bundle: nil)
             let view = nib.instantiateWithOwner(nil, options: nil)[0] as! CustomCalloutLeftAccessoryView
             view.configureWith(delegate, type:type)
-            let myView = UIView(frame: CGRectMake(0, 0, 25, 70))
+            let myView = UIView(frame: view.frame)
             myView.addSubview(view)
             leftCalloutAccessoryView = myView
         }

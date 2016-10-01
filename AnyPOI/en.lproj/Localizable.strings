@@ -106,6 +106,8 @@
 "POIUsedSeveralTimesDoWeDeleteItRouteManager"="is used several times, do you want to remove it?";
 "AsEndPointRouteManager"="As end point";
 "AsStartPointRouteManager"="As starting point";
+"ShowPOIsNotInRouteRouteManager"="Show POIs not in route";
+"HidePOIsNotInRouteRouteManager"="Hide POIs not in route";
 "WhereRouteManager"="Where ?";
 "AddWayPointRouteManager"="Add";
 "FromRouteManager"="From";

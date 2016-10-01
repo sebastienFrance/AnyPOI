@@ -104,6 +104,8 @@
 "LoadingDirectionRouteManager"="Calcul de l'itinéraire";
 "FromCurrentLocationRouteManager"="De vôtre position";
 "POIUsedSeveralTimesDoWeDeleteItRouteManager"="est utilisé à plusieurs reprises, voulez-vous pour le supprimer?";
+"ShowPOIsNotInRouteRouteManager"="Monter les POIs en dehors de l'itineraire";
+"HidePOIsNotInRouteRouteManager"="Cacher les POIs en dehors de l'itineraire";
 "AsEndPoint"="Comme arrivée";
 "AsStartPoint"="Comme départ";
 "WhereRouteManager"="Où ?";

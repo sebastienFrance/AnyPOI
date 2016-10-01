@@ -20,6 +20,7 @@ protocol PoiCalloutDelegate: class {
     
     func trashWayPoint(sender:UIButton)
     func addWayPoint(sender:UIButton)
+    func showRouteFromCurrentLocation(sender:UIButton)
 }
 
 

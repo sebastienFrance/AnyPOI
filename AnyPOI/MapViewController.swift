@@ -58,7 +58,7 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
         }
     }
     
-    private var routeManager:RouteManager?
+    private(set) var routeManager:RouteManager?
     
     // Flyover
     private var isFlyoverRunning = false
@@ -76,6 +76,8 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
     weak var container:ContainerViewController?
 
     private(set) static var instance:MapViewController?
+    
+    private var isFirstInitialization = true
     
      enum InsertPoiPostion {
         case head, tail, currentPosition
@@ -157,6 +159,8 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
         displayGroupsOnMap(POIDataManager.sharedInstance.findDisplayableGroups(), withMonitoredOverlays: true)
         displayRouteInterfaces(false)
  
+        mapAnimation = MapCameraAnimations(mapView: theMapView, mapCameraDelegate: self)
+
     }
     
     private func displayGroupsOnMap(groups:[GroupOfInterest], withMonitoredOverlays:Bool) {
@@ -212,12 +216,16 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        mapAnimation = MapCameraAnimations(mapView: theMapView, mapCameraDelegate: self)
-        mapAnimation.fromCurrentMapLocationTo(UserPreferences.sharedInstance.mapLatestCoordinate, withAnimation: false)
-
+        // Restore latest position only when the app is started
+        if isFirstInitialization {
+            isFirstInitialization = false
+            theMapView.setRegion(UserPreferences.sharedInstance.mapLatestMapRegion, animated: false)
+        }
+        
         // If an Action triggered during the startup has not yet been executed, we execute it!
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         appDelegate.performActionOnStartup()
+        
      }
     
     func prepareViewFromNavigation() {
@@ -259,9 +267,6 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
     }
 
     //MARK: Actions from Information view
-    @IBAction func routeWayPointsOnlyButtonPushed(sender: UIButton) {
-        routeManager?.showOnlyRouteAnnotations()
-    }
     
     @IBAction func editButtonPushed(sender: UIButton) {
         performSegueWithIdentifier(storyboard.routeDetailsEditorId, sender: nil)
@@ -336,6 +341,18 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
             } else {
                 RouteEditorController().createRouteWith(self, delegate: self, routeName: poi.poiDisplayName!, pois: [poi])
             }
+        }
+    }
+    
+    func showRouteFromCurrentLocation(targetPOI:PointOfInterest) {
+        if isRouteMode {
+            routeManager?.buildRouteFromCurrentLocation(targetPOI, transportType:routeDatasource!.fromWayPoint!.transportType!)
+        }
+    }
+    
+    func removeRouteFromCurrentLocation() {
+        if isRouteMode {
+            routeManager?.removeRouteFromCurrentLocation()
         }
     }
     
@@ -1135,7 +1152,7 @@ extension MapViewController : MKMapViewDelegate {
     // Save automatically the latest Map position in userPrefs
     func mapView(mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
         if !isFlyoverRunning {
-            UserPreferences.sharedInstance.mapLatestCoordinate = mapView.centerCoordinate
+            UserPreferences.sharedInstance.mapLatestMapRegion = mapView.region
         }
     }
 }

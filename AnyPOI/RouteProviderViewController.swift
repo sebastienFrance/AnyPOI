@@ -33,6 +33,10 @@ class RouteProviderViewController: UIViewController {
     
     private weak var mapController:RouteProviderDelegate!
 
+    // uber
+    let ridesClient = RidesClient()
+    let button = RideRequestButton()
+
     func initializeWith(sourceCoordinate:CLLocationCoordinate2D, targetPoi:PointOfInterest, delegate:RouteProviderDelegate) {
         sourceLabel = NSLocalizedString("CurrentLocationRouteProviderViewController", comment: "")
         self.sourceCoordinate = sourceCoordinate
@@ -61,16 +65,26 @@ class RouteProviderViewController: UIViewController {
         
         routeDescription.text = "\(sourceLabel) to \(targetLabel)"
         
-        let button = RideRequestButton()
-        
         uberView.addSubview(button)
         
         let targetLocation = CLLocation(latitude: targetCoordinate.latitude, longitude: targetCoordinate.longitude)
         let sourceLocation = CLLocation(latitude: sourceCoordinate.latitude, longitude: sourceCoordinate.longitude)
-        let builder = RideParametersBuilder()
+        var builder = RideParametersBuilder()
         builder.setPickupLocation(sourceLocation, nickname: "\(sourceLabel)")
         builder.setDropoffLocation(targetLocation, nickname: "\(targetLabel)")
         button.rideParameters = builder.build()
+        
+        // use the same pickupLocation to get the estimate
+        ridesClient.fetchCheapestProduct(pickupLocation: sourceLocation, completion: {
+            product, response in
+            if let productID = product?.productID { //check if the productID exists
+                builder = builder.setProductID(productID)
+                self.button.rideParameters = builder.build()
+                
+                // show estimates in the button
+                self.button.loadRideInformation()
+            }
+        })
     }
     
     override func viewWillAppear(animated: Bool) {

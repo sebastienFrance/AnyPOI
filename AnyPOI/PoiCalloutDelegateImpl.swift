@@ -123,6 +123,21 @@ extension PoiCalloutDelegateImpl : PoiCalloutDelegate {
         mapViewControler.addSelectedPoi()
        
     }
+    
+    func showRouteFromCurrentLocation(sender:UIButton) {
+        if let routeManager = MapViewController.instance?.routeManager {
+            if !routeManager.isRouteFromCurrentLocationDisplayed {
+                sender.tintColor = UIColor.redColor()
+                if theMapView.selectedAnnotations.count > 0 {
+                    let mapViewControler = viewController as! MapViewController
+                    mapViewControler.showRouteFromCurrentLocation(theMapView.selectedAnnotations[0] as! PointOfInterest)
+                }
+            } else {
+                sender.tintColor = MapViewController.instance!.view.tintColor
+                MapViewController.instance!.removeRouteFromCurrentLocation()
+            }
+        }
+    }
 }
 
 extension PoiCalloutDelegateImpl : MapCameraAnimationsDelegate {

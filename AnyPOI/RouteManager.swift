@@ -509,7 +509,7 @@ class RouteManager: NSObject {
     // - Reset some flags
     // - Update the Summary infos
     // - Change the Map bounding box to display the current route section
-    private func removeRouteFromCurrentLocation() {
+    func removeRouteFromCurrentLocation() {
         isRouteFromCurrentLocationDisplayed = false
         
         if let overlayFromCurrentLocation = routeFromCurrentLocation?.polyline {
@@ -539,7 +539,41 @@ class RouteManager: NSObject {
     }
     
     // Request the route from the current location to target of the current route section
-    private func buildRouteFromCurrentLocation(transportType:MKDirectionsTransportType) {
+    func buildRouteFromCurrentLocation(targetPOI: PointOfInterest, transportType:MKDirectionsTransportType) {
+//        if let toPoi = routeDatasource?.toPOI {
+            let routeRequest = MKDirectionsRequest()
+            routeRequest.transportType = transportType
+            routeRequest.source = MKMapItem.mapItemForCurrentLocation()
+ //           routeRequest.destination = MKMapItem(placemark: MKPlacemark(coordinate: toPoi.coordinate, addressDictionary: nil))
+            routeRequest.destination = MKMapItem(placemark: MKPlacemark(coordinate: targetPOI.coordinate, addressDictionary: nil))
+            
+            // Display a HUD while loading the route
+            PKHUD.sharedHUD.dimsBackground = true
+            HUD.show(.Progress)
+            let hudBaseView = PKHUD.sharedHUD.contentView as! PKHUDSquareBaseView
+            hudBaseView.titleLabel.text =  NSLocalizedString("LoadingDirectionRouteManager", comment: "")
+            hudBaseView.subtitleLabel.text = NSLocalizedString("FromCurrentLocationRouteManager", comment: "")
+            
+            // ask the direction
+            let routeDirections = MKDirections(request: routeRequest)
+            routeDirections.calculateDirectionsWithCompletionHandler { routeResponse, routeError in
+                HUD.hide()
+                if let error = routeError {
+                    Utilities.showAlertMessage(self.routeDisplayInfos.getViewController(), title:NSLocalizedString("Warning", comment: ""), error: error)
+                    self.isRouteFromCurrentLocationDisplayed = false
+                } else {
+                    // Get the first route direction from the response
+                    if let firstRoute = routeResponse?.routes[0] {
+                        self.displayRouteFromCurrentLocation(firstRoute)
+                    } else {
+                        self.isRouteFromCurrentLocationDisplayed = false
+                    }
+                }
+            }
+//        }
+    }
+    
+    func buildRouteFromCurrentLocation(transportType:MKDirectionsTransportType) {
         if let toPoi = routeDatasource?.toPOI {
             let routeRequest = MKDirectionsRequest()
             routeRequest.transportType = transportType
@@ -571,6 +605,7 @@ class RouteManager: NSObject {
             }
         }
     }
+
     
     //MARK: Refresh POI
     private func refreshPoiAnnotation(poi:PointOfInterest, withType:MapUtils.PinAnnotationType) {
@@ -621,28 +656,11 @@ class RouteManager: NSObject {
             self.performNavigation()
             })
         
-        
-        if !routeDatasource.isBeforeRouteSections {
-            
-            if !isRouteFromCurrentLocationDisplayed {
-                let title = "\(NSLocalizedString("RouteFromCurrentLocationRouteManager", comment: "")) ➔ \(routeDatasource.toPOI!.poiDisplayName!)"
-                alertActionSheet.addAction(UIAlertAction(title: title, style: .Default) { alertAction in
-                    self.buildRouteFromCurrentLocation(self.routeDatasource.fromWayPoint!.transportType!)
-                    })
-            } else {
-                alertActionSheet.addAction(UIAlertAction(title: NSLocalizedString("HideRouteFromCurrentLocationRouteManager", comment: ""), style: .Default) { alertAction in
-                    self.removeRouteFromCurrentLocation()
-                    })
-            }
-            
-            alertActionSheet.addAction(UIAlertAction(title: "\(NSLocalizedString("Delete", comment: "")) \(routeDatasource.fromPOI!.poiDisplayName!)", style: .Destructive) { alertAction in
-                self.removePoiAndRefresh(self.routeDatasource.fromPOI!)
-                })
-            
-            alertActionSheet.addAction(UIAlertAction(title: "\(NSLocalizedString("Delete", comment: "")) \(routeDatasource.toPOI!.poiDisplayName!)", style: .Destructive) { alertAction in
-                self.removePoiAndRefresh(self.routeDatasource.toPOI!)
-                })
-        }
+        let title = isShowOnlyRouteAnnotations ? NSLocalizedString("ShowPOIsNotInRouteRouteManager", comment: "")  : NSLocalizedString("HidePOIsNotInRouteRouteManager", comment: "")
+        alertActionSheet.addAction(UIAlertAction(title: title, style: .Default) { alertAction in
+            self.showOnlyRouteAnnotations()
+            })
+
         
         alertActionSheet.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .Cancel, handler: nil))
         routeDisplayInfos.getViewController().presentViewController(alertActionSheet, animated: true, completion: nil)

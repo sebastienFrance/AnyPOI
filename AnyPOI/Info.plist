@@ -93,18 +93,20 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-    <key>UberClientID</key>
-    <string>[Your Client ID]</string>
-    <key>UberDisplayName</key>
-    <string>[Your App Name]</string>
-    <key>UberCallbackURIs</key>
-    <array>
-        <dict>
-            <key>UberCallbackURIType</key>
-            <string>General</string>
-            <key>URIString</key>
-            <string>[callback://your_callback_uri]</string>
-        </dict>
-    </array>
+	<key>UberClientID</key>
+	<string>_Yg0s2QrC3rJCA2cuVxBY4YOVwQ3azpP</string>
+	<key>UberDisplayName</key>
+	<string>AnyPOI</string>
+	<key>UberCallbackURIs</key>
+	<array>
+		<dict>
+			<key>UberCallbackURIType</key>
+			<string>General</string>
+			<key>URIString</key>
+			<string>[callback://your_callback_uri]</string>
+		</dict>
+	</array>
+    <key>UberServerToken</key>
+    <string>niWOY800EOybzQJ-aA1U2v9PdqEweSXF7F_iJTDL</string>
 </dict>
 </plist>
