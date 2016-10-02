@@ -59,16 +59,14 @@ class WayPointPinAnnotationView : MKPinAnnotationView {
     private func configureWayPointLeftAccessory(delegate:PoiCalloutDelegate, type:MapUtils.PinAnnotationType) {
         if let leftAccessoryView = leftCalloutAccessoryView {
             if leftAccessoryView.subviews.count == 1 {
-                let leftCustomCallout = leftAccessoryView.subviews[0] as! CustomCalloutLeftAccessoryView
+                let leftCustomCallout = leftAccessoryView as! CustomCalloutLeftAccessoryView
                 leftCustomCallout.configureWith(delegate, type:type)
             }
         } else {
             let nib = UINib(nibName: "CallOutLeftAccessoryView", bundle: nil)
             let view = nib.instantiateWithOwner(nil, options: nil)[0] as! CustomCalloutLeftAccessoryView
             view.configureWith(delegate, type:type)
-            let myView = UIView(frame: view.frame)
-            myView.addSubview(view)
-            leftCalloutAccessoryView = myView
+            leftCalloutAccessoryView = view
         }
     }
         
