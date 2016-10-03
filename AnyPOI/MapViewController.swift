@@ -841,9 +841,9 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
             let viewController = segue.destinationViewController as! GroupConfiguratorViewController
             viewController.group = sender as? GroupOfInterest
             viewController.delegate = self
-        } else if segue.identifier == PoiCalloutDelegateImpl.storyboard.startRoute {
-            let viewController = segue.destinationViewController as! RouteProviderViewController
-            startRouteProvider(viewController, sender: sender)
+        } else if segue.identifier == PoiCalloutDelegateImpl.storyboard.startTableRouteId {
+            let viewController = segue.destinationViewController as! RouteProviderTableViewController
+            startRouteProviderTable(viewController, sender: sender)
         } else if segue.identifier == storyboard.routeDetailsEditorId {
             let viewController = segue.destinationViewController as! RouteDetailsViewController
             viewController.wayPointsDelegate = self
@@ -863,7 +863,7 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
        
     }
     
-    private func startRouteProvider(viewController: RouteProviderViewController, sender: AnyObject?) {
+    private func startRouteProviderTable(viewController: RouteProviderTableViewController, sender: AnyObject?) {
         startDim()
         if isRouteMode {
             if let targetPoi = sender as? PointOfInterest {

@@ -2,25 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>UIApplicationShortcutItems</key>
-	<array>
-		<dict>
-			<key>UIApplicationShortcutItemType</key>
-			<string>com.sebastien.AnyPOI.SearchPOI</string>
-			<key>UIApplicationShortcutItemTitle</key>
-			<string>SHORTCUT_SEARCH_POI</string>
-			<key>UIApplicationShortcutItemIconType</key>
-			<string>UIApplicationShortcutIconTypeSearch</string>
-		</dict>
-		<dict>
-			<key>UIApplicationShortcutItemIconType</key>
-			<string>UIApplicationShortcutIconTypeMarkLocation</string>
-			<key>UIApplicationShortcutItemTitle</key>
-			<string>SHORTCUT_ADD_CURRENT_LOCATION</string>
-			<key>UIApplicationShortcutItemType</key>
-			<string>com.sebastien.AnyPOI.POICurrentLocation</string>
-		</dict>
-	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>
@@ -49,7 +30,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>7</string>
+	<string>8</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>LSApplicationQueriesSchemes</key>
@@ -72,6 +53,25 @@
 	<string>AnyPOI will show your position on Map and for route.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>AnyPOI will show your photos near your Point Of Interests. </string>
+	<key>UIApplicationShortcutItems</key>
+	<array>
+		<dict>
+			<key>UIApplicationShortcutItemIconType</key>
+			<string>UIApplicationShortcutIconTypeSearch</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>SHORTCUT_SEARCH_POI</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>com.sebastien.AnyPOI.SearchPOI</string>
+		</dict>
+		<dict>
+			<key>UIApplicationShortcutItemIconType</key>
+			<string>UIApplicationShortcutIconTypeMarkLocation</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>SHORTCUT_ADD_CURRENT_LOCATION</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>com.sebastien.AnyPOI.POICurrentLocation</string>
+		</dict>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
@@ -93,20 +93,20 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>UberCallbackURIs</key>
+	<array>
+		<dict>
+			<key>URIString</key>
+			<string>[callback://your_callback_uri]</string>
+			<key>UberCallbackURIType</key>
+			<string>General</string>
+		</dict>
+	</array>
 	<key>UberClientID</key>
 	<string>_Yg0s2QrC3rJCA2cuVxBY4YOVwQ3azpP</string>
 	<key>UberDisplayName</key>
 	<string>AnyPOI</string>
-	<key>UberCallbackURIs</key>
-	<array>
-		<dict>
-			<key>UberCallbackURIType</key>
-			<string>General</string>
-			<key>URIString</key>
-			<string>[callback://your_callback_uri]</string>
-		</dict>
-	</array>
-    <key>UberServerToken</key>
-    <string>niWOY800EOybzQJ-aA1U2v9PdqEweSXF7F_iJTDL</string>
+	<key>UberServerToken</key>
+	<string>niWOY800EOybzQJ-aA1U2v9PdqEweSXF7F_iJTDL</string>
 </dict>
 </plist>

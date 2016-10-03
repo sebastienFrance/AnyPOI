@@ -27,7 +27,7 @@ class PoiCalloutDelegateImpl: NSObject   {
 
 extension PoiCalloutDelegateImpl : PoiCalloutDelegate {
     struct storyboard {
-        static let startRoute = "startRouteId"
+        static let startTableRouteId = "startTableRouteId"
         static let openPhonesId = "openPhones"
         static let openEmailsId = "openEmails"
     }
@@ -44,7 +44,7 @@ extension PoiCalloutDelegateImpl : PoiCalloutDelegate {
     func startRoute(sender: UIButton) {
         let selectedAnnotations = theMapView.selectedAnnotations
         if selectedAnnotations.count > 0 {
-            viewController.performSegueWithIdentifier(storyboard.startRoute, sender: selectedAnnotations[0])
+            viewController.performSegueWithIdentifier(storyboard.startTableRouteId, sender: selectedAnnotations[0])
         }
     }
     

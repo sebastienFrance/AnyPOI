@@ -75,7 +75,6 @@
 		BE0CF33E1D8B209A00344F8A /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2DD1D8B209A00344F8A /* Utilities.swift */; };
 		BE0CF33F1D8B209A00344F8A /* MapCameraAnimations.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2DE1D8B209A00344F8A /* MapCameraAnimations.swift */; };
 		BE0CF3401D8B209A00344F8A /* PoiDetailsImagesCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2DF1D8B209A00344F8A /* PoiDetailsImagesCollectionViewCell.swift */; };
-		BE0CF3421D8B209A00344F8A /* RouteProviderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2E11D8B209A00344F8A /* RouteProviderViewController.swift */; };
 		BE0CF3431D8B209A00344F8A /* RouteSummaryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2E21D8B209A00344F8A /* RouteSummaryTableViewCell.swift */; };
 		BE0CF3441D8B209A00344F8A /* UserPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2E31D8B209A00344F8A /* UserPreferences.swift */; };
 		BE0CF3451D8B209A00344F8A /* WayPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2E41D8B209A00344F8A /* WayPoint.swift */; };
@@ -108,6 +107,8 @@
 		BE2FF2CC1D8B280B00C0395A /* PickerCategoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE2FF2C71D8B280B00C0395A /* PickerCategoryView.xib */; };
 		BE2FF2CD1D8B280B00C0395A /* PickerGroupView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE2FF2C81D8B280B00C0395A /* PickerGroupView.xib */; };
 		BE4A880C1D93137900A0DE2F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BE4A880E1D93137900A0DE2F /* Localizable.strings */; };
+		BE90C7B41DA1668900033DC9 /* RouteProviderTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE90C7B31DA1668900033DC9 /* RouteProviderTableViewController.swift */; };
+		BE90C7B61DA166A800033DC9 /* RouteProviderWithTransportTypeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE90C7B51DA166A800033DC9 /* RouteProviderWithTransportTypeTableViewCell.swift */; };
 		BE9833F11D8D55C600B174A7 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE9833F01D8D55C600B174A7 /* NotificationCenter.framework */; };
 		BE9833F41D8D55C600B174A7 /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE9833F31D8D55C600B174A7 /* TodayViewController.swift */; };
 		BE9833F71D8D55C600B174A7 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE9833F51D8D55C600B174A7 /* MainInterface.storyboard */; };
@@ -131,6 +132,7 @@
 		BEA7BAAC1D8B01E5005D2D21 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BEA7BAAA1D8B01E5005D2D21 /* LaunchScreen.storyboard */; };
 		BEA7BAB71D8B01E5005D2D21 /* AnyPOITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA7BAB61D8B01E5005D2D21 /* AnyPOITests.swift */; };
 		BEA7BAC21D8B01E5005D2D21 /* AnyPOIUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA7BAC11D8B01E5005D2D21 /* AnyPOIUITests.swift */; };
+		BED751951DA2D539004BC613 /* RouteProviderUberTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED751941DA2D539004BC613 /* RouteProviderUberTableViewCell.swift */; };
 		BEDC10541D97D4D1000C6A0D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BEDC10561D97D4D1000C6A0D /* InfoPlist.strings */; };
 /* End PBXBuildFile section */
 
@@ -241,7 +243,6 @@
 		BE0CF2DD1D8B209A00344F8A /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		BE0CF2DE1D8B209A00344F8A /* MapCameraAnimations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapCameraAnimations.swift; sourceTree = "<group>"; };
 		BE0CF2DF1D8B209A00344F8A /* PoiDetailsImagesCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PoiDetailsImagesCollectionViewCell.swift; sourceTree = "<group>"; };
-		BE0CF2E11D8B209A00344F8A /* RouteProviderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteProviderViewController.swift; sourceTree = "<group>"; };
 		BE0CF2E21D8B209A00344F8A /* RouteSummaryTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteSummaryTableViewCell.swift; sourceTree = "<group>"; };
 		BE0CF2E31D8B209A00344F8A /* UserPreferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserPreferences.swift; sourceTree = "<group>"; };
 		BE0CF2E41D8B209A00344F8A /* WayPoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WayPoint.swift; sourceTree = "<group>"; };
@@ -280,6 +281,8 @@
 		BE4A88091D930FFE00A0DE2F /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/MainInterface.strings; sourceTree = "<group>"; };
 		BE4A880D1D93137900A0DE2F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BE4A880F1D93138900A0DE2F /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		BE90C7B31DA1668900033DC9 /* RouteProviderTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteProviderTableViewController.swift; sourceTree = "<group>"; };
+		BE90C7B51DA166A800033DC9 /* RouteProviderWithTransportTypeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteProviderWithTransportTypeTableViewCell.swift; sourceTree = "<group>"; };
 		BE9833EF1D8D55C600B174A7 /* AnyPOITodayWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = AnyPOITodayWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE9833F01D8D55C600B174A7 /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
 		BE9833F31D8D55C600B174A7 /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
@@ -303,6 +306,7 @@
 		BEA7BABD1D8B01E5005D2D21 /* AnyPOIUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AnyPOIUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BEA7BAC11D8B01E5005D2D21 /* AnyPOIUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyPOIUITests.swift; sourceTree = "<group>"; };
 		BEA7BAC31D8B01E5005D2D21 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BED751941DA2D539004BC613 /* RouteProviderUberTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteProviderUberTableViewCell.swift; sourceTree = "<group>"; };
 		BEDC10551D97D4D1000C6A0D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		BEDC10571D97D4D7000C6A0D /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		C69B0EFCEBF29F5E7437465D /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
@@ -578,7 +582,9 @@
 		BE2FF2E11D8B2FFC00C0395A /* RouteProviderVC */ = {
 			isa = PBXGroup;
 			children = (
-				BE0CF2E11D8B209A00344F8A /* RouteProviderViewController.swift */,
+				BE90C7B31DA1668900033DC9 /* RouteProviderTableViewController.swift */,
+				BE90C7B51DA166A800033DC9 /* RouteProviderWithTransportTypeTableViewCell.swift */,
+				BED751941DA2D539004BC613 /* RouteProviderUberTableViewCell.swift */,
 			);
 			name = RouteProviderVC;
 			sourceTree = "<group>";
@@ -887,6 +893,9 @@
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
 							};
+							com.apple.InAppPurchase = {
+								enabled = 0;
+							};
 						};
 					};
 					BEA7BAB11D8B01E5005D2D21 = {
@@ -1051,8 +1060,10 @@
 				BE0CF3061D8B209A00344F8A /* PoiCalloutDelegateImpl.swift in Sources */,
 				BE0CF33A1D8B209A00344F8A /* PoiDetailsImagesTableViewCell.swift in Sources */,
 				BE0CF3151D8B209A00344F8A /* MonitoredPoisGroupCell.swift in Sources */,
+				BE90C7B61DA166A800033DC9 /* RouteProviderWithTransportTypeTableViewCell.swift in Sources */,
 				BE0CF2FF1D8B209A00344F8A /* ContactTableViewCell.swift in Sources */,
 				BE0CF33E1D8B209A00344F8A /* Utilities.swift in Sources */,
+				BE90C7B41DA1668900033DC9 /* RouteProviderTableViewController.swift in Sources */,
 				BE0CF31C1D8B209A00344F8A /* PointOfInterest.swift in Sources */,
 				BE0CF30A1D8B209A00344F8A /* WayPointPinAnnotationView.swift in Sources */,
 				BEA7BAA71D8B01E5005D2D21 /* AnyPOI.xcdatamodeld in Sources */,
@@ -1072,7 +1083,6 @@
 				BE0CF3001D8B209A00344F8A /* ContainerViewController.swift in Sources */,
 				BE0CF3441D8B209A00344F8A /* UserPreferences.swift in Sources */,
 				BE0CF3191D8B209A00344F8A /* PoiEditorGroupViewCell.swift in Sources */,
-				BE0CF3421D8B209A00344F8A /* RouteProviderViewController.swift in Sources */,
 				BE0CF3031D8B209A00344F8A /* LeftMenuViewController.swift in Sources */,
 				BE0CF3501D8B209A00344F8A /* CategoryCollectionViewCell.swift in Sources */,
 				BE0CF32A1D8B209A00344F8A /* WikipediaRequest.swift in Sources */,
@@ -1099,6 +1109,7 @@
 				BE0CF32D1D8B209A00344F8A /* LeftMenuTableViewCell.swift in Sources */,
 				BE0CF3401D8B209A00344F8A /* PoiDetailsImagesCollectionViewCell.swift in Sources */,
 				BE0CF31D1D8B209A00344F8A /* POISimpleViewCell.swift in Sources */,
+				BED751951DA2D539004BC613 /* RouteProviderUberTableViewCell.swift in Sources */,
 				BE0CF3171D8B209A00344F8A /* MovePOIsViewController.swift in Sources */,
 				BE0CF3241D8B209A00344F8A /* RoutesTableViewCell.swift in Sources */,
 				BE0CF3351D8B209A00344F8A /* MailActivityItemSource.swift in Sources */,

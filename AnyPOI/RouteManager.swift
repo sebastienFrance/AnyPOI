@@ -678,7 +678,7 @@ class RouteManager: NSObject {
             items = routeDatasource.theRoute.mapItems
             MKMapItem.openMapsWithItems(items, launchOptions: mapAppOptions)
         } else {
-            routeDisplayInfos.getViewController().performSegueWithIdentifier(PoiCalloutDelegateImpl.storyboard.startRoute, sender: nil)
+            routeDisplayInfos.getViewController().performSegueWithIdentifier(PoiCalloutDelegateImpl.storyboard.startTableRouteId, sender: nil)
         }
     }
 

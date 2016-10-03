@@ -11,6 +11,12 @@ import MapKit
 
 class RouteUtilities {
     
+    
+    static let wazeProductId = 323229106
+    static let cityMapperProductId = 469463298
+    static let googleMapsProductId = 585027354
+
+    
     static func getDirectionRequestFor(source:WayPoint, destination:WayPoint) -> MKDirections? {
 
         // get the 2 waypoints
