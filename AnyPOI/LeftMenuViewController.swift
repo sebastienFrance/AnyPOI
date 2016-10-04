@@ -48,7 +48,13 @@ extension LeftMenuViewController : UITableViewDataSource, UITableViewDelegate {
             theCell.menuTitle.text = menuTitles[indexPath.row]
              return theCell
         } else {
-            return theTableView.dequeueReusableCellWithIdentifier("MenuAboutCellId", forIndexPath: indexPath)
+            let theCell =  theTableView.dequeueReusableCellWithIdentifier("MenuAboutCellId", forIndexPath: indexPath) as! LeftMenuAboutTableViewCell
+            let version = NSBundle.mainBundle().infoDictionary?["CFBundleShortVersionString"] as! String
+            let build = NSBundle.mainBundle().infoDictionary?[kCFBundleVersionKey as String] as! String
+            
+            theCell.buildLabel.text = "\(NSLocalizedString("BuildLeftMenuViewController", comment: "")) \(version) (\(build))"
+            
+            return theCell
         }
     }
     

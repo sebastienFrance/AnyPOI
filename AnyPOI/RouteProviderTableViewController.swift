@@ -65,15 +65,6 @@ class RouteProviderTableViewController: UIViewController {
         backgroundView.layer.cornerRadius = 10.0;
         backgroundView.layer.masksToBounds = true;
         
-        view.alpha = 1.0
-        // 1
-        let blurEffect = UIBlurEffect(style: .Light)
-        // 2
-        let blurView = UIVisualEffectView(effect: blurEffect)
-        // 3
-        blurView.translatesAutoresizingMaskIntoConstraints = false
-        view.insertSubview(blurView, atIndex: 0)
-        
         createUberButton()
         
         theTableView.reloadData()

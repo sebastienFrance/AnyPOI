@@ -118,6 +118,7 @@
 "TryAgainPasswordUserAuthentication"="Essayez à nouveau";
 "AccessPrivateDataUserAuthentication"="L'accès aux données privées";
 "YourPasswordUserAuthentication"="Votre mot de passe";
+"BuildLeftMenuViewController"="Version";
 "CategoryLabelUnknown"="Inconnue";
 "CategoryLabelCoffee"="Café";
 "CategoryLabelRestaurant"="Restaurant";

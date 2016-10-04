@@ -118,6 +118,7 @@
 "TryAgainPasswordUserAuthentication"="Please, try again";
 "AccessPrivateDataUserAuthentication"="Access to private data";
 "YourPasswordUserAuthentication"="Your password";
+"BuildLeftMenuViewController"="Build";
 "CategoryLabelUnknown"="Unknown";
 "CategoryLabelCoffee"="Cofee";
 "CategoryLabelRestaurant"="Restaurant";

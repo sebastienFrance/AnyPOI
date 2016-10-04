@@ -47,26 +47,12 @@ class ContactsViewController: UIViewController   {
         backgroundView.layer.cornerRadius = 10.0;
         backgroundView.layer.masksToBounds = true;
         
-        view.alpha = 1.0
-       // 1
-        let blurEffect = UIBlurEffect(style: .Light)
-        // 2
-        let blurView = UIVisualEffectView(effect: blurEffect)
-        // 3
-        blurView.translatesAutoresizingMaskIntoConstraints = false
-        view.insertSubview(blurView, atIndex: 0)
-
-        
         theTableView.reloadData()
-
     }
     
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-//         view.backgroundColor = UIColor.grayColor()
-//        view.alpha = 0.4
-        
     }
 
     override func didReceiveMemoryWarning() {
