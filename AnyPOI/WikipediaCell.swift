@@ -14,7 +14,6 @@ class WikipediaCell: UITableViewCell {
     @IBOutlet weak var title: UILabel!
 
     @IBOutlet weak var goToWikipedia: UIButton!
-    @IBOutlet weak var addWikipediaPOI: UIButton!
     @IBOutlet weak var extract: UILabel!
     
     
@@ -22,20 +21,9 @@ class WikipediaCell: UITableViewCell {
         title.text = wikipedia.title
         distance.text = "\(round(wikipedia.distance)) m"
         goToWikipedia.tag = index
-        addWikipediaPOI.tag = index
         
         let poiOfWiki = POIDataManager.sharedInstance.findPOIWith(wikipedia)
-        
-        var isWikipediaPOI = false
-        if let theWikipediaPOI = poiOfWiki {
-            addWikipediaPOI.enabled = false
-            if theWikipediaPOI == poi {
-                isWikipediaPOI = true
-            }
-        } else {
-            addWikipediaPOI.enabled = true
-        }
-        
+        let isWikipediaPOI = poiOfWiki === poi ? true : false
         
         title.textColor = isWikipediaPOI ? UIColor.greenColor() : UIColor.blackColor()
         extract.text = wikipedia.extract

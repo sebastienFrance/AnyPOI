@@ -16,16 +16,9 @@ class LocalSearchTableViewCell: UITableViewCell {
     @IBOutlet weak var name: UILabel!
     @IBOutlet weak var address: UILabel!
 
-    @IBOutlet weak var addButton: UIButton!
     @IBOutlet weak var webSiteButton: UIButton!
     
     func initWith(mapItem:MKMapItem, index:Int, region:MKCoordinateRegion) {
-        let foundPois = POIDataManager.sharedInstance.findPOIWith(mapItem.name!, coordinates: mapItem.placemark.coordinate)
-        if foundPois.count > 0 {
-            addButton.enabled = false
-        } else {
-            addButton.enabled = true
-        }
         
         if mapItem.url != nil {
             webSiteButton.hidden = false
@@ -36,7 +29,6 @@ class LocalSearchTableViewCell: UITableViewCell {
         
         name.text = mapItem.name
         address.text = Utilities.getAddressFrom(mapItem.placemark)
-        addButton.tag = index
 
         let distance = MapUtils.distanceFromTo(region.center, toCoordinate: mapItem.placemark.coordinate)
         let distanceFormater = MKDistanceFormatter()

@@ -336,13 +336,6 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
         ContainerViewController.sharedInstance.goToMap()
     }
 
-    @IBAction func addWikipediaPOI(sender: AnyObject) {
-        let wikipedia = poi.wikipedias[sender.tag]
-        
-        POIDataManager.sharedInstance.addPOI(wikipedia, group:poi.parentGroup!)
-        theTableView.reloadData()
-   }
-    
     //MARK: EKEventEditViewDelegate
     func eventEditViewController(controller: EKEventEditViewController, didCompleteWithAction action: EKEventEditViewAction) {
         controller.dismissViewControllerAnimated(true, completion: nil)
@@ -495,16 +488,16 @@ extension POIDetailsViewController : UITableViewDataSource, UITableViewDelegate 
             
             let wikipedia = poi.wikipedias[indexPath.row]
             
+            
+            let poiOfWiki = POIDataManager.sharedInstance.findPOIWith(wikipedia)
+            if poiOfWiki == nil {
+                POIDataManager.sharedInstance.addPOI(wikipedia, group:poi.parentGroup!)
+            }
+            
             NSNotificationCenter.defaultCenter().postNotificationName(MapViewController.MapNotifications.showWikipedia,
                                                                       object: wikipedia,
                                                                       userInfo: [MapViewController.MapNotifications.showPOI_Parameter_Wikipedia: wikipedia])
             ContainerViewController.sharedInstance.goToMap()
-
-            
-//            let wikipedia = poi.wikipedias[indexPath.row]
-//            let url = WikipediaUtils.getMobileURLForPageId(wikipedia.pageId)
-//            let safari = SFSafariViewController(URL: NSURL(string: url)!)
-//            showViewController(safari, sender: nil)
         } else if indexPath.section == Sections.mapViewAndPhotos && indexPath.row == 0 {
             NSNotificationCenter.defaultCenter().postNotificationName(MapViewController.MapNotifications.showPOI,
                                                                       object: nil,

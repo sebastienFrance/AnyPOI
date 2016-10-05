@@ -14,21 +14,12 @@ class WikipediaLocalSearchTableViewCell: UITableViewCell {
     @IBOutlet weak var title: UILabel!
     
     @IBOutlet weak var goToWikipedia: UIButton!
-    @IBOutlet weak var addWikipediaPOI: UIButton!
     @IBOutlet weak var extract: UILabel!
 
     func initWith(wikipedia:Wikipedia, index:Int) {
         title.text = wikipedia.title
         distance.text = "\(round(wikipedia.distance)) m"
         goToWikipedia.tag = index
-        addWikipediaPOI.tag = index
-      
-        if let _ = POIDataManager.sharedInstance.findPOIWith(wikipedia) {
-            addWikipediaPOI.enabled = false
-        } else {
-            addWikipediaPOI.enabled = true
-        }
-        
         extract.text = wikipedia.extract
     }
 
