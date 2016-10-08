@@ -17,11 +17,8 @@ class OptionsViewController: UITableViewController, PasswordConfigurationDelegat
 
     weak var theMapView: MKMapView!
     
-    @IBOutlet weak var switchBuildings: UISwitch!
-    @IBOutlet weak var switchCompass: UISwitch!
-    @IBOutlet weak var switchScale: UISwitch!
+    @IBOutlet weak var switchApplePOIs: UISwitch!
     @IBOutlet weak var switchTraffic: UISwitch!
-    @IBOutlet weak var switchAnimations: UISwitch!
     
     @IBOutlet weak var cellStandard: UITableViewCell!
     @IBOutlet weak var cellHybridFlyover: UITableViewCell!
@@ -66,11 +63,8 @@ class OptionsViewController: UITableViewController, PasswordConfigurationDelegat
  
         userAuthentication = UserAuthentication(delegate: self)
 
-        switchBuildings.on = UserPreferences.sharedInstance.mapShowBuildings
-        switchCompass.on = UserPreferences.sharedInstance.mapShowCompass
-        switchScale.on = UserPreferences.sharedInstance.mapShowScale
+        switchApplePOIs.on = UserPreferences.sharedInstance.mapShowPointsOfInterest
         switchTraffic.on = UserPreferences.sharedInstance.mapShowTraffic
-        switchAnimations.on = UserPreferences.sharedInstance.mapAnimations
         
         sliderWikiNearByDistance.value = Float(UserPreferences.sharedInstance.wikipediaNearByDistance)
         let distanceFormatter = NSLengthFormatter()
@@ -149,20 +143,12 @@ class OptionsViewController: UITableViewController, PasswordConfigurationDelegat
     }
 
     @IBAction func switchMapOptionsChanged(sender: UISwitch) {
-        if sender == switchBuildings {
-            UserPreferences.sharedInstance.mapShowBuildings = sender.on
-            theMapView.showsBuildings = sender.on
-       } else if sender == switchCompass {
-            UserPreferences.sharedInstance.mapShowCompass = sender.on
-            theMapView.showsCompass = sender.on
-       } else if sender == switchScale {
-            UserPreferences.sharedInstance.mapShowScale = sender.on
-            theMapView.showsScale = sender.on
+        if sender == switchApplePOIs {
+            UserPreferences.sharedInstance.mapShowPointsOfInterest = sender.on
+            theMapView.showsPointsOfInterest = sender.on
        } else if sender == switchTraffic {
             UserPreferences.sharedInstance.mapShowTraffic = sender.on
             theMapView.showsTraffic = sender.on
-        } else if sender == switchAnimations {
-            UserPreferences.sharedInstance.mapAnimations = sender.on
        } else {
             print("\(#function) Error unknown sender")
         }

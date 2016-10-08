@@ -165,8 +165,8 @@ class FlyoverWayPoints: NSObject, MapCameraAnimationsDelegate {
     
     private func cleanupFlyover(urgentStop: Bool) {
         theMapView.mapType = UserPreferences.sharedInstance.mapMode
-        theMapView.showsCompass = UserPreferences.sharedInstance.mapShowCompass
-        theMapView.showsScale = UserPreferences.sharedInstance.mapShowScale
+        theMapView.showsCompass = true
+        theMapView.showsScale = true
         theMapView.showsTraffic = UserPreferences.sharedInstance.mapShowTraffic
         
         flyoverDelegate.flyoverDidEnd(flyoverUpdatedPois, urgentStop: urgentStop)

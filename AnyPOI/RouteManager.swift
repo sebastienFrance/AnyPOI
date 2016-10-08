@@ -218,19 +218,19 @@ class RouteManager: NSObject {
         if routeDatasource.isBeforeRouteSections {
             if let region = routeDatasource.theRoute.region {
                 //let regionThatFits = theMapView.regionThatFits(region)
-                theMapView.setRegion(region, animated: UserPreferences.sharedInstance.mapAnimations)
+                theMapView.setRegion(region, animated: true)
             }
         } else {
             if !isRouteFromCurrentLocationDisplayed {
                 let region = routeDatasource.fromWayPoint!.regionWith([routeDatasource.fromPOI!, routeDatasource.toPOI!])
                 if let theRegion = region {
-                    theMapView.setRegion(theRegion, animated: UserPreferences.sharedInstance.mapAnimations)
+                    theMapView.setRegion(theRegion, animated: true)
                 }
             } else {
                 var (topLeft, bottomRight) = MapUtils.boundingBoxForAnnotationsNew([routeDatasource.fromPOI!, routeDatasource.toPOI!])
                 (topLeft, bottomRight) = MapUtils.extendBoundingBox(topLeft, bottomRightCoord: bottomRight, multiPointOverlay: routeFromCurrentLocation!.polyline)
                 let region = MapUtils.appendMargingToBoundBox(topLeft, bottomRightCoord: bottomRight)
-                self.theMapView.setRegion(region, animated: UserPreferences.sharedInstance.mapAnimations)
+                self.theMapView.setRegion(region, animated: true)
             }
         }
     }

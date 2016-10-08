@@ -129,7 +129,7 @@ class MapCameraAnimations  {
    }
     
     func fromCurrentMapLocationTo(coordinates:CLLocationCoordinate2D) {
-        fromCurrentMapLocationTo(coordinates, withAnimation: UserPreferences.sharedInstance.mapAnimations)
+        fromCurrentMapLocationTo(coordinates, withAnimation: true)
     }
     
     func fromCurrentMapLocationTo(coordinates:CLLocationCoordinate2D, withAnimation:Bool) {

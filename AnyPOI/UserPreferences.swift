@@ -22,11 +22,8 @@ class UserPreferences {
     
     private struct keys {
         static let MapMode = "MapMode"
-        static let MapShowBuildings = "MapShowBuildings"
-        static let MapShowCompass = "MapShowCompass"
-        static let MapShowScale = "MapShowScale"
         static let MapShowTraffic = "MapShowTraffic"
-        static let MapAnimations = "MapAnimations"
+        static let MapShowPointsOfInterest = "MapShowPointsOfInterest"
     
     
         static let MapLatestLatitude = "MapLatestLatitude"
@@ -56,11 +53,8 @@ class UserPreferences {
             
             userDefaults.setValue("test", forKey: keys.TestParameter)
             mapMode = .Standard
-            mapShowBuildings = true
-            mapShowCompass = true
-            mapShowScale = true
             mapShowTraffic = true
-            mapAnimations = true
+            mapShowPointsOfInterest = false
             
             mapLatestMapRegion = defaultRegion
             
@@ -86,30 +80,12 @@ class UserPreferences {
     }
     
 
-    var mapShowBuildings: Bool {
+    var mapShowPointsOfInterest: Bool {
         get {
-            return NSUserDefaults.standardUserDefaults().boolForKey(keys.MapShowBuildings)
+            return NSUserDefaults.standardUserDefaults().boolForKey(keys.MapShowPointsOfInterest)
         }
         set {
-            NSUserDefaults.standardUserDefaults().setBool(newValue, forKey: keys.MapShowBuildings)
-        }
-    }
-
-    var mapShowCompass: Bool {
-        get {
-            return NSUserDefaults.standardUserDefaults().boolForKey(keys.MapShowCompass)
-        }
-        set {
-            NSUserDefaults.standardUserDefaults().setBool(newValue, forKey: keys.MapShowCompass)
-        }
-    }
-
-    var mapShowScale: Bool {
-        get {
-            return NSUserDefaults.standardUserDefaults().boolForKey(keys.MapShowScale)
-        }
-        set {
-            NSUserDefaults.standardUserDefaults().setBool(newValue, forKey: keys.MapShowScale)
+            NSUserDefaults.standardUserDefaults().setBool(newValue, forKey: keys.MapShowPointsOfInterest)
         }
     }
 
@@ -122,15 +98,6 @@ class UserPreferences {
         }
     }
     
-   var mapAnimations: Bool {
-        get {
-            return NSUserDefaults.standardUserDefaults().boolForKey(keys.MapAnimations)
-        }
-        set {
-            NSUserDefaults.standardUserDefaults().setBool(newValue, forKey: keys.MapAnimations)
-        }
-    }
-
     var mapLatestMapRegion : MKCoordinateRegion {
         get {
             let mapLatitude = NSUserDefaults.standardUserDefaults().doubleForKey(keys.MapLatestLatitude)

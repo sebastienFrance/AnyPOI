@@ -330,7 +330,7 @@
 "qM6-0c-L3i.normalTitle" = "Button";
 
 /* Class = "UILabel"; text = "Point of interest that are currently monitored"; ObjectID = "r8m-gi-4lw"; */
-"r8m-gi-4lw.text" = "Point d'intérêt qui sont actuellement surveillés";
+"r8m-gi-4lw.text" = "Points d'intérêt qui sont actuellement surveillés";
 
 /* Class = "UILabel"; text = "Select a new group for POIs"; ObjectID = "rGL-UX-2fU"; */
 "rGL-UX-2fU.text" = "Sélectionnez un nouveau groupe pour les POIs";
@@ -346,9 +346,10 @@
 
 /* Class = "UIButton"; normalTitle = "Close"; ObjectID = "vI4-FM-GKY"; */
 "vI4-FM-GKY.normalTitle" = "Fermer";
+"4df-x7-3M2.normalTitle" = "Fermer";
 
-/* Class = "UILabel"; text = "Buildings"; ObjectID = "vsm-qm-kIN"; */
-"vsm-qm-kIN.text" = "Bâtiments";
+/* Class = "UILabel"; text = "Apple's Points of Interest"; ObjectID = "vsm-qm-kIN"; */
+"vsm-qm-kIN.text" = "Points d'interêt d'Apple";
 
 /* Class = "UILabel"; text = "Address"; ObjectID = "w4k-OC-gT5"; */
 "w4k-OC-gT5.text" = "Adresse";

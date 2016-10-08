@@ -97,11 +97,12 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
                 theMapView.scrollEnabled = true
                 theMapView.pitchEnabled = true
                 theMapView.rotateEnabled = true
-                theMapView.showsBuildings = UserPreferences.sharedInstance.mapShowBuildings
+                theMapView.showsBuildings = true
                 theMapView.showsPointsOfInterest = false
-                theMapView.showsCompass = UserPreferences.sharedInstance.mapShowCompass
-                theMapView.showsScale = UserPreferences.sharedInstance.mapShowScale
+                theMapView.showsCompass = true
+                theMapView.showsScale = true
                 theMapView.showsTraffic = UserPreferences.sharedInstance.mapShowTraffic
+                theMapView.showsPointsOfInterest = UserPreferences.sharedInstance.mapShowPointsOfInterest
                 theMapView.showsUserLocation = true
                 theMapView.delegate = self
             }
@@ -465,7 +466,7 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
         }
         POIDataManager.sharedInstance.commitDatabase()
         let region = MapUtils.boundingBoxForAnnotations(pois)
-        theMapView.setRegion(region, animated: UserPreferences.sharedInstance.mapAnimations)
+        theMapView.setRegion(region, animated: true)
     }
 
 
@@ -479,7 +480,7 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
         }
         
         let region = MapUtils.boundingBoxForAnnotations(group.pois)
-        theMapView.setRegion(region, animated: UserPreferences.sharedInstance.mapAnimations)
+        theMapView.setRegion(region, animated: true)
     }
     
     func showMapLocation(mapItem: MKMapItem) {

@@ -10,9 +10,30 @@ import UIKit
 
 class CategoryUtils {
     
-     private static let categoryIcons = ["Question Mark-40", "Cup-40", "Restaurant-40", "Bar-40", "Bavarian Beer Mug-40", "Museum-40", "Dancing-40", "City Railway Station-40", "Theatre Mask-40",
-                         "Hospital 3-40", "Caduceus-40", "Cathedral-40", "Stadium-40", "Gas Station-40", "Courthouse-40", "Airport-40", "Movie-40", "Park Bench-40",
-                         "Parking-40", "Pizza-40", "ATM-40", "Bank-40", "Shopping Bag-40", "Hotel Information-40"]
+     private static let categoryIcons = ["Question Mark-40",
+                                         "Cup-40",
+                                         "Restaurant-40",
+                                         "Pizza-40",
+                                         "Bar-40",
+                                         "Bavarian Beer Mug-40",
+                                         "Movie-40",
+                                         "Museum-40",
+                                         "Dancing-40",
+                                         "Theatre Mask-40",
+                                         "Stadium-40",
+                                         "Park Bench-40",
+                                         "Hotel Information-40",
+                                         "City Railway Station-40",
+                                         "Airport-40",
+                                         "Hospital 3-40",
+                                         "Caduceus-40",
+                                         "Cathedral-40",
+                                         "Gas Station-40",
+                                         "Courthouse-40",
+                                         "Parking-40",
+                                         "ATM-40",
+                                         "Bank-40",
+                                         "Shopping Bag-40"]
 
     private static let categoryFromIcons = ["Question Mark-40" : NSLocalizedString("CategoryLabelUnknown", comment: ""),
                                             "Cup-40" : NSLocalizedString("CategoryLabelCoffee", comment: ""),
