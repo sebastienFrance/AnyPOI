@@ -12,7 +12,9 @@ import Contacts
 
 class LocationCell: UITableViewCell {
 
-    @IBOutlet weak var street: UILabel!
+    //@IBOutlet weak var street: UILabel!
+
+    @IBOutlet weak var addressTextView: UITextView!
     @IBOutlet weak var poiCategoryImage: UIImageView!
     @IBOutlet weak var poiCategoryHeight: NSLayoutConstraint!
     @IBOutlet weak var poiCategoryWidth: NSLayoutConstraint!
@@ -71,7 +73,7 @@ class LocationCell: UITableViewCell {
     }
     
     private func configureGeneralInfo(poi:PointOfInterest) {
-        street.text = poi.address
+        addressTextView.text = poi.address
         poiDescription.text = poi.poiDescription
         
         
