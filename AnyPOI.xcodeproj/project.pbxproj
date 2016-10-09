@@ -109,6 +109,7 @@
 		BE2FF2CA1D8B280B00C0395A /* CallOutLeftAccessoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE2FF2C51D8B280B00C0395A /* CallOutLeftAccessoryView.xib */; };
 		BE2FF2CC1D8B280B00C0395A /* PickerCategoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE2FF2C71D8B280B00C0395A /* PickerCategoryView.xib */; };
 		BE2FF2CD1D8B280B00C0395A /* PickerGroupView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE2FF2C81D8B280B00C0395A /* PickerGroupView.xib */; };
+		BE47BE3B1DAACA8E00862A0C /* POIManager.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE47BE391DAACA8E00862A0C /* POIManager.storyboard */; };
 		BE4A880C1D93137900A0DE2F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BE4A880E1D93137900A0DE2F /* Localizable.strings */; };
 		BE90C7B41DA1668900033DC9 /* RouteProviderTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE90C7B31DA1668900033DC9 /* RouteProviderTableViewController.swift */; };
 		BE90C7B61DA166A800033DC9 /* RouteProviderWithTransportTypeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE90C7B51DA166A800033DC9 /* RouteProviderWithTransportTypeTableViewCell.swift */; };
@@ -287,6 +288,7 @@
 		BE2FF2C51D8B280B00C0395A /* CallOutLeftAccessoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CallOutLeftAccessoryView.xib; sourceTree = "<group>"; };
 		BE2FF2C71D8B280B00C0395A /* PickerCategoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PickerCategoryView.xib; sourceTree = "<group>"; };
 		BE2FF2C81D8B280B00C0395A /* PickerGroupView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PickerGroupView.xib; sourceTree = "<group>"; };
+		BE47BE3A1DAACA8E00862A0C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/POIManager.storyboard; sourceTree = "<group>"; };
 		BE4A88071D930FFE00A0DE2F /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Main.strings; sourceTree = "<group>"; };
 		BE4A88081D930FFE00A0DE2F /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		BE4A88091D930FFE00A0DE2F /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/MainInterface.strings; sourceTree = "<group>"; };
@@ -403,6 +405,7 @@
 				BE2FF2C71D8B280B00C0395A /* PickerCategoryView.xib */,
 				BE2FF2C81D8B280B00C0395A /* PickerGroupView.xib */,
 				BEA7BAA21D8B01E5005D2D21 /* Main.storyboard */,
+				BE47BE391DAACA8E00862A0C /* POIManager.storyboard */,
 				BE957E5A1DA8FBBA006CF455 /* Options.storyboard */,
 			);
 			name = Storyboards;
@@ -980,6 +983,7 @@
 				BE957E5C1DA8FBBA006CF455 /* Options.storyboard in Resources */,
 				BE2FF2CD1D8B280B00C0395A /* PickerGroupView.xib in Resources */,
 				BE2FF2CC1D8B280B00C0395A /* PickerCategoryView.xib in Resources */,
+				BE47BE3B1DAACA8E00862A0C /* POIManager.storyboard in Resources */,
 				BE2FF2C91D8B280B00C0395A /* CallOutAccessoryView.xib in Resources */,
 				BEA7BAAC1D8B01E5005D2D21 /* LaunchScreen.storyboard in Resources */,
 				BE4A880C1D93137900A0DE2F /* Localizable.strings in Resources */,
@@ -1223,6 +1227,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		BE47BE391DAACA8E00862A0C /* POIManager.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BE47BE3A1DAACA8E00862A0C /* Base */,
+			);
+			name = POIManager.storyboard;
+			sourceTree = "<group>";
+		};
 		BE4A880E1D93137900A0DE2F /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
