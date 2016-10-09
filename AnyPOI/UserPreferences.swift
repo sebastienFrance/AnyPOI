@@ -33,6 +33,7 @@ class UserPreferences {
 
         static let WikipediaNearByDistance = "WikipediaNearByDistance"
         static let WikipediaMaxResults = "WikipediaMaxResults"
+        static let WikipediaLanguageISOcode = "WikipediaLanguageISOcode"
         
         static let RouteDefaultTransportType = "RouteDefaultTransportType"
 
@@ -61,12 +62,22 @@ class UserPreferences {
             wikipediaNearByDistance = 10000
             wikipediaMaxResults = 10
             
+            wikipediaLanguageISOcode = getDefaultWikipediaLanguageISOcode()
             routeDefaultTransportType = .Automobile
 
             authenticationPasswordEnabled = false
             authenticationTouchIdEnabled = false
             authenticationPassword = ""
         }
+    }
+    
+    private func getDefaultWikipediaLanguageISOcode() -> String {
+        if let localLanguageCode = NSLocale.currentLocale().objectForKey(NSLocaleLanguageCode) as? String {
+            if WikipediaLanguages.hasISOCodeLanguage(localLanguageCode) {
+                return localLanguageCode
+            }
+        }
+        return WikipediaLanguages.defaultWikipediaLanguageISOcode
     }
     
     var mapMode:MKMapType {
@@ -134,6 +145,22 @@ class UserPreferences {
             NSUserDefaults.standardUserDefaults().setInteger(newValue, forKey: keys.WikipediaMaxResults)
         }
     }
+    
+    var wikipediaLanguageISOcode: String {
+        get {
+            if let defautLanguageISOCode = NSUserDefaults.standardUserDefaults().objectForKey(keys.WikipediaLanguageISOcode) as? String {
+                return defautLanguageISOCode
+            } else {
+                let defaultLanguageISOcode = getDefaultWikipediaLanguageISOcode()
+                self.wikipediaLanguageISOcode = defaultLanguageISOcode
+                return defaultLanguageISOcode
+            }
+        }
+        set {
+            NSUserDefaults.standardUserDefaults().setValue(newValue, forKey: keys.WikipediaLanguageISOcode)
+        }
+    }
+
     
     var routeDefaultTransportType: MKDirectionsTransportType {
         get {

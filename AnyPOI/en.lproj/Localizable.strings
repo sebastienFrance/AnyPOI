@@ -119,6 +119,11 @@
 "AccessPrivateDataUserAuthentication"="Access to private data";
 "YourPasswordUserAuthentication"="Your password";
 "BuildLeftMenuViewController"="Build";
+"NearByWikipediaOptions"="Near by";
+"MaxResultsWikipediaOptions"="Max results";
+"LanguageWikipediaOptionVC"="Language";
+"Range %@, maxResult %@"="Near by %@ with Max results %@";
+"Wikipedia Language: %@"="Language %@";
 "CategoryLabelUnknown"="Unknown";
 "CategoryLabelCoffee"="Cofee";
 "CategoryLabelRestaurant"="Restaurant";

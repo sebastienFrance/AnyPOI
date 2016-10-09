@@ -23,15 +23,12 @@ class OptionsViewController: UITableViewController, PasswordConfigurationDelegat
     @IBOutlet weak var cellStandard: UITableViewCell!
     @IBOutlet weak var cellHybridFlyover: UITableViewCell!
     
-    @IBOutlet weak var sliderWikiNearByDistance: UISlider!
-    @IBOutlet weak var labelWikiNearByDistance: UILabel!
-    
-    @IBOutlet weak var sliderWikiMaxResults: UISlider!
-    @IBOutlet weak var labelWikiMaxResults: UILabel!
-    
-    
     @IBOutlet weak var switchDefaultTransportType: UISegmentedControl!
 
+
+    @IBOutlet weak var wikiLanguage: UILabel!
+
+    @IBOutlet weak var wikiDistanceAndResults: UILabel!
     @IBOutlet weak var switchEnablePassword: UISwitch!
     @IBOutlet weak var switchEnableTouchId: UISwitch!
     @IBOutlet weak var changePasswordButton: UIButton!
@@ -66,13 +63,6 @@ class OptionsViewController: UITableViewController, PasswordConfigurationDelegat
         switchApplePOIs.on = UserPreferences.sharedInstance.mapShowPointsOfInterest
         switchTraffic.on = UserPreferences.sharedInstance.mapShowTraffic
         
-        sliderWikiNearByDistance.value = Float(UserPreferences.sharedInstance.wikipediaNearByDistance)
-        let distanceFormatter = NSLengthFormatter()
-        distanceFormatter.unitStyle = .Short
-        labelWikiNearByDistance.text = "Near by \(distanceFormatter.stringFromMeters(Double(sliderWikiNearByDistance.value)))"
-        
-        sliderWikiMaxResults.value = Float(UserPreferences.sharedInstance.wikipediaMaxResults)
-        labelWikiMaxResults.text = "Max results \(Int(sliderWikiMaxResults.value))"
         
         let defaultTransportType = UserPreferences.sharedInstance.routeDefaultTransportType
         switch(defaultTransportType) {
@@ -90,9 +80,27 @@ class OptionsViewController: UITableViewController, PasswordConfigurationDelegat
         updateCellMapMode()
     }
     
+    
+    
+    private func updateWikipediaDescription() {
+        let userPrefs = UserPreferences.sharedInstance
+        let language = WikipediaLanguages.LanguageForISOcode(userPrefs.wikipediaLanguageISOcode)
+        
+        let distanceFormatter = NSLengthFormatter()
+        distanceFormatter.unitStyle = .Short
+        let distance = distanceFormatter.stringFromMeters(Double(userPrefs.wikipediaNearByDistance))
+        
+        wikiLanguage.text = "\(NSLocalizedString("LanguageWikipediaOptionVC", comment: "")) \(language)"
+        wikiDistanceAndResults.text = String.localizedStringWithFormat(NSLocalizedString("Range %@, maxResult %@", comment: ""), distance, "\(userPrefs.wikipediaMaxResults)")
+            
+       //     "Range \(distance), max results \(userPrefs.wikipediaMaxResults)"
+    }
+    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.toolbarHidden = true
+        
+        updateWikipediaDescription()
     }
 
     
@@ -105,17 +113,6 @@ class OptionsViewController: UITableViewController, PasswordConfigurationDelegat
         switchEnableTouchId.on = UserPreferences.sharedInstance.authenticationTouchIdEnabled
     }
     
-    @IBAction func updateWikiNearByDistance(sender: UISlider) {
-        UserPreferences.sharedInstance.wikipediaNearByDistance = Int(sliderWikiNearByDistance.value)
-        let distanceFormatter = NSLengthFormatter()
-        distanceFormatter.unitStyle = .Short
-        labelWikiNearByDistance.text = "\(NSLocalizedString("NearBy",comment:"")) \(distanceFormatter.stringFromMeters(Double(sliderWikiNearByDistance.value)))"
-    }
-    
-    @IBAction func updateWikiMaxResults(sender: UISlider) {
-        UserPreferences.sharedInstance.wikipediaMaxResults = Int(sliderWikiMaxResults.value)
-        labelWikiMaxResults.text = "\(NSLocalizedString("MaxResults",comment:"")) \(Int(sliderWikiMaxResults.value))"
-    }
     
     @IBAction func updateDefaultTransportType(sender: UISegmentedControl) {
         switch(sender.selectedSegmentIndex) {

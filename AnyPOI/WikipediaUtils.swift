@@ -16,21 +16,6 @@ class WikipediaUtils {
     // Get URL for image of a given page with a max size: /w/api.php?action=query&prop=pageimages&format=json&piprop=thumbnail&pithumbsize=20&pageids=32937647
     // Get Following URL if there're severals https://en.wikipedia.org/w/api.php?action=query&prop=pageimages&format=json&piprop=thumbnail&pageids=32937647&generator=images&gimlimit=10&gimdir=ascending&picontinue=-2
 
-    
-    static var defaultWikipediaLanguage = "en"
-    
-    static func getWikipediaAPI() -> String {
-        return "https://" + defaultWikipediaLanguage + ".wikipedia.org/w/api.php"
-    }
-    
-    static func getMobileURLForPageId(pageId:Int) -> String {
-        return "https://" + defaultWikipediaLanguage + ".m.wikipedia.org/?curid=\(pageId)"
-    }
-    
-    static func getDesktopURLForPageId(pageId:Int) -> String {
-        return "https://" + defaultWikipediaLanguage + ".wikipedia.org/?curid=\(pageId)"
-    }
-    
     static func getExtractFromJSONResponse(JSONResponse:AnyObject) -> String {
         let response = JSONResponse as! NSDictionary
         let query = response["query"] as! NSDictionary
@@ -38,21 +23,22 @@ class WikipediaUtils {
         let values = pages.allValues[0] as! NSDictionary
         
         let extract = values["extract"] as! String
-
+        
         return extract
     }
+
+    static func getWikipediaAPI() -> String {
+        return "https://" + WikipediaLanguages.endPoint() + ".wikipedia.org/w/api.php"
+    }
     
-    static func initializeDefaultLanguage() {
-        let locaLanguageCode = NSLocale.currentLocale().objectForKey(NSLocaleLanguageCode) as? String
-        var languageCode = "en"
-        if let newLanguage = locaLanguageCode {
-            languageCode = newLanguage
-        }
-        
-        defaultWikipediaLanguage = languageCode
+    static func getMobileURLForPageId(pageId:Int) -> String {
+        return "https://" + WikipediaLanguages.endPoint() + ".m.wikipedia.org/?curid=\(pageId)"
+    }
+    
+    static func getDesktopURLForPageId(pageId:Int) -> String {
+        return "https://" + WikipediaLanguages.endPoint() + ".wikipedia.org/?curid=\(pageId)"
     }
 
-    
     //        Alamofire.request(.GET, "https://" + languageCode + ".wikipedia.org/w/api.php", parameters: ["action": "query", "list" : "geosearch", "gscoord" : "\(poi.coordinate.latitude)|\(poi.coordinate.longitude)", "gsradius" : "10000", "gslimit" : "10", "format" : "json"])
     static func getGeoSearchRequest(coordinate:CLLocationCoordinate2D,
         radius:Int = UserPreferences.sharedInstance.wikipediaNearByDistance,

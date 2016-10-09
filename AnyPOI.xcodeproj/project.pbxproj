@@ -97,6 +97,7 @@
 		BE0CF35D1D8B209A00344F8A /* MapImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2FC1D8B209A00344F8A /* MapImageCell.swift */; };
 		BE0CF3611D8B21C800344F8A /* DatabaseAccess.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF35E1D8B21C800344F8A /* DatabaseAccess.swift */; };
 		BE0CF3621D8B21C800344F8A /* GeoLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF35F1D8B21C800344F8A /* GeoLocation.swift */; };
+		BE187CF11DAA58C6007737B4 /* WikipediaLanguages.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE187CF01DAA58C6007737B4 /* WikipediaLanguages.swift */; };
 		BE2FF2BD1D8B256D00C0395A /* PointOfInterest+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2FF2B91D8B256D00C0395A /* PointOfInterest+CoreDataProperties.swift */; };
 		BE2FF2BE1D8B256D00C0395A /* GroupOfInterest+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2FF2BA1D8B256D00C0395A /* GroupOfInterest+CoreDataProperties.swift */; };
 		BE2FF2BF1D8B256D00C0395A /* Route+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2FF2BB1D8B256D00C0395A /* Route+CoreDataProperties.swift */; };
@@ -109,6 +110,11 @@
 		BE4A880C1D93137900A0DE2F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BE4A880E1D93137900A0DE2F /* Localizable.strings */; };
 		BE90C7B41DA1668900033DC9 /* RouteProviderTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE90C7B31DA1668900033DC9 /* RouteProviderTableViewController.swift */; };
 		BE90C7B61DA166A800033DC9 /* RouteProviderWithTransportTypeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE90C7B51DA166A800033DC9 /* RouteProviderWithTransportTypeTableViewCell.swift */; };
+		BE957E5C1DA8FBBA006CF455 /* Options.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE957E5A1DA8FBBA006CF455 /* Options.storyboard */; };
+		BE957E5F1DA8FDE7006CF455 /* WikipediaOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE957E5E1DA8FDE7006CF455 /* WikipediaOptionsViewController.swift */; };
+		BE957E611DA90147006CF455 /* WikipediaSliderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE957E601DA90147006CF455 /* WikipediaSliderTableViewCell.swift */; };
+		BE957E631DA943D6006CF455 /* WikiLanguagePickerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE957E621DA943D6006CF455 /* WikiLanguagePickerTableViewCell.swift */; };
+		BE957E651DA94A03006CF455 /* WikiSelectedLanguageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE957E641DA94A03006CF455 /* WikiSelectedLanguageTableViewCell.swift */; };
 		BE9833F11D8D55C600B174A7 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE9833F01D8D55C600B174A7 /* NotificationCenter.framework */; };
 		BE9833F41D8D55C600B174A7 /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE9833F31D8D55C600B174A7 /* TodayViewController.swift */; };
 		BE9833F71D8D55C600B174A7 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE9833F51D8D55C600B174A7 /* MainInterface.storyboard */; };
@@ -266,6 +272,7 @@
 		BE0CF35E1D8B21C800344F8A /* DatabaseAccess.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseAccess.swift; sourceTree = "<group>"; };
 		BE0CF35F1D8B21C800344F8A /* GeoLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeoLocation.swift; sourceTree = "<group>"; };
 		BE16A0CA19DE97FD2626AC38 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BE187CF01DAA58C6007737B4 /* WikipediaLanguages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WikipediaLanguages.swift; sourceTree = "<group>"; };
 		BE2FF2B91D8B256D00C0395A /* PointOfInterest+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PointOfInterest+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		BE2FF2BA1D8B256D00C0395A /* GroupOfInterest+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "GroupOfInterest+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		BE2FF2BB1D8B256D00C0395A /* Route+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Route+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -283,6 +290,11 @@
 		BE4A880F1D93138900A0DE2F /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BE90C7B31DA1668900033DC9 /* RouteProviderTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteProviderTableViewController.swift; sourceTree = "<group>"; };
 		BE90C7B51DA166A800033DC9 /* RouteProviderWithTransportTypeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteProviderWithTransportTypeTableViewCell.swift; sourceTree = "<group>"; };
+		BE957E5B1DA8FBBA006CF455 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Options.storyboard; sourceTree = "<group>"; };
+		BE957E5E1DA8FDE7006CF455 /* WikipediaOptionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WikipediaOptionsViewController.swift; sourceTree = "<group>"; };
+		BE957E601DA90147006CF455 /* WikipediaSliderTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WikipediaSliderTableViewCell.swift; sourceTree = "<group>"; };
+		BE957E621DA943D6006CF455 /* WikiLanguagePickerTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WikiLanguagePickerTableViewCell.swift; sourceTree = "<group>"; };
+		BE957E641DA94A03006CF455 /* WikiSelectedLanguageTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WikiSelectedLanguageTableViewCell.swift; sourceTree = "<group>"; };
 		BE9833EF1D8D55C600B174A7 /* AnyPOITodayWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = AnyPOITodayWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE9833F01D8D55C600B174A7 /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
 		BE9833F31D8D55C600B174A7 /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
@@ -387,6 +399,7 @@
 				BE2FF2C71D8B280B00C0395A /* PickerCategoryView.xib */,
 				BE2FF2C81D8B280B00C0395A /* PickerGroupView.xib */,
 				BEA7BAA21D8B01E5005D2D21 /* Main.storyboard */,
+				BE957E5A1DA8FBBA006CF455 /* Options.storyboard */,
 			);
 			name = Storyboards;
 			sourceTree = "<group>";
@@ -567,6 +580,7 @@
 			isa = PBXGroup;
 			children = (
 				BE0CF2CD1D8B209A00344F8A /* OptionsViewController.swift */,
+				BE957E5D1DA8FDC7006CF455 /* WikipediaOptions */,
 			);
 			name = OptionsVC;
 			sourceTree = "<group>";
@@ -648,6 +662,7 @@
 			children = (
 				BE0CF2C71D8B209A00344F8A /* Wikipedia.swift */,
 				BE0CF2C91D8B209A00344F8A /* WikipediaRequest.swift */,
+				BE187CF01DAA58C6007737B4 /* WikipediaLanguages.swift */,
 				BE0CF2CA1D8B209A00344F8A /* WikipediaUtils.swift */,
 			);
 			name = Wikipedia;
@@ -699,6 +714,17 @@
 				BE2FF2BC1D8B256D00C0395A /* WayPoint+CoreDataProperties.swift */,
 			);
 			name = dataModel;
+			sourceTree = "<group>";
+		};
+		BE957E5D1DA8FDC7006CF455 /* WikipediaOptions */ = {
+			isa = PBXGroup;
+			children = (
+				BE957E5E1DA8FDE7006CF455 /* WikipediaOptionsViewController.swift */,
+				BE957E621DA943D6006CF455 /* WikiLanguagePickerTableViewCell.swift */,
+				BE957E641DA94A03006CF455 /* WikiSelectedLanguageTableViewCell.swift */,
+				BE957E601DA90147006CF455 /* WikipediaSliderTableViewCell.swift */,
+			);
+			name = WikipediaOptions;
 			sourceTree = "<group>";
 		};
 		BE9833F21D8D55C600B174A7 /* AnyPOITodayWidget */ = {
@@ -945,6 +971,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BE2FF2CA1D8B280B00C0395A /* CallOutLeftAccessoryView.xib in Resources */,
+				BE957E5C1DA8FBBA006CF455 /* Options.storyboard in Resources */,
 				BE2FF2CD1D8B280B00C0395A /* PickerGroupView.xib in Resources */,
 				BE2FF2CC1D8B280B00C0395A /* PickerCategoryView.xib in Resources */,
 				BE2FF2C91D8B280B00C0395A /* CallOutAccessoryView.xib in Resources */,
@@ -1051,6 +1078,7 @@
 				BE0CF3391D8B209A00344F8A /* PoiDetailImageViewController.swift in Sources */,
 				BE0CF3271D8B209A00344F8A /* searchPoiViewCell.swift in Sources */,
 				BE0CF3081D8B209A00344F8A /* RouteManager.swift in Sources */,
+				BE957E631DA943D6006CF455 /* WikiLanguagePickerTableViewCell.swift in Sources */,
 				BE0CF3121D8B209A00344F8A /* GroupOfInterest.swift in Sources */,
 				BE0CF3521D8B209A00344F8A /* PickerCategoryView.swift in Sources */,
 				BE0CF3511D8B209A00344F8A /* ChangePassword.swift in Sources */,
@@ -1077,17 +1105,20 @@
 				BE0CF3091D8B209A00344F8A /* RoutesViewController.swift in Sources */,
 				BE0CF34A1D8B209A00344F8A /* PickerViewCell.swift in Sources */,
 				BE0CF32F1D8B209A00344F8A /* POIDataManager.swift in Sources */,
+				BE957E651DA94A03006CF455 /* WikiSelectedLanguageTableViewCell.swift in Sources */,
 				BE0CF3211D8B209A00344F8A /* RouteDetailsViewCell.swift in Sources */,
 				BE0CF34E1D8B209A00344F8A /* searchRouteTableViewCell.swift in Sources */,
 				BE0CF3101D8B209A00344F8A /* DrawingUtils.swift in Sources */,
 				BE0CF3001D8B209A00344F8A /* ContainerViewController.swift in Sources */,
 				BE0CF3441D8B209A00344F8A /* UserPreferences.swift in Sources */,
 				BE0CF3191D8B209A00344F8A /* PoiEditorGroupViewCell.swift in Sources */,
+				BE187CF11DAA58C6007737B4 /* WikipediaLanguages.swift in Sources */,
 				BE0CF3031D8B209A00344F8A /* LeftMenuViewController.swift in Sources */,
 				BE0CF3501D8B209A00344F8A /* CategoryCollectionViewCell.swift in Sources */,
 				BE0CF32A1D8B209A00344F8A /* WikipediaRequest.swift in Sources */,
 				BE0CF3131D8B209A00344F8A /* LocalSearchTableViewCell.swift in Sources */,
 				BE0CF3041D8B209A00344F8A /* MapUtils.swift in Sources */,
+				BE957E611DA90147006CF455 /* WikipediaSliderTableViewCell.swift in Sources */,
 				BE0CF31B1D8B209A00344F8A /* POIGroupCell.swift in Sources */,
 				BE0CF35D1D8B209A00344F8A /* MapImageCell.swift in Sources */,
 				BE0CF30B1D8B209A00344F8A /* WikipediaLocalSearchTableViewCell.swift in Sources */,
@@ -1129,6 +1160,7 @@
 				BE0CF3321D8B209A00344F8A /* DimmerExtension.swift in Sources */,
 				BE0CF3361D8B209A00344F8A /* MessageActivityItemSource.swift in Sources */,
 				BE0CF3301D8B209A00344F8A /* RouteDataSource.swift in Sources */,
+				BE957E5F1DA8FDE7006CF455 /* WikipediaOptionsViewController.swift in Sources */,
 				BE0CF3621D8B21C800344F8A /* GeoLocation.swift in Sources */,
 				BE0CF3451D8B209A00344F8A /* WayPoint.swift in Sources */,
 				BE0CF31F1D8B209A00344F8A /* POIsViewController.swift in Sources */,
@@ -1190,6 +1222,14 @@
 				BE4A880F1D93138900A0DE2F /* fr */,
 			);
 			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		BE957E5A1DA8FBBA006CF455 /* Options.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BE957E5B1DA8FBBA006CF455 /* Base */,
+			);
+			name = Options.storyboard;
 			sourceTree = "<group>";
 		};
 		BE9833F51D8D55C600B174A7 /* MainInterface.storyboard */ = {

@@ -35,6 +35,7 @@ class ContainerViewController: UIViewController {
     static private(set) var sharedInstance:ContainerViewController!
     
     private var mainStoryboard = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle())
+    private var optionsStoryboard = UIStoryboard(name: "Options", bundle: NSBundle.mainBundle())
     
     // Navigation Controller that contains the MapViewController
     private var mapViewNavigationController:UINavigationController!
@@ -139,7 +140,7 @@ class ContainerViewController: UIViewController {
             case .PoiManager:
                 viewController = mainStoryboard.instantiateViewControllerWithIdentifier("POIsGroupListViewControllerId")
             case .Options:
-                let optionsViewController = mainStoryboard.instantiateViewControllerWithIdentifier("configureOptions") as! OptionsViewController
+                let optionsViewController = optionsStoryboard.instantiateViewControllerWithIdentifier("configureOptions") as! OptionsViewController
                 optionsViewController.theMapView = MapViewController.instance?.theMapView
                 viewController = optionsViewController
             case .Travels:
