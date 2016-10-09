@@ -28,7 +28,6 @@ class WikipediaRequest {
     }
     
     func searchAround(center:CLLocationCoordinate2D) {
-        WikipediaLanguages.initializeDefaultLanguage()
         
         isWikipediaLoading = true
         

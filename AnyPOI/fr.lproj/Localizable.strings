@@ -124,6 +124,7 @@
 "LanguageWikipediaOptionVC"="Langue";
 "Range %@, maxResult %@"="Distance %@ et nb résultats %@";
 "Wikipedia Language: %@"="Langue %@";
+"LoadingWikipediaPOIDetailsVC"="Chargement des articles de Wikipedia...";
 "CategoryLabelUnknown"="Inconnue";
 "CategoryLabelCoffee"="Café";
 "CategoryLabelRestaurant"="Restaurant";

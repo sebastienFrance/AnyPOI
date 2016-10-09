@@ -18,12 +18,14 @@ class WikiLanguagePickerTableViewCell: UITableViewCell {
             thePickerView.delegate = self
             thePickerView.dataSource = self
             
+            // Set picker on the current selected language
             let languageISOcode = UserPreferences.sharedInstance.wikipediaLanguageISOcode
             let languageName = WikipediaLanguages.LanguageForISOcode(languageISOcode)
             var i = 0
             for currentLanguage in WikipediaLanguages.supportedLanguages {
                 if currentLanguage == languageName {
                     thePickerView.selectRow(i, inComponent: 0, animated: false)
+                    break
                 }
                 i += 1
             }

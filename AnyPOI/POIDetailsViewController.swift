@@ -28,6 +28,7 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
                 theTableView.delegate = self
                 theTableView.estimatedRowHeight = 150
                 theTableView.rowHeight = UITableViewAutomaticDimension
+                theTableView.tableFooterView = UIView(frame: CGRectZero) // remove separator for empty lines
             }
         }
     }
@@ -46,8 +47,13 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
     private var contact:CNContact?
 
     private var storedOffsets = CGFloat(0.0)
-    private var images=[UIImage]()
-    private var asset=[PHAsset]()
+    
+    private struct LocalImage {
+        let image:UIImage
+        let asset:PHAsset
+    }
+    
+    private var localImages = [LocalImage]()
     
     private var snapshotter:MKMapSnapshotter!
     private var snapshotImage:UIImage?
@@ -80,7 +86,7 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
         }
         
         poi.refreshIfNeeded()
-        findImagesAroundPoi()
+        findSortedImagesAroundPoi()
         getMapSnapshot()
     }
     
@@ -90,7 +96,10 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
     }
     
     // MARK: utils
-    private func findImagesAroundPoi() {
+    
+    
+    // extract images and videos from Photos and ordered them by date (most recent first)
+    private func findSortedImagesAroundPoi() {
         let fetchResult = PHAsset.fetchAssetsWithOptions(nil)
         let poiLocation = CLLocation(latitude: poi.coordinate.latitude, longitude: poi.coordinate.longitude)
         
@@ -98,12 +107,25 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
             let currentObject = fetchResult.objectAtIndex(i) as! PHAsset
             if let imageLocation = currentObject.location {
                 if poiLocation.distanceFromLocation(imageLocation) <= Cste.radiusSearchImage {
-                    images.append(getAssetThumbnail(currentObject))
-                    asset.append(currentObject)
+                    localImages.append(LocalImage(image: getAssetThumbnail(currentObject), asset: currentObject))
                 }
             }
         }
-
+        
+        localImages.sortInPlace() {
+            if let firstDate = $0.asset.creationDate, secondDate = $1.asset.creationDate {
+                switch firstDate.compare(secondDate) {
+                case .OrderedAscending:
+                    return false
+                case .OrderedDescending:
+                    return true
+                case .OrderedSame:
+                    return true
+                }
+            } else {
+                return false
+            }
+        }
     }
     
     private func getAssetThumbnail(asset: PHAsset) -> UIImage {
@@ -187,7 +209,6 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
     }
 
     func wikipediaReady(notification : NSNotification) {
-        //theTableView.reloadData()
         theTableView.reloadSections(NSIndexSet(index: Sections.wikipedia), withRowAnimation: .Fade)
     }
     
@@ -386,10 +407,13 @@ extension POIDetailsViewController : UITableViewDataSource, UITableViewDelegate 
     // MARK: UITableViewDataSource protocol
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == Sections.mapViewAndPhotos {
-            return asset.count > 0 ? 2 : 1
+            return localImages.count > 0 ? 2 : 1
         } else {
-            return poi.wikipedias.count
-       //     return poi.isWikipediaLoading ? 0 : poi.wikipedias.count
+            if poi.isWikipediaLoading {
+                return 1
+            } else {
+                return poi.wikipedias.count == 0 ? 1 : poi.wikipedias.count
+            }
         }
     }
     
@@ -414,6 +438,8 @@ extension POIDetailsViewController : UITableViewDataSource, UITableViewDelegate 
         static let mapCellId = "mapCellId"
         static let WikipediaCellId = "WikipediaCellId"
         static let PoiDetailsImagesCellId = "PoiDetailsImagesCellId"
+        static let loadingCellId = "loadingCellId"
+        static let NoWikipediaCellId = "NoWikipediaCellId"
     }
    
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -425,9 +451,21 @@ extension POIDetailsViewController : UITableViewDataSource, UITableViewDelegate 
                 return theCell
             }
         } else {
-            let theCell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier.WikipediaCellId, forIndexPath: indexPath) as! WikipediaCell
-            theCell.initWith(poi.wikipedias[indexPath.row], poi: poi, index: indexPath.row)
-            return theCell
+            if poi.isWikipediaLoading {
+                let theCell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier.loadingCellId, forIndexPath: indexPath) as! LoadingTableViewCell
+                theCell.theLabel.text = NSLocalizedString("LoadingWikipediaPOIDetailsVC", comment: "")
+                theCell.theActivityIndicator.startAnimating()
+                return theCell
+            } else {
+                if poi.wikipedias.count == 0 {
+                    let theCell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier.NoWikipediaCellId, forIndexPath: indexPath) as! NoWikipediaTableViewCell
+                    return theCell
+                } else {
+                    let theCell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier.WikipediaCellId, forIndexPath: indexPath) as! WikipediaCell
+                    theCell.initWith(poi.wikipedias[indexPath.row], poi: poi, index: indexPath.row)
+                    return theCell
+                }
+            }
         }
     }
     
@@ -521,7 +559,7 @@ extension POIDetailsViewController : UICollectionViewDelegate, UICollectionViewD
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return images.count
+        return localImages.count
     }
     
     private struct CollectionViewCell {
@@ -530,15 +568,15 @@ extension POIDetailsViewController : UICollectionViewDelegate, UICollectionViewD
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(CollectionViewCell.poiImageCellId, forIndexPath: indexPath) as! PoiDetailsImagesCollectionViewCell
-        cell.PoiImageView.image = images[indexPath.row]
+        cell.PoiImageView.image = localImages[indexPath.row].image
         return cell
     }
     
     //MARK: UICollectionViewDelegate
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         
-        if asset[indexPath.row].mediaType == .Video {
-            PHImageManager.defaultManager().requestAVAssetForVideo(asset[indexPath.row], options: nil, resultHandler: { avAsset, audioMix, info in
+        if localImages[indexPath.row].asset.mediaType == .Video {
+            PHImageManager.defaultManager().requestAVAssetForVideo(localImages[indexPath.row].asset, options: nil, resultHandler: { avAsset, audioMix, info in
                 let playerItem = AVPlayerItem(asset: avAsset!)
                 let avPlayer = AVPlayer(playerItem: playerItem)
                 let playerViewController = AVPlayerViewController()
@@ -551,7 +589,7 @@ extension POIDetailsViewController : UICollectionViewDelegate, UICollectionViewD
                 }
             })
         } else {
-            performSegueWithIdentifier(storyboard.showImageDetailsId, sender: asset[indexPath.row])
+            performSegueWithIdentifier(storyboard.showImageDetailsId, sender: localImages[indexPath.row].asset)
         }
     }
 }

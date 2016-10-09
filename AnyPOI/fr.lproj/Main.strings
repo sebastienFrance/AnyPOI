@@ -368,3 +368,6 @@
 
 /* Class = "UINavigationItem"; title = "POI Details"; ObjectID = "zh9-aw-7Yj"; */
 "zh9-aw-7Yj.title" = "Détails du POI";
+
+/* Class = "UILabel"; text = "No wikipedia articles found"; ObjectID = "4Fb-s5-wuP"; */
+"4Fb-s5-wuP.text" = "Aucun article wikipedia";

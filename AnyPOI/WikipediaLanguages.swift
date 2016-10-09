@@ -10,7 +10,7 @@ import Foundation
 
 class WikipediaLanguages {
     //Key is ISO language code and value is the start for Wikipedia URL
-    // All countries with 100 0000+ Articles
+    //All Languages with 100 0000+ Articles
     static let languageCodeToStartEndPoint = [ "en":"en",
                                                "fr":"fr",
                                                "sv":"sv",
@@ -70,7 +70,9 @@ class WikipediaLanguages {
                                                "ur":"ur",
                                                "ka":"ka"]
     
-    
+    static let defaultWikipediaLanguageISOcode = "en"
+
+    // Convert Language ISO code to full language name
     private static let languageISOcodeToLanguage : [String:String] = {
         var result = [String:String]()
         
@@ -82,6 +84,7 @@ class WikipediaLanguages {
         return result
     }()
     
+    // Convert Language name to ISO code
     private static let languageToLanguageISOcode : [String:String] = {
         var result = [String:String]()
         
@@ -93,8 +96,7 @@ class WikipediaLanguages {
         return result
     }()
     
-    
-    
+    // Get All supported Languages
     static let supportedLanguages: [String] = {
         var result = [String]()
         
@@ -107,8 +109,7 @@ class WikipediaLanguages {
         return result.sort()
     }()
     
-    static var defaultWikipediaLanguageISOcode = "en"
-    
+    // Return true if the language ISO code is available in Wikipedia
     static func hasISOCodeLanguage(languageISOcode:String) -> Bool {
         if let _ = languageCodeToStartEndPoint[languageISOcode] {
             return true
@@ -117,22 +118,17 @@ class WikipediaLanguages {
         }
     }
     
+    // Return Language ISO code for a Language (or the default one if the requested language doesn't exist)
     static func languageISOCodeForLanguage(language:String) -> String {
         return languageToLanguageISOcode[language] ?? defaultWikipediaLanguageISOcode
     }
     
+    // Return the Language for the ISO code
     static func LanguageForISOcode(languageISOcode:String) -> String {
         return languageISOcodeToLanguage[languageISOcode] ?? "Unknown language"
     }
     
-    
-    
-    static func initializeDefaultLanguage() {
-        let locaLanguageCode = NSLocale.currentLocale().objectForKey(NSLocaleLanguageCode) as? String
-        
-        defaultWikipediaLanguageISOcode = locaLanguageCode ?? "en"
-    }
-
+    // Return the Wikipedia endPoint based on the Wikipedia language configured in UserPrefs
     static func endPoint() -> String {
         return languageCodeToStartEndPoint[UserPreferences.sharedInstance.wikipediaLanguageISOcode] ?? defaultWikipediaLanguageISOcode
     }
