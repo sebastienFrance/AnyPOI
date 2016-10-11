@@ -61,9 +61,10 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
     private(set) var routeManager:RouteManager?
     
     // Flyover
+    private var isFlyoverAroundPoi = false
     private var isFlyoverRunning = false
-    private var routeDirectionCounter = 0
     private var flyover:FlyoverWayPoints?
+    private var mapRegionBeforeFlyover:MKCoordinateRegion?
 
     // Others
     private var mapAnimation:MapCameraAnimations!
@@ -162,6 +163,13 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
  
         mapAnimation = MapCameraAnimations(mapView: theMapView, mapCameraDelegate: self)
 
+    }
+    
+    
+    func flyoverAround(poi:PointOfInterest) {
+        isFlyoverAroundPoi = true
+        flyover = FlyoverWayPoints(mapView: theMapView, delegate: self)
+        flyover!.doFlyover(poi)
     }
     
     private func displayGroupsOnMap(groups:[GroupOfInterest], withMonitoredOverlays:Bool) {
@@ -885,8 +893,8 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
 extension MapViewController : RouteDisplayInfos {
     
     func doFlyover(routeDatasource:RouteDataSource) {
-        flyover = FlyoverWayPoints(mapView: theMapView, datasource: routeDatasource, delegate: self)
-        flyover!.doFlyover(self.routeFromCurrentLocation)
+        flyover = FlyoverWayPoints(mapView: theMapView, delegate: self)
+        flyover!.doFlyover(routeDatasource, routeFromCurrentLocation:self.routeFromCurrentLocation)
     }
 
     func hideRouteDisplay() {
@@ -1040,15 +1048,22 @@ extension MapViewController : FlyoverWayPointsDelegate {
         
         // Disable to idleTimer during the flyover to avoid the screen dims
         UIApplication.sharedApplication().idleTimerDisabled = true
-        hideStatusBar = true
-        if isRouteMode  {
-            displayRouteInterfaces(false)
+        
+        //Hide route itf if it's displayed
+        displayRouteInterfaces(false)
+        
+        // When the Flyover is around a POI we keep in mind the Map region
+        // to restore it at the end of Flyover
+        if isFlyoverAroundPoi {
+            mapRegionBeforeFlyover = theMapView.region
         }
+        
         userLocationButton.hidden = true
+        
+        hideStatusBar = true
         setNeedsStatusBarAppearanceUpdate() // Request to hide the status bar (managed by the ContainerVC)
         view.layoutIfNeeded() // Make sure the status bar will be remove smoothly
         
-        // self.transportTypeSegment.hidden = true
         navigationController?.navigationBarHidden = true
     }
     
@@ -1060,12 +1075,22 @@ extension MapViewController : FlyoverWayPointsDelegate {
         hideStatusBar = false
         navigationController?.navigationBarHidden = false
         
-        displayRouteInterfaces(true)
+        if isRouteMode {
+            displayRouteInterfaces(true)
+        }
         userLocationButton.hidden = false
+        
+        if !urgentStop {
+            if isFlyoverAroundPoi {
+                theMapView.region = mapRegionBeforeFlyover!
+            } else if let routeMgr = routeManager {
+                routeMgr.displayRouteMapRegion()
+            }
+        }
+
         
         setNeedsStatusBarAppearanceUpdate() // Request to show the status bar
         view.layoutIfNeeded() // Make sure the status bar will be displayed smoothly
-        
     }
     
     func flyoverDidEnd(flyoverUpdatedPois:[PointOfInterest], urgentStop:Bool) {
@@ -1077,15 +1102,12 @@ extension MapViewController : FlyoverWayPointsDelegate {
             routeManager?.displayRouteInfos()
        }
         
-        if !urgentStop {
-            routeManager?.displayRouteMapRegion()
-        }
-        
         for currentPoi in flyoverUpdatedPois {
             routeManager?.refreshPoiAnnotation(currentPoi)
         }
         
         flyover = nil
+        isFlyoverAroundPoi = false
     }
     
     func flyoverGetPoiCalloutDelegate() -> PoiCalloutDelegateImpl {
@@ -1104,7 +1126,8 @@ extension MapViewController : MKMapViewDelegate {
         print("\(#function): didFailToLocateUserWithError")
         
         if(CLLocationManager.locationServicesEnabled() == false ||
-            !(CLLocationManager.authorizationStatus() == CLAuthorizationStatus.AuthorizedWhenInUse || CLLocationManager.authorizationStatus() == CLAuthorizationStatus.AuthorizedAlways)){
+            !(CLLocationManager.authorizationStatus() == CLAuthorizationStatus.AuthorizedWhenInUse ||
+                CLLocationManager.authorizationStatus() == CLAuthorizationStatus.AuthorizedAlways)){
             //location services are disabled or
             //user has not authorized permissions to use their location.
             

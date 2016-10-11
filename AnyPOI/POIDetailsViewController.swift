@@ -218,17 +218,6 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
     }
 
     // MARK: Buttons
-    @IBAction func deletePoiPushed(sender: UIButton) {
-        let deleteConfirmationBox = UIAlertController(title: NSLocalizedString("Warning", comment: ""), message: "\(NSLocalizedString("Delete", comment: "")) \(poi.poiDisplayName!)?", preferredStyle: .Alert)
-        deleteConfirmationBox.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .Cancel, handler: nil))
-        deleteConfirmationBox.addAction(UIAlertAction(title: NSLocalizedString("Ok", comment: ""), style: .Default, handler: { alertAction in
-            POIDataManager.sharedInstance.deletePOI(POI: self.poi)
-            POIDataManager.sharedInstance.commitDatabase()
-            self.navigationController?.popViewControllerAnimated(true)
-        }))
-    
-        presentViewController(deleteConfirmationBox, animated: true, completion: nil)
-    }
 
     @IBAction func AddToCalendarPushed(sender: UIButton) {
         let eventStore = EKEventStore()
@@ -543,6 +532,29 @@ extension POIDetailsViewController : UITableViewDataSource, UITableViewDelegate 
             ContainerViewController.sharedInstance.goToMap()
         }
     }
+    
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if indexPath.section == Sections.mapViewAndPhotos  && indexPath.row == 0 {
+            POIDataManager.sharedInstance.deletePOI(POI: self.poi)
+            POIDataManager.sharedInstance.commitDatabase()
+            self.navigationController?.popViewControllerAnimated(true)
+        }
+    }
+    
+    func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {
+        if indexPath.section == Sections.mapViewAndPhotos  && indexPath.row == 0 {
+            return .Delete
+        }
+        return .None
+    }
+    
+    func tableView(tableView: UITableView, titleForDeleteConfirmationButtonForRowAtIndexPath indexPath: NSIndexPath) -> String? {
+        if indexPath.section == Sections.mapViewAndPhotos  && indexPath.row == 0 {
+            return NSLocalizedString("DeletePOIPoiDetailsVC", comment: "")
+        }
+        return nil
+    }
+    
 }
 
 extension POIDetailsViewController: MFMailComposeViewControllerDelegate {

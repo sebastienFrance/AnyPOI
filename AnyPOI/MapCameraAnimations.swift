@@ -128,6 +128,14 @@ class MapCameraAnimations  {
         executeCameraPathFromIndex()
    }
     
+    func flyoverAroundAnnotation(annotation:MKAnnotation) {
+        reset()
+        let duration = addStartingJunctionFrom(annotation)
+        add360RotationAround(annotation, fromDistance:  DefaultFor360Degree.fromDistance, pitch: DefaultFor360Degree.pitch, startDuration: duration)
+        userRequestedToStopFlyoverAnimation = false
+        executeCameraPathFromIndex()
+    }
+    
     func fromCurrentMapLocationTo(coordinates:CLLocationCoordinate2D) {
         fromCurrentMapLocationTo(coordinates, withAnimation: true)
     }

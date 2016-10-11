@@ -93,10 +93,6 @@ class WayPointPinAnnotationView : MKPinAnnotationView {
         }
     }
         
-    // This init method is systematically called by the parent
-//    override init(frame: CGRect) {
-//        super.init(frame: frame)
-//    }
 
     // This constructor is never used because this view is not created
     // by a storyboard

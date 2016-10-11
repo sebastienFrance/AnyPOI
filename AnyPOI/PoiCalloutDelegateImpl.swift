@@ -33,12 +33,20 @@ extension PoiCalloutDelegateImpl : PoiCalloutDelegate {
     }
 
     func zoomOnPoi(sender: UIButton) {
+        /*
         let selectedAnnotations = theMapView.selectedAnnotations
         if selectedAnnotations.count > 0 {
             let poi = selectedAnnotations[0]
             let mapAnimation = MapCameraAnimations(mapView: theMapView, mapCameraDelegate: self)
             mapAnimation.fromCurrentMapLocationTo(poi.coordinate)
         }
+        */
+        let selectedAnnotations = theMapView.selectedAnnotations
+        if selectedAnnotations.count > 0 {
+            let poi = selectedAnnotations[0] as! PointOfInterest
+            MapViewController.instance!.flyoverAround(poi)
+        }
+
     }
     
     func startRoute(sender: UIButton) {

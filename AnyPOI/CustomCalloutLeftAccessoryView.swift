@@ -79,7 +79,7 @@ class CustomCalloutLeftAccessoryView: UIView {
     
     private func disableRouteFromCurrentLocation() {
         routeFromCurrentLocationButton.hidden = true
-        addWayPointButton.removeTarget(nil, action: #selector(PoiCalloutDelegate.showRouteFromCurrentLocation(_:)), forControlEvents: .TouchUpInside)
+        routeFromCurrentLocationButton.removeTarget(nil, action: #selector(PoiCalloutDelegate.showRouteFromCurrentLocation(_:)), forControlEvents: .TouchUpInside)
     }
 
 

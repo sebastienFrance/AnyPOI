@@ -125,6 +125,7 @@
 "Range %@, maxResult %@"="Near by %@ with Max results %@";
 "Wikipedia Language: %@"="Language %@";
 "LoadingWikipediaPOIDetailsVC"="Loading wikipedia articles...";
+"DeletePOIPoiDetailsVC"="Delete";
 "CategoryLabelUnknown"="Unknown";
 "CategoryLabelCoffee"="Cofee";
 "CategoryLabelRestaurant"="Restaurant";

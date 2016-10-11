@@ -12,8 +12,6 @@ import Contacts
 
 class LocationCell: UITableViewCell {
 
-    //@IBOutlet weak var street: UILabel!
-
     @IBOutlet weak var addressTextView: UITextView!
     @IBOutlet weak var poiCategoryImage: UIImageView!
     @IBOutlet weak var poiCategoryHeight: NSLayoutConstraint!

@@ -19,9 +19,9 @@ class ContactsSynchronization {
     
     private var contactsToBeDeleted:Set<String>?
     
-    init(contacts:[CNContact]) {
-        self.contacts = contacts
-    }
+//    init(contacts:[CNContact]) {
+//        self.contacts = contacts
+//    }
     
     init() {
         contacts = ContactsUtilities.getContactsWithAddress()

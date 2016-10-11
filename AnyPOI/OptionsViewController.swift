@@ -92,8 +92,6 @@ class OptionsViewController: UITableViewController, PasswordConfigurationDelegat
         
         wikiLanguage.text = "\(NSLocalizedString("LanguageWikipediaOptionVC", comment: "")) \(language)"
         wikiDistanceAndResults.text = String.localizedStringWithFormat(NSLocalizedString("Range %@, maxResult %@", comment: ""), distance, "\(userPrefs.wikipediaMaxResults)")
-            
-       //     "Range \(distance), max results \(userPrefs.wikipediaMaxResults)"
     }
     
     override func viewWillAppear(animated: Bool) {

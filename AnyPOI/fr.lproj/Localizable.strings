@@ -104,6 +104,8 @@
 "LoadingDirectionRouteManager"="Calcul de l'itinéraire";
 "FromCurrentLocationRouteManager"="De vôtre position";
 "POIUsedSeveralTimesDoWeDeleteItRouteManager"="est utilisé à plusieurs reprises, voulez-vous pour le supprimer?";
+"AsEndPointRouteManager"="Comme arrivée";
+"AsStartPointRouteManager"="Comme départ";
 "ShowPOIsNotInRouteRouteManager"="Monter les POIs en dehors de l'itineraire";
 "HidePOIsNotInRouteRouteManager"="Cacher les POIs en dehors de l'itineraire";
 "AsEndPoint"="Comme arrivée";
@@ -125,6 +127,7 @@
 "Range %@, maxResult %@"="Distance %@ et nb résultats %@";
 "Wikipedia Language: %@"="Langue %@";
 "LoadingWikipediaPOIDetailsVC"="Chargement des articles de Wikipedia...";
+"DeletePOIPoiDetailsVC"="Supprimer";
 "CategoryLabelUnknown"="Inconnue";
 "CategoryLabelCoffee"="Café";
 "CategoryLabelRestaurant"="Restaurant";
