@@ -17,12 +17,12 @@ class MessageActivityItemSource: NSObject, UIActivityItemSource {
     }
     
     
-    func activityViewControllerPlaceholderItem(activityViewController: UIActivityViewController) -> AnyObject {
+    func activityViewControllerPlaceholderItem(_ activityViewController: UIActivityViewController) -> Any {
         return textMessageContent
     }
     
-    func activityViewController(activityViewController: UIActivityViewController, itemForActivityType activityType: String) -> AnyObject? {
-        if activityType == UIActivityTypeMessage {
+    func activityViewController(_ activityViewController: UIActivityViewController, itemForActivityType activityType: UIActivityType) -> Any? {
+        if activityType == UIActivityType.message {
             return textMessageContent
         } else {
             return nil

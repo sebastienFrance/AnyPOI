@@ -17,7 +17,7 @@ class searchGroupViewCell: UITableViewCell {
     @IBOutlet weak var showGroupContentButton: UIButton!
     @IBOutlet weak var editGroupButton: UIButton!
 
-    func initWith(group:GroupOfInterest, index:Int) {
+    func initWith(_ group:GroupOfInterest, index:Int) {
         groupTitle.text = group.groupDisplayName
         groupDescription.text = group.groupDescription
         showGroupContentButton.tag = index

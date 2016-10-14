@@ -13,22 +13,22 @@ import MapKit
 protocol FlyoverWayPointsDelegate: class  {
     
     func flyoverWillStartAnimation()
-    func flyoverWillEndAnimation(urgentStop:Bool)
-    func flyoverDidEnd(flyoverUpdatedPois:[PointOfInterest], urgentStop:Bool)
+    func flyoverWillEndAnimation(_ urgentStop:Bool)
+    func flyoverDidEnd(_ flyoverUpdatedPois:[PointOfInterest], urgentStop:Bool)
     
     func flyoverGetPoiCalloutDelegate() -> PoiCalloutDelegateImpl
 }
 
 class FlyoverWayPoints: NSObject{
     
-    private var mapAnimation:MapCameraAnimations?
-    private let theMapView:MKMapView
-    private weak var flyoverDelegate:FlyoverWayPointsDelegate!
+    fileprivate var mapAnimation:MapCameraAnimations?
+    fileprivate let theMapView:MKMapView
+    fileprivate weak var flyoverDelegate:FlyoverWayPointsDelegate!
     
-    private var stopWithoutAnimation = false
+    fileprivate var stopWithoutAnimation = false
     
     // Tap gesture to stop the Flyover animation on user request
-    private var singleTapGesture:UITapGestureRecognizer?
+    fileprivate var singleTapGesture:UITapGestureRecognizer?
     
     init(mapView:MKMapView,  delegate:FlyoverWayPointsDelegate) {
         theMapView = mapView
@@ -49,14 +49,14 @@ class FlyoverWayPoints: NSObject{
         }
     }
 
-    func singleTapGestureToStopFlyoverAnimation(gestureRecognizer:UIGestureRecognizer) {
+    func singleTapGestureToStopFlyoverAnimation(_ gestureRecognizer:UIGestureRecognizer) {
         mapAnimation!.stopAnimation()
     }
 
 
     //MARK: Flyover
     // Add annotations on map depending on the selected WayPoint
-    func doFlyover(poi:PointOfInterest) {
+    func doFlyover(_ poi:PointOfInterest) {
         mapAnimation = MapCameraAnimations(mapView: theMapView, mapCameraDelegate: self)
         
         // Initialize the TapGesture to stop Flyover on user request
@@ -72,7 +72,7 @@ class FlyoverWayPoints: NSObject{
         theMapView.showsTraffic = false
         
         // Start an animation to hide graphical element before to perform the animation with Flyover
-        UIView.animateWithDuration(0.5, animations: {
+        UIView.animate(withDuration: 0.5, animations: {
             
             if self.theMapView.selectedAnnotations.count > 0 {
                 self.theMapView.deselectAnnotation(self.theMapView.selectedAnnotations[0], animated: true)
@@ -82,13 +82,13 @@ class FlyoverWayPoints: NSObject{
             
             }, completion: { result in
                 // set the Map to satellite for Flyover / Remove all useless annotation & overlays from the map and start Flyover animation
-                self.theMapView.mapType = .SatelliteFlyover
+                self.theMapView.mapType = .satelliteFlyover
 
                 self.flyoverUpdatedPois.removeAll()
                 self.flyoverRemovedOverlays.removeAll()
                 self.flyoverRemovedAnnotations.removeAll()
 
-                if let viewAnnotation = self.theMapView.viewForAnnotation(poi) as? WayPointPinAnnotationView {
+                if let viewAnnotation = self.theMapView.view(for: poi) as? WayPointPinAnnotationView {
                     viewAnnotation.configureForFlyover(poi, delegate: self.flyoverDelegate.flyoverGetPoiCalloutDelegate())
                     self.flyoverUpdatedPois.append(poi)
                 }
@@ -99,7 +99,7 @@ class FlyoverWayPoints: NSObject{
         
     }
 
-    func doFlyover(routeDatasource:RouteDataSource, routeFromCurrentLocation:MKRoute?) {
+    func doFlyover(_ routeDatasource:RouteDataSource, routeFromCurrentLocation:MKRoute?) {
         mapAnimation = MapCameraAnimations(mapView: theMapView, mapCameraDelegate: self)
         
         // Initialize the TapGesture to stop Flyover on user request
@@ -115,7 +115,7 @@ class FlyoverWayPoints: NSObject{
         theMapView.showsTraffic = false
         
         // Start an animation to hide graphical element before to perform the animation with Flyover
-        UIView.animateWithDuration(0.5, animations: {
+        UIView.animate(withDuration: 0.5, animations: {
             
             if self.theMapView.selectedAnnotations.count > 0 {
                 self.theMapView.deselectAnnotation(self.theMapView.selectedAnnotations[0], animated: true)
@@ -125,7 +125,7 @@ class FlyoverWayPoints: NSObject{
             
             }, completion: { result in
                 // set the Map to satellite for Flyover / Remove all useless annotation & overlays from the map and start Flyover animation
-                self.theMapView.mapType = .SatelliteFlyover
+                self.theMapView.mapType = .satelliteFlyover
                 self.prepareAnnotationsAndOverlaysForFlyover(routeDatasource)
                 if routeDatasource.isBeforeRouteSections {
                     self.mapAnimation!.flyover(routeDatasource.wayPoints)
@@ -141,13 +141,13 @@ class FlyoverWayPoints: NSObject{
     }
     
     // Keep all overlays and annotations changed / removed during the Flyover
-    private var flyoverRemovedAnnotations = [MKAnnotation]()
-    private var flyoverRemovedOverlays = [MKOverlay]()
-    private var flyoverUpdatedPois = [PointOfInterest]()
+    fileprivate var flyoverRemovedAnnotations = [MKAnnotation]()
+    fileprivate var flyoverRemovedOverlays = [MKOverlay]()
+    fileprivate var flyoverUpdatedPois = [PointOfInterest]()
     
     // Remove from the Map all overlays and Annotations that are not used during the Flyover
     // Annotations used during the Flyover are changed (to display the minimum number of information)
-    private func prepareAnnotationsAndOverlaysForFlyover(datasource:RouteDataSource) {
+    fileprivate func prepareAnnotationsAndOverlaysForFlyover(_ datasource:RouteDataSource) {
         // Remove all data from the Map except the annotations and overlays that
         // will be used by the Flyover
         flyoverUpdatedPois.removeAll()
@@ -169,7 +169,7 @@ class FlyoverWayPoints: NSObject{
                             flyoverRemovedOverlays.append(overlay)
                         }
                     } else {
-                        if let viewAnnotation = theMapView.viewForAnnotation(currentAnnotation) as? WayPointPinAnnotationView {
+                        if let viewAnnotation = theMapView.view(for: currentAnnotation) as? WayPointPinAnnotationView {
                             viewAnnotation.configureForFlyover(currentPoi, delegate: flyoverDelegate.flyoverGetPoiCalloutDelegate())
                             flyoverUpdatedPois.append(currentPoi)
                         }
@@ -183,7 +183,7 @@ class FlyoverWayPoints: NSObject{
     }
     
     // Add on the Map all overlays and annotations that were removed from the Map during the Flyover
-    private func restoreRemovedAnnotationsAndOverlays() {
+    fileprivate func restoreRemovedAnnotationsAndOverlays() {
         theMapView.addAnnotations(flyoverRemovedAnnotations)
         theMapView.addOverlays(flyoverRemovedOverlays)
         
@@ -192,7 +192,7 @@ class FlyoverWayPoints: NSObject{
         flyoverRemovedAnnotations.removeAll()
     }
     
-    private func cleanupFlyover(urgentStop: Bool) {
+    fileprivate func cleanupFlyover(_ urgentStop: Bool) {
         theMapView.mapType = UserPreferences.sharedInstance.mapMode
         theMapView.showsCompass = true
         theMapView.showsScale = true
@@ -216,7 +216,7 @@ extension FlyoverWayPoints : MapCameraAnimationsDelegate  {
             flyoverDelegate.flyoverWillEndAnimation(true)
             cleanupFlyover(true)
         } else {
-            UIView.animateWithDuration(0.5, animations: {
+            UIView.animate(withDuration: 0.5, animations: {
                 self.theMapView.mapType = UserPreferences.sharedInstance.mapMode
                 self.flyoverDelegate.flyoverWillEndAnimation(false)
                 }, completion:  { result in

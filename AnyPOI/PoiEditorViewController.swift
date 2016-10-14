@@ -25,23 +25,23 @@ class PoiEditorViewController: UIViewController {
 
     @IBOutlet weak var saveButton: UIBarButtonItem!
 
-    private enum rowType {
+    fileprivate enum rowType {
         case poiDisplayName, poiDescription, poiCategory, poiGroup
     }
 
-    private enum rowIndexForPicker:Int {
+    fileprivate enum rowIndexForPicker:Int {
         case category = 3, group
     }
 
-    private let model = [rowType.poiDisplayName, rowType.poiDescription, rowType.poiCategory, rowType.poiGroup]
+    fileprivate let model = [rowType.poiDisplayName, rowType.poiDescription, rowType.poiCategory, rowType.poiGroup]
 
-    private var isPickerDisplayed = false
-    private var pickerIndex = 0
+    fileprivate var isPickerDisplayed = false
+    fileprivate var pickerIndex = 0
     
     // Map image
-    private var snapshotter:MKMapSnapshotter?
-    private var snapshotMapImageView:UIImageView?
-    private var mapSnapshot:MKMapSnapshot?
+    fileprivate var snapshotter:MKMapSnapshotter?
+    fileprivate var snapshotMapImageView:UIImageView?
+    fileprivate var mapSnapshot:MKMapSnapshot?
 
     var thePoi:PointOfInterest! {
         didSet {
@@ -55,33 +55,33 @@ class PoiEditorViewController: UIViewController {
         }
     }
 
-    private var newRegionEnter:Bool!
-    private var newRegionExit:Bool!
-    private var newRadius:Double!
-    private var newCategory:Int!
-    private var newParentGroup:GroupOfInterest?
-    private var newDisplayName:String!
-    private var newDescription:String!
+    fileprivate var newRegionEnter:Bool!
+    fileprivate var newRegionExit:Bool!
+    fileprivate var newRadius:Double!
+    fileprivate var newCategory:Int!
+    fileprivate var newParentGroup:GroupOfInterest?
+    fileprivate var newDisplayName:String!
+    fileprivate var newDescription:String!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         loadMapSnapshot()
     }
 
-    func pickerViewUpdated(picker:PickerViewCell, selectedRowIndex:Int) {
-        let theCell = theTableView.cellForRowAtIndexPath(NSIndexPath(forRow: pickerIndex - 1, inSection: 0)) as! CategoryTableViewCell
+    func pickerViewUpdated(_ picker:PickerViewCell, selectedRowIndex:Int) {
+        let theCell = theTableView.cellForRow(at: IndexPath(row: pickerIndex - 1, section: 0)) as! CategoryTableViewCell
         newCategory = selectedRowIndex
         theCell.initWithCategory(newCategory)
     }
     
-    func pickerGroupViewUpdated(picker:GroupPickerViewCell, selectedRowIndex:Int) {
+    func pickerGroupViewUpdated(_ picker:GroupPickerViewCell, selectedRowIndex:Int) {
         newParentGroup = picker.getSelectedGroup()
         theTableView.reloadData()
-        dispatch_async(dispatch_get_main_queue()) {self.refreshMapImageForMonitoring() }
+        DispatchQueue.main.async {self.refreshMapImageForMonitoring() }
     }
 
     //MARK: Buttons Callback
-    @IBAction func saveButtonPushed(sender: AnyObject) {
+    @IBAction func saveButtonPushed(_ sender: AnyObject) {
 
         // Keep the old values to check if we need to start/stop the RegionMonitoring
         let oldPoiRegionNotifyEnter = thePoi.poiRegionNotifyEnter
@@ -116,28 +116,28 @@ class PoiEditorViewController: UIViewController {
             LocationManager.sharedInstance.updateMonitoringRegion(thePoi)
         }
 
-        dismissViewControllerAnimated(true, completion: nil )
+        dismiss(animated: true, completion: nil )
     }
     
-    @IBAction func cancelButtonPushed(sender: AnyObject) {
+    @IBAction func cancelButtonPushed(_ sender: AnyObject) {
         POIDataManager.sharedInstance.rollback()
-        dismissViewControllerAnimated(true, completion: nil )
+        dismiss(animated: true, completion: nil )
     }
 
-    @IBAction func switchMonitorEnterRegionChanged(sender: UISwitch) {
-        newRegionEnter = sender.on
+    @IBAction func switchMonitorEnterRegionChanged(_ sender: UISwitch) {
+        newRegionEnter = sender.isOn
         refreshMonitoringSection()
     }
     
-    @IBAction func switchMonitorExitRegionChanged(sender: UISwitch) {
-        newRegionExit = sender.on
+    @IBAction func switchMonitorExitRegionChanged(_ sender: UISwitch) {
+        newRegionExit = sender.isOn
         refreshMonitoringSection()
     }
 
-    @IBAction func sliderRadiusChanged(sender: UISlider) {
+    @IBAction func sliderRadiusChanged(_ sender: UISlider) {
         newRadius = Double(sender.value)
-        dispatch_async(dispatch_get_main_queue()) {self.refreshMapImageForMonitoring() }
-        if let cell = theTableView.cellForRowAtIndexPath(NSIndexPath(forRow: Rows.monitoringControls, inSection: Sections.regionMonitoring)) as? PoiRegionConfigurationViewCell {
+        DispatchQueue.main.async {self.refreshMapImageForMonitoring() }
+        if let cell = theTableView.cellForRow(at: IndexPath(row: Rows.monitoringControls, section: Sections.regionMonitoring)) as? PoiRegionConfigurationViewCell {
             cell.initWith(newRegionEnter, exitRegion:newRegionExit, radius:newRadius)
         }
     }
@@ -146,22 +146,22 @@ class PoiEditorViewController: UIViewController {
 
 extension PoiEditorViewController: UITextFieldDelegate {
     //MARK: UITextFieldDelegate
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
         if textField.tag == Cste.poiDisplayNameTextField {
             let length = textField.text!.characters.count - range.length + string.characters.count
-            saveButton.enabled = length > 0 ? true : false
-            newDisplayName = (textField.text! as NSString).stringByReplacingCharactersInRange(range, withString: string)
+            saveButton.isEnabled = length > 0 ? true : false
+            newDisplayName = (textField.text! as NSString).replacingCharacters(in: range, with: string)
         } else if textField.tag == Cste.poiDescriptionTextField {
-            newDescription = (textField.text! as NSString).stringByReplacingCharactersInRange(range, withString: string)
+            newDescription = (textField.text! as NSString).replacingCharacters(in: range, with: string)
         }
         
         return true
     }
     
-    func textFieldShouldClear(textField: UITextField) -> Bool {
+    func textFieldShouldClear(_ textField: UITextField) -> Bool {
         if textField.tag == Cste.poiDisplayNameTextField {
-            saveButton.enabled = false
+            saveButton.isEnabled = false
             newDisplayName = ""
         } else if textField.tag == Cste.poiDescriptionTextField {
             newDescription = ""
@@ -173,17 +173,17 @@ extension PoiEditorViewController: UITextFieldDelegate {
 }
 
 extension PoiEditorViewController: UITableViewDataSource, UITableViewDelegate {
-    private struct Sections {
+    fileprivate struct Sections {
         static let properties = 0
         static let regionMonitoring = 1
     }
     
-    private struct Rows {
+    fileprivate struct Rows {
         static let monitoringMap = 0
         static let monitoringControls = 1
     }
     
-    private struct Cste {
+    fileprivate struct Cste {
         static let poiDisplayNameTextField = 0
         static let poiDescriptionTextField = 1
         
@@ -193,11 +193,11 @@ extension PoiEditorViewController: UITableViewDataSource, UITableViewDelegate {
 
 
     //MARK : UITableViewDatasource
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case Sections.properties:
             var numberOfRows = model.count
@@ -213,7 +213,7 @@ extension PoiEditorViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     
-    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
         case Sections.properties:
             return nil
@@ -225,23 +225,23 @@ extension PoiEditorViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     
-    func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if indexPath.section == Sections.regionMonitoring {
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        if (indexPath as NSIndexPath).section == Sections.regionMonitoring {
             return Cste.MapViewHeight
         } else {
             return  UITableViewAutomaticDimension
         }
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if indexPath.section == Sections.regionMonitoring  && indexPath.row == Rows.monitoringMap {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if (indexPath as NSIndexPath).section == Sections.regionMonitoring  && (indexPath as NSIndexPath).row == Rows.monitoringMap {
                 return Cste.MapViewHeight
         } else {
             return  UITableViewAutomaticDimension
         }
     }
     
-    private struct cellIdentifier {
+    fileprivate struct cellIdentifier {
         static let textFieldCellId = "textFieldCellId"
         static let cellCategoryId = "cellCategoryId"
         static let cellPickerId = "cellPickerId"
@@ -251,36 +251,36 @@ extension PoiEditorViewController: UITableViewDataSource, UITableViewDelegate {
         static let poiRegionMapViewCellId = "poiRegionMapViewCellId"
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        switch indexPath.section {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        switch (indexPath as NSIndexPath).section {
         case Sections.properties:
             return getCellForProperties(indexPath)
         case Sections.regionMonitoring:
-            if indexPath.row == Rows.monitoringControls {
-                let theCell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier.poiRegionConfigurationCellId, forIndexPath: indexPath) as! PoiRegionConfigurationViewCell
+            if (indexPath as NSIndexPath).row == Rows.monitoringControls {
+                let theCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier.poiRegionConfigurationCellId, for: indexPath) as! PoiRegionConfigurationViewCell
                 theCell.initWith(newRegionEnter, exitRegion:newRegionExit, radius:newRadius)
                 return theCell
             } else {
-                let theCell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier.poiRegionMapViewCellId, forIndexPath: indexPath)
+                let theCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier.poiRegionMapViewCellId, for: indexPath)
                 refreshMapCell(theCell)
                 return theCell
             }
         default:
-            print("\(#function) unknown section \(indexPath.section)")
+            print("\(#function) unknown section \((indexPath as NSIndexPath).section)")
             return UITableViewCell()
         }
     }
     
     // MARK: UITableViewDelegate
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if indexPath.section == Sections.properties {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if (indexPath as NSIndexPath).section == Sections.properties {
             if isPickerDisplayed {
-                if (rowIndexForPicker(rawValue: pickerIndex) == rowIndexForPicker.category && (indexPath.row == 2 || indexPath.row == 4)) ||
-                    (rowIndexForPicker(rawValue: pickerIndex) == rowIndexForPicker.group && (indexPath.row == 2 || indexPath.row == 3)) {
+                if (rowIndexForPicker(rawValue: pickerIndex) == rowIndexForPicker.category && ((indexPath as NSIndexPath).row == 2 || (indexPath as NSIndexPath).row == 4)) ||
+                    (rowIndexForPicker(rawValue: pickerIndex) == rowIndexForPicker.group && ((indexPath as NSIndexPath).row == 2 || (indexPath as NSIndexPath).row == 3)) {
                     updateRowPicker(indexPath)
                 }
             } else {
-                if indexPath.row == 2 || indexPath.row  == 3 {
+                if (indexPath as NSIndexPath).row == 2 || (indexPath as NSIndexPath).row  == 3 {
                     updateRowPicker(indexPath)
                 }
             }
@@ -289,7 +289,7 @@ extension PoiEditorViewController: UITableViewDataSource, UITableViewDelegate {
 
     // MARK: Cell Update
     func refreshMonitoringSection() {
-        if let monitoringCell = theTableView.cellForRowAtIndexPath(NSIndexPath(forRow: Rows.monitoringControls, inSection: Sections.regionMonitoring)) as? PoiRegionConfigurationViewCell {
+        if let monitoringCell = theTableView.cellForRow(at: IndexPath(row: Rows.monitoringControls, section: Sections.regionMonitoring)) as? PoiRegionConfigurationViewCell {
             monitoringCell.initWith(newRegionEnter, exitRegion: newRegionExit, radius: newRadius)
         }
         
@@ -297,8 +297,8 @@ extension PoiEditorViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
 
-    private func refreshMapCell(theCell:UITableViewCell) {
-        if let theSnapshotter = snapshotter where !theSnapshotter.loading {
+    fileprivate func refreshMapCell(_ theCell:UITableViewCell) {
+        if let theSnapshotter = snapshotter , !theSnapshotter.isLoading {
             theCell.backgroundView = snapshotMapImageView
             if !newRegionExit && !newRegionEnter {
                 theCell.backgroundView?.alpha = 0.3
@@ -310,23 +310,23 @@ extension PoiEditorViewController: UITableViewDataSource, UITableViewDelegate {
     
     // MARK: MapSnapshot
     // Display all POIs without any filter in the Map
-    private func loadMapSnapshot() {
+    fileprivate func loadMapSnapshot() {
         let snapshotOptions = MKMapSnapshotOptions()
         
         snapshotOptions.region = MKCoordinateRegionMakeWithDistance(thePoi.coordinate, Cste.MaxPerimeterInMeters, Cste.MaxPerimeterInMeters)
-        snapshotOptions.mapType = UserPreferences.sharedInstance.mapMode == .Standard ? .Standard : .Satellite
+        snapshotOptions.mapType = UserPreferences.sharedInstance.mapMode == .standard ? .standard : .satellite
         snapshotOptions.showsBuildings = false
         snapshotOptions.showsPointsOfInterest = false
-        snapshotOptions.size = CGSizeMake(view.bounds.width, Cste.MapViewHeight)
+        snapshotOptions.size = CGSize(width: view.bounds.width, height: Cste.MapViewHeight)
         snapshotter = MKMapSnapshotter(options: snapshotOptions)
-        snapshotter!.startWithCompletionHandler() { mapSnapshot, error in
+        snapshotter!.start(completionHandler: { mapSnapshot, error in
             if let error = error {
                 print("\(#function) Error when loading Map image with Snapshotter \(error.localizedDescription)")
             } else {
                 self.mapSnapshot = mapSnapshot
                 self.refreshMapImageForMonitoring()
             }
-        }
+        })
     }
     
     func refreshMapImageForMonitoring() {
@@ -334,7 +334,7 @@ extension PoiEditorViewController: UITableViewDataSource, UITableViewDelegate {
             
             UIGraphicsBeginImageContextWithOptions(mapImage.size, true, 0)
             // Put the Map in the Graphic Context
-            mapImage.drawAtPoint(CGPointMake(0, 0))
+            mapImage.draw(at: CGPoint(x: 0, y: 0))
             
             if newRegionExit || newRegionEnter {
                 MapUtils.addCircleInMapSnapshot(thePoi.coordinate, radius: newRadius, mapSnapshot: mapSnapshot!)
@@ -348,28 +348,28 @@ extension PoiEditorViewController: UITableViewDataSource, UITableViewDelegate {
             // Build the UIImageView only once for the tableView
             let newImageView = UIImageView(image: snapshotImage)
             snapshotMapImageView = newImageView
-            snapshotMapImageView!.contentMode = .ScaleAspectFill
+            snapshotMapImageView!.contentMode = .scaleAspectFill
             snapshotMapImageView!.clipsToBounds = true
             
             // Update the section 0 that display the Map as background
-            if let cell = theTableView.cellForRowAtIndexPath(NSIndexPath(forRow: Rows.monitoringMap, inSection: Sections.regionMonitoring)) {
+            if let cell = theTableView.cellForRow(at: IndexPath(row: Rows.monitoringMap, section: Sections.regionMonitoring)) {
                 refreshMapCell(cell)
             }
         }
     }
 
     // MARK: RowPicker
-    private func getCellForProperties(indexPath:NSIndexPath) -> UITableViewCell {
-        var row = indexPath.row
+    fileprivate func getCellForProperties(_ indexPath:IndexPath) -> UITableViewCell {
+        var row = (indexPath as NSIndexPath).row
         if isPickerDisplayed {
             if row == 3 && pickerIndex == row {
-                let pickerCell = theTableView.dequeueReusableCellWithIdentifier(cellIdentifier.cellPickerId, forIndexPath: indexPath) as! PickerViewCell
+                let pickerCell = theTableView.dequeueReusableCell(withIdentifier: cellIdentifier.cellPickerId, for: indexPath) as! PickerViewCell
                 pickerCell.values = CategoryUtils.getAllCategoriesLabel()
                 pickerCell.delegate = self
                 pickerCell.setInitialValue(CategoryUtils.getLabelCategoryForIndex(Int(thePoi.poiCategory)))
                 return pickerCell
             } else if row == 4 && pickerIndex == row {
-                let pickerCell = theTableView.dequeueReusableCellWithIdentifier(cellIdentifier.cellGroupPickerId, forIndexPath: indexPath) as! GroupPickerViewCell
+                let pickerCell = theTableView.dequeueReusableCell(withIdentifier: cellIdentifier.cellGroupPickerId, for: indexPath) as! GroupPickerViewCell
                 
                 var allGroups = [String]()
                 let groups = POIDataManager.sharedInstance.getGroups()
@@ -388,49 +388,49 @@ extension PoiEditorViewController: UITableViewDataSource, UITableViewDelegate {
         }
         
         
-        let rowType = model[indexPath.row]
+        let rowType = model[(indexPath as NSIndexPath).row]
         switch rowType {
         case .poiDisplayName:
-            let theCell = theTableView.dequeueReusableCellWithIdentifier(cellIdentifier.textFieldCellId, forIndexPath: indexPath) as! TextFieldViewCell
+            let theCell = theTableView.dequeueReusableCell(withIdentifier: cellIdentifier.textFieldCellId, for: indexPath) as! TextFieldViewCell
             theCell.theTextField.text = thePoi.poiDisplayName
             theCell.theTextField.delegate = self
             theCell.theTextField.placeholder = NSLocalizedString("PoiEditorPOINamePlaceholder", comment: "")
             theCell.theTextField.tag = Cste.poiDisplayNameTextField
             return theCell
         case .poiDescription:
-            let theCell = theTableView.dequeueReusableCellWithIdentifier(cellIdentifier.textFieldCellId, forIndexPath: indexPath) as! TextFieldViewCell
+            let theCell = theTableView.dequeueReusableCell(withIdentifier: cellIdentifier.textFieldCellId, for: indexPath) as! TextFieldViewCell
             theCell.theTextField.text = thePoi.poiDescription
             theCell.theTextField.delegate = self
             theCell.theTextField.placeholder = NSLocalizedString("PoiEditorPOIDescriptionPlaceholder", comment: "")
             theCell.theTextField.tag = Cste.poiDescriptionTextField
             return theCell
         case .poiCategory:
-            let theCell = theTableView.dequeueReusableCellWithIdentifier(cellIdentifier.cellCategoryId, forIndexPath: indexPath) as! CategoryTableViewCell
+            let theCell = theTableView.dequeueReusableCell(withIdentifier: cellIdentifier.cellCategoryId, for: indexPath) as! CategoryTableViewCell
             theCell.initWithCategory(newCategory)
 
             return theCell
         case .poiGroup:
-            let theCell = theTableView.dequeueReusableCellWithIdentifier(cellIdentifier.groupDescriptionCellId, forIndexPath: indexPath) as! PoiEditorGroupViewCell
+            let theCell = theTableView.dequeueReusableCell(withIdentifier: cellIdentifier.groupDescriptionCellId, for: indexPath) as! PoiEditorGroupViewCell
             theCell.initWith(newParentGroup!)
             return theCell
         }
     }
     
-    private func closePicker() {
+    fileprivate func closePicker() {
         if isPickerDisplayed {
-            theTableView.deleteRowsAtIndexPaths([NSIndexPath(forRow: pickerIndex, inSection: 0)] , withRowAnimation: .Automatic)
+            theTableView.deleteRows(at: [IndexPath(row: pickerIndex, section: 0)] , with: .automatic)
             isPickerDisplayed = false
         }
     }
     
-    private func updateRowPicker(indexPath: NSIndexPath) {
+    fileprivate func updateRowPicker(_ indexPath: IndexPath) {
         theTableView.beginUpdates()
         
         var hasClosedPicker = false
         
         // If a picker is already displayed we remove it to display only the new one
         if isPickerDisplayed {
-            theTableView.deleteRowsAtIndexPaths([NSIndexPath(forRow: pickerIndex, inSection: 0)] , withRowAnimation: .Fade)
+            theTableView.deleteRows(at: [IndexPath(row: pickerIndex, section: 0)] , with: .fade)
             isPickerDisplayed = false
             hasClosedPicker = true
         }
@@ -438,17 +438,17 @@ extension PoiEditorViewController: UITableViewDataSource, UITableViewDelegate {
         // when no picker was already displayed or
         // when a picker was already displayed (and then closed) but the selected cell of the
         // indexPath contain also a picker then we display the new picker
-        if !hasClosedPicker || (hasClosedPicker && pickerIndex != (indexPath.row + 1)) {
+        if !hasClosedPicker || (hasClosedPicker && pickerIndex != ((indexPath as NSIndexPath).row + 1)) {
             isPickerDisplayed = true
-            if hasClosedPicker && indexPath.row > pickerIndex {
-                pickerIndex = indexPath.row
+            if hasClosedPicker && (indexPath as NSIndexPath).row > pickerIndex {
+                pickerIndex = (indexPath as NSIndexPath).row
             } else {
-                pickerIndex = indexPath.row + 1
+                pickerIndex = (indexPath as NSIndexPath).row + 1
             }
             
             // Add the new row that will display the Picker
-            theTableView.insertRowsAtIndexPaths([NSIndexPath(forRow: pickerIndex, inSection: 0)], withRowAnimation: .Fade)
-            theTableView.deselectRowAtIndexPath(indexPath, animated: false)
+            theTableView.insertRows(at: [IndexPath(row: pickerIndex, section: 0)], with: .fade)
+            theTableView.deselectRow(at: indexPath, animated: false)
         }
         
         theTableView.endUpdates()

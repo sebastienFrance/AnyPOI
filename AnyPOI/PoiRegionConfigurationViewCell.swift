@@ -17,21 +17,21 @@ class PoiRegionConfigurationViewCell: UITableViewCell {
     @IBOutlet weak var slideRadius: UISlider!
     @IBOutlet weak var radiusLabel: UILabel!
     
-    func initWith(enterRegion:Bool, exitRegion:Bool, radius:Double) {
-        switchEnterRegion.on = enterRegion
-        switchExitRegion.on = exitRegion
+    func initWith(_ enterRegion:Bool, exitRegion:Bool, radius:Double) {
+        switchEnterRegion.isOn = enterRegion
+        switchExitRegion.isOn = exitRegion
 
 
-        if !switchExitRegion.on && !switchEnterRegion.on {
-            slideRadius.enabled = false
+        if !switchExitRegion.isOn && !switchEnterRegion.isOn {
+            slideRadius.isEnabled = false
         } else {
-            slideRadius.enabled = true
+            slideRadius.isEnabled = true
         }
 
 //        let distanceFormater = MKDistanceFormatter()
 //        radiusLabel.text = "Radius \(distanceFormater.stringFromDistance(radius))"
         radiusLabel.text = "\(NSLocalizedString("Radius", comment: "")) \(Int(radius)) m"
         slideRadius.setValue(Float(radius), animated: false)
-        slideRadius.continuous = true
+        slideRadius.isContinuous = true
     }
 }

@@ -18,13 +18,13 @@ class LocalSearchTableViewCell: UITableViewCell {
 
     @IBOutlet weak var webSiteButton: UIButton!
     
-    func initWith(mapItem:MKMapItem, index:Int, region:MKCoordinateRegion) {
+    func initWith(_ mapItem:MKMapItem, index:Int, region:MKCoordinateRegion) {
         
         if mapItem.url != nil {
-            webSiteButton.hidden = false
+            webSiteButton.isHidden = false
             webSiteButton.tag = index
         } else {
-            webSiteButton.hidden = true
+            webSiteButton.isHidden = true
         }
         
         name.text = mapItem.name
@@ -33,6 +33,6 @@ class LocalSearchTableViewCell: UITableViewCell {
         let distance = MapUtils.distanceFromTo(region.center, toCoordinate: mapItem.placemark.coordinate)
         let distanceFormater = MKDistanceFormatter()
         name.text  = "\(mapItem.name!)"
-        distanceLabel.text = "\(distanceFormater.stringFromDistance(distance))"
+        distanceLabel.text = "\(distanceFormater.string(fromDistance: distance))"
     }
 }

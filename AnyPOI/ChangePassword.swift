@@ -9,7 +9,7 @@
 import UIKit
 
 protocol PasswordConfigurationDelegate: class {
-    func passwordChangedSuccessfully(newPassword:String)
+    func passwordChangedSuccessfully(_ newPassword:String)
     func passwordNotChanged()
 }
 
@@ -54,7 +54,7 @@ class ChangePassword {
     
     let okButtonIndex = 0
     
-    func requestNewPassword(parentViewController:UIViewController, delegate:PasswordConfigurationDelegate, oldPassword:String) {
+    func requestNewPassword(_ parentViewController:UIViewController, delegate:PasswordConfigurationDelegate, oldPassword:String) {
         
         var message = NSLocalizedString("EnterPasswordChangePassword", comment: "")
         if !oldPassword.isEmpty {
@@ -62,38 +62,38 @@ class ChangePassword {
             message = NSLocalizedString("NewPasswordMustBeDifferentChangePassword", comment: "")
         }
         
-        userPasswordController = UIAlertController(title: NSLocalizedString("PasswordConfigurationChangePassword", comment: ""), message: message, preferredStyle: .Alert)
+        userPasswordController = UIAlertController(title: NSLocalizedString("PasswordConfigurationChangePassword", comment: ""), message: message, preferredStyle: .alert)
 
         if hasOldPassword {
-            userPasswordController.addTextFieldWithConfigurationHandler()  { textField in
+            userPasswordController.addTextField()  { textField in
                 ChangePassword.initSecureTextField(textField, withPlaceHolder: NSLocalizedString("OldPasswordChangePassword", comment: ""))
              }
         }
         
-        userPasswordController.addTextFieldWithConfigurationHandler()  { textField in
+        userPasswordController.addTextField()  { textField in
             ChangePassword.initSecureTextField(textField, withPlaceHolder: NSLocalizedString("NewPasswordChangePassword", comment: ""))
-            textField.addTarget(self, action: #selector(ChangePassword.checkPassword(_:)), forControlEvents: .AllEditingEvents)
+            textField.addTarget(self, action: #selector(ChangePassword.checkPassword(_:)), for: .allEditingEvents)
         }
         
-        userPasswordController.addTextFieldWithConfigurationHandler()  { textField in
+        userPasswordController.addTextField()  { textField in
             ChangePassword.initSecureTextField(textField, withPlaceHolder: NSLocalizedString("RetypeNewPasswordChangePassword", comment: ""))
-            textField.addTarget(self, action: #selector(ChangePassword.checkPassword(_:)), forControlEvents: .AllEditingEvents)
+            textField.addTarget(self, action: #selector(ChangePassword.checkPassword(_:)), for: .allEditingEvents)
         }
 
-        let okButton = UIAlertAction(title: NSLocalizedString("Ok", comment: ""), style: .Default) { alertAction in
+        let okButton = UIAlertAction(title: NSLocalizedString("Ok", comment: ""), style: .default) { alertAction in
             if !oldPassword.isEmpty {
                 if let typedOldPassword = self.oldPassword,
-                    newPassword = self.newPassword,
-                    reTypedNewPassword = self.reTypedPassword
-                    where newPassword == reTypedNewPassword && oldPassword == typedOldPassword {
+                    let newPassword = self.newPassword,
+                    let reTypedNewPassword = self.reTypedPassword
+                    , newPassword == reTypedNewPassword && oldPassword == typedOldPassword {
                     delegate.passwordChangedSuccessfully(newPassword)
                 } else {
                     Utilities.showAlertMessage(parentViewController, title: NSLocalizedString("Error", comment: ""), message:NSLocalizedString("OldOrNewPasswordWrongChangePassword", comment: ""))
                 }
             } else {
                 if let newPassword = self.newPassword,
-                    reTypedNewPassword = self.reTypedPassword
-                    where newPassword == reTypedNewPassword {
+                    let reTypedNewPassword = self.reTypedPassword
+                    , newPassword == reTypedNewPassword {
                     delegate.passwordChangedSuccessfully(newPassword)
                 } else {
                     Utilities.showAlertMessage(parentViewController, title: NSLocalizedString("Error", comment: ""), message:NSLocalizedString("PasswordsNotEquals", comment: ""))
@@ -102,43 +102,43 @@ class ChangePassword {
             
         }
         
-        let cancelButton = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .Default) { alertAction in
+        let cancelButton = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .default) { alertAction in
             delegate.passwordNotChanged()
         }
 
-        okButton.enabled = false
+        okButton.isEnabled = false
         userPasswordController.addAction(okButton)
         userPasswordController.addAction(cancelButton)
-        parentViewController.presentViewController(userPasswordController, animated: true, completion: nil)
+        parentViewController.present(userPasswordController, animated: true, completion: nil)
     }
     
     
-    @objc private func checkPassword(sender:AnyObject) {
+    @objc fileprivate func checkPassword(_ sender:AnyObject) {
         if let passwordText = newPassword,
-        reTypedPasswordText = reTypedPassword
-            where !passwordText.isEmpty && passwordText == reTypedPasswordText {
+        let reTypedPasswordText = reTypedPassword
+            , !passwordText.isEmpty && passwordText == reTypedPasswordText {
             if hasOldPassword {
                 if let oldPasswordText = oldPassword
-                    where oldPasswordText != passwordText {
-                    userPasswordController.actions[okButtonIndex].enabled = true
+                    , oldPasswordText != passwordText {
+                    userPasswordController.actions[okButtonIndex].isEnabled = true
                 } else {
-                    userPasswordController.actions[okButtonIndex].enabled = false
+                    userPasswordController.actions[okButtonIndex].isEnabled = false
                 }
             } else {
-                userPasswordController.actions[okButtonIndex].enabled = true
+                userPasswordController.actions[okButtonIndex].isEnabled = true
             }
         } else {
-            userPasswordController.actions[okButtonIndex].enabled = false
+            userPasswordController.actions[okButtonIndex].isEnabled = false
         }
      }
     
-    private static func initSecureTextField(textField:UITextField, withPlaceHolder:String) {
+    fileprivate static func initSecureTextField(_ textField:UITextField, withPlaceHolder:String) {
         textField.placeholder = withPlaceHolder
-        textField.secureTextEntry = true
-        textField.autocorrectionType = .No
-        textField.autocapitalizationType = .None
-        textField.spellCheckingType = .No
+        textField.isSecureTextEntry = true
+        textField.autocorrectionType = .no
+        textField.autocapitalizationType = .none
+        textField.spellCheckingType = .no
         textField.clearsOnBeginEditing = true
-        textField.clearButtonMode = .Always
+        textField.clearButtonMode = .always
     }
 }

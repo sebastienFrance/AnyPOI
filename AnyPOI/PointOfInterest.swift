@@ -69,15 +69,15 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
     // PlaceMark can be empty
     var placemarks: CLPlacemark? {
         get {
-            if let thePlacemark = poiPlacemark as? NSData {
-                return NSKeyedUnarchiver.unarchiveObjectWithData(thePlacemark) as? CLPlacemark
+            if let thePlacemark = poiPlacemark as? Data {
+                return NSKeyedUnarchiver.unarchiveObject(with: thePlacemark) as? CLPlacemark
             } else {
                 return nil
             }
         }
         set {
             if let newPlacemark = newValue {
-                poiPlacemark = NSKeyedArchiver.archivedDataWithRootObject(newPlacemark)
+                poiPlacemark = NSKeyedArchiver.archivedData(withRootObject: newPlacemark) as NSObject?
                 if self.poiDisplayName == constants.emptyTitle,
                     let placemarkName = MapUtils.getNameFromPlacemark(newPlacemark) {
                     self.title = placemarkName
@@ -88,15 +88,15 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
     
     var camera: MKMapCamera! {
         get {
-            if let theCamera = poiCamera as? NSData {
-                return NSKeyedUnarchiver.unarchiveObjectWithData(theCamera) as? MKMapCamera
+            if let theCamera = poiCamera as? Data {
+                return NSKeyedUnarchiver.unarchiveObject(with: theCamera) as? MKMapCamera
             } else {
-                return MKMapCamera(lookingAtCenterCoordinate: coordinate, fromDistance: 300, pitch:0, heading: 0)
+                return MKMapCamera(lookingAtCenter: coordinate, fromDistance: 300, pitch:0, heading: 0)
             }
         }
         set {
             if let newCamera = newValue {
-                poiCamera = NSKeyedArchiver.archivedDataWithRootObject(newCamera)
+                poiCamera = NSKeyedArchiver.archivedData(withRootObject: newCamera) as NSObject?
             }
         }
     }
@@ -126,7 +126,7 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
         }
     }
     
-    private var wikiRequest:WikipediaRequest?
+    fileprivate var wikiRequest:WikipediaRequest?
     
     // Currently not used...
     var imageMap: UIImage?
@@ -148,20 +148,20 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
         }
     }
 
-    private var monitoredRegion:MKOverlay?
+    fileprivate var monitoredRegion:MKOverlay?
     
-    func toJSON() -> [String:AnyObject] {
-        let poiToJSON :[String:AnyObject] = [
-            "poiCategory" : Int(poiCategory),
-            "poiCity" : poiCity ?? "",
-            "poiDescription": poiDescription ?? "",
-            "poiDisplayName" : poiDisplayName ?? ""]
-        
-        let headerPoiJSON:[String:AnyObject] = [
-        "POI": poiToJSON]
-       
-        return headerPoiJSON
-    }
+//    func toJSON() -> [String:AnyObject] {
+//        let poiToJSON :[String:AnyObject] = [
+//            "poiCategory" : Int(poiCategory) as AnyObject,
+//            "poiCity" : poiCity as AnyObject? ?? "" as AnyObject,
+//            "poiDescription": poiDescription as AnyObject? ?? "",
+//            "poiDisplayName" : poiDisplayName ?? ""]
+//        
+//        let headerPoiJSON:[String:AnyObject] = [
+//        "POI": poiToJSON as AnyObject]
+//       
+//        return headerPoiJSON
+//    }
     
     func toHTML() -> String {
         var htmlDescription = "<p><b>\(poiDisplayName!)</b></p>"
@@ -249,7 +249,7 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
     
     // This method is called at every commit (update, delete or create)
     override func didSave() {
-        if deleted {
+        if isDeleted {
             // Poi is deleted, we must unregister it from Spotlight
             removeFromSpotLight()
         } else {
@@ -265,7 +265,7 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
         
         // The contentDescription is set with the Poi description if configured
         // otherwise it's configured with the Poi Address
-        if let thePoiDescription = poiDescription where thePoiDescription.characters.count > 0 {
+        if let thePoiDescription = poiDescription , thePoiDescription.characters.count > 0 {
             attributeSet.contentDescription = thePoiDescription
         } else {
             // Put the address
@@ -275,7 +275,7 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
         // Add keywords that will contains:
         // - All words from the display name
         // - The Category if not empty
-        let subStringFromDisplayName = poiDisplayName!.characters.split(" ")
+        let subStringFromDisplayName = poiDisplayName!.characters.split(separator: " ")
         var keywords = [String]()
         for currentString in subStringFromDisplayName {
             if currentString.count > 1 {
@@ -295,8 +295,8 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
         
         // Set the Location
         attributeSet.supportsNavigation = 1
-        attributeSet.latitude = coordinate.latitude
-        attributeSet.longitude = coordinate.longitude
+        attributeSet.latitude = coordinate.latitude as NSNumber?
+        attributeSet.longitude = coordinate.longitude as NSNumber?
         
         // Set the PhoneNumber & Image
         // If the Poi is the contact we extract the PhoneNumber from the Contact sheet
@@ -326,13 +326,13 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
     }
     
     // Add or Update the Poi in Spotlight
-    private func updateInSpotLight() {
+    fileprivate func updateInSpotLight() {
     
         // Create an item with a unique identifier, a domain identifier, and the attribute set you created earlier.
-        let item = CSSearchableItem(uniqueIdentifier: objectID.URIRepresentation().absoluteString, domainIdentifier: "POI", attributeSet: attributeSetForSearch)
+        let item = CSSearchableItem(uniqueIdentifier: objectID.uriRepresentation().absoluteString, domainIdentifier: "POI", attributeSet: attributeSetForSearch)
         
         // Add the item to the on-device index.
-        CSSearchableIndex.defaultSearchableIndex().indexSearchableItems([item]) { error in
+        CSSearchableIndex.default().indexSearchableItems([item]) { error in
             if let theError = error {
                 print("\(#function) error with \(theError.localizedDescription)")
             }
@@ -340,11 +340,10 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
     }
     
     func removeFromSpotLight() {
-        if let URI = objectID.URIRepresentation().absoluteString {
-            CSSearchableIndex.defaultSearchableIndex().deleteSearchableItemsWithIdentifiers([URI]) { error in
-                if let theError = error {
-                    print("\(#function) Error Poi \(self.poiDisplayName!) cannot be removed from Spotlightn, error: \(theError.localizedDescription)")
-                }
+        let URI = objectID.uriRepresentation().absoluteString
+        CSSearchableIndex.default().deleteSearchableItems(withIdentifiers: [URI]) { error in
+            if let theError = error {
+                print("\(#function) Error Poi \(self.poiDisplayName!) cannot be removed from Spotlightn, error: \(theError.localizedDescription)")
             }
         }
     }
@@ -355,7 +354,7 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
         if monitoredRegion != nil {
             return monitoredRegion
         } else if isMonitored {
-            monitoredRegion = MKCircle(centerCoordinate: coordinate, radius: poiRegionRadius)
+            monitoredRegion = MKCircle(center: coordinate, radius: poiRegionRadius)
             return monitoredRegion
         } else {
             return nil
@@ -370,7 +369,7 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
     // MARK: Initializers
     
     // Used when a new POI is directly added on the Map using Long touch
-    func initializeWith(coordinates: CLLocationCoordinate2D, camera theCamera:MKMapCamera) {
+    func initializeWith(_ coordinates: CLLocationCoordinate2D, camera theCamera:MKMapCamera) {
         isPrivate = false
         
         poiIsContact = false
@@ -389,19 +388,19 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
         initRegionMonitoring()
     }
     
-    func initializeWith(contact:CNContact, placemark:CLPlacemark) {
+    func initializeWith(_ contact:CNContact, placemark:CLPlacemark) {
         initDefaultCamera(placemark.location!.coordinate)
         
         poiIsContact = true
         poiContactIdentifier = contact.identifier
-        poiContactLatestAddress = CNPostalAddressFormatter().stringFromPostalAddress(contact.postalAddresses[0].value as! CNPostalAddress)
+        poiContactLatestAddress = CNPostalAddressFormatter().string(from: contact.postalAddresses[0].value )
         
         isPrivate = false
         poiCategory  = Int16(CategoryUtils.EmptyCategoryIndex)
         
         coordinate = placemark.location!.coordinate
         
-        title = CNContactFormatter.stringFromContact(contact, style: .FullName)
+        title = CNContactFormatter.string(from: contact, style: .fullName)
         
         initializePlacemarks(placemark)
         poiWikipediaPageId = -1
@@ -412,11 +411,11 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
         
     }
     
-    func updateWith(contact:CNContact) {
-        title = CNContactFormatter.stringFromContact(contact, style: .FullName)
+    func updateWith(_ contact:CNContact) {
+        title = CNContactFormatter.string(from: contact, style: .fullName)
     }
     
-    func updateWith(contact:CNContact, placemark:CLPlacemark) {
+    func updateWith(_ contact:CNContact, placemark:CLPlacemark) {
         
         // Must be stopped before to change the coordinate
         var needToRestartMonitoring = false
@@ -426,8 +425,8 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
         }
         
         coordinate = placemark.location!.coordinate
-        poiContactLatestAddress = CNPostalAddressFormatter().stringFromPostalAddress(contact.postalAddresses[0].value as! CNPostalAddress)
-        title = CNContactFormatter.stringFromContact(contact, style: .FullName)
+        poiContactLatestAddress = CNPostalAddressFormatter().string(from: contact.postalAddresses[0].value )
+        title = CNContactFormatter.string(from: contact, style: .fullName)
         initializePlacemarks(placemark)
         
         if needToRestartMonitoring {
@@ -438,7 +437,7 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
     }
     
     // Used when a new POI is created from a Wikipedia article
-    func initializeWith(wikipedia: Wikipedia, group:GroupOfInterest) {
+    func initializeWith(_ wikipedia: Wikipedia, group:GroupOfInterest) {
 
         initDefaultCamera(wikipedia.coordinates)
         
@@ -461,7 +460,7 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
     }
     
     // Used when a new POI is created from a local search
-    func initializeWith(mapItem:MKMapItem, categoryIndex:Int) {
+    func initializeWith(_ mapItem:MKMapItem, categoryIndex:Int) {
         initDefaultCamera(mapItem.placemark.coordinate)
 
         isPrivate = false
@@ -489,20 +488,20 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
         initRegionMonitoring()
     }
     
-    private func initDefaultCamera(coordinate:CLLocationCoordinate2D) {
-        camera = MKMapCamera(lookingAtCenterCoordinate: coordinate, fromDistance: 150, pitch: 45, heading: 0)
+    fileprivate func initDefaultCamera(_ coordinate:CLLocationCoordinate2D) {
+        camera = MKMapCamera(lookingAtCenter: coordinate, fromDistance: 150, pitch: 45, heading: 0)
     }
     
-    private func initRegionMonitoring() {
+    fileprivate func initRegionMonitoring() {
         // Disable Region on startup
         poiRegionNotifyExit = false
         poiRegionNotifyEnter = false
         poiRegionRadius = 50
-        poiRegionId = "\(poiDisplayName!)_\(NSDate().timeIntervalSinceReferenceDate)"
+        poiRegionId = "\(poiDisplayName!)_\(Date().timeIntervalSinceReferenceDate)"
         
     }
     
-    private func initializePlacemarks(placemark:CLPlacemark) {
+    fileprivate func initializePlacemarks(_ placemark:CLPlacemark) {
         placemarks = placemark
         if let locality = self.placemarks?.locality {
             self.poiCity = locality
@@ -510,7 +509,7 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
             self.poiCity = "Unknown city"
         }
         
-        if let ISOCountryCode = self.placemarks?.ISOcountryCode {
+        if let ISOCountryCode = self.placemarks?.isoCountryCode {
             self.poiISOCountryCode = ISOCountryCode
         } else {
             self.poiISOCountryCode = "Unknown country"
@@ -530,7 +529,7 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
     }
 
     // Perform reverse geocoding to find address of the coordinates
-    private func getPlacemark() {
+    fileprivate func getPlacemark() {
         let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
         CLGeocoder().reverseGeocodeLocation(location, completionHandler: {(placemarks, error) -> Void in
             
@@ -555,22 +554,22 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
     }
     
     // Search Wikipedia Summary articles around POI location
-    private func findWikipedia() {
+    fileprivate func findWikipedia() {
         wikiRequest = WikipediaRequest(delegate: self)
         wikiRequest?.searchAround(coordinate)
     }
     
-    func wikipediaLoadingDidFinished(wikipedias:[Wikipedia]) {
+    func wikipediaLoadingDidFinished(_ wikipedias:[Wikipedia]) {
         self.wikipedias = wikipedias
-        NSNotificationCenter.defaultCenter().postNotificationName(Notifications.WikipediaReady, object: self)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: Notifications.WikipediaReady), object: self)
     }
     func wikipediaLoadingDidFailed() {
         self.wikipedias = [Wikipedia]()
-        NSNotificationCenter.defaultCenter().postNotificationName(Notifications.WikipediaReady, object: self)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: Notifications.WikipediaReady), object: self)
     }
 
     
-    func startOrStopMonitoring(sender: UIButton) {
+    func startOrStopMonitoring(_ sender: UIButton) {
         if isMonitored {
             poiRegionNotifyEnter = false
             poiRegionNotifyExit = false

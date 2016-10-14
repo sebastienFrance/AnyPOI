@@ -28,7 +28,7 @@ class WayPoint: NSManagedObject {
             if let transportType = newValue?.rawValue {
                 wayPointTransportType = Int64(transportType)
             } else {
-                wayPointTransportType = Int64(MKDirectionsTransportType.Automobile.rawValue)
+                wayPointTransportType = Int64(MKDirectionsTransportType.automobile.rawValue)
             }
             
             // When we create a new WayPoint its parent route is not yet initialized
@@ -54,7 +54,7 @@ class WayPoint: NSManagedObject {
         wayPointParent?.willRemoveWayPoint(self)
     }
     
-    func regionWith(annotations:[MKAnnotation]) -> MKCoordinateRegion? {
+    func regionWith(_ annotations:[MKAnnotation]) -> MKCoordinateRegion? {
         if let theRoute = calculatedRoute {
             var (topLeft, bottomRight) = MapUtils.boundingBoxForOverlay(theRoute.polyline)
             (topLeft, bottomRight) = MapUtils.extendBoundingBox(topLeft, bottomRightCoord: bottomRight, annotations: annotations)

@@ -16,7 +16,7 @@ class WikipediaLocalSearchTableViewCell: UITableViewCell {
     @IBOutlet weak var goToWikipedia: UIButton!
     @IBOutlet weak var extract: UILabel!
 
-    func initWith(wikipedia:Wikipedia, index:Int) {
+    func initWith(_ wikipedia:Wikipedia, index:Int) {
         title.text = wikipedia.title
         distance.text = "\(round(wikipedia.distance)) m"
         goToWikipedia.tag = index

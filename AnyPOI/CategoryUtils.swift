@@ -10,7 +10,7 @@ import UIKit
 
 class CategoryUtils {
     
-     private static let categoryIcons = ["Question Mark-40",
+     fileprivate static let categoryIcons = ["Question Mark-40",
                                          "Cup-40",
                                          "Restaurant-40",
                                          "Pizza-40",
@@ -35,7 +35,7 @@ class CategoryUtils {
                                          "Bank-40",
                                          "Shopping Bag-40"]
 
-    private static let categoryFromIcons = ["Question Mark-40" : NSLocalizedString("CategoryLabelUnknown", comment: ""),
+    fileprivate static let categoryFromIcons = ["Question Mark-40" : NSLocalizedString("CategoryLabelUnknown", comment: ""),
                                             "Cup-40" : NSLocalizedString("CategoryLabelCoffee", comment: ""),
                                             "Restaurant-40" : NSLocalizedString("CategoryLabelRestaurant", comment: ""),
                                             "Bar-40" : NSLocalizedString("CategoryLabelWineBar", comment: ""),
@@ -67,7 +67,7 @@ class CategoryUtils {
         return CategoryUtils.categoryIcons.count
     }
     
-    static func getCategoryForIndex(index:Int) -> (icon:UIImage?, label:String?) {
+    static func getCategoryForIndex(_ index:Int) -> (icon:UIImage?, label:String?) {
         if case 0 ..< getCategoryCount() = index {
             return (UIImage(named: CategoryUtils.categoryIcons[index]), CategoryUtils.categoryFromIcons[CategoryUtils.categoryIcons[index]])
         } else {
@@ -76,7 +76,7 @@ class CategoryUtils {
         
     }
     
-    static func getIconCategoryForIndex(index:Int) -> UIImage? {
+    static func getIconCategoryForIndex(_ index:Int) -> UIImage? {
         if case 0 ..< getCategoryCount() = index {
             return UIImage(named: CategoryUtils.categoryIcons[index])
         } else {
@@ -84,7 +84,7 @@ class CategoryUtils {
         }
     }
     
-    static func getLabelCategoryForIndex(index:Int) -> String {
+    static func getLabelCategoryForIndex(_ index:Int) -> String {
         if case 0 ..< getCategoryCount() = index {
             return CategoryUtils.categoryFromIcons[CategoryUtils.categoryIcons[index]]!
             //return CategoryUtils.categoryLabel[index]
@@ -102,11 +102,11 @@ class CategoryUtils {
         return categories
     }
 
-    static func isEmptyCategory(categoryIndex:Int) -> Bool {
+    static func isEmptyCategory(_ categoryIndex:Int) -> Bool {
         return categoryIndex == EmptyCategoryIndex ? true : false
     }
     
-    static func isWikipediaCategory(categoryIndex:Int) -> Bool {
+    static func isWikipediaCategory(_ categoryIndex:Int) -> Bool {
         return categoryIndex == WikipediaCategoryIndex ? true : false 
     }
     

@@ -13,11 +13,11 @@ import PKHUD
 
 class ContactsSynchronization {
     
-    private let contacts:[CNContact]
+    fileprivate let contacts:[CNContact]
     
-    private var addressToPlacemark = [String:CLPlacemark]()
+    fileprivate var addressToPlacemark = [String:CLPlacemark]()
     
-    private var contactsToBeDeleted:Set<String>?
+    fileprivate var contactsToBeDeleted:Set<String>?
     
 //    init(contacts:[CNContact]) {
 //        self.contacts = contacts
@@ -38,13 +38,13 @@ class ContactsSynchronization {
         addressToPlacemark.removeAll()
    }
 
-    private func contactsSynchronization(index:Int) {
+    fileprivate func contactsSynchronization(_ index:Int) {
         if index < contacts.count {
             let contactToBeAdded = self.contacts[index]
-            if CNContactFormatter.stringFromContact(contactToBeAdded, style: .FullName) == nil {
+            if CNContactFormatter.string(from: contactToBeAdded, style: .fullName) == nil {
                 self.contactsSynchronization(index + 1)
             } else {
-                let address = CNPostalAddressFormatter().stringFromPostalAddress(contactToBeAdded.postalAddresses[0].value as! CNPostalAddress)
+                let address = CNPostalAddressFormatter().string(from: contactToBeAdded.postalAddresses[0].value )
                 
                 let contacts = POIDataManager.sharedInstance.findContact(contactToBeAdded.identifier)
                 if contacts.count > 0 {
@@ -66,10 +66,10 @@ class ContactsSynchronization {
                 } else {
                     // It's a new contact
                     
-                    if addressToPlacemark[address.lowercaseString] == nil {
+                    if addressToPlacemark[address.lowercased()] == nil {
                         geoCodingFor(index, address: address, contactToBeAdded: contactToBeAdded)
                     } else {
-                        synchronizeContactWithDatabase(contactToBeAdded, withPlacemark:addressToPlacemark[address.lowercaseString]!)
+                        synchronizeContactWithDatabase(contactToBeAdded, withPlacemark:addressToPlacemark[address.lowercased()]!)
                         contactsSynchronization(index + 1)
                     }
                 }
@@ -86,14 +86,14 @@ class ContactsSynchronization {
     }
     
     
-    private func geoCodingFor(index:Int, address:String, contactToBeAdded:CNContact) {
+    fileprivate func geoCodingFor(_ index:Int, address:String, contactToBeAdded:CNContact) {
         CLGeocoder().geocodeAddressString(address) { placemarks, error in
             if let theError = error  {
                 print("\(#function) Error, geocode has failed for address \(address) with error \(theError .localizedDescription)")
             } else {
                 if let thePlacemark = placemarks {
                     if thePlacemark.count > 0 {
-                        self.addressToPlacemark[address.lowercaseString] = thePlacemark[0]
+                        self.addressToPlacemark[address.lowercased()] = thePlacemark[0]
                         self.synchronizeContactWithDatabase(contactToBeAdded, withPlacemark:thePlacemark[0])
                     } else {
                         print("\(#function) Warning, no placemark for address \(address)")
@@ -106,7 +106,7 @@ class ContactsSynchronization {
         }
     }
     
-    private func synchronizeContactWithDatabase(contact:CNContact, withPlacemark:CLPlacemark) {
+    fileprivate func synchronizeContactWithDatabase(_ contact:CNContact, withPlacemark:CLPlacemark) {
         let contacts = POIDataManager.sharedInstance.findContact(contact.identifier)
         if contacts.count == 0 {
             POIDataManager.sharedInstance.addPOI(contact, placemark: withPlacemark)

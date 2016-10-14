@@ -11,10 +11,10 @@ import MapKit
 
 protocol SearchControllerDelegate: class {
     
-    func showPOIOnMap(poi : PointOfInterest)
-    func showGroupOnMap(group : GroupOfInterest)
-    func showMapLocation(mapItem: MKMapItem)
-    func showWikipediaOnMap(wikipedia : Wikipedia)
+    func showPOIOnMap(_ poi : PointOfInterest)
+    func showGroupOnMap(_ group : GroupOfInterest)
+    func showMapLocation(_ mapItem: MKMapItem)
+    func showWikipediaOnMap(_ wikipedia : Wikipedia)
 
     var theSearchController:UISearchController? {
         get 

@@ -103,7 +103,7 @@
 		BE2FF2BD1D8B256D00C0395A /* PointOfInterest+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2FF2B91D8B256D00C0395A /* PointOfInterest+CoreDataProperties.swift */; };
 		BE2FF2BE1D8B256D00C0395A /* GroupOfInterest+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2FF2BA1D8B256D00C0395A /* GroupOfInterest+CoreDataProperties.swift */; };
 		BE2FF2BF1D8B256D00C0395A /* Route+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2FF2BB1D8B256D00C0395A /* Route+CoreDataProperties.swift */; };
-		BE2FF2C01D8B256D00C0395A /* WayPoint+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2FF2BC1D8B256D00C0395A /* WayPoint+CoreDataProperties.swift */; };
+		BE2FF2C01D8B256D00C0395A /* OldWayPoint+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2FF2BC1D8B256D00C0395A /* OldWayPoint+CoreDataProperties.swift */; };
 		BE2FF2C21D8B267D00C0395A /* SearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2FF2C11D8B267D00C0395A /* SearchController.swift */; };
 		BE2FF2C91D8B280B00C0395A /* CallOutAccessoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE2FF2C41D8B280B00C0395A /* CallOutAccessoryView.xib */; };
 		BE2FF2CA1D8B280B00C0395A /* CallOutLeftAccessoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE2FF2C51D8B280B00C0395A /* CallOutLeftAccessoryView.xib */; };
@@ -141,6 +141,7 @@
 		BEA7BAAC1D8B01E5005D2D21 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BEA7BAAA1D8B01E5005D2D21 /* LaunchScreen.storyboard */; };
 		BEA7BAB71D8B01E5005D2D21 /* AnyPOITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA7BAB61D8B01E5005D2D21 /* AnyPOITests.swift */; };
 		BEA7BAC21D8B01E5005D2D21 /* AnyPOIUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA7BAC11D8B01E5005D2D21 /* AnyPOIUITests.swift */; };
+		BEAE541C1DAEC07000D4D63D /* RouteInfos.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEAE541B1DAEC07000D4D63D /* RouteInfos.swift */; };
 		BED751951DA2D539004BC613 /* RouteProviderUberTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED751941DA2D539004BC613 /* RouteProviderUberTableViewCell.swift */; };
 		BEDC10541D97D4D1000C6A0D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BEDC10561D97D4D1000C6A0D /* InfoPlist.strings */; };
 /* End PBXBuildFile section */
@@ -281,7 +282,7 @@
 		BE2FF2B91D8B256D00C0395A /* PointOfInterest+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PointOfInterest+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		BE2FF2BA1D8B256D00C0395A /* GroupOfInterest+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "GroupOfInterest+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		BE2FF2BB1D8B256D00C0395A /* Route+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Route+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		BE2FF2BC1D8B256D00C0395A /* WayPoint+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "WayPoint+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		BE2FF2BC1D8B256D00C0395A /* OldWayPoint+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OldWayPoint+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		BE2FF2C11D8B267D00C0395A /* SearchController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchController.swift; sourceTree = "<group>"; };
 		BE2FF2C31D8B274C00C0395A /* AnyPOI.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = AnyPOI.entitlements; sourceTree = "<group>"; };
 		BE2FF2C41D8B280B00C0395A /* CallOutAccessoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CallOutAccessoryView.xib; sourceTree = "<group>"; };
@@ -324,6 +325,7 @@
 		BEA7BABD1D8B01E5005D2D21 /* AnyPOIUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AnyPOIUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BEA7BAC11D8B01E5005D2D21 /* AnyPOIUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyPOIUITests.swift; sourceTree = "<group>"; };
 		BEA7BAC31D8B01E5005D2D21 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BEAE541B1DAEC07000D4D63D /* RouteInfos.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteInfos.swift; sourceTree = "<group>"; };
 		BED751941DA2D539004BC613 /* RouteProviderUberTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteProviderUberTableViewCell.swift; sourceTree = "<group>"; };
 		BEDC10551D97D4D1000C6A0D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		BEDC10571D97D4D7000C6A0D /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -427,7 +429,9 @@
 		BE2FF2D01D8B299A00C0395A /* Database */ = {
 			isa = PBXGroup;
 			children = (
+				BEA7BAA51D8B01E5005D2D21 /* AnyPOI.xcdatamodeld */,
 				BE0CF2BF1D8B209A00344F8A /* Route.swift */,
+				BEAE541B1DAEC07000D4D63D /* RouteInfos.swift */,
 				BE0CF2BB1D8B209A00344F8A /* PointOfInterest.swift */,
 				BE0CF2E41D8B209A00344F8A /* WayPoint.swift */,
 				BE0CF2B11D8B209A00344F8A /* GroupOfInterest.swift */,
@@ -640,7 +644,6 @@
 				BEA7BAAA1D8B01E5005D2D21 /* LaunchScreen.storyboard */,
 				BEA7BAAD1D8B01E5005D2D21 /* Info.plist */,
 				BEDC10561D97D4D1000C6A0D /* InfoPlist.strings */,
-				BEA7BAA51D8B01E5005D2D21 /* AnyPOI.xcdatamodeld */,
 				BE4A880E1D93137900A0DE2F /* Localizable.strings */,
 			);
 			name = Rsc;
@@ -720,7 +723,7 @@
 				BE2FF2B91D8B256D00C0395A /* PointOfInterest+CoreDataProperties.swift */,
 				BE2FF2BA1D8B256D00C0395A /* GroupOfInterest+CoreDataProperties.swift */,
 				BE2FF2BB1D8B256D00C0395A /* Route+CoreDataProperties.swift */,
-				BE2FF2BC1D8B256D00C0395A /* WayPoint+CoreDataProperties.swift */,
+				BE2FF2BC1D8B256D00C0395A /* OldWayPoint+CoreDataProperties.swift */,
 			);
 			name = dataModel;
 			sourceTree = "<group>";
@@ -920,10 +923,12 @@
 					BE9833EE1D8D55C600B174A7 = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = 7VVU8FW2ME;
+						LastSwiftMigration = 0800;
 					};
 					BEA7BA9A1D8B01E5005D2D21 = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = 7VVU8FW2ME;
+						LastSwiftMigration = 0800;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
@@ -935,10 +940,12 @@
 					};
 					BEA7BAB11D8B01E5005D2D21 = {
 						CreatedOnToolsVersion = 7.3.1;
+						LastSwiftMigration = 0800;
 						TestTargetID = BEA7BA9A1D8B01E5005D2D21;
 					};
 					BEA7BABC1D8B01E5005D2D21 = {
 						CreatedOnToolsVersion = 7.3.1;
+						LastSwiftMigration = 0800;
 						TestTargetID = BEA7BA9A1D8B01E5005D2D21;
 					};
 				};
@@ -1110,7 +1117,7 @@
 				BE0CF3011D8B209A00344F8A /* CustomCalloutAccessoryView.swift in Sources */,
 				BE2FF2BE1D8B256D00C0395A /* GroupOfInterest+CoreDataProperties.swift in Sources */,
 				BE0CF33F1D8B209A00344F8A /* MapCameraAnimations.swift in Sources */,
-				BE2FF2C01D8B256D00C0395A /* WayPoint+CoreDataProperties.swift in Sources */,
+				BE2FF2C01D8B256D00C0395A /* OldWayPoint+CoreDataProperties.swift in Sources */,
 				BE0CF3471D8B209A00344F8A /* ColorsUtils.swift in Sources */,
 				BE0CF3091D8B209A00344F8A /* RoutesViewController.swift in Sources */,
 				BE0CF34A1D8B209A00344F8A /* PickerViewCell.swift in Sources */,
@@ -1170,6 +1177,7 @@
 				BE0CF35B1D8B209A00344F8A /* DescriptionCell.swift in Sources */,
 				BE0CF30F1D8B209A00344F8A /* CityGroupCell.swift in Sources */,
 				BE0CF3321D8B209A00344F8A /* DimmerExtension.swift in Sources */,
+				BEAE541C1DAEC07000D4D63D /* RouteInfos.swift in Sources */,
 				BE0CF3361D8B209A00344F8A /* MessageActivityItemSource.swift in Sources */,
 				BE0CF3301D8B209A00344F8A /* RouteDataSource.swift in Sources */,
 				BE957E5F1DA8FDE7006CF455 /* WikipediaOptionsViewController.swift in Sources */,
@@ -1302,7 +1310,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.sebastien.AnyPOI.AnyPOITodayWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -1318,7 +1326,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.sebastien.AnyPOI.AnyPOITodayWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
@@ -1428,7 +1436,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sebastien.AnyPOI;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -1446,7 +1454,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sebastien.AnyPOI;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
@@ -1459,7 +1467,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sebastien.AnyPOITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AnyPOI.app/AnyPOI";
 			};
 			name = Debug;
@@ -1472,7 +1480,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sebastien.AnyPOITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AnyPOI.app/AnyPOI";
 			};
 			name = Release;
@@ -1484,7 +1492,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sebastien.AnyPOIUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = AnyPOI;
 			};
 			name = Debug;
@@ -1496,7 +1504,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sebastien.AnyPOIUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = AnyPOI;
 			};
 			name = Release;

@@ -15,50 +15,50 @@ class RouteProviderWithTransportTypeTableViewCell: UITableViewCell {
     @IBOutlet weak var transportTypeSegment: UISegmentedControl!
     
     
-    func initForAppleMaps(id:Int) {
+    func initForAppleMaps(_ id:Int) {
         titleLabel.text = "Apple Maps"
-        navigationButton.setImage(UIImage(named: "Apple Maps"), forState: .Normal)
+        navigationButton.setImage(UIImage(named: "Apple Maps"), for: UIControlState())
         transportTypeSegment.tag = id
         navigationButton.tag = id
-        transportTypeSegment.hidden = false
+        transportTypeSegment.isHidden = false
         if transportTypeSegment.numberOfSegments == 4 {
-            transportTypeSegment.removeSegmentAtIndex(3, animated: false)
+            transportTypeSegment.removeSegment(at: 3, animated: false)
         }
     }
     
-    func initForGoogleMaps(id:Int) {
+    func initForGoogleMaps(_ id:Int) {
         titleLabel.text = "Google Maps"
-        navigationButton.setImage(UIImage(named: "Google_Maps"), forState: .Normal)
+        navigationButton.setImage(UIImage(named: "Google_Maps"), for: UIControlState())
         transportTypeSegment.tag = id
         navigationButton.tag = id
-        transportTypeSegment.hidden = false
+        transportTypeSegment.isHidden = false
         if transportTypeSegment.numberOfSegments == 3 {
-            transportTypeSegment.insertSegmentWithImage(UIImage(named: "Bicycle-40"), atIndex: 4, animated: false)
+            transportTypeSegment.insertSegment(with: UIImage(named: "Bicycle-40"), at: 4, animated: false)
         }
   }
     
-    func initForWaze(id:Int) {
+    func initForWaze(_ id:Int) {
         titleLabel.text = "Waze"
-        navigationButton.setImage(UIImage(named: "Waze"), forState: .Normal)
+        navigationButton.setImage(UIImage(named: "Waze"), for: UIControlState())
         transportTypeSegment.tag = id
         navigationButton.tag = id
-        transportTypeSegment.hidden = true
+        transportTypeSegment.isHidden = true
    }
     
-    func initForCityMapper(id:Int) {
+    func initForCityMapper(_ id:Int) {
         titleLabel.text = "City Mapper"
-        navigationButton.setImage(UIImage(named: "CityMapper"), forState: .Normal)
+        navigationButton.setImage(UIImage(named: "CityMapper"), for: UIControlState())
         transportTypeSegment.tag = id
         navigationButton.tag = id
-        transportTypeSegment.hidden = true
+        transportTypeSegment.isHidden = true
    }
     
-    func initForUber(id:Int) {
+    func initForUber(_ id:Int) {
         titleLabel.text = "Uber"
-        navigationButton.setImage(UIImage(named: "Google_Maps"), forState: .Normal)
+        navigationButton.setImage(UIImage(named: "Google_Maps"), for: UIControlState())
         transportTypeSegment.tag = id
         navigationButton.tag = id
-        transportTypeSegment.hidden = true
+        transportTypeSegment.isHidden = true
   }
     
 

@@ -16,7 +16,7 @@ class WikipediaUtils {
     // Get URL for image of a given page with a max size: /w/api.php?action=query&prop=pageimages&format=json&piprop=thumbnail&pithumbsize=20&pageids=32937647
     // Get Following URL if there're severals https://en.wikipedia.org/w/api.php?action=query&prop=pageimages&format=json&piprop=thumbnail&pageids=32937647&generator=images&gimlimit=10&gimdir=ascending&picontinue=-2
 
-    static func getExtractFromJSONResponse(JSONResponse:AnyObject) -> String {
+    static func getExtractFromJSONResponse(_ JSONResponse:Any) -> String {
         let response = JSONResponse as! NSDictionary
         let query = response["query"] as! NSDictionary
         let pages = query["pages"] as! NSDictionary
@@ -31,20 +31,20 @@ class WikipediaUtils {
         return "https://" + WikipediaLanguages.endPoint() + ".wikipedia.org/w/api.php"
     }
     
-    static func getMobileURLForPageId(pageId:Int) -> String {
+    static func getMobileURLForPageId(_ pageId:Int) -> String {
         return "https://" + WikipediaLanguages.endPoint() + ".m.wikipedia.org/?curid=\(pageId)"
     }
     
-    static func getDesktopURLForPageId(pageId:Int) -> String {
+    static func getDesktopURLForPageId(_ pageId:Int) -> String {
         return "https://" + WikipediaLanguages.endPoint() + ".wikipedia.org/?curid=\(pageId)"
     }
 
     //        Alamofire.request(.GET, "https://" + languageCode + ".wikipedia.org/w/api.php", parameters: ["action": "query", "list" : "geosearch", "gscoord" : "\(poi.coordinate.latitude)|\(poi.coordinate.longitude)", "gsradius" : "10000", "gslimit" : "10", "format" : "json"])
-    static func getGeoSearchRequest(coordinate:CLLocationCoordinate2D,
+    static func getGeoSearchRequest(_ coordinate:CLLocationCoordinate2D,
         radius:Int = UserPreferences.sharedInstance.wikipediaNearByDistance,
-        maxResults:Int = UserPreferences.sharedInstance.wikipediaMaxResults) -> Request {
+        maxResults:Int = UserPreferences.sharedInstance.wikipediaMaxResults) -> DataRequest {
         
-        return Alamofire.request(.GET, getWikipediaAPI(), parameters: [
+        return Alamofire.request(getWikipediaAPI(), parameters: [
             "action": "query",
             "list" : "geosearch",
             "gscoord" : "\(coordinate.latitude)|\(coordinate.longitude)",
@@ -52,8 +52,8 @@ class WikipediaUtils {
             "format" : "json"])
     }
     // Get page summary: /w/api.php?action=query&prop=extracts&format=json&exintro=&explaintext=&pageids=32937647
-    static func getPageSummary(pageId:Int) -> Request {
-        return Alamofire.request(.GET, getWikipediaAPI(), parameters: [
+    static func getPageSummary(_ pageId:Int) -> DataRequest {
+        return Alamofire.request(getWikipediaAPI(), parameters: [
             "action": "query",
             "prop" : "extracts",
             "exintro" : "",
@@ -67,8 +67,8 @@ class WikipediaUtils {
     // followings by adding excontinue: /w/api.php?action=query&prop=extracts&format=json&exintro=&explaintext=&excontinue=1&generator=geosearch&ggscoord=37.786971%7C-122.399677&ggsradius=10000&ggslimit=10
     
     
-    static func getGeoSearchPageSummaryRequest(coordinate:CLLocationCoordinate2D, radius:Int, maxResults:Int) -> Request {
-        return Alamofire.request(.GET, getWikipediaAPI(), parameters: [
+    static func getGeoSearchPageSummaryRequest(_ coordinate:CLLocationCoordinate2D, radius:Int, maxResults:Int) -> DataRequest {
+        return Alamofire.request(getWikipediaAPI(), parameters: [
             "action": "query",
             "prop" : "extracts",
             "format" : "json",
@@ -81,8 +81,8 @@ class WikipediaUtils {
             ])
     }
  
-    static func getGeoSearchPageSummaryRequest(coordinate:CLLocationCoordinate2D, radius:Int, maxResults:Int, continueValue:String) -> Request {
-        return Alamofire.request(.GET, getWikipediaAPI(), parameters: [
+    static func getGeoSearchPageSummaryRequest(_ coordinate:CLLocationCoordinate2D, radius:Int, maxResults:Int, continueValue:String) -> DataRequest {
+        return Alamofire.request(getWikipediaAPI(), parameters: [
             "action": "query",
             "prop" : "extracts",
             "format" : "json",
@@ -96,12 +96,12 @@ class WikipediaUtils {
             ])
     }
 
-    static func getGeoSearchPageSummary(coordinate:CLLocationCoordinate2D, radius:Int, maxResults:Int) {
+    static func getGeoSearchPageSummary(_ coordinate:CLLocationCoordinate2D, radius:Int, maxResults:Int) {
         getGeoSearchPageSummary(coordinate, radius: radius, maxResults: maxResults, continueValue: "")
     }
     
     
-    static func getGeoSearchPageSummary(coordinate:CLLocationCoordinate2D, radius:Int, maxResults:Int, continueValue: String) {
+    static func getGeoSearchPageSummary(_ coordinate:CLLocationCoordinate2D, radius:Int, maxResults:Int, continueValue: String) {
         let mainRequest = getGeoSearchPageSummaryRequest(coordinate, radius: radius, maxResults: maxResults, continueValue:  continueValue)
         mainRequest.responseJSON { response in
       //      debugPrint(response)

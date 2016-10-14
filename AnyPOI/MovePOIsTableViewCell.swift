@@ -14,7 +14,7 @@ class MovePOIsTableViewCell: UITableViewCell {
     @IBOutlet weak var groupDescription: UILabel!
     @IBOutlet weak var groupImage: UIImageView!
     
-    func initWithGroup(group:GroupOfInterest) {
+    func initWithGroup(_ group:GroupOfInterest) {
         groupName.text = group.groupDisplayName
         groupDescription.text = group.groupDescription
         groupImage.image = group.iconImage

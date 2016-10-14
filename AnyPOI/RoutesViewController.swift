@@ -25,13 +25,13 @@ class RoutesViewController: UIViewController, RouteEditorDelegate, ContainerView
     var isStartedByLeftMenu = false
     weak var container:ContainerViewController?
     
-    @objc private func menuButtonPushed(button:UIBarButtonItem) {
+    @objc fileprivate func menuButtonPushed(_ button:UIBarButtonItem) {
         container?.toggleLeftPanel()
     }
 
-    func enableGestureRecognizer(enable:Bool) {
-        if isViewLoaded() {
-            theTableView.userInteractionEnabled = enable
+    func enableGestureRecognizer(_ enable:Bool) {
+        if isViewLoaded {
+            theTableView.isUserInteractionEnabled = enable
         }
     }
 
@@ -39,28 +39,28 @@ class RoutesViewController: UIViewController, RouteEditorDelegate, ContainerView
         super.viewDidLoad()
         
         if isStartedByLeftMenu {
-            let menuButton =  UIBarButtonItem(image: UIImage(named: "Menu-30"), style: .Plain, target: self, action: #selector(RoutesViewController.menuButtonPushed(_:)))
+            let menuButton =  UIBarButtonItem(image: UIImage(named: "Menu-30"), style: .plain, target: self, action: #selector(RoutesViewController.menuButtonPushed(_:)))
             navigationItem.leftBarButtonItem = menuButton
         }
         
         
         let managedContext = DatabaseAccess.sharedInstance.managedObjectContext
-        NSNotificationCenter.defaultCenter().addObserver(self,
+        NotificationCenter.default.addObserver(self,
                                                          selector: #selector(RoutesViewController.ManagedObjectContextObjectsDidChangeNotification(_:)),
-                                                         name: NSManagedObjectContextObjectsDidChangeNotification,
+                                                         name: NSNotification.Name.NSManagedObjectContextObjectsDidChange,
                                                          object: managedContext)
    }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.toolbarHidden = true
+        navigationController?.isToolbarHidden = true
     }
 
 
-    func ManagedObjectContextObjectsDidChangeNotification(notification : NSNotification) {
+    func ManagedObjectContextObjectsDidChangeNotification(_ notification : Notification) {
         print("==========> DidChangeNotification")
-        PoiNotificationUserInfo.dumpUserInfo("RouteViewController", userInfo:notification.userInfo)
-        let notifContent = PoiNotificationUserInfo(userInfo: notification.userInfo)
+        PoiNotificationUserInfo.dumpUserInfo("RouteViewController", userInfo:(notification as NSNotification).userInfo)
+        let notifContent = PoiNotificationUserInfo(userInfo: (notification as NSNotification).userInfo as [NSObject : AnyObject]?)
         
         if !notifContent.insertedRoutes.isEmpty || !notifContent.updatedRoutes.isEmpty {
             theTableView.reloadData()
@@ -69,15 +69,15 @@ class RoutesViewController: UIViewController, RouteEditorDelegate, ContainerView
     }
     
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
 
-    @IBAction func addRouteButtonPushed(sender: UIBarButtonItem) {
+    @IBAction func addRouteButtonPushed(_ sender: UIBarButtonItem) {
         let routeEditor = RouteEditorController()
         routeEditor.createRouteWith(self, delegate: self)
     }
     
-    @IBAction func editRouteName(sender: UIButton) {
+    @IBAction func editRouteName(_ sender: UIButton) {
         let theRoute = POIDataManager.sharedInstance.getAllRoutes()[sender.tag]
         let routeEditor = RouteEditorController()
         routeEditor.modifyRoute(self, delegate: self, route: theRoute)
@@ -85,14 +85,14 @@ class RoutesViewController: UIViewController, RouteEditorDelegate, ContainerView
  
     func getSelectedRoute() -> Route? {
         if let index = theTableView.indexPathForSelectedRow {
-           return POIDataManager.sharedInstance.getAllRoutes()[index.row]
+           return POIDataManager.sharedInstance.getAllRoutes()[(index as NSIndexPath).row]
         } else {
             return nil
         }
     }
     
     //MARK: RouteEditorDelegate
-    func routeCreated(route:Route) {
+    func routeCreated(_ route:Route) {
         // Nothing to do
     }
     
@@ -100,7 +100,7 @@ class RoutesViewController: UIViewController, RouteEditorDelegate, ContainerView
         // Nothing to do
     }
     
-    func routeUpdated(route:Route) {
+    func routeUpdated(_ route:Route) {
         // Nothing to do
     }
 }
@@ -108,30 +108,30 @@ class RoutesViewController: UIViewController, RouteEditorDelegate, ContainerView
 extension RoutesViewController: UITableViewDataSource, UITableViewDelegate {
  
     //MARK: UITableViewDataSource
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return POIDataManager.sharedInstance.getAllRoutes().count
     }
     
-    private struct cellIdentifier {
+    fileprivate struct cellIdentifier {
         static let routesCellId = "routesCellId"
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let theCell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier.routesCellId, forIndexPath: indexPath) as! RoutesTableViewCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let theCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier.routesCellId, for: indexPath) as! RoutesTableViewCell
         
-        let theRoute = POIDataManager.sharedInstance.getAllRoutes()[indexPath.row]
-        theCell.initWith(theRoute, index: indexPath.row)
+        let theRoute = POIDataManager.sharedInstance.getAllRoutes()[(indexPath as NSIndexPath).row]
+        theCell.initWith(theRoute, index: (indexPath as NSIndexPath).row)
         
         return theCell
     }
     
-    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         switch editingStyle {
-        case .Delete:
-            let theRoute = POIDataManager.sharedInstance.getAllRoutes()[indexPath.row]
+        case .delete:
+            let theRoute = POIDataManager.sharedInstance.getAllRoutes()[(indexPath as NSIndexPath).row]
             POIDataManager.sharedInstance.deleteRoute(theRoute)
             POIDataManager.sharedInstance.commitDatabase()
-            theTableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+            theTableView.deleteRows(at: [indexPath], with: .automatic)
         default: break
             // just ignore, manage only deletion
             

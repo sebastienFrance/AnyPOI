@@ -10,28 +10,28 @@ import Foundation
 
 class NavigationURL {
     
-    private static let baseURL = "AnyPOI"
+    fileprivate static let baseURL = "AnyPOI"
     
-    private struct Parameters {
+    fileprivate struct Parameters {
         static let baseURL = "AnyPOI"
         static let action = "action"
         static let poiId = "poiId"
     }
     
-    private struct Actions {
+    fileprivate struct Actions {
         static let showPoiOnMap = "showPoiOnMap"
     }
     
-    private var isValidURL = false
+    fileprivate var isValidURL = false
     
-    private var parameters = [String:String]()
+    fileprivate var parameters = [String:String]()
     
     // Convert URL parameters into a simple dictionary
-    init(openURL:NSURL) {
+    init(openURL:URL) {
         if let query = openURL.query {
-            let parameters = query.componentsSeparatedByString("&")
+            let parameters = query.components(separatedBy: "&")
             for currentParameter in parameters {
-                let paramNameValue = currentParameter.componentsSeparatedByString("=")
+                let paramNameValue = currentParameter.components(separatedBy: "=")
                 if paramNameValue.count != 2 {
                     break
                 } else {
@@ -53,21 +53,18 @@ class NavigationURL {
     
 
     
-    static func showPoiOnMapURL(poi:PointOfInterest) -> NSURL? {
+    static func showPoiOnMapURL(_ poi:PointOfInterest) -> URL? {
         
-        if let poiURI = poi.objectID.URIRepresentation().absoluteString {
-            let params = urlParameters([Parameters.action : Actions.showPoiOnMap,
-                                        Parameters.poiId  : poiURI])
-            
-            print("URL: \(params)")
-            return NSURL(string: "\(baseURL)://?\(params)")
-        } else {
-            return nil
-        }
+        let poiURI = poi.objectID.uriRepresentation().absoluteString
+        let params = urlParameters([Parameters.action : Actions.showPoiOnMap,
+                                    Parameters.poiId  : poiURI])
+        
+        print("URL: \(params)")
+        return URL(string: "\(baseURL)://?\(params)")
     }
     
 
-    private static func urlParameters(paramValues:[String:String]) -> String {
+    fileprivate static func urlParameters(_ paramValues:[String:String]) -> String {
         var allParameters = ""
         for (param, value) in paramValues {
             if !allParameters.isEmpty {

@@ -11,13 +11,13 @@ import Photos
 
 class PoiDetailImageViewController: UIViewController, UIScrollViewDelegate {
 
-    @IBOutlet private weak var theScrollView: UIScrollView!
-    @IBOutlet private weak var poiDetailImage: UIImageView!
+    @IBOutlet fileprivate weak var theScrollView: UIScrollView!
+    @IBOutlet fileprivate weak var poiDetailImage: UIImageView!
     
-    private var asset:PHAsset!
-    private var hideStatusBar = false
+    fileprivate var asset:PHAsset!
+    fileprivate var hideStatusBar = false
    
-    func initWithAsset(asset:PHAsset) {
+    func initWithAsset(_ asset:PHAsset) {
         self.asset = asset
     }
     
@@ -28,29 +28,29 @@ class PoiDetailImageViewController: UIViewController, UIScrollViewDelegate {
         theScrollView.delegate = self
     }
     
-    override func prefersStatusBarHidden() -> Bool {
+    override var prefersStatusBarHidden : Bool {
         return hideStatusBar
     }
 
     
-    @IBAction func tapGestureRecognized(sender: AnyObject) {
-        navigationController?.setNavigationBarHidden(!navigationController!.navigationBarHidden, animated: true)
+    @IBAction func tapGestureRecognized(_ sender: AnyObject) {
+        navigationController?.setNavigationBarHidden(!navigationController!.isNavigationBarHidden, animated: true)
         hideStatusBar = !hideStatusBar
         setNeedsStatusBarAppearanceUpdate()
    }
     
     func loadImage() {
         let configuredOptions = PHImageRequestOptions()
-        configuredOptions.deliveryMode = .Opportunistic
-        configuredOptions.synchronous = false
-        configuredOptions.resizeMode = .Fast
-        configuredOptions.networkAccessAllowed = true
+        configuredOptions.deliveryMode = .opportunistic
+        configuredOptions.isSynchronous = false
+        configuredOptions.resizeMode = .fast
+        configuredOptions.isNetworkAccessAllowed = true
         configuredOptions.progressHandler = nil
         
         // The Handler can be called multiple times when images with higher resolution are loaded
-        PHImageManager.defaultManager().requestImageForAsset(asset,
+        PHImageManager.default().requestImage(for: asset,
                                                              targetSize: CGSize(width: asset.pixelWidth, height: asset.pixelHeight),
-                                                             contentMode: .AspectFit,
+                                                             contentMode: .aspectFit,
                                                              options: configuredOptions,
                                                              resultHandler: {(result, info)->Void in
                                                                 if let resultImage = result {
@@ -60,7 +60,7 @@ class PoiDetailImageViewController: UIViewController, UIScrollViewDelegate {
 
     }
     
-    func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView? {
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return poiDetailImage
     }
 

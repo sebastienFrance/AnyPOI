@@ -11,22 +11,22 @@ import CoreData
 import CoreLocation
 import LocalAuthentication
 import CoreSpotlight
-import UberRides
+//import UberRides
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UserAuthenticationDelegate {
 
     var window: UIWindow?
     
-    private var userAuthentication:UserAuthentication!
+    fileprivate var userAuthentication:UserAuthentication!
     
-    private var poiToShowOnMap:PointOfInterest?
-    private var routeToShowOnMap:Route?
+    fileprivate var poiToShowOnMap:PointOfInterest?
+    fileprivate var routeToShowOnMap:Route?
     
-    private var shortcutMarkCurrentLocation = false
-    private var shortcutSearchPOIs = false
+    fileprivate var shortcutMarkCurrentLocation = false
+    fileprivate var shortcutSearchPOIs = false
     
-    private struct ShortcutAction {
+    fileprivate struct ShortcutAction {
         static let markCurrentLocation = "com.sebastien.AnyPOI.POICurrentLocation"
         static let searchPOIs = "com.sebastien.AnyPOI.SearchPOI"
     }
@@ -35,7 +35,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UserAuthenticationDelegat
     // We must:
     // 1- Initialize the User Authentication
     // 2- Start user location
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         print("\(#function)")
        
         if userAuthentication == nil {
@@ -44,14 +44,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UserAuthenticationDelegat
         
         LocationManager.sharedInstance.startLocationManager()
         
-        if (UIApplication.instancesRespondToSelector(#selector(UIApplication.registerUserNotificationSettings(_:)))) {
-            application.registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [.Alert, .Sound] , categories: nil))
+        if (UIApplication.instancesRespond(to: #selector(UIApplication.registerUserNotificationSettings(_:)))) {
+            application.registerUserNotificationSettings(UIUserNotificationSettings(types: [.alert, .sound] , categories: nil))
         }
         
+        //SEB: Swift3 put in comment UBER
         // If true, all requests will hit the sandbox, useful for testing
-        Configuration.setSandboxEnabled(true)
-        // If true, Native login will try and fallback to using Authorization Code Grant login (for privileged scopes). Otherwise will redirect to App store
-        Configuration.setFallbackEnabled(false)
+//        Configuration.setSandboxEnabled(true)
+//        // If true, Native login will try and fallback to using Authorization Code Grant login (for privileged scopes). Otherwise will redirect to App store
+//        Configuration.setFallbackEnabled(false)
         
         return true
     }
@@ -73,10 +74,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UserAuthenticationDelegat
     //       performNavigation
     //
     // When TouchId is enabled, we have one more applicationWillResignActive() + applicationDidBecomeActive() due to request authentication
-    func application(app: UIApplication, openURL url: NSURL, options: [String : AnyObject]) -> Bool {
+    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any]) -> Bool {
         print("\(#function)")
        
-        if let poiId = NavigationURL(openURL: url).getPoi(), poi = POIDataManager.sharedInstance.getPOIWithURI(NSURL(string: poiId)!) {
+        if let poiId = NavigationURL(openURL: url).getPoi(), let poi = POIDataManager.sharedInstance.getPOIWithURI(URL(string: poiId)!) {
             poiToShowOnMap = poi
             return true
         } else {
@@ -104,28 +105,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UserAuthenticationDelegat
     //       performNavigation
     //
     // When TouchId is enabled, we have one more applicationWillResignActive() + applicationDidBecomeActive() due to request authentication
-    func application(application: UIApplication, continueUserActivity userActivity: NSUserActivity, restorationHandler: ([AnyObject]?) -> Void) -> Bool {
+    func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
         print("\(#function)")
         poiToShowOnMap = nil
         routeToShowOnMap = nil
 
        if userActivity.activityType == CSSearchableItemActionType,
           let uniqueIdentifier = userActivity.userInfo? [CSSearchableItemActivityIdentifier] as? String {
-            if let poi = POIDataManager.sharedInstance.getPOIWithURI(NSURL(string: uniqueIdentifier)!) {
+            if let poi = POIDataManager.sharedInstance.getPOIWithURI(URL(string: uniqueIdentifier)!) {
                 poiToShowOnMap = poi
                 
                 if UserAuthentication.isUserAuthenticated {
-                    dispatch_async(dispatch_get_main_queue()) {
+                    DispatchQueue.main.async {
                         self.performNavigation()
                     }
                 }
 
                 return true
-            } else if let route = POIDataManager.sharedInstance.getRouteWithURI(NSURL(string: uniqueIdentifier)!) {
+            } else if let route = POIDataManager.sharedInstance.getRouteWithURI(URL(string: uniqueIdentifier)!) {
                 routeToShowOnMap = route
                 
                 if UserAuthentication.isUserAuthenticated {
-                    dispatch_async(dispatch_get_main_queue()) {
+                    DispatchQueue.main.async {
                         self.performNavigation()
                     }
                 }
@@ -138,29 +139,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UserAuthenticationDelegat
     }
     
     // Called when the Application is started by a Shortcut from the home screen
-    func application(application: UIApplication, performActionForShortcutItem shortcutItem: UIApplicationShortcutItem, completionHandler: (Bool) -> Void) {
+    func application(_ application: UIApplication, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {
         handleActionShortcut(shortcutItem)
     }
     
     // Warning: When TouchId is requesting authentication, this method is called
     // When the Authentication has been done successfully then the applicationDidBecomeActive is called
-    func applicationWillResignActive(application: UIApplication) {
+    func applicationWillResignActive(_ application: UIApplication) {
     }
 
     // When the App goes to background it is no more authenticated
-    func applicationDidEnterBackground(application: UIApplication) {
+    func applicationDidEnterBackground(_ application: UIApplication) {
        // askForUserAuthentication = true
         UserAuthentication.resignAuthentication()
     }
 
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
-    func applicationWillEnterForeground(application: UIApplication) {
+    func applicationWillEnterForeground(_ application: UIApplication) {
         print("\(#function)")
     }
 
     // When the App becomes active and if we need authentication then we request it
     // Warning: applicationDidBecomeActive is also called when the User has performed authentication with TouchId
-    func applicationDidBecomeActive(application: UIApplication) {
+    func applicationDidBecomeActive(_ application: UIApplication) {
         if !UserAuthentication.isUserAuthenticated {
             userAuthentication.loopWhileNotAuthenticated()
         } else {
@@ -168,7 +169,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UserAuthenticationDelegat
         }
     }
 
-    func applicationWillTerminate(application: UIApplication) {
+    func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         // Saves changes in the application's managed object context before the application terminates.
         DatabaseAccess.sharedInstance.saveContext()
@@ -188,7 +189,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UserAuthenticationDelegat
     }
     
     //MARK: Utilities
-    private func handleActionShortcut(shortcutItem: UIApplicationShortcutItem) {
+    fileprivate func handleActionShortcut(_ shortcutItem: UIApplicationShortcutItem) {
         
         if shortcutItem.type == ShortcutAction.markCurrentLocation {
             shortcutMarkCurrentLocation = true
@@ -200,7 +201,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UserAuthenticationDelegat
         }
         
         if UserAuthentication.isUserAuthenticated {
-            dispatch_async(dispatch_get_main_queue()) {
+            DispatchQueue.main.async {
                 self.performNavigation()
             }
         }
@@ -208,20 +209,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UserAuthenticationDelegat
     }
     
 
-    private func performNavigation() {
+    fileprivate func performNavigation() {
         // Perform navigation to the Poi or Route if needed
-        if let mapController = MapViewController.instance where mapController.isViewLoaded() {
+        if let mapController = MapViewController.instance , mapController.isViewLoaded {
             if let poi = poiToShowOnMap {
                 poiToShowOnMap = nil
-                navigateToMapViewControllerFromAnywhere(UIApplication.sharedApplication())
+                navigateToMapViewControllerFromAnywhere(UIApplication.shared)
                 mapController.showPOIOnMap(poi)
             } else if let route = routeToShowOnMap {
                 routeToShowOnMap = nil
-                navigateToMapViewControllerFromAnywhere(UIApplication.sharedApplication())
+                navigateToMapViewControllerFromAnywhere(UIApplication.shared)
                 mapController.enableRouteModeWith(route)
             } else if shortcutMarkCurrentLocation {
                 shortcutMarkCurrentLocation = false
-                navigateToMapViewControllerFromAnywhere(UIApplication.sharedApplication())
+                navigateToMapViewControllerFromAnywhere(UIApplication.shared)
                 if let userCoordinate = LocationManager.sharedInstance.locationManager?.location?.coordinate {
                     mapController.showLocationOnMap(userCoordinate)
                     let addedPOI = mapController.addPoiOnOnMapLocation(userCoordinate)
@@ -231,7 +232,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UserAuthenticationDelegat
                 }
             } else if shortcutSearchPOIs {
                 shortcutSearchPOIs = false
-                navigateToMapViewControllerFromAnywhere(UIApplication.sharedApplication())
+                navigateToMapViewControllerFromAnywhere(UIApplication.shared)
                 mapController.showSearchController()
             } else {
                 print("\(#function) unknown action")
@@ -243,10 +244,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UserAuthenticationDelegat
     // - Dismiss modal view controller
     // - Move the Navigation controller on the top view, which is the MapViewController
     // - Prepare the MapViewController (stop Flyover, ...)
-    private func navigateToMapViewControllerFromAnywhere(application: UIApplication) {
+    fileprivate func navigateToMapViewControllerFromAnywhere(_ application: UIApplication) {
         if let mapController = MapViewController.instance {
             if let presentedVC = application.keyWindow?.rootViewController?.presentedViewController {
-                presentedVC.dismissViewControllerAnimated(true, completion: nil)
+                presentedVC.dismiss(animated: true, completion: nil)
             }
             
             ContainerViewController.sharedInstance.goToMap()

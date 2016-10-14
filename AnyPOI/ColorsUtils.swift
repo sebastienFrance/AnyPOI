@@ -21,9 +21,9 @@ class ColorsUtils {
         
         var colors = [UIColor]()
         // 0.91, 1.1... to make sure the last value will be included
-        for hue in (0.0).stride(through: 0.91, by: 0.1){
-            for saturation in (0.6).stride(to: 1.1, by: 0.2) {
-                for brightness in (0.6).stride(through: 1.1, by: 0.2) {
+        for hue in stride(from: (0.0), through: 0.91, by: 0.1){
+            for saturation in stride(from: (0.6), to: 1.1, by: 0.2) {
+                for brightness in stride(from: (0.6), through: 1.1, by: 0.2) {
                     colors.append(UIColor(hue: CGFloat(hue), saturation: CGFloat(saturation), brightness: CGFloat(brightness), alpha: 1.0))
                 }
             }
@@ -34,7 +34,7 @@ class ColorsUtils {
 
     // Returns the index of the given color in the colors array. When the color is not in the array
     // then the returned value is -1
-    static func findColorIndex(color:UIColor, inColors:[UIColor]) -> Int {
+    static func findColorIndex(_ color:UIColor, inColors:[UIColor]) -> Int {
         for i in 0..<inColors.count {
             let currentColor = inColors[i]
             if color.description == currentColor.description {

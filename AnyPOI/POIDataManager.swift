@@ -24,7 +24,7 @@ class POIDataManager {
     }
 
     // Name of entities
-    private struct entitiesCste {
+    fileprivate struct entitiesCste {
         static let groupOfInterest = "GroupOfInterest"
         static let pointOfInterest = "PointOfInterest"
         static let route = "Route"
@@ -39,7 +39,7 @@ class POIDataManager {
         static let groupColor = ColorsUtils.defaultGroupColor()
     }
     
-    private struct defaultContactGroupCste {
+    fileprivate struct defaultContactGroupCste {
         static let groupId = 1
         static let displayName = NSLocalizedString("ContactsGroupName", comment: "")
         static let groupDescription = NSLocalizedString("ContactsGroupDescription", comment: "")
@@ -52,7 +52,7 @@ class POIDataManager {
         getDefaultContactGroup()
     }
     
-    func isMandatoryGroup(group:GroupOfInterest) -> Bool {
+    func isMandatoryGroup(_ group:GroupOfInterest) -> Bool {
         return isDefaultGroup(group) || isDefaultContactGroup(group)
     }
     
@@ -66,7 +66,7 @@ class POIDataManager {
         }
     }
     
-    func isDefaultGroup(group:GroupOfInterest) -> Bool {
+    func isDefaultGroup(_ group:GroupOfInterest) -> Bool {
         let groupId = Int(group.groupId)
         if groupId == defaultGroupCste.groupId {
             return true
@@ -84,7 +84,7 @@ class POIDataManager {
         }
     }
 
-    func isDefaultContactGroup(group:GroupOfInterest) -> Bool {
+    func isDefaultContactGroup(_ group:GroupOfInterest) -> Bool {
         let groupId = Int(group.groupId)
         if groupId == defaultContactGroupCste.groupId {
             return true
@@ -95,9 +95,9 @@ class POIDataManager {
     
     
     //MARK: find Group
-    func getGroups(searchFilter:String = "") -> [GroupOfInterest] {
+    func getGroups(_ searchFilter:String = "") -> [GroupOfInterest] {
         let managedContext = DatabaseAccess.sharedInstance.managedObjectContext
-        let fetchRequest = NSFetchRequest(entityName: entitiesCste.groupOfInterest)
+        let fetchRequest = NSFetchRequest<GroupOfInterest>(entityName: entitiesCste.groupOfInterest)
         
         if !searchFilter.isEmpty {
             fetchRequest.predicate = NSPredicate(format: "groupDisplayName CONTAINS[cd] %@", argumentArray: [searchFilter])
@@ -107,7 +107,7 @@ class POIDataManager {
         fetchRequest.sortDescriptors = [sortDescriptor]
         
         do {
-            let results = try managedContext.executeFetchRequest(fetchRequest)
+            let results = try managedContext.fetch(fetchRequest)
             return results as! [GroupOfInterest]
         } catch let error as NSError {
             print("\(#function) GroupOfInterests could not be extracted from DB \(error), \(error.userInfo)")
@@ -115,13 +115,13 @@ class POIDataManager {
         }
     }
     
-    func findGroup(groupId groupId:Int) -> GroupOfInterest? {
+    func findGroup(groupId:Int) -> GroupOfInterest? {
         let managedContext = DatabaseAccess.sharedInstance.managedObjectContext
-        let fetchRequest = NSFetchRequest(entityName: entitiesCste.groupOfInterest)
+        let fetchRequest = NSFetchRequest<GroupOfInterest>(entityName: entitiesCste.groupOfInterest)
         fetchRequest.predicate = NSPredicate(format: "groupId = %@", argumentArray: [groupId])
         
         do {
-            let matchingGroups = try managedContext.executeFetchRequest(fetchRequest)
+            let matchingGroups = try managedContext.fetch(fetchRequest)
             
             if matchingGroups.count >= 1 {
                 return matchingGroups[0] as? GroupOfInterest
@@ -137,14 +137,14 @@ class POIDataManager {
     
     func findDisplayableGroups() -> [GroupOfInterest] {
         let managedContext = DatabaseAccess.sharedInstance.managedObjectContext
-        let fetchRequest = NSFetchRequest(entityName: entitiesCste.groupOfInterest)
+        let fetchRequest = NSFetchRequest<GroupOfInterest>(entityName: entitiesCste.groupOfInterest)
         fetchRequest.predicate = NSPredicate(format: "isGroupDisplayed = %@", argumentArray: [true])
         
         let sortDescriptor = NSSortDescriptor(key: "groupDisplayName", ascending: true, selector: #selector(NSString.caseInsensitiveCompare(_:)))
         fetchRequest.sortDescriptors = [sortDescriptor]
         
         do {
-            let matchingGroups = try managedContext.executeFetchRequest(fetchRequest)
+            let matchingGroups = try managedContext.fetch(fetchRequest)
             return matchingGroups as! [GroupOfInterest]
         } catch let error as NSError {
             print("\(#function) DisplayableGroups could not be fetch \(error), \(error.userInfo)")
@@ -153,9 +153,9 @@ class POIDataManager {
         
     }
     
-    func findGroups(searchText:String) -> [GroupOfInterest] {
+    func findGroups(_ searchText:String) -> [GroupOfInterest] {
         let managedContext = DatabaseAccess.sharedInstance.managedObjectContext
-        let fetchRequest = NSFetchRequest(entityName: entitiesCste.groupOfInterest)
+        let fetchRequest = NSFetchRequest<GroupOfInterest>(entityName: entitiesCste.groupOfInterest)
         if !searchText.isEmpty {
             fetchRequest.predicate = NSPredicate(format: "groupDisplayName BEGINSWITH[cd] %@", searchText)
         } else {
@@ -166,7 +166,7 @@ class POIDataManager {
         
         
         do {
-            let matchingGroup = try managedContext.executeFetchRequest(fetchRequest)
+            let matchingGroup = try managedContext.fetch(fetchRequest)
             return matchingGroup as! [GroupOfInterest]
         } catch let error as NSError {
             print("\(#function) could not be fetch \(error), \(error.userInfo)")
@@ -175,12 +175,12 @@ class POIDataManager {
     }
 
     // MARK: Group
-    func addGroup(groupName groupName:String, groupDescription:String, groupColor:UIColor) -> GroupOfInterest {
-        let groupId = Int(NSDate.timeIntervalSinceReferenceDate())
+    func addGroup(groupName:String, groupDescription:String, groupColor:UIColor) -> GroupOfInterest {
+        let groupId = Int(Date.timeIntervalSinceReferenceDate)
         return addGroup(groupId: groupId, groupName: groupName, groupDescription: groupDescription, groupColor: groupColor)
     }
     
-    private func addGroup(groupId groupId: Int, groupName:String, groupDescription:String, groupColor:UIColor) -> GroupOfInterest {
+    fileprivate func addGroup(groupId: Int, groupName:String, groupDescription:String, groupColor:UIColor) -> GroupOfInterest {
         let group = getEmptyGroup()
         group.initializeWith(groupId, name: groupName, description: groupDescription, color: groupColor)
         return group
@@ -189,25 +189,25 @@ class POIDataManager {
     func getEmptyGroup() -> GroupOfInterest {
         
         let managedContext = DatabaseAccess.sharedInstance.managedObjectContext
-        let entity = NSEntityDescription.entityForName(entitiesCste.groupOfInterest, inManagedObjectContext:managedContext)
-        return GroupOfInterest(entity: entity!, insertIntoManagedObjectContext: managedContext)
+        let entity = NSEntityDescription.entity(forEntityName: entitiesCste.groupOfInterest, in:managedContext)
+        return GroupOfInterest(entity: entity!, insertInto: managedContext)
     }
 
-    func deleteGroup(group group:GroupOfInterest) {
+    func deleteGroup(group:GroupOfInterest) {
         
 
         let managedContext = DatabaseAccess.sharedInstance.managedObjectContext
 
-        managedContext.deleteObject(group)
+        managedContext.delete(group)
 
         if let pois = group.listOfPOIs {
             for currentPOI in pois {
-                managedContext.deleteObject(currentPOI as! NSManagedObject)
+                managedContext.delete(currentPOI as! NSManagedObject)
             }
         }
     }
 
-    func updatePOIGroup(poiGroup: GroupOfInterest) {
+    func updatePOIGroup(_ poiGroup: GroupOfInterest) {
     }
     
 
@@ -221,7 +221,7 @@ class POIDataManager {
         return getUniqueStringFromPOI("poiCity", withSorting:true)
     }
     
-    func getAllCitiesFromCountry(isoCountryCode:String, filter:String = "") -> [String] {
+    func getAllCitiesFromCountry(_ isoCountryCode:String, filter:String = "") -> [String] {
         return getUniqueStringFromPOI("poiCity", withSorting:true, withPredicate: NSPredicate(format: "poiISOCountryCode == %@",isoCountryCode), withCountryNameFilter:filter)
     }
     
@@ -237,27 +237,27 @@ class POIDataManager {
         var countries = [CountryDescription]()
         
         for currentISOCountry in isoCountryNames {
-            if let countryName = NSLocale.currentLocale().displayNameForKey(NSLocaleCountryCode, value: currentISOCountry) {
+            if let countryName = (Locale.current as NSLocale).displayName(forKey: NSLocale.Key.countryCode, value: currentISOCountry) {
                 let newCountryNameToISO = CountryDescription(countryName: countryName, ISOCountryCode: currentISOCountry)
                 countries.append(newCountryNameToISO)
             } else {
                 print("\(#function) cannot find translation for ISOCountry \(currentISOCountry), it's ignored")
             }
         }
-        countries = countries.sort() {
+        countries = countries.sorted() {
             $0.countryName < $1.countryName
         }
         return countries
     }
     
-    private func getAllISOCountryCode() -> [String] {
+    fileprivate func getAllISOCountryCode() -> [String] {
         return getUniqueStringFromPOI("poiISOCountryCode")
     }
     
-    private func getUniqueStringFromPOI(propertyName:String, withSorting:Bool = false, withPredicate:NSPredicate? = nil, withCountryNameFilter:String = "") -> [String] {
+    fileprivate func getUniqueStringFromPOI(_ propertyName:String, withSorting:Bool = false, withPredicate:NSPredicate? = nil, withCountryNameFilter:String = "") -> [String] {
         let managedContext = DatabaseAccess.sharedInstance.managedObjectContext
-        let fetchRequest = NSFetchRequest(entityName: entitiesCste.pointOfInterest)
-        fetchRequest.resultType = .DictionaryResultType
+        let fetchRequest = NSFetchRequest<PointOfInterest>(entityName: entitiesCste.pointOfInterest)
+        fetchRequest.resultType = .dictionaryResultType
         fetchRequest.returnsDistinctResults = true
         fetchRequest.propertiesToFetch = [propertyName]
         if !isUserAuthenticated() {
@@ -278,20 +278,20 @@ class POIDataManager {
         }
        
         do {
-            let propertiesResults = try managedContext.executeFetchRequest(fetchRequest)
+            let propertiesResults = try managedContext.fetch(fetchRequest)
             // CitiesResults is an Array where each value is a Dictionary which contains the key ("poiCity" attribute) and the unique value
             // We must iterate each Dictionary and concat the values
             var properties = [String]()
             
-            let withCountryNameLowerCase = withCountryNameFilter.lowercaseString
+            let withCountryNameLowerCase = withCountryNameFilter.lowercased()
             
             for currentPropertyDictionary in propertiesResults {
                 if let values = (currentPropertyDictionary as? NSDictionary)?.allValues as? [String] {
                     if withCountryNameFilter.isEmpty {
-                        properties.appendContentsOf(values)
+                        properties.append(contentsOf: values)
                     } else {
-                        if values[0].lowercaseString.containsString(withCountryNameLowerCase) {
-                            properties.appendContentsOf(values)
+                        if values[0].lowercased().contains(withCountryNameLowerCase) {
+                            properties.append(contentsOf: values)
                         }
                     }
                 }
@@ -309,7 +309,7 @@ class POIDataManager {
     }
 
 
-    func getAllPOISortedByGroup(searchFilter:String = "", withEmptyGroup:Bool = false) -> [GroupOfInterest:[PointOfInterest]] {
+    func getAllPOISortedByGroup(_ searchFilter:String = "", withEmptyGroup:Bool = false) -> [GroupOfInterest:[PointOfInterest]] {
         let groups = getGroups()
         var POIsPerGroup = [GroupOfInterest:[PointOfInterest]]()
         for currentGroup in groups {
@@ -327,7 +327,7 @@ class POIDataManager {
         
         
         let managedContext = DatabaseAccess.sharedInstance.managedObjectContext
-        let fetchRequest = NSFetchRequest(entityName: entitiesCste.pointOfInterest)
+        let fetchRequest = NSFetchRequest<PointOfInterest>(entityName: entitiesCste.pointOfInterest)
         if !isUserAuthenticated() {
             fetchRequest.predicate = NSPredicate(format: "isPrivate == FALSE")
         }
@@ -336,7 +336,7 @@ class POIDataManager {
         fetchRequest.sortDescriptors = [sortDescriptor]
      
         do {
-            let matchingPOI = try managedContext.executeFetchRequest(fetchRequest) as! [PointOfInterest]
+            let matchingPOI = try managedContext.fetch(fetchRequest) as! [PointOfInterest]
             return matchingPOI
         } catch let error as NSError {
             print("\(#function) could not be fetch \(error), \(error.userInfo)")
@@ -344,9 +344,9 @@ class POIDataManager {
         }
     }
     
-    func getAllPOIFromCity(cityName:String, searchFilter:String = "") -> [PointOfInterest] {
+    func getAllPOIFromCity(_ cityName:String, searchFilter:String = "") -> [PointOfInterest] {
         let managedContext = DatabaseAccess.sharedInstance.managedObjectContext
-        let fetchRequest = NSFetchRequest(entityName: entitiesCste.pointOfInterest)
+        let fetchRequest = NSFetchRequest<PointOfInterest>(entityName: entitiesCste.pointOfInterest)
         
         let basicPredicate = !isUserAuthenticated() ?  NSPredicate(format: "isPrivate == FALSE AND poiCity == %@", cityName) : NSPredicate(format: "poiCity == %@", cityName)
 
@@ -361,7 +361,7 @@ class POIDataManager {
         fetchRequest.sortDescriptors = [sortDescriptor]
         
         do {
-            let matchingPOI = try managedContext.executeFetchRequest(fetchRequest) as! [PointOfInterest]
+            let matchingPOI = try managedContext.fetch(fetchRequest) as! [PointOfInterest]
             return matchingPOI
         } catch let error as NSError {
             print("\(#function) could not be fetch \(error), \(error.userInfo)")
@@ -369,9 +369,9 @@ class POIDataManager {
         }
     }
     
-    func getAllPOIFromCountry(ISOCountryCode:String, searchFilter:String = "") -> [PointOfInterest] {
+    func getAllPOIFromCountry(_ ISOCountryCode:String, searchFilter:String = "") -> [PointOfInterest] {
         let managedContext = DatabaseAccess.sharedInstance.managedObjectContext
-        let fetchRequest = NSFetchRequest(entityName: entitiesCste.pointOfInterest)
+        let fetchRequest = NSFetchRequest<PointOfInterest>(entityName: entitiesCste.pointOfInterest)
         
         let basicPredicate = !isUserAuthenticated() ? NSPredicate(format: "isPrivate == FALSE AND poiISOCountryCode == %@", ISOCountryCode) :  NSPredicate(format: "poiISOCountryCode == %@", ISOCountryCode)
         
@@ -386,7 +386,7 @@ class POIDataManager {
         fetchRequest.sortDescriptors = [sortDescriptor]
         
         do {
-            let matchingPOI = try managedContext.executeFetchRequest(fetchRequest) as! [PointOfInterest]
+            let matchingPOI = try managedContext.fetch(fetchRequest) as! [PointOfInterest]
             return matchingPOI
         } catch let error as NSError {
             print("\(#function) could not be fetch \(error), \(error.userInfo)")
@@ -396,9 +396,9 @@ class POIDataManager {
 
 
 
-    func getAllMonitoredPOI(searchFilter:String = "") -> [PointOfInterest] {
+    func getAllMonitoredPOI(_ searchFilter:String = "") -> [PointOfInterest] {
         let managedContext = DatabaseAccess.sharedInstance.managedObjectContext
-        let fetchRequest = NSFetchRequest(entityName: entitiesCste.pointOfInterest)
+        let fetchRequest = NSFetchRequest<PointOfInterest>(entityName: entitiesCste.pointOfInterest)
         
         let basicPredicate = !isUserAuthenticated() ? NSPredicate(format: "isPrivate == FALSE AND ((poiRegionNotifyEnter == TRUE) OR (poiRegionNotifyExit == TRUE))") : NSPredicate(format: "(poiRegionNotifyEnter == TRUE) OR (poiRegionNotifyExit == TRUE)")
         
@@ -413,7 +413,7 @@ class POIDataManager {
         fetchRequest.sortDescriptors = [sortDescriptor]
 
         do {
-            let matchingPOI = try managedContext.executeFetchRequest(fetchRequest) as! [PointOfInterest]
+            let matchingPOI = try managedContext.fetch(fetchRequest) as! [PointOfInterest]
             return matchingPOI
         } catch let error as NSError {
             print("\(#function) could not be fetch \(error), \(error.userInfo)")
@@ -422,9 +422,9 @@ class POIDataManager {
 
     }
     
-    func getPOIsFromGroup(group:GroupOfInterest, searchFilter:String = "") -> [PointOfInterest] {
+    func getPOIsFromGroup(_ group:GroupOfInterest, searchFilter:String = "") -> [PointOfInterest] {
         let managedContext = DatabaseAccess.sharedInstance.managedObjectContext
-        let fetchRequest = NSFetchRequest(entityName: entitiesCste.pointOfInterest)
+        let fetchRequest = NSFetchRequest<PointOfInterest>(entityName: entitiesCste.pointOfInterest)
         
         let basicPredicate = !isUserAuthenticated() ? NSPredicate(format: "isPrivate == FALSE AND parentGroup = %@", group) : NSPredicate(format: "parentGroup = %@", group)
         
@@ -439,7 +439,7 @@ class POIDataManager {
         fetchRequest.sortDescriptors = [sortDescriptor]
         
         do {
-            let matchingPOI = try managedContext.executeFetchRequest(fetchRequest) as! [PointOfInterest]
+            let matchingPOI = try managedContext.fetch(fetchRequest) as! [PointOfInterest]
             return matchingPOI
         } catch let error as NSError {
             print("\(#function) could not be fetch \(error), \(error.userInfo)")
@@ -447,21 +447,21 @@ class POIDataManager {
         }
     }
     
-    func getPOIWithURI(URI:NSURL) -> PointOfInterest? {
+    func getPOIWithURI(_ URI:URL) -> PointOfInterest? {
         return getObjectWithURI(URI) as? PointOfInterest ?? nil
     }
     
-    func getRouteWithURI(URI:NSURL) -> Route? {
+    func getRouteWithURI(_ URI:URL) -> Route? {
         return getObjectWithURI(URI) as? Route ?? nil
     }
     
-    private func getObjectWithURI(URI:NSURL) -> NSManagedObject? {
+    fileprivate func getObjectWithURI(_ URI:URL) -> NSManagedObject? {
         
         
         let managedContext = DatabaseAccess.sharedInstance.managedObjectContext
-        if let managedObjectId = DatabaseAccess.sharedInstance.persistentStoreCoordinator.managedObjectIDForURIRepresentation(URI) {
+        if let managedObjectId = DatabaseAccess.sharedInstance.persistentStoreCoordinator.managedObjectID(forURIRepresentation: URI) {
             do {
-                return try managedContext.existingObjectWithID(managedObjectId)
+                return try managedContext.existingObject(with: managedObjectId)
             } catch let error as NSError {
                 print("\(#function) could not be fetch \(error), \(error.userInfo)")
             }
@@ -471,9 +471,9 @@ class POIDataManager {
 
 
     
-    func findPOI(searchText:String, category:Int) -> [PointOfInterest] {
+    func findPOI(_ searchText:String, category:Int) -> [PointOfInterest] {
         let managedContext = DatabaseAccess.sharedInstance.managedObjectContext
-        let fetchRequest = NSFetchRequest(entityName: entitiesCste.pointOfInterest)
+        let fetchRequest = NSFetchRequest<PointOfInterest>(entityName: entitiesCste.pointOfInterest)
         
         if isUserAuthenticated() {
             if category == CategoryUtils.EmptyCategoryIndex {
@@ -494,7 +494,7 @@ class POIDataManager {
         fetchRequest.sortDescriptors = [sortDescriptor]
         
         do {
-            let matchingPOI = try managedContext.executeFetchRequest(fetchRequest) as! [PointOfInterest]
+            let matchingPOI = try managedContext.fetch(fetchRequest) as! [PointOfInterest]
             return matchingPOI
         } catch let error as NSError {
             print("\(#function) could not be fetch \(error), \(error.userInfo)")
@@ -502,17 +502,17 @@ class POIDataManager {
         }
     }
     
-    func findPOIWith(name:String, coordinates:CLLocationCoordinate2D) -> [PointOfInterest] {
+    func findPOIWith(_ name:String, coordinates:CLLocationCoordinate2D) -> [PointOfInterest] {
         let managedContext = DatabaseAccess.sharedInstance.managedObjectContext
-        let fetchRequest = NSFetchRequest(entityName: entitiesCste.pointOfInterest)
+        let fetchRequest = NSFetchRequest<PointOfInterest>(entityName: entitiesCste.pointOfInterest)
         if isUserAuthenticated() {
-            fetchRequest.predicate = NSPredicate(format: "(poiDisplayName == %@) AND (poiLatitude == %@) AND (poiLongitude == %@)", name, NSNumber(double: coordinates.latitude), NSNumber(double:coordinates.longitude))
+            fetchRequest.predicate = NSPredicate(format: "(poiDisplayName == %@) AND (poiLatitude == %@) AND (poiLongitude == %@)", name, NSNumber(value: coordinates.latitude as Double), NSNumber(value: coordinates.longitude as Double))
         } else {
-            fetchRequest.predicate = NSPredicate(format: "isPrivate == FALSE AND (poiDisplayName == %@) AND (poiLatitude == %@) AND (poiLongitude == %@)", name, NSNumber(double: coordinates.latitude), NSNumber(double:coordinates.longitude))
+            fetchRequest.predicate = NSPredicate(format: "isPrivate == FALSE AND (poiDisplayName == %@) AND (poiLatitude == %@) AND (poiLongitude == %@)", name, NSNumber(value: coordinates.latitude as Double), NSNumber(value: coordinates.longitude as Double))
 
         }
         do {
-            let matchingPOI = try managedContext.executeFetchRequest(fetchRequest) as! [PointOfInterest]
+            let matchingPOI = try managedContext.fetch(fetchRequest) as! [PointOfInterest]
             return matchingPOI
         } catch let error as NSError {
             print("\(#function) could not be fetch \(error), \(error.userInfo)")
@@ -520,9 +520,9 @@ class POIDataManager {
         }
     }
     
-    func findContact(contactIdentifier:String) -> [PointOfInterest] {
+    func findContact(_ contactIdentifier:String) -> [PointOfInterest] {
         let managedContext = DatabaseAccess.sharedInstance.managedObjectContext
-        let fetchRequest = NSFetchRequest(entityName: entitiesCste.pointOfInterest)
+        let fetchRequest = NSFetchRequest<PointOfInterest>(entityName: entitiesCste.pointOfInterest)
         if isUserAuthenticated() {
             fetchRequest.predicate = NSPredicate(format: "(poiContactIdentifier == %@) AND (poiIsContact == TRUE)", contactIdentifier)
         } else {
@@ -530,7 +530,7 @@ class POIDataManager {
         }
         
         do {
-            let matchingPOI = try managedContext.executeFetchRequest(fetchRequest) as! [PointOfInterest]
+            let matchingPOI = try managedContext.fetch(fetchRequest) as! [PointOfInterest]
             return matchingPOI
         } catch let error as NSError {
             print("\(#function) could not be fetch \(error), \(error.userInfo)")
@@ -538,12 +538,12 @@ class POIDataManager {
         }
     }
 
-    func findPOIWithRegiondId(regionId:String) -> PointOfInterest? {
+    func findPOIWithRegiondId(_ regionId:String) -> PointOfInterest? {
         let managedContext = DatabaseAccess.sharedInstance.managedObjectContext
-        let fetchRequest = NSFetchRequest(entityName: entitiesCste.pointOfInterest)
+        let fetchRequest = NSFetchRequest<PointOfInterest>(entityName: entitiesCste.pointOfInterest)
         fetchRequest.predicate = NSPredicate(format: "(poiRegionId == %@)", regionId)
         do {
-            let matchingPOI = try managedContext.executeFetchRequest(fetchRequest) as! [PointOfInterest]
+            let matchingPOI = try managedContext.fetch(fetchRequest) as! [PointOfInterest]
             if matchingPOI.count > 1 {
                 print("\(#function): Error, found more than one POI")
             }
@@ -555,9 +555,9 @@ class POIDataManager {
     }
 
     
-    func findPOIWith(wikipedia:Wikipedia) -> PointOfInterest? {
+    func findPOIWith(_ wikipedia:Wikipedia) -> PointOfInterest? {
         let managedContext = DatabaseAccess.sharedInstance.managedObjectContext
-        let fetchRequest = NSFetchRequest(entityName: entitiesCste.pointOfInterest)
+        let fetchRequest = NSFetchRequest<PointOfInterest>(entityName: entitiesCste.pointOfInterest)
         if isUserAuthenticated() {
             fetchRequest.predicate = NSPredicate(format: "poiWikipediaPageId = %d", wikipedia.pageId)
         } else {
@@ -565,7 +565,7 @@ class POIDataManager {
         }
         
         do {
-            let matchingPOI = try managedContext.executeFetchRequest(fetchRequest) as! [PointOfInterest]
+            let matchingPOI = try managedContext.fetch(fetchRequest) as! [PointOfInterest]
             if matchingPOI.count > 0 {
                 return matchingPOI[0]
             } else {
@@ -580,7 +580,7 @@ class POIDataManager {
 
      //MARK: POI
     // Insert a new PointOfInterest in the database in the default GroupOfInterest
-    func addPOI(coordinates: CLLocationCoordinate2D, camera:MKMapCamera) -> PointOfInterest {
+    func addPOI(_ coordinates: CLLocationCoordinate2D, camera:MKMapCamera) -> PointOfInterest {
         let poi = getEmptyPoi()
         poi.initializeWith(coordinates, camera:camera)
         commitDatabase()
@@ -588,7 +588,7 @@ class POIDataManager {
         return poi
     }
     
-    func addPOI(contact:CNContact, placemark:CLPlacemark) -> PointOfInterest {
+    func addPOI(_ contact:CNContact, placemark:CLPlacemark) -> PointOfInterest {
         let poi = getEmptyPoi()
         poi.initializeWith(contact, placemark: placemark)
         commitDatabase()
@@ -596,7 +596,7 @@ class POIDataManager {
         return poi
     }
     
-    func addPOI(wikipedia: Wikipedia, group:GroupOfInterest) -> PointOfInterest {
+    func addPOI(_ wikipedia: Wikipedia, group:GroupOfInterest) -> PointOfInterest {
         let poi = getEmptyPoi()
         poi.initializeWith(wikipedia, group: group)
         commitDatabase()
@@ -604,7 +604,7 @@ class POIDataManager {
         return poi
     }
     
-    func addPOI(mapItem: MKMapItem, categoryIndex:Int) -> PointOfInterest {
+    func addPOI(_ mapItem: MKMapItem, categoryIndex:Int) -> PointOfInterest {
         let poi = getEmptyPoi()
         poi.initializeWith(mapItem, categoryIndex:categoryIndex)
         commitDatabase()
@@ -612,27 +612,27 @@ class POIDataManager {
         return poi
     }
     
-    private func getEmptyPoi() -> PointOfInterest {
+    fileprivate func getEmptyPoi() -> PointOfInterest {
         let managedContext = DatabaseAccess.sharedInstance.managedObjectContext
-        let entity = NSEntityDescription.entityForName(entitiesCste.pointOfInterest, inManagedObjectContext:managedContext)
-        return PointOfInterest(entity: entity!, insertIntoManagedObjectContext: managedContext)
+        let entity = NSEntityDescription.entity(forEntityName: entitiesCste.pointOfInterest, in:managedContext)
+        return PointOfInterest(entity: entity!, insertInto: managedContext)
     }
 
-    func deletePOI(POI POI:PointOfInterest) {
+    func deletePOI(POI:PointOfInterest) {
         if POI.isMonitored {
             LocationManager.sharedInstance.stopMonitoringRegion(POI)
         }
         deleteObject(POI)
     }
     
-    func deleteCityPOIs(cityName:String, fromISOCountryCode:String) {
+    func deleteCityPOIs(_ cityName:String, fromISOCountryCode:String) {
         let pois = getAllPOIFromCity(cityName)
         for currentPOI in pois {
             deletePOI(POI: currentPOI)
         }
     }
     
-    func deleteCountryPOIs(isoCountryCode:String) {
+    func deleteCountryPOIs(_ isoCountryCode:String) {
         let pois = getAllPOIFromCountry(isoCountryCode)
         for currentPOI in pois {
             deletePOI(POI: currentPOI)
@@ -647,7 +647,7 @@ class POIDataManager {
     }
 
     
-    func deleteContacts(contactsToBeDeleted:Set<String>) {
+    func deleteContacts(_ contactsToBeDeleted:Set<String>) {
         for currentContactId in contactsToBeDeleted {
             let pois = findContact(currentContactId)
             if pois.count > 1 {
@@ -659,7 +659,7 @@ class POIDataManager {
         }
     }
     
-    func updatePOI(poi: PointOfInterest) {
+    func updatePOI(_ poi: PointOfInterest) {
     }
     
 
@@ -667,13 +667,13 @@ class POIDataManager {
     //MARK: find Route
     func getAllRoutes() -> [Route] {
         let managedContext = DatabaseAccess.sharedInstance.managedObjectContext
-        let fetchRequest = NSFetchRequest(entityName: entitiesCste.route)
+        let fetchRequest = NSFetchRequest<Route>(entityName: entitiesCste.route)
  
         let sortDescriptor = NSSortDescriptor(key: "routeName", ascending: true, selector: #selector(NSString.caseInsensitiveCompare(_:)))
         fetchRequest.sortDescriptors = [sortDescriptor]
 
         do {
-            let routes = try managedContext.executeFetchRequest(fetchRequest) as! [Route]
+            let routes = try managedContext.fetch(fetchRequest) as! [Route]
             return routes
         } catch let error as NSError {
             print("getAllRoutes could not be fetch \(error), \(error.userInfo)")
@@ -681,16 +681,16 @@ class POIDataManager {
         }
     }
     
-    func findRoute(searchText:String) -> [Route] {
+    func findRoute(_ searchText:String) -> [Route] {
         let managedContext = DatabaseAccess.sharedInstance.managedObjectContext
-        let fetchRequest = NSFetchRequest(entityName: entitiesCste.route)
+        let fetchRequest = NSFetchRequest<Route>(entityName: entitiesCste.route)
         fetchRequest.predicate = NSPredicate(format: "routeName BEGINSWITH[cd] %@", searchText)
         
         let sortDescriptor = NSSortDescriptor(key: "routeName", ascending: true, selector: #selector(NSString.caseInsensitiveCompare(_:)))
         fetchRequest.sortDescriptors = [sortDescriptor]
         
         do {
-            let matchingRoute = try managedContext.executeFetchRequest(fetchRequest) as! [Route]
+            let matchingRoute = try managedContext.fetch(fetchRequest) as! [Route]
             return matchingRoute
         } catch let error as NSError {
             print("findRoute could not be fetch: \(error), \(error.userInfo)")
@@ -700,13 +700,13 @@ class POIDataManager {
 
     
     //MARK: Route
-   func addRoute(routeName:String, routePath:[PointOfInterest]) -> Route {
+   func addRoute(_ routeName:String, routePath:[PointOfInterest]) -> Route {
         
         let wayPoints = NSMutableOrderedSet()
         
         for currentRouteEntry in routePath {
             let newRouteEntry = addWayPoint(currentRouteEntry)
-            wayPoints.addObject(newRouteEntry)
+            wayPoints.add(newRouteEntry)
         }
         
         let route = getEmptyRoute()
@@ -714,33 +714,33 @@ class POIDataManager {
         return route
     }
     
-    private func getEmptyRoute() -> Route {
+    fileprivate func getEmptyRoute() -> Route {
         
         let managedContext = DatabaseAccess.sharedInstance.managedObjectContext
-        let entity = NSEntityDescription.entityForName(entitiesCste.route, inManagedObjectContext:managedContext)
-        return Route(entity: entity!, insertIntoManagedObjectContext: managedContext)
+        let entity = NSEntityDescription.entity(forEntityName: entitiesCste.route, in:managedContext)
+        return Route(entity: entity!, insertInto: managedContext)
     }
 
 
-    func addWayPointToRoute(route:Route, pois:[PointOfInterest]) {
+    func addWayPointToRoute(_ route:Route, pois:[PointOfInterest]) {
         let wayPoints = NSMutableOrderedSet(orderedSet: route.routeWayPoints!)
 
         for currentPOI in pois {
             let newWayPoint = addWayPoint(currentPOI)
-            wayPoints.addObject(newWayPoint)
+            wayPoints.add(newWayPoint)
         }
 
         route.routeWayPoints = wayPoints
     }
     
-    func insertWayPointTo(route: Route, poi:PointOfInterest, index:Int) {
+    func insertWayPointTo(_ route: Route, poi:PointOfInterest, index:Int) {
         let wayPoints = NSMutableOrderedSet(orderedSet: route.routeWayPoints!)
         
         let newWayPoint = addWayPoint(poi)
-        wayPoints.insertObject(newWayPoint, atIndex: index)
+        wayPoints.insert(newWayPoint, at: index)
         
         if index > 0 {
-            let previousWayPoint = wayPoints.objectAtIndex(index - 1) as! WayPoint
+            let previousWayPoint = wayPoints.object(at: index - 1) as! WayPoint
             newWayPoint.transportType = previousWayPoint.transportType
             previousWayPoint.transportType = UserPreferences.sharedInstance.routeDefaultTransportType
             previousWayPoint.calculatedRoute = nil
@@ -749,17 +749,17 @@ class POIDataManager {
         route.routeWayPoints = wayPoints
     }
     
-    func insertWayPointTo(route: Route, poi:PointOfInterest, index:Int, transportType:MKDirectionsTransportType) {
+    func insertWayPointTo(_ route: Route, poi:PointOfInterest, index:Int, transportType:MKDirectionsTransportType) {
         let wayPoints = NSMutableOrderedSet(orderedSet: route.routeWayPoints!)
     
         if index == 0 {
             let newWayPoint = addWayPoint(poi, transportType: transportType)
-            wayPoints.insertObject(newWayPoint, atIndex: index)
+            wayPoints.insert(newWayPoint, at: index)
         } else {
             let newWayPoint = addWayPoint(poi)
-            wayPoints.insertObject(newWayPoint, atIndex: index)
+            wayPoints.insert(newWayPoint, at: index)
             
-            let previousWayPoint = wayPoints.objectAtIndex(index - 1) as! WayPoint
+            let previousWayPoint = wayPoints.object(at: index - 1) as! WayPoint
             newWayPoint.transportType = previousWayPoint.transportType
             previousWayPoint.transportType = transportType
             previousWayPoint.calculatedRoute = nil
@@ -770,19 +770,19 @@ class POIDataManager {
 
 
     
-    func updateRoute(route:Route) {
+    func updateRoute(_ route:Route) {
     }
 
-    func deleteRoute(route:Route) {
+    func deleteRoute(_ route:Route) {
         deleteObject(route)
     }
 
     // MARK: WayPoint
-    func addWayPoint(poi: PointOfInterest) -> WayPoint {
+    func addWayPoint(_ poi: PointOfInterest) -> WayPoint {
         return addWayPoint(poi, transportType: UserPreferences.sharedInstance.routeDefaultTransportType)
     }
 
-    func addWayPoint(poi: PointOfInterest, transportType:MKDirectionsTransportType) -> WayPoint {
+    func addWayPoint(_ poi: PointOfInterest, transportType:MKDirectionsTransportType) -> WayPoint {
         let wayPoint = getEmptyWayPoint()
         wayPoint.transportType = transportType
         wayPoint.wayPointPoi = poi
@@ -790,24 +790,24 @@ class POIDataManager {
     }
 
     
-    private func getEmptyWayPoint() -> WayPoint {
+    fileprivate func getEmptyWayPoint() -> WayPoint {
         let managedContext = DatabaseAccess.sharedInstance.managedObjectContext
-        let entity = NSEntityDescription.entityForName(entitiesCste.wayPoint, inManagedObjectContext:managedContext)
-        return WayPoint(entity: entity!, insertIntoManagedObjectContext: managedContext)
+        let entity = NSEntityDescription.entity(forEntityName: entitiesCste.wayPoint, in:managedContext)
+        return WayPoint(entity: entity!, insertInto: managedContext)
     }
     
-    func deleteWayPoint(wayPoint:WayPoint) {
+    func deleteWayPoint(_ wayPoint:WayPoint) {
         wayPoint.wayPointParent!.willRemoveWayPoint(wayPoint)
         deleteObject(wayPoint)
     }
     
-    func updateWayPoint(wayPoint:WayPoint) {
+    func updateWayPoint(_ wayPoint:WayPoint) {
     }
 
     //MARK: Generic methods
-    private func deleteObject(dataBaseObject:NSManagedObject) {
+    fileprivate func deleteObject(_ dataBaseObject:NSManagedObject) {
         let managedContext = DatabaseAccess.sharedInstance.managedObjectContext
-        managedContext.deleteObject(dataBaseObject)
+        managedContext.delete(dataBaseObject)
     }
     
     func commitDatabase() {

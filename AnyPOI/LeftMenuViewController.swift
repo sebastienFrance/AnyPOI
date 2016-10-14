@@ -18,7 +18,7 @@ class LeftMenuViewController: UIViewController {
             theTableView.dataSource = self
             theTableView.estimatedRowHeight = 69
             theTableView.rowHeight = UITableViewAutomaticDimension
-            theTableView.tableFooterView = UIView(frame: CGRectZero) // remove separator for empty lines
+            theTableView.tableFooterView = UIView(frame: CGRect.zero) // remove separator for empty lines
         }
     }
     
@@ -37,20 +37,20 @@ class LeftMenuViewController: UIViewController {
 extension LeftMenuViewController : UITableViewDataSource, UITableViewDelegate {
     //MARK: UITableViewDataSource
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return menuTitles.count + 1
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if indexPath.row < menuTitles.count {
-            let theCell = theTableView.dequeueReusableCellWithIdentifier("LeftMenuCellId", forIndexPath: indexPath) as! LeftMenuTableViewCell
-            theCell.menuTitle.text = menuTitles[indexPath.row]
+        if (indexPath as NSIndexPath).row < menuTitles.count {
+            let theCell = theTableView.dequeueReusableCell(withIdentifier: "LeftMenuCellId", for: indexPath) as! LeftMenuTableViewCell
+            theCell.menuTitle.text = menuTitles[(indexPath as NSIndexPath).row]
              return theCell
         } else {
-            let theCell =  theTableView.dequeueReusableCellWithIdentifier("MenuAboutCellId", forIndexPath: indexPath) as! LeftMenuAboutTableViewCell
-            let version = NSBundle.mainBundle().infoDictionary?["CFBundleShortVersionString"] as! String
-            let build = NSBundle.mainBundle().infoDictionary?[kCFBundleVersionKey as String] as! String
+            let theCell =  theTableView.dequeueReusableCell(withIdentifier: "MenuAboutCellId", for: indexPath) as! LeftMenuAboutTableViewCell
+            let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
+            let build = Bundle.main.infoDictionary?[kCFBundleVersionKey as String] as! String
             
             theCell.buildLabel.text = "\(NSLocalizedString("BuildLeftMenuViewController", comment: "")) \(version) (\(build))"
             
@@ -58,15 +58,15 @@ extension LeftMenuViewController : UITableViewDataSource, UITableViewDelegate {
         }
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if indexPath.row == 0 {
-            container.showCenterView(.Map)
-        } else if indexPath.row == 1 {
-            container.showCenterView(.PoiManager)
-        } else if indexPath.row == 2 {
-            container.showCenterView(.Travels)
-        } else if indexPath.row == 3 {
-            container.showCenterView(.Options)
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if (indexPath as NSIndexPath).row == 0 {
+            container.showCenterView(.map)
+        } else if (indexPath as NSIndexPath).row == 1 {
+            container.showCenterView(.poiManager)
+        } else if (indexPath as NSIndexPath).row == 2 {
+            container.showCenterView(.travels)
+        } else if (indexPath as NSIndexPath).row == 3 {
+            container.showCenterView(.options)
         }
     }
     

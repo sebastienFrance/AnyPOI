@@ -12,7 +12,7 @@ import CoreLocation
 
 class PoiBoundingBox {
     // MARK: Utilities
-    static func getPoiAroundCurrentLocation(location:CLLocation, radius:Double, maxResult:Int) -> [PointOfInterest] {
+    static func getPoiAroundCurrentLocation(_ location:CLLocation, radius:Double, maxResult:Int) -> [PointOfInterest] {
         let geoLocation = GeoLocation.fromDegrees(location.coordinate.latitude, longitude: location.coordinate.longitude)
         do {
             
@@ -24,11 +24,11 @@ class PoiBoundingBox {
             var pois = PoiBoundingBox.getPOIInBoundingBox(southWest, northEast: northEast)
             
             // Extract from the result the 3 POIs that are neareast from the current position
-            pois = pois.sort() { firstPoi, secondPoi in
+            pois = pois.sorted() { firstPoi, secondPoi in
                 let firstPoiLocation = CLLocation(latitude: firstPoi.poiLatitude, longitude: firstPoi.poiLongitude)
                 let secondPoiLocation = CLLocation(latitude: secondPoi.poiLatitude, longitude: secondPoi.poiLongitude)
                 
-                if location.distanceFromLocation(firstPoiLocation) <= location.distanceFromLocation(secondPoiLocation) {
+                if location.distance(from: firstPoiLocation) <= location.distance(from: secondPoiLocation) {
                     return true
                 } else {
                     return false
@@ -48,8 +48,8 @@ class PoiBoundingBox {
         
     }
     
-    private static func getPOIInBoundingBox(southWest:CLLocationCoordinate2D, northEast:CLLocationCoordinate2D) -> [PointOfInterest] {
-        let fetchRequest = NSFetchRequest(entityName: "PointOfInterest")
+    fileprivate static func getPOIInBoundingBox(_ southWest:CLLocationCoordinate2D, northEast:CLLocationCoordinate2D) -> [PointOfInterest] {
+        let fetchRequest = NSFetchRequest<PointOfInterest>(entityName: "PointOfInterest")
         
         fetchRequest.predicate = NSPredicate(format: "poiLatitude >= %f AND poiLongitude >= %f AND poiLatitude <= %f AND poiLongitude <= %f", southWest.latitude, southWest.longitude, northEast.latitude, northEast.longitude)
         
@@ -57,7 +57,7 @@ class PoiBoundingBox {
         fetchRequest.sortDescriptors = [sortDescriptor]
         
         do {
-            return try DatabaseAccess.sharedInstance.managedObjectContext.executeFetchRequest(fetchRequest) as! [PointOfInterest]
+            return try DatabaseAccess.sharedInstance.managedObjectContext.fetch(fetchRequest) as! [PointOfInterest]
         } catch let error as NSError {
             print("\(#function) could not be fetched \(error), \(error.userInfo)")
             return []

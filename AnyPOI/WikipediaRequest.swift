@@ -10,30 +10,30 @@ import Foundation
 import CoreLocation
 
 protocol WikipediaRequestDelegate: class {
-    func wikipediaLoadingDidFinished(wikipedias:[Wikipedia])
+    func wikipediaLoadingDidFinished(_ wikipedias:[Wikipedia])
     func wikipediaLoadingDidFailed()
 }
 
 
 class WikipediaRequest {
     
-    private(set) var isWikipediaLoading = false
+    fileprivate(set) var isWikipediaLoading = false
     
     //private(set) var wikipedias = [Wikipedia]()
     
-    private weak var delegate:WikipediaRequestDelegate?
+    fileprivate weak var delegate:WikipediaRequestDelegate?
     
     init(delegate:WikipediaRequestDelegate) {
         self.delegate = delegate
     }
     
-    func searchAround(center:CLLocationCoordinate2D) {
+    func searchAround(_ center:CLLocationCoordinate2D) {
         
         isWikipediaLoading = true
         
         // Search all Wikipedias articles for the POI coordinates
         let request = WikipediaUtils.getGeoSearchRequest(center)
-        
+
         request.responseJSON { response in
             if let error = response.result.error {
                 print("\(#function) - \(error.localizedDescription)")
@@ -67,11 +67,11 @@ class WikipediaRequest {
                                 
                                 // Sort by distance
                                 let locationPoi = CLLocation(latitude: center.latitude, longitude: center.longitude)
-                                wikipedias.sortInPlace() { first, second in
+                                wikipedias.sort() { first, second in
                                     let locationFirst = CLLocation(latitude: first.coordinates.latitude, longitude: first.coordinates.longitude)
                                     let locationSecond = CLLocation(latitude: second.coordinates.latitude, longitude: second.coordinates.longitude)
                                     
-                                    if locationPoi.distanceFromLocation(locationFirst) > locationPoi.distanceFromLocation(locationSecond) {
+                                    if locationPoi.distance(from: locationFirst) > locationPoi.distance(from: locationSecond) {
                                         return false
                                     } else {
                                         return true

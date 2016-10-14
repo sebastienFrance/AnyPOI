@@ -18,12 +18,12 @@ class RouteSummaryTableViewCell: UITableViewCell {
         // Initialization code
     }
     
-    func initWith(route:Route) {
+    func initWith(_ route:Route) {
         fromLabel.text = "Route is empty"
         totalDistanceAndDurationLabel.text = ""
     }
     
-    func initWith(routeName:String, distanceAndDuration:String) {
+    func initWith(_ routeName:String, distanceAndDuration:String) {
         fromLabel.text = routeName
         totalDistanceAndDurationLabel.text = distanceAndDuration
     }

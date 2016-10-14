@@ -18,16 +18,16 @@ class searchRouteTableViewCell: UITableViewCell {
         // Initialization code
     }
 
-    override func setSelected(selected: Bool, animated: Bool) {
+    override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
     }
 
-    func initWith(route:Route) {
+    func initWith(_ route:Route) {
         routeName.text = route.routeName
         if let startDisplayName = route.startWayPoint?.wayPointPoi?.poiDisplayName,
-            endDisplayName = route.endWayPoint?.wayPointPoi?.poiDisplayName {
+            let endDisplayName = route.endWayPoint?.wayPointPoi?.poiDisplayName {
             fromTo.text = startDisplayName + " to " + endDisplayName
         } else {
             fromTo.text = NSLocalizedString("NoWaypointsSearchRouteTableViewCell", comment: "")

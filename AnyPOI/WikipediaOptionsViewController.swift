@@ -9,7 +9,7 @@
 import UIKit
 
 protocol WikipediaLanguageUpdate : class {
-    func wikiLanguageHasChanged(languageISOCode:String)
+    func wikiLanguageHasChanged(_ languageISOCode:String)
 }
 
 class WikipediaOptionsViewController: UIViewController  {
@@ -20,19 +20,19 @@ class WikipediaOptionsViewController: UIViewController  {
             theTableView.delegate = self
             theTableView.estimatedRowHeight = 110
             theTableView.rowHeight = UITableViewAutomaticDimension
-            theTableView.tableFooterView = UIView(frame: CGRectZero) // remove separator for empty lines
+            theTableView.tableFooterView = UIView(frame: CGRect.zero) // remove separator for empty lines
         }
     }
     
-    private let initialLanguageISOCode = UserPreferences.sharedInstance.wikipediaLanguageISOcode
-    private let initialMaxResults = UserPreferences.sharedInstance.wikipediaMaxResults
-    private let initialNearByDistance = UserPreferences.sharedInstance.wikipediaNearByDistance
+    fileprivate let initialLanguageISOCode = UserPreferences.sharedInstance.wikipediaLanguageISOcode
+    fileprivate let initialMaxResults = UserPreferences.sharedInstance.wikipediaMaxResults
+    fileprivate let initialNearByDistance = UserPreferences.sharedInstance.wikipediaNearByDistance
     
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
         // Cleanup wikipedia cache if something has been changed
@@ -45,8 +45,8 @@ class WikipediaOptionsViewController: UIViewController  {
         }
     }
     
-    @IBAction func sliderHasChanged(sender: UISlider) {
-        let cell = theTableView.cellForRowAtIndexPath(NSIndexPath(forRow: sender.tag, inSection: 0)) as! WikipediaSliderTableViewCell
+    @IBAction func sliderHasChanged(_ sender: UISlider) {
+        let cell = theTableView.cellForRow(at: IndexPath(row: sender.tag, section: 0)) as! WikipediaSliderTableViewCell
         if sender.tag == rowIndex.NearByDistance {
             updateWikiNearByDistance(sender, cell:cell)
         } else {
@@ -54,15 +54,15 @@ class WikipediaOptionsViewController: UIViewController  {
         }
     }
     
-    func updateWikiNearByDistance(sender: UISlider, cell:WikipediaSliderTableViewCell) {
+    func updateWikiNearByDistance(_ sender: UISlider, cell:WikipediaSliderTableViewCell) {
         let newValue = (Int(sender.value) / 100) * 100
         UserPreferences.sharedInstance.wikipediaNearByDistance = newValue
-        let distanceFormatter = NSLengthFormatter()
-        distanceFormatter.unitStyle = .Short
-        cell.theLabel.text = "\(NSLocalizedString("NearByWikipediaOptions",comment:"")) \(distanceFormatter.stringFromMeters(Double(newValue)))"
+        let distanceFormatter = LengthFormatter()
+        distanceFormatter.unitStyle = .short
+        cell.theLabel.text = "\(NSLocalizedString("NearByWikipediaOptions",comment:"")) \(distanceFormatter.string(fromMeters: Double(newValue)))"
     }
     
-    func updateWikiMaxResults(sender: UISlider, cell:WikipediaSliderTableViewCell) {
+    func updateWikiMaxResults(_ sender: UISlider, cell:WikipediaSliderTableViewCell) {
         UserPreferences.sharedInstance.wikipediaMaxResults = Int(sender.value)
         cell.theLabel.text = "\(NSLocalizedString("MaxResultsWikipediaOptions",comment:"")) \(Int(sender.value))"
     }
@@ -74,18 +74,18 @@ class WikipediaOptionsViewController: UIViewController  {
 }
 
 extension WikipediaOptionsViewController: WikipediaLanguageUpdate {
-    func wikiLanguageHasChanged(languageISOCode:String) {
+    func wikiLanguageHasChanged(_ languageISOCode:String) {
         UserPreferences.sharedInstance.wikipediaLanguageISOcode = languageISOCode
         theTableView.reloadData()
     }
 }
 
 extension WikipediaOptionsViewController: UITableViewDelegate, UITableViewDataSource {
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 4
     }
     
@@ -102,37 +102,37 @@ extension WikipediaOptionsViewController: UITableViewDelegate, UITableViewDataSo
         static let WikiSelectedLanguage = "WikiSelectedLanguage"
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        switch indexPath.row {
+        switch (indexPath as NSIndexPath).row {
         case rowIndex.Language:
-            let cell = theTableView.dequeueReusableCellWithIdentifier(storyboard.WikiSelectedLanguage, forIndexPath: indexPath) as! WikiSelectedLanguageTableViewCell
+            let cell = theTableView.dequeueReusableCell(withIdentifier: storyboard.WikiSelectedLanguage, for: indexPath) as! WikiSelectedLanguageTableViewCell
             cell.theLabel.text = String.localizedStringWithFormat(NSLocalizedString("Wikipedia Language: %@", comment: ""), WikipediaLanguages.LanguageForISOcode(UserPreferences.sharedInstance.wikipediaLanguageISOcode))
             return cell
         case rowIndex.LanguagePicker:
-            let cell = theTableView.dequeueReusableCellWithIdentifier(storyboard.WikiLanguagesCellId, forIndexPath: indexPath) as! WikiLanguagePickerTableViewCell
+            let cell = theTableView.dequeueReusableCell(withIdentifier: storyboard.WikiLanguagesCellId, for: indexPath) as! WikiLanguagePickerTableViewCell
             cell.wikiUpdate = self
             return cell
         case rowIndex.MaxResults:
-            let cell = theTableView.dequeueReusableCellWithIdentifier(storyboard.WikipediaSliderCellId, forIndexPath: indexPath) as! WikipediaSliderTableViewCell
+            let cell = theTableView.dequeueReusableCell(withIdentifier: storyboard.WikipediaSliderCellId, for: indexPath) as! WikipediaSliderTableViewCell
             cell.theLabel.text = NSLocalizedString("MaxResultsWikipediaOptions", comment: "")
-            cell.theSlider.continuous = true
+            cell.theSlider.isContinuous = true
             cell.theSlider.minimumValue = 10
             cell.theSlider.maximumValue = 100
             cell.theLabel.text = "\(NSLocalizedString("MaxResultsWikipediaOptions",comment:"")) \(UserPreferences.sharedInstance.wikipediaMaxResults)"
             cell.theSlider.setValue(Float(UserPreferences.sharedInstance.wikipediaMaxResults), animated: false)
-            cell.theSlider.tag = indexPath.row
+            cell.theSlider.tag = (indexPath as NSIndexPath).row
             return cell
        case rowIndex.NearByDistance:
-            let cell = theTableView.dequeueReusableCellWithIdentifier(storyboard.WikipediaSliderCellId, forIndexPath: indexPath) as! WikipediaSliderTableViewCell
-            cell.theSlider.continuous = true
+            let cell = theTableView.dequeueReusableCell(withIdentifier: storyboard.WikipediaSliderCellId, for: indexPath) as! WikipediaSliderTableViewCell
+            cell.theSlider.isContinuous = true
             cell.theSlider.minimumValue = 100 // 100 meters
             cell.theSlider.maximumValue = 10000 // 10 km
             cell.theSlider.setValue(Float(UserPreferences.sharedInstance.wikipediaNearByDistance), animated: false)
-            let distanceFormatter = NSLengthFormatter()
-            distanceFormatter.unitStyle = .Short
-            cell.theLabel.text = "\(NSLocalizedString("NearByWikipediaOptions",comment:"")) \(distanceFormatter.stringFromMeters(Double(UserPreferences.sharedInstance.wikipediaNearByDistance)))"
-            cell.theSlider.tag = indexPath.row
+            let distanceFormatter = LengthFormatter()
+            distanceFormatter.unitStyle = .short
+            cell.theLabel.text = "\(NSLocalizedString("NearByWikipediaOptions",comment:"")) \(distanceFormatter.string(fromMeters: Double(UserPreferences.sharedInstance.wikipediaNearByDistance)))"
+            cell.theSlider.tag = (indexPath as NSIndexPath).row
             return cell
        default:
             return UITableViewCell()

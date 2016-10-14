@@ -38,13 +38,13 @@ class OptionsViewController: UITableViewController, PasswordConfigurationDelegat
     var isStartedByLeftMenu = false
     weak var container:ContainerViewController?
 
-    @objc private func menuButtonPushed(button:UIBarButtonItem) {
+    @objc fileprivate func menuButtonPushed(_ button:UIBarButtonItem) {
         container?.toggleLeftPanel()
     }
 
-    func enableGestureRecognizer(enable:Bool) {
-        if isViewLoaded() {
-            tableView.userInteractionEnabled = enable
+    func enableGestureRecognizer(_ enable:Bool) {
+        if isViewLoaded {
+            tableView.isUserInteractionEnabled = enable
         }
     }
     
@@ -52,7 +52,7 @@ class OptionsViewController: UITableViewController, PasswordConfigurationDelegat
         super.viewDidLoad()
         
         if isStartedByLeftMenu {
-            let menuButton =  UIBarButtonItem(image: UIImage(named: "Menu-30"), style: .Plain, target: self, action: #selector(OptionsViewController.menuButtonPushed(_:)))
+            let menuButton =  UIBarButtonItem(image: UIImage(named: "Menu-30"), style: .plain, target: self, action: #selector(OptionsViewController.menuButtonPushed(_:)))
             
             navigationItem.leftBarButtonItem = menuButton
         }
@@ -60,21 +60,21 @@ class OptionsViewController: UITableViewController, PasswordConfigurationDelegat
  
         userAuthentication = UserAuthentication(delegate: self)
 
-        switchApplePOIs.on = UserPreferences.sharedInstance.mapShowPointsOfInterest
-        switchTraffic.on = UserPreferences.sharedInstance.mapShowTraffic
+        switchApplePOIs.isOn = UserPreferences.sharedInstance.mapShowPointsOfInterest
+        switchTraffic.isOn = UserPreferences.sharedInstance.mapShowTraffic
         
         
         let defaultTransportType = UserPreferences.sharedInstance.routeDefaultTransportType
         switch(defaultTransportType) {
-        case MKDirectionsTransportType.Automobile:
+        case MKDirectionsTransportType.automobile:
             switchDefaultTransportType.selectedSegmentIndex = 0
-        case MKDirectionsTransportType.Walking:
+        case MKDirectionsTransportType.walking:
             switchDefaultTransportType.selectedSegmentIndex = 1
         default:
             switchDefaultTransportType.selectedSegmentIndex = 0
         }
 
-        switchEnablePassword.on = UserPreferences.sharedInstance.authenticationPasswordEnabled
+        switchEnablePassword.isOn = UserPreferences.sharedInstance.authenticationPasswordEnabled
         enableChangePassword()
         enableTouchId()
         updateCellMapMode()
@@ -82,68 +82,68 @@ class OptionsViewController: UITableViewController, PasswordConfigurationDelegat
     
     
     
-    private func updateWikipediaDescription() {
+    fileprivate func updateWikipediaDescription() {
         let userPrefs = UserPreferences.sharedInstance
         let language = WikipediaLanguages.LanguageForISOcode(userPrefs.wikipediaLanguageISOcode)
         
-        let distanceFormatter = NSLengthFormatter()
-        distanceFormatter.unitStyle = .Short
-        let distance = distanceFormatter.stringFromMeters(Double(userPrefs.wikipediaNearByDistance))
+        let distanceFormatter = LengthFormatter()
+        distanceFormatter.unitStyle = .short
+        let distance = distanceFormatter.string(fromMeters: Double(userPrefs.wikipediaNearByDistance))
         
         wikiLanguage.text = "\(NSLocalizedString("LanguageWikipediaOptionVC", comment: "")) \(language)"
         wikiDistanceAndResults.text = String.localizedStringWithFormat(NSLocalizedString("Range %@, maxResult %@", comment: ""), distance, "\(userPrefs.wikipediaMaxResults)")
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.toolbarHidden = true
+        navigationController?.isToolbarHidden = true
         
         updateWikipediaDescription()
     }
 
     
     func enableChangePassword() {
-        changePasswordButton.enabled =  UserPreferences.sharedInstance.authenticationPasswordEnabled
+        changePasswordButton.isEnabled =  UserPreferences.sharedInstance.authenticationPasswordEnabled
     }
     
     func enableTouchId() {
-        switchEnableTouchId.enabled = switchEnablePassword.on
-        switchEnableTouchId.on = UserPreferences.sharedInstance.authenticationTouchIdEnabled
+        switchEnableTouchId.isEnabled = switchEnablePassword.isOn
+        switchEnableTouchId.isOn = UserPreferences.sharedInstance.authenticationTouchIdEnabled
     }
     
     
-    @IBAction func updateDefaultTransportType(sender: UISegmentedControl) {
+    @IBAction func updateDefaultTransportType(_ sender: UISegmentedControl) {
         switch(sender.selectedSegmentIndex) {
         case 0:
-            UserPreferences.sharedInstance.routeDefaultTransportType = .Automobile
+            UserPreferences.sharedInstance.routeDefaultTransportType = .automobile
         case 1:
-            UserPreferences.sharedInstance.routeDefaultTransportType = .Walking
+            UserPreferences.sharedInstance.routeDefaultTransportType = .walking
         default:
-            UserPreferences.sharedInstance.routeDefaultTransportType = .Automobile
+            UserPreferences.sharedInstance.routeDefaultTransportType = .automobile
         }
     }
     
     func updateCellMapMode() {
-        cellStandard.accessoryType = .None
-        cellHybridFlyover.accessoryType = .None
+        cellStandard.accessoryType = .none
+        cellHybridFlyover.accessoryType = .none
         
         switch(theMapView.mapType) {
-        case .HybridFlyover:
-            cellHybridFlyover.accessoryType = .Checkmark
-        case .Standard:
-            cellStandard.accessoryType = .Checkmark
+        case .hybridFlyover:
+            cellHybridFlyover.accessoryType = .checkmark
+        case .standard:
+            cellStandard.accessoryType = .checkmark
         default:
-            cellStandard.accessoryType = .Checkmark
+            cellStandard.accessoryType = .checkmark
         }
     }
 
-    @IBAction func switchMapOptionsChanged(sender: UISwitch) {
+    @IBAction func switchMapOptionsChanged(_ sender: UISwitch) {
         if sender == switchApplePOIs {
-            UserPreferences.sharedInstance.mapShowPointsOfInterest = sender.on
-            theMapView.showsPointsOfInterest = sender.on
+            UserPreferences.sharedInstance.mapShowPointsOfInterest = sender.isOn
+            theMapView.showsPointsOfInterest = sender.isOn
        } else if sender == switchTraffic {
-            UserPreferences.sharedInstance.mapShowTraffic = sender.on
-            theMapView.showsTraffic = sender.on
+            UserPreferences.sharedInstance.mapShowTraffic = sender.isOn
+            theMapView.showsTraffic = sender.isOn
        } else {
             print("\(#function) Error unknown sender")
         }
@@ -154,11 +154,11 @@ class OptionsViewController: UITableViewController, PasswordConfigurationDelegat
     }
     
     //MARK: Contacts sync
-    @IBAction func synchronizeContacts(sender: UIButton) {
+    @IBAction func synchronizeContacts(_ sender: UIButton) {
         let contactSync = ContactsSynchronization()
         
         PKHUD.sharedHUD.dimsBackground = true
-        HUD.show(.Progress)
+        HUD.show(.progress)
         let hudBaseView = PKHUD.sharedHUD.contentView as! PKHUDSquareBaseView
         hudBaseView.titleLabel.text = NSLocalizedString("Geocoding",comment:"")
         hudBaseView.subtitleLabel.text = "\(contactSync.contactsToSynchronize()) \(NSLocalizedString("Adresses",comment:""))"
@@ -169,8 +169,8 @@ class OptionsViewController: UITableViewController, PasswordConfigurationDelegat
     // MARK: Password & TouchId
     var isDisablingPassword = false
 
-    @IBAction func switchEnablePasswordChanged(sender: UISwitch) {
-        if switchEnablePassword.on {
+    @IBAction func switchEnablePasswordChanged(_ sender: UISwitch) {
+        if switchEnablePassword.isOn {
             performPasswordChange()
         } else {
             isDisablingPassword = true
@@ -178,14 +178,14 @@ class OptionsViewController: UITableViewController, PasswordConfigurationDelegat
         }
     }
     
-    @IBAction func switchTouchIdChanged(sender: UISwitch) {
-        if switchEnableTouchId.on {
+    @IBAction func switchTouchIdChanged(_ sender: UISwitch) {
+        if switchEnableTouchId.isOn {
             var error:NSError?
             let context = LAContext()
-            if context.canEvaluatePolicy(.DeviceOwnerAuthenticationWithBiometrics, error: &error) {
+            if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
                 UserPreferences.sharedInstance.authenticationTouchIdEnabled = true
             } else {
-                switchEnableTouchId.on = false
+                switchEnableTouchId.isOn = false
                 Utilities.showAlertMessage(self, title: NSLocalizedString("TouchIdError",comment:""), error: error!)
             }
         } else {
@@ -203,8 +203,8 @@ class OptionsViewController: UITableViewController, PasswordConfigurationDelegat
             UserPreferences.sharedInstance.authenticationTouchIdEnabled = false
             UserPreferences.sharedInstance.authenticationPassword = ""
             switchEnableTouchId.setOn(false, animated: true)
-            switchEnableTouchId.enabled = false
-            changePasswordButton.enabled = false
+            switchEnableTouchId.isEnabled = false
+            changePasswordButton.isEnabled = false
         } else {
             UserPreferences.sharedInstance.authenticationTouchIdEnabled = false
         }
@@ -223,17 +223,17 @@ class OptionsViewController: UITableViewController, PasswordConfigurationDelegat
     }
 
 
-    @IBAction func changePassword(sender: UIButton) {
+    @IBAction func changePassword(_ sender: UIButton) {
         performPasswordChange()
     }
     
-    private func performPasswordChange() {
+    fileprivate func performPasswordChange() {
         let passwordChangeRequest = ChangePassword()
         passwordChangeRequest.requestNewPassword(self, delegate: self, oldPassword: UserPreferences.sharedInstance.authenticationPassword)
     }
     
     //MARK: PasswordConfigurationDelegate
-    func passwordChangedSuccessfully(newPassword:String) {
+    func passwordChangedSuccessfully(_ newPassword:String) {
         UserPreferences.sharedInstance.authenticationPasswordEnabled = true
         UserPreferences.sharedInstance.authenticationPassword = newPassword
         enableTouchId()
@@ -242,18 +242,18 @@ class OptionsViewController: UITableViewController, PasswordConfigurationDelegat
 
     func passwordNotChanged() {
         if !UserPreferences.sharedInstance.authenticationPasswordEnabled {
-            switchEnablePassword.on = false
+            switchEnablePassword.isOn = false
         }
     }
     
     //MARK: Tableview delegate
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        if indexPath.section == 0 {
-            if indexPath.row == 0 {
-                theMapView.mapType = .Standard
+        if (indexPath as NSIndexPath).section == 0 {
+            if (indexPath as NSIndexPath).row == 0 {
+                theMapView.mapType = .standard
             } else {
-                theMapView.mapType = .HybridFlyover
+                theMapView.mapType = .hybridFlyover
             }
             UserPreferences.sharedInstance.mapMode = theMapView.mapType
             updateCellMapMode()

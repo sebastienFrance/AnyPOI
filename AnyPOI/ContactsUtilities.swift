@@ -16,13 +16,13 @@ class ContactsUtilities {
     
     static func getContactsWithAddress() -> [CNContact] {
         
-        let keysToFetch = [CNContactFamilyNameKey, CNContactGivenNameKey, CNContactPhoneNumbersKey, CNContactPostalAddressesKey, CNContactFormatter.descriptorForRequiredKeysForStyle(.FullName)]
+        let keysToFetch = [CNContactFamilyNameKey, CNContactGivenNameKey, CNContactPhoneNumbersKey, CNContactPostalAddressesKey, CNContactFormatter.descriptorForRequiredKeys(for: .fullName)] as [Any]
         let store = CNContactStore()
         var contactsWithAddress = [CNContact]()
         do {
-            try store.enumerateContactsWithFetchRequest(CNContactFetchRequest(keysToFetch: keysToFetch)) {
+            try store.enumerateContacts(with: CNContactFetchRequest(keysToFetch: keysToFetch as! [CNKeyDescriptor])) {
                 (contact, cursor) -> Void in
-                if contact.areKeysAvailable([CNContactPostalAddressesKey]) {
+                if contact.areKeysAvailable([CNContactPostalAddressesKey as CNKeyDescriptor]) {
                     if contact.postalAddresses.count != 0 {
                         contactsWithAddress.append(contact)
                     }
@@ -35,11 +35,11 @@ class ContactsUtilities {
         return contactsWithAddress
     }
     
-    static func getThumbailImageDataFor(contactIdentifier:String) -> NSData? {
+    static func getThumbailImageDataFor(_ contactIdentifier:String) -> Data? {
         let keysToFectch = [CNContactThumbnailImageDataKey, CNContactImageDataAvailableKey]
         let store = CNContactStore()
         do {
-            let contact =  try store.unifiedContactWithIdentifier(contactIdentifier, keysToFetch: keysToFectch)
+            let contact =  try store.unifiedContact(withIdentifier: contactIdentifier, keysToFetch: keysToFectch as [CNKeyDescriptor])
             if contact.imageDataAvailable {
                 return contact.thumbnailImageData
             }
@@ -51,11 +51,11 @@ class ContactsUtilities {
         return nil
     }
     
-    static func getContactForDetailedDescription(contactIdentifier:String) -> CNContact? {
+    static func getContactForDetailedDescription(_ contactIdentifier:String) -> CNContact? {
         let keysToFectch = [CNContactThumbnailImageDataKey, CNContactImageDataAvailableKey, CNContactPhoneNumbersKey, CNContactUrlAddressesKey, CNContactEmailAddressesKey]
         let store = CNContactStore()
         do {
-            return try store.unifiedContactWithIdentifier(contactIdentifier, keysToFetch: keysToFectch)
+            return try store.unifiedContact(withIdentifier: contactIdentifier, keysToFetch: keysToFectch as [CNKeyDescriptor])
         }
         catch{
             print("\(#function) Error when retrieving data for the contacts: \(contactIdentifier).")
@@ -64,11 +64,11 @@ class ContactsUtilities {
         return nil
     }
     
-    static func getContactForCNContactViewController(contactIdentifier:String) -> CNContact? {
+    static func getContactForCNContactViewController(_ contactIdentifier:String) -> CNContact? {
         let contactStore = CNContactStore()
         
         do {
-            return try contactStore.unifiedContactWithIdentifier(contactIdentifier, keysToFetch: [CNContactViewController.descriptorForRequiredKeys()])
+            return try contactStore.unifiedContact(withIdentifier: contactIdentifier, keysToFetch: [CNContactViewController.descriptorForRequiredKeys()])
         }
         catch{
             print("\(#function) Error when retrieving data for the contacts: \(contactIdentifier).")
@@ -78,7 +78,7 @@ class ContactsUtilities {
 
     }
     
-    static func extractPhoneNumber(contact:CNContact) -> CNPhoneNumber? {
+    static func extractPhoneNumber(_ contact:CNContact) -> CNPhoneNumber? {
         if contact.phoneNumbers.count > 0 {
             var otherNumber:CNPhoneNumber?
             for currentLabeledValue in contact.phoneNumbers {
@@ -105,7 +105,7 @@ class ContactsUtilities {
         }
     }
     
-    static func extractURL(contact:CNContact) -> String? {
+    static func extractURL(_ contact:CNContact) -> String? {
         if contact.urlAddresses.count > 0 {
             return contact.urlAddresses[0].value as? String
         } else {

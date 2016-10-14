@@ -114,28 +114,28 @@ class Route: NSManagedObject {
         }
     }
     
-    private var isDirectionLoading = false
+    fileprivate var isDirectionLoading = false
 
 
-    func initializeRoute(routeName:String, wayPoints:NSOrderedSet) {
+    func initializeRoute(_ routeName:String, wayPoints:NSOrderedSet) {
         isPrivate = false
         self.routeName = routeName
         self.routeWayPoints = wayPoints
-        self.latestTotalDistance = Double.NaN
-        self.latestTotalDuration = Double.NaN
+        self.latestTotalDistance = Double.nan
+        self.latestTotalDuration = Double.nan
     }
     
     // Get a WayPoint from the route
-    func wayPointAtIndex(index:Int) -> WayPoint? {
+    func wayPointAtIndex(_ index:Int) -> WayPoint? {
         if index > routeWayPoints!.count {
             return nil
         } else {
-            return routeWayPoints!.objectAtIndex(index) as? WayPoint
+            return routeWayPoints!.object(at: index) as? WayPoint
         }
     }
     
-    func indexOfWayPoint(wayPoint:WayPoint) -> Int? {
-        let index = routeWayPoints!.indexOfObject(wayPoint)
+    func indexOfWayPoint(_ wayPoint:WayPoint) -> Int? {
+        let index = routeWayPoints!.index(of: wayPoint)
         if index != NSNotFound {
             return index
         } else {
@@ -144,9 +144,9 @@ class Route: NSManagedObject {
     }
 
     // Get the full distance & travel time of the route
-    func fullDistanceAndTravelTime() -> (distance:CLLocationDistance, travelTime:NSTimeInterval) {
+    func fullDistanceAndTravelTime() -> (distance:CLLocationDistance, travelTime:TimeInterval) {
         var fullDistance = CLLocationDistance(0)
-        var fullExpectedTravelTime = NSTimeInterval(0)
+        var fullExpectedTravelTime = TimeInterval(0)
         
         for wayPoint in routeWayPoints! {
             let currentWayPoint = wayPoint as! WayPoint
@@ -163,10 +163,10 @@ class Route: NSManagedObject {
         get {
             if !latestTotalDistance.isNaN && !latestTotalDistance.isInfinite &&
                 !latestTotalDuration.isNaN && !latestTotalDuration.isInfinite {
-                let distanceFormatter = NSLengthFormatter()
-                distanceFormatter.unitStyle = .Short
+                let distanceFormatter = LengthFormatter()
+                distanceFormatter.unitStyle = .short
                 let expectedTravelTime = Utilities.shortStringFromTimeInterval(latestTotalDuration) as String
-                return "\(distanceFormatter.stringFromMeters(latestTotalDistance)) in \(expectedTravelTime)"
+                return "\(distanceFormatter.string(fromMeters: latestTotalDistance)) in \(expectedTravelTime)"
             } else {
                 return ""
             }
@@ -187,7 +187,7 @@ class Route: NSManagedObject {
 
     // This method is called at every commit (update, delete or create) to update SpotLight
     override func didSave() {
-        if deleted {
+        if isDeleted {
             // Poi is deleted, we must unregister it from Spotlight
             removeFromSpotLight()
         } else {
@@ -196,7 +196,7 @@ class Route: NSManagedObject {
         }
     }
     
-    private var attributeSetForSearch : CSSearchableItemAttributeSet {
+    fileprivate var attributeSetForSearch : CSSearchableItemAttributeSet {
         let attributeSet = CSSearchableItemAttributeSet(itemContentType: kUTTypeData as String)
         // Add metadata that supplies details about the item.
         attributeSet.title = routeName!
@@ -205,7 +205,7 @@ class Route: NSManagedObject {
         
         // Add keywords that will contains:
         // - All words from the display name
-        let subStringFromDisplayName = routeName!.characters.split(" ")
+        let subStringFromDisplayName = routeName!.characters.split(separator: " ")
         var keywords = [String]()
         for currentString in subStringFromDisplayName {
             if currentString.count > 1 {
@@ -230,14 +230,14 @@ class Route: NSManagedObject {
     }
     
     // Add or Update the Poi in Spotlight
-    private func updateInSpotLight() {
+    fileprivate func updateInSpotLight() {
 
         
         // Create an item with a unique identifier, a domain identifier, and the attribute set you created earlier.
-        let item = CSSearchableItem(uniqueIdentifier: objectID.URIRepresentation().absoluteString, domainIdentifier: "Route", attributeSet: attributeSetForSearch)
+        let item = CSSearchableItem(uniqueIdentifier: objectID.uriRepresentation().absoluteString, domainIdentifier: "Route", attributeSet: attributeSetForSearch)
         
         // Add the item to the on-device index.
-        CSSearchableIndex.defaultSearchableIndex().indexSearchableItems([item]) { error in
+        CSSearchableIndex.default().indexSearchableItems([item]) { error in
             if let theError = error {
                 print("\(#function) error with \(theError.localizedDescription)")
             }
@@ -245,11 +245,10 @@ class Route: NSManagedObject {
     }
     
     func removeFromSpotLight() {
-        if let URI = objectID.URIRepresentation().absoluteString {
-            CSSearchableIndex.defaultSearchableIndex().deleteSearchableItemsWithIdentifiers([URI]) { error in
-                if let theError = error {
-                    print("\(#function) Error Route \(self.routeName!) cannot be removed from Spotlightn, error: \(theError.localizedDescription)")
-                }
+        let URI = objectID.uriRepresentation().absoluteString
+        CSSearchableIndex.default().deleteSearchableItems(withIdentifiers: [URI]) { error in
+            if let theError = error {
+                print("\(#function) Error Route \(self.routeName!) cannot be removed from Spotlightn, error: \(theError.localizedDescription)")
             }
         }
     }
@@ -258,17 +257,17 @@ class Route: NSManagedObject {
     //MARK: Direction methods
     // When a WayPoint is removed from a route we must reset the calculated route 
     // from the previous wayPoint (if the removed wayPoint is not the start)
-    func willRemoveWayPoint(wayPoint:WayPoint) {
-        let index = routeWayPoints!.indexOfObject(wayPoint)
+    func willRemoveWayPoint(_ wayPoint:WayPoint) {
+        let index = routeWayPoints!.index(of: wayPoint)
         if index != NSNotFound && index > 0 {
-            let source = routeWayPoints!.objectAtIndex(index - 1) as! WayPoint
+            let source = routeWayPoints!.object(at: index - 1) as! WayPoint
             source.calculatedRoute = nil
         }
     }
     
     // Returns true when all WayPoints are ready to get direction. It means we have
     // placemark for all point of interest in the route
-    private func checkRouteForDirections() -> Bool {
+    fileprivate func checkRouteForDirections() -> Bool {
         for currentWayPoint in wayPoints {
             if currentWayPoint.wayPointPoi?.placemarks == nil {
                 return false
@@ -279,10 +278,10 @@ class Route: NSManagedObject {
     }
 
     // Re-compute the direction to the given wayPoint (if it's not the start of the route)
-    func resetDirectionTo(wayPoint:WayPoint) {
-        let index = routeWayPoints!.indexOfObject(wayPoint)
+    func resetDirectionTo(_ wayPoint:WayPoint) {
+        let index = routeWayPoints!.index(of: wayPoint)
         if index != NSNotFound && index >= 0 {
-            let source = routeWayPoints!.objectAtIndex(index) as! WayPoint
+            let source = routeWayPoints!.object(at: index) as! WayPoint
             source.calculatedRoute = nil
         }
     }
@@ -345,17 +344,17 @@ class Route: NSManagedObject {
         
         if foundWayPoint {
             print("Request direction from index: \(startIndex)")
-            NSNotificationCenter.defaultCenter().postNotificationName(Notifications.directionStarting,
+            NotificationCenter.default.post(name: Notification.Name(rawValue: Notifications.directionStarting),
                                                                       object: self,
                                                                       userInfo:[DirectionStartingParameters.startingWayPoint : wayPoints[startIndex]])
             requestRouteDirectionFrom(startIndex, untilEnd: true, forceToReload: false)
         } else {
             // Notify the route has been updated even when nothing has changed
-            NSNotificationCenter.defaultCenter().postNotificationName(Notifications.directionsDone, object: self)
+            NotificationCenter.default.post(name: Notification.Name(rawValue: Notifications.directionsDone), object: self)
         }
     }
 
-    private func requestRouteFrom(currentIndex:Int, untilEnd:Bool, forceToReload:Bool) {
+    fileprivate func requestRouteFrom(_ currentIndex:Int, untilEnd:Bool, forceToReload:Bool) {
         isDirectionLoading = true
         requestRouteDirectionFrom(currentIndex, untilEnd: untilEnd, forceToReload: forceToReload)
     }
@@ -363,11 +362,11 @@ class Route: NSManagedObject {
     // Load the route direction for or from at the given index when untilEnd is set to False or True.
     // When forceToReload is set to true, the direction will be requested again even if there's already 
     // a calculated direction.
-    private func requestRouteDirectionFrom(currentIndex:Int, untilEnd:Bool, forceToReload:Bool) {
+    fileprivate func requestRouteDirectionFrom(_ currentIndex:Int, untilEnd:Bool, forceToReload:Bool) {
         // We need at least 2 wayPoint to do something
         if wayPoints.count < 2 {
             isDirectionLoading = false
-            NSNotificationCenter.defaultCenter().postNotificationName(Notifications.directionsDone, object: self)
+            NotificationCenter.default.post(name: Notification.Name(rawValue: Notifications.directionsDone), object: self)
         }
         
         if currentIndex >= (wayPoints.count - 1) {
@@ -378,7 +377,7 @@ class Route: NSManagedObject {
         if wayPoints[currentIndex].calculatedRoute == nil || (wayPoints[currentIndex].calculatedRoute != nil && forceToReload) {
             if let directions = RouteUtilities.getDirectionRequestFor(wayPoints[currentIndex], destination: wayPoints[currentIndex + 1]) {
                 print("requestRouteDirectionFrom to Server with currentIndex : \(currentIndex)")
-                directions.calculateDirectionsWithCompletionHandler { routeResponse, routeError in
+                directions.calculate { routeResponse, routeError in
                     print("calculateDirectionsWithCompletionHandler with currentIndex : \(currentIndex)")
                     
                     self.routeToReloadCounter -= 1
@@ -390,21 +389,21 @@ class Route: NSManagedObject {
                     } else {
                         // Get the first route direction from the response
                         if let routeDirection = routeResponse,
-                            firstRoute = self.getShortestRouteFrom(routeDirection) {
+                            let firstRoute = self.getShortestRouteFrom(routeDirection) {
                             
                             theWayPoint.calculatedRoute = firstRoute
                             switch firstRoute.transportType {
-                            case MKDirectionsTransportType.Automobile:
+                            case MKDirectionsTransportType.automobile:
                                 theWayPoint.calculatedRoute?.polyline.title = MapUtils.PolyLineType.automobile
-                            case MKDirectionsTransportType.Walking:
+                            case MKDirectionsTransportType.walking:
                                 theWayPoint.calculatedRoute?.polyline.title = MapUtils.PolyLineType.wakling
-                            case MKDirectionsTransportType.Transit:
+                            case MKDirectionsTransportType.transit:
                                 theWayPoint.calculatedRoute?.polyline.title = MapUtils.PolyLineType.transit
                             default:
                                 theWayPoint.calculatedRoute?.polyline.title = "Unknown"
                             }
                             
-                            NSNotificationCenter.defaultCenter().postNotificationName(Notifications.directionForWayPointUpdated, object: theWayPoint)
+                            NotificationCenter.default.post(name: Notification.Name(rawValue: Notifications.directionForWayPointUpdated), object: theWayPoint)
                         }
                     }
                     
@@ -413,7 +412,7 @@ class Route: NSManagedObject {
                     } else {
                         self.isDirectionLoading = false
                         self.updateLatestDistanceAndDuration()
-                        NSNotificationCenter.defaultCenter().postNotificationName(Notifications.directionsDone, object: self)
+                        NotificationCenter.default.post(name: Notification.Name(rawValue: Notifications.directionsDone), object: self)
                     }
                 }
             } else {
@@ -427,19 +426,19 @@ class Route: NSManagedObject {
             } else {
                 self.isDirectionLoading = false
                 self.updateLatestDistanceAndDuration()
-                NSNotificationCenter.defaultCenter().postNotificationName(Notifications.directionsDone, object: self)
+                NotificationCenter.default.post(name: Notification.Name(rawValue: Notifications.directionsDone), object: self)
             }
         }
     }
     
-    private func updateLatestDistanceAndDuration() {
+    fileprivate func updateLatestDistanceAndDuration() {
        let (distance, travelTime) = fullDistanceAndTravelTime()
         latestTotalDuration = travelTime
         latestTotalDistance = distance
         POIDataManager.sharedInstance.commitDatabase()
     }
     
-    func getShortestRouteFrom(routeDirections:MKDirectionsResponse) -> MKRoute? {
+    func getShortestRouteFrom(_ routeDirections:MKDirectionsResponse) -> MKRoute? {
         if routeDirections.routes.count > 0 {
             var shortestRouteIndex = 0
             var shortestDistance = routeDirections.routes[0].distance
@@ -458,7 +457,7 @@ class Route: NSManagedObject {
     
     
     // Move a WayPoint to another position in the route and update impacted wayPoints
-    func moveWayPoint(fromIndex: Int, toIndex:Int) {
+    func moveWayPoint(_ fromIndex: Int, toIndex:Int) {
         // Make sure indexes are valids
         if fromIndex == toIndex {
             print("Invalid indexes from \(fromIndex) is less than to \(toIndex)")
@@ -482,7 +481,7 @@ class Route: NSManagedObject {
         let oldFrom = wayPointAtIndex(fromIndex)?.transportType!
         
         let newRoutes = NSMutableOrderedSet.init(orderedSet: routeWayPoints!)
-        newRoutes.moveObjectsAtIndexes(NSIndexSet(index: fromIndex), toIndex: toIndex)
+        newRoutes.moveObjects(at: IndexSet(integer: fromIndex), to: toIndex)
         routeWayPoints = newRoutes
         
         // Update transportType based on movement

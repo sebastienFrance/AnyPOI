@@ -13,7 +13,7 @@ class RouteDataSource {
     
     let theRoute:Route
     
-    private var fromWayPointIndex:Int!
+    fileprivate var fromWayPointIndex:Int!
     
     var isBeforeRouteSections:Bool {
         get {
@@ -77,7 +77,7 @@ class RouteDataSource {
     }
 
     // Full distance and travel time of the whole route
-    private func fullDistanceAndTravelTime() -> (distance:CLLocationDistance, travelTime:NSTimeInterval) {
+    fileprivate func fullDistanceAndTravelTime() -> (distance:CLLocationDistance, travelTime:TimeInterval) {
         return theRoute.fullDistanceAndTravelTime()
     }
     
@@ -90,7 +90,7 @@ class RouteDataSource {
         print("RouteDatasource: \(theRoute.routeName) deallocated")
     }
     
-    func setCurrentWayPoint(index:Int) {
+    func setCurrentWayPoint(_ index:Int) {
         fromWayPointIndex = index
     }
     
@@ -101,7 +101,7 @@ class RouteDataSource {
                 return allRouteName
             } else {
                 if let fromDisplayName = fromPOI?.poiDisplayName,
-                    toDisplayName = toPOI?.poiDisplayName {
+                    let toDisplayName = toPOI?.poiDisplayName {
                     return "\(fromDisplayName) ➔ \(toDisplayName)"
                 } else {
                     return NSLocalizedString("UnknownFromToRouteDatasource", comment: "")
@@ -123,10 +123,10 @@ class RouteDataSource {
                 return allRouteDistanceAndTime
             } else {
                 if let route = fromWayPoint?.calculatedRoute {
-                    let distanceFormatter = NSLengthFormatter()
-                    distanceFormatter.unitStyle = .Short
+                    let distanceFormatter = LengthFormatter()
+                    distanceFormatter.unitStyle = .short
                     let expectedTravelTime = Utilities.shortStringFromTimeInterval(route.expectedTravelTime) as String
-                    return "\(distanceFormatter.stringFromMeters(route.distance)) in \(expectedTravelTime)"
+                    return "\(distanceFormatter.string(fromMeters: route.distance)) in \(expectedTravelTime)"
                 } else {
                     return "No route info"
                 }
@@ -138,15 +138,15 @@ class RouteDataSource {
     var allRouteDistanceAndTime:String! {
         get {
             let  (fullDistance, fullExpectedTravelTime) = fullDistanceAndTravelTime()
-            let distanceFormatter = NSLengthFormatter()
-            distanceFormatter.unitStyle = .Short
+            let distanceFormatter = LengthFormatter()
+            distanceFormatter.unitStyle = .short
             let expectedTravelTime = Utilities.shortStringFromTimeInterval(fullExpectedTravelTime) as String
-            return "\(distanceFormatter.stringFromMeters(fullDistance)) in \(expectedTravelTime)"
+            return "\(distanceFormatter.string(fromMeters: fullDistance)) in \(expectedTravelTime)"
         }
     }
     
     // Returns the number of occurences a WayPoint is used by this route
-    func poiOccurences(poi:PointOfInterest) -> Int {
+    func poiOccurences(_ poi:PointOfInterest) -> Int {
         var counter = 0
         for currentPoi in theRoute.pois {
             if currentPoi === poi {
@@ -157,7 +157,7 @@ class RouteDataSource {
     }
     
     // Return true when the given Poi is used by the Route, otherwise it returns false
-    func hasPoi(poi:PointOfInterest) -> Bool {
+    func hasPoi(_ poi:PointOfInterest) -> Bool {
         for currentPoi in theRoute.pois {
             if currentPoi === poi {
                 return true
@@ -167,7 +167,7 @@ class RouteDataSource {
     }
     
     // Delete all WayPoints using the given POI
-    private func deleteAllWayPointsUsing(poi:PointOfInterest) {
+    fileprivate func deleteAllWayPointsUsing(_ poi:PointOfInterest) {
         var wayPointsToDelete = [WayPoint]()
         for currentWayPoint in wayPoints {
             if currentWayPoint.wayPointPoi === poi {
@@ -182,7 +182,7 @@ class RouteDataSource {
         POIDataManager.sharedInstance.commitDatabase()
     }
     
-    func deleteWayPoint(wayPointToDelete:WayPoint) {
+    func deleteWayPoint(_ wayPointToDelete:WayPoint) {
         if fromWayPointIndex != 0 {
             // === The WayPoint to remove is currently displayed
             if wayPointToDelete == fromPOI {
@@ -210,7 +210,7 @@ class RouteDataSource {
                 // If it's after the currently displayed wayPoint there's nothing to change.
                 // If we delete a WayPoint that is before the currently displayed WayPoint we need to
                 // decrement the index 
-                if let indexOfWayPointToDelete = indexOfWayPoint(wayPointToDelete) where indexOfWayPointToDelete <= fromWayPointIndex - 1 {
+                if let indexOfWayPointToDelete = indexOfWayPoint(wayPointToDelete) , indexOfWayPointToDelete <= fromWayPointIndex - 1 {
                     fromWayPointIndex = fromWayPointIndex - 1
                 }
             }
@@ -223,7 +223,7 @@ class RouteDataSource {
 
     }
     
-    private func indexOfWayPoint(wayPointToFind:WayPoint) -> Int? {
+    fileprivate func indexOfWayPoint(_ wayPointToFind:WayPoint) -> Int? {
         var index = 0
         for currentWayPoint in wayPoints {
             if currentWayPoint === wayPointToFind {
@@ -243,7 +243,7 @@ class RouteDataSource {
     //   - All WayPoints using this Poi are removed from the route
     // If the whole route is displayed
     //   - All WayPoints using this Poi are removed from the route
-    func deleteWayPointsWith(poi:PointOfInterest) {
+    func deleteWayPointsWith(_ poi:PointOfInterest) {
         if fromWayPointIndex != 0 {
             var wayPointToDelete:WayPoint?
             if poi === fromPOI {
@@ -312,7 +312,7 @@ class RouteDataSource {
     
     
     // Insert a wayPoint at the head of the route
-    func insertPoiAsRouteStart(poi:PointOfInterest) {
+    func insertPoiAsRouteStart(_ poi:PointOfInterest) {
         if wayPoints.count > 0 {
             POIDataManager.sharedInstance.insertWayPointTo(theRoute, poi: poi, index: 0, transportType: wayPoints[0].transportType!)
         } else {
@@ -322,13 +322,13 @@ class RouteDataSource {
     }
     
     // insert a wayPoint at the end of the route
-    func insertPoiAtAsRouteEnd(poi:PointOfInterest) {
+    func insertPoiAtAsRouteEnd(_ poi:PointOfInterest) {
         POIDataManager.sharedInstance.addWayPointToRoute(theRoute, pois: [poi])
         POIDataManager.sharedInstance.commitDatabase()
     }
 
     // Insert a Poi as a WayPoint after the current position
-    func insertPoiInRoute(poi:PointOfInterest) {
+    func insertPoiInRoute(_ poi:PointOfInterest) {
         if let from = fromWayPoint {
             if isBeforeRouteSections {
                 if theRoute.wayPoints.count <= 1 {
@@ -372,18 +372,18 @@ class RouteDataSource {
     }
     
     // Exchange the position of 2 wayPoints (it doesn't update the route position)
-    func moveWayPoint(fromIndex: Int, toIndex:Int) {
+    func moveWayPoint(_ fromIndex: Int, toIndex:Int) {
         theRoute.moveWayPoint(fromIndex, toIndex: toIndex)
     }
     
     // Delete a wayPoints at the given index (it doesn't update the route position)
-    func deleteWayPointAtIndex(index:Int) {
+    func deleteWayPointAtIndex(_ index:Int) {
         POIDataManager.sharedInstance.deleteWayPoint(theRoute.wayPoints[index])
         POIDataManager.sharedInstance.commitDatabase()
     }
     
     // Change the transport type of a route section at the given index
-    func setTransportTypeForWayPointAtIndex(index:Int, transportType:MKDirectionsTransportType) {
+    func setTransportTypeForWayPointAtIndex(_ index:Int, transportType:MKDirectionsTransportType) {
         if let wayPoint = theRoute.wayPointAtIndex(index) {
             wayPoint.transportType = transportType
             POIDataManager.sharedInstance.updateWayPoint(wayPoint)
@@ -392,7 +392,7 @@ class RouteDataSource {
     }
     
     // Change the transport type of the current position
-    func updateTransportTypeFromWayPoint(transportType: MKDirectionsTransportType) {
+    func updateTransportTypeFromWayPoint(_ transportType: MKDirectionsTransportType) {
         if let from = fromWayPoint {
             from.transportType = transportType
             from.calculatedRoute = nil

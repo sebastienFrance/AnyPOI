@@ -16,31 +16,31 @@ class TodayViewCell: UITableViewCell {
     
     @IBOutlet weak var pinImage: UIImageView!
     
-    private static func createPinImageForGroup(poi:PointOfInterest, imageSize:CGFloat = 25.0) -> UIImage? {
-        let annotationView = MKPinAnnotationView(frame: CGRectMake(0, 0, imageSize, imageSize))
-        annotationView.pinTintColor = NSKeyedUnarchiver.unarchiveObjectWithData(poi.parentGroup?.groupColor as! NSData) as! UIColor
+    fileprivate static func createPinImageForGroup(_ poi:PointOfInterest, imageSize:CGFloat = 25.0) -> UIImage? {
+        let annotationView = MKPinAnnotationView(frame: CGRect(x: 0, y: 0, width: imageSize, height: imageSize))
+        annotationView.pinTintColor = NSKeyedUnarchiver.unarchiveObject(with: poi.parentGroup?.groupColor as! Data) as! UIColor
         return annotationView.image
     }
 
     
-    func initWith(poi:PointOfInterest) {
+    func initWith(_ poi:PointOfInterest) {
         
         //TodayViewCell.customizePinForTableView(pinAnnotation, poi: poi)
         pinImage.image = TodayViewCell.createPinImageForGroup(poi)
         if let currentLocation = LocationManager.sharedInstance.locationManager?.location {
             let targetLocation = CLLocation(latitude: poi.poiLatitude , longitude: poi.poiLongitude)
-            let distance = currentLocation.distanceFromLocation(targetLocation)
+            let distance = currentLocation.distance(from: targetLocation)
             let distanceFormater = MKDistanceFormatter()
             
-            poiDisplayName.text = "\(poi.poiDisplayName!) ➔ \(distanceFormater.stringFromDistance(distance))"
+            poiDisplayName.text = "\(poi.poiDisplayName!) ➔ \(distanceFormater.string(fromDistance: distance))"
         } else {
             poiDisplayName.text = "\(poi.poiDisplayName!)"
         }
         
         if #available(iOSApplicationExtension 10.0, *) {
-            poiDisplayName.textColor = UIColor.blackColor()
+            poiDisplayName.textColor = UIColor.black
         } else {
-            poiDisplayName.textColor = UIColor.lightGrayColor()
+            poiDisplayName.textColor = UIColor.lightGray
         }
         
     }

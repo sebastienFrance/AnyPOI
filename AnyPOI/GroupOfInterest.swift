@@ -10,6 +10,17 @@ import Foundation
 import CoreData
 import UIKit
 import MapKit
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
 
 class GroupOfInterest: NSManagedObject {
 
@@ -23,10 +34,10 @@ class GroupOfInterest: NSManagedObject {
 
     var color: UIColor {
         get {
-            return NSKeyedUnarchiver.unarchiveObjectWithData(groupColor as! NSData) as! UIColor
+            return NSKeyedUnarchiver.unarchiveObject(with: groupColor as! Data) as! UIColor
         }
         set {
-            groupColor = NSKeyedArchiver.archivedDataWithRootObject(newValue)
+            groupColor = NSKeyedArchiver.archivedData(withRootObject: newValue) as NSObject?
             GroupOfInterest.resetImageForGroup(self)
         }
     }
@@ -35,14 +46,14 @@ class GroupOfInterest: NSManagedObject {
         get {
             if let allPois = listOfPOIs {
                 let pois = allPois.allObjects as! [PointOfInterest]
-                return pois.sort { $0.poiDisplayName < $1.poiDisplayName }
+                return pois.sorted { $0.poiDisplayName < $1.poiDisplayName }
             } else {
                 return [PointOfInterest]()
             }
         }
     }
     
-    func initializeWith(id: Int, name:String, description:String, color newColor:UIColor) {
+    func initializeWith(_ id: Int, name:String, description:String, color newColor:UIColor) {
         isPrivate = false
         groupId = Int64(id)
         groupDisplayName = name
@@ -63,14 +74,14 @@ class GroupOfInterest: NSManagedObject {
         }
     }
     
-    private static var imagesCacheForGroup = [NSManagedObjectID:UIImage]()
-    private static var pinImagesCacheForGroup = [NSManagedObjectID:UIImage?]()
+    fileprivate static var imagesCacheForGroup = [NSManagedObjectID:UIImage]()
+    fileprivate static var pinImagesCacheForGroup = [NSManagedObjectID:UIImage?]()
     
-    private static func resetImageForGroup(group:GroupOfInterest, imageSize:CGFloat = 25.0) {
+    fileprivate static func resetImageForGroup(_ group:GroupOfInterest, imageSize:CGFloat = 25.0) {
         imagesCacheForGroup[group.objectID] = createImageForGroup(group, imageSize: imageSize)
     }
     
-    private static func getImageForGroup(group:GroupOfInterest, imageSize:CGFloat = 25.0) -> UIImage {
+    fileprivate static func getImageForGroup(_ group:GroupOfInterest, imageSize:CGFloat = 25.0) -> UIImage {
         if let image = imagesCacheForGroup[group.objectID] {
             return image
         } else {
@@ -80,7 +91,7 @@ class GroupOfInterest: NSManagedObject {
     }
     
     
-    private static func getPinImageForGroup(group:GroupOfInterest, imageSize:CGFloat = 25.0) -> UIImage? {
+    fileprivate static func getPinImageForGroup(_ group:GroupOfInterest, imageSize:CGFloat = 25.0) -> UIImage? {
         if let image = pinImagesCacheForGroup[group.objectID] {
             return image
         } else {
@@ -90,29 +101,29 @@ class GroupOfInterest: NSManagedObject {
     }
 
     
-    private static func createImageForGroup(group:GroupOfInterest, imageSize:CGFloat = 25.0, lineWidth:CGFloat = 1.0) -> UIImage {
-        let size = CGSizeMake(imageSize, imageSize)
+    fileprivate static func createImageForGroup(_ group:GroupOfInterest, imageSize:CGFloat = 25.0, lineWidth:CGFloat = 1.0) -> UIImage {
+        let size = CGSize(width: imageSize, height: imageSize)
         
         UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
         let background = CAShapeLayer()
-        let rect = CGRectMake(lineWidth / 2.0,
-                              lineWidth / 2.0,
-                              imageSize - (lineWidth),imageSize - (lineWidth))
-        let path = UIBezierPath(ovalInRect: rect)
-        background.path = path.CGPath
-        background.fillColor = group.color.CGColor
-        background.strokeColor = UIColor.blackColor().CGColor
+        let rect = CGRect(x: lineWidth / 2.0,
+                              y: lineWidth / 2.0,
+                              width: imageSize - (lineWidth),height: imageSize - (lineWidth))
+        let path = UIBezierPath(ovalIn: rect)
+        background.path = path.cgPath
+        background.fillColor = group.color.cgColor
+        background.strokeColor = UIColor.black.cgColor
         background.lineWidth = lineWidth
         background.setNeedsDisplay()
-        background.renderInContext(UIGraphicsGetCurrentContext()!)
+        background.render(in: UIGraphicsGetCurrentContext()!)
         
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         return image!
     }
     
-    private static func createPinImageForGroup(group:GroupOfInterest, imageSize:CGFloat = 25.0) -> UIImage? {
-        let annotationView = MKPinAnnotationView(frame: CGRectMake(0, 0, imageSize, imageSize))
+    fileprivate static func createPinImageForGroup(_ group:GroupOfInterest, imageSize:CGFloat = 25.0) -> UIImage? {
+        let annotationView = MKPinAnnotationView(frame: CGRect(x: 0, y: 0, width: imageSize, height: imageSize))
         annotationView.pinTintColor = group.color
         return annotationView.image
     }

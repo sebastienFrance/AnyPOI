@@ -29,7 +29,7 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
     
     @IBOutlet weak var exitRouteModeButton: UIButton!
     // Route
-    private var isRouteMode:Bool {
+    fileprivate var isRouteMode:Bool {
         get {
             if let _ = routeManager {
                 return true
@@ -38,12 +38,12 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
             }
         }
     }
-    private var routeFromCurrentLocation : MKRoute? {
+    fileprivate var routeFromCurrentLocation : MKRoute? {
         get {
             return routeManager?.routeFromCurrentLocation ?? nil
         }
     }
-    private var isRouteFromCurrentLocationDisplayed:Bool {
+    fileprivate var isRouteFromCurrentLocationDisplayed:Bool {
         get {
             return routeManager?.isRouteFromCurrentLocationDisplayed ?? false
         }
@@ -58,27 +58,27 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
         }
     }
     
-    private(set) var routeManager:RouteManager?
+    fileprivate(set) var routeManager:RouteManager?
     
     // Flyover
-    private var isFlyoverAroundPoi = false
-    private var isFlyoverRunning = false
-    private var flyover:FlyoverWayPoints?
-    private var mapRegionBeforeFlyover:MKCoordinateRegion?
+    fileprivate var isFlyoverAroundPoi = false
+    fileprivate var isFlyoverRunning = false
+    fileprivate var flyover:FlyoverWayPoints?
+    fileprivate var mapRegionBeforeFlyover:MKCoordinateRegion?
 
     // Others
-    private var mapAnimation:MapCameraAnimations!
-    private var poiCalloutDelegate:PoiCalloutDelegateImpl!
-    private(set) var hideStatusBar = false
+    fileprivate var mapAnimation:MapCameraAnimations!
+    fileprivate var poiCalloutDelegate:PoiCalloutDelegateImpl!
+    fileprivate(set) var hideStatusBar = false
 
     var theSearchController:UISearchController?
 
     var isStartedByLeftMenu = false
     weak var container:ContainerViewController?
 
-    private(set) static var instance:MapViewController?
+    fileprivate(set) static var instance:MapViewController?
     
-    private var isFirstInitialization = true
+    fileprivate var isFirstInitialization = true
     
      enum InsertPoiPostion {
         case head, tail, currentPosition
@@ -94,10 +94,10 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
         didSet {
             if let theMapView = theMapView {
                 theMapView.mapType = UserPreferences.sharedInstance.mapMode
-                theMapView.zoomEnabled = true
-                theMapView.scrollEnabled = true
-                theMapView.pitchEnabled = true
-                theMapView.rotateEnabled = true
+                theMapView.isZoomEnabled = true
+                theMapView.isScrollEnabled = true
+                theMapView.isPitchEnabled = true
+                theMapView.isRotateEnabled = true
                 theMapView.showsBuildings = true
                 theMapView.showsPointsOfInterest = false
                 theMapView.showsCompass = true
@@ -134,11 +134,11 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
         static let showMapLocation = "showMapLocation"
     }
     
-    func enableGestureRecognizer(status:Bool) {
-        theMapView.scrollEnabled = status
-        theMapView.pitchEnabled = status
-        theMapView.rotateEnabled = status
-        theMapView.zoomEnabled = status
+    func enableGestureRecognizer(_ status:Bool) {
+        theMapView.isScrollEnabled = status
+        theMapView.isPitchEnabled = status
+        theMapView.isRotateEnabled = status
+        theMapView.isZoomEnabled = status
     }
     
     
@@ -166,13 +166,13 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
     }
     
     
-    func flyoverAround(poi:PointOfInterest) {
+    func flyoverAround(_ poi:PointOfInterest) {
         isFlyoverAroundPoi = true
         flyover = FlyoverWayPoints(mapView: theMapView, delegate: self)
         flyover!.doFlyover(poi)
     }
     
-    private func displayGroupsOnMap(groups:[GroupOfInterest], withMonitoredOverlays:Bool) {
+    fileprivate func displayGroupsOnMap(_ groups:[GroupOfInterest], withMonitoredOverlays:Bool) {
         for currentGroup in groups {
             theMapView.addAnnotations(currentGroup.pois)
 
@@ -180,49 +180,49 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
            if withMonitoredOverlays {
                 for currentPOI in currentGroup.pois {
                     if let monitoredRegionOverlay = currentPOI.getMonitordRegionOverlay() {
-                        theMapView.addOverlay(monitoredRegionOverlay)
+                        theMapView.add(monitoredRegionOverlay)
                     }
                 }
             }
         }
     }
     
-    private func subscribeNotifications() {
+    fileprivate func subscribeNotifications() {
         subscribeMapNotifications()
         
         // Database notifications
-        NSNotificationCenter.defaultCenter().addObserver(self,
+        NotificationCenter.default.addObserver(self,
                                                          selector: #selector(MapViewController.ManagedObjectContextObjectsDidChangeNotification(_:)),
-                                                         name: NSManagedObjectContextObjectsDidChangeNotification,
+                                                         name: NSNotification.Name.NSManagedObjectContextObjectsDidChange,
                                                          object: DatabaseAccess.sharedInstance.managedObjectContext)
     }
     
-    private func subscribeMapNotifications() {
-        NSNotificationCenter.defaultCenter().addObserver(self,
+    fileprivate func subscribeMapNotifications() {
+        NotificationCenter.default.addObserver(self,
                                                          selector: #selector(MapViewController.showPOIFromNotification(_:)),
-                                                         name: MapNotifications.showPOI,
+                                                         name: NSNotification.Name(rawValue: MapNotifications.showPOI),
                                                          object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self,
+        NotificationCenter.default.addObserver(self,
                                                          selector: #selector(MapViewController.showPOIsFromNotification(_:)),
-                                                         name: MapNotifications.showPOIs,
+                                                         name: NSNotification.Name(rawValue: MapNotifications.showPOIs),
                                                          object: nil)
 
-        NSNotificationCenter.defaultCenter().addObserver(self,
+        NotificationCenter.default.addObserver(self,
                                                          selector: #selector(MapViewController.showWikipediaFromNotification(_:)),
-                                                         name: MapNotifications.showWikipedia,
+                                                         name: NSNotification.Name(rawValue: MapNotifications.showWikipedia),
                                                          object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self,
+        NotificationCenter.default.addObserver(self,
                                                          selector: #selector(MapViewController.showGroupFromNotification(_:)),
-                                                         name: MapNotifications.showGroup,
+                                                         name: NSNotification.Name(rawValue: MapNotifications.showGroup),
                                                          object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self,
+        NotificationCenter.default.addObserver(self,
                                                          selector: #selector(MapViewController.showMapLocationFromNotification(_:)),
-                                                         name: MapNotifications.showMapLocation,
+                                                         name: NSNotification.Name(rawValue: MapNotifications.showMapLocation),
                                                          object: nil)
     }
 
     // Called only once?
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         // Restore latest position only when the app is started
@@ -232,7 +232,7 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
         }
         
         // If an Action triggered during the startup has not yet been executed, we execute it!
-        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
         appDelegate.performActionOnStartup()
         
      }
@@ -242,43 +242,43 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
         flyover?.urgentStop()
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
     }
 
-    @IBAction func leftMenuButtonPushed(sender: UIBarButtonItem) {
+    @IBAction func leftMenuButtonPushed(_ sender: UIBarButtonItem) {
         container!.toggleLeftPanel()
     }
     
-    @IBAction func userLocationButton(sender: UIButton) {
+    @IBAction func userLocationButton(_ sender: UIButton) {
       //  theMapView.setCenterCoordinate((LocationManager.sharedInstance.locationManager?.location?.coordinate)! , animated: true)
         if let userCoordinate = LocationManager.sharedInstance.locationManager?.location?.coordinate {
             mapAnimation.fromCurrentMapLocationTo(userCoordinate)
         }
     }
     
-    @IBAction func exitRouteMode(sender: AnyObject) {
+    @IBAction func exitRouteMode(_ sender: AnyObject) {
         disableRouteMode()
     }
     
      //MARK: Route navigation buttons
     // Go to the next WayPoint
-    @IBAction func showNextWayPoint(sender: UIBarButtonItem) {
+    @IBAction func showNextWayPoint(_ sender: UIBarButtonItem) {
         routeManager?.displayRouteSection(.forward)
     }
     
     // Go the the previous WayPoint
-    @IBAction func showPreviousWayPoint(sender: UIBarButtonItem) {
+    @IBAction func showPreviousWayPoint(_ sender: UIBarButtonItem) {
         routeManager?.displayRouteSection(.backward)
     }
 
-    @IBAction func showAllRoute(sender: UIBarButtonItem) {
+    @IBAction func showAllRoute(_ sender: UIBarButtonItem) {
         routeManager?.displayRouteSection(.all)
     }
 
     //MARK: Actions from Information view
     
-    @IBAction func editButtonPushed(sender: UIButton) {
-        performSegueWithIdentifier(storyboard.routeDetailsEditorId, sender: nil)
+    @IBAction func editButtonPushed(_ sender: UIButton) {
+        performSegue(withIdentifier: storyboard.routeDetailsEditorId, sender: nil)
     }
 
     // Display actions buttons
@@ -288,21 +288,21 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
     // Buttons displayed only when a route section is shown:
     // - Show/Hide route from current location
     // - Delete To/From WayPoint
-    @IBAction func actionsButtonPushed(sender: UIButton) {
+    @IBAction func actionsButtonPushed(_ sender: UIButton) {
         routeManager?.showActions()
     }
 
-    @IBAction func selectedTransportTypeHasChanged(sender: UISegmentedControl) {
+    @IBAction func selectedTransportTypeHasChanged(_ sender: UISegmentedControl) {
         routeManager?.setTransportType(MapUtils.segmentIndexToTransportType(sender))
     }
 
-    private func addMonitoredRegionOverlays() {
+    fileprivate func addMonitoredRegionOverlays() {
         // Add MonitoredRegion overlays for annotations displayed on the Map
         for currentAnnotation in theMapView.annotations {
             if let currentPOI =  currentAnnotation as? PointOfInterest {
                 // Add overlays if the poi is monitored
                 if let monitoredRegionOverlay = currentPOI.getMonitordRegionOverlay() {
-                    theMapView.addOverlay(monitoredRegionOverlay)
+                    theMapView.add(monitoredRegionOverlay)
                 }
             }
         }
@@ -311,13 +311,13 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
     // Display all overlays which include:
     //  - Route overlays
     //  - Monitored regions
-    private func addRouteAllOverlays() {
+    fileprivate func addRouteAllOverlays() {
         routeManager?.addRouteOverlays()
         addMonitoredRegionOverlays()
     }
     
     // Remove from the map all overlays used to display the route
-    private func removeAllOverlays() {
+    fileprivate func removeAllOverlays() {
         var overlaysToRemove = [MKOverlay]()
         for currentOverlay in theMapView.overlays {
             if currentOverlay is MKPolyline {
@@ -329,11 +329,11 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
     }
     
     // MARK: Route API
-    func moveWayPoint(sourceIndex: Int, destinationIndex:Int) {
+    func moveWayPoint(_ sourceIndex: Int, destinationIndex:Int) {
         routeManager?.moveWayPoint(sourceIndex, destinationIndex:destinationIndex)
     }
     
-    func deleteWayPointAt(index:Int) {
+    func deleteWayPointAt(_ index:Int) {
         routeManager?.deleteWayPointAt(index)
     }
     
@@ -353,7 +353,7 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
         }
     }
     
-    func showRouteFromCurrentLocation(targetPOI:PointOfInterest) {
+    func showRouteFromCurrentLocation(_ targetPOI:PointOfInterest) {
         if isRouteMode {
             routeManager?.buildRouteFromCurrentLocation(targetPOI, transportType:routeDatasource!.fromWayPoint!.transportType!)
         }
@@ -365,25 +365,25 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
         }
     }
     
-    private func refreshPoiAnnotation(poi:PointOfInterest, withType:MapUtils.PinAnnotationType) {
-        if let annotationView = theMapView.viewForAnnotation(poi) as? WayPointPinAnnotationView {
+    fileprivate func refreshPoiAnnotation(_ poi:PointOfInterest, withType:MapUtils.PinAnnotationType) {
+        if let annotationView = theMapView.view(for: poi) as? WayPointPinAnnotationView {
             MapUtils.refreshPin(annotationView, poi: poi, delegate: poiCalloutDelegate, type: withType)
         }
     }
     
     // MARK: Route toolbar
-    private func displayRouteInterfaces(show:Bool) {
-        routeStackView.hidden = !show
-        exitRouteModeButton.hidden = !show
+    fileprivate func displayRouteInterfaces(_ show:Bool) {
+        routeStackView.isHidden = !show
+        exitRouteModeButton.isHidden = !show
 
 
         for currentItem in navigationItem.rightBarButtonItems! {
             if show {
                 currentItem.tintColor = view.tintColor
-                currentItem.enabled = true
+                currentItem.isEnabled = true
             } else {
-                currentItem.tintColor = UIColor.clearColor()
-                currentItem.enabled = false
+                currentItem.tintColor = UIColor.clear
+                currentItem.isEnabled = false
             }
         }
     }
@@ -400,12 +400,12 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
     }
 
     //MARK: Search Controller
-    @IBAction func startSearchController(sender: UIBarButtonItem) {
+    @IBAction func startSearchController(_ sender: UIBarButtonItem) {
         showSearchController()
     }
     
     func showSearchController() {
-        let mySearchController = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("SearchControllerId") as! SearchController
+        let mySearchController = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SearchControllerId") as! SearchController
         
         theSearchController = UISearchController(searchResultsController: mySearchController)
         
@@ -425,27 +425,27 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
         theSearchController!.hidesNavigationBarDuringPresentation = true
         theSearchController!.dimsBackgroundDuringPresentation = true
         
-        presentViewController(theSearchController!, animated: true, completion: nil)
+        present(theSearchController!, animated: true, completion: nil)
 
     }
 
     
-    func showLocationOnMap(coordinate:CLLocationCoordinate2D) {
+    func showLocationOnMap(_ coordinate:CLLocationCoordinate2D) {
         mapAnimation.fromCurrentMapLocationTo(coordinate)
     }
     
-    func addPoiOnOnMapLocation(coordinate:CLLocationCoordinate2D) -> PointOfInterest {
+    func addPoiOnOnMapLocation(_ coordinate:CLLocationCoordinate2D) -> PointOfInterest {
         return POIDataManager.sharedInstance.addPOI(coordinate, camera:theMapView.camera)
     }
     
-    func selectPoiOnMap(poi:PointOfInterest) {
+    func selectPoiOnMap(_ poi:PointOfInterest) {
         theMapView.selectAnnotation(poi, animated: true)
     }
     
     //MARK: SearchControllerDelegate
-    func showPOIOnMap(poi : PointOfInterest) {
+    func showPOIOnMap(_ poi : PointOfInterest) {
         // Mandatory to hide the UISearchController
-        theSearchController?.active = false
+        theSearchController?.isActive = false
         
         // Make sure the Group is Displayed before to show the POI
         // and then add it to the Map and set the Camera
@@ -460,9 +460,9 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
     }
 
 
-    func showPOIsOnMap(pois : [PointOfInterest]) {
+    func showPOIsOnMap(_ pois : [PointOfInterest]) {
         // Mandatory to hide the UISearchController
-        theSearchController?.active = false
+        theSearchController?.isActive = false
 
         for currentPoi in pois {
             // Make sure the Group is Displayed before to show the POI
@@ -478,8 +478,8 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
     }
 
 
-    func showGroupOnMap(group : GroupOfInterest) {
-        theSearchController?.active = false
+    func showGroupOnMap(_ group : GroupOfInterest) {
+        theSearchController?.isActive = false
         
         if !group.isGroupDisplayed {
             group.isGroupDisplayed = true
@@ -491,14 +491,14 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
         theMapView.setRegion(region, animated: true)
     }
     
-    func showMapLocation(mapItem: MKMapItem) {
-        theSearchController?.active = false
+    func showMapLocation(_ mapItem: MKMapItem) {
+        theSearchController?.isActive = false
         mapAnimation.fromCurrentMapLocationTo(mapItem.placemark.coordinate)
     }
     
-    func showWikipediaOnMap(wikipedia : Wikipedia) {
+    func showWikipediaOnMap(_ wikipedia : Wikipedia) {
         // Mandatory to hide the UISearchController
-        theSearchController?.active = false
+        theSearchController?.isActive = false
         if theMapView.selectedAnnotations.count > 0 {
             theMapView.deselectAnnotation(theMapView.selectedAnnotations[0], animated: false)
         }
@@ -512,43 +512,43 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
         mapAnimation.fromCurrentMapLocationTo(wikipedia.coordinates)
     }
     
-    private func showAlertMessage(title:String, message:String) {
+    fileprivate func showAlertMessage(_ title:String, message:String) {
         // Show that nothing was found for this search
-        let alertView = UIAlertController.init(title: title, message: message, preferredStyle: .Alert)
-        let actionClose = UIAlertAction(title: "Close", style: .Cancel) { alertAction in
-            alertView.dismissViewControllerAnimated(true, completion: nil)
+        let alertView = UIAlertController.init(title: title, message: message, preferredStyle: .alert)
+        let actionClose = UIAlertAction(title: "Close", style: .cancel) { alertAction in
+            alertView.dismiss(animated: true, completion: nil)
         }
         
         alertView.addAction(actionClose)
-        presentViewController(alertView, animated: true, completion: nil)
+        present(alertView, animated: true, completion: nil)
     }
     
     // MARK: unwind Segue
-    @IBAction func backToMapView(segue:UIStoryboardSegue) {
+    @IBAction func backToMapView(_ segue:UIStoryboardSegue) {
     }
     
-    @IBAction func showRoute(segue:UIStoryboardSegue) {
-        let routeViewController = segue.sourceViewController as! RoutesViewController
+    @IBAction func showRoute(_ segue:UIStoryboardSegue) {
+        let routeViewController = segue.source as! RoutesViewController
         if let routeToDisplay = routeViewController.getSelectedRoute() {
             enableRouteModeWith(routeToDisplay)
             container!.goToMap()
         }
     }
     
-    func enableRouteModeWith(routeToDisplay:Route) {
+    func enableRouteModeWith(_ routeToDisplay:Route) {
         routeManager = RouteManager(datasource:RouteDataSource(route:routeToDisplay), routeDisplay: self, mapView: theMapView)
         routeManager?.loadAndDisplayOnMap()
     }
 
-    private func disableRouteMode() {
+    fileprivate func disableRouteMode() {
         routeManager?.cleanup()
         routeManager = nil
         
         displayGroupsOnMap(POIDataManager.sharedInstance.findDisplayableGroups(), withMonitoredOverlays: true)
     }
     
-    @IBAction func backToMapWayPoint(unwindSegue:UIStoryboardSegue) {
-        if let routeDetailsVC = unwindSegue.sourceViewController as? RouteDetailsViewController {
+    @IBAction func backToMapWayPoint(_ unwindSegue:UIStoryboardSegue) {
+        if let routeDetailsVC = unwindSegue.source as? RouteDetailsViewController {
             // Get the index of the selected WayPoint and go to the next one to display the appropriate
             // Route section because in RouteDataSource the WayPointIndex = 0 is to display the full route
             // and when > 1 it displays only the route section of the WayPoint.
@@ -556,53 +556,53 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
         }
     }
     
-    @IBAction func backToMapWayPointHome(unwindSegue:UIStoryboardSegue) {
+    @IBAction func backToMapWayPointHome(_ unwindSegue:UIStoryboardSegue) {
         routeManager?.displayRouteSection(.all)
     }
 
     //MARK: handling notifications
-    func showPOIFromNotification(notification : NSNotification) {
-        let poi = notification.userInfo![MapNotifications.showPOI_Parameter_POI] as? PointOfInterest
+    func showPOIFromNotification(_ notification : Notification) {
+        let poi = (notification as NSNotification).userInfo![MapNotifications.showPOI_Parameter_POI] as? PointOfInterest
         if let thePoi = poi {
             showPOIOnMap(thePoi)
         }
      }
 
-    func showPOIsFromNotification(notification : NSNotification) {
-        let pois = notification.userInfo![MapNotifications.showPOIs_Parameter_POIs] as? [PointOfInterest]
+    func showPOIsFromNotification(_ notification : Notification) {
+        let pois = (notification as NSNotification).userInfo![MapNotifications.showPOIs_Parameter_POIs] as? [PointOfInterest]
         if let thePois = pois {
             showPOIsOnMap(thePois)
         }
     }
 
 
-    func showWikipediaFromNotification(notification : NSNotification) {
+    func showWikipediaFromNotification(_ notification : Notification) {
         // Position the MapView and the camera to display the area around the Wikipedia
-        if let wikipedia = notification.userInfo![MapNotifications.showPOI_Parameter_Wikipedia] as? Wikipedia {
+        if let wikipedia = (notification as NSNotification).userInfo![MapNotifications.showPOI_Parameter_Wikipedia] as? Wikipedia {
             showWikipediaOnMap(wikipedia)
         }
     }
 
-    func showGroupFromNotification(notification : NSNotification) {
+    func showGroupFromNotification(_ notification : Notification) {
         if let group = notification.object as? GroupOfInterest {
             showGroupOnMap(group)
         }
     }
     
-    func showMapLocationFromNotification(notification : NSNotification) {
+    func showMapLocationFromNotification(_ notification : Notification) {
         if let mapItem = notification.object as? MKMapItem {
             showMapLocation(mapItem)
         }
     }
     
     //MARK: Database Notifications
-    func ManagedObjectContextObjectsDidChangeNotification(notification : NSNotification) {
-        PoiNotificationUserInfo.dumpUserInfo("MapViewController", userInfo:notification.userInfo)
+    func ManagedObjectContextObjectsDidChangeNotification(_ notification : Notification) {
+        PoiNotificationUserInfo.dumpUserInfo("MapViewController", userInfo:(notification as NSNotification).userInfo)
         manageNotification(notification)
     }
     
-    private func manageNotification(notification : NSNotification) {
-        let notifContent = PoiNotificationUserInfo(userInfo: notification.userInfo)
+    fileprivate func manageNotification(_ notification : Notification) {
+        let notifContent = PoiNotificationUserInfo(userInfo: (notification as NSNotification).userInfo as [NSObject : AnyObject]?)
         
         // Just added!
         for updatedGroup in notifContent.updatedGroupOfInterest {
@@ -619,7 +619,7 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
                 } else {
                     for currentPoi in updatedGroup.pois {
                         if let monitoredRegionOverlay = currentPoi.getMonitordRegionOverlay() {
-                            theMapView.removeOverlay(monitoredRegionOverlay)
+                            theMapView.remove(monitoredRegionOverlay)
                         }
                     }
                 }
@@ -634,7 +634,7 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
         for deletedPoi in notifContent.deletedPois {
             theMapView.removeAnnotation(deletedPoi)
             if let monitoredRegionOverlay = deletedPoi.getMonitordRegionOverlay() {
-                theMapView.removeOverlay(monitoredRegionOverlay)
+                theMapView.remove(monitoredRegionOverlay)
             }
         }
         
@@ -645,7 +645,7 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
                 changedValues[PointOfInterest.properties.poiRegionNotifyExit] != nil  ||
                 changedValues[PointOfInterest.properties.poiCategory] != nil ||
                 changedValues[PointOfInterest.properties.poiPlacemark] != nil {
-                if let annotationView = theMapView.viewForAnnotation(updatedPoi) {
+                if let annotationView = theMapView.view(for: updatedPoi) {
                     MapUtils.refreshDetailCalloutAccessoryView(updatedPoi, annotationView: annotationView, delegate: poiCalloutDelegate)
                 }
             }
@@ -669,15 +669,15 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
                 }
                 
             }
-            updateMonitoredRegionOverlayForPoi(updatedPoi, changedValues: changedValues)
+            updateMonitoredRegionOverlayForPoi(updatedPoi, changedValues: changedValues as [String : AnyObject])
         }
         
         
         // When the first WayPoint in added, we display a message
         if notifContent.insertedWayPoints.count > 0,
-            let theRouteDatasource = routeDatasource where theRouteDatasource.wayPoints.count == 1 {
+            let theRouteDatasource = routeDatasource , theRouteDatasource.wayPoints.count == 1 {
             PKHUD.sharedHUD.dimsBackground = false
-            HUD.flash(.Label("Route start added"), delay:1.0, completion: nil)
+            HUD.flash(.label("Route start added"), delay:1.0, completion: nil)
             if let startPoi = theRouteDatasource.theRoute.startWayPoint?.wayPointPoi {
                 // The starting point must be refreshed in the map with the right color
                 refreshPoiAnnotation(startPoi, withType: .routeStart)
@@ -719,7 +719,7 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
     // Warning: changedValues contains the list of changed properties with their NEW VALUE
     // Warning: The updatedPoi contains also the new properties values
     // Warning: To get the old values we must get the changedValuesForCurrentEvent()
-    private func updateMonitoredRegionOverlayForPoi(updatedPoi:PointOfInterest, changedValues:[String:AnyObject]) {
+    fileprivate func updateMonitoredRegionOverlayForPoi(_ updatedPoi:PointOfInterest, changedValues:[String:AnyObject]) {
         if !updatedPoi.isMonitored {
             // when the POI is not monitored we just need to remove the overlay from the map (if displayed)
             if let monitoredRegionOverlay = updatedPoi.getMonitordRegionOverlay() {
@@ -727,7 +727,7 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
                 // SEB: Warning, it seems there's a bug in Apple library in HybridFlyover, overlays are not 
                 // always correctly removed from the map. Workaround is to change to Normal Map mode and then 
                 // go back to Flyover!!!!
-                theMapView.removeOverlay(monitoredRegionOverlay)
+                theMapView.remove(monitoredRegionOverlay)
                 updatedPoi.resetMonitoredRegionOverlay()
             }
         } else {
@@ -739,11 +739,11 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
                     changedValues[PointOfInterest.properties.poiLatitude] != nil ||
                     changedValues[PointOfInterest.properties.poiLongitude] != nil {
                     if let monitoredRegionOverlay = updatedPoi.getMonitordRegionOverlay() {
-                        theMapView.removeOverlay(monitoredRegionOverlay)
+                        theMapView.remove(monitoredRegionOverlay)
                     }
 
                     if let monitoredRegionOverlay = updatedPoi.resetMonitoredRegionOverlay() {
-                        theMapView.addOverlay(monitoredRegionOverlay)
+                        theMapView.add(monitoredRegionOverlay)
                     }
                 } else {
                     // Get old values to check if the Overlay was already displayed
@@ -767,7 +767,7 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
                     // it means the overlay was not displayed and we need to add it on the Map
                     if !oldRegionNotifyEnter && !oldRegionNotifyExit {
                         if let monitoredRegionOverlay = updatedPoi.getMonitordRegionOverlay() {
-                            theMapView.addOverlay(monitoredRegionOverlay)
+                            theMapView.add(monitoredRegionOverlay)
                         }
                     }
                 }
@@ -776,11 +776,11 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
     }
 
     // MARK: Map Gestures 
-    @IBAction func handleLongPressGesture(sender: UILongPressGestureRecognizer) {
+    @IBAction func handleLongPressGesture(_ sender: UILongPressGestureRecognizer) {
         switch (sender.state) {
-        case .Ended:
+        case .ended:
             if #available(iOS 10.0, *) {
-                let feedbackGenerator = UIImpactFeedbackGenerator.init(style: .Medium)
+                let feedbackGenerator = UIImpactFeedbackGenerator.init(style: .medium)
                 feedbackGenerator.impactOccurred()
             } else {
                 // Fallback on earlier versions
@@ -788,7 +788,7 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
             
             // Add the new POI in database
             // The Poi will be added on the Map thanks to DB notifications
-            let coordinates = theMapView.convertPoint(sender.locationInView(theMapView), toCoordinateFromView: theMapView)
+            let coordinates = theMapView.convert(sender.location(in: theMapView), toCoordinateFrom: theMapView)
             let addedPoi = POIDataManager.sharedInstance.addPOI(coordinates, camera:theMapView.camera)
             
             if isRouteMode {
@@ -801,7 +801,7 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
     }
 
     //MARK: RouteEditorDelegate
-    func routeCreated(route:Route) {
+    func routeCreated(_ route:Route) {
         enableRouteModeWith(route)
     }
     
@@ -809,7 +809,7 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
         // Nothing to do
     }
     
-    func routeUpdated(route:Route) {
+    func routeUpdated(_ route:Route) {
         // Nothing to do
     }
     
@@ -824,7 +824,7 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
     }
 
     //MARK: Segue
-    private struct storyboard {
+    fileprivate struct storyboard {
         static let showPOIDetails = "ShowPOIDetailsId"
         static let showMapOptions = "ShowMapOptions"
         static let showGroupContent = "showGroupContent"
@@ -834,37 +834,37 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
         static let openEmailsId = "openEmails"
     }
 
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == storyboard.showPOIDetails {
-            let poiController = segue.destinationViewController as! POIDetailsViewController
+            let poiController = segue.destination as! POIDetailsViewController
             poiController.poi = sender as? PointOfInterest
         } else if segue.identifier == storyboard.showMapOptions {
-            let viewController = segue.destinationViewController as! OptionsViewController
+            let viewController = segue.destination as! OptionsViewController
             viewController.theMapView = theMapView
         } else if segue.identifier == storyboard.showGroupContent {
-            let viewController = segue.destinationViewController as! POIsViewController
+            let viewController = segue.destination as! POIsViewController
             let group = sender as! GroupOfInterest
             viewController.showGroup(group)
         } else if segue.identifier == storyboard.editGroup {
             startDim()
-            let viewController = segue.destinationViewController as! GroupConfiguratorViewController
+            let viewController = segue.destination as! GroupConfiguratorViewController
             viewController.group = sender as? GroupOfInterest
             viewController.delegate = self
         } else if segue.identifier == PoiCalloutDelegateImpl.storyboard.startTableRouteId {
-            let viewController = segue.destinationViewController as! RouteProviderTableViewController
-            startRouteProviderTable(viewController, sender: sender)
+            let viewController = segue.destination as! RouteProviderTableViewController
+            startRouteProviderTable(viewController, sender: sender as AnyObject?)
         } else if segue.identifier == storyboard.routeDetailsEditorId {
-            let viewController = segue.destinationViewController as! RouteDetailsViewController
+            let viewController = segue.destination as! RouteDetailsViewController
             viewController.wayPointsDelegate = self
         } else if segue.identifier == storyboard.openPhonesId {
             startDim()
-            let viewController = segue.destinationViewController as! ContactsViewController
+            let viewController = segue.destination as! ContactsViewController
             viewController.delegate = self
             viewController.poi = sender as? PointOfInterest
             viewController.mode = .phone
         } else if segue.identifier == storyboard.openEmailsId {
             startDim()
-           let viewController = segue.destinationViewController as! ContactsViewController
+           let viewController = segue.destination as! ContactsViewController
             viewController.delegate = self
             viewController.poi = sender as? PointOfInterest
             viewController.mode = .email 
@@ -872,7 +872,7 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
        
     }
     
-    private func startRouteProviderTable(viewController: RouteProviderTableViewController, sender: AnyObject?) {
+    fileprivate func startRouteProviderTable(_ viewController: RouteProviderTableViewController, sender: AnyObject?) {
         startDim()
         if isRouteMode {
             if let targetPoi = sender as? PointOfInterest {
@@ -892,7 +892,7 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
 
 extension MapViewController : RouteDisplayInfos {
     
-    func doFlyover(routeDatasource:RouteDataSource) {
+    func doFlyover(_ routeDatasource:RouteDataSource) {
         flyover = FlyoverWayPoints(mapView: theMapView, delegate: self)
         flyover!.doFlyover(routeDatasource, routeFromCurrentLocation:self.routeFromCurrentLocation)
     }
@@ -909,7 +909,7 @@ extension MapViewController : RouteDisplayInfos {
         return poiCalloutDelegate
     }
     
-    func displayNewGroupsOnMap(groups:[GroupOfInterest], withMonitoredOverlays:Bool) {
+    func displayNewGroupsOnMap(_ groups:[GroupOfInterest], withMonitoredOverlays:Bool) {
         displayGroupsOnMap(groups, withMonitoredOverlays: withMonitoredOverlays)
     }
 
@@ -917,36 +917,36 @@ extension MapViewController : RouteDisplayInfos {
         displayRouteInterfaces(true)
         fromToLabel.text = "Add a new or existing POI to start your route"
         distanceLabel.text = ""
-        thirdActionBarStackView.hidden = true
+        thirdActionBarStackView.isHidden = true
     }
     
     // Show the summary infos when we are displaying the full route
-    func displayRouteSummaryInfos(datasource:RouteDataSource) {
+    func displayRouteSummaryInfos(_ datasource:RouteDataSource) {
         displayRouteInterfaces(true)
         fromToLabel.text = datasource.routeName
-        fromToLabel.textColor = UIColor.magentaColor()
+        fromToLabel.textColor = UIColor.magenta
         distanceLabel.text = datasource.routeDistanceAndTime
         fromToLabel.sizeToFit()
-        thirdActionBarStackView.hidden = true
+        thirdActionBarStackView.isHidden = true
     }
     
     // Show the infos about the route between the 2 wayPoints or between the current location and the To
-    func displayRouteWayPointsInfos(datasource:RouteDataSource) {
+    func displayRouteWayPointsInfos(_ datasource:RouteDataSource) {
         displayRouteInterfaces(true)
-        let distanceFormatter = NSLengthFormatter()
-        distanceFormatter.unitStyle = .Short
+        let distanceFormatter = LengthFormatter()
+        distanceFormatter.unitStyle = .short
         if !isRouteFromCurrentLocationDisplayed {
             // Show information between the 2 wayPoints
-            fromToLabel.textColor = UIColor.whiteColor()
+            fromToLabel.textColor = UIColor.white
 
             fromToLabel.text = datasource.routeName
             distanceLabel.text = datasource.routeDistanceAndTime
         } else {
             // Show information between the current location and the To
             fromToLabel.text = "Current location"
-            fromToLabel.textColor = UIColor.magentaColor()
+            fromToLabel.textColor = UIColor.magenta
             let expectedTravelTime = Utilities.shortStringFromTimeInterval(routeFromCurrentLocation!.expectedTravelTime) as String
-            distanceLabel.text = "\(distanceFormatter.stringFromMeters(routeFromCurrentLocation!.distance)) in \(expectedTravelTime)"
+            distanceLabel.text = "\(distanceFormatter.string(fromMeters: routeFromCurrentLocation!.distance)) in \(expectedTravelTime)"
             if let toDisplayName = datasource.toPOI?.poiDisplayName {
                 fromToLabel.text =  fromToLabel.text! + " ➔ \(toDisplayName)"
             }
@@ -954,7 +954,7 @@ extension MapViewController : RouteDisplayInfos {
 
         selectedTransportType.selectedSegmentIndex = MapUtils.transportTypeToSegmentIndex(datasource.fromWayPoint!.transportType!)
         
-        thirdActionBarStackView.hidden = false
+        thirdActionBarStackView.isHidden = false
     }
 
     //MARK: Route overlays
@@ -966,34 +966,34 @@ extension MapViewController : RouteDisplayInfos {
 
 extension MapViewController : UISearchResultsUpdating, UISearchControllerDelegate, UISearchBarDelegate {
     //MARK: UISearchResultsUpdating
-    func updateSearchResultsForSearchController(searchController: UISearchController) {
+    func updateSearchResults(for searchController: UISearchController) {
         let mySearchController = searchController.searchResultsController as! SearchController
         if let text = searchController.searchBar.text,
-            filter = SearchController.ScopeFilter(rawValue: searchController.searchBar.selectedScopeButtonIndex) {
+            let filter = SearchController.ScopeFilter(rawValue: searchController.searchBar.selectedScopeButtonIndex) {
             mySearchController.updateWithText(text, region: theMapView.region, filter:filter)
         }
     }
     
     //MARK: UISearchControllerDelegate
-    func didDismissSearchController(searchController: UISearchController) {
+    func didDismissSearchController(_ searchController: UISearchController) {
         // Navigate to the appropriate ViewController if an action has been triggered by the user
         // in the SearchController
         if let viewController = searchController.searchResultsController as? SearchController {
             switch viewController.selectedAction {
-            case .None: break
+            case .none: break
             case .editGroup:
                 // Put in a dispatch async to make sure the dimmer will be displayed appropriately (on top
                 // of all, including the SearchController)
                 // I cannot explain why I need to do that, if not done the SearchBar is not covered by the Dimmer
                 // because the Dimmer is behind the Search Bar...
-                dispatch_async(dispatch_get_main_queue()) {
+                DispatchQueue.main.async {
                     if let group = viewController.selectedGroup {
-                        self.performSegueWithIdentifier(storyboard.editGroup, sender: group)
+                        self.performSegue(withIdentifier: storyboard.editGroup, sender: group)
                     }
                 }
             case .showGroupContent:
                 if let group = viewController.selectedGroup {
-                    performSegueWithIdentifier(storyboard.showGroupContent, sender: group)
+                    performSegue(withIdentifier: storyboard.showGroupContent, sender: group)
                 }
             case .showRoute:
                 if let route = viewController.selectedRoute {
@@ -1001,14 +1001,14 @@ extension MapViewController : UISearchResultsUpdating, UISearchControllerDelegat
                 }
             case .editPoi:
                 if let poi = viewController.selectedPoi {
-                    performSegueWithIdentifier(storyboard.showPOIDetails, sender: poi)
+                    performSegue(withIdentifier: storyboard.showPOIDetails, sender: poi)
                 }
             }
         }
         theSearchController = nil
     }
     
-    func didPresentSearchController(searchController: UISearchController) {
+    func didPresentSearchController(_ searchController: UISearchController) {
         // Reset the selectedGroup to make sure we are not triggering an action not requested by the user
         // when the searchController is dismissed
         // Warning: Keep in mind the SearchController is never removed from memory, it's still here even
@@ -1019,15 +1019,15 @@ extension MapViewController : UISearchResultsUpdating, UISearchControllerDelegat
     }
     
     //MARK: UISearchBarDelegate
-    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         // Perform Geocoding to find places using the text provided by the user
         CLGeocoder().geocodeAddressString(searchBar.text!) { placemarks, error in
             // Mandatory to hide the UISearchController from the screen
-            self.theSearchController?.active = false
+            self.theSearchController?.isActive = false
             if let theError = error {
                 self.showAlertMessage("GeoCoding", message: theError.localizedDescription)
             } else {
-                if let thePlacemark = placemarks where thePlacemark.count > 0 {
+                if let thePlacemark = placemarks , thePlacemark.count > 0 {
                     if let coordinate = thePlacemark[0].location?.coordinate {
                         self.mapAnimation.fromCurrentMapLocationTo(coordinate)
                     }
@@ -1047,7 +1047,7 @@ extension MapViewController : FlyoverWayPointsDelegate {
         isFlyoverRunning = true
         
         // Disable to idleTimer during the flyover to avoid the screen dims
-        UIApplication.sharedApplication().idleTimerDisabled = true
+        UIApplication.shared.isIdleTimerDisabled = true
         
         //Hide route itf if it's displayed
         displayRouteInterfaces(false)
@@ -1058,27 +1058,27 @@ extension MapViewController : FlyoverWayPointsDelegate {
             mapRegionBeforeFlyover = theMapView.region
         }
         
-        userLocationButton.hidden = true
+        userLocationButton.isHidden = true
         
         hideStatusBar = true
         setNeedsStatusBarAppearanceUpdate() // Request to hide the status bar (managed by the ContainerVC)
         view.layoutIfNeeded() // Make sure the status bar will be remove smoothly
         
-        navigationController?.navigationBarHidden = true
+        navigationController?.isNavigationBarHidden = true
     }
     
-    func flyoverWillEndAnimation(urgentStop:Bool) {
+    func flyoverWillEndAnimation(_ urgentStop:Bool) {
         isFlyoverRunning = false
         
         // Restore the idleTimer
-        UIApplication.sharedApplication().idleTimerDisabled = false
+        UIApplication.shared.isIdleTimerDisabled = false
         hideStatusBar = false
-        navigationController?.navigationBarHidden = false
+        navigationController?.isNavigationBarHidden = false
         
         if isRouteMode {
             displayRouteInterfaces(true)
         }
-        userLocationButton.hidden = false
+        userLocationButton.isHidden = false
         
         if !urgentStop {
             if isFlyoverAroundPoi {
@@ -1093,7 +1093,7 @@ extension MapViewController : FlyoverWayPointsDelegate {
         view.layoutIfNeeded() // Make sure the status bar will be displayed smoothly
     }
     
-    func flyoverDidEnd(flyoverUpdatedPois:[PointOfInterest], urgentStop:Bool) {
+    func flyoverDidEnd(_ flyoverUpdatedPois:[PointOfInterest], urgentStop:Bool) {
         if isRouteMode  {
             if routeDatasource!.isBeforeRouteSections {
                 removeAllOverlays()
@@ -1118,32 +1118,32 @@ extension MapViewController : FlyoverWayPointsDelegate {
 extension MapViewController : MKMapViewDelegate {
     //MARK: MKMapViewDelegate
     
-    private struct mapViewAnnotationId {
+    fileprivate struct mapViewAnnotationId {
         static let POIAnnotationId = "POIAnnotationId"
     }
     
-    func mapView(mapView: MKMapView, didFailToLocateUserWithError error: NSError) {
+    func mapView(_ mapView: MKMapView, didFailToLocateUserWithError error: Error) {
         print("\(#function): didFailToLocateUserWithError")
         
         if(CLLocationManager.locationServicesEnabled() == false ||
-            !(CLLocationManager.authorizationStatus() == CLAuthorizationStatus.AuthorizedWhenInUse ||
-                CLLocationManager.authorizationStatus() == CLAuthorizationStatus.AuthorizedAlways)){
+            !(CLLocationManager.authorizationStatus() == CLAuthorizationStatus.authorizedWhenInUse ||
+                CLLocationManager.authorizationStatus() == CLAuthorizationStatus.authorizedAlways)){
             //location services are disabled or
             //user has not authorized permissions to use their location.
             
             // SEB: TBC request again authorization
             
-            mapView.userTrackingMode = MKUserTrackingMode.None
+            mapView.userTrackingMode = MKUserTrackingMode.none
         }
     }
     
-    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         if annotation is MKUserLocation {
             return nil
         }
         
         let thePoi = annotation as! PointOfInterest
-        let annotationView = mapView.dequeueReusableAnnotationViewWithIdentifier(WayPointPinAnnotationView.AnnotationId.wayPointAnnotationId) as? WayPointPinAnnotationView ?? MapUtils.createPin(thePoi)
+        let annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: WayPointPinAnnotationView.AnnotationId.wayPointAnnotationId) as? WayPointPinAnnotationView ?? MapUtils.createPin(thePoi)
         
         MapUtils.refreshPin(annotationView,
                             poi: thePoi,
@@ -1155,14 +1155,14 @@ extension MapViewController : MKMapViewDelegate {
     }
     
     
-    func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         let poi = view.annotation as! PointOfInterest
         if view.rightCalloutAccessoryView === control {
-            self.performSegueWithIdentifier(storyboard.showPOIDetails, sender: poi)
+            self.performSegue(withIdentifier: storyboard.showPOIDetails, sender: poi)
         }
     }
     
-    func mapView(mapView: MKMapView, rendererForOverlay overlay: MKOverlay) -> MKOverlayRenderer {
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         if overlay is MKPolyline {
             return MapUtils.customizePolyLine(overlay as! MKPolyline)
         } else if overlay is MKCircle {
@@ -1174,7 +1174,7 @@ extension MapViewController : MKMapViewDelegate {
     
     
     // Save automatically the latest Map position in userPrefs
-    func mapView(mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+    func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
         if !isFlyoverRunning {
             UserPreferences.sharedInstance.mapLatestMapRegion = mapView.region
         }

@@ -25,7 +25,7 @@ class ContactsViewController: UIViewController   {
             theTableView.dataSource = self
             theTableView.estimatedRowHeight = 70
             theTableView.rowHeight = UITableViewAutomaticDimension
-            theTableView.tableFooterView = UIView(frame: CGRectZero) // remove separator for empty lines
+            theTableView.tableFooterView = UIView(frame: CGRect.zero) // remove separator for empty lines
         }
     }
 
@@ -38,7 +38,7 @@ class ContactsViewController: UIViewController   {
     var mode = ModeType.phone
     
     var poi:PointOfInterest?
-    private var contact: CNContact?
+    fileprivate var contact: CNContact?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,7 +51,7 @@ class ContactsViewController: UIViewController   {
     }
     
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
     }
 
@@ -60,19 +60,19 @@ class ContactsViewController: UIViewController   {
         // Dispose of any resources that can be recreated.
     }
 
-    @IBAction func closeButtonPushed(sender: AnyObject) {
-        dismissViewControllerAnimated(true, completion: nil)
+    @IBAction func closeButtonPushed(_ sender: AnyObject) {
+        dismiss(animated: true, completion: nil)
         delegate.endContacts()
     }
     
-    @IBAction func faceTimeButtonPushed(sender: UIButton) {
+    @IBAction func faceTimeButtonPushed(_ sender: UIButton) {
         let currentLabeledValue = contact!.phoneNumbers[sender.tag]
         
         if let phoneNumber = (currentLabeledValue.value as? CNPhoneNumber)?.stringValue {
-            if let facetimeURL = NSURL(string: "facetime://\(phoneNumber)") {
-                if UIApplication.sharedApplication().canOpenURL(facetimeURL) {
-                    UIApplication.sharedApplication().openURL(facetimeURL)
-                    dismissViewControllerAnimated(true, completion: nil)
+            if let facetimeURL = URL(string: "facetime://\(phoneNumber)") {
+                if UIApplication.shared.canOpenURL(facetimeURL) {
+                    UIApplication.shared.openURL(facetimeURL)
+                    dismiss(animated: true, completion: nil)
                     delegate.endContacts()
                 }
             }
@@ -80,7 +80,7 @@ class ContactsViewController: UIViewController   {
     }
     
     //MARK: Utils
-    private static func CNlabelTranslation(label:String) -> String {
+    fileprivate static func CNlabelTranslation(_ label:String) -> String {
         switch label {
         case CNLabelPhoneNumberMain:
             return NSLocalizedString("PhoneLabelMain", comment: "")
@@ -109,15 +109,15 @@ class ContactsViewController: UIViewController   {
 extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
     // MARK: - Table view data source
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return poi?.poiDisplayName
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if let theContact = contact {
             switch mode {
             case .phone:
@@ -134,12 +134,12 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
         static let contactCellId = "contactCellId"
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(storyboard.contactCellId, forIndexPath: indexPath) as! ContactTableViewCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: storyboard.contactCellId, for: indexPath) as! ContactTableViewCell
         
         switch mode {
         case .phone:
-            let currentLabeledValue = contact!.phoneNumbers[indexPath.row]
+            let currentLabeledValue = contact!.phoneNumbers[(indexPath as NSIndexPath).row]
             
             let phoneNumber = currentLabeledValue.value as? CNPhoneNumber
             
@@ -147,19 +147,19 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
             cell.phoneNumber?.text = phoneNumber!.stringValue
             
             if currentLabeledValue.label == CNLabelPhoneNumberiPhone {
-                cell.faceTimeButton.hidden = false
-                cell.faceTimeButton.tag = indexPath.row
+                cell.faceTimeButton.isHidden = false
+                cell.faceTimeButton.tag = (indexPath as NSIndexPath).row
             } else {
-                cell.faceTimeButton.hidden = true
+                cell.faceTimeButton.isHidden = true
             }
             
         case .email:
-            let currentLabeledValue = contact!.emailAddresses[indexPath.row]
+            let currentLabeledValue = contact!.emailAddresses[(indexPath as NSIndexPath).row]
             let email = currentLabeledValue.value as? String
             
             cell.phoneLabel?.text = ContactsViewController.CNlabelTranslation(currentLabeledValue.label ?? "")
             cell.phoneNumber?.text = email
-            cell.faceTimeButton.hidden = true
+            cell.faceTimeButton.isHidden = true
             break
         }
         
@@ -167,23 +167,23 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch mode {
         case .phone:
-            let currentLabeledValue = contact!.phoneNumbers[indexPath.row]
+            let currentLabeledValue = contact!.phoneNumbers[(indexPath as NSIndexPath).row]
             let phoneNumber = currentLabeledValue.value as? CNPhoneNumber
             Utilities.startPhoneCall(phoneNumber!.stringValue)
-            dismissViewControllerAnimated(true, completion: nil)
+            dismiss(animated: true, completion: nil)
             delegate.endContacts()
 
         case .email:
             if MFMailComposeViewController.canSendMail() {
-                let currentLabeledValue = contact!.emailAddresses[indexPath.row]
+                let currentLabeledValue = contact!.emailAddresses[(indexPath as NSIndexPath).row]
                 if let email = currentLabeledValue.value as? String {
                     let mailComposer = MFMailComposeViewController()
                     mailComposer.setToRecipients([email])
                     mailComposer.mailComposeDelegate = self
-                    presentViewController(mailComposer, animated: true, completion: nil)
+                    present(mailComposer, animated: true, completion: nil)
                 }
             }
             break
@@ -193,9 +193,9 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
 }
 
 extension ContactsViewController: MFMailComposeViewControllerDelegate {
-    func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
-        controller.dismissViewControllerAnimated(true) {
-            self.dismissViewControllerAnimated(true, completion: nil)
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        controller.dismiss(animated: true) {
+            self.dismiss(animated: true, completion: nil)
             self.delegate.endContacts()
         }
     }

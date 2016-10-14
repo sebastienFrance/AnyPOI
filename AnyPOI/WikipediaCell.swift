@@ -17,7 +17,7 @@ class WikipediaCell: UITableViewCell {
     @IBOutlet weak var extract: UILabel!
     
     
-    func initWith(wikipedia:Wikipedia, poi:PointOfInterest, index:Int) {
+    func initWith(_ wikipedia:Wikipedia, poi:PointOfInterest, index:Int) {
         title.text = wikipedia.title
         distance.text = "\(round(wikipedia.distance)) m"
         goToWikipedia.tag = index
@@ -25,7 +25,7 @@ class WikipediaCell: UITableViewCell {
         let poiOfWiki = POIDataManager.sharedInstance.findPOIWith(wikipedia)
         let isWikipediaPOI = poiOfWiki === poi ? true : false
         
-        title.textColor = isWikipediaPOI ? UIColor.greenColor() : UIColor.blackColor()
+        title.textColor = isWikipediaPOI ? UIColor.green : UIColor.black
         extract.text = wikipedia.extract
     }
     

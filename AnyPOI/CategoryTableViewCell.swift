@@ -13,13 +13,13 @@ class CategoryTableViewCell: UITableViewCell {
     @IBOutlet weak var categoryLabel: UILabel!
     @IBOutlet weak var categoryImageStackView: UIStackView!
     
-    func initWithCategory(newCategory:Int) {
+    func initWithCategory(_ newCategory:Int) {
         if CategoryUtils.isEmptyCategory(newCategory) {
             categoryLabel?.text = NSLocalizedString("NoCategoryCategoryTableViewCell", comment: "")
-            categoryImageStackView.hidden = true
+            categoryImageStackView.isHidden = true
         } else {
             categoryLabel?.text = "\(CategoryUtils.getLabelCategoryForIndex(newCategory))"
-            categoryImageStackView.hidden = false
+            categoryImageStackView.isHidden = false
             categoryImage.image = CategoryUtils.getIconCategoryForIndex(newCategory)
             
         }

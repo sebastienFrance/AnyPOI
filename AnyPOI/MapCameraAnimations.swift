@@ -17,7 +17,7 @@ protocol MapCameraAnimationsDelegate: class {
 
 class MapCameraAnimations  {
     
-    private struct MapConstantes {
+    fileprivate struct MapConstantes {
         static let defaultCoordinateSpan = MKCoordinateSpanMake(0.01, 0.01)
         static let maxDistanceWithAnimations = 3000.0
         static let defaultCameraDistanceFrom = 250.0
@@ -30,7 +30,7 @@ class MapCameraAnimations  {
         var camera:MKMapCamera!
         var annotation:MKAnnotation?
         var coordinate:CLLocationCoordinate2D!
-        var route:MKRoute?
+        var route:MKRoute? // Could be replace by only the Polyline it contains
         
         // When set to true, it selects the annotation related to the waypoint.
         var isSelectedAnnotation = false
@@ -72,7 +72,7 @@ class MapCameraAnimations  {
   
     var theCameraPath = [CameraPath]()
     var isFlyoverAnimationRunning = false
-    private var userRequestedToStopFlyoverAnimation = false
+    fileprivate var userRequestedToStopFlyoverAnimation = false
     
     struct DefaultFor360Degree {
         static let fromDistance = 500.0
@@ -91,7 +91,7 @@ class MapCameraAnimations  {
     // Trigger a Flyover over all wayPoints.
     // When all wayPoints have been visited or if the user has interrupted the animation then
     // the mapAnimationCompleted() from MapCameraAnimationDelegate is called
-    func flyover(wayPoints:[WayPoint]) {
+    func flyover(_ wayPoints:[WayPoint]) {
         reset()
         var previousWayPoint:WayPoint?
         for currentWayPoint in wayPoints {
@@ -118,7 +118,7 @@ class MapCameraAnimations  {
         executeCameraPathFromIndex()
     }
     
-    func flyoverFromAnnotation(annotation:MKAnnotation, waypoint:WayPoint, onRoute:MKRoute? = nil) {
+    func flyoverFromAnnotation(_ annotation:MKAnnotation, waypoint:WayPoint, onRoute:MKRoute? = nil) {
         reset()
         let duration = addStartingJunctionFrom(annotation)
         add360RotationAround(annotation, fromDistance:  DefaultFor360Degree.fromDistance, pitch: DefaultFor360Degree.pitch, startDuration: duration, route:onRoute)
@@ -128,7 +128,7 @@ class MapCameraAnimations  {
         executeCameraPathFromIndex()
    }
     
-    func flyoverAroundAnnotation(annotation:MKAnnotation) {
+    func flyoverAroundAnnotation(_ annotation:MKAnnotation) {
         reset()
         let duration = addStartingJunctionFrom(annotation)
         add360RotationAround(annotation, fromDistance:  DefaultFor360Degree.fromDistance, pitch: DefaultFor360Degree.pitch, startDuration: duration)
@@ -136,14 +136,14 @@ class MapCameraAnimations  {
         executeCameraPathFromIndex()
     }
     
-    func fromCurrentMapLocationTo(coordinates:CLLocationCoordinate2D) {
+    func fromCurrentMapLocationTo(_ coordinates:CLLocationCoordinate2D) {
         fromCurrentMapLocationTo(coordinates, withAnimation: true)
     }
     
-    func fromCurrentMapLocationTo(coordinates:CLLocationCoordinate2D, withAnimation:Bool) {
+    func fromCurrentMapLocationTo(_ coordinates:CLLocationCoordinate2D, withAnimation:Bool) {
         switch theMapView.mapType {
-        case .HybridFlyover, .SatelliteFlyover:
-            let finalCamera = MKMapCamera.init(lookingAtCenterCoordinate: coordinates, fromDistance: MapConstantes.defaultCameraDistanceFrom, pitch: MapConstantes.defaultCameraPitchForFlyover, heading: MapConstantes.defaultCameraHeading)
+        case .hybridFlyover, .satelliteFlyover:
+            let finalCamera = MKMapCamera.init(lookingAtCenter: coordinates, fromDistance: MapConstantes.defaultCameraDistanceFrom, pitch: MapConstantes.defaultCameraPitchForFlyover, heading: MapConstantes.defaultCameraHeading)
             
             if withAnimation {
                 flyoverFromCurrentLocationTo(finalCamera)
@@ -155,7 +155,7 @@ class MapCameraAnimations  {
         }
     }
     
-    private func setRegionToLocation(coordinates:CLLocationCoordinate2D, withAnimation:Bool) {
+    fileprivate func setRegionToLocation(_ coordinates:CLLocationCoordinate2D, withAnimation:Bool) {
         let region = MKCoordinateRegion(center: coordinates, span: MapConstantes.defaultCoordinateSpan)
         
         var regionAnimation = false
@@ -167,7 +167,7 @@ class MapCameraAnimations  {
     }
 
     
-    private func flyoverFromCurrentLocationTo(camera:MKMapCamera) {
+    fileprivate func flyoverFromCurrentLocationTo(_ camera:MKMapCamera) {
         reset()
         
         let fromCoordinate = theMapView.centerCoordinate
@@ -175,7 +175,7 @@ class MapCameraAnimations  {
         
         let fromLocation = CLLocation(latitude: fromCoordinate.latitude, longitude: fromCoordinate.longitude)
         let toLocation = CLLocation(latitude: toCoordinate.latitude, longitude: toCoordinate.longitude)
-        let distanceFromTo = fromLocation.distanceFromLocation(toLocation)
+        let distanceFromTo = fromLocation.distance(from: toLocation)
         
         if distanceFromTo > 3000 {
             theMapView.centerCoordinate = camera.centerCoordinate
@@ -191,7 +191,7 @@ class MapCameraAnimations  {
                 fromDistance = theMapView.camera.altitude
             }
             
-            let newCameraPath = CameraPath(camera:MKMapCamera(lookingAtCenterCoordinate: toCoordinate, fromDistance: fromDistance, pitch: 0, heading: 0), fromCoordinate:fromCoordinate, animationDuration:2.5)
+            let newCameraPath = CameraPath(camera:MKMapCamera(lookingAtCenter: toCoordinate, fromDistance: fromDistance, pitch: 0, heading: 0), fromCoordinate:fromCoordinate, animationDuration:2.5)
             theCameraPath.append(newCameraPath)
             
             let targetCamera = CameraPath(camera: camera, fromCoordinate: camera.centerCoordinate, animationDuration: 2.5)
@@ -213,12 +213,12 @@ class MapCameraAnimations  {
     }
     
     // Reset the content of a MapCameraAnimation
-    private func reset() {
+    fileprivate func reset() {
         theCameraPath = [CameraPath]()
     }
     
     // Get duration and FromDistance to be used based on the distance between two WayPoints
-    private static func getFromDistanceAndDuration(distanceFromTo:CLLocationDistance) -> (startDuration:Double, fromDistance:CLLocationDistance) {
+    fileprivate static func getFromDistanceAndDuration(_ distanceFromTo:CLLocationDistance) -> (startDuration:Double, fromDistance:CLLocationDistance) {
         var startDuration = 1.0
         var fromDistance = 3000.0
         
@@ -248,10 +248,10 @@ class MapCameraAnimations  {
     // Each step of the animation will take 2 seconds
     // At the start of the animation we update the overlays to display the route starting at this WayPoint and the callout of its annotation is displayed
     // For all other animations the callout is not displayed
-    private func add360RotationAround(annotation:MKAnnotation, fromDistance: CLLocationDistance, pitch: CGFloat, startDuration:Double, route:MKRoute? = nil) {
+    fileprivate func add360RotationAround(_ annotation:MKAnnotation, fromDistance: CLLocationDistance, pitch: CGFloat, startDuration:Double, route:MKRoute? = nil) {
         let theCoordinate = annotation.coordinate
         
-        var newCameraPath = CameraPath(camera:MKMapCamera(lookingAtCenterCoordinate: theCoordinate, fromDistance: fromDistance, pitch: pitch, heading: 0), annotation:annotation, animationDuration:startDuration)
+        var newCameraPath = CameraPath(camera:MKMapCamera(lookingAtCenter: theCoordinate, fromDistance: fromDistance, pitch: pitch, heading: 0), annotation:annotation, animationDuration:startDuration)
         newCameraPath.isSelectedAnnotation = true
         newCameraPath.animationDelay = 2
         if let theRoute = route {
@@ -262,11 +262,11 @@ class MapCameraAnimations  {
         }
         theCameraPath.append(newCameraPath)
         
-        newCameraPath = CameraPath(camera: MKMapCamera(lookingAtCenterCoordinate: theCoordinate, fromDistance: fromDistance, pitch: pitch, heading: 135), annotation:annotation, animationDuration: 2.5)
+        newCameraPath = CameraPath(camera: MKMapCamera(lookingAtCenter: theCoordinate, fromDistance: fromDistance, pitch: pitch, heading: 135), annotation:annotation, animationDuration: 2.5)
         theCameraPath.append(newCameraPath)
-        newCameraPath = CameraPath(camera: MKMapCamera(lookingAtCenterCoordinate: theCoordinate, fromDistance: fromDistance, pitch: pitch, heading: 270), annotation:annotation, animationDuration: 2.5)
+        newCameraPath = CameraPath(camera: MKMapCamera(lookingAtCenter: theCoordinate, fromDistance: fromDistance, pitch: pitch, heading: 270), annotation:annotation, animationDuration: 2.5)
         theCameraPath.append(newCameraPath)
-        newCameraPath = CameraPath(camera: MKMapCamera(lookingAtCenterCoordinate: theCoordinate, fromDistance: fromDistance, pitch: pitch, heading: 360), annotation:annotation, animationDuration: 2.5)
+        newCameraPath = CameraPath(camera: MKMapCamera(lookingAtCenter: theCoordinate, fromDistance: fromDistance, pitch: pitch, heading: 360), annotation:annotation, animationDuration: 2.5)
         newCameraPath.animationDelay = 2
         theCameraPath.append(newCameraPath)
     }
@@ -274,23 +274,23 @@ class MapCameraAnimations  {
     
     // Add the MKMapCamera needed to perform the junction between the 2 given annotations
     // The MKMapCamera added will depend on the distance between these 2 wayPoints
-    private func addJunctionFrom(annotation: MKAnnotation, toWayPoint:WayPoint) -> Double {
+    fileprivate func addJunctionFrom(_ annotation: MKAnnotation, toWayPoint:WayPoint) -> Double {
         let fromCoordinate = annotation.coordinate
         let toCoordinate = toWayPoint.wayPointPoi!.coordinate
         
         let fromLocation = CLLocation(latitude: fromCoordinate.latitude, longitude: fromCoordinate.longitude)
         let toLocation = CLLocation(latitude: toCoordinate.latitude, longitude: toCoordinate.longitude)
-        let distanceFromTo = fromLocation.distanceFromLocation(toLocation)
+        let distanceFromTo = fromLocation.distance(from: toLocation)
         
         let (startDuration, fromDistance) = MapCameraAnimations.getFromDistanceAndDuration(distanceFromTo)
         
         if distanceFromTo <= 10000 {
-            let newCameraPath = CameraPath(camera:MKMapCamera(lookingAtCenterCoordinate: toCoordinate, fromDistance: fromDistance, pitch: 0, heading: 0), wayPoint:toWayPoint, animationDuration:5)
+            let newCameraPath = CameraPath(camera:MKMapCamera(lookingAtCenter: toCoordinate, fromDistance: fromDistance, pitch: 0, heading: 0), wayPoint:toWayPoint, animationDuration:5)
             theCameraPath.append(newCameraPath)
         } else {
-            var newCameraPath = CameraPath(camera:MKMapCamera(lookingAtCenterCoordinate: fromCoordinate, fromDistance: fromDistance, pitch: 0, heading: 0), annotation:annotation, animationDuration:5)
+            var newCameraPath = CameraPath(camera:MKMapCamera(lookingAtCenter: fromCoordinate, fromDistance: fromDistance, pitch: 0, heading: 0), annotation:annotation, animationDuration:5)
             theCameraPath.append(newCameraPath)
-            newCameraPath = CameraPath(camera:MKMapCamera(lookingAtCenterCoordinate: toCoordinate, fromDistance: fromDistance, pitch: 0, heading: 0), wayPoint:toWayPoint, animationDuration:5)
+            newCameraPath = CameraPath(camera:MKMapCamera(lookingAtCenter: toCoordinate, fromDistance: fromDistance, pitch: 0, heading: 0), wayPoint:toWayPoint, animationDuration:5)
             theCameraPath.append(newCameraPath)
             
         }
@@ -300,13 +300,13 @@ class MapCameraAnimations  {
     
     // Add the MKMapCamera needed to perform the junction from the current MapView coordinates and the given annotation
     // The MKMapCamera added will depend on the distance between the MapView and the WayPoint
-    private func addStartingJunctionFrom(annotation:MKAnnotation) -> Double {
+    fileprivate func addStartingJunctionFrom(_ annotation:MKAnnotation) -> Double {
         let fromCoordinate = theMapView.centerCoordinate
         let toCoordinate = annotation.coordinate
         
         let fromLocation = CLLocation(latitude: fromCoordinate.latitude, longitude: fromCoordinate.longitude)
         let toLocation = CLLocation(latitude: toCoordinate.latitude, longitude: toCoordinate.longitude)
-        let distanceFromTo = fromLocation.distanceFromLocation(toLocation)
+        let distanceFromTo = fromLocation.distance(from: toLocation)
         
         var (startDuration, fromDistance) = MapCameraAnimations.getFromDistanceAndDuration(distanceFromTo)
         
@@ -316,7 +316,7 @@ class MapCameraAnimations  {
             fromDistance = theMapView.camera.altitude
         }
         
-        let newCameraPath = CameraPath(camera:MKMapCamera(lookingAtCenterCoordinate: toCoordinate, fromDistance: fromDistance, pitch: 0, heading: 0), annotation:annotation, animationDuration:startDuration)
+        let newCameraPath = CameraPath(camera:MKMapCamera(lookingAtCenter: toCoordinate, fromDistance: fromDistance, pitch: 0, heading: 0), annotation:annotation, animationDuration:startDuration)
         theCameraPath.append(newCameraPath)
         
         return startDuration
@@ -328,11 +328,11 @@ class MapCameraAnimations  {
     // It Performs the animation of MkMapCamera starting with the given index
     // The animation stops only when all animations have beend done or when the user
     // has interrupted it
-    private func executeCameraPathFromIndex(index:Int = 0) {
+    fileprivate func executeCameraPathFromIndex(_ index:Int = 0) {
         
         isFlyoverAnimationRunning = true
         
-        UIView.animateWithDuration(theCameraPath[index].animationDuration, delay:theCameraPath[index].animationDelay, options:[.AllowUserInteraction] , animations: {
+        UIView.animate(withDuration: theCameraPath[index].animationDuration, delay:theCameraPath[index].animationDelay, options:[.allowUserInteraction] , animations: {
             self.theMapView.camera = self.theCameraPath[index].camera
             if self.theCameraPath[index].isSelectedAnnotation {
                 if let poi = self.theCameraPath[index].annotation {
@@ -359,7 +359,7 @@ class MapCameraAnimations  {
                     if self.theCameraPath[index].updateOverlays {
                         self.theMapView.removeOverlays(self.theMapView.overlays) // Warning: SEB monitoring should not be removed???
                         if let route = self.theCameraPath[index].route {
-                            self.theMapView.addOverlay(route.polyline, level: .AboveRoads)
+                            self.theMapView.add(route.polyline, level: .aboveRoads)
                         }
                     }
                     
@@ -367,7 +367,7 @@ class MapCameraAnimations  {
                     let newIndex = index + 1
 
                     // Wait 1s before to continue the next animation
-                    dispatch_after(dispatch_time( DISPATCH_TIME_NOW, ((Int64)(1.0) * (Int64)(NSEC_PER_SEC))), dispatch_get_main_queue()) {
+                    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(((Int64)(1.0) * (Int64)(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)) {
                         self.executeCameraPathFromIndex(newIndex)
                     }
                 }

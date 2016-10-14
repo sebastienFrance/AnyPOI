@@ -12,29 +12,29 @@ import MapKit
 @objc
 protocol PoiCalloutDelegate: class {
     
-    func zoomOnPoi(sender: UIButton)
-    func showURL(sender: UIButton)
-    func startPhoneCall(sender:UIButton)
-    func startEmail(sender:UIButton)
-    func startRoute(sender:UIButton)
+    func zoomOnPoi(_ sender: UIButton)
+    func showURL(_ sender: UIButton)
+    func startPhoneCall(_ sender:UIButton)
+    func startEmail(_ sender:UIButton)
+    func startRoute(_ sender:UIButton)
     
-    func trashWayPoint(sender:UIButton)
-    func addWayPoint(sender:UIButton)
-    func showRouteFromCurrentLocation(sender:UIButton)
+    func trashWayPoint(_ sender:UIButton)
+    func addWayPoint(_ sender:UIButton)
+    func showRouteFromCurrentLocation(_ sender:UIButton)
 }
 
 
 class MapUtils {
     
     struct MapColors {
-        static let pinColorForRouteStart = UIColor.greenColor()
-        static let pinColorForRouteEnd = UIColor.redColor()
+        static let pinColorForRouteStart = UIColor.green
+        static let pinColorForRouteEnd = UIColor.red
         
-        static let routeColorForCar = UIColor.blueColor()
-        static let routeColorForWalking = UIColor.purpleColor()
-        static let routeColorForTransit = UIColor.yellowColor()
-        static let routeColorForCurrentPosition = UIColor.greenColor()
-        static let routeColorForUnknown = UIColor.blackColor()
+        static let routeColorForCar = UIColor.blue
+        static let routeColorForWalking = UIColor.purple
+        static let routeColorForTransit = UIColor.yellow
+        static let routeColorForCurrentPosition = UIColor.green
+        static let routeColorForUnknown = UIColor.black
 
 }
     
@@ -43,7 +43,7 @@ class MapUtils {
     }
 
     
-    static func getNameFromPlacemark(newPlacemark:CLPlacemark) -> String? {
+    static func getNameFromPlacemark(_ newPlacemark:CLPlacemark) -> String? {
         if let newLocality = newPlacemark.locality {
             if let name = newPlacemark.name {
                 return "\(newLocality), \(name)"
@@ -60,13 +60,13 @@ class MapUtils {
 
     }
     
-    static func transportTypeToSegmentIndex(transportType:MKDirectionsTransportType) -> Int {
+    static func transportTypeToSegmentIndex(_ transportType:MKDirectionsTransportType) -> Int {
         switch transportType {
-        case MKDirectionsTransportType.Automobile:
+        case MKDirectionsTransportType.automobile:
             return 0
-        case MKDirectionsTransportType.Walking:
+        case MKDirectionsTransportType.walking:
             return 1
-        case MKDirectionsTransportType.Any:
+        case MKDirectionsTransportType.any:
             return 2
         default:
             return 0
@@ -74,44 +74,44 @@ class MapUtils {
         
     }
     
-    static func segmentIndexToTransportType(segmentedControl:UISegmentedControl) -> MKDirectionsTransportType {
+    static func segmentIndexToTransportType(_ segmentedControl:UISegmentedControl) -> MKDirectionsTransportType {
         switch segmentedControl.selectedSegmentIndex {
         case 0:
-            return MKDirectionsTransportType.Automobile
+            return MKDirectionsTransportType.automobile
         case 1:
-            return MKDirectionsTransportType.Walking
+            return MKDirectionsTransportType.walking
         case 2:
-            return MKDirectionsTransportType.Transit
+            return MKDirectionsTransportType.transit
         case 3:
-            return MKDirectionsTransportType.Any
+            return MKDirectionsTransportType.any
         default:
-            return MKDirectionsTransportType.Automobile
+            return MKDirectionsTransportType.automobile
         }
         
     }
 
-    static func transportTypeDisplayName(transportType:MKDirectionsTransportType) -> String {
+    static func transportTypeDisplayName(_ transportType:MKDirectionsTransportType) -> String {
         switch transportType {
-        case MKDirectionsTransportType.Automobile:
+        case MKDirectionsTransportType.automobile:
             return "Automobile"
-        case MKDirectionsTransportType.Walking:
+        case MKDirectionsTransportType.walking:
             return "Walking"
-        case MKDirectionsTransportType.Transit:
+        case MKDirectionsTransportType.transit:
             return "Transit"
         default:
             return "Unknown"
         }
     }
     
-    static func convertToLaunchOptionsDirection(transportType:MKDirectionsTransportType) -> String {
+    static func convertToLaunchOptionsDirection(_ transportType:MKDirectionsTransportType) -> String {
         switch transportType {
-        case MKDirectionsTransportType.Automobile:
+        case MKDirectionsTransportType.automobile:
             return MKLaunchOptionsDirectionsModeDriving
-        case MKDirectionsTransportType.Walking:
+        case MKDirectionsTransportType.walking:
             return MKLaunchOptionsDirectionsModeWalking
-        case MKDirectionsTransportType.Transit:
+        case MKDirectionsTransportType.transit:
             return MKLaunchOptionsDirectionsModeTransit
-        case MKDirectionsTransportType.Any:
+        case MKDirectionsTransportType.any:
             return MKLaunchOptionsDirectionsModeDriving
         default:
             return MKLaunchOptionsDirectionsModeDriving
@@ -119,7 +119,7 @@ class MapUtils {
     }
 
     //MARK: Bounding box
-    static func boundingBoxForAnnotations(annotations:[MKAnnotation]) -> MKCoordinateRegion {
+    static func boundingBoxForAnnotations(_ annotations:[MKAnnotation]) -> MKCoordinateRegion {
         if annotations.count == 0 {
             return MKCoordinateRegionMake(CLLocationCoordinate2DMake(0,0), MKCoordinateSpanMake(90, 180))
         } else {
@@ -144,7 +144,7 @@ class MapUtils {
         }
     }
 
-    static func appendMargingToBoundBox(topLeftCoord: CLLocationCoordinate2D, bottomRightCoord:CLLocationCoordinate2D) -> MKCoordinateRegion {
+    static func appendMargingToBoundBox(_ topLeftCoord: CLLocationCoordinate2D, bottomRightCoord:CLLocationCoordinate2D) -> MKCoordinateRegion {
         let center = CLLocationCoordinate2DMake(topLeftCoord.latitude - (topLeftCoord.latitude - bottomRightCoord.latitude) * 0.5,
             topLeftCoord.longitude + (bottomRightCoord.longitude - topLeftCoord.longitude) * 0.5)
 
@@ -155,7 +155,7 @@ class MapUtils {
     }
 
     // Not used
-    static func boundingBoxForAnnotationsNew(annotations:[MKAnnotation]) -> (topLeftCoord: CLLocationCoordinate2D, bottomRightCoord:CLLocationCoordinate2D) {
+    static func boundingBoxForAnnotationsNew(_ annotations:[MKAnnotation]) -> (topLeftCoord: CLLocationCoordinate2D, bottomRightCoord:CLLocationCoordinate2D) {
         var topLeftCoord = CLLocationCoordinate2DMake(-90, 180)
         var bottomRightCoord = CLLocationCoordinate2DMake(90, -180)
 
@@ -169,7 +169,7 @@ class MapUtils {
     }
     
     // Extend a bounding box with a list of annotations
-    static func extendBoundingBox(topLeftCoord: CLLocationCoordinate2D, bottomRightCoord:CLLocationCoordinate2D, annotations:[MKAnnotation]) -> (topLeftCoord: CLLocationCoordinate2D, bottomRightCoord:CLLocationCoordinate2D) {
+    static func extendBoundingBox(_ topLeftCoord: CLLocationCoordinate2D, bottomRightCoord:CLLocationCoordinate2D, annotations:[MKAnnotation]) -> (topLeftCoord: CLLocationCoordinate2D, bottomRightCoord:CLLocationCoordinate2D) {
         
         var newTopLeftCoord = topLeftCoord
         var newBottomRightCoord = bottomRightCoord
@@ -182,12 +182,12 @@ class MapUtils {
     }
     
     // Extend a bouding box to include an annotation
-    static func extendBoundingBox(topLeftCoord: CLLocationCoordinate2D, bottomRightCoord:CLLocationCoordinate2D, annotation:MKAnnotation) -> (topLeftCoord: CLLocationCoordinate2D, bottomRightCoord:CLLocationCoordinate2D) {
+    static func extendBoundingBox(_ topLeftCoord: CLLocationCoordinate2D, bottomRightCoord:CLLocationCoordinate2D, annotation:MKAnnotation) -> (topLeftCoord: CLLocationCoordinate2D, bottomRightCoord:CLLocationCoordinate2D) {
         return extendBoundingBox(topLeftCoord, bottomRightCoord: bottomRightCoord, newPoint: annotation.coordinate)
     }
 
     // Extend a bounding box with an additional point
-    static func extendBoundingBox(topLeftCoord: CLLocationCoordinate2D, bottomRightCoord:CLLocationCoordinate2D, newPoint:CLLocationCoordinate2D) -> (topLeftCoord: CLLocationCoordinate2D, bottomRightCoord:CLLocationCoordinate2D) {
+    static func extendBoundingBox(_ topLeftCoord: CLLocationCoordinate2D, bottomRightCoord:CLLocationCoordinate2D, newPoint:CLLocationCoordinate2D) -> (topLeftCoord: CLLocationCoordinate2D, bottomRightCoord:CLLocationCoordinate2D) {
 
         var newTopLeftCoord = topLeftCoord
         newTopLeftCoord.longitude = fmin(topLeftCoord.longitude, newPoint.longitude)
@@ -200,12 +200,13 @@ class MapUtils {
         return (newTopLeftCoord, newBottomRightCoord)
     }
     
-    static func extendBoundingBox(topLeftCoord: CLLocationCoordinate2D, bottomRightCoord:CLLocationCoordinate2D, multiPointOverlay:MKMultiPoint) -> (topLeftCoord: CLLocationCoordinate2D, bottomRightCoord:CLLocationCoordinate2D) {
+    static func extendBoundingBox(_ topLeftCoord: CLLocationCoordinate2D, bottomRightCoord:CLLocationCoordinate2D, multiPointOverlay:MKMultiPoint) -> (topLeftCoord: CLLocationCoordinate2D, bottomRightCoord:CLLocationCoordinate2D) {
         
         var newTopLeftCoord = topLeftCoord
         var newBottomRightCoord = bottomRightCoord
-        
-        let coordinates = UnsafeMutablePointer<CLLocationCoordinate2D>.alloc(multiPointOverlay.pointCount)
+        // SEB: Swift3 to be checked
+        let coordinates = UnsafeMutablePointer<CLLocationCoordinate2D>.allocate(capacity: multiPointOverlay.pointCount)
+//        let coordinates = UnsafeMutablePointer<CLLocationCoordinate2D>(allocatingCapacity: multiPointOverlay.pointCount)
         multiPointOverlay.getCoordinates(coordinates, range: NSMakeRange(0, multiPointOverlay.pointCount))
         
         for index in 0..<multiPointOverlay.pointCount {
@@ -213,12 +214,12 @@ class MapUtils {
             (newTopLeftCoord, newBottomRightCoord) = extendBoundingBox(newTopLeftCoord, bottomRightCoord: newBottomRightCoord, newPoint: currentCoordinate)
         }
         
-        coordinates.dealloc(multiPointOverlay.pointCount)
+        coordinates.deallocate(capacity: multiPointOverlay.pointCount)
         return (newTopLeftCoord, bottomRightCoord)
     }
 
     // Compute the bounding box for a list of MKMultiPoint overlay
-    static func boundingBoxForOverlays(multiPointOverlays:[MKMultiPoint]) -> (topLeftCoord: CLLocationCoordinate2D, bottomRightCoord:CLLocationCoordinate2D) {
+    static func boundingBoxForOverlays(_ multiPointOverlays:[MKMultiPoint]) -> (topLeftCoord: CLLocationCoordinate2D, bottomRightCoord:CLLocationCoordinate2D) {
 
         var topLeftCoord = CLLocationCoordinate2DMake(-90, 180)
         var bottomRightCoord = CLLocationCoordinate2DMake(90, -180)
@@ -241,8 +242,10 @@ class MapUtils {
     }
 
     // Compute the bounding box for an MKMultiPoint overlay
-    static func  boundingBoxForOverlay(multiPointOverlay:MKMultiPoint) -> (topLeftCoord: CLLocationCoordinate2D, bottomRightCoord:CLLocationCoordinate2D) {
-        let coordinates = UnsafeMutablePointer<CLLocationCoordinate2D>.alloc(multiPointOverlay.pointCount)
+    static func  boundingBoxForOverlay(_ multiPointOverlay:MKMultiPoint) -> (topLeftCoord: CLLocationCoordinate2D, bottomRightCoord:CLLocationCoordinate2D) {
+        // SEB: Swift3 to be checked
+        let coordinates = UnsafeMutablePointer<CLLocationCoordinate2D>.allocate(capacity: multiPointOverlay.pointCount)
+       // let coordinates = UnsafeMutablePointer<CLLocationCoordinate2D>(allocatingCapacity: multiPointOverlay.pointCount)
         multiPointOverlay.getCoordinates(coordinates, range: NSMakeRange(0, multiPointOverlay.pointCount))
 
         var topLeftCoord = CLLocationCoordinate2DMake(-90, 180)
@@ -257,28 +260,28 @@ class MapUtils {
             bottomRightCoord.latitude = fmin(bottomRightCoord.latitude, currentCoordinate.latitude)
         }
 
-        coordinates.dealloc(multiPointOverlay.pointCount)
+        coordinates.deallocate(capacity: multiPointOverlay.pointCount)
         return (topLeftCoord, bottomRightCoord)
     }
 
     // MARK: Pin customization
-    static func customizePinForTableView(thePinAnnotation: MKPinAnnotationView, poi:PointOfInterest) {
+    static func customizePinForTableView(_ thePinAnnotation: MKPinAnnotationView, poi:PointOfInterest) {
         thePinAnnotation.animatesDrop = false
         thePinAnnotation.canShowCallout = false
         thePinAnnotation.pinTintColor = poi.parentGroup?.color
     }
     
     
-    private struct NibIdentifier {
+    fileprivate struct NibIdentifier {
         static let calloutAccessoryView = "CallOutAccessoryView"
     }
     
-    static func refreshDetailCalloutAccessoryView(poi:PointOfInterest, annotationView:MKAnnotationView, delegate:PoiCalloutDelegate) {
+    static func refreshDetailCalloutAccessoryView(_ poi:PointOfInterest, annotationView:MKAnnotationView, delegate:PoiCalloutDelegate) {
         let view = annotationView.detailCalloutAccessoryView as! CustomCalloutAccessoryView
         view.initWith(poi, delegate: delegate)
     }
 
-    static func refreshPin(annotationView:WayPointPinAnnotationView, poi:PointOfInterest, delegate:PoiCalloutDelegate, type:PinAnnotationType, isFlyover:Bool = false) {
+    static func refreshPin(_ annotationView:WayPointPinAnnotationView, poi:PointOfInterest, delegate:PoiCalloutDelegate, type:PinAnnotationType, isFlyover:Bool = false) {
         annotationView.pinTintColor = getPinRouteColor(type, poi: poi)
         
         if isFlyover {
@@ -292,7 +295,7 @@ class MapUtils {
         case routeStart, routeEnd, waypoint, normal
     }
     
-    private static func getPinRouteColor(type:PinAnnotationType, poi:PointOfInterest) -> UIColor {
+    fileprivate static func getPinRouteColor(_ type:PinAnnotationType, poi:PointOfInterest) -> UIColor {
         switch type {
         case .routeStart:
             return MapColors.pinColorForRouteStart
@@ -306,7 +309,7 @@ class MapUtils {
 
     }
     
-    static func createPin(poi:PointOfInterest) -> WayPointPinAnnotationView {
+    static func createPin(_ poi:PointOfInterest) -> WayPointPinAnnotationView {
         let thePinAnnotation = WayPointPinAnnotationView(poi: poi)
         thePinAnnotation.animatesDrop = false
         thePinAnnotation.canShowCallout = true
@@ -322,7 +325,7 @@ class MapUtils {
         static let fromCurrentPosition = "CurrentPosition"
     }
     
-    static func customizePolyLine(overlay:MKPolyline) -> MKPolylineRenderer {
+    static func customizePolyLine(_ overlay:MKPolyline) -> MKPolylineRenderer {
         let renderer = MKPolylineRenderer(overlay: overlay)
         
         if let title = overlay.title {
@@ -343,17 +346,17 @@ class MapUtils {
         return renderer
     }
     
-    static func getRendererForMonitoringRegion(overlay:MKOverlay) -> MKOverlayRenderer {
+    static func getRendererForMonitoringRegion(_ overlay:MKOverlay) -> MKOverlayRenderer {
         let renderer = MKCircleRenderer(overlay: overlay)
-        renderer.strokeColor = UIColor.greenColor()
+        renderer.strokeColor = UIColor.green
         renderer.lineWidth = 1.0
-        renderer.fillColor = UIColor.greenColor().colorWithAlphaComponent(0.3)
+        renderer.fillColor = UIColor.green.withAlphaComponent(0.3)
         return renderer
     }
 
-    static func getSnapshot(view:UIView) -> UIImage {
+    static func getSnapshot(_ view:UIView) -> UIImage {
         UIGraphicsBeginImageContextWithOptions(view.bounds.size, false, (view.window?.screen.scale)!)
-        view.drawViewHierarchyInRect(view.frame, afterScreenUpdates: true)
+        view.drawHierarchy(in: view.frame, afterScreenUpdates: true)
         let snapshotImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
@@ -362,15 +365,15 @@ class MapUtils {
     
     // MARK: Utils
     
-    static func distanceFromTo(fromCoordinate:CLLocationCoordinate2D, toCoordinate:CLLocationCoordinate2D) -> CLLocationDistance {
+    static func distanceFromTo(_ fromCoordinate:CLLocationCoordinate2D, toCoordinate:CLLocationCoordinate2D) -> CLLocationDistance {
         let fromLocation = CLLocation(latitude: fromCoordinate.latitude, longitude: fromCoordinate.longitude)
         let toLocation = CLLocation(latitude: toCoordinate.latitude, longitude: toCoordinate.longitude)
-        let distanceFromTo = fromLocation.distanceFromLocation(toLocation)
+        let distanceFromTo = fromLocation.distance(from: toLocation)
         return distanceFromTo
     }
     
     // MARK: MapSnapshot utils
-    static func addCircleInMapSnapshot(centerCoordinate:CLLocationCoordinate2D, radius:Double, mapSnapshot:MKMapSnapshot) {
+    static func addCircleInMapSnapshot(_ centerCoordinate:CLLocationCoordinate2D, radius:Double, mapSnapshot:MKMapSnapshot) {
         // Append the monitoring region
         let background = CAShapeLayer()
         
@@ -382,38 +385,38 @@ class MapUtils {
         let maxLongitude = regionForMonitoring.center.longitude + regionForMonitoring.span.longitudeDelta
         let minLongitude = regionForMonitoring.center.longitude - regionForMonitoring.span.longitudeDelta
         
-        let minPoint = mapSnapshot.pointForCoordinate(CLLocationCoordinate2DMake(minLatitude, regionForMonitoring.center.longitude))
-        let maxPoint = mapSnapshot.pointForCoordinate(CLLocationCoordinate2DMake(maxLatitude, regionForMonitoring.center.longitude))
+        let minPoint = mapSnapshot.point(for: CLLocationCoordinate2DMake(minLatitude, regionForMonitoring.center.longitude))
+        let maxPoint = mapSnapshot.point(for: CLLocationCoordinate2DMake(maxLatitude, regionForMonitoring.center.longitude))
         let deltaLatPoint = abs(maxPoint.y - minPoint.y)
         
-        let minLongPoint = mapSnapshot.pointForCoordinate(CLLocationCoordinate2DMake(regionForMonitoring.center.latitude, minLongitude))
-        let maxLongPoint = mapSnapshot.pointForCoordinate(CLLocationCoordinate2DMake(regionForMonitoring.center.latitude, maxLongitude))
+        let minLongPoint = mapSnapshot.point(for: CLLocationCoordinate2DMake(regionForMonitoring.center.latitude, minLongitude))
+        let maxLongPoint = mapSnapshot.point(for: CLLocationCoordinate2DMake(regionForMonitoring.center.latitude, maxLongitude))
         let deltaLongPoint = abs(maxLongPoint.x - minLongPoint.x)
         
-        let rectMonitoringRegion = CGRectMake(mapSnapshot.pointForCoordinate(centerCoordinate).x - (deltaLatPoint/2),
-                                              mapSnapshot.pointForCoordinate(centerCoordinate).y - (deltaLongPoint/2),
-                                              deltaLatPoint, deltaLongPoint)
-        let path = UIBezierPath(ovalInRect: rectMonitoringRegion)
-        background.path = path.CGPath
-        background.fillColor = UIColor.greenColor().colorWithAlphaComponent(0.3).CGColor
-        background.strokeColor = UIColor.greenColor().CGColor
+        let rectMonitoringRegion = CGRect(x: mapSnapshot.point(for: centerCoordinate).x - (deltaLatPoint/2),
+                                              y: mapSnapshot.point(for: centerCoordinate).y - (deltaLongPoint/2),
+                                              width: deltaLatPoint, height: deltaLongPoint)
+        let path = UIBezierPath(ovalIn: rectMonitoringRegion)
+        background.path = path.cgPath
+        background.fillColor = UIColor.green.withAlphaComponent(0.3).cgColor
+        background.strokeColor = UIColor.green.cgColor
         background.lineWidth = 1
         background.setNeedsDisplay()
-        background.renderInContext(UIGraphicsGetCurrentContext()!)
+        background.render(in: UIGraphicsGetCurrentContext()!)
     }
     
-    static func addAnnotationInMapSnapshot(annotation:MKAnnotation, tintColor:UIColor, mapSnapshot:MKMapSnapshot) {
+    static func addAnnotationInMapSnapshot(_ annotation:MKAnnotation, tintColor:UIColor, mapSnapshot:MKMapSnapshot) {
         let pinAnnotation = MKPinAnnotationView(annotation: annotation, reuseIdentifier: "")
         pinAnnotation.pinTintColor = tintColor
         if let pinImage = pinAnnotation.image {
             // Convert the Geo Coordinates of the POI into point coordinate in the Map
-            var pinImagePoint = mapSnapshot.pointForCoordinate(annotation.coordinate)
+            var pinImagePoint = mapSnapshot.point(for: annotation.coordinate)
             
             // We want to have the bottom point of the Pin to show the POI position
             // then we need to substract the height of the Pin
             pinImagePoint.y = pinImagePoint.y - pinAnnotation.frame.size.height
             // Draw the Pin image in the graphic context
-            pinImage.drawAtPoint(pinImagePoint)
+            pinImage.draw(at: pinImagePoint)
             
 //            let rect = CGRectMake(
 //                mapSnapshot.pointForCoordinate(annotation.coordinate).x,

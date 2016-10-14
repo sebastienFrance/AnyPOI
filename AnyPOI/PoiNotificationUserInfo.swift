@@ -27,7 +27,7 @@ class PoiNotificationUserInfo {
     var insertedRoutes = [Route]()
 
     
-    init(userInfo: [NSObject : AnyObject]?) {
+    init(userInfo: [AnyHashable: Any]?) {
         if let theUserInfo = userInfo {
             processInsertedObjects(theUserInfo)
             processDeletedObjects(theUserInfo)
@@ -35,7 +35,7 @@ class PoiNotificationUserInfo {
         }
     }
     
-    func processInsertedObjects(userInfo:[NSObject : AnyObject]) {
+    func processInsertedObjects(_ userInfo:[AnyHashable: Any]) {
         if let insertedValues = userInfo[NSInsertedObjectsKey] as? NSSet  {
             for currentObject in insertedValues {
                 if currentObject is PointOfInterest {
@@ -52,7 +52,7 @@ class PoiNotificationUserInfo {
      
     }
     
-    func processDeletedObjects(userInfo:[NSObject : AnyObject]) {
+    func processDeletedObjects(_ userInfo:[AnyHashable: Any]) {
         if let insertedValues = userInfo[NSDeletedObjectsKey] as? NSSet  {
             for currentObject in insertedValues {
                 if currentObject is PointOfInterest {
@@ -68,7 +68,7 @@ class PoiNotificationUserInfo {
         }
     }
     
-    func processUpdatedObjects(userInfo:[NSObject : AnyObject]) {
+    func processUpdatedObjects(_ userInfo:[AnyHashable: Any]) {
         if let insertedValues = userInfo[NSUpdatedObjectsKey] as? NSSet  {
             for currentObject in insertedValues {
                 if currentObject is PointOfInterest {
@@ -84,7 +84,7 @@ class PoiNotificationUserInfo {
         }
     }
 
-    static func dumpUserInfo(title:String, userInfo: [NSObject : AnyObject]?) {
+    static func dumpUserInfo(_ title:String, userInfo: [AnyHashable: Any]?) {
         print("============> \(title)")
         if let theUserInfo = userInfo {
             if let insertedValues = theUserInfo[NSInsertedObjectsKey] as? NSSet  {
@@ -99,16 +99,16 @@ class PoiNotificationUserInfo {
         }
     }
     
-    private static func dumpObjects(objects: NSSet, title:String) {
+    fileprivate static func dumpObjects(_ objects: NSSet, title:String) {
         if objects.count > 0 {
             print("\(title) has count(\(objects.count)) objects")
             for currentObject in objects {
-                print("\(title): \(getObjectClass(currentObject))")
+                print("\(title): \(getObjectClass(currentObject as AnyObject))")
             }
         }
     }
     
-    private static func getObjectClass(theObject:AnyObject) -> String {
+    fileprivate static func getObjectClass(_ theObject:AnyObject) -> String {
         if theObject is PointOfInterest {
             return "PoinfOfInterest \((theObject as! PointOfInterest).poiDisplayName)"
         } else if theObject is WayPoint {

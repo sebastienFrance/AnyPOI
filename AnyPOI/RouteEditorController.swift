@@ -10,67 +10,67 @@ import Foundation
 import UIKit
 
 protocol RouteEditorDelegate {
-    func routeCreated(route:Route)
-    func routeUpdated(route:Route)
+    func routeCreated(_ route:Route)
+    func routeUpdated(_ route:Route)
     func routeEditorCancelled()
 }
 
 class RouteEditorController {
     
-    private var createRouteController:UIAlertController?
+    fileprivate var createRouteController:UIAlertController?
     
-    func modifyRoute(parentViewController:UIViewController, delegate:RouteEditorDelegate,route:Route) {
+    func modifyRoute(_ parentViewController:UIViewController, delegate:RouteEditorDelegate,route:Route) {
         
         let routeTitle = NSLocalizedString("UpdateRouteRouteEditorController", comment: "")
-        createRouteController = UIAlertController(title: routeTitle, message: NSLocalizedString("GetNewRouteNameRouteEditorController", comment: ""), preferredStyle: .Alert)
+        createRouteController = UIAlertController(title: routeTitle, message: NSLocalizedString("GetNewRouteNameRouteEditorController", comment: ""), preferredStyle: .alert)
         
-        createRouteController!.addTextFieldWithConfigurationHandler()  { textField in
+        createRouteController!.addTextField()  { textField in
             textField.placeholder = NSLocalizedString("RouteNameRouteEditorControllerPlaceholder", comment: "")
-            textField.secureTextEntry = false
-            textField.autocorrectionType = .Yes
-            textField.autocapitalizationType = .Sentences
-            textField.spellCheckingType = .Yes
-            textField.clearButtonMode = .Always
+            textField.isSecureTextEntry = false
+            textField.autocorrectionType = .yes
+            textField.autocapitalizationType = .sentences
+            textField.spellCheckingType = .yes
+            textField.clearButtonMode = .always
             textField.text = route.routeName!
             
-            textField.addTarget(self, action: #selector(RouteEditorController.checkRouteName(_:)), forControlEvents: .AllEditingEvents)
+            textField.addTarget(self, action: #selector(RouteEditorController.checkRouteName(_:)), for: .allEditingEvents)
         }
         
-        let okButton = UIAlertAction(title: NSLocalizedString("Save", comment: ""), style: .Default) { alertAction in
+        let okButton = UIAlertAction(title: NSLocalizedString("Save", comment: ""), style: .default) { alertAction in
             let routeName = self.createRouteController!.textFields?[0].text
             route.routeName = routeName
             POIDataManager.sharedInstance.commitDatabase()
             delegate.routeUpdated(route)
         }
         
-        let cancelButton = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .Default) { alertAction in
+        let cancelButton = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .default) { alertAction in
             delegate.routeEditorCancelled()
         }
         
-        okButton.enabled = false
+        okButton.isEnabled = false
         createRouteController!.addAction(okButton)
         createRouteController!.addAction(cancelButton)
-        parentViewController.presentViewController(createRouteController!, animated: true, completion: nil)
+        parentViewController.present(createRouteController!, animated: true, completion: nil)
     }
     
-    func createRouteWith(parentViewController:UIViewController, delegate:RouteEditorDelegate, routeName:String = "", pois:[PointOfInterest] = [PointOfInterest]()) {
+    func createRouteWith(_ parentViewController:UIViewController, delegate:RouteEditorDelegate, routeName:String = "", pois:[PointOfInterest] = [PointOfInterest]()) {
         
         let routeTitle = NSLocalizedString("CreateRouteRouteEditorController", comment: "")
-        createRouteController = UIAlertController(title: routeTitle, message: NSLocalizedString("GetNewRouteNameRouteEditorController", comment: ""), preferredStyle: .Alert)
+        createRouteController = UIAlertController(title: routeTitle, message: NSLocalizedString("GetNewRouteNameRouteEditorController", comment: ""), preferredStyle: .alert)
         
-        createRouteController!.addTextFieldWithConfigurationHandler()  { textField in
+        createRouteController!.addTextField()  { textField in
             textField.placeholder = NSLocalizedString("RouteNameRouteEditorControllerPlaceholder", comment: "")
-            textField.secureTextEntry = false
-            textField.autocorrectionType = .Yes
-            textField.autocapitalizationType = .Sentences
-            textField.spellCheckingType = .Yes
-            textField.clearButtonMode = .Always
+            textField.isSecureTextEntry = false
+            textField.autocorrectionType = .yes
+            textField.autocapitalizationType = .sentences
+            textField.spellCheckingType = .yes
+            textField.clearButtonMode = .always
             textField.text = routeName
             
-            textField.addTarget(self, action: #selector(RouteEditorController.checkRouteName(_:)), forControlEvents: .AllEditingEvents)
+            textField.addTarget(self, action: #selector(RouteEditorController.checkRouteName(_:)), for: .allEditingEvents)
         }
         
-        let okButton = UIAlertAction(title: NSLocalizedString("Save", comment: ""), style: .Default) { alertAction in
+        let okButton = UIAlertAction(title: NSLocalizedString("Save", comment: ""), style: .default) { alertAction in
             let routeName = self.createRouteController!.textFields?[0].text
             
             let newRoute = POIDataManager.sharedInstance.addRoute(routeName!, routePath:pois)
@@ -78,23 +78,23 @@ class RouteEditorController {
             POIDataManager.sharedInstance.commitDatabase()
         }
         
-        let cancelButton = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .Default) { alertAction in
+        let cancelButton = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .default) { alertAction in
             delegate.routeEditorCancelled()
         }
         
-        okButton.enabled = false
+        okButton.isEnabled = false
         createRouteController!.addAction(okButton)
         createRouteController!.addAction(cancelButton)
-        parentViewController.presentViewController(createRouteController!, animated: true, completion: nil)
+        parentViewController.present(createRouteController!, animated: true, completion: nil)
     }
  
    
-    @objc func checkRouteName(sender:AnyObject) {
+    @objc func checkRouteName(_ sender:AnyObject) {
         if let textfield = sender as? UITextField {
             if !textfield.text!.characters.isEmpty {
-                createRouteController!.actions[0].enabled = true
+                createRouteController!.actions[0].isEnabled = true
             } else {
-                createRouteController!.actions[0].enabled = false
+                createRouteController!.actions[0].isEnabled = false
             }
         }
     }

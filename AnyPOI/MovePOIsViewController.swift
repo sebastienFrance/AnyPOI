@@ -17,7 +17,7 @@ class MovePOIsViewController: UIViewController, UITableViewDelegate, UITableView
                 tableView.dataSource = self
                 tableView.estimatedRowHeight = 86
                 tableView.rowHeight = UITableViewAutomaticDimension
-                theTableView.tableFooterView = UIView(frame: CGRectZero) // remove separator for empty lines
+                theTableView.tableFooterView = UIView(frame: CGRect.zero) // remove separator for empty lines
             }
         }
     }
@@ -33,12 +33,12 @@ class MovePOIsViewController: UIViewController, UITableViewDelegate, UITableView
         // Dispose of any resources that can be recreated.
     }
 
-    @IBAction func cancelButtonPushed(sender: UIBarButtonItem) {
-        dismissViewControllerAnimated(true, completion: nil)
+    @IBAction func cancelButtonPushed(_ sender: UIBarButtonItem) {
+        dismiss(animated: true, completion: nil)
     }
     
     //MARK: UITableViewDataSource
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return POIDataManager.sharedInstance.getGroups().count + 1
     }
     
@@ -47,30 +47,30 @@ class MovePOIsViewController: UIViewController, UITableViewDelegate, UITableView
         static let moveCellHeaderId = "moveCellHeaderId"
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        if indexPath.row == 0 {
-            let cell = theTableView.dequeueReusableCellWithIdentifier(storyboard.moveCellHeaderId, forIndexPath: indexPath)
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if (indexPath as NSIndexPath).row == 0 {
+            let cell = theTableView.dequeueReusableCell(withIdentifier: storyboard.moveCellHeaderId, for: indexPath)
             return cell
         } else {
-            let cell = theTableView.dequeueReusableCellWithIdentifier(storyboard.moveToGroupCellId, forIndexPath: indexPath) as! MovePOIsTableViewCell
+            let cell = theTableView.dequeueReusableCell(withIdentifier: storyboard.moveToGroupCellId, for: indexPath) as! MovePOIsTableViewCell
             
-            cell.initWithGroup(POIDataManager.sharedInstance.getGroups()[indexPath.row - 1])
+            cell.initWithGroup(POIDataManager.sharedInstance.getGroups()[(indexPath as NSIndexPath).row - 1])
             
             return cell
         }
     }
     
     //MARK: UITableViewDelegate
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if indexPath.row > 0 {
-            let selectedGroup = POIDataManager.sharedInstance.getGroups()[indexPath.row - 1]
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if (indexPath as NSIndexPath).row > 0 {
+            let selectedGroup = POIDataManager.sharedInstance.getGroups()[(indexPath as NSIndexPath).row - 1]
             for currentPOI in self.pois {
                 if currentPOI.parentGroup != selectedGroup {
                     currentPOI.parentGroup = selectedGroup
                 }
             }
             POIDataManager.sharedInstance.commitDatabase()
-            self.dismissViewControllerAnimated(true, completion: nil)
+            self.dismiss(animated: true, completion: nil)
         }
     }
 }

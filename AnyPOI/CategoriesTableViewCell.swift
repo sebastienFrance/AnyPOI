@@ -14,21 +14,21 @@ class CategoriesTableViewCell: UITableViewCell {
     
     @IBOutlet weak var scopeFilterSegmentedControl: UISegmentedControl!
     
-    func initWith(selectedFilter:SearchController.ScopeFilter) {
+    func initWith(_ selectedFilter:SearchController.ScopeFilter) {
         switch selectedFilter {
-        case .All:
+        case .all:
             scopeFilterSegmentedControl.selectedSegmentIndex = 0
-        case .LocalSearch:
+        case .localSearch:
             scopeFilterSegmentedControl.selectedSegmentIndex = 1
-        case .Others:
+        case .others:
             scopeFilterSegmentedControl.selectedSegmentIndex = 2
         }
     }
 
     
     func setCollectionViewDataSourceDelegate
-        <D: protocol<UICollectionViewDataSource, UICollectionViewDelegate>>
-        (dataSourceDelegate: D, forRow row: Int) {
+        <D: UICollectionViewDataSource & UICollectionViewDelegate>
+        (_ dataSourceDelegate: D, forRow row: Int) {
         
         collectionView.delegate = dataSourceDelegate
         collectionView.dataSource = dataSourceDelegate

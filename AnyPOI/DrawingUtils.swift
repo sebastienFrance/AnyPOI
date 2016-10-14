@@ -11,21 +11,21 @@ import CoreData
 
 class DrawingUtils {
     
-    static func getImageForColor(fillColor:UIColor, imageSize:CGFloat = 25.0, lineWidth:CGFloat = 1.0) -> UIImage {
-        let size = CGSizeMake(imageSize, imageSize)
+    static func getImageForColor(_ fillColor:UIColor, imageSize:CGFloat = 25.0, lineWidth:CGFloat = 1.0) -> UIImage {
+        let size = CGSize(width: imageSize, height: imageSize)
         
         UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
         let background = CAShapeLayer()
-        let rect = CGRectMake(lineWidth / 2.0,
-                              lineWidth / 2.0,
-                              imageSize - (lineWidth),imageSize - (lineWidth))
-        let path = UIBezierPath(ovalInRect: rect)
-        background.path = path.CGPath
-        background.fillColor = fillColor.CGColor
-        background.strokeColor = UIColor.blackColor().CGColor
+        let rect = CGRect(x: lineWidth / 2.0,
+                              y: lineWidth / 2.0,
+                              width: imageSize - (lineWidth),height: imageSize - (lineWidth))
+        let path = UIBezierPath(ovalIn: rect)
+        background.path = path.cgPath
+        background.fillColor = fillColor.cgColor
+        background.strokeColor = UIColor.black.cgColor
         background.lineWidth = lineWidth
         background.setNeedsDisplay()
-        background.renderInContext(UIGraphicsGetCurrentContext()!)
+        background.render(in: UIGraphicsGetCurrentContext()!)
         
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()

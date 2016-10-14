@@ -31,33 +31,33 @@ class RouteDetailsViewController: UIViewController {
         super.viewDidLoad()
         
         // Subscribe Route notifications
-        NSNotificationCenter.defaultCenter().addObserver(self,
+        NotificationCenter.default.addObserver(self,
                                                          selector: #selector(RouteDetailsViewController.directionForWayPointUpdated(_:)),
-                                                         name: Route.Notifications.directionForWayPointUpdated,
+                                                         name: NSNotification.Name(rawValue: Route.Notifications.directionForWayPointUpdated),
                                                          object: nil)
         
-        NSNotificationCenter.defaultCenter().addObserver(self,
+        NotificationCenter.default.addObserver(self,
                                                          selector: #selector(RouteDetailsViewController.directionDone(_:)),
-                                                         name: Route.Notifications.directionsDone,
+                                                         name: NSNotification.Name(rawValue: Route.Notifications.directionsDone),
                                                          object: nil)
         
-        NSNotificationCenter.defaultCenter().addObserver(self,
+        NotificationCenter.default.addObserver(self,
                                                          selector: #selector(RouteDetailsViewController.directionStarting(_:)),
-                                                         name: Route.Notifications.directionStarting,
+                                                         name: NSNotification.Name(rawValue: Route.Notifications.directionStarting),
                                                          object: nil)
     }
     
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
 
     // MARK: Actions
-    @IBAction func doneButtonPushed(sender: UIBarButtonItem) {
-        dismissViewControllerAnimated(true, completion: nil)
+    @IBAction func doneButtonPushed(_ sender: UIBarButtonItem) {
+        dismiss(animated: true, completion: nil)
     }
     
     // Update the transport type of a WayPoint and compute the new route to this WayPoint
-    @IBAction func transportTypeChangeForWayPoint(sender: UISegmentedControl) {
+    @IBAction func transportTypeChangeForWayPoint(_ sender: UISegmentedControl) {
         let transportType = MapUtils.segmentIndexToTransportType(sender)
         
         wayPointsDelegate.routeDatasource?.setTransportTypeForWayPointAtIndex(sender.tag, transportType: transportType)
@@ -68,7 +68,7 @@ class RouteDetailsViewController: UIViewController {
 
     func getSelectedWayPointIndex() -> Int {
         if let indexPath = theTableView.indexPathForSelectedRow {
-            return indexPath.row
+            return (indexPath as NSIndexPath).row
         } else {
             return 0
         }
@@ -78,14 +78,14 @@ class RouteDetailsViewController: UIViewController {
     
     // Nothing to do because HUD will be displayed by the
     // WayPointDetailsViewController when it will get the same notification
-    func directionStarting(notification : NSNotification) {
+    func directionStarting(_ notification : Notification) {
     }
 
-    func directionForWayPointUpdated(notification : NSNotification) {
+    func directionForWayPointUpdated(_ notification : Notification) {
        // nothing to do because directionDone is always called at the end
     }
 
-    func directionDone(notification : NSNotification) {
+    func directionDone(_ notification : Notification) {
         theTableView.reloadData()
         enableView()
     }
@@ -94,7 +94,7 @@ class RouteDetailsViewController: UIViewController {
     // This function is used to compute the route between all waypoints
     // 1- Disable all actions from the view while loading the route
     // 2- load each piece of the route
-    private func loadRoute() {
+    fileprivate func loadRoute() {
         disableView()
         wayPointsDelegate.routeDatasource?.theRoute.reloadDirections()
     }
@@ -102,53 +102,53 @@ class RouteDetailsViewController: UIViewController {
     // MARK: Enable/Disable view
 
     // Disable the view controller while the route is loading
-    private func disableView() {
+    fileprivate func disableView() {
         theTableView.allowsSelection = false
     }
 
     // Enable the View controller when the route has completed the loading
-    private func enableView() {
+    fileprivate func enableView() {
         theTableView.allowsSelection = true
     }
 }
 
 extension RouteDetailsViewController: UITableViewDataSource, UITableViewDelegate {
-    private enum Sections:Int {
-        case Summary = 0, WayPoints = 1
+    fileprivate enum Sections:Int {
+        case summary = 0, wayPoints = 1
     }
 
     //MARK: UITableViewDataSource
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch Sections(rawValue: section)! {
-        case .Summary:
+        case .summary:
             return 1
-        case .WayPoints:
+        case .wayPoints:
             return wayPointsDelegate.routeDatasource!.wayPoints.count
         }
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
     
-    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch Sections(rawValue: section)! {
-        case .Summary:
+        case .summary:
             return nil
-        case .WayPoints:
+        case .wayPoints:
             return "Directions"
         }
     }
     
-    private struct cellIdentifier {
+    fileprivate struct cellIdentifier {
         static let routeDetailsCellId = "routeDetailsCellId"
         static let routeSummaryId = "routeSummaryId"
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        switch Sections(rawValue: indexPath.section)! {
-        case .Summary:
-            let theCell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier.routeSummaryId,forIndexPath: indexPath) as! RouteSummaryTableViewCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        switch Sections(rawValue: (indexPath as NSIndexPath).section)! {
+        case .summary:
+            let theCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier.routeSummaryId,for: indexPath) as! RouteSummaryTableViewCell
             
             if wayPointsDelegate.routeDatasource!.theRoute.wayPoints.count <= 1 {
                 theCell.initWith(wayPointsDelegate.routeDatasource!.theRoute)
@@ -156,43 +156,43 @@ extension RouteDetailsViewController: UITableViewDataSource, UITableViewDelegate
                 theCell.initWith(wayPointsDelegate.routeDatasource!.allRouteName, distanceAndDuration: wayPointsDelegate.routeDatasource!.allRouteDistanceAndTime)
             }
             return theCell
-        case .WayPoints:
-            let theCell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier.routeDetailsCellId, forIndexPath: indexPath) as! RouteDetailsViewCell
-            theCell.initializePOI(wayPointsDelegate.routeDatasource!.wayPoints[indexPath.row].wayPointPoi!)
+        case .wayPoints:
+            let theCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier.routeDetailsCellId, for: indexPath) as! RouteDetailsViewCell
+            theCell.initializePOI(wayPointsDelegate.routeDatasource!.wayPoints[(indexPath as NSIndexPath).row].wayPointPoi!)
             
             // If it's not the last, then we must also display the transport type, distance...
-            if indexPath.row != (wayPointsDelegate.routeDatasource!.wayPoints.count - 1) {
-                theCell.initializeWayPoint(wayPointsDelegate.routeDatasource!.wayPoints[indexPath.row], index:indexPath.row)
+            if (indexPath as NSIndexPath).row != (wayPointsDelegate.routeDatasource!.wayPoints.count - 1) {
+                theCell.initializeWayPoint(wayPointsDelegate.routeDatasource!.wayPoints[(indexPath as NSIndexPath).row], index:(indexPath as NSIndexPath).row)
             }
             
-            theCell.editing = true
+            theCell.isEditing = true
             return theCell
         }
     }
     
     // Authorize only deletion for WayPoints section
-    func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {
-        switch Sections(rawValue: indexPath.section)! {
-        case .Summary:
-            return .None
-        case .WayPoints:
-            return .Delete
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
+        switch Sections(rawValue: (indexPath as NSIndexPath).section)! {
+        case .summary:
+            return .none
+        case .wayPoints:
+            return .delete
         }
     }
     
-    func tableView(tableView: UITableView, shouldIndentWhileEditingRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        return Sections(rawValue: indexPath.section)! == Sections.Summary ? false : true
+    func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
+        return Sections(rawValue: (indexPath as NSIndexPath).section)! == Sections.summary ? false : true
     }
     
     // Manage WayPoint deletion
-    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if let realSection = Sections(rawValue: indexPath.section) {
-            if realSection == .WayPoints {
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if let realSection = Sections(rawValue: (indexPath as NSIndexPath).section) {
+            if realSection == .wayPoints {
                 switch editingStyle {
-                case .Delete:
+                case .delete:
                     theTableView.beginUpdates() // Must be done before performing deletion in model
-                    wayPointsDelegate.deleteWayPointAt(indexPath.row)
-                    theTableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                    wayPointsDelegate.deleteWayPointAt((indexPath as NSIndexPath).row)
+                    theTableView.deleteRows(at: [indexPath], with: .automatic)
                     theTableView.endUpdates() // After model update to delete the rows
                 default: break
                     // just ignore, manage only deletion
@@ -203,23 +203,23 @@ extension RouteDetailsViewController: UITableViewDataSource, UITableViewDelegate
     }
     
     // Only rows of Section that contains the WayPoints can be moved
-    func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        switch Sections(rawValue: indexPath.section)! {
-        case .Summary:
+    func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+        switch Sections(rawValue: (indexPath as NSIndexPath).section)! {
+        case .summary:
             return false
-        case .WayPoints:
+        case .wayPoints:
             return true
         }
     }
     
     // WayPoints can be moved only in its own Table section
-    func tableView(tableView: UITableView, targetIndexPathForMoveFromRowAtIndexPath sourceIndexPath: NSIndexPath, toProposedIndexPath proposedDestinationIndexPath: NSIndexPath) -> NSIndexPath {
-        let sourceSection = Sections(rawValue: sourceIndexPath.section)!
-        let destinationSourceSection = Sections(rawValue: proposedDestinationIndexPath.section)!
+    func tableView(_ tableView: UITableView, targetIndexPathForMoveFromRowAt sourceIndexPath: IndexPath, toProposedIndexPath proposedDestinationIndexPath: IndexPath) -> IndexPath {
+        let sourceSection = Sections(rawValue: (sourceIndexPath as NSIndexPath).section)!
+        let destinationSourceSection = Sections(rawValue: (proposedDestinationIndexPath as NSIndexPath).section)!
         
         // Waypoint cannot be moved to the Summary section -> If the user tries, we force to go to the WayPoint section
-        if sourceSection == .WayPoints && destinationSourceSection == .Summary {
-            return NSIndexPath(forRow: 0, inSection: Sections.WayPoints.rawValue)
+        if sourceSection == .wayPoints && destinationSourceSection == .summary {
+            return IndexPath(row: 0, section: Sections.wayPoints.rawValue)
         }
         
         return proposedDestinationIndexPath
@@ -227,17 +227,17 @@ extension RouteDetailsViewController: UITableViewDataSource, UITableViewDelegate
     
     
     // When a row is moved we update the ordering of the wayPoint in the database
-    func tableView(tableView: UITableView, moveRowAtIndexPath sourceIndexPath: NSIndexPath, toIndexPath destinationIndexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         // update indexes
-        if let sourceCell = tableView.cellForRowAtIndexPath(sourceIndexPath) as? RouteDetailsViewCell {
-            sourceCell.updateIndex(destinationIndexPath.row)
+        if let sourceCell = tableView.cellForRow(at: sourceIndexPath) as? RouteDetailsViewCell {
+            sourceCell.updateIndex((destinationIndexPath as NSIndexPath).row)
         }
         
-        if let destinationCell = tableView.cellForRowAtIndexPath(destinationIndexPath) as? RouteDetailsViewCell {
-            destinationCell.updateIndex(sourceIndexPath.row)
+        if let destinationCell = tableView.cellForRow(at: destinationIndexPath) as? RouteDetailsViewCell {
+            destinationCell.updateIndex((sourceIndexPath as NSIndexPath).row)
         }
         
-        wayPointsDelegate.moveWayPoint(sourceIndexPath.row, destinationIndex:destinationIndexPath.row)
+        wayPointsDelegate.moveWayPoint((sourceIndexPath as NSIndexPath).row, destinationIndex:(destinationIndexPath as NSIndexPath).row)
     }
 
 }

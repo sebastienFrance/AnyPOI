@@ -22,7 +22,7 @@ import CoreLocation
 // - AuthorizationHasChanged is sent each time the location authorization has been changed. Currently it's not used by the App
 
 protocol LocationUpdateDelegate: class {
-    func locationUpdated(locations: [CLLocation])
+    func locationUpdated(_ locations: [CLLocation])
 }
 
 
@@ -51,9 +51,9 @@ class LocationManager : NSObject, CLLocationManagerDelegate {
     func startLocationManager() {
         let authorizationStatus  = CLLocationManager.authorizationStatus()
         switch (authorizationStatus) {
-        case .Denied, .Restricted:
+        case .denied, .restricted:
             print("\(#function): No authorization granted for CLLocationManager")
-        case .NotDetermined:
+        case .notDetermined:
             locationManager = CLLocationManager()
             if let locationMgr = locationManager {
                 locationMgr.delegate = self
@@ -64,7 +64,7 @@ class LocationManager : NSObject, CLLocationManagerDelegate {
             } else {
                 print("\(#function): error CLLocationManager cannot be created!")
             }
-        case .AuthorizedWhenInUse, .AuthorizedAlways:
+        case .authorizedWhenInUse, .authorizedAlways:
             locationManager = CLLocationManager()
             locationManager?.delegate = self
             print("\(#function): Authorization is: \(authorizationStatus.rawValue)")
@@ -75,7 +75,7 @@ class LocationManager : NSObject, CLLocationManagerDelegate {
     // Return true when at the App has WhenInUser or Always authorization, otherwise it returns false
     func isLocationAuthorized() -> Bool {
         let authorizationStatus  = CLLocationManager.authorizationStatus()
-        if authorizationStatus == .AuthorizedWhenInUse || authorizationStatus == .AuthorizedAlways {
+        if authorizationStatus == .authorizedWhenInUse || authorizationStatus == .authorizedAlways {
             return true
         } else {
             return false
@@ -84,39 +84,39 @@ class LocationManager : NSObject, CLLocationManagerDelegate {
     
     //MARK: SignificantLocationChanges
     // Called when a SignificantLocationChanges has occured
-    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         
         print("\(#function): Location Manager didUpdateLocations")
         delegate?.locationUpdated(locations)
     }
     
-    func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("\(#function): Location Manager didFailWithError: \(error.localizedDescription)")
     }
     
     //MARK: Enter/Exit region not used
-    func locationManager(manager: CLLocationManager, didEnterRegion region: CLRegion) {
+    func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
         print("\(#function) Location Manager ")
     }
     
-    func locationManager(manager: CLLocationManager, didExitRegion region: CLRegion) {
+    func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
         print("\(#function) Location Manager")
     }
     
     //MARK: Not yet used
-    func locationManager(manager: CLLocationManager, didFinishDeferredUpdatesWithError error: NSError?) {
+    func locationManager(_ manager: CLLocationManager, didFinishDeferredUpdatesWithError error: Error?) {
         print("\(#function) Location Manager")
     }
-    func locationManagerDidPauseLocationUpdates(manager: CLLocationManager) {
+    func locationManagerDidPauseLocationUpdates(_ manager: CLLocationManager) {
         print("\(#function) Location Manager")
     }
-    func locationManagerDidResumeLocationUpdates(manager: CLLocationManager) {
+    func locationManagerDidResumeLocationUpdates(_ manager: CLLocationManager) {
         print("\(#function) Location Manager")
     }
     
     // Post an internal notification when the Authorization status has been changed
-    func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         print("\(#function): Warning the authorization status of Location Manager has changed to \(status.rawValue)")
-        NSNotificationCenter.defaultCenter().postNotificationName(LocationNotifications.AuthorizationHasChanged, object: manager)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: LocationNotifications.AuthorizationHasChanged), object: manager)
     }
 }

@@ -16,20 +16,20 @@ class PoiDetailsImagesTableViewCell: UITableViewCell {
         // Initialization code
     }
     
-    override func setSelected(selected: Bool, animated: Bool) {
+    override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         
         // Configure the view for the selected state
     }
     
     func setCollectionViewDataSourceDelegate
-        <D: protocol<UICollectionViewDataSource, UICollectionViewDelegate>>
-        (dataSourceDelegate: D, forRow row: Int) {
+        <D: UICollectionViewDataSource & UICollectionViewDelegate>
+        (_ dataSourceDelegate: D, forRow row: Int) {
         
         collectionView.delegate = dataSourceDelegate
         collectionView.dataSource = dataSourceDelegate
         if let flowLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
-            flowLayout.itemSize = CGSizeMake(100.0, 100.0)
+            flowLayout.itemSize = CGSize(width: 100.0, height: 100.0)
         }
         collectionView.tag = row
         collectionView.reloadData()

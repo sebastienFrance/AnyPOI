@@ -17,7 +17,7 @@ class RouteUtilities {
     static let googleMapsProductId = 585027354
 
     
-    static func getDirectionRequestFor(source:WayPoint, destination:WayPoint) -> MKDirections? {
+    static func getDirectionRequestFor(_ source:WayPoint, destination:WayPoint) -> MKDirections? {
 
         // get the 2 waypoints
         source.calculatedRoute = nil // Reset the calculated route
@@ -27,7 +27,7 @@ class RouteUtilities {
         routeRequest.requestsAlternateRoutes = true
         routeRequest.transportType = source.transportType!
 
-        if let sourcePoi = source.wayPointPoi, destinationPoi = destination.wayPointPoi {
+        if let sourcePoi = source.wayPointPoi, let destinationPoi = destination.wayPointPoi {
             routeRequest.source = MKMapItem(placemark: MKPlacemark(coordinate: sourcePoi.coordinate, addressDictionary: nil))
             routeRequest.destination = MKMapItem(placemark: MKPlacemark(coordinate: destinationPoi.coordinate, addressDictionary: nil))
             return MKDirections(request: routeRequest)
@@ -37,19 +37,21 @@ class RouteUtilities {
     }
 
     
-    private static let GoogleURL = "comgooglemaps://"
-    private static let WazeURL = "waze://"
-    private static let CityMapperURL = "citymapper://"
+    fileprivate static let GoogleURL = "comgooglemaps://"
+    fileprivate static let WazeURL = "waze://"
+    fileprivate static let CityMapperURL = "citymapper://"
     
-    static func startAppleMap(sourceCoordinate:CLLocationCoordinate2D,
+    static func startAppleMap(_ sourceCoordinate:CLLocationCoordinate2D,
                               sourceName:String,
                               destinationCoordinate:CLLocationCoordinate2D,
                               destinationName:String,
                               transportType:MKDirectionsTransportType) {
         var items = [MKMapItem]()
         
-        let mapAppOptions:[String : AnyObject] = [MKLaunchOptionsMapTypeKey : MKMapType.Standard.rawValue, MKLaunchOptionsShowsTrafficKey: true,
-                                                  MKLaunchOptionsDirectionsModeKey :  MapUtils.convertToLaunchOptionsDirection(transportType)]
+        let mapAppOptions:[String : AnyObject] = [MKLaunchOptionsMapTypeKey : MKMapType.standard.rawValue as AnyObject,
+                                                  MKLaunchOptionsShowsTrafficKey: true as AnyObject,
+                                                  // SEB: Swift3 Force to convert to AnyObject, why?
+                                                  MKLaunchOptionsDirectionsModeKey :  MapUtils.convertToLaunchOptionsDirection(transportType) as AnyObject]
         let source = MKMapItem(placemark: MKPlacemark(coordinate: sourceCoordinate, addressDictionary: nil))
         source.name = sourceName
         items.append(source)
@@ -57,12 +59,12 @@ class RouteUtilities {
         destination.name = destinationName
         items.append(destination)
         
-        MKMapItem.openMapsWithItems(items, launchOptions: mapAppOptions)
+        MKMapItem.openMaps(with: items, launchOptions: mapAppOptions)
     }
     
-    static func startGoogleMap(sourceCoordinate:CLLocationCoordinate2D, destinationCoordinate:CLLocationCoordinate2D, transportType:String) {
+    static func startGoogleMap(_ sourceCoordinate:CLLocationCoordinate2D, destinationCoordinate:CLLocationCoordinate2D, transportType:String) {
         if RouteUtilities.hasGoogleMap() {
-            UIApplication.sharedApplication().openURL(NSURL(string:
+            UIApplication.shared.openURL(URL(string:
                 "\(GoogleURL)?saddr=\(sourceCoordinate.latitude),\(sourceCoordinate.longitude)&daddr=\(destinationCoordinate.latitude),\(destinationCoordinate.longitude)&directionsmode=\(transportType)")!)
         } else {
             print("\(#function) Can't use \(GoogleURL)");
@@ -70,12 +72,12 @@ class RouteUtilities {
     }
     
     static func hasGoogleMap() -> Bool {
-        return UIApplication.sharedApplication().canOpenURL(NSURL(string:GoogleURL)!)
+        return UIApplication.shared.canOpenURL(URL(string:GoogleURL)!)
     }
     
-    static func startWaze(sourceCoordinate:CLLocationCoordinate2D, destinationCoordinate:CLLocationCoordinate2D) {
+    static func startWaze(_ sourceCoordinate:CLLocationCoordinate2D, destinationCoordinate:CLLocationCoordinate2D) {
         if RouteUtilities.hasWaze() {
-            UIApplication.sharedApplication().openURL(NSURL(string:
+            UIApplication.shared.openURL(URL(string:
                 "\(WazeURL)?ll=\(destinationCoordinate.latitude),\(destinationCoordinate.longitude)&navigate=yes")!)
         } else {
             print("\(#function) Can't use \(WazeURL)");
@@ -83,13 +85,13 @@ class RouteUtilities {
     }
     
     static func hasWaze() -> Bool {
-        return UIApplication.sharedApplication().canOpenURL(NSURL(string:WazeURL)!)
+        return UIApplication.shared.canOpenURL(URL(string:WazeURL)!)
     }
     
-    static func startCityMapper(sourceCoordinate:CLLocationCoordinate2D, destinationCoordinate:CLLocationCoordinate2D) {
+    static func startCityMapper(_ sourceCoordinate:CLLocationCoordinate2D, destinationCoordinate:CLLocationCoordinate2D) {
         if RouteUtilities.hasCityMapper() {
-            let myURL = NSURL(string: "\(CityMapperURL)directions?startcoord=\(sourceCoordinate.latitude),\(sourceCoordinate.longitude)&endcoord=\(destinationCoordinate.latitude),\(destinationCoordinate.longitude)")
-            UIApplication.sharedApplication().openURL(myURL!)
+            let myURL = URL(string: "\(CityMapperURL)directions?startcoord=\(sourceCoordinate.latitude),\(sourceCoordinate.longitude)&endcoord=\(destinationCoordinate.latitude),\(destinationCoordinate.longitude)")
+            UIApplication.shared.openURL(myURL!)
         } else {
             print("\(#function) Can't use \(CityMapperURL)");
         }
@@ -97,7 +99,7 @@ class RouteUtilities {
     }
     
     static func hasCityMapper() -> Bool {
-        return UIApplication.sharedApplication().canOpenURL(NSURL(string:CityMapperURL)!)
+        return UIApplication.shared.canOpenURL(URL(string:CityMapperURL)!)
     }
     
 

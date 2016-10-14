@@ -15,15 +15,15 @@ protocol DismissModalViewController: class {
 
 class GroupConfiguratorViewController: UIViewController, UITextFieldDelegate, UICollectionViewDelegate, UICollectionViewDataSource {
 
-    @IBOutlet private weak var groupNameTextField: UITextField!
-    @IBOutlet private weak var groupDescriptionTextField: UITextField!
+    @IBOutlet fileprivate weak var groupNameTextField: UITextField!
+    @IBOutlet fileprivate weak var groupDescriptionTextField: UITextField!
     
-    @IBOutlet private weak var colorsCollectionView: UICollectionView!
-    @IBOutlet private weak var saveButton: UIButton!
-    @IBOutlet private weak var backgroundView: UIView!
+    @IBOutlet fileprivate weak var colorsCollectionView: UICollectionView!
+    @IBOutlet fileprivate weak var saveButton: UIButton!
+    @IBOutlet fileprivate weak var backgroundView: UIView!
     
-    private var colors = [UIColor]()
-    private var selectedColorIndex = 0
+    fileprivate var colors = [UIColor]()
+    fileprivate var selectedColorIndex = 0
    
     var group:GroupOfInterest?
     weak var delegate:DismissModalViewController?
@@ -59,24 +59,24 @@ class GroupConfiguratorViewController: UIViewController, UITextFieldDelegate, UI
         colorsCollectionView.reloadData()
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
       
         // Move the collectionView on the group color
-        colorsCollectionView.scrollToItemAtIndexPath(NSIndexPath(forRow: selectedColorIndex, inSection: 0), atScrollPosition: .Left, animated: true)
+        colorsCollectionView.scrollToItem(at: IndexPath(row: selectedColorIndex, section: 0), at: .left, animated: true)
     }
 
     // A Group cannot be saved when its name is empty
-    private func enableSaveButton() {
-        if let groupName = groupNameTextField.text where !groupName.isEmpty {
-            saveButton.enabled = true
+    fileprivate func enableSaveButton() {
+        if let groupName = groupNameTextField.text , !groupName.isEmpty {
+            saveButton.isEnabled = true
         } else {
-            saveButton.enabled = false
+            saveButton.isEnabled = false
         }
     }
 
     //MARK: Action buttons
-    @IBAction func saveButtonPushed(sender: UIButton) {
+    @IBAction func saveButtonPushed(_ sender: UIButton) {
         if let theGroup = group {
             // Update an existing group
             theGroup.groupDisplayName = groupNameTextField.text ?? ""
@@ -90,11 +90,11 @@ class GroupConfiguratorViewController: UIViewController, UITextFieldDelegate, UI
         POIDataManager.sharedInstance.commitDatabase()
         
         self.delegate?.didDismiss() // Warn the delegate the view will be dismissed
-        dismissViewControllerAnimated(true, completion:  nil)
+        dismiss(animated: true, completion:  nil)
    }
     
-    @IBAction func cancelButtonPushed(sender: UIButton) {
-        dismissViewControllerAnimated(true, completion:  nil)
+    @IBAction func cancelButtonPushed(_ sender: UIButton) {
+        dismiss(animated: true, completion:  nil)
         delegate?.didDismiss()
     }
 
@@ -102,24 +102,24 @@ class GroupConfiguratorViewController: UIViewController, UITextFieldDelegate, UI
     //MARK: UITextFieldDelegate
 
     // When the group name becomes empty we set the save button to disabled otherwise it's enabled
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if textField === groupNameTextField {
             let length = textField.text!.characters.count - range.length + string.characters.count
-            saveButton.enabled = length > 0 ? true : false
+            saveButton.isEnabled = length > 0 ? true : false
         }
         return true
     }
     
-    func textFieldShouldClear(textField: UITextField) -> Bool {
+    func textFieldShouldClear(_ textField: UITextField) -> Bool {
         if textField === groupNameTextField {
-            saveButton.enabled = false
+            saveButton.isEnabled = false
             textField.text = "" // Force the text field to empty in case the Keyboard has selected it for auto correction
         }
         return true
     }
 
     // Return key goes to description field, only when the groupName is not empty
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField === groupNameTextField && !groupNameTextField.text!.isEmpty {
             groupDescriptionTextField.becomeFirstResponder()
         }
@@ -127,34 +127,34 @@ class GroupConfiguratorViewController: UIViewController, UITextFieldDelegate, UI
     }
 
     //MARK: UICollectionViewDataSource
-    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
     
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return colors.count
     }
     
-    private struct CollectionViewCell {
+    fileprivate struct CollectionViewCell {
         static let colorCellId = "ColorSelectorCellId"
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(CollectionViewCell.colorCellId, forIndexPath: indexPath) as! ColorCollectionViewCell
-        let stroke = selectedColorIndex == indexPath.row ? true : false
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CollectionViewCell.colorCellId, for: indexPath) as! ColorCollectionViewCell
+        let stroke = selectedColorIndex == (indexPath as NSIndexPath).row ? true : false
         
-        cell.colorImage.image = DrawingUtils.getImageForColor(colors[indexPath.row], imageSize: 25.0, lineWidth: stroke ? 2.0 : 0.0)
+        cell.colorImage.image = DrawingUtils.getImageForColor(colors[(indexPath as NSIndexPath).row], imageSize: 25.0, lineWidth: stroke ? 2.0 : 0.0)
         return cell
      }
 
     //MARK: UICollectionViewDelegate
     
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        if selectedColorIndex != indexPath.row {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if selectedColorIndex != (indexPath as NSIndexPath).row {
             // Refresh the unselected and selected colors
-            let oldSelectedColorIndexPath =  NSIndexPath(forRow: selectedColorIndex, inSection: 0)
-            selectedColorIndex = indexPath.row
-            colorsCollectionView.reloadItemsAtIndexPaths([indexPath, oldSelectedColorIndexPath])
+            let oldSelectedColorIndexPath =  IndexPath(row: selectedColorIndex, section: 0)
+            selectedColorIndex = (indexPath as NSIndexPath).row
+            colorsCollectionView.reloadItems(at: [indexPath, oldSelectedColorIndexPath])
         }
     }
 }

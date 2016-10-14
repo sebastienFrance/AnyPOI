@@ -44,9 +44,9 @@ class LocationManager : NSObject, CLLocationManagerDelegate {
     func startLocationManager() {
         let authorizationStatus  = CLLocationManager.authorizationStatus()
         switch (authorizationStatus) {
-        case .Denied, .Restricted:
+        case .denied, .restricted:
             print("\(#function): No authorization granted for CLLocationManager")
-        case .NotDetermined:
+        case .notDetermined:
             locationManager = CLLocationManager()
             if let locationMgr = locationManager {
                 locationMgr.delegate = self
@@ -57,7 +57,7 @@ class LocationManager : NSObject, CLLocationManagerDelegate {
             } else {
                 print("\(#function): error CLLocationManager cannot be created!")
             }
-        case .AuthorizedWhenInUse, .AuthorizedAlways:
+        case .authorizedWhenInUse, .authorizedAlways:
             locationManager = CLLocationManager()
             locationManager?.delegate = self
             print("\(#function): Authorization is: \(authorizationStatus.rawValue)")
@@ -72,7 +72,7 @@ class LocationManager : NSObject, CLLocationManagerDelegate {
     //  1- We check if the max # of Monitored region has been already reached
     //  2- We request the "Always Authorization" that is mandatory to use region monitoring
     //  3- We start the monitoring the of POI and it's recorded in the list of monitored POIs
-    func startMonitoringRegion(poi:PointOfInterest) {
+    func startMonitoringRegion(_ poi:PointOfInterest) {
         if isMaxMonitoredRegionReached() {
             print("\(#function): Error, max numnber of monitored POI is already reached")
             return
@@ -80,8 +80,8 @@ class LocationManager : NSObject, CLLocationManagerDelegate {
 
         requestAlwaysAuthorization()
         
-        if CLLocationManager.isMonitoringAvailableForClass(CLCircularRegion) {
-            locationManager?.startMonitoringForRegion(CLCircularRegion(center: poi.coordinate, radius: poi.poiRegionRadius, identifier: poi.poiRegionId!))
+        if CLLocationManager.isMonitoringAvailable(for: CLCircularRegion.self) {
+            locationManager?.startMonitoring(for: CLCircularRegion(center: poi.coordinate, radius: poi.poiRegionRadius, identifier: poi.poiRegionId!))
             if locationManager!.monitoredRegions.count != POIDataManager.sharedInstance.getAllMonitoredPOI().count {
                 print("\(#function) Error: Number of Monitored region: in CLLLocationManager \(locationManager!.monitoredRegions.count) and in Database \(POIDataManager.sharedInstance.getAllMonitoredPOI().count) are not equals!")
                dumpMonitoredRegions()
@@ -106,9 +106,9 @@ class LocationManager : NSObject, CLLocationManagerDelegate {
     // When a POI must be removed from the Monitored region
     //  1- the POI is removed from the Monitored region
     //  2- It's removed from the internal list of monitored POIs
-    func stopMonitoringRegion(poi:PointOfInterest) {
-        if CLLocationManager.isMonitoringAvailableForClass(CLCircularRegion) {
-            locationManager?.stopMonitoringForRegion(CLCircularRegion(center: poi.coordinate, radius: poi.poiRegionRadius, identifier: poi.poiRegionId!))
+    func stopMonitoringRegion(_ poi:PointOfInterest) {
+        if CLLocationManager.isMonitoringAvailable(for: CLCircularRegion.self) {
+            locationManager?.stopMonitoring(for: CLCircularRegion(center: poi.coordinate, radius: poi.poiRegionRadius, identifier: poi.poiRegionId!))
             if locationManager!.monitoredRegions.count != POIDataManager.sharedInstance.getAllMonitoredPOI().count {
                 print("\(#function) Error: Number of Monitored region: in CLLLocationManager \(locationManager!.monitoredRegions.count) and in Database \(POIDataManager.sharedInstance.getAllMonitoredPOI().count) are not equals!")
                 dumpMonitoredRegions()
@@ -118,8 +118,8 @@ class LocationManager : NSObject, CLLocationManagerDelegate {
         }
     }
 
-    func updateMonitoringRegion(poi:PointOfInterest) {
-        if CLLocationManager.isMonitoringAvailableForClass(CLCircularRegion) {
+    func updateMonitoringRegion(_ poi:PointOfInterest) {
+        if CLLocationManager.isMonitoringAvailable(for: CLCircularRegion.self) {
             stopMonitoringRegion(poi)
             startMonitoringRegion(poi)
         }
@@ -127,24 +127,24 @@ class LocationManager : NSObject, CLLocationManagerDelegate {
  
     // Ask the user to enable the "Always Authorization"
     // The Settings button open the App Setting to enable the "Always Authorization"
-    private func requestAlwaysAuthorization() {
+    fileprivate func requestAlwaysAuthorization() {
         let authorizationStatus  = CLLocationManager.authorizationStatus()
-        if authorizationStatus == .AuthorizedWhenInUse || authorizationStatus == .Denied {
-            let title = authorizationStatus == .Denied ? NSLocalizedString("LocationServicesOffLocationManager", comment: "") : NSLocalizedString("BackgroundLocationDisabledLocationManager", comment: "")
+        if authorizationStatus == .authorizedWhenInUse || authorizationStatus == .denied {
+            let title = authorizationStatus == .denied ? NSLocalizedString("LocationServicesOffLocationManager", comment: "") : NSLocalizedString("BackgroundLocationDisabledLocationManager", comment: "")
 
             // Create the AlertController to display the request
-            let alertController = DBAlertController(title: title, message: NSLocalizedString("BackgroundMessageLocationManager", comment: ""), preferredStyle: .Alert)
+            let alertController = DBAlertController(title: title, message: NSLocalizedString("BackgroundMessageLocationManager", comment: ""), preferredStyle: .alert)
             
-            let cancelButton = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .Default, handler: nil)
-            let settingsButton = UIAlertAction(title: NSLocalizedString("SettingsLocationManager", comment: ""), style: UIAlertActionStyle.Default) { action in
-                let settingURL = NSURL(string: UIApplicationOpenSettingsURLString)
-                UIApplication.sharedApplication().openURL(settingURL!)
+            let cancelButton = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .default, handler: nil)
+            let settingsButton = UIAlertAction(title: NSLocalizedString("SettingsLocationManager", comment: ""), style: UIAlertActionStyle.default) { action in
+                let settingURL = URL(string: UIApplicationOpenSettingsURLString)
+                UIApplication.shared.openURL(settingURL!)
             }
             
             alertController.addAction(cancelButton)
             alertController.addAction(settingsButton)
             alertController.show()
-        } else if authorizationStatus == .NotDetermined {
+        } else if authorizationStatus == .notDetermined {
             locationManager?.requestAlwaysAuthorization()
         }
     }
@@ -152,7 +152,7 @@ class LocationManager : NSObject, CLLocationManagerDelegate {
     // Return true when at the App has WhenInUser or Always authorization, otherwise it returns false
     func isLocationAuthorized() -> Bool {
         let authorizationStatus  = CLLocationManager.authorizationStatus()
-        if authorizationStatus == .AuthorizedWhenInUse || authorizationStatus == .AuthorizedAlways {
+        if authorizationStatus == .authorizedWhenInUse || authorizationStatus == .authorizedAlways {
             return true
         } else {
             return false
@@ -161,11 +161,11 @@ class LocationManager : NSObject, CLLocationManagerDelegate {
     
     //MARK: SignificantLocationChanges
    // Called when a SignificantLocationChanges has occured
-    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         print("\(#function): Location Manager didUpdateLocations")
     }
     
-    func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("\(#function): Location Manager didFailWithError: \(error.localizedDescription)")
     }
     
@@ -173,7 +173,7 @@ class LocationManager : NSObject, CLLocationManagerDelegate {
     
     // IMPORTANT: didEnterRegion and didExitRegion require .AuthorizedAlways. If it's not .AuthorizedAlways
     // it will not detect enter & exit region
-    func locationManager(manager: CLLocationManager, didEnterRegion region: CLRegion) {
+    func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
         if let poi = POIDataManager.sharedInstance.findPOIWithRegiondId(region.identifier) {
             if poi.poiRegionNotifyEnter {
                 LocationManager.notifyRegionUpdate(poi, message:"\(NSLocalizedString("EnteringRegionLocationManager", comment: "")) \(poi.poiDisplayName!)")
@@ -183,7 +183,7 @@ class LocationManager : NSObject, CLLocationManagerDelegate {
         }
     }
     
-    func locationManager(manager: CLLocationManager, didExitRegion region: CLRegion) {
+    func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
         if let poi = POIDataManager.sharedInstance.findPOIWithRegiondId(region.identifier) {
             if poi.poiRegionNotifyExit {
                 LocationManager.notifyRegionUpdate(poi, message:"\(NSLocalizedString("ExitingRegionLocationManager", comment: "")) \(poi.poiDisplayName!)")
@@ -197,33 +197,34 @@ class LocationManager : NSObject, CLLocationManagerDelegate {
     //  1- Send a notification to the Notification Center
     //  2- Update the Badge with Notification Number -> Always 1 !!!!
     //  3- Vibrate the device
-    private static func notifyRegionUpdate(poi:PointOfInterest, message:String) {
+    fileprivate static func notifyRegionUpdate(_ poi:PointOfInterest, message:String) {
         let notification = UILocalNotification()
-        notification.fireDate = NSDate()
-        notification.timeZone = NSTimeZone()
+        notification.fireDate = Date()
+        // SEB: Swift3
+        //notification.timeZone = TimeZone()
         notification.alertBody = message
         //notification.repeatCalendar = .Day
         notification.soundName = UILocalNotificationDefaultSoundName
         notification.applicationIconBadgeNumber = 1
-        UIApplication.sharedApplication().presentLocalNotificationNow(notification)
+        UIApplication.shared.presentLocalNotificationNow(notification)
         
         AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
     }
     
     //MARK: Not yet used
-    func locationManager(manager: CLLocationManager, didFinishDeferredUpdatesWithError error: NSError?) {
+    func locationManager(_ manager: CLLocationManager, didFinishDeferredUpdatesWithError error: Error?) {
         print("Location Manager didFinishDeferredUpdatesWithError")
     }
-    func locationManagerDidPauseLocationUpdates(manager: CLLocationManager) {
+    func locationManagerDidPauseLocationUpdates(_ manager: CLLocationManager) {
         print("Location Manager locationManagerDidPauseLocationUpdates")
     }
-    func locationManagerDidResumeLocationUpdates(manager: CLLocationManager) {
+    func locationManagerDidResumeLocationUpdates(_ manager: CLLocationManager) {
         print("Location Manager locationManagerDidResumeLocationUpdates")
     }
     
     // Post an internal notification when the Authorization status has been changed
-    func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         print("\(#function): Warning the authorization status of Location Manager has changed to \(status.rawValue)")
-        NSNotificationCenter.defaultCenter().postNotificationName(LocationNotifications.AuthorizationHasChanged, object: manager)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: LocationNotifications.AuthorizationHasChanged), object: manager)
     }
 }

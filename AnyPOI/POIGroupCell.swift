@@ -19,17 +19,17 @@ class POIGroupCell: UITableViewCell {
     
     @IBOutlet weak var groupImage: UIImageView!
     
-    func initWithGroup(group:GroupOfInterest, index:Int) {
+    func initWithGroup(_ group:GroupOfInterest, index:Int) {
         groupName.text = group.groupDisplayName
         groupDescription.text = group.groupDescription
         
         if POIDataManager.sharedInstance.isDefaultGroup(group) {
-            groupDisplayedSwitch.enabled = false
+            groupDisplayedSwitch.isEnabled = false
         } else {
-            groupDisplayedSwitch.enabled = true
+            groupDisplayedSwitch.isEnabled = true
         }
         
-        groupDisplayedSwitch.on = group.isGroupDisplayed
+        groupDisplayedSwitch.isOn = group.isGroupDisplayed
         
         groupDisplayedSwitch.tag = index
         editButton.tag = index

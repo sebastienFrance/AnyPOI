@@ -21,7 +21,7 @@ class searchPoiViewCell: UITableViewCell {
     @IBOutlet weak var editButton: UIButton!
     @IBOutlet weak var pinImage: UIImageView!
     
-    func initWith(poi:PointOfInterest, index:Int, region:MKCoordinateRegion) {
+    func initWith(_ poi:PointOfInterest, index:Int, region:MKCoordinateRegion) {
 
         poiTitle.text = poi.poiDisplayName
         poiDescription.text = poi.poiDescription
@@ -35,14 +35,14 @@ class searchPoiViewCell: UITableViewCell {
         let distance = MapUtils.distanceFromTo(poi.coordinate, toCoordinate: region.center)
         let distanceFormater = MKDistanceFormatter()
         poiTitle.text = "\(poi.poiDisplayName!)"
-        poiDistance.text = "\(distanceFormater.stringFromDistance(distance))"
+        poiDistance.text = "\(distanceFormater.string(fromDistance: distance))"
         
         if let image = poi.categoryIcon {
             poiCategoryImage.image = image
-            poiCategoryImage.hidden = false
-            poiCategoryImage.tintColor = UIColor.blackColor()
+            poiCategoryImage.isHidden = false
+            poiCategoryImage.tintColor = UIColor.black
         } else {
-            poiCategoryImage.hidden = true
+            poiCategoryImage.isHidden = true
         }
     }
 }

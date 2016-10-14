@@ -27,132 +27,132 @@ class CustomCalloutAccessoryView: UIView {
 
     @IBOutlet weak var actionsStackView: UIStackView!
     
-    private(set) var URL:String?
-    private(set) var phoneNumber:String?
+    fileprivate(set) var URL:String?
+    fileprivate(set) var phoneNumber:String?
     
-    private struct ImageName {
+    fileprivate struct ImageName {
         static let monitoringEnabled = "Circled Dot Minus-40"
         static let monitoringDisabled = "Circled Dot Plus-40"
     }
     
-    func initWith(poi:PointOfInterest, delegate:PoiCalloutDelegate) {
+    func initWith(_ poi:PointOfInterest, delegate:PoiCalloutDelegate) {
         
         // Delegate will never change, it can be initialized once for all
-        zoomButton.addTarget(delegate, action: #selector(PoiCalloutDelegate.zoomOnPoi(_:)), forControlEvents: .TouchUpInside)
-        routeButton.addTarget(delegate, action: #selector(PoiCalloutDelegate.startRoute(_:)), forControlEvents: .TouchUpInside)
-        startStopMonitoring.addTarget(poi, action: #selector(PointOfInterest.startOrStopMonitoring(_:)), forControlEvents: .TouchUpInside)
-        phoneButton.addTarget(delegate, action: #selector(PoiCalloutDelegate.startPhoneCall(_:)), forControlEvents: .TouchUpInside)
-        emailButton.addTarget(delegate, action: #selector(PoiCalloutDelegate.startEmail(_:)), forControlEvents: .TouchUpInside)
-        webSiteButton.addTarget(delegate, action: #selector(PoiCalloutDelegate.showURL(_:)), forControlEvents: .TouchUpInside)
+        zoomButton.addTarget(delegate, action: #selector(PoiCalloutDelegate.zoomOnPoi(_:)), for: .touchUpInside)
+        routeButton.addTarget(delegate, action: #selector(PoiCalloutDelegate.startRoute(_:)), for: .touchUpInside)
+        startStopMonitoring.addTarget(poi, action: #selector(PointOfInterest.startOrStopMonitoring(_:)), for: .touchUpInside)
+        phoneButton.addTarget(delegate, action: #selector(PoiCalloutDelegate.startPhoneCall(_:)), for: .touchUpInside)
+        emailButton.addTarget(delegate, action: #selector(PoiCalloutDelegate.startEmail(_:)), for: .touchUpInside)
+        webSiteButton.addTarget(delegate, action: #selector(PoiCalloutDelegate.showURL(_:)), for: .touchUpInside)
 
         refreshWith(poi)
     }
     
-    func refreshWith(poi:PointOfInterest) {
+    func refreshWith(_ poi:PointOfInterest) {
         if let subtitle = poi.subtitle {
             addressLabel.text = subtitle
         }
         
         let monitoringStateImageName = poi.isMonitored ? ImageName.monitoringEnabled : ImageName.monitoringDisabled
-        startStopMonitoring.setImage(UIImage(named: monitoringStateImageName), forState: .Normal)
-        startStopMonitoring.removeTarget(nil, action: #selector(PointOfInterest.startOrStopMonitoring(_:)), forControlEvents: .TouchUpInside)
-        startStopMonitoring.addTarget(poi, action: #selector(PointOfInterest.startOrStopMonitoring(_:)), forControlEvents: .TouchUpInside)
+        startStopMonitoring.setImage(UIImage(named: monitoringStateImageName), for: UIControlState())
+        startStopMonitoring.removeTarget(nil, action: #selector(PointOfInterest.startOrStopMonitoring(_:)), for: .touchUpInside)
+        startStopMonitoring.addTarget(poi, action: #selector(PointOfInterest.startOrStopMonitoring(_:)), for: .touchUpInside)
        
         poi.poiIsContact ? configureForContact(poi) : configureForSimplePoi(poi)
     }
     
-    private func configureForSimplePoi(poi:PointOfInterest) {
+    fileprivate func configureForSimplePoi(_ poi:PointOfInterest) {
         configureCategory(poi)
         
         configureURL(poi.poiURL)
         configurePhoneNumber(poi.poiPhoneNumber)
         
-        emailButton.hidden = true
-        navigationStackView.hidden = phoneButton.hidden && webSiteButton.hidden && emailButton.hidden
+        emailButton.isHidden = true
+        navigationStackView.isHidden = phoneButton.isHidden && webSiteButton.isHidden && emailButton.isHidden
    }
     
-    private func configureCategory(poi:PointOfInterest) {
+    fileprivate func configureCategory(_ poi:PointOfInterest) {
         if let image = poi.categoryIcon {
             categoryImage.image = image
-            categoryImage.hidden = false
-            categoryImage.tintColor = UIColor.blackColor()
+            categoryImage.isHidden = false
+            categoryImage.tintColor = UIColor.black
             categoryImageHeightConstraint.constant = 25
             categoryImageWidthConstraint.constant = 25
         } else {
-            categoryImage.hidden = true
+            categoryImage.isHidden = true
         }
     }
     
-    private func configureContactThumbail(contact:CNContact) {
+    fileprivate func configureContactThumbail(_ contact:CNContact) {
         if let thumbail = contact.thumbnailImageData {
-            categoryImage.hidden = false
+            categoryImage.isHidden = false
             categoryImage.image = UIImage(data: thumbail)
             categoryImageHeightConstraint.constant = 70
             categoryImageWidthConstraint.constant = 70
         } else {
-            categoryImage.hidden = true
+            categoryImage.isHidden = true
         }
     }
     
-    private func configureForContact(poi:PointOfInterest) {
+    fileprivate func configureForContact(_ poi:PointOfInterest) {
         if let theContact = ContactsUtilities.getContactForDetailedDescription(poi.poiContactIdentifier!) {
             configureContactThumbail(theContact)
             configurePhoneNumber(theContact)
             configureURL(ContactsUtilities.extractURL(theContact))
             configureMail(theContact)
         } else {
-            phoneButton.hidden = true
-            webSiteButton.hidden = true
-            emailButton.hidden = true
-            categoryImage.hidden = true
+            phoneButton.isHidden = true
+            webSiteButton.isHidden = true
+            emailButton.isHidden = true
+            categoryImage.isHidden = true
         }
-        navigationStackView.hidden = phoneButton.hidden && webSiteButton.hidden && emailButton.hidden
+        navigationStackView.isHidden = phoneButton.isHidden && webSiteButton.isHidden && emailButton.isHidden
    }
     
-    private func configureMail(contact:CNContact) {
+    fileprivate func configureMail(_ contact:CNContact) {
         if contact.emailAddresses.count == 0 {
-            emailButton.hidden = true
+            emailButton.isHidden = true
         } else {
             if contact.emailAddresses.count > 1 {
-                emailButton.setImage(UIImage(named: "MessageSeverals-40"), forState: .Normal)
+                emailButton.setImage(UIImage(named: "MessageSeverals-40"), for: UIControlState())
             } else {
-                emailButton.setImage(UIImage(named: "Message-40"), forState: .Normal)
+                emailButton.setImage(UIImage(named: "Message-40"), for: UIControlState())
             }
-            emailButton.hidden = false
+            emailButton.isHidden = false
         }
     }
     
-    private func configurePhoneNumber(contact:CNContact) {
+    fileprivate func configurePhoneNumber(_ contact:CNContact) {
         if contact.phoneNumbers.count > 0 {
-            phoneButton.hidden = false
+            phoneButton.isHidden = false
             if contact.phoneNumbers.count > 1 {
-                phoneButton.setImage(UIImage(named: "PhoneSeverals Filled-40"), forState: .Normal)
+                phoneButton.setImage(UIImage(named: "PhoneSeverals Filled-40"), for: UIControlState())
             } else {
-                phoneButton.setImage(UIImage(named: "Phone Filled-40"), forState: .Normal)
+                phoneButton.setImage(UIImage(named: "Phone Filled-40"), for: UIControlState())
             }
         } else {
-            phoneButton.hidden = true
+            phoneButton.isHidden = true
         }
     }
 
-    private func configurePhoneNumber(phoneNumber:String?) {
+    fileprivate func configurePhoneNumber(_ phoneNumber:String?) {
         if let thePhoneNumber = phoneNumber {
             self.phoneNumber = thePhoneNumber
-            phoneButton.hidden = false
+            phoneButton.isHidden = false
         } else {
-            phoneButton.hidden = true
+            phoneButton.isHidden = true
         }
     }
     
     
-    private func configureURL(url:String?) {
+    fileprivate func configureURL(_ url:String?) {
         URL = url
         if url != nil {
-            webSiteButton.enabled = true
-            webSiteButton.hidden = false
+            webSiteButton.isEnabled = true
+            webSiteButton.isHidden = false
         } else {
-            webSiteButton.enabled = false
-            webSiteButton.hidden = true
+            webSiteButton.isEnabled = false
+            webSiteButton.isHidden = true
         }
     }
 }

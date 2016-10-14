@@ -16,14 +16,14 @@ class RoutesTableViewCell: UITableViewCell {
 
     @IBOutlet weak var editButton: UIButton!
     
-    func initWith(theRoute:Route, index:Int) {
+    func initWith(_ theRoute:Route, index:Int) {
         routeName.text = theRoute.routeName
         fromTo.text = theRoute.routeDescription
         if theRoute.wayPoints.count == 0 {
-            fromTo.textColor = UIColor.redColor()
+            fromTo.textColor = UIColor.red
             distanceAndDuration.text = nil
         } else {
-            fromTo.textColor = UIColor.blackColor()
+            fromTo.textColor = UIColor.black
             distanceAndDuration.text = theRoute.latestFullRouteDistanceAndTime + " with \(theRoute.wayPoints.count) steps"
         }
         editButton.tag = index

@@ -27,50 +27,50 @@ class LocationCell: UITableViewCell {
 
     @IBOutlet weak var showContactDetailsButton: UIButton!
     
-    func buildWith(poi:PointOfInterest) {
+    func buildWith(_ poi:PointOfInterest) {
         configureGeneralInfo(poi)
         configureCategory(poi)
         
-        showContactDetailsButton.hidden = true
+        showContactDetailsButton.isHidden = true
         
-        mailButton.enabled = false
-        mailButton.hidden = true
+        mailButton.isEnabled = false
+        mailButton.isHidden = true
 
         if poi.poiPhoneNumber != nil {
-            phoneNumberButton.enabled = true
-            phoneNumberButton.hidden = false
+            phoneNumberButton.isEnabled = true
+            phoneNumberButton.isHidden = false
         } else {
-            phoneNumberButton.enabled = false
-            phoneNumberButton.hidden = true
+            phoneNumberButton.isEnabled = false
+            phoneNumberButton.isHidden = true
         }
         
         configureURL(poi.poiURL)
     }
     
 
-    func buildWith(poi:PointOfInterest, contact:CNContact) {
+    func buildWith(_ poi:PointOfInterest, contact:CNContact) {
         configureGeneralInfo(poi)
         configurePhone(contact)
         configureURL(ContactsUtilities.extractURL(contact))
         configureThumbail(contact)
         configureEmail(contact)
-        showContactDetailsButton.hidden = false
+        showContactDetailsButton.isHidden = false
     }
     
-    private func configureCategory(poi:PointOfInterest) {
+    fileprivate func configureCategory(_ poi:PointOfInterest) {
         if let image = poi.categoryIcon {
             poiCategoryImage.image = image
-            poiCategoryImage.tintColor = UIColor.blackColor()
+            poiCategoryImage.tintColor = UIColor.black
             poiCategoryWidth.constant = 25
             poiCategoryHeight.constant = 25
-            poiCategoryImage.hidden = false
+            poiCategoryImage.isHidden = false
         } else {
-            poiCategoryImage.hidden = true
+            poiCategoryImage.isHidden = true
         }
 
     }
     
-    private func configureGeneralInfo(poi:PointOfInterest) {
+    fileprivate func configureGeneralInfo(_ poi:PointOfInterest) {
         addressTextView.text = poi.address
         poiDescription.text = poi.poiDescription
         
@@ -84,60 +84,60 @@ class LocationCell: UITableViewCell {
         
     }
 
-    private func configureThumbail(contact:CNContact) {
+    fileprivate func configureThumbail(_ contact:CNContact) {
         if contact.imageDataAvailable {
             if let thumbail = contact.thumbnailImageData {
-                poiCategoryImage.hidden = false
+                poiCategoryImage.isHidden = false
                 poiCategoryImage.image = UIImage(data: thumbail)
                 poiCategoryWidth.constant = 70
                 poiCategoryHeight.constant = 70
             } else {
-                poiCategoryImage.hidden = true
+                poiCategoryImage.isHidden = true
             }
         } else {
-            poiCategoryImage.hidden = true
+            poiCategoryImage.isHidden = true
         }
     }
     
-    private func configurePhone(contact:CNContact) {
+    fileprivate func configurePhone(_ contact:CNContact) {
         if contact.phoneNumbers.count > 0 {
             if contact.phoneNumbers.count > 1 {
-                phoneNumberButton.setImage(UIImage(named: "PhoneSeverals Filled-40"), forState: .Normal)
+                phoneNumberButton.setImage(UIImage(named: "PhoneSeverals Filled-40"), for: UIControlState())
             } else {
-                phoneNumberButton.setImage(UIImage(named: "Phone Filled-40"), forState: .Normal)
+                phoneNumberButton.setImage(UIImage(named: "Phone Filled-40"), for: UIControlState())
             }
             
-            phoneNumberButton.enabled = true
-            phoneNumberButton.hidden = false
+            phoneNumberButton.isEnabled = true
+            phoneNumberButton.isHidden = false
         } else {
-            phoneNumberButton.enabled = false
-            phoneNumberButton.hidden = true
+            phoneNumberButton.isEnabled = false
+            phoneNumberButton.isHidden = true
         }
     }
     
-    private func configureEmail(contact:CNContact) {
+    fileprivate func configureEmail(_ contact:CNContact) {
         if contact.emailAddresses.count == 0 {
-            mailButton.enabled = false
-            mailButton.hidden = true
+            mailButton.isEnabled = false
+            mailButton.isHidden = true
         } else {
             if contact.emailAddresses.count > 1 {
-                mailButton.setImage(UIImage(named: "MessageSeverals-40"), forState: .Normal)
+                mailButton.setImage(UIImage(named: "MessageSeverals-40"), for: UIControlState())
             } else {
-                mailButton.setImage(UIImage(named: "Message-40"), forState: .Normal)
+                mailButton.setImage(UIImage(named: "Message-40"), for: UIControlState())
             }
             
-            mailButton.enabled = true
-            mailButton.hidden = false
+            mailButton.isEnabled = true
+            mailButton.isHidden = false
         }
     }
     
-    private func configureURL(url:String?) {
+    fileprivate func configureURL(_ url:String?) {
         if url != nil {
-            urlButton.enabled = true
-            urlButton.hidden = false
+            urlButton.isEnabled = true
+            urlButton.isHidden = false
         } else {
-            urlButton.enabled = false
-            urlButton.hidden = true
+            urlButton.isEnabled = false
+            urlButton.isHidden = true
         }
     }
 

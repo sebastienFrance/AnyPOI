@@ -20,7 +20,7 @@ class RouteDetailsViewCell: UITableViewCell {
     @IBOutlet weak var poiCategoryImage: UIImageView!
     @IBOutlet weak var transportTypeStackView: UIStackView!
 
-    override func setEditing(editing: Bool, animated: Bool) {
+    override func setEditing(_ editing: Bool, animated: Bool) {
         if editing == false {
             return // ignore any attempts to turn it off
         }
@@ -37,7 +37,7 @@ class RouteDetailsViewCell: UITableViewCell {
 
 
     // Initialize the cell properties from the POI
-    func initializePOI(poi:PointOfInterest) {
+    func initializePOI(_ poi:PointOfInterest) {
         poiTitle.text = poi.poiDisplayName
         poiDescription.text = poi.poiDescription
         poiAddress.text = poi.address
@@ -45,36 +45,36 @@ class RouteDetailsViewCell: UITableViewCell {
         MapUtils.customizePinForTableView(poiPinView, poi: poi)
         
         routeDistance.text = ""
-        transportType.enabled = false
+        transportType.isEnabled = false
         
         if let image = poi.categoryIcon {
             poiCategoryImage.image = image
-            poiCategoryImage.tintColor = UIColor.blackColor()
-            poiCategoryImage.hidden = false
+            poiCategoryImage.tintColor = UIColor.black
+            poiCategoryImage.isHidden = false
         } else {
-            poiCategoryImage.hidden = true
+            poiCategoryImage.isHidden = true
         }
 
-        transportTypeStackView.hidden = true
+        transportTypeStackView.isHidden = true
     }
 
     // Initialize transportType, distance... from the WayPoint
-    func initializeWayPoint(fromWayPoint:WayPoint, index:Int) {
+    func initializeWayPoint(_ fromWayPoint:WayPoint, index:Int) {
         if let route = fromWayPoint.calculatedRoute {
-            let distanceFormatter = NSLengthFormatter()
-            distanceFormatter.unitStyle = .Short
+            let distanceFormatter = LengthFormatter()
+            distanceFormatter.unitStyle = .short
 
-            routeDistance.text = "\(distanceFormatter.stringFromMeters(route.distance)) in " + (Utilities.shortStringFromTimeInterval(route.expectedTravelTime) as String)
+            routeDistance.text = "\(distanceFormatter.string(fromMeters: route.distance)) in " + (Utilities.shortStringFromTimeInterval(route.expectedTravelTime) as String)
         }
 
         transportType.selectedSegmentIndex = MapUtils.transportTypeToSegmentIndex(fromWayPoint.transportType!)
 
-        transportTypeStackView.hidden = false
-        transportType.enabled = true
+        transportTypeStackView.isHidden = false
+        transportType.isEnabled = true
         transportType.tag = index
     }
     
-    func updateIndex(index:Int) {
+    func updateIndex(_ index:Int) {
         transportType.tag = index
     }
 

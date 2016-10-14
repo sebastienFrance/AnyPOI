@@ -18,12 +18,12 @@ class MailActivityItemSource: NSObject, UIActivityItemSource {
     }
     
     
-     func activityViewControllerPlaceholderItem(activityViewController: UIActivityViewController) -> AnyObject {
+     func activityViewControllerPlaceholderItem(_ activityViewController: UIActivityViewController) -> Any {
         return htmlMailContent
     }
     
-     func activityViewController(activityViewController: UIActivityViewController, itemForActivityType activityType: String) -> AnyObject? {
-        if activityType == UIActivityTypeMail {
+     func activityViewController(_ activityViewController: UIActivityViewController, itemForActivityType activityType: UIActivityType) -> Any? {
+        if activityType == UIActivityType.mail {
             return htmlMailContent
         } else {
             return nil

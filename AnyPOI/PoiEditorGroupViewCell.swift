@@ -15,7 +15,7 @@ class PoiEditorGroupViewCell: UITableViewCell {
     @IBOutlet weak var groupIconImage: UIImageView!
 
     
-    func initWith(group:GroupOfInterest) {
+    func initWith(_ group:GroupOfInterest) {
         groupTitle.text = group.groupDisplayName
         groupIconImage.image = group.iconImage
     }

@@ -12,7 +12,7 @@ protocol ContainerViewControllerDelegate : class {
     weak var container:ContainerViewController? {get set}
     var isStartedByLeftMenu:Bool {get set}
     
-    func enableGestureRecognizer(enable:Bool)
+    func enableGestureRecognizer(_ enable:Bool)
 }
 
 
@@ -25,41 +25,41 @@ protocol CenterViewControllerDelegate : class {
 class ContainerViewController: UIViewController {
 
     enum CenterViewOptions {
-        case Map, PoiManager, Travels, Options, About
+        case map, poiManager, travels, options, about
     }
     
-    private struct Cste {
+    fileprivate struct Cste {
         static let widthHiddenCenterViewContoller = CGFloat(60.0)
     }
 
-    static private(set) var sharedInstance:ContainerViewController!
+    static fileprivate(set) var sharedInstance:ContainerViewController!
     
-    private var mainStoryboard = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle())
-    private var optionsStoryboard = UIStoryboard(name: "Options", bundle: NSBundle.mainBundle())
+    fileprivate var mainStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+    fileprivate var optionsStoryboard = UIStoryboard(name: "Options", bundle: Bundle.main)
     
     // Navigation Controller that contains the MapViewController
-    private var mapViewNavigationController:UINavigationController!
+    fileprivate var mapViewNavigationController:UINavigationController!
     
-    private var leftViewController:LeftMenuViewController?
+    fileprivate var leftViewController:LeftMenuViewController?
     
     // Current CenterViewController displayed on the screen
-    private var currentApplicationViewController:UINavigationController!
-    private var currentCenterDisplay = CenterViewOptions.Map
+    fileprivate var currentApplicationViewController:UINavigationController!
+    fileprivate var currentCenterDisplay = CenterViewOptions.map
 
     // Status of the left panel
     enum SlideOutState {
-        case Collapsed
-        case LeftPanelExpanded
+        case collapsed
+        case leftPanelExpanded
     }
 
-    private var currentState: SlideOutState = .Collapsed {
+    fileprivate var currentState: SlideOutState = .collapsed {
         didSet {
-            let shouldShowShadow = currentState != .Collapsed
+            let shouldShowShadow = currentState != .collapsed
             showShadowForCenterViewController(shouldShowShadow)
         }
     }
     
-    private var panGestureRecognizer:UIPanGestureRecognizer?
+    fileprivate var panGestureRecognizer:UIPanGestureRecognizer?
 
 
     //MARK: Initialization
@@ -70,8 +70,8 @@ class ContainerViewController: UIViewController {
     }
     
     // Add the MapViewController in a NavigationController and then set it as the CenterView in the Container
-    private func addMapViewControllerInContainer() {
-        let mapViewController = mainStoryboard.instantiateViewControllerWithIdentifier("MapViewControllerId") as! MapViewController
+    fileprivate func addMapViewControllerInContainer() {
+        let mapViewController = mainStoryboard.instantiateViewController(withIdentifier: "MapViewControllerId") as! MapViewController
         mapViewController.container = self
         mapViewController.isStartedByLeftMenu = false
 
@@ -81,7 +81,7 @@ class ContainerViewController: UIViewController {
         addChildViewController(currentApplicationViewController)
         view.addSubview(currentApplicationViewController.view)
         
-        currentApplicationViewController.didMoveToParentViewController(self)
+        currentApplicationViewController.didMove(toParentViewController: self)
     }
     
     override func didReceiveMemoryWarning() {
@@ -91,7 +91,7 @@ class ContainerViewController: UIViewController {
     //MARK: status bar
     
     // MapViewController controls the display of the Status bar
-    override func childViewControllerForStatusBarStyle() -> UIViewController? {
+    override var childViewControllerForStatusBarStyle : UIViewController? {
         if mapViewNavigationController != nil {
             return mapViewNavigationController.viewControllers[0]
         } else {
@@ -100,7 +100,7 @@ class ContainerViewController: UIViewController {
     }
     
     // Status bar is given by the MapViewController
-    override func prefersStatusBarHidden() -> Bool {
+    override var prefersStatusBarHidden : Bool {
         if mapViewNavigationController != nil {
             let mapVC = mapViewNavigationController.viewControllers[0] as! MapViewController
             return  mapVC.hideStatusBar
@@ -112,16 +112,16 @@ class ContainerViewController: UIViewController {
     
     
     // This Method is called by the Left Menu only, when the user select the view to be displayed
-    func showCenterView(viewType:ContainerViewController.CenterViewOptions) {
+    func showCenterView(_ viewType:ContainerViewController.CenterViewOptions) {
         if let gestureRecognizer = panGestureRecognizer {
             currentApplicationViewController.view.removeGestureRecognizer(gestureRecognizer)
         }
 
         switch viewType {
-        case .Map:
+        case .map:
             removeCurrentCenterViewController()
             currentApplicationViewController = mapViewNavigationController
-        case .Options, .PoiManager, .Travels, .About:
+        case .options, .poiManager, .travels, .about:
             displayCenterView(viewType)
         }
         toggleLeftPanel()
@@ -131,20 +131,20 @@ class ContainerViewController: UIViewController {
     //MARK: Utilities
     
     // Allocate a new ViewController and put it as the CenterViewController
-    private func displayCenterView(viewType:ContainerViewController.CenterViewOptions) {
+    fileprivate func displayCenterView(_ viewType:ContainerViewController.CenterViewOptions) {
         if currentCenterDisplay != viewType {
             removeCurrentCenterViewController()
             
             var viewController:UIViewController?
             switch viewType {
-            case .PoiManager:
-                viewController = mainStoryboard.instantiateViewControllerWithIdentifier("POIsGroupListViewControllerId")
-            case .Options:
-                let optionsViewController = optionsStoryboard.instantiateViewControllerWithIdentifier("configureOptions") as! OptionsViewController
+            case .poiManager:
+                viewController = mainStoryboard.instantiateViewController(withIdentifier: "POIsGroupListViewControllerId")
+            case .options:
+                let optionsViewController = optionsStoryboard.instantiateViewController(withIdentifier: "configureOptions") as! OptionsViewController
                 optionsViewController.theMapView = MapViewController.instance?.theMapView
                 viewController = optionsViewController
-            case .Travels:
-                viewController = mainStoryboard.instantiateViewControllerWithIdentifier("Routes")
+            case .travels:
+                viewController = mainStoryboard.instantiateViewController(withIdentifier: "Routes")
             default:
                 print("\(#function) Error, default case called, it should never happen!!!!")
                 viewController = nil
@@ -157,16 +157,16 @@ class ContainerViewController: UIViewController {
     }
     
     // Remove current CenterViewController from the Container only if it's not the MapViewController
-    private func removeCurrentCenterViewController() {
-        if currentCenterDisplay != .Map {
-            currentApplicationViewController.willMoveToParentViewController(nil)
+    fileprivate func removeCurrentCenterViewController() {
+        if currentCenterDisplay != .map {
+            currentApplicationViewController.willMove(toParentViewController: nil)
             currentApplicationViewController.view.removeFromSuperview()
             currentApplicationViewController.removeFromParentViewController()
         }
     }
     
     // Install the viewController as the new CenterViewController in the container
-    private func insertCenterViewController(viewController:UIViewController) {
+    fileprivate func insertCenterViewController(_ viewController:UIViewController) {
         if let containerDelegate = viewController as? ContainerViewControllerDelegate {
             containerDelegate.container = self
             containerDelegate.isStartedByLeftMenu = true
@@ -179,20 +179,20 @@ class ContainerViewController: UIViewController {
         view.addSubview(currentApplicationViewController.view)
         
         // Move the view on the right edge of the screen (outside). Next it will be animated to move from the right edge to the left edge
-        currentApplicationViewController.view.frame = CGRectMake(view.frame.width, view.frame.origin.y, view.frame.width, view.frame.height)
-        currentApplicationViewController.didMoveToParentViewController(self)
+        currentApplicationViewController.view.frame = CGRect(x: view.frame.width, y: view.frame.origin.y, width: view.frame.width, height: view.frame.height)
+        currentApplicationViewController.didMove(toParentViewController: self)
     }
     
     // Create the Left menu and add it in the Container
-    private func addLeftPanelViewController() {
+    fileprivate func addLeftPanelViewController() {
         if (leftViewController == nil) {
-            leftViewController = mainStoryboard.instantiateViewControllerWithIdentifier("LeftMenuViewControllerId") as? LeftMenuViewController
+            leftViewController = mainStoryboard.instantiateViewController(withIdentifier: "LeftMenuViewControllerId") as? LeftMenuViewController
             leftViewController!.container = self
             
             addChildViewController(leftViewController!)
-            view.insertSubview(leftViewController!.view, atIndex: 0)
+            view.insertSubview(leftViewController!.view, at: 0)
            
-            leftViewController!.didMoveToParentViewController(self)
+            leftViewController!.didMove(toParentViewController: self)
             
             panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(ContainerViewController.handlePanGesture(_:)))
             currentApplicationViewController.view.addGestureRecognizer(panGestureRecognizer!)
@@ -204,18 +204,18 @@ class ContainerViewController: UIViewController {
     }
     
     
-    private func animateLeftPanel(shouldExpandLeftMenu: Bool) {
+    fileprivate func animateLeftPanel(_ shouldExpandLeftMenu: Bool) {
         if (shouldExpandLeftMenu) {
             // Move the centerViewController to the right of the screen to show the Left Menu
-            currentState = .LeftPanelExpanded
-            animateCenterPanelXPosition(CGRectGetWidth(currentApplicationViewController.view.frame) - Cste.widthHiddenCenterViewContoller)
+            currentState = .leftPanelExpanded
+            animateCenterPanelXPosition(currentApplicationViewController.view.frame.width - Cste.widthHiddenCenterViewContoller)
         } else {
             // Move the centerViewController to left edge of the screen (to fill the whole screen)
             // and we remove the leftViewController from the ContainerView
             animateCenterPanelXPosition(0) { finished in
-                self.currentState = .Collapsed
+                self.currentState = .collapsed
                 
-                self.leftViewController?.willMoveToParentViewController(nil)
+                self.leftViewController?.willMove(toParentViewController: nil)
                 self.leftViewController!.view.removeFromSuperview()
                 self.leftViewController?.removeFromParentViewController()
                 self.leftViewController = nil;
@@ -224,12 +224,12 @@ class ContainerViewController: UIViewController {
     }
     
     // Add the shadow on the displayed CenterViewController
-    private func showShadowForCenterViewController(shouldShowShadow: Bool) {
+    fileprivate func showShadowForCenterViewController(_ shouldShowShadow: Bool) {
         currentApplicationViewController.view.layer.shadowOpacity = shouldShowShadow ? 0.8 : 0.0
     }
     
-    private func animateCenterPanelXPosition(targetPosition: CGFloat, completion: ((Bool) -> Void)! = nil) {
-        UIView.animateWithDuration(0.5, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: .CurveEaseInOut, animations: {
+    fileprivate func animateCenterPanelXPosition(_ targetPosition: CGFloat, completion: ((Bool) -> Void)! = nil) {
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: UIViewAnimationOptions(), animations: {
             self.currentApplicationViewController.view.frame.origin.x = targetPosition
             }, completion: completion)
     }
@@ -244,28 +244,28 @@ extension ContainerViewController : CenterViewControllerDelegate {
         if currentApplicationViewController != mapViewNavigationController {
             mapViewNavigationController.view.frame = view.frame // Put the map on the right place
             
-            currentApplicationViewController.willMoveToParentViewController(nil)
+            currentApplicationViewController.willMove(toParentViewController: nil)
             let viewControllerToRemove = currentApplicationViewController
             
-            UIView.animateWithDuration(0.5, animations: {
-                viewControllerToRemove.view.alpha = 0.0
-            }) { result in
-                viewControllerToRemove.view.removeFromSuperview()
-                viewControllerToRemove.removeFromParentViewController()
-            }
+            UIView.animate(withDuration: 0.5, animations: {
+                viewControllerToRemove?.view.alpha = 0.0
+            }, completion: { result in
+                viewControllerToRemove?.view.removeFromSuperview()
+                viewControllerToRemove?.removeFromParentViewController()
+            }) 
             
             currentApplicationViewController = mapViewNavigationController
-            currentCenterDisplay = .Map
-            currentState = .Collapsed
+            currentCenterDisplay = .map
+            currentState = .collapsed
             MapViewController.instance?.enableGestureRecognizer(true)
         } else {
-            mapViewNavigationController.popToRootViewControllerAnimated(true)
+            mapViewNavigationController.popToRootViewController(animated: true)
         }
     }
     
     // Called by a centerViewController when the Left Menu must be displayed
     func toggleLeftPanel() {
-        let shouldExpandLeftMenu = (currentState != .LeftPanelExpanded)
+        let shouldExpandLeftMenu = (currentState != .leftPanelExpanded)
         
         if shouldExpandLeftMenu {
             addLeftPanelViewController()
@@ -287,15 +287,15 @@ extension ContainerViewController: UIGestureRecognizerDelegate {
     
     
     // When the right ViewController has been moved from more than 50% then it automatically replaces the left menu
-    func handlePanGesture(recognizer: UIPanGestureRecognizer) {
+    func handlePanGesture(_ recognizer: UIPanGestureRecognizer) {
         
         switch(recognizer.state) {
-        case .Began:
+        case .began:
             break
-        case .Changed:
-            recognizer.view!.center.x = recognizer.view!.center.x + recognizer.translationInView(view).x
-            recognizer.setTranslation(CGPointZero, inView: view)
-        case .Ended:
+        case .changed:
+            recognizer.view!.center.x = recognizer.view!.center.x + recognizer.translation(in: view).x
+            recognizer.setTranslation(CGPoint.zero, in: view)
+        case .ended:
             if leftViewController != nil {
                 // animate the side panel open or closed based on whether the view has moved more or less than halfway
                 let hasMovedGreaterThanHalfway = recognizer.view!.center.x > view.bounds.size.width

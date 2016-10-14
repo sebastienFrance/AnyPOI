@@ -15,7 +15,7 @@ import MessageUI
 
 class PoiCalloutDelegateImpl: NSObject   {
     
-    private weak var theMapView:MKMapView!
+    fileprivate weak var theMapView:MKMapView!
     weak var viewController:UIViewController!
     
     init(mapView:MKMapView, sourceViewController:UIViewController) {
@@ -32,7 +32,7 @@ extension PoiCalloutDelegateImpl : PoiCalloutDelegate {
         static let openEmailsId = "openEmails"
     }
 
-    func zoomOnPoi(sender: UIButton) {
+    func zoomOnPoi(_ sender: UIButton) {
         /*
         let selectedAnnotations = theMapView.selectedAnnotations
         if selectedAnnotations.count > 0 {
@@ -49,25 +49,25 @@ extension PoiCalloutDelegateImpl : PoiCalloutDelegate {
 
     }
     
-    func startRoute(sender: UIButton) {
+    func startRoute(_ sender: UIButton) {
         let selectedAnnotations = theMapView.selectedAnnotations
         if selectedAnnotations.count > 0 {
-            viewController.performSegueWithIdentifier(storyboard.startTableRouteId, sender: selectedAnnotations[0])
+            viewController.performSegue(withIdentifier: storyboard.startTableRouteId, sender: selectedAnnotations[0])
         }
     }
     
     
-    func startPhoneCall(sender:UIButton) {
+    func startPhoneCall(_ sender:UIButton) {
         let selectedAnnotations = theMapView.selectedAnnotations
         if selectedAnnotations.count > 0 {
             let poi = selectedAnnotations[0] as! PointOfInterest
-            let viewAnnotation = theMapView.viewForAnnotation(poi)
+            let viewAnnotation = theMapView.view(for: poi)
             let calloutAccessoryView = viewAnnotation?.detailCalloutAccessoryView as? CustomCalloutAccessoryView
             
             if poi.poiIsContact {
                 if let contact = ContactsUtilities.getContactForDetailedDescription(poi.poiContactIdentifier!) {
                     if contact.phoneNumbers.count > 1 {
-                        viewController.performSegueWithIdentifier(storyboard.openPhonesId, sender: poi)
+                        viewController.performSegue(withIdentifier: storyboard.openPhonesId, sender: poi)
                     } else {
                         if let phoneNumber = ContactsUtilities.extractPhoneNumber(contact) {
                             Utilities.startPhoneCall(phoneNumber.stringValue)
@@ -80,7 +80,7 @@ extension PoiCalloutDelegateImpl : PoiCalloutDelegate {
         }
     }
     
-    func startEmail(sender:UIButton) {
+    func startEmail(_ sender:UIButton) {
         let selectedAnnotations = theMapView.selectedAnnotations
         if selectedAnnotations.count > 0 {
             let poi = selectedAnnotations[0] as! PointOfInterest
@@ -90,7 +90,7 @@ extension PoiCalloutDelegateImpl : PoiCalloutDelegate {
             if poi.poiIsContact {
                 if let contact = ContactsUtilities.getContactForDetailedDescription(poi.poiContactIdentifier!) {
                     if contact.emailAddresses.count > 1 {
-                        viewController.performSegueWithIdentifier(storyboard.openEmailsId, sender: poi)
+                        viewController.performSegue(withIdentifier: storyboard.openEmailsId, sender: poi)
                     } else {
                         // To be completed, start a mail !
                         if MFMailComposeViewController.canSendMail() {
@@ -99,7 +99,7 @@ extension PoiCalloutDelegateImpl : PoiCalloutDelegate {
                                 let mailComposer = MFMailComposeViewController()
                                 mailComposer.setToRecipients([email])
                                 mailComposer.mailComposeDelegate = self
-                                viewController.presentViewController(mailComposer, animated: true, completion: nil)
+                                viewController.present(mailComposer, animated: true, completion: nil)
                             }
                         }
 
@@ -109,11 +109,11 @@ extension PoiCalloutDelegateImpl : PoiCalloutDelegate {
         }
     }
     
-    func showURL(sender: UIButton) {
+    func showURL(_ sender: UIButton) {
         let selectedAnnotations = theMapView.selectedAnnotations
         if selectedAnnotations.count > 0 {
             let poi = selectedAnnotations[0] as! PointOfInterest
-            let viewAnnotation = theMapView.viewForAnnotation(poi)
+            let viewAnnotation = theMapView.view(for: poi)
             let calloutAccessoryView = viewAnnotation?.detailCalloutAccessoryView as? CustomCalloutAccessoryView
             
             Utilities.openSafariFrom(viewController, url: calloutAccessoryView?.URL, delegate:self)
@@ -121,21 +121,21 @@ extension PoiCalloutDelegateImpl : PoiCalloutDelegate {
     }
     
     
-    func trashWayPoint(sender:UIButton) {
+    func trashWayPoint(_ sender:UIButton) {
         let mapViewControler = viewController as! MapViewController
         mapViewControler.removeSelectedPoi()
     }
     
-    func addWayPoint(sender:UIButton) {
+    func addWayPoint(_ sender:UIButton) {
         let mapViewControler = viewController as! MapViewController
         mapViewControler.addSelectedPoi()
        
     }
     
-    func showRouteFromCurrentLocation(sender:UIButton) {
+    func showRouteFromCurrentLocation(_ sender:UIButton) {
         if let routeManager = MapViewController.instance?.routeManager {
             if !routeManager.isRouteFromCurrentLocationDisplayed {
-                sender.tintColor = UIColor.redColor()
+                sender.tintColor = UIColor.red
                 if theMapView.selectedAnnotations.count > 0 {
                     let mapViewControler = viewController as! MapViewController
                     mapViewControler.showRouteFromCurrentLocation(theMapView.selectedAnnotations[0] as! PointOfInterest)
@@ -154,14 +154,14 @@ extension PoiCalloutDelegateImpl : MapCameraAnimationsDelegate {
 }
 
 extension PoiCalloutDelegateImpl : SFSafariViewControllerDelegate {
-    func safariViewController(controller: SFSafariViewController, didCompleteInitialLoad didLoadSuccessfully: Bool) {
+    func safariViewController(_ controller: SFSafariViewController, didCompleteInitialLoad didLoadSuccessfully: Bool) {
         HUD.hide()
     }
 }
 
 extension PoiCalloutDelegateImpl: MFMailComposeViewControllerDelegate {
-    func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
-        controller.dismissViewControllerAnimated(true, completion: nil)
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        controller.dismiss(animated: true, completion: nil)
     }
 }
 

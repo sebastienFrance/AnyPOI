@@ -37,19 +37,19 @@ class WikiLanguagePickerTableViewCell: UITableViewCell {
 
 extension WikiLanguagePickerTableViewCell: UIPickerViewDelegate, UIPickerViewDataSource {
     
-    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
     
-    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return WikipediaLanguages.supportedLanguages.count
     }
     
-    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return WikipediaLanguages.supportedLanguages[row]
     }
     
-    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         wikiUpdate.wikiLanguageHasChanged(WikipediaLanguages.languageISOCodeForLanguage(WikipediaLanguages.supportedLanguages[row]))
     }
     

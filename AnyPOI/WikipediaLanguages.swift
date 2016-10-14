@@ -73,11 +73,11 @@ class WikipediaLanguages {
     static let defaultWikipediaLanguageISOcode = "en"
 
     // Convert Language ISO code to full language name
-    private static let languageISOcodeToLanguage : [String:String] = {
+    fileprivate static let languageISOcodeToLanguage : [String:String] = {
         var result = [String:String]()
         
         for currentLanguageCode in languageCodeToStartEndPoint.keys {
-            if let currentLanguage =  NSLocale.currentLocale().displayNameForKey(NSLocaleIdentifier, value: currentLanguageCode) {
+            if let currentLanguage =  (Locale.current as NSLocale).displayName(forKey: NSLocale.Key.identifier, value: currentLanguageCode) {
                 result[currentLanguageCode] = currentLanguage
             }
         }
@@ -85,11 +85,11 @@ class WikipediaLanguages {
     }()
     
     // Convert Language name to ISO code
-    private static let languageToLanguageISOcode : [String:String] = {
+    fileprivate static let languageToLanguageISOcode : [String:String] = {
         var result = [String:String]()
         
         for currentLanguageCode in languageCodeToStartEndPoint.keys {
-            if let currentLanguage =  NSLocale.currentLocale().displayNameForKey(NSLocaleIdentifier, value: currentLanguageCode) {
+            if let currentLanguage =  (Locale.current as NSLocale).displayName(forKey: NSLocale.Key.identifier, value: currentLanguageCode) {
                 result[currentLanguage] = currentLanguageCode
             }
         }
@@ -101,16 +101,16 @@ class WikipediaLanguages {
         var result = [String]()
         
         for currentLanguageCode in languageCodeToStartEndPoint.keys {
-            if let language =  NSLocale.currentLocale().displayNameForKey(NSLocaleIdentifier, value: currentLanguageCode) {
+            if let language =  (Locale.current as NSLocale).displayName(forKey: NSLocale.Key.identifier, value: currentLanguageCode) {
                 result.append(language)
             }
         }
         
-        return result.sort()
+        return result.sorted()
     }()
     
     // Return true if the language ISO code is available in Wikipedia
-    static func hasISOCodeLanguage(languageISOcode:String) -> Bool {
+    static func hasISOCodeLanguage(_ languageISOcode:String) -> Bool {
         if let _ = languageCodeToStartEndPoint[languageISOcode] {
             return true
         } else {
@@ -119,12 +119,12 @@ class WikipediaLanguages {
     }
     
     // Return Language ISO code for a Language (or the default one if the requested language doesn't exist)
-    static func languageISOCodeForLanguage(language:String) -> String {
+    static func languageISOCodeForLanguage(_ language:String) -> String {
         return languageToLanguageISOcode[language] ?? defaultWikipediaLanguageISOcode
     }
     
     // Return the Language for the ISO code
-    static func LanguageForISOcode(languageISOcode:String) -> String {
+    static func LanguageForISOcode(_ languageISOcode:String) -> String {
         return languageISOcodeToLanguage[languageISOcode] ?? "Unknown language"
     }
     
