@@ -256,7 +256,7 @@ class POIDataManager {
     
     fileprivate func getUniqueStringFromPOI(_ propertyName:String, withSorting:Bool = false, withPredicate:NSPredicate? = nil, withCountryNameFilter:String = "") -> [String] {
         let managedContext = DatabaseAccess.sharedInstance.managedObjectContext
-        let fetchRequest = NSFetchRequest<PointOfInterest>(entityName: entitiesCste.pointOfInterest)
+        let fetchRequest = NSFetchRequest<NSDictionary>(entityName: entitiesCste.pointOfInterest)
         fetchRequest.resultType = .dictionaryResultType
         fetchRequest.returnsDistinctResults = true
         fetchRequest.propertiesToFetch = [propertyName]
@@ -286,7 +286,7 @@ class POIDataManager {
             let withCountryNameLowerCase = withCountryNameFilter.lowercased()
             
             for currentPropertyDictionary in propertiesResults {
-                if let values = (currentPropertyDictionary as? NSDictionary)?.allValues as? [String] {
+                if let values = currentPropertyDictionary.allValues as? [String] {
                     if withCountryNameFilter.isEmpty {
                         properties.append(contentsOf: values)
                     } else {

@@ -307,7 +307,7 @@ class RouteManager: NSObject {
                 })
             
             
-            alertActionSheet.addAction(UIAlertAction(title: NSLocalizedString("Ok", comment: ""), style: .cancel, handler: nil))
+            alertActionSheet.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: nil))
             routeDisplayInfos.getViewController().present(alertActionSheet, animated: true, completion: nil)
             
         } else {
