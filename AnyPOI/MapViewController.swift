@@ -742,7 +742,8 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
                         theMapView.remove(monitoredRegionOverlay)
                     }
 
-                    if let monitoredRegionOverlay = updatedPoi.resetMonitoredRegionOverlay() {
+                    updatedPoi.resetMonitoredRegionOverlay()
+                    if let monitoredRegionOverlay = updatedPoi.getMonitordRegionOverlay() {
                         theMapView.add(monitoredRegionOverlay)
                     }
                 } else {

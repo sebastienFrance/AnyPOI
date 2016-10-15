@@ -10,6 +10,7 @@ import Foundation
 import CoreData
 import MapKit
 
+@objc(WayPoint)
 class WayPoint: NSManagedObject {
 
     // Contain the direction from this WayPoint to the next

@@ -33,20 +33,11 @@ extension PoiCalloutDelegateImpl : PoiCalloutDelegate {
     }
 
     func zoomOnPoi(_ sender: UIButton) {
-        /*
-        let selectedAnnotations = theMapView.selectedAnnotations
-        if selectedAnnotations.count > 0 {
-            let poi = selectedAnnotations[0]
-            let mapAnimation = MapCameraAnimations(mapView: theMapView, mapCameraDelegate: self)
-            mapAnimation.fromCurrentMapLocationTo(poi.coordinate)
-        }
-        */
         let selectedAnnotations = theMapView.selectedAnnotations
         if selectedAnnotations.count > 0 {
             let poi = selectedAnnotations[0] as! PointOfInterest
             MapViewController.instance!.flyoverAround(poi)
         }
-
     }
     
     func startRoute(_ sender: UIButton) {
@@ -95,12 +86,11 @@ extension PoiCalloutDelegateImpl : PoiCalloutDelegate {
                         // To be completed, start a mail !
                         if MFMailComposeViewController.canSendMail() {
                             let currentLabeledValue = contact.emailAddresses[0]
-                            if let email = currentLabeledValue.value as? String {
-                                let mailComposer = MFMailComposeViewController()
-                                mailComposer.setToRecipients([email])
-                                mailComposer.mailComposeDelegate = self
-                                viewController.present(mailComposer, animated: true, completion: nil)
-                            }
+                            let email = currentLabeledValue.value as String
+                            let mailComposer = MFMailComposeViewController()
+                            mailComposer.setToRecipients([email])
+                            mailComposer.mailComposeDelegate = self
+                            viewController.present(mailComposer, animated: true, completion: nil)
                         }
 
                     }

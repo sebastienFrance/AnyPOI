@@ -283,14 +283,11 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
                     // To be completed, start a mail !
                     if MFMailComposeViewController.canSendMail() {
                         let currentLabeledValue = contact.emailAddresses[0]
-                        if let email = currentLabeledValue.value as? String {
-                            let mailComposer = MFMailComposeViewController()
-                            mailComposer.setToRecipients([email])
-                            mailComposer.mailComposeDelegate = self
-                            present(mailComposer, animated: true, completion: nil)
-                        }
+                        let mailComposer = MFMailComposeViewController()
+                        mailComposer.setToRecipients([currentLabeledValue.value as String])
+                        mailComposer.mailComposeDelegate = self
+                        present(mailComposer, animated: true, completion: nil)
                     }
-                    
                 }
             }
         }

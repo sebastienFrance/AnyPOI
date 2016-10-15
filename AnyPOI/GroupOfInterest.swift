@@ -10,6 +10,7 @@ import Foundation
 import CoreData
 import UIKit
 import MapKit
+
 fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
   switch (lhs, rhs) {
   case let (l?, r?):
@@ -21,7 +22,7 @@ fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
   }
 }
 
-
+@objc(GroupOfInterest)
 class GroupOfInterest: NSManagedObject {
 
     struct properties {

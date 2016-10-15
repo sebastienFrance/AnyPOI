@@ -14,6 +14,7 @@ import Contacts
 import CoreSpotlight
 import MobileCoreServices // for kUTTypeData
 
+@objc(PointOfInterest)
 class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate {
     
     struct Notifications {
@@ -351,19 +352,21 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
     
 
     func getMonitordRegionOverlay() -> MKOverlay? {
-        if monitoredRegion != nil {
-            return monitoredRegion
-        } else if isMonitored {
-            monitoredRegion = MKCircle(center: coordinate, radius: poiRegionRadius)
-            return monitoredRegion
-        } else {
-            return nil
+        if monitoredRegion == nil {
+            updateMonitoredRegion()
         }
+        return monitoredRegion
     }
 
-    func resetMonitoredRegionOverlay() -> MKOverlay? {
+    func resetMonitoredRegionOverlay() {
         monitoredRegion = nil
-        return getMonitordRegionOverlay()
+        updateMonitoredRegion()
+    }
+    
+    fileprivate func updateMonitoredRegion() {
+        if isMonitored {
+            monitoredRegion = MKCircle(center: coordinate, radius: poiRegionRadius)
+        }
     }
     
     // MARK: Initializers

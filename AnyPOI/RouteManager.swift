@@ -623,7 +623,7 @@ class RouteManager: NSObject {
     // Refresh a Poi depending on its role in the Map
     func refreshPoiAnnotation(_ poi:PointOfInterest) {
         if let annotationView = theMapView.view(for: poi) as? WayPointPinAnnotationView {
-            let poiType = getPoiType(poi) ?? MapUtils.PinAnnotationType.normal
+            let poiType = getPoiType(poi)
             MapUtils.refreshPin(annotationView, poi: poi, delegate: routeDisplayInfos.getPoiCalloutDelegate(), type: poiType)
             
             // Specific case when the route contains only the From then we must not set the

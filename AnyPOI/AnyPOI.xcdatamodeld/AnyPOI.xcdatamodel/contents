@@ -1,53 +1,53 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="11232" systemVersion="16A323" minimumToolsVersion="Xcode 7.0" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="GroupOfInterest" representedClassName=".GroupOfInterest" syncable="YES">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="11232" systemVersion="16A323" minimumToolsVersion="Xcode 8.0" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="GroupOfInterest" representedClassName="GroupOfInterest" syncable="YES">
         <attribute name="groupColor" optional="YES" attributeType="Transformable" valueTransformerName="" syncable="YES"/>
         <attribute name="groupDescription" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="groupDisplayName" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="groupId" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="NO" indexed="YES" syncable="YES"/>
-        <attribute name="isGroupDisplayed" optional="YES" attributeType="Boolean" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="isPrivate" optional="YES" attributeType="Boolean" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="groupId" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" indexed="YES" syncable="YES"/>
+        <attribute name="isGroupDisplayed" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="isPrivate" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <relationship name="listOfPOIs" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="PointOfInterest" inverseName="parentGroup" inverseEntity="PointOfInterest" syncable="YES"/>
     </entity>
-    <entity name="PointOfInterest" representedClassName=".PointOfInterest" syncable="YES">
-        <attribute name="isPrivate" optional="YES" attributeType="Boolean" usesScalarValueType="NO" syncable="YES"/>
+    <entity name="PointOfInterest" representedClassName="PointOfInterest" syncable="YES">
+        <attribute name="isPrivate" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="poiCamera" optional="YES" attributeType="Transformable" syncable="YES"/>
-        <attribute name="poiCategory" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="poiCategory" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="poiCity" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="poiContactIdentifier" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="poiContactLatestAddress" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="poiDescription" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="poiDisplayName" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="poiIsContact" optional="YES" attributeType="Boolean" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="poiIsContact" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="poiISOCountryCode" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="poiLatitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="poiLongitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="poiLatitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="poiLongitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="poiPhoneNumber" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="poiPlacemark" optional="YES" attributeType="Transformable" syncable="YES"/>
         <attribute name="poiRegionId" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="poiRegionNotifyEnter" optional="YES" attributeType="Boolean" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="poiRegionNotifyExit" optional="YES" attributeType="Boolean" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="poiRegionRadius" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="poiRegionNotifyEnter" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="poiRegionNotifyExit" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="poiRegionRadius" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="poiURL" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="poiWikipediaPageId" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="NO" indexed="YES" syncable="YES"/>
+        <attribute name="poiWikipediaPageId" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" indexed="YES" syncable="YES"/>
         <relationship name="parentGroup" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="GroupOfInterest" inverseName="listOfPOIs" inverseEntity="GroupOfInterest" syncable="YES"/>
         <relationship name="poiWayPoints" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="WayPoint" inverseName="wayPointPoi" inverseEntity="WayPoint" syncable="YES"/>
     </entity>
-    <entity name="Route" representedClassName=".Route" syncable="YES">
-        <attribute name="isPrivate" optional="YES" attributeType="Boolean" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="latestTotalDistance" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="latestTotalDuration" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES"/>
+    <entity name="Route" representedClassName="Route" syncable="YES">
+        <attribute name="isPrivate" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="latestTotalDistance" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="latestTotalDuration" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="routeName" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="routeWayPoints" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="WayPoint" inverseName="wayPointParent" inverseEntity="WayPoint" syncable="YES"/>
     </entity>
-    <entity name="WayPoint" representedClassName=".WayPoint" syncable="YES">
+    <entity name="WayPoint" representedClassName="WayPoint" syncable="YES">
         <attribute name="routeInfos" optional="YES" attributeType="Transformable" syncable="YES"/>
-        <attribute name="wayPointTransportType" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="wayPointTransportType" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <relationship name="wayPointParent" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Route" inverseName="routeWayPoints" inverseEntity="Route" syncable="YES"/>
         <relationship name="wayPointPoi" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PointOfInterest" inverseName="poiWayPoints" inverseEntity="PointOfInterest" syncable="YES"/>
     </entity>
     <elements>
-        <element name="GroupOfInterest" positionX="-182" positionY="-117" width="128" height="148"/>
+        <element name="GroupOfInterest" positionX="-182" positionY="-117" width="128" height="150"/>
         <element name="PointOfInterest" positionX="52" positionY="-39" width="128" height="375"/>
         <element name="Route" positionX="-450" positionY="-18" width="128" height="120"/>
         <element name="WayPoint" positionX="-245" positionY="81" width="128" height="105"/>

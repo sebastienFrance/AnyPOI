@@ -57,7 +57,7 @@ class PoiBoundingBox {
         fetchRequest.sortDescriptors = [sortDescriptor]
         
         do {
-            return try DatabaseAccess.sharedInstance.managedObjectContext.fetch(fetchRequest) as! [PointOfInterest]
+            return try DatabaseAccess.sharedInstance.managedObjectContext.fetch(fetchRequest) 
         } catch let error as NSError {
             print("\(#function) could not be fetched \(error), \(error.userInfo)")
             return []

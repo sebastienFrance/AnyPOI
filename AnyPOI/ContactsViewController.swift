@@ -67,14 +67,12 @@ class ContactsViewController: UIViewController   {
     
     @IBAction func faceTimeButtonPushed(_ sender: UIButton) {
         let currentLabeledValue = contact!.phoneNumbers[sender.tag]
-        
-        if let phoneNumber = (currentLabeledValue.value as? CNPhoneNumber)?.stringValue {
-            if let facetimeURL = URL(string: "facetime://\(phoneNumber)") {
-                if UIApplication.shared.canOpenURL(facetimeURL) {
-                    UIApplication.shared.openURL(facetimeURL)
-                    dismiss(animated: true, completion: nil)
-                    delegate.endContacts()
-                }
+        let phoneNumber = (currentLabeledValue.value as CNPhoneNumber).stringValue
+        if let facetimeURL = URL(string: "facetime://\(phoneNumber)") {
+            if UIApplication.shared.canOpenURL(facetimeURL) {
+                UIApplication.shared.openURL(facetimeURL)
+                dismiss(animated: true, completion: nil)
+                delegate.endContacts()
             }
         }
     }
@@ -141,10 +139,10 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
         case .phone:
             let currentLabeledValue = contact!.phoneNumbers[(indexPath as NSIndexPath).row]
             
-            let phoneNumber = currentLabeledValue.value as? CNPhoneNumber
+            let phoneNumber = currentLabeledValue.value as CNPhoneNumber
             
             cell.phoneLabel?.text = ContactsViewController.CNlabelTranslation(currentLabeledValue.label ?? "")
-            cell.phoneNumber?.text = phoneNumber!.stringValue
+            cell.phoneNumber?.text = phoneNumber.stringValue
             
             if currentLabeledValue.label == CNLabelPhoneNumberiPhone {
                 cell.faceTimeButton.isHidden = false
@@ -155,7 +153,7 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
             
         case .email:
             let currentLabeledValue = contact!.emailAddresses[(indexPath as NSIndexPath).row]
-            let email = currentLabeledValue.value as? String
+            let email = currentLabeledValue.value as String
             
             cell.phoneLabel?.text = ContactsViewController.CNlabelTranslation(currentLabeledValue.label ?? "")
             cell.phoneNumber?.text = email
@@ -171,20 +169,19 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
         switch mode {
         case .phone:
             let currentLabeledValue = contact!.phoneNumbers[(indexPath as NSIndexPath).row]
-            let phoneNumber = currentLabeledValue.value as? CNPhoneNumber
-            Utilities.startPhoneCall(phoneNumber!.stringValue)
+            let phoneNumber = currentLabeledValue.value as CNPhoneNumber
+            Utilities.startPhoneCall(phoneNumber.stringValue)
             dismiss(animated: true, completion: nil)
             delegate.endContacts()
 
         case .email:
             if MFMailComposeViewController.canSendMail() {
                 let currentLabeledValue = contact!.emailAddresses[(indexPath as NSIndexPath).row]
-                if let email = currentLabeledValue.value as? String {
-                    let mailComposer = MFMailComposeViewController()
-                    mailComposer.setToRecipients([email])
-                    mailComposer.mailComposeDelegate = self
-                    present(mailComposer, animated: true, completion: nil)
-                }
+                let email = currentLabeledValue.value as String
+                let mailComposer = MFMailComposeViewController()
+                mailComposer.setToRecipients([email])
+                mailComposer.mailComposeDelegate = self
+                present(mailComposer, animated: true, completion: nil)                
             }
             break
         }

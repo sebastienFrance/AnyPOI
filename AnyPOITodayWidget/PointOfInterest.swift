@@ -9,6 +9,7 @@
 import Foundation
 import CoreData
 
+@objc(PointOfInterest)
 class PointOfInterest : NSManagedObject {
     
 }

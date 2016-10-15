@@ -2,39 +2,58 @@
 //  PointOfInterest+CoreDataProperties.swift
 //  AnyPOI
 //
-//  Created by Sébastien Brugalières on 15/09/2016.
+//  Created by Sébastien Brugalières on 15/10/2016.
 //  Copyright © 2016 Sébastien Brugalières. All rights reserved.
-//
-//  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu
-//  to delete and recreate this implementation file for your updated model.
 //
 
 import Foundation
 import CoreData
 
+
 extension PointOfInterest {
 
-    @NSManaged var isPrivate: Bool
-    @NSManaged var poiCamera: NSObject?
-    @NSManaged var poiCategory: Int16
-    @NSManaged var poiCity: String?
-    @NSManaged var poiContactIdentifier: String?
-    @NSManaged var poiContactLatestAddress: String?
-    @NSManaged var poiDescription: String?
-    @NSManaged var poiDisplayName: String?
-    @NSManaged var poiIsContact: Bool
-    @NSManaged var poiISOCountryCode: String?
-    @NSManaged var poiLatitude: Double
-    @NSManaged var poiLongitude: Double
-    @NSManaged var poiPhoneNumber: String?
-    @NSManaged var poiPlacemark: NSObject?
-    @NSManaged var poiRegionId: String?
-    @NSManaged var poiRegionNotifyEnter: Bool
-    @NSManaged var poiRegionNotifyExit: Bool
-    @NSManaged var poiRegionRadius: Double
-    @NSManaged var poiURL: String?
-    @NSManaged var poiWikipediaPageId: Int64
-    @NSManaged var parentGroup: GroupOfInterest?
-    @NSManaged var poiWayPoints: NSSet?
+    @nonobjc public class func fetchRequest() -> NSFetchRequest<PointOfInterest> {
+        return NSFetchRequest<PointOfInterest>(entityName: "PointOfInterest");
+    }
+
+    @NSManaged public var isPrivate: Bool
+    @NSManaged public var poiCamera: NSObject?
+    @NSManaged public var poiCategory: Int16
+    @NSManaged public var poiCity: String?
+    @NSManaged public var poiContactIdentifier: String?
+    @NSManaged public var poiContactLatestAddress: String?
+    @NSManaged public var poiDescription: String?
+    @NSManaged public var poiDisplayName: String?
+    @NSManaged public var poiIsContact: Bool
+    @NSManaged public var poiISOCountryCode: String?
+    @NSManaged public var poiLatitude: Double
+    @NSManaged public var poiLongitude: Double
+    @NSManaged public var poiPhoneNumber: String?
+    @NSManaged public var poiPlacemark: NSObject?
+    @NSManaged public var poiRegionId: String?
+    @NSManaged public var poiRegionNotifyEnter: Bool
+    @NSManaged public var poiRegionNotifyExit: Bool
+    @NSManaged public var poiRegionRadius: Double
+    @NSManaged public var poiURL: String?
+    @NSManaged public var poiWikipediaPageId: Int64
+    @NSManaged public var parentGroup: GroupOfInterest?
+    @NSManaged public var poiWayPoints: NSSet?
+
+}
+
+// MARK: Generated accessors for poiWayPoints
+extension PointOfInterest {
+
+    @objc(addPoiWayPointsObject:)
+    @NSManaged public func addToPoiWayPoints(_ value: WayPoint)
+
+    @objc(removePoiWayPointsObject:)
+    @NSManaged public func removeFromPoiWayPoints(_ value: WayPoint)
+
+    @objc(addPoiWayPoints:)
+    @NSManaged public func addToPoiWayPoints(_ values: NSSet)
+
+    @objc(removePoiWayPoints:)
+    @NSManaged public func removeFromPoiWayPoints(_ values: NSSet)
 
 }

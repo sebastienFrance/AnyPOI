@@ -9,7 +9,7 @@
 import Foundation
 
 import CoreData
-
+@objc(GroupOfInterest)
 class GroupOfInterest : NSManagedObject {
     
 }

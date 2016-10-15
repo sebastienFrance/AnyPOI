@@ -86,9 +86,9 @@ class ContactsUtilities {
                 if let phoneLabel = currentLabeledValue.label {
                     switch phoneLabel {
                     case CNLabelPhoneNumberMain:
-                        return currentLabeledValue.value as? CNPhoneNumber
+                        return currentLabeledValue.value
                     case CNLabelPhoneNumberiPhone, CNLabelPhoneNumberMobile, CNLabelWork, CNLabelHome:
-                        otherNumber = currentLabeledValue.value as? CNPhoneNumber
+                        otherNumber = currentLabeledValue.value
                     default:
                         break
                     }
@@ -96,7 +96,7 @@ class ContactsUtilities {
             }
             
             if otherNumber == nil && contact.phoneNumbers.count > 0 {
-                otherNumber = contact.phoneNumbers[0].value as? CNPhoneNumber
+                otherNumber = contact.phoneNumbers[0].value
             }
             
             return otherNumber
@@ -107,7 +107,7 @@ class ContactsUtilities {
     
     static func extractURL(_ contact:CNContact) -> String? {
         if contact.urlAddresses.count > 0 {
-            return contact.urlAddresses[0].value as? String
+            return contact.urlAddresses[0].value as String 
         } else {
             return nil
         }

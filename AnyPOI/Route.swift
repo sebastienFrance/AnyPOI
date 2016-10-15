@@ -12,6 +12,7 @@ import MapKit
 import CoreSpotlight
 import MobileCoreServices // for kUTTypeData
 
+@objc(Route)
 class Route: NSManagedObject {
 
     // Insert code here to add functionality to your managed object subclass

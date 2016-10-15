@@ -57,7 +57,8 @@ class POIDataManager {
     }
     
     // get the defaul GroupOfInterest (if it doesn't exist, it's automatically created)
-    func getDefaultGroup() -> GroupOfInterest! {
+    @discardableResult
+    func getDefaultGroup() -> GroupOfInterest {
         if let defaultGroup = findGroup(groupId: defaultGroupCste.groupId) {
             return defaultGroup
         } else {
@@ -75,6 +76,7 @@ class POIDataManager {
         }
     }
     
+    @discardableResult
     func getDefaultContactGroup() -> GroupOfInterest! {
         if let defaultGroup = findGroup(groupId: defaultContactGroupCste.groupId) {
             return defaultGroup
@@ -107,8 +109,7 @@ class POIDataManager {
         fetchRequest.sortDescriptors = [sortDescriptor]
         
         do {
-            let results = try managedContext.fetch(fetchRequest)
-            return results as! [GroupOfInterest]
+            return try managedContext.fetch(fetchRequest)
         } catch let error as NSError {
             print("\(#function) GroupOfInterests could not be extracted from DB \(error), \(error.userInfo)")
             return [GroupOfInterest]()
@@ -124,7 +125,7 @@ class POIDataManager {
             let matchingGroups = try managedContext.fetch(fetchRequest)
             
             if matchingGroups.count >= 1 {
-                return matchingGroups[0] as? GroupOfInterest
+                return matchingGroups[0]
             } else {
                 return nil
             }
@@ -144,8 +145,7 @@ class POIDataManager {
         fetchRequest.sortDescriptors = [sortDescriptor]
         
         do {
-            let matchingGroups = try managedContext.fetch(fetchRequest)
-            return matchingGroups as! [GroupOfInterest]
+            return try managedContext.fetch(fetchRequest)
         } catch let error as NSError {
             print("\(#function) DisplayableGroups could not be fetch \(error), \(error.userInfo)")
             return [GroupOfInterest]()
@@ -166,8 +166,7 @@ class POIDataManager {
         
         
         do {
-            let matchingGroup = try managedContext.fetch(fetchRequest)
-            return matchingGroup as! [GroupOfInterest]
+            return try managedContext.fetch(fetchRequest)
         } catch let error as NSError {
             print("\(#function) could not be fetch \(error), \(error.userInfo)")
             return []
@@ -190,6 +189,7 @@ class POIDataManager {
         
         let managedContext = DatabaseAccess.sharedInstance.managedObjectContext
         let entity = NSEntityDescription.entity(forEntityName: entitiesCste.groupOfInterest, in:managedContext)
+       // return GroupOfInterest(context: managedContext)
         return GroupOfInterest(entity: entity!, insertInto: managedContext)
     }
 
@@ -336,8 +336,7 @@ class POIDataManager {
         fetchRequest.sortDescriptors = [sortDescriptor]
      
         do {
-            let matchingPOI = try managedContext.fetch(fetchRequest) as! [PointOfInterest]
-            return matchingPOI
+            return try managedContext.fetch(fetchRequest)
         } catch let error as NSError {
             print("\(#function) could not be fetch \(error), \(error.userInfo)")
             return []
@@ -361,8 +360,7 @@ class POIDataManager {
         fetchRequest.sortDescriptors = [sortDescriptor]
         
         do {
-            let matchingPOI = try managedContext.fetch(fetchRequest) as! [PointOfInterest]
-            return matchingPOI
+            return try managedContext.fetch(fetchRequest)
         } catch let error as NSError {
             print("\(#function) could not be fetch \(error), \(error.userInfo)")
             return []
@@ -386,8 +384,7 @@ class POIDataManager {
         fetchRequest.sortDescriptors = [sortDescriptor]
         
         do {
-            let matchingPOI = try managedContext.fetch(fetchRequest) as! [PointOfInterest]
-            return matchingPOI
+            return try managedContext.fetch(fetchRequest)
         } catch let error as NSError {
             print("\(#function) could not be fetch \(error), \(error.userInfo)")
             return []
@@ -413,8 +410,7 @@ class POIDataManager {
         fetchRequest.sortDescriptors = [sortDescriptor]
 
         do {
-            let matchingPOI = try managedContext.fetch(fetchRequest) as! [PointOfInterest]
-            return matchingPOI
+            return try managedContext.fetch(fetchRequest)
         } catch let error as NSError {
             print("\(#function) could not be fetch \(error), \(error.userInfo)")
             return []
@@ -439,8 +435,7 @@ class POIDataManager {
         fetchRequest.sortDescriptors = [sortDescriptor]
         
         do {
-            let matchingPOI = try managedContext.fetch(fetchRequest) as! [PointOfInterest]
-            return matchingPOI
+            return try managedContext.fetch(fetchRequest)
         } catch let error as NSError {
             print("\(#function) could not be fetch \(error), \(error.userInfo)")
             return []
@@ -494,8 +489,7 @@ class POIDataManager {
         fetchRequest.sortDescriptors = [sortDescriptor]
         
         do {
-            let matchingPOI = try managedContext.fetch(fetchRequest) as! [PointOfInterest]
-            return matchingPOI
+            return try managedContext.fetch(fetchRequest)
         } catch let error as NSError {
             print("\(#function) could not be fetch \(error), \(error.userInfo)")
             return []
@@ -512,8 +506,7 @@ class POIDataManager {
 
         }
         do {
-            let matchingPOI = try managedContext.fetch(fetchRequest) as! [PointOfInterest]
-            return matchingPOI
+            return try managedContext.fetch(fetchRequest)
         } catch let error as NSError {
             print("\(#function) could not be fetch \(error), \(error.userInfo)")
             return []
@@ -530,8 +523,7 @@ class POIDataManager {
         }
         
         do {
-            let matchingPOI = try managedContext.fetch(fetchRequest) as! [PointOfInterest]
-            return matchingPOI
+            return try managedContext.fetch(fetchRequest)
         } catch let error as NSError {
             print("\(#function) could not be fetch \(error), \(error.userInfo)")
             return []
@@ -543,7 +535,7 @@ class POIDataManager {
         let fetchRequest = NSFetchRequest<PointOfInterest>(entityName: entitiesCste.pointOfInterest)
         fetchRequest.predicate = NSPredicate(format: "(poiRegionId == %@)", regionId)
         do {
-            let matchingPOI = try managedContext.fetch(fetchRequest) as! [PointOfInterest]
+            let matchingPOI = try managedContext.fetch(fetchRequest)
             if matchingPOI.count > 1 {
                 print("\(#function): Error, found more than one POI")
             }
@@ -565,7 +557,7 @@ class POIDataManager {
         }
         
         do {
-            let matchingPOI = try managedContext.fetch(fetchRequest) as! [PointOfInterest]
+            let matchingPOI = try managedContext.fetch(fetchRequest)
             if matchingPOI.count > 0 {
                 return matchingPOI[0]
             } else {
@@ -584,7 +576,6 @@ class POIDataManager {
         let poi = getEmptyPoi()
         poi.initializeWith(coordinates, camera:camera)
         commitDatabase()
-//        poi.updateInSpotLight()
         return poi
     }
     
@@ -592,7 +583,6 @@ class POIDataManager {
         let poi = getEmptyPoi()
         poi.initializeWith(contact, placemark: placemark)
         commitDatabase()
-//        poi.updateInSpotLight()
         return poi
     }
     
@@ -600,7 +590,6 @@ class POIDataManager {
         let poi = getEmptyPoi()
         poi.initializeWith(wikipedia, group: group)
         commitDatabase()
-//        poi.updateInSpotLight()
         return poi
     }
     
@@ -608,7 +597,6 @@ class POIDataManager {
         let poi = getEmptyPoi()
         poi.initializeWith(mapItem, categoryIndex:categoryIndex)
         commitDatabase()
-//        poi.updateInSpotLight()
         return poi
     }
     
@@ -673,8 +661,7 @@ class POIDataManager {
         fetchRequest.sortDescriptors = [sortDescriptor]
 
         do {
-            let routes = try managedContext.fetch(fetchRequest) as! [Route]
-            return routes
+            return try managedContext.fetch(fetchRequest)
         } catch let error as NSError {
             print("getAllRoutes could not be fetch \(error), \(error.userInfo)")
             return []
@@ -690,8 +677,7 @@ class POIDataManager {
         fetchRequest.sortDescriptors = [sortDescriptor]
         
         do {
-            let matchingRoute = try managedContext.fetch(fetchRequest) as! [Route]
-            return matchingRoute
+            return try managedContext.fetch(fetchRequest)
         } catch let error as NSError {
             print("findRoute could not be fetch: \(error), \(error.userInfo)")
             return []

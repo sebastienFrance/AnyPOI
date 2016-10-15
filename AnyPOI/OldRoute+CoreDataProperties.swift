@@ -1,5 +1,5 @@
 //
-//  WayPoint+CoreDataProperties.swift
+//  Route+CoreDataProperties.swift
 //  AnyPOI
 //
 //  Created by Sébastien Brugalières on 15/09/2016.
@@ -12,10 +12,12 @@
 import Foundation
 import CoreData
 
-//extension WayPoint {
+//extension Route {
 //
-//    @NSManaged var wayPointTransportType: Int64
-//    @NSManaged var wayPointParent: Route?
-//    @NSManaged var wayPointPoi: PointOfInterest?
+//    @NSManaged var isPrivate: Bool
+//    @NSManaged var latestTotalDistance: Double
+//    @NSManaged var latestTotalDuration: Double
+//    @NSManaged var routeName: String?
+//    @NSManaged var routeWayPoints: NSOrderedSet?
 //
 //}
