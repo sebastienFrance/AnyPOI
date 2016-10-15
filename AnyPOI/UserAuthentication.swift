@@ -51,11 +51,11 @@ class UserAuthentication {
         }
     }
     
-    func requestOneShotAuthentication(_ reason:String) {
+    func requestOneShotAuthentication(reason:String) {
         if UserPreferences.sharedInstance.authenticationTouchIdEnabled {
-            oneShotAuthenticationWithTouchId(reason)
+            oneShotAuthenticationWithTouchId(reason:reason)
         } else {
-            oneShotAuthenticationWithPassword(reason)
+            oneShotAuthenticationWithPassword(reason:reason)
         }
     }
 
@@ -63,7 +63,7 @@ class UserAuthentication {
     // MARK: Blocking Authentication
     // Block user while the user password is not correct
     fileprivate func loopOnPasswordAuthentication() {
-        let userPasswordController = getUserPasswordController(NSLocalizedString("AuthenticationUserAuthentication", comment: ""), message:NSLocalizedString("EnterPasswordUserAuthentication", comment: ""))
+        let userPasswordController = getUserPasswordController(title:NSLocalizedString("AuthenticationUserAuthentication", comment: ""), message:NSLocalizedString("EnterPasswordUserAuthentication", comment: ""))
         
         let okButton = UIAlertAction(title: NSLocalizedString("Ok", comment: ""), style: .default) { alertAction in
             if let password = userPasswordController.textFields?[0].text {
@@ -151,8 +151,8 @@ class UserAuthentication {
     // Show a UIAlertController to request the password. It adds also a cancel button to abort the authentication
     // authenticationDone() is called on the delegate only when the password has been validated otherwise
     // authenticationFailure() is called
-    fileprivate func oneShotAuthenticationWithPassword(_ reason:String) {
-        let userPasswordController = getUserPasswordController(NSLocalizedString("AuthenticationUserAuthentication", comment: ""), message:reason)
+    fileprivate func oneShotAuthenticationWithPassword(reason:String) {
+        let userPasswordController = getUserPasswordController(title:NSLocalizedString("AuthenticationUserAuthentication", comment: ""), message:reason)
         
         let okButton = UIAlertAction(title: NSLocalizedString("Ok", comment: ""), style: .default) { alertAction in
             if let password = userPasswordController.textFields?[0].text {
@@ -190,12 +190,12 @@ class UserAuthentication {
     // authenticationSuccess() is called on the delegate only if the biometric data have been validated otherwise
     // authenticationFailure().
     // Only in case of fallback we redirect the user to password authentication
-    fileprivate func oneShotAuthenticationWithTouchId(_ authenticationReason:String) {
+    fileprivate func oneShotAuthenticationWithTouchId(reason:String) {
         // We disable authentication
         let context = LAContext()
         var error:NSError?
         if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
-            context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: authenticationReason) { result, theError in
+            context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { result, theError in
                 DispatchQueue.main.async {
                     if result {
                         self.delegate.authenticationDone()
@@ -205,12 +205,12 @@ class UserAuthentication {
                             // SEB: Swift3 to be check the error handling
                             switch (theError!) {
                             case LAError.userFallback:
-                                self.oneShotAuthenticationWithPassword(authenticationReason)
+                                self.oneShotAuthenticationWithPassword(reason: reason)
                             case LAError.userCancel:
                                 self.delegate.authenticationFailure()
                                 break
                             default:
-                                self.oneShotAuthenticationWithPassword(authenticationReason)
+                                self.oneShotAuthenticationWithPassword(reason:reason)
                                 break
                             }
 //                            switch (error!.code) {
@@ -229,12 +229,12 @@ class UserAuthentication {
                 }
             }
         } else {
-            oneShotAuthenticationWithPassword(authenticationReason)
+            oneShotAuthenticationWithPassword(reason: reason)
         }
     }
 
     //MARK: Utilities
-    fileprivate func getUserPasswordController(_ title:String, message:String) -> UIAlertController {
+    fileprivate func getUserPasswordController(title:String, message:String) -> UIAlertController {
         let userPasswordController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         userPasswordController.addTextField()  { textField in
             textField.placeholder = NSLocalizedString("YourPasswordUserAuthentication", comment: "")

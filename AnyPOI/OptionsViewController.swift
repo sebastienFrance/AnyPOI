@@ -174,7 +174,7 @@ class OptionsViewController: UITableViewController, PasswordConfigurationDelegat
             performPasswordChange()
         } else {
             isDisablingPassword = true
-            userAuthentication.requestOneShotAuthentication(NSLocalizedString("DisablePasswordAuthentication",comment:""))
+            userAuthentication.requestOneShotAuthentication(reason:NSLocalizedString("DisablePasswordAuthentication",comment:""))
         }
     }
     
@@ -190,7 +190,7 @@ class OptionsViewController: UITableViewController, PasswordConfigurationDelegat
             }
         } else {
             isDisablingPassword = false
-            userAuthentication.requestOneShotAuthentication(NSLocalizedString("DisableTouchIdAuthentication",comment:""))
+            userAuthentication.requestOneShotAuthentication(reason:NSLocalizedString("DisableTouchIdAuthentication",comment:""))
         }
     }
 

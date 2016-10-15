@@ -1104,7 +1104,11 @@ extension MapViewController : FlyoverWayPointsDelegate {
        }
         
         for currentPoi in flyoverUpdatedPois {
+            if isRouteMode {
             routeManager?.refreshPoiAnnotation(currentPoi)
+            } else if let annotationView = theMapView.view(for: currentPoi) as? WayPointPinAnnotationView {
+                annotationView.configureWith(currentPoi, delegate: poiCalloutDelegate, type: .normal)
+            }
         }
         
         flyover = nil
