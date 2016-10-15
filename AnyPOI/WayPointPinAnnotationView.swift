@@ -33,27 +33,24 @@ class WayPointPinAnnotationView : MKPinAnnotationView {
         disablePoiDetailsAccessory()
         disableWayPointAccessory()
         
-        let view = updateDetailCalloutAccessory(poi, delegate: delegate)
-        
-        view.navigationStackView.isHidden = true
-        view.actionsStackView.isHidden = true
-        detailCalloutAccessoryView = view
+        updateDetailCalloutAccessory(poi, delegate: delegate, isFlyover: true)
     }
     
     // If the view for the detailedAccessoryView already exists it's refreshed else it's allocated
-    fileprivate func updateDetailCalloutAccessory(_ poi:PointOfInterest, delegate:PoiCalloutDelegate) -> CustomCalloutAccessoryView {
+    fileprivate func updateDetailCalloutAccessory(_ poi:PointOfInterest, delegate:PoiCalloutDelegate, isFlyover:Bool = false) {
+        var theDetailsAccessoryView:CustomCalloutAccessoryView
         if let accessoryView = detailCalloutAccessoryView as? CustomCalloutAccessoryView {
             accessoryView.refreshWith(poi)
-            accessoryView.navigationStackView.isHidden = false
-            accessoryView.actionsStackView.isHidden = false
-            return accessoryView
+            theDetailsAccessoryView = accessoryView
         } else {
             let nib = UINib(nibName: NibIdentifier.calloutAccessoryView, bundle: nil)
-            let view = nib.instantiate(withOwner: nil, options: nil)[0] as! CustomCalloutAccessoryView
-            view.initWith(poi, delegate: delegate)
-            detailCalloutAccessoryView = view
-            return view
+            theDetailsAccessoryView = nib.instantiate(withOwner: nil, options: nil)[0] as! CustomCalloutAccessoryView
+            theDetailsAccessoryView.initWith(poi, delegate: delegate)
+            detailCalloutAccessoryView = theDetailsAccessoryView
         }
+        
+        theDetailsAccessoryView.navigationStackView.isHidden = isFlyover
+        theDetailsAccessoryView.actionsStackView.isHidden = isFlyover
     }
 
     fileprivate func configureWayPointLeftAccessory(_ delegate:PoiCalloutDelegate, type:MapUtils.PinAnnotationType) {

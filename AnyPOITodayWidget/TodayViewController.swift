@@ -30,7 +30,7 @@ class TodayViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         LocationManager.sharedInstance.startLocationManager()
-        LocationManager.sharedInstance.isLocationAuthorized()
+        _ = LocationManager.sharedInstance.isLocationAuthorized()
         LocationManager.sharedInstance.delegate = self
         
         if let location = LocationManager.sharedInstance.locationManager?.location {

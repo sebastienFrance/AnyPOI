@@ -515,7 +515,7 @@ extension POIDetailsViewController : UITableViewDataSource, UITableViewDelegate 
             
             let poiOfWiki = POIDataManager.sharedInstance.findPOIWith(wikipedia)
             if poiOfWiki == nil {
-                POIDataManager.sharedInstance.addPOI(wikipedia, group:poi.parentGroup!)
+                _ = POIDataManager.sharedInstance.addPOI(wikipedia, group:poi.parentGroup!)
             }
             
             NotificationCenter.default.post(name: Notification.Name(rawValue: MapViewController.MapNotifications.showWikipedia),
@@ -534,7 +534,7 @@ extension POIDetailsViewController : UITableViewDataSource, UITableViewDelegate 
         if (indexPath as NSIndexPath).section == Sections.mapViewAndPhotos  && (indexPath as NSIndexPath).row == 0 {
             POIDataManager.sharedInstance.deletePOI(POI: self.poi)
             POIDataManager.sharedInstance.commitDatabase()
-            self.navigationController?.popViewController(animated: true)
+            _ = self.navigationController?.popViewController(animated: true)
         }
     }
     

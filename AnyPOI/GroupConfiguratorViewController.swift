@@ -85,7 +85,7 @@ class GroupConfiguratorViewController: UIViewController, UITextFieldDelegate, UI
          } else {
             // Create a new group
             let groupDescription = groupDescriptionTextField.text ?? ""
-            POIDataManager.sharedInstance.addGroup(groupName: groupNameTextField.text!, groupDescription: groupDescription, groupColor:colors[selectedColorIndex])
+            _ = POIDataManager.sharedInstance.addGroup(groupName: groupNameTextField.text!, groupDescription: groupDescription, groupColor:colors[selectedColorIndex])
         }
         POIDataManager.sharedInstance.commitDatabase()
         
