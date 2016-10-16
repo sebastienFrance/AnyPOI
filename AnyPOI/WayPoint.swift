@@ -15,7 +15,13 @@ class WayPoint: NSManagedObject {
 
     // Contain the direction from this WayPoint to the next
     // The latest wayPoint of a route is nil
-    var calculatedRoute:MKRoute?
+    var calculatedRoute:MKRoute? {
+        didSet {
+            if let newCalculatedRoute = calculatedRoute {
+                routeInfos = RouteInfos(route:newCalculatedRoute)
+            }
+        }
+    }
 
     
     // Contains the transportType from the previous WayPoint to this WayPoint
@@ -51,6 +57,23 @@ class WayPoint: NSManagedObject {
         }
     }
 
+    // PlaceMark can be empty
+    var routeInfos: RouteInfos? {
+        get {
+            if let theRouteInfos = wayPointRouteInfos as? Data {
+                return NSKeyedUnarchiver.unarchiveObject(with: theRouteInfos) as? RouteInfos
+            } else {
+                return nil
+            }
+        }
+        set {
+            if let newRouteInfos = newValue {
+                wayPointRouteInfos = NSKeyedArchiver.archivedData(withRootObject: newRouteInfos) as NSObject?
+            }
+        }
+    }
+
+ 
     override func prepareForDeletion() {
         wayPointParent?.willRemoveWayPoint(self)
     }

@@ -9,7 +9,7 @@
 import Foundation
 import MapKit
 
-class RouteInfos : NSCoding {
+class RouteInfos : NSObject, NSCoding {
     var polyline: MKPolyline?
     var name: String
     var distance: CLLocationDistance
@@ -29,6 +29,14 @@ class RouteInfos : NSCoding {
         static let Transit = 10
         static let Walking = 20
         static let AnyTransport = 30
+    }
+
+    init(route:MKRoute) {
+        polyline = route.polyline
+        name = route.name
+        distance = route.distance
+        expectedTravelTime = route.expectedTravelTime
+        transportType = route.transportType
     }
     
     @objc required init?(coder aDecoder: NSCoder) {
@@ -84,7 +92,9 @@ class RouteInfos : NSCoding {
         let polyLineData = RouteInfos.polylineToArchive(polyline!)
         aCoder.encode(polyLineData, forKey: Keys.Polyline)
     }
-    
+
+
+
 //    func polylineUnarchive(polylineArchive: NSData) -> MKPolyline? {
 //        guard let data = NSKeyedUnarchiver.unarchiveObjectWithData(polylineArchive),
 //            let polyline = data as? [Dictionary<String, AnyObject>] else {

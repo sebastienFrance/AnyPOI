@@ -2,7 +2,7 @@
 //  WayPoint+CoreDataProperties.swift
 //  AnyPOI
 //
-//  Created by Sébastien Brugalières on 15/10/2016.
+//  Created by Sébastien Brugalières on 16/10/2016.
 //  Copyright © 2016 Sébastien Brugalières. All rights reserved.
 //
 
@@ -16,7 +16,7 @@ extension WayPoint {
         return NSFetchRequest<WayPoint>(entityName: "WayPoint");
     }
 
-    @NSManaged public var routeInfos: NSObject?
+    @NSManaged public var wayPointRouteInfos: NSObject?
     @NSManaged public var wayPointTransportType: Int64
     @NSManaged public var wayPointParent: Route?
     @NSManaged public var wayPointPoi: PointOfInterest?
