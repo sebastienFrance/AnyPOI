@@ -48,8 +48,8 @@ class WayPoint: NSManagedObject {
    
     var region: MKCoordinateRegion? {
         get {
-            if let theRoute = calculatedRoute {
-                let (topLeft, bottomRight) = MapUtils.boundingBoxForOverlay(theRoute.polyline)
+            if let routePolyline = routeInfos?.polyline {
+                let (topLeft, bottomRight) = MapUtils.boundingBoxForOverlay(routePolyline)
                 return MapUtils.appendMargingToBoundBox(topLeft, bottomRightCoord: bottomRight)
             } else {
                 return nil
@@ -79,8 +79,8 @@ class WayPoint: NSManagedObject {
     }
     
     func regionWith(_ annotations:[MKAnnotation]) -> MKCoordinateRegion? {
-        if let theRoute = calculatedRoute {
-            var (topLeft, bottomRight) = MapUtils.boundingBoxForOverlay(theRoute.polyline)
+        if let theRoutePolyline = routeInfos?.polyline {
+            var (topLeft, bottomRight) = MapUtils.boundingBoxForOverlay(theRoutePolyline)
             (topLeft, bottomRight) = MapUtils.extendBoundingBox(topLeft, bottomRightCoord: bottomRight, annotations: annotations)
             return MapUtils.appendMargingToBoundBox(topLeft, bottomRightCoord: bottomRight)
         } else {
@@ -91,8 +91,8 @@ class WayPoint: NSManagedObject {
     // get the bounding box to display the calculated route
     // SEB: Warning maybe the computation is not correct because the calculatedRoute is from current WayPoint to the next one??
     func boundingBox() -> (topLeft:CLLocationCoordinate2D, bottomRight:CLLocationCoordinate2D) {
-        if let theRoute = calculatedRoute {
-            let (topLeft, bottomRight) = MapUtils.boundingBoxForOverlay(theRoute.polyline)
+        if let theRoutePolyline = routeInfos?.polyline {
+            let (topLeft, bottomRight) = MapUtils.boundingBoxForOverlay(theRoutePolyline)
             return (topLeft, bottomRight)
         } else {
             return (CLLocationCoordinate2DMake(0, 0), CLLocationCoordinate2DMake(0, 0))

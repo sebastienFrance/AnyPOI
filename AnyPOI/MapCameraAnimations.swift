@@ -30,7 +30,7 @@ class MapCameraAnimations  {
         var camera:MKMapCamera!
         var annotation:MKAnnotation?
         var coordinate:CLLocationCoordinate2D!
-        var route:MKRoute? // Could be replace by only the Polyline it contains
+        var routePolyline:MKPolyline? // Could be replace by only the Polyline it contains
         
         // When set to true, it selects the annotation related to the waypoint.
         var isSelectedAnnotation = false
@@ -44,14 +44,14 @@ class MapCameraAnimations  {
             self.camera = camera
             annotation = wayPoint.wayPointPoi!
             coordinate = annotation!.coordinate
-            route = wayPoint.calculatedRoute
+            routePolyline = wayPoint.routeInfos?.polyline
         }
         
         init(camera:MKMapCamera, wayPoint:WayPoint, animationDuration:Double) {
             self.camera = camera
             annotation = wayPoint.wayPointPoi!
             coordinate = annotation!.coordinate
-            route = wayPoint.calculatedRoute
+            routePolyline = wayPoint.routeInfos?.polyline
             self.animationDuration = animationDuration
         }
         
@@ -105,11 +105,11 @@ class MapCameraAnimations  {
                 startingDuration = duration
             }
             
-            var nextRoute:MKRoute?
+            var nextRoutePolyline:MKPolyline?
             if currentWayPoint != wayPoints.last {
-                nextRoute = currentWayPoint.calculatedRoute
+                nextRoutePolyline = currentWayPoint.routeInfos?.polyline
             }
-            add360RotationAround(currentWayPoint.wayPointPoi!, fromDistance:  DefaultFor360Degree.fromDistance, pitch: DefaultFor360Degree.pitch, startDuration: startingDuration, route: nextRoute)
+            add360RotationAround(currentWayPoint.wayPointPoi!, fromDistance:  DefaultFor360Degree.fromDistance, pitch: DefaultFor360Degree.pitch, startDuration: startingDuration, routePolyline: nextRoutePolyline)
 
             previousWayPoint = currentWayPoint
         }
@@ -118,10 +118,10 @@ class MapCameraAnimations  {
         executeCameraPathFromIndex()
     }
     
-    func flyoverFromAnnotation(_ annotation:MKAnnotation, waypoint:WayPoint, onRoute:MKRoute? = nil) {
+    func flyoverFromAnnotation(_ annotation:MKAnnotation, waypoint:WayPoint, onRoutePolyline:MKPolyline? = nil) {
         reset()
         let duration = addStartingJunctionFrom(annotation)
-        add360RotationAround(annotation, fromDistance:  DefaultFor360Degree.fromDistance, pitch: DefaultFor360Degree.pitch, startDuration: duration, route:onRoute)
+        add360RotationAround(annotation, fromDistance:  DefaultFor360Degree.fromDistance, pitch: DefaultFor360Degree.pitch, startDuration: duration, routePolyline:onRoutePolyline)
         let startDuration = addJunctionFrom(annotation, toWayPoint:waypoint)
         add360RotationAround(waypoint.wayPointPoi!, fromDistance:  DefaultFor360Degree.fromDistance, pitch: DefaultFor360Degree.pitch, startDuration: startDuration)
         userRequestedToStopFlyoverAnimation = false
@@ -248,15 +248,15 @@ class MapCameraAnimations  {
     // Each step of the animation will take 2 seconds
     // At the start of the animation we update the overlays to display the route starting at this WayPoint and the callout of its annotation is displayed
     // For all other animations the callout is not displayed
-    fileprivate func add360RotationAround(_ annotation:MKAnnotation, fromDistance: CLLocationDistance, pitch: CGFloat, startDuration:Double, route:MKRoute? = nil) {
+    fileprivate func add360RotationAround(_ annotation:MKAnnotation, fromDistance: CLLocationDistance, pitch: CGFloat, startDuration:Double, routePolyline:MKPolyline? = nil) {
         let theCoordinate = annotation.coordinate
         
         var newCameraPath = CameraPath(camera:MKMapCamera(lookingAtCenter: theCoordinate, fromDistance: fromDistance, pitch: pitch, heading: 0), annotation:annotation, animationDuration:startDuration)
         newCameraPath.isSelectedAnnotation = true
         newCameraPath.animationDelay = 2
-        if let theRoute = route {
+        if let theRoutePolyline = routePolyline {
             newCameraPath.updateOverlays = true
-            newCameraPath.route = theRoute
+            newCameraPath.routePolyline = theRoutePolyline
         } else {
             newCameraPath.updateOverlays = false //true
         }
@@ -358,8 +358,8 @@ class MapCameraAnimations  {
                     // update overlays if requested by the current CameraPath
                     if self.theCameraPath[index].updateOverlays {
                         self.theMapView.removeOverlays(self.theMapView.overlays) // Warning: SEB monitoring should not be removed???
-                        if let route = self.theCameraPath[index].route {
-                            self.theMapView.add(route.polyline, level: .aboveRoads)
+                        if let polyLine = self.theCameraPath[index].routePolyline {
+                            self.theMapView.add(polyLine, level: .aboveRoads)
                         }
                     }
                     

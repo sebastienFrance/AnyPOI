@@ -341,6 +341,8 @@ class MapUtils {
             default:
                 renderer.strokeColor = MapColors.routeColorForUnknown
             }
+        } else {
+            renderer.strokeColor = MapColors.routeColorForUnknown
         }
         renderer.lineWidth = 3.0
         return renderer

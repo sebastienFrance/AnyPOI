@@ -257,8 +257,8 @@ class RouteManager: NSObject {
             theMapView.addOverlays(routeDatasource.theRoute.polyLines, level: .aboveRoads)
         } else {
             // Add either the route from the current position or the route between the From/To WayPoints
-            if let theRoute = routeDatasource.fromWayPoint!.calculatedRoute {
-                theMapView.add(theRoute.polyline, level: .aboveRoads)
+            if let theRoutePolyline = routeDatasource.fromWayPoint!.routeInfos?.polyline {
+                theMapView.add(theRoutePolyline, level: .aboveRoads)
             }
             if isRouteFromCurrentLocationDisplayed {
                 theMapView.add(routeFromCurrentLocation!.polyline)
@@ -347,13 +347,13 @@ class RouteManager: NSObject {
                 let wayPointToDelete = routeDatasource.wayPoints[index]
                 
                 // Remove the overlay of the deleted WayPoint
-                if let overlayToRemove = wayPointToDelete.calculatedRoute?.polyline {
+                if let overlayToRemove = wayPointToDelete.routeInfos?.polyline {
                     theMapView.remove(overlayToRemove)
                 } else {
                     // When there is no overlay it probably means it's the latest WayPoint we want to delete
                     // In this case we need to get the overlay where this WayPoint is the target and to delete it
                     if routeDatasource.wayPoints.count >= 2,
-                        let overlayToRemove = routeDatasource.wayPoints[index - 1].calculatedRoute?.polyline {
+                        let overlayToRemove = routeDatasource.wayPoints[index - 1].routeInfos?.polyline {
                         theMapView.remove(overlayToRemove)
                     }
                 }
@@ -427,7 +427,7 @@ class RouteManager: NSObject {
         var needToRefreshCurrentRouteSection = false
         // If the POI is used to display the current WayPoint we remove its overlay
         if poi === routeDatasource.fromPOI || poi === routeDatasource.toPOI,
-            let overlayToRemove = routeDatasource.fromWayPoint?.calculatedRoute?.polyline {
+            let overlayToRemove = routeDatasource.fromWayPoint?.routeInfos?.polyline {
             theMapView.remove(overlayToRemove)
             needToRefreshCurrentRouteSection = true
         }

@@ -36,8 +36,8 @@ class Route: NSManagedObject {
             var annotations = [PointOfInterest]()
             for wayPoint in routeWayPoints! {
                 let theWayPoint = wayPoint as! WayPoint
-                if let theRoute = theWayPoint.calculatedRoute {
-                    overlays.append(theRoute.polyline)
+                if let theRoutePolyline = theWayPoint.routeInfos?.polyline {
+                    overlays.append(theRoutePolyline)
                 }
                 
                 if let thePoi = theWayPoint.wayPointPoi {
@@ -65,8 +65,8 @@ class Route: NSManagedObject {
             var polyLines = [MKPolyline]()
             for wayPoint in routeWayPoints! {
                 let theWayPoint = wayPoint as! WayPoint
-                if let theRoute = theWayPoint.calculatedRoute {
-                    polyLines.append(theRoute.polyline)
+                if let theRoutePolyline = theWayPoint.routeInfos?.polyline {
+                    polyLines.append(theRoutePolyline)
                 }
             }
             return polyLines
@@ -151,7 +151,7 @@ class Route: NSManagedObject {
         
         for wayPoint in routeWayPoints! {
             let currentWayPoint = wayPoint as! WayPoint
-            if let route = currentWayPoint.calculatedRoute {
+            if let route = currentWayPoint.routeInfos {
                 fullDistance += route.distance
                 fullExpectedTravelTime += route.expectedTravelTime
             }
@@ -392,18 +392,18 @@ class Route: NSManagedObject {
                         if let routeDirection = routeResponse,
                             let firstRoute = self.getShortestRouteFrom(routeDirection) {
                             
-                            theWayPoint.calculatedRoute = firstRoute
                             switch firstRoute.transportType {
                             case MKDirectionsTransportType.automobile:
-                                theWayPoint.calculatedRoute?.polyline.title = MapUtils.PolyLineType.automobile
+                                firstRoute.polyline.title = MapUtils.PolyLineType.automobile
                             case MKDirectionsTransportType.walking:
-                                theWayPoint.calculatedRoute?.polyline.title = MapUtils.PolyLineType.wakling
+                                firstRoute.polyline.title = MapUtils.PolyLineType.wakling
                             case MKDirectionsTransportType.transit:
-                                theWayPoint.calculatedRoute?.polyline.title = MapUtils.PolyLineType.transit
+                                firstRoute.polyline.title = MapUtils.PolyLineType.transit
                             default:
-                                theWayPoint.calculatedRoute?.polyline.title = "Unknown"
+                                firstRoute.polyline.title = "Unknown"
                             }
-                            
+                            theWayPoint.calculatedRoute = firstRoute
+
                             NotificationCenter.default.post(name: Notification.Name(rawValue: Notifications.directionForWayPointUpdated), object: theWayPoint)
                         }
                     }

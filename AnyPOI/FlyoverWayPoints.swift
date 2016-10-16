@@ -131,7 +131,7 @@ class FlyoverWayPoints: NSObject{
                     self.mapAnimation!.flyover(routeDatasource.wayPoints)
                 } else {
                     if let route = routeFromCurrentLocation {
-                        self.mapAnimation!.flyoverFromAnnotation(self.theMapView.userLocation, waypoint: routeDatasource.toWayPoint!, onRoute: route)
+                        self.mapAnimation!.flyoverFromAnnotation(self.theMapView.userLocation, waypoint: routeDatasource.toWayPoint!, onRoutePolyline: route.polyline)
                     } else {
                         self.mapAnimation!.flyover([routeDatasource.fromWayPoint!, routeDatasource.toWayPoint!])
                     }

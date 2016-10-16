@@ -122,7 +122,7 @@ class RouteDataSource {
             if isBeforeRouteSections {
                 return allRouteDistanceAndTime
             } else {
-                if let route = fromWayPoint?.calculatedRoute {
+                if let route = fromWayPoint?.routeInfos {
                     let distanceFormatter = LengthFormatter()
                     distanceFormatter.unitStyle = .short
                     let expectedTravelTime = Utilities.shortStringFromTimeInterval(route.expectedTravelTime) as String

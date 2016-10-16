@@ -31,6 +31,12 @@ class RouteInfos : NSObject, NSCoding {
         static let AnyTransport = 30
     }
 
+    fileprivate struct PolylineKeys {
+        static let latitude = "latitude"
+        static let longitude = "longitude"
+        static let title = "title"
+    }
+
     init(route:MKRoute) {
         polyline = route.polyline
         name = route.name
@@ -85,77 +91,48 @@ class RouteInfos : NSObject, NSCoding {
         
         aCoder.encode(transportTypeInt, forKey: Keys.TransportType)
         
-//        var coords: [CLLocationCoordinate2D] = []
-//        coords.reserveCapacity(polyline.pointCount)
-//        polyline.getCoordinates(&coords, range: NSMakeRange(0, polyline.pointCount))
-        
         let polyLineData = RouteInfos.polylineToArchive(polyline!)
         aCoder.encode(polyLineData, forKey: Keys.Polyline)
     }
 
 
 
-//    func polylineUnarchive(polylineArchive: NSData) -> MKPolyline? {
-//        guard let data = NSKeyedUnarchiver.unarchiveObjectWithData(polylineArchive),
-//            let polyline = data as? [Dictionary<String, AnyObject>] else {
-//                return nil
-//        }
-//        var locations: [CLLocation] = []
-//        for item in polyline {
-//            if let latitude = item["latitude"]?.doubleValue,
-//                let longitude = item["longitude"]?.doubleValue {
-//                let location = CLLocation(latitude: latitude, longitude: longitude)
-//                locations.append(location)
-//            }
-//        }
-//        var coordinates = locations.map({(location: CLLocation) -> CLLocationCoordinate2D in return location.coordinate})
-//        let result = MKPolyline(coordinates: &coordinates, count: locations.count)
-//        return result
-//    }
-    
     fileprivate static func polylineUnarchive(_ polylineArchive: NSObject) -> MKPolyline? {
         guard let polyline = polylineArchive as? [Dictionary<String, AnyObject>] else {
                 return nil
         }
         var locations: [CLLocation] = []
+        var title:String?
         for item in polyline {
-            if let latitude = item["latitude"]?.doubleValue,
-                let longitude = item["longitude"]?.doubleValue {
+            if let latitude = item[PolylineKeys.latitude]?.doubleValue,
+                let longitude = item[PolylineKeys.longitude]?.doubleValue {
                 let location = CLLocation(latitude: latitude, longitude: longitude)
                 locations.append(location)
+            } else if let theTitle = item[PolylineKeys.title] as! String? {
+                title = theTitle
             }
         }
         var coordinates = locations.map({(location: CLLocation) -> CLLocationCoordinate2D in return location.coordinate})
         let result = MKPolyline(coordinates: &coordinates, count: locations.count)
+        result.title = title
         return result
     }
 
     
-//    func polylineToArchive(polyline: MKPolyline) -> NSData {
-//        let coordsPointer = UnsafeMutablePointer<CLLocationCoordinate2D>.alloc(polyline.pointCount)
-//        polyline.getCoordinates(coordsPointer, range: NSMakeRange(0, polyline.pointCount))
-//        var coords: [Dictionary<String, AnyObject>] = []
-//        for i in 0..<polyline.pointCount {
-//            let latitude = NSNumber(double: coordsPointer[i].latitude)
-//            let longitude = NSNumber(double: coordsPointer[i].longitude)
-//            let coord = ["latitude" : latitude, "longitude" : longitude]
-//            coords.append(coord)
-//        }
-//        let polylineData = NSKeyedArchiver.archivedDataWithRootObject(coords)
-//        return polylineData
-//    }
-    
     fileprivate static func polylineToArchive(_ polyline: MKPolyline) -> [Dictionary<String, AnyObject>] {
         //SEB : Swift3 to be checked
         let coordsPointer = UnsafeMutablePointer<CLLocationCoordinate2D>.allocate(capacity: polyline.pointCount)
-//        let coordsPointer = UnsafeMutablePointer<CLLocationCoordinate2D>(allocatingCapacity: polyline.pointCount)
         polyline.getCoordinates(coordsPointer, range: NSMakeRange(0, polyline.pointCount))
         var coords: [Dictionary<String, AnyObject>] = []
         for i in 0..<polyline.pointCount {
             let latitude = NSNumber(value: coordsPointer[i].latitude as Double)
             let longitude = NSNumber(value: coordsPointer[i].longitude as Double)
-            let coord = ["latitude" : latitude, "longitude" : longitude]
+            let coord = [PolylineKeys.latitude : latitude, PolylineKeys.longitude : longitude]
             coords.append(coord)
+        }
+
+        if let titleValue =  polyline.title {
+            coords.append([PolylineKeys.title : titleValue as AnyObject])
         }
         return coords
     }

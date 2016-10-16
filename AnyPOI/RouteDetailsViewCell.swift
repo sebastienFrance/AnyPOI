@@ -60,7 +60,7 @@ class RouteDetailsViewCell: UITableViewCell {
 
     // Initialize transportType, distance... from the WayPoint
     func initializeWayPoint(_ fromWayPoint:WayPoint, index:Int) {
-        if let route = fromWayPoint.calculatedRoute {
+        if let route = fromWayPoint.routeInfos {
             let distanceFormatter = LengthFormatter()
             distanceFormatter.unitStyle = .short
 
