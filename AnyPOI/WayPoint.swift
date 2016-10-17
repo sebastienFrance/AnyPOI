@@ -13,17 +13,6 @@ import MapKit
 @objc(WayPoint)
 class WayPoint: NSManagedObject {
 
-    // Contain the direction from this WayPoint to the next
-    // The latest wayPoint of a route is nil
-    var calculatedRoute:MKRoute? {
-        didSet {
-            if let newCalculatedRoute = calculatedRoute {
-                routeInfos = RouteInfos(route:newCalculatedRoute)
-            }
-        }
-    }
-
-    
     // Contains the transportType from the previous WayPoint to this WayPoint
     // For the first WayPoint, it has no meaning
     var transportType : MKDirectionsTransportType? {
@@ -57,7 +46,8 @@ class WayPoint: NSManagedObject {
         }
     }
 
-    // PlaceMark can be empty
+    // Contain the direction from this WayPoint to the next
+    // The latest wayPoint of a route is nil
     var routeInfos: RouteInfos? {
         get {
             if let theRouteInfos = wayPointRouteInfos as? Data {

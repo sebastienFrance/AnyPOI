@@ -729,7 +729,7 @@ class POIDataManager {
             let previousWayPoint = wayPoints.object(at: index - 1) as! WayPoint
             newWayPoint.transportType = previousWayPoint.transportType
             previousWayPoint.transportType = UserPreferences.sharedInstance.routeDefaultTransportType
-            previousWayPoint.calculatedRoute = nil
+            previousWayPoint.routeInfos = nil
         }
         
         route.routeWayPoints = wayPoints
@@ -748,7 +748,7 @@ class POIDataManager {
             let previousWayPoint = wayPoints.object(at: index - 1) as! WayPoint
             newWayPoint.transportType = previousWayPoint.transportType
             previousWayPoint.transportType = transportType
-            previousWayPoint.calculatedRoute = nil
+            previousWayPoint.routeInfos = nil
         }
         
         route.routeWayPoints = wayPoints

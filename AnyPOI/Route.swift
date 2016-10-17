@@ -262,7 +262,7 @@ class Route: NSManagedObject {
         let index = routeWayPoints!.index(of: wayPoint)
         if index != NSNotFound && index > 0 {
             let source = routeWayPoints!.object(at: index - 1) as! WayPoint
-            source.calculatedRoute = nil
+            source.routeInfos = nil
         }
     }
     
@@ -283,7 +283,7 @@ class Route: NSManagedObject {
         let index = routeWayPoints!.index(of: wayPoint)
         if index != NSNotFound && index >= 0 {
             let source = routeWayPoints!.object(at: index) as! WayPoint
-            source.calculatedRoute = nil
+            source.routeInfos = nil
         }
     }
     
@@ -293,7 +293,7 @@ class Route: NSManagedObject {
         var foundWayPoint = false
         var index = 0
         while !foundWayPoint && index < (wayPoints.count - 1) {
-            if wayPoints[index].calculatedRoute == nil {
+            if wayPoints[index].routeInfos == nil {
                 foundWayPoint = true
             } else {
                 index += 1
@@ -332,7 +332,7 @@ class Route: NSManagedObject {
         // We cannot have route to compute if don't have at least 2 WayPoints
         if wayPoints.count > 1 {
             for index in 0..<wayPoints.count - 1  {
-                if wayPoints[index].calculatedRoute == nil {
+                if wayPoints[index].routeInfos == nil {
                     if !foundWayPoint {
                         foundWayPoint = true
                         startIndex = index
@@ -375,7 +375,7 @@ class Route: NSManagedObject {
             isDirectionLoading = false
             return
         }
-        if wayPoints[currentIndex].calculatedRoute == nil || (wayPoints[currentIndex].calculatedRoute != nil && forceToReload) {
+        if wayPoints[currentIndex].routeInfos == nil || (wayPoints[currentIndex].routeInfos != nil && forceToReload) {
             if let directions = RouteUtilities.getDirectionRequestFor(wayPoints[currentIndex], destination: wayPoints[currentIndex + 1]) {
                 print("requestRouteDirectionFrom to Server with currentIndex : \(currentIndex)")
                 directions.calculate { routeResponse, routeError in
@@ -385,7 +385,7 @@ class Route: NSManagedObject {
                     
                     let theWayPoint = self.wayPoints[currentIndex]
                     if let error = routeError {
-                        theWayPoint.calculatedRoute = nil
+                        theWayPoint.routeInfos = nil
                         print("Error calculating direction \(error.localizedDescription)")
                     } else {
                         // Get the first route direction from the response
@@ -402,7 +402,7 @@ class Route: NSManagedObject {
                             default:
                                 firstRoute.polyline.title = "Unknown"
                             }
-                            theWayPoint.calculatedRoute = firstRoute
+                            theWayPoint.routeInfos = RouteInfos(route:firstRoute)
 
                             NotificationCenter.default.post(name: Notification.Name(rawValue: Notifications.directionForWayPointUpdated), object: theWayPoint)
                         }
@@ -489,21 +489,21 @@ class Route: NSManagedObject {
         if fromIndex > toIndex {
             if toIndex > 0 {
                 wayPointAtIndex(toIndex - 1)?.transportType = oldFromMinus
-                wayPointAtIndex(toIndex - 1)?.calculatedRoute = nil
+                wayPointAtIndex(toIndex - 1)?.routeInfos = nil
             }
             wayPointAtIndex(toIndex)?.transportType = oldToMinus
-            wayPointAtIndex(toIndex)?.calculatedRoute = nil
+            wayPointAtIndex(toIndex)?.routeInfos = nil
             wayPointAtIndex(fromIndex)?.transportType = oldFrom
-            wayPointAtIndex(fromIndex)?.calculatedRoute = nil
+            wayPointAtIndex(fromIndex)?.routeInfos = nil
         } else {
             if fromIndex > 0 {
                 wayPointAtIndex(fromIndex - 1)?.transportType = oldFrom
                 wayPointAtIndex(fromIndex - 1)?.transportType = nil
              }
             wayPointAtIndex(toIndex)?.transportType = oldTo
-            wayPointAtIndex(toIndex)?.calculatedRoute = nil
+            wayPointAtIndex(toIndex)?.routeInfos = nil
             wayPointAtIndex(toIndex - 1)?.transportType = oldFromMinus
-            wayPointAtIndex(toIndex - 1)?.calculatedRoute = nil
+            wayPointAtIndex(toIndex - 1)?.routeInfos = nil
        }
         
         
@@ -511,7 +511,7 @@ class Route: NSManagedObject {
         // waypoint
         if fromIndex == (newRoutes.count - 1) || toIndex == (newRoutes.count - 1) {
             let latestWayPoint = newRoutes.lastObject as! WayPoint
-            latestWayPoint.calculatedRoute = nil
+            latestWayPoint.routeInfos = nil
        }
         
         POIDataManager.sharedInstance.updateRoute(self)

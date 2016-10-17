@@ -395,7 +395,7 @@ class RouteDataSource {
     func updateTransportTypeFromWayPoint(_ transportType: MKDirectionsTransportType) {
         if let from = fromWayPoint {
             from.transportType = transportType
-            from.calculatedRoute = nil
+            from.routeInfos = nil
             POIDataManager.sharedInstance.updateWayPoint(from)
             POIDataManager.sharedInstance.commitDatabase()
         } else {
