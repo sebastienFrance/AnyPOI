@@ -36,6 +36,8 @@ class RouteManager: NSObject {
     
     weak fileprivate var routeDisplayInfos: RouteDisplayInfos!
     weak fileprivate var theMapView:MKMapView!
+    
+    fileprivate var hasRouteChangedDueToReloading = false
 
     // MARK: Initializations
     init(datasource:RouteDataSource, routeDisplay:RouteDisplayInfos, mapView:MKMapView) {
@@ -62,7 +64,7 @@ class RouteManager: NSObject {
         
         routeDisplayInfos.displayNewGroupsOnMap(POIDataManager.sharedInstance.findDisplayableGroups(), withMonitoredOverlays: false)
 
-        
+        hasRouteChangedDueToReloading = true // Force the display of the Route even if no changes
         routeDatasource.theRoute.reloadDirections() // start to load the route
         
         // Initialization of the Map must be done only when the view is ready.
@@ -85,6 +87,7 @@ class RouteManager: NSObject {
     }
     
     func reloadDirections() {
+        hasRouteChangedDueToReloading = false
         routeDatasource.theRoute.reloadDirections()
     }
     
@@ -108,6 +111,7 @@ class RouteManager: NSObject {
     }
     
     func directionStarting(_ notification : Notification) {
+        hasRouteChangedDueToReloading = true
         PKHUD.sharedHUD.dimsBackground = true
         HUD.show(.progress)
         let hudBaseView = PKHUD.sharedHUD.contentView as! PKHUDSquareBaseView
@@ -131,8 +135,8 @@ class RouteManager: NSObject {
     }
     
     func directionsDone(_ notification : Notification) {
-        if routeDatasource.wayPoints.count > 1 {
-            HUD.hide()
+        HUD.hide()
+       if routeDatasource.wayPoints.count > 1  && hasRouteChangedDueToReloading {
             routeDisplayInfos.refreshRouteAllOverlays()
             displayRouteInfos()
             displayRouteMapRegion()
@@ -330,8 +334,8 @@ class RouteManager: NSObject {
         
     }
     
-    func moveWayPoint(_ sourceIndex: Int, destinationIndex:Int) {
-        routeDatasource.moveWayPoint(sourceIndex, toIndex: destinationIndex)
+    func moveWayPoint(sourceIndex: Int, destinationIndex:Int) {
+        routeDatasource.moveWayPoint(fromIndex:sourceIndex, toIndex: destinationIndex)
         
         // Refresh all Poi used by the Route -> Could be improved?
         for currentWayPoint in routeDatasource.wayPoints {
@@ -537,37 +541,34 @@ class RouteManager: NSObject {
     
     // Request the route from the current location to target of the current route section
     func buildRouteFromCurrentLocation(_ targetPOI: PointOfInterest, transportType:MKDirectionsTransportType) {
-//        if let toPoi = routeDatasource?.toPOI {
-            let routeRequest = MKDirectionsRequest()
-            routeRequest.transportType = transportType
-            routeRequest.source = MKMapItem.forCurrentLocation()
- //           routeRequest.destination = MKMapItem(placemark: MKPlacemark(coordinate: toPoi.coordinate, addressDictionary: nil))
-            routeRequest.destination = MKMapItem(placemark: MKPlacemark(coordinate: targetPOI.coordinate, addressDictionary: nil))
-            
-            // Display a HUD while loading the route
-            PKHUD.sharedHUD.dimsBackground = true
-            HUD.show(.progress)
-            let hudBaseView = PKHUD.sharedHUD.contentView as! PKHUDSquareBaseView
-            hudBaseView.titleLabel.text =  NSLocalizedString("LoadingDirectionRouteManager", comment: "")
-            hudBaseView.subtitleLabel.text = NSLocalizedString("FromCurrentLocationRouteManager", comment: "")
-            
-            // ask the direction
-            let routeDirections = MKDirections(request: routeRequest)
-            routeDirections.calculate { routeResponse, routeError in
-                HUD.hide()
-                if let error = routeError {
-                    Utilities.showAlertMessage(self.routeDisplayInfos.getViewController(), title:NSLocalizedString("Warning", comment: ""), error: error)
-                    self.isRouteFromCurrentLocationDisplayed = false
+        let routeRequest = MKDirectionsRequest()
+        routeRequest.transportType = transportType
+        routeRequest.source = MKMapItem.forCurrentLocation()
+        routeRequest.destination = MKMapItem(placemark: MKPlacemark(coordinate: targetPOI.coordinate, addressDictionary: nil))
+        
+        // Display a HUD while loading the route
+        PKHUD.sharedHUD.dimsBackground = true
+        HUD.show(.progress)
+        let hudBaseView = PKHUD.sharedHUD.contentView as! PKHUDSquareBaseView
+        hudBaseView.titleLabel.text =  NSLocalizedString("LoadingDirectionRouteManager", comment: "")
+        hudBaseView.subtitleLabel.text = NSLocalizedString("FromCurrentLocationRouteManager", comment: "")
+        
+        // ask the direction
+        let routeDirections = MKDirections(request: routeRequest)
+        routeDirections.calculate { routeResponse, routeError in
+            HUD.hide()
+            if let error = routeError {
+                Utilities.showAlertMessage(self.routeDisplayInfos.getViewController(), title:NSLocalizedString("Warning", comment: ""), error: error)
+                self.isRouteFromCurrentLocationDisplayed = false
+            } else {
+                // Get the first route direction from the response
+                if let firstRoute = routeResponse?.routes[0] {
+                    self.displayRouteFromCurrentLocation(firstRoute)
                 } else {
-                    // Get the first route direction from the response
-                    if let firstRoute = routeResponse?.routes[0] {
-                        self.displayRouteFromCurrentLocation(firstRoute)
-                    } else {
-                        self.isRouteFromCurrentLocationDisplayed = false
-                    }
+                    self.isRouteFromCurrentLocationDisplayed = false
                 }
             }
-//        }
+        }
     }
     
     func buildRouteFromCurrentLocation(_ transportType:MKDirectionsTransportType) {

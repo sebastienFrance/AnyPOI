@@ -372,8 +372,8 @@ class RouteDataSource {
     }
     
     // Exchange the position of 2 wayPoints (it doesn't update the route position)
-    func moveWayPoint(_ fromIndex: Int, toIndex:Int) {
-        theRoute.moveWayPoint(fromIndex, toIndex: toIndex)
+    func moveWayPoint(fromIndex: Int, toIndex:Int) {
+        theRoute.moveWayPoint(fromIndex:fromIndex, toIndex: toIndex)
     }
     
     // Delete a wayPoints at the given index (it doesn't update the route position)

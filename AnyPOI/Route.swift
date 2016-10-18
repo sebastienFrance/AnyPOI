@@ -348,22 +348,22 @@ class Route: NSManagedObject {
             NotificationCenter.default.post(name: Notification.Name(rawValue: Notifications.directionStarting),
                                                                       object: self,
                                                                       userInfo:[DirectionStartingParameters.startingWayPoint : wayPoints[startIndex]])
-            requestRouteDirectionFrom(startIndex, untilEnd: true, forceToReload: false)
+            requestRouteDirectionFrom(currentIndex:startIndex, untilEnd: true, forceToReload: false)
         } else {
             // Notify the route has been updated even when nothing has changed
             NotificationCenter.default.post(name: Notification.Name(rawValue: Notifications.directionsDone), object: self)
         }
     }
 
-    fileprivate func requestRouteFrom(_ currentIndex:Int, untilEnd:Bool, forceToReload:Bool) {
+    fileprivate func requestRouteFrom(currentIndex:Int, untilEnd:Bool, forceToReload:Bool) {
         isDirectionLoading = true
-        requestRouteDirectionFrom(currentIndex, untilEnd: untilEnd, forceToReload: forceToReload)
+        requestRouteDirectionFrom(currentIndex:currentIndex, untilEnd: untilEnd, forceToReload: forceToReload)
     }
     
     // Load the route direction for or from at the given index when untilEnd is set to False or True.
     // When forceToReload is set to true, the direction will be requested again even if there's already 
     // a calculated direction.
-    fileprivate func requestRouteDirectionFrom(_ currentIndex:Int, untilEnd:Bool, forceToReload:Bool) {
+    fileprivate func requestRouteDirectionFrom(currentIndex:Int, untilEnd:Bool, forceToReload:Bool) {
         // We need at least 2 wayPoint to do something
         if wayPoints.count < 2 {
             isDirectionLoading = false
@@ -409,7 +409,7 @@ class Route: NSManagedObject {
                     }
                     
                     if untilEnd && (currentIndex + 1 < self.wayPoints.count - 1) {
-                        self.requestRouteFrom(currentIndex + 1, untilEnd:true, forceToReload: forceToReload)
+                        self.requestRouteFrom(currentIndex:currentIndex + 1, untilEnd:true, forceToReload: forceToReload)
                     } else {
                         self.isDirectionLoading = false
                         self.updateLatestDistanceAndDuration()
@@ -423,7 +423,7 @@ class Route: NSManagedObject {
         } else {
             // look for the next
             if untilEnd && (currentIndex + 1 < self.wayPoints.count - 1) {
-                self.requestRouteFrom(currentIndex + 1, untilEnd:true, forceToReload: forceToReload)
+                self.requestRouteFrom(currentIndex:currentIndex + 1, untilEnd:true, forceToReload: forceToReload)
             } else {
                 self.isDirectionLoading = false
                 self.updateLatestDistanceAndDuration()
@@ -458,7 +458,7 @@ class Route: NSManagedObject {
     
     
     // Move a WayPoint to another position in the route and update impacted wayPoints
-    func moveWayPoint(_ fromIndex: Int, toIndex:Int) {
+    func moveWayPoint(fromIndex: Int, toIndex:Int) {
         // Make sure indexes are valids
         if fromIndex == toIndex {
             print("Invalid indexes from \(fromIndex) is less than to \(toIndex)")
@@ -476,10 +476,10 @@ class Route: NSManagedObject {
         }
         
         // Store old transportTypes
-        let oldToMinus = toIndex > 0 ? wayPointAtIndex(toIndex - 1)?.transportType! : UserPreferences.sharedInstance.routeDefaultTransportType
-        let oldFromMinus = fromIndex > 0 ? wayPointAtIndex(fromIndex - 1)?.transportType! : UserPreferences.sharedInstance.routeDefaultTransportType
-        let oldTo = wayPointAtIndex(toIndex)?.transportType!
-        let oldFrom = wayPointAtIndex(fromIndex)?.transportType!
+        let oldToMinusTransportType = toIndex > 0 ? wayPointAtIndex(toIndex - 1)?.transportType! : UserPreferences.sharedInstance.routeDefaultTransportType
+        let oldFromMinusTransportType = fromIndex > 0 ? wayPointAtIndex(fromIndex - 1)?.transportType! : UserPreferences.sharedInstance.routeDefaultTransportType
+        let oldToTransportType = wayPointAtIndex(toIndex)?.transportType!
+        let oldFromTransportType = wayPointAtIndex(fromIndex)?.transportType!
         
         let newRoutes = NSMutableOrderedSet.init(orderedSet: routeWayPoints!)
         newRoutes.moveObjects(at: IndexSet(integer: fromIndex), to: toIndex)
@@ -488,21 +488,21 @@ class Route: NSManagedObject {
         // Update transportType based on movement
         if fromIndex > toIndex {
             if toIndex > 0 {
-                wayPointAtIndex(toIndex - 1)?.transportType = oldFromMinus
+                wayPointAtIndex(toIndex - 1)?.transportType = oldFromMinusTransportType
                 wayPointAtIndex(toIndex - 1)?.routeInfos = nil
             }
-            wayPointAtIndex(toIndex)?.transportType = oldToMinus
+            wayPointAtIndex(toIndex)?.transportType = oldToMinusTransportType
             wayPointAtIndex(toIndex)?.routeInfos = nil
-            wayPointAtIndex(fromIndex)?.transportType = oldFrom
+            wayPointAtIndex(fromIndex)?.transportType = oldFromTransportType
             wayPointAtIndex(fromIndex)?.routeInfos = nil
         } else {
             if fromIndex > 0 {
-                wayPointAtIndex(fromIndex - 1)?.transportType = oldFrom
+                wayPointAtIndex(fromIndex - 1)?.transportType = oldFromTransportType
                 wayPointAtIndex(fromIndex - 1)?.transportType = nil
              }
-            wayPointAtIndex(toIndex)?.transportType = oldTo
+            wayPointAtIndex(toIndex)?.transportType = oldToTransportType
             wayPointAtIndex(toIndex)?.routeInfos = nil
-            wayPointAtIndex(toIndex - 1)?.transportType = oldFromMinus
+            wayPointAtIndex(toIndex - 1)?.transportType = oldFromMinusTransportType
             wayPointAtIndex(toIndex - 1)?.routeInfos = nil
        }
         
@@ -514,7 +514,7 @@ class Route: NSManagedObject {
             latestWayPoint.routeInfos = nil
        }
         
-        POIDataManager.sharedInstance.updateRoute(self)
+        POIDataManager.sharedInstance.updateRoute(route:self)
         POIDataManager.sharedInstance.commitDatabase()
     }
 }

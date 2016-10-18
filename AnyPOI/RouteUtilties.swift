@@ -20,7 +20,7 @@ class RouteUtilities {
     static func getDirectionRequestFor(_ source:WayPoint, destination:WayPoint) -> MKDirections? {
 
         // get the 2 waypoints
-        source.routeInfos = nil // Reset the calculated route
+        //source.routeInfos = nil // Reset the calculated route
         
         // Build the request to get the route for the 2 waypoints
         let routeRequest = MKDirectionsRequest()

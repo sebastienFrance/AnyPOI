@@ -12,6 +12,11 @@ import MapKit
 
 @objc(WayPoint)
 class WayPoint: NSManagedObject {
+    
+    struct properties {
+        static let wayPointRouteInfos = "wayPointRouteInfos"
+    }
+
 
     // Contains the transportType from the previous WayPoint to this WayPoint
     // For the first WayPoint, it has no meaning
@@ -50,18 +55,27 @@ class WayPoint: NSManagedObject {
     // The latest wayPoint of a route is nil
     var routeInfos: RouteInfos? {
         get {
-            if let theRouteInfos = wayPointRouteInfos as? Data {
-                return NSKeyedUnarchiver.unarchiveObject(with: theRouteInfos) as? RouteInfos
+            if let theUnarchivedRouteInfos = unarchivedRouteInfos {
+                return theUnarchivedRouteInfos
+            } else if let theRouteInfos = wayPointRouteInfos as? Data {
+                 unarchivedRouteInfos = NSKeyedUnarchiver.unarchiveObject(with: theRouteInfos) as? RouteInfos
+                return unarchivedRouteInfos
             } else {
                 return nil
             }
         }
         set {
             if let newRouteInfos = newValue {
+                unarchivedRouteInfos = newValue
                 wayPointRouteInfos = NSKeyedArchiver.archivedData(withRootObject: newRouteInfos) as NSObject?
+            } else {
+                unarchivedRouteInfos = nil
+                wayPointRouteInfos = nil
             }
         }
     }
+    
+    fileprivate var unarchivedRouteInfos: RouteInfos? = nil
 
  
     override func prepareForDeletion() {

@@ -146,7 +146,7 @@ extension RouteDetailsViewController: UITableViewDataSource, UITableViewDelegate
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        switch Sections(rawValue: (indexPath as NSIndexPath).section)! {
+        switch Sections(rawValue: indexPath.section)! {
         case .summary:
             let theCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier.routeSummaryId,for: indexPath) as! RouteSummaryTableViewCell
             
@@ -158,11 +158,11 @@ extension RouteDetailsViewController: UITableViewDataSource, UITableViewDelegate
             return theCell
         case .wayPoints:
             let theCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier.routeDetailsCellId, for: indexPath) as! RouteDetailsViewCell
-            theCell.initializePOI(wayPointsDelegate.routeDatasource!.wayPoints[(indexPath as NSIndexPath).row].wayPointPoi!)
+            theCell.initializePOI(wayPointsDelegate.routeDatasource!.wayPoints[indexPath.row].wayPointPoi!)
             
             // If it's not the last, then we must also display the transport type, distance...
-            if (indexPath as NSIndexPath).row != (wayPointsDelegate.routeDatasource!.wayPoints.count - 1) {
-                theCell.initializeWayPoint(wayPointsDelegate.routeDatasource!.wayPoints[(indexPath as NSIndexPath).row], index:(indexPath as NSIndexPath).row)
+            if indexPath.row != (wayPointsDelegate.routeDatasource!.wayPoints.count - 1) {
+                theCell.initializeWayPoint(wayPointsDelegate.routeDatasource!.wayPoints[indexPath.row], index:indexPath.row)
             }
             
             theCell.isEditing = true
@@ -172,7 +172,7 @@ extension RouteDetailsViewController: UITableViewDataSource, UITableViewDelegate
     
     // Authorize only deletion for WayPoints section
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
-        switch Sections(rawValue: (indexPath as NSIndexPath).section)! {
+        switch Sections(rawValue: indexPath.section)! {
         case .summary:
             return .none
         case .wayPoints:
@@ -181,12 +181,12 @@ extension RouteDetailsViewController: UITableViewDataSource, UITableViewDelegate
     }
     
     func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
-        return Sections(rawValue: (indexPath as NSIndexPath).section)! == Sections.summary ? false : true
+        return Sections(rawValue: indexPath.section)! == Sections.summary ? false : true
     }
     
     // Manage WayPoint deletion
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if let realSection = Sections(rawValue: (indexPath as NSIndexPath).section) {
+        if let realSection = Sections(rawValue: indexPath.section) {
             if realSection == .wayPoints {
                 switch editingStyle {
                 case .delete:
@@ -204,7 +204,7 @@ extension RouteDetailsViewController: UITableViewDataSource, UITableViewDelegate
     
     // Only rows of Section that contains the WayPoints can be moved
     func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        switch Sections(rawValue: (indexPath as NSIndexPath).section)! {
+        switch Sections(rawValue:indexPath.section)! {
         case .summary:
             return false
         case .wayPoints:
@@ -214,8 +214,8 @@ extension RouteDetailsViewController: UITableViewDataSource, UITableViewDelegate
     
     // WayPoints can be moved only in its own Table section
     func tableView(_ tableView: UITableView, targetIndexPathForMoveFromRowAt sourceIndexPath: IndexPath, toProposedIndexPath proposedDestinationIndexPath: IndexPath) -> IndexPath {
-        let sourceSection = Sections(rawValue: (sourceIndexPath as NSIndexPath).section)!
-        let destinationSourceSection = Sections(rawValue: (proposedDestinationIndexPath as NSIndexPath).section)!
+        let sourceSection = Sections(rawValue: sourceIndexPath.section)!
+        let destinationSourceSection = Sections(rawValue: proposedDestinationIndexPath.section)!
         
         // Waypoint cannot be moved to the Summary section -> If the user tries, we force to go to the WayPoint section
         if sourceSection == .wayPoints && destinationSourceSection == .summary {
@@ -230,14 +230,14 @@ extension RouteDetailsViewController: UITableViewDataSource, UITableViewDelegate
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         // update indexes
         if let sourceCell = tableView.cellForRow(at: sourceIndexPath) as? RouteDetailsViewCell {
-            sourceCell.updateIndex((destinationIndexPath as NSIndexPath).row)
+            sourceCell.updateIndex(destinationIndexPath.row)
         }
         
         if let destinationCell = tableView.cellForRow(at: destinationIndexPath) as? RouteDetailsViewCell {
-            destinationCell.updateIndex((sourceIndexPath as NSIndexPath).row)
+            destinationCell.updateIndex(sourceIndexPath.row)
         }
         
-        wayPointsDelegate.moveWayPoint((sourceIndexPath as NSIndexPath).row, destinationIndex:(destinationIndexPath as NSIndexPath).row)
+        wayPointsDelegate.moveWayPoint(sourceIndex:sourceIndexPath.row, destinationIndex:destinationIndexPath.row)
     }
 
 }

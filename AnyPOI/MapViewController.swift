@@ -329,8 +329,8 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
     }
     
     // MARK: Route API
-    func moveWayPoint(_ sourceIndex: Int, destinationIndex:Int) {
-        routeManager?.moveWayPoint(sourceIndex, destinationIndex:destinationIndex)
+    func moveWayPoint(sourceIndex: Int, destinationIndex:Int) {
+        routeManager?.moveWayPoint(sourceIndex: sourceIndex, destinationIndex:destinationIndex)
     }
     
     func deleteWayPointAt(_ index:Int) {
@@ -598,14 +598,18 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
     //MARK: Database Notifications
     func ManagedObjectContextObjectsDidChangeNotification(_ notification : Notification) {
         PoiNotificationUserInfo.dumpUserInfo("MapViewController", userInfo:(notification as NSNotification).userInfo)
-        manageNotification(notification)
-    }
-    
-    fileprivate func manageNotification(_ notification : Notification) {
+        
         let notifContent = PoiNotificationUserInfo(userInfo: (notification as NSNotification).userInfo as [NSObject : AnyObject]?)
         
-        // Just added!
-        for updatedGroup in notifContent.updatedGroupOfInterest {
+        processNotificationsForGroupOfInterest(notificationsContent:notifContent)
+        processNotificationsForPointOfInterest(notificationsContent:notifContent)
+        processNotificationsForRouteAndWayPoint(notificationsContent:notifContent)
+    }
+    
+    // Process notifications on GroupOfInterest
+    // - Only update notification is process on Group and only for properties: colors & isDisplayed
+    fileprivate func processNotificationsForGroupOfInterest(notificationsContent:PoiNotificationUserInfo) {
+        for updatedGroup in notificationsContent.updatedGroupOfInterest {
             let changedValues = updatedGroup.changedValues()
             if changedValues[GroupOfInterest.properties.groupColor] != nil {
                 theMapView.removeAnnotations(updatedGroup.pois)
@@ -625,20 +629,25 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
                 }
             }
         }
-
-        
-        for newPoi in notifContent.insertedPois {
+    }
+    
+    // Process notification on POI
+    // - Add POI notification to put a new POI on the Map
+    // - Deleted POI, to remove the POI and its overlay from the Map
+    // - Updated POI, to update its callout and position, color and overlay
+    fileprivate func processNotificationsForPointOfInterest(notificationsContent:PoiNotificationUserInfo) {
+        for newPoi in notificationsContent.insertedPois {
             theMapView.addAnnotation(newPoi)
         }
         
-        for deletedPoi in notifContent.deletedPois {
+        for deletedPoi in notificationsContent.deletedPois {
             theMapView.removeAnnotation(deletedPoi)
             if let monitoredRegionOverlay = deletedPoi.getMonitordRegionOverlay() {
                 theMapView.remove(monitoredRegionOverlay)
             }
         }
         
-        for updatedPoi in notifContent.updatedPois {
+        for updatedPoi in notificationsContent.updatedPois {
             let changedValues = updatedPoi.changedValues()
             
             if changedValues[PointOfInterest.properties.poiRegionNotifyEnter] != nil ||
@@ -671,10 +680,16 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
             }
             updateMonitoredRegionOverlayForPoi(updatedPoi, changedValues: changedValues as [String : AnyObject])
         }
-        
-        
+    }
+    
+    // Process notifications for Route and WayPoints
+    // - When a new route is created (its number of WayPoints == 1), the POI is refreshed to be displayed with the right color
+    // - When the current route is deleted, the routeMode is deactivated
+    // - when the current route is updated, the routeMode is updated with the latest data
+    // - A reload of the route is triggered when the route mode is on
+    fileprivate func processNotificationsForRouteAndWayPoint(notificationsContent:PoiNotificationUserInfo) {
         // When the first WayPoint in added, we display a message
-        if notifContent.insertedWayPoints.count > 0,
+        if !notificationsContent.insertedWayPoints.isEmpty,
             let theRouteDatasource = routeDatasource , theRouteDatasource.wayPoints.count == 1 {
             PKHUD.sharedHUD.dimsBackground = false
             HUD.flash(.label("Route start added"), delay:1.0, completion: nil)
@@ -684,35 +699,31 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
             }
         } else {
             
-            if isRouteMode && notifContent.deletedRoutes.count > 0 {
-                for currentRoute in notifContent.deletedRoutes {
+            if isRouteMode && !notificationsContent.deletedRoutes.isEmpty {
+                for currentRoute in notificationsContent.deletedRoutes {
                     if currentRoute === routeDatasource!.theRoute {
                         disableRouteMode()
+                        break
                     }
                 }
             } else {
-                if isRouteMode && notifContent.updatedRoutes.count > 0 {
-                    for currentRoute in notifContent.updatedRoutes {
+                if isRouteMode && !notificationsContent.updatedRoutes.isEmpty {
+                    for currentRoute in notificationsContent.updatedRoutes {
                         if currentRoute === routeDatasource!.theRoute {
                             routeManager?.displayRouteInfos()
+                            break
                         }
                     }
                 }
                 
-                // Reload the route only on:
-                //  - WayPoint deletion
-                //  - WayPoint creation
-                //  - WayPoint updated (for example when the transport type has been changed
-                //  - POI update because the placemark can be received lately
-                if notifContent.insertedWayPoints.count > 0 ||
-                    notifContent.deletedWayPoints.count > 0 ||
-                    notifContent.updatedWayPoints.count > 0 ||
-                    notifContent.updatedPois.count > 0  {
+                if isRouteMode {
                     routeManager?.reloadDirections()
                 }
             }
         }
+
     }
+    
  
     // Check if the MonitoredRegion overlay for a POI must be removed, added or updated when its properties have 
     // changed (notifyEnter, notifyExit and radius)
