@@ -9,22 +9,27 @@
 import UIKit
 
 
-class MailActivityItemSource: NSObject, UIActivityItemSource {
+class PoiMailActivityItemSource: NSObject, UIActivityItemSource {
     
-    let htmlMailContent:String
     
-    init(mailContent:String) {
-        htmlMailContent = mailContent
+    let poi:PointOfInterest
+    
+    init(poi:PointOfInterest) {
+        self.poi = poi
     }
     
     
+    func activityViewController(_ activityViewController: UIActivityViewController, subjectForActivityType activityType: UIActivityType?) -> String {
+        return ""
+    }
+    
      func activityViewControllerPlaceholderItem(_ activityViewController: UIActivityViewController) -> Any {
-        return htmlMailContent
+        return ""
     }
     
      func activityViewController(_ activityViewController: UIActivityViewController, itemForActivityType activityType: UIActivityType) -> Any? {
-        if activityType == UIActivityType.mail {
-            return htmlMailContent
+        if activityType == UIActivityType.mail  {
+            return HTMLAnyPoi.appendCSSAndSignature(html: poi.toHTML())
         } else {
             return nil
         }

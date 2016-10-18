@@ -110,7 +110,7 @@ class RouteDataSource {
         }
     }
     
-    var allRouteName:String! {
+    var allRouteName:String {
         get {
             return "\(NSLocalizedString("FullDirectionRouteDatasource", comment: "")) \(theRoute.routeName!)"
         }
@@ -135,7 +135,7 @@ class RouteDataSource {
     }
     
     
-    var allRouteDistanceAndTime:String! {
+    var allRouteDistanceAndTime:String {
         get {
             let  (fullDistance, fullExpectedTravelTime) = fullDistanceAndTravelTime()
             let distanceFormatter = LengthFormatter()

@@ -254,12 +254,10 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
     
     
     @IBAction func actionButtonPushed(_ sender: UIBarButtonItem) {
-        var activityItems = [UIActivityItemSource]()
-        let mailActivity = MailActivityItemSource(mailContent:"<html> \(poi.toHTML()) </html>")
+        let mailActivity = PoiMailActivityItemSource(poi:poi)
         let messageActivity = MessageActivityItemSource(messageContent: poi.toMessage())
         
-        activityItems.append(mailActivity)
-        activityItems.append(messageActivity)
+        var activityItems = [mailActivity, messageActivity]
         
         if !snapshotter.isLoading {
             let imageActivity = ImageAcvitityItemSource(image: snapshotImage!)

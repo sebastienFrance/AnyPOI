@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="16B2548a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="QDY-HM-uLA">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="QDY-HM-uLA">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
@@ -157,6 +157,11 @@
                             </barButtonItem>
                         </leftBarButtonItems>
                         <rightBarButtonItems>
+                            <barButtonItem systemItem="action" id="Ith-NX-R3y">
+                                <connections>
+                                    <action selector="routeActionButtonPushed:" destination="BYZ-38-t0r" id="Lst-Jw-VZ2"/>
+                                </connections>
+                            </barButtonItem>
                             <barButtonItem systemItem="fastForward" id="5m1-lX-4wR">
                                 <connections>
                                     <action selector="showNextWayPoint:" destination="BYZ-38-t0r" id="noF-ZG-s8N"/>
@@ -244,11 +249,11 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="69" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="9Ns-Q0-SCS">
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="LeftMenuCellId" rowHeight="69" id="GWj-1j-tZC" customClass="LeftMenuTableViewCell" customModule="AnyPOI" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="LeftMenuCellId" rowHeight="69" id="GWj-1j-tZC" customClass="LeftMenuTableViewCell" customModule="AnyPOI" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="69"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="GWj-1j-tZC" id="d5V-Oh-WY3">
-                                            <frame key="frameInset" width="375" height="68.5"/>
+                                            <frame key="frameInset" width="375" height="69"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title of Menu" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BOG-hm-vjt">
@@ -266,11 +271,11 @@
                                             <outlet property="menuTitle" destination="BOG-hm-vjt" id="LCf-an-Akn"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="MenuAboutCellId" rowHeight="137" id="8tk-j5-Upz" customClass="LeftMenuAboutTableViewCell" customModule="AnyPOI" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="MenuAboutCellId" rowHeight="137" id="8tk-j5-Upz" customClass="LeftMenuAboutTableViewCell" customModule="AnyPOI" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="45" width="375" height="137"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="8tk-j5-Upz" id="5HM-zP-jqU">
-                                            <frame key="frameInset" width="375" height="136.5"/>
+                                            <frame key="frameInset" width="375" height="136"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="W8D-2D-Bgp">
@@ -365,7 +370,7 @@
                                                             </collectionViewFlowLayout>
                                                             <cells>
                                                                 <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Cell" id="Cnp-KW-860" customClass="CategoryCollectionViewCell" customModule="AnyPOI" customModuleProvider="target">
-                                                                    <rect key="frame" x="10" y="11" width="50" height="50"/>
+                                                                    <rect key="frame" x="10" y="0.0" width="50" height="50"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                                     <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                                                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
@@ -751,11 +756,11 @@
                                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="70" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Yhr-ga-Pgl">
                                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <prototypes>
-                                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="contactCellId" rowHeight="70" id="gzT-3X-44S" customClass="ContactTableViewCell" customModule="AnyPOI" customModuleProvider="target">
+                                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="contactCellId" rowHeight="70" id="gzT-3X-44S" customClass="ContactTableViewCell" customModule="AnyPOI" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="28" width="288" height="70"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gzT-3X-44S" id="QYk-AV-BH7">
-                                                            <frame key="frameInset" width="288" height="69.5"/>
+                                                            <frame key="frameInset" width="288" height="69"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <subviews>
                                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="a01-0h-UPj">
@@ -956,7 +961,7 @@
                                         <rect key="frame" x="0.0" y="14" width="375" height="163"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="lNp-MF-d99" id="jP2-XS-gfh">
-                                            <frame key="frameInset" width="375" height="162.5"/>
+                                            <frame key="frameInset" width="375" height="163"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="vYO-Hi-Sgh">
@@ -1038,11 +1043,11 @@
                                             <segue destination="RzR-Ua-2Lq" kind="unwind" unwindAction="backToMapWayPoint:" id="jMp-fx-YiF"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="routeSummaryId" rowHeight="67" id="sNT-Tr-91j" customClass="RouteSummaryTableViewCell" customModule="AnyPOI" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="routeSummaryId" rowHeight="67" id="sNT-Tr-91j" customClass="RouteSummaryTableViewCell" customModule="AnyPOI" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="109" width="375" height="67"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="sNT-Tr-91j" id="7jG-d8-fia">
-                                            <frame key="frameInset" width="375" height="66.5"/>
+                                            <frame key="frameInset" width="375" height="67"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="AcV-gy-KSr">
@@ -1129,10 +1134,10 @@
                                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <prototypes>
                                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="routeProviderWithTransportTypeCellId" rowHeight="102" id="nbt-ZG-OdF" customClass="RouteProviderWithTransportTypeTableViewCell" customModule="AnyPOI" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="28" width="289" height="102"/>
+                                                        <rect key="frame" x="0.0" y="28" width="288" height="102"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nbt-ZG-OdF" id="Te2-0o-bDb">
-                                                            <frame key="frameInset" width="288" height="101.5"/>
+                                                            <frame key="frameInset" width="288" height="101"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <subviews>
                                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="bu2-dh-4Zg">
@@ -1185,10 +1190,10 @@
                                                         </connections>
                                                     </tableViewCell>
                                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="uberCellId" rowHeight="99" id="siE-td-iMx" customClass="RouteProviderUberTableViewCell" customModule="AnyPOI" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="130" width="289" height="99"/>
+                                                        <rect key="frame" x="0.0" y="130" width="288" height="99"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="siE-td-iMx" id="p8Z-Fh-ldc">
-                                                            <frame key="frameInset" width="288" height="98.5"/>
+                                                            <frame key="frameInset" width="288" height="98"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <subviews>
                                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Gjt-ff-gMO">

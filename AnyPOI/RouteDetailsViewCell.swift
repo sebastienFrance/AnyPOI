@@ -61,10 +61,7 @@ class RouteDetailsViewCell: UITableViewCell {
     // Initialize transportType, distance... from the WayPoint
     func initializeWayPoint(_ fromWayPoint:WayPoint, index:Int) {
         if let route = fromWayPoint.routeInfos {
-            let distanceFormatter = LengthFormatter()
-            distanceFormatter.unitStyle = .short
-
-            routeDistance.text = "\(distanceFormatter.string(fromMeters: route.distance)) in " + (Utilities.shortStringFromTimeInterval(route.expectedTravelTime) as String)
+            routeDistance.text = "\(route.distanceFormatted) in \(route.expectedTravelTimeFormatted)"
         }
 
         transportType.selectedSegmentIndex = MapUtils.transportTypeToSegmentIndex(fromWayPoint.transportType!)

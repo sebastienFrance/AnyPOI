@@ -39,6 +39,14 @@ class WayPoint: NSManagedObject {
             
         }
     }
+    
+    var transportTypeString: String {
+        return MapUtils.transportTypeDisplayName(transportType!)
+    }
+    
+    var transportTypeFormattedEmoji:String {
+        return MapUtils.transportTypeDisplayNameEmoji(transportType!)
+    }
    
     var region: MKCoordinateRegion? {
         get {
@@ -102,4 +110,5 @@ class WayPoint: NSManagedObject {
             return (CLLocationCoordinate2DMake(0, 0), CLLocationCoordinate2DMake(0, 0))
         }
     }
-}
+    
+ }

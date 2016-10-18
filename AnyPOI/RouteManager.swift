@@ -236,6 +236,24 @@ class RouteManager: NSObject {
         }
     }
     
+    func executeAction() {
+        let mailActivity = RouteMailActivityItemSource(datasource:routeDatasource)
+        var activityItems:[UIActivityItemSource] = [mailActivity]
+        
+        if let image = MapViewController.instance!.mapImage() {
+            let imageActivity = ImageAcvitityItemSource(image: image)
+             activityItems.append(imageActivity)
+        }
+        
+        let activityController = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
+        activityController.excludedActivityTypes = [UIActivityType.print, UIActivityType.airDrop, UIActivityType.postToVimeo,
+                                                    UIActivityType.postToWeibo, UIActivityType.openInIBooks, UIActivityType.postToFlickr, UIActivityType.postToFacebook,
+                                                    UIActivityType.postToTwitter, UIActivityType.assignToContact, UIActivityType.addToReadingList, UIActivityType.copyToPasteboard,
+                                                    UIActivityType.saveToCameraRoll, UIActivityType.postToTencentWeibo, UIActivityType.message]
+        
+        MapViewController.instance!.present(activityController, animated: true, completion: nil)
+    }
+    
 
     // MARK: Annotations & Overlays
     // Remove from the map all overlays used to display the route

@@ -13,8 +13,24 @@ class RouteInfos : NSObject, NSCoding {
     var polyline: MKPolyline?
     var name: String
     var distance: CLLocationDistance
+    
+    var distanceFormatted:String {
+        let distanceFormatter = LengthFormatter()
+        distanceFormatter.unitStyle = .short
+
+       return distanceFormatter.string(fromMeters: distance)
+    }
+    
     var expectedTravelTime: TimeInterval
+    var expectedTravelTimeFormatted: String {
+        return Utilities.shortStringFromTimeInterval(expectedTravelTime) as String
+    }
+    
+    
     var transportType: MKDirectionsTransportType
+    var transportTypeFormatted: String {
+        return MapUtils.transportTypeDisplayName(transportType)
+    }
     
     fileprivate struct Keys {
         static let Polyline = "RouteInfosPolyLine"

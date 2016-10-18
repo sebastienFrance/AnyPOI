@@ -103,6 +103,20 @@ class MapUtils {
         }
     }
     
+    static func transportTypeDisplayNameEmoji(_ transportType:MKDirectionsTransportType) -> String {
+        switch transportType {
+        case MKDirectionsTransportType.automobile:
+            return "🚘"
+        case MKDirectionsTransportType.walking:
+            return "🚶"
+        case MKDirectionsTransportType.transit:
+            return "🚊"
+        default:
+            return "Unknown"
+        }
+    }
+
+    
     static func convertToLaunchOptionsDirection(_ transportType:MKDirectionsTransportType) -> String {
         switch transportType {
         case MKDirectionsTransportType.automobile:

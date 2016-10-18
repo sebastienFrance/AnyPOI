@@ -151,38 +151,20 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
 
     fileprivate var monitoredRegion:MKOverlay?
     
-//    func toJSON() -> [String:AnyObject] {
-//        let poiToJSON :[String:AnyObject] = [
-//            "poiCategory" : Int(poiCategory) as AnyObject,
-//            "poiCity" : poiCity as AnyObject? ?? "" as AnyObject,
-//            "poiDescription": poiDescription as AnyObject? ?? "",
-//            "poiDisplayName" : poiDisplayName ?? ""]
-//        
-//        let headerPoiJSON:[String:AnyObject] = [
-//        "POI": poiToJSON as AnyObject]
-//       
-//        return headerPoiJSON
-//    }
-    
     func toHTML() -> String {
         var htmlDescription = "<p><b>\(poiDisplayName!)</b></p>"
         if let description = poiDescription {
-            htmlDescription = "\(htmlDescription)<p>\(description)</p>"
+            htmlDescription += "<p>\(description)</p>"
         }
         
-        htmlDescription = "\(htmlDescription)<p>\(address)"
+        htmlDescription += "<p>\(address)"
         
         var phoneNumber:String?
         var url:String?
         if poiIsContact {
             // Get infos from the Contact
             if let theContact = ContactsUtilities.getContactForDetailedDescription(poiContactIdentifier!) {
-                
-                let contactPhoneNumber = ContactsUtilities.extractPhoneNumber(theContact)
-                if let number = contactPhoneNumber {
-                    phoneNumber = number.stringValue
-                }
-                
+                phoneNumber = ContactsUtilities.extractPhoneNumber(theContact)?.stringValue
                 url = ContactsUtilities.extractURL(theContact)
             }
         } else {
@@ -191,22 +173,21 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
         }
         
         if let thePhoneNumber = phoneNumber {
-            htmlDescription = "\(htmlDescription)<br>\(thePhoneNumber)"
+            htmlDescription += "<br>\(thePhoneNumber)"
         }
         
         if let theURL = url {
-            htmlDescription = "\(htmlDescription)<br><a href=\"\(theURL)\">Web site</a>"
+            htmlDescription += "<br><a href=\"\(theURL)\">Web site</a>"
         }
-        htmlDescription = "\(htmlDescription)</p><br>"
+        htmlDescription += "</p><br>"
         
-        htmlDescription = "\(htmlDescription)Show on map with:"
-        htmlDescription = "\(htmlDescription)<ul>"
-        htmlDescription = "\(htmlDescription)<li><a href=\"http://maps.apple.com/?q=\(poiDisplayName!)&ll=\(poiLatitude),\(poiLongitude)\">Apple Maps</a></li>"
-        htmlDescription = "\(htmlDescription)<li><a href=\"https://maps.google.com/?q=\(poiLatitude),\(poiLongitude)\">Google Maps</a></li>"
-        htmlDescription = "\(htmlDescription)<li>\(poiLatitude)°, \(poiLongitude)°</li>"
-        htmlDescription = "\(htmlDescription)</ul>"
-      
-        
+        htmlDescription += "Show on map with:"
+        htmlDescription += "<ul>"
+        htmlDescription += "<li><a href=\"http://maps.apple.com/?q=\(poiDisplayName!)&ll=\(poiLatitude),\(poiLongitude)\">Apple Maps</a></li>"
+        htmlDescription += "<li><a href=\"https://maps.google.com/?q=\(poiLatitude),\(poiLongitude)\">Google Maps</a></li>"
+        htmlDescription += "<li>\(poiLatitude)°, \(poiLongitude)°</li>"
+        htmlDescription += "</ul>"
+   
         return htmlDescription
     }
     

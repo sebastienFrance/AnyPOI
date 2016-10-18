@@ -172,6 +172,17 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
         flyover!.doFlyover(poi)
     }
     
+    func mapImage() -> UIImage? {
+        UIGraphicsBeginImageContext(theMapView.frame.size)
+        if let ctx = UIGraphicsGetCurrentContext() {
+            theMapView.layer.render(in: ctx)
+            let image = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+            return image
+        }
+        return nil
+    }
+    
     fileprivate func displayGroupsOnMap(_ groups:[GroupOfInterest], withMonitoredOverlays:Bool) {
         for currentGroup in groups {
             theMapView.addAnnotations(currentGroup.pois)
@@ -275,6 +286,9 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
         routeManager?.displayRouteSection(.all)
     }
 
+    @IBAction func routeActionButtonPushed(_ sender: UIBarButtonItem) {
+        routeManager?.executeAction()
+    }
     //MARK: Actions from Information view
     
     @IBAction func editButtonPushed(_ sender: UIButton) {
