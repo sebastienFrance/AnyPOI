@@ -151,6 +151,7 @@
 		BEA7BAC21D8B01E5005D2D21 /* AnyPOIUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA7BAC11D8B01E5005D2D21 /* AnyPOIUITests.swift */; };
 		BEAE541C1DAEC07000D4D63D /* RouteInfos.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEAE541B1DAEC07000D4D63D /* RouteInfos.swift */; };
 		BEBEBD1A1DB1621F003A81D0 /* AnyPOI.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BEA7BAA51D8B01E5005D2D21 /* AnyPOI.xcdatamodeld */; };
+		BEC3104E1DBA9F9400A923AF /* LeftMenuPOIsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC3104D1DBA9F9400A923AF /* LeftMenuPOIsTableViewCell.swift */; };
 		BED751951DA2D539004BC613 /* RouteProviderUberTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED751941DA2D539004BC613 /* RouteProviderUberTableViewCell.swift */; };
 		BEDC10541D97D4D1000C6A0D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BEDC10561D97D4D1000C6A0D /* InfoPlist.strings */; };
 /* End PBXBuildFile section */
@@ -344,6 +345,7 @@
 		BEAE541B1DAEC07000D4D63D /* RouteInfos.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteInfos.swift; sourceTree = "<group>"; };
 		BEC3104A1DBA713600A923AF /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/POIManager.strings; sourceTree = "<group>"; };
 		BEC3104C1DBA735200A923AF /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Options.strings; sourceTree = "<group>"; };
+		BEC3104D1DBA9F9400A923AF /* LeftMenuPOIsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftMenuPOIsTableViewCell.swift; sourceTree = "<group>"; };
 		BED751941DA2D539004BC613 /* RouteProviderUberTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteProviderUberTableViewCell.swift; sourceTree = "<group>"; };
 		BEDC10551D97D4D1000C6A0D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		BEDC10571D97D4D7000C6A0D /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -514,6 +516,7 @@
 			isa = PBXGroup;
 			children = (
 				BE0CF2A21D8B209A00344F8A /* LeftMenuViewController.swift */,
+				BEC3104D1DBA9F9400A923AF /* LeftMenuPOIsTableViewCell.swift */,
 				BE0CF2CB1D8B209A00344F8A /* LeftMenuAboutTableViewCell.swift */,
 				BE0CF2CC1D8B209A00344F8A /* LeftMenuTableViewCell.swift */,
 			);
@@ -1194,6 +1197,7 @@
 				BED751951DA2D539004BC613 /* RouteProviderUberTableViewCell.swift in Sources */,
 				BE0CF3171D8B209A00344F8A /* MovePOIsViewController.swift in Sources */,
 				BE0CF3241D8B209A00344F8A /* RoutesTableViewCell.swift in Sources */,
+				BEC3104E1DBA9F9400A923AF /* LeftMenuPOIsTableViewCell.swift in Sources */,
 				BE0CF3351D8B209A00344F8A /* PoiMailActivityItemSource.swift in Sources */,
 				BE0CF3251D8B209A00344F8A /* RouteUtilties.swift in Sources */,
 				BE187CF51DAA7739007737B4 /* NoWikipediaTableViewCell.swift in Sources */,
