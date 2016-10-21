@@ -47,7 +47,7 @@
 "Navigation"="Navigation";
 "Wikipedia"="Wikipedia";
 "MaxMonitoredPOIReached"="Nombre maximal de POIs sous surveillance atteint. Désactivez en un autre pour activer celui-ci";
-"PoiEditorRegionMonitoringSectionName"="Surveillance de région";
+"PoiEditorRegionMonitoringSectionName"="Surveillance de zone";
 "Unknown"="Inconnu";
 "PoiEditorPOINamePlaceholder"="Nom du POI";
 "PoiEditorPOIDescriptionPlaceholder"="Description du POI";

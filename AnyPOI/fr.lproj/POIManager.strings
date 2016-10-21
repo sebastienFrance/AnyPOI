@@ -1,0 +1,132 @@
+
+/* Class = "UILabel"; text = "Group description"; ObjectID = "2dT-me-hf0"; */
+"2dT-me-hf0.text" = "Description du groupe";
+
+/* Class = "UILabel"; text = "Description"; ObjectID = "3zs-it-rnE"; */
+"3zs-it-rnE.text" = "Description";
+
+/* Class = "UILabel"; text = "No wikipedia articles found"; ObjectID = "4Fb-s5-wuP"; */
+"4Fb-s5-wuP.text" = "Pas d'articles de wikipedia trouvés";
+
+/* Class = "UIButton"; normalTitle = "Save"; ObjectID = "4yw-MH-QgK"; */
+"4yw-MH-QgK.normalTitle" = "Enregistrer";
+
+/* Class = "UILabel"; text = "title"; ObjectID = "Esg-EQ-XdX"; */
+"Esg-EQ-XdX.text" = "Titre";
+
+/* Class = "UILabel"; text = "Distance"; ObjectID = "FB6-w6-bSj"; */
+"FB6-w6-bSj.text" = "Distance";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "FFc-O3-AKr"; */
+"FFc-O3-AKr.normalTitle" = "Bouton";
+
+/* Class = "UIButton"; normalTitle = "Website"; ObjectID = "FYz-3W-Zm0"; */
+"FYz-3W-Zm0.normalTitle" = "Site web";
+
+/* Class = "UILabel"; text = "title"; ObjectID = "Fj7-DZ-3ux"; */
+"Fj7-DZ-3ux.text" = "Titre";
+
+/* Class = "UITextField"; text = "textField"; ObjectID = "GPB-Oe-4Vh"; */
+"GPB-Oe-4Vh.text" = "textField";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "KJS-Mp-55F"; */
+"KJS-Mp-55F.normalTitle" = "Bouton";
+
+/* Class = "UIButton"; normalTitle = "Cancel"; ObjectID = "L8r-ps-ifA"; */
+"L8r-ps-ifA.normalTitle" = "Annuler";
+
+/* Class = "UITextField"; placeholder = "Group description"; ObjectID = "LdY-Nm-oBM"; */
+"LdY-Nm-oBM.placeholder" = "Description du groupe";
+
+/* Class = "UILabel"; text = "Radius"; ObjectID = "MXO-SN-oHG"; */
+"MXO-SN-oHG.text" = "Rayon";
+
+/* Class = "UILabel"; text = "This group is empty!"; ObjectID = "McI-3Q-trZ"; */
+"McI-3Q-trZ.text" = "Ce groupe est vide!";
+
+/* Class = "UILabel"; text = "Group name"; ObjectID = "NZS-7J-1fN"; */
+"NZS-7J-1fN.text" = "Nom du groupe";
+
+/* Class = "UITextView"; text = "POI Address"; ObjectID = "NxF-nI-LgV"; */
+"NxF-nI-LgV.text" = "Adresse du POI";
+
+/* Class = "UILabel"; text = "Description"; ObjectID = "O17-9g-Ho8"; */
+"O17-9g-Ho8.text" = "Description";
+
+/* Class = "UILabel"; text = "Group"; ObjectID = "P0N-Sb-Vhe"; */
+"P0N-Sb-Vhe.text" = "Groupe";
+
+/* Class = "UILabel"; text = "Group name"; ObjectID = "Pwb-D0-faK"; */
+"Pwb-D0-faK.text" = "Nom du groupe";
+
+/* Class = "UIBarButtonItem"; title = "Move all"; ObjectID = "SHQ-bE-aws"; */
+"SHQ-bE-aws.title" = "Déplacer tout";
+
+/* Class = "UIBarButtonItem"; title = "Select"; ObjectID = "TsY-xA-bSL"; */
+"TsY-xA-bSL.title" = "Sélectionner";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "VKx-pQ-Vxb"; */
+"VKx-pQ-Vxb.text" = "Label";
+
+/* Class = "UIButton"; normalTitle = "Edit"; ObjectID = "Wds-yO-gNS"; */
+"Wds-yO-gNS.normalTitle" = "Editer";
+
+/* Class = "UINavigationItem"; title = "POI Groups "; ObjectID = "YJU-DB-MLL"; */
+"YJU-DB-MLL.title" = "Groupe de POIs";
+
+/* Class = "UILabel"; text = "Group Title"; ObjectID = "ZQ6-OV-CHb"; */
+"ZQ6-OV-CHb.text" = "Titre du groupe";
+
+/* Class = "UIButton"; normalTitle = "Edit"; ObjectID = "a01-WS-5gJ"; */
+"a01-WS-5gJ.normalTitle" = "Editer";
+
+/* Class = "UILabel"; text = "Scroll to pick a color"; ObjectID = "a2S-GS-L1L"; */
+"a2S-GS-L1L.text" = "Scroller pour choisir une couleur";
+
+/* Class = "UILabel"; text = "Group description"; ObjectID = "ark-gt-hpQ"; */
+"ark-gt-hpQ.text" = "Description du groupe";
+
+/* Class = "UILabel"; text = "Abstract article"; ObjectID = "cUz-o5-Sll"; */
+"cUz-o5-Sll.text" = "Résumé";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "dGt-jr-WZV"; */
+"dGt-jr-WZV.text" = "Titre";
+
+/* Class = "UILabel"; text = "City or Country name"; ObjectID = "el4-2b-Nwz"; */
+"el4-2b-Nwz.text" = "Ville ou pays";
+
+/* Class = "UILabel"; text = "Notify when exit region"; ObjectID = "ezJ-GF-B01"; */
+"ezJ-GF-B01.text" = "Notifier la sortie de zone";
+
+/* Class = "UILabel"; text = "Address"; ObjectID = "gzv-nI-8xg"; */
+"gzv-nI-8xg.text" = "Addresse";
+
+/* Class = "UILabel"; text = "Monitored POIs"; ObjectID = "hSi-Rz-cYX"; */
+"hSi-Rz-cYX.text" = "POIs surveillés";
+
+/* Class = "UIButton"; normalTitle = "Calendar"; ObjectID = "i3p-Ed-Gar"; */
+"i3p-Ed-Gar.normalTitle" = "Calendrier";
+
+/* Class = "UILabel"; text = "Notify when enter region"; ObjectID = "m7h-WG-BP9"; */
+"m7h-WG-BP9.text" = "Notifier l'entrée de zone";
+
+/* Class = "UIViewController"; title = "POI List"; ObjectID = "miy-gh-wKC"; */
+"miy-gh-wKC.title" = "Liste de POIs";
+
+/* Class = "UILabel"; text = "Wikipedia Loading..."; ObjectID = "ozt-YL-gBH"; */
+"ozt-YL-gBH.text" = "Chargement de Wikipedia...";
+
+/* Class = "UITextField"; placeholder = "Group name"; ObjectID = "qFF-xO-aFw"; */
+"qFF-xO-aFw.placeholder" = "Nom du groupe";
+
+/* Class = "UILabel"; text = "Point of interest that are currently monitored"; ObjectID = "r8m-gi-4lw"; */
+"r8m-gi-4lw.text" = "Point d'intérêt qui sont surveillés";
+
+/* Class = "UILabel"; text = "Select a new group for POIs"; ObjectID = "rGL-UX-2fU"; */
+"rGL-UX-2fU.text" = "Sélectionnez un nouveau groupe pour les POIs";
+
+/* Class = "UIViewController"; title = "Group List"; ObjectID = "rf3-AK-XI1"; */
+"rf3-AK-XI1.title" = "Liste de groupe";
+
+/* Class = "UINavigationItem"; title = "POI Details"; ObjectID = "zh9-aw-7Yj"; */
+"zh9-aw-7Yj.title" = "Détails du POI";

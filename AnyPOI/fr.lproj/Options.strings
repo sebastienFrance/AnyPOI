@@ -1,0 +1,63 @@
+
+/* Class = "UILabel"; text = "Default transport type"; ObjectID = "1Rt-A0-X7t"; */
+"1Rt-A0-X7t.text" = "Transport par défaut";
+
+/* Class = "UILabel"; text = "Traffic"; ObjectID = "2WX-yq-HQd"; */
+"2WX-yq-HQd.text" = "Circulation";
+
+/* Class = "UIButton"; normalTitle = "Synchronize contacts"; ObjectID = "2iZ-K2-671"; */
+"2iZ-K2-671.normalTitle" = "Synchroniser les contacts";
+
+/* Class = "UILabel"; text = "Standard"; ObjectID = "3I3-Qg-6R4"; */
+"3I3-Qg-6R4.text" = "Standard";
+
+/* Class = "UITableViewSection"; headerTitle = "Authentication"; ObjectID = "77O-X0-Rhj"; */
+"77O-X0-Rhj.headerTitle" = "Authentification";
+
+/* Class = "UILabel"; text = "Enable TouchId"; ObjectID = "Bwo-aN-erz"; */
+"Bwo-aN-erz.text" = "Activer TouchId";
+
+/* Class = "UITableViewSection"; headerTitle = "Route"; ObjectID = "CiU-3s-hUF"; */
+"CiU-3s-hUF.headerTitle" = "Route";
+
+/* Class = "UITableViewSection"; headerTitle = "Map Mode"; ObjectID = "ERV-pZ-gX5"; */
+"ERV-pZ-gX5.headerTitle" = "Map Mode";
+
+/* Class = "UITableViewSection"; headerTitle = "Map"; ObjectID = "IYb-8L-JEj"; */
+"IYb-8L-JEj.headerTitle" = "Map";
+
+/* Class = "UILabel"; text = "Hybrid Flyover"; ObjectID = "Loz-2d-0fo"; */
+"Loz-2d-0fo.text" = "Hybrid Flyover";
+
+/* Class = "UILabel"; text = "Near Location"; ObjectID = "Lt3-BU-kyN"; */
+"Lt3-BU-kyN.text" = "Lieux proches";
+
+/* Class = "UILabel"; text = "Enable password"; ObjectID = "Muh-Hq-1xV"; */
+"Muh-Hq-1xV.text" = "Activer le mot de passe";
+
+/* Class = "UILabel"; text = "Selected Language"; ObjectID = "XCj-73-Blq"; */
+"XCj-73-Blq.text" = "Langue sélectionnée";
+
+/* Class = "UILabel"; text = "Langue"; ObjectID = "YxM-CF-PzU"; */
+"YxM-CF-PzU.text" = "Langue";
+
+/* Class = "UITableViewSection"; headerTitle = "Contacts"; ObjectID = "ex8-aA-aWy"; */
+"ex8-aA-aWy.headerTitle" = "Contacts";
+
+/* Class = "UIButton"; normalTitle = "Change password"; ObjectID = "gHu-tP-X1j"; */
+"gHu-tP-X1j.normalTitle" = "Changer le mot de passe";
+
+/* Class = "UILabel"; text = "Distance and results"; ObjectID = "qVY-Vf-Tgr"; */
+"qVY-Vf-Tgr.text" = "Distance et résultats";
+
+/* Class = "UINavigationItem"; title = "Options"; ObjectID = "ubp-8S-RpJ"; */
+"ubp-8S-RpJ.title" = "Options";
+
+/* Class = "UILabel"; text = "Apple's Points of Interest"; ObjectID = "vsm-qm-kIN"; */
+"vsm-qm-kIN.text" = "Points d'intérêt d'Apple";
+
+/* Class = "UITableViewSection"; headerTitle = "Wikipedia"; ObjectID = "xSg-vy-Fnp"; */
+"xSg-vy-Fnp.headerTitle" = "Wikipedia";
+
+/* Class = "UIViewController"; title = "Wikipedia"; ObjectID = "xfe-Pn-5Ka"; */
+"xfe-Pn-5Ka.title" = "Wikipedia";

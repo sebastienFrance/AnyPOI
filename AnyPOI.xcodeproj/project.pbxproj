@@ -342,6 +342,8 @@
 		BEA7BAC11D8B01E5005D2D21 /* AnyPOIUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyPOIUITests.swift; sourceTree = "<group>"; };
 		BEA7BAC31D8B01E5005D2D21 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BEAE541B1DAEC07000D4D63D /* RouteInfos.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteInfos.swift; sourceTree = "<group>"; };
+		BEC3104A1DBA713600A923AF /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/POIManager.strings; sourceTree = "<group>"; };
+		BEC3104C1DBA735200A923AF /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Options.strings; sourceTree = "<group>"; };
 		BED751941DA2D539004BC613 /* RouteProviderUberTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteProviderUberTableViewCell.swift; sourceTree = "<group>"; };
 		BEDC10551D97D4D1000C6A0D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		BEDC10571D97D4D7000C6A0D /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -1271,6 +1273,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				BE47BE3A1DAACA8E00862A0C /* Base */,
+				BEC3104A1DBA713600A923AF /* fr */,
 			);
 			name = POIManager.storyboard;
 			sourceTree = "<group>";
@@ -1288,6 +1291,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				BE957E5B1DA8FBBA006CF455 /* Base */,
+				BEC3104C1DBA735200A923AF /* fr */,
 			);
 			name = Options.storyboard;
 			sourceTree = "<group>";
