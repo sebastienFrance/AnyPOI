@@ -61,7 +61,12 @@ class CategoryUtils {
                                             "Hotel Information-40" : NSLocalizedString("CategoryLabelHotel", comment: "")]
     
     static let EmptyCategoryIndex = 0
-    static let WikipediaCategoryIndex = 10000
+    
+    struct Wikipedia {
+        static let categoryIndex = 10000
+        fileprivate static let label = "Wikipedia"
+        fileprivate static let image = UIImage(named: "Wikipedia-40")
+    }
     
     static func getCategoryCount() -> Int {
         return CategoryUtils.categoryIcons.count
@@ -71,14 +76,19 @@ class CategoryUtils {
         if case 0 ..< getCategoryCount() = index {
             return (UIImage(named: CategoryUtils.categoryIcons[index]), CategoryUtils.categoryFromIcons[CategoryUtils.categoryIcons[index]])
         } else {
-            return (nil,"")
+            if index == Wikipedia.categoryIndex {
+                return getWikipediaCategory()
+            } else {
+                return (nil,"")
+            }
         }
-        
     }
     
     static func getIconCategoryForIndex(_ index:Int) -> UIImage? {
         if case 0 ..< getCategoryCount() = index {
             return UIImage(named: CategoryUtils.categoryIcons[index])
+        } else  if index == Wikipedia.categoryIndex {
+            return Wikipedia.image
         } else {
             return nil
         }
@@ -87,7 +97,8 @@ class CategoryUtils {
     static func getLabelCategoryForIndex(_ index:Int) -> String {
         if case 0 ..< getCategoryCount() = index {
             return CategoryUtils.categoryFromIcons[CategoryUtils.categoryIcons[index]]!
-            //return CategoryUtils.categoryLabel[index]
+        } else if index == Wikipedia.categoryIndex {
+            return Wikipedia.label
         } else {
             return ""
         }
@@ -107,11 +118,11 @@ class CategoryUtils {
     }
     
     static func isWikipediaCategory(_ categoryIndex:Int) -> Bool {
-        return categoryIndex == WikipediaCategoryIndex ? true : false 
+        return categoryIndex == Wikipedia.categoryIndex ? true : false
     }
     
     static func getWikipediaCategory() -> (icon:UIImage?, label:String?) {
-        return (UIImage(named: "Wikipedia-40") , "Wikipedia")
+        return (Wikipedia.image, Wikipedia.label)
     }
     
 }

@@ -304,7 +304,7 @@ class POIsGroupListViewController: UIViewController, UITableViewDataSource, UITa
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        switch ((indexPath as NSIndexPath).section) {
+        switch indexPath.section {
         case SectionIndex.poiGroups:
             let theCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier.POIGroupListCellId, for: indexPath) as! POIGroupCell
             
@@ -321,7 +321,7 @@ class POIsGroupListViewController: UIViewController, UITableViewDataSource, UITa
     }
     
     fileprivate func getCountryOrCityTableViewCell(_ tableView: UITableView, indexPath:IndexPath) -> UITableViewCell {
-        if (indexPath as NSIndexPath).row == 0 && searchFilter.isEmpty {
+        if indexPath.row == 0 && searchFilter.isEmpty {
             let theCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier.CityGroupCell, for: indexPath) as! CityGroupCell
             theCell.cityNameLabel.text  = NSLocalizedString("AllFomCountry", comment: "")
             return theCell
@@ -335,8 +335,8 @@ class POIsGroupListViewController: UIViewController, UITableViewDataSource, UITa
     
     //MARK: UITableViewDelegate
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        if (indexPath as NSIndexPath).section == SectionIndex.poiGroups {
-            return !POIDataManager.sharedInstance.isMandatoryGroup(filteredGroups[(indexPath as NSIndexPath).row])
+        if indexPath.section == SectionIndex.poiGroups {
+            return !POIDataManager.sharedInstance.isMandatoryGroup(filteredGroups[indexPath.row])
         } else {
             return true
         }
@@ -345,7 +345,7 @@ class POIsGroupListViewController: UIViewController, UITableViewDataSource, UITa
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         switch editingStyle {
         case .delete:
-            switch (indexPath as NSIndexPath).section {
+            switch indexPath.section {
             case SectionIndex.poiGroups:
                 deletePoiGroup(indexPath)
             case SectionIndex.monitoredPois:
@@ -371,7 +371,7 @@ class POIsGroupListViewController: UIViewController, UITableViewDataSource, UITa
         theTableView.beginUpdates()
         POIDataManager.sharedInstance.deleteMonitoredPOIs()
         POIDataManager.sharedInstance.commitDatabase()
-        theTableView.deleteSections(IndexSet(integer:(indexPath as NSIndexPath).section), with: .fade)
+        theTableView.deleteSections(IndexSet(integer:indexPath.section), with: .fade)
         theTableView.endUpdates()
     }
     
@@ -383,27 +383,27 @@ class POIsGroupListViewController: UIViewController, UITableViewDataSource, UITa
                 POIDataManager.sharedInstance.deleteCountryPOIs(isoCountryCode)
                 POIDataManager.sharedInstance.commitDatabase()
                 
-                theTableView.deleteSections(IndexSet(integer:(indexPath as NSIndexPath).section), with: .fade)
+                theTableView.deleteSections(IndexSet(integer:indexPath.section), with: .fade)
                 theTableView.endUpdates()
             } else {
                 let cities = POIDataManager.sharedInstance.getAllCitiesFromCountry(isoCountryCode, filter: searchFilter)
-                if ((indexPath as NSIndexPath).row - 1) < cities.count {
+                if (indexPath.row - 1) < cities.count {
                     theTableView.beginUpdates()
-                    POIDataManager.sharedInstance.deleteCityPOIs(searchFilter.isEmpty ? cities[(indexPath as NSIndexPath).row - 1] : cities[(indexPath as NSIndexPath).row], fromISOCountryCode:isoCountryCode)
+                    POIDataManager.sharedInstance.deleteCityPOIs(searchFilter.isEmpty ? cities[indexPath.row - 1] : cities[indexPath.row], fromISOCountryCode:isoCountryCode)
                     POIDataManager.sharedInstance.commitDatabase()
                     if (cities.count == 1 && searchFilter.isEmpty) || (cities.count == 0 && !searchFilter.isEmpty) {
-                        theTableView.deleteSections(IndexSet(integer:(indexPath as NSIndexPath).section), with: .fade)
+                        theTableView.deleteSections(IndexSet(integer:indexPath.section), with: .fade)
                     } else {
                         theTableView.deleteRows(at: [indexPath], with: .fade)
                     }
                     
                     theTableView.endUpdates()
                 } else {
-                    print("\(#function) Warning, invalid index to look for a City : \((indexPath as NSIndexPath).row - 1)")
+                    print("\(#function) Warning, invalid index to look for a City : \(indexPath.row - 1)")
                 }
             }
         } else {
-            print("\(#function) Warning, invalid index to look for a Country \((indexPath as NSIndexPath).section)")
+            print("\(#function) Warning, invalid index to look for a Country \(indexPath.section)")
         }
     }
     
@@ -420,7 +420,7 @@ class POIsGroupListViewController: UIViewController, UITableViewDataSource, UITa
         switch segue.identifier! {
         case storyboard.showPOIList:
             let poiController = segue.destination as! POIsViewController
-            let group = filteredGroups[(theTableView.indexPathForSelectedRow! as NSIndexPath).row]
+            let group = filteredGroups[theTableView.indexPathForSelectedRow!.row]
             poiController.showGroup(group)
         case storyboard.showMonitoredPois:
             let poiController = segue.destination as! POIsViewController
@@ -451,10 +451,10 @@ class POIsGroupListViewController: UIViewController, UITableViewDataSource, UITa
             if (indexPath as NSIndexPath).row == 0 && searchFilter.isEmpty {
                 viewController.showCountryPoi(country.ISOCountryCode, name:country.countryName)
             } else {
-                viewController.showCityPoi(getCityNameFromCountry(country, row: (indexPath as NSIndexPath).row))
+                viewController.showCityPoi(getCityNameFromCountry(country, row: indexPath.row))
             }
         } else {
-            print("\(#function) Warning, invalid index to look for a Country \((indexPath as NSIndexPath).row)")
+            print("\(#function) Warning, invalid index to look for a Country \(indexPath.row)")
         }
     }
 }

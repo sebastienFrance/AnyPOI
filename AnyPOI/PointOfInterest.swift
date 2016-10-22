@@ -404,7 +404,7 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
         // Must be stopped before to change the coordinate
         var needToRestartMonitoring = false
         if isMonitored {
-            LocationManager.sharedInstance.stopMonitoringRegion(self)
+            _ = LocationManager.sharedInstance.stopMonitoringRegion(poi: self)
             needToRestartMonitoring = true
         }
         
@@ -414,7 +414,7 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
         initializePlacemarks(placemark)
         
         if needToRestartMonitoring {
-            LocationManager.sharedInstance.startMonitoringRegion(self)
+            _ = LocationManager.sharedInstance.startMonitoringRegion(poi: self)
         }
         // SEB: A FAIRE, peut-etre qu'il faut reinitialiser completement le region monitoring pour ce POI et la camera
         // si les coordonnées geo ne sont pas identique (ca peut arriver si quelqu'un change d'adresse!)
@@ -427,7 +427,7 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
         
         isPrivate = false
         poiIsContact = false
-        poiCategory = Int16(CategoryUtils.WikipediaCategoryIndex)
+        poiCategory = Int16(CategoryUtils.Wikipedia.categoryIndex)
         
         coordinate = wikipedia.coordinates
         
@@ -553,24 +553,39 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
     }
 
     
-    func startOrStopMonitoring(_ sender: UIButton) {
+    func startMonitoring(radius:Double = 100.0, notifyEnterRegion:Bool = true, notifyExitRegion:Bool = true) -> LocationManager.MonitoringStatus {
+        if !isMonitored && LocationManager.sharedInstance.isMaxMonitoredRegionReached() {
+            return LocationManager.MonitoringStatus.maxMonitoredRegionAlreadyReached
+        }
+
+        let isAlreadyMonitored = isMonitored
+        
+        poiRegionNotifyEnter = notifyEnterRegion
+        poiRegionNotifyExit = notifyExitRegion
+        poiRegionRadius = radius
+        
+        POIDataManager.sharedInstance.updatePOI(self)
+        POIDataManager.sharedInstance.commitDatabase()
+        
+        if isAlreadyMonitored {
+            return LocationManager.sharedInstance.updateMonitoringRegion(self)
+        } else {
+            return LocationManager.sharedInstance.startMonitoringRegion(poi: self)
+        }
+    }
+    
+    func stopMonitoring() {
         if isMonitored {
+            
             poiRegionNotifyEnter = false
             poiRegionNotifyExit = false
             
             POIDataManager.sharedInstance.updatePOI(self)
             POIDataManager.sharedInstance.commitDatabase()
             
-            LocationManager.sharedInstance.stopMonitoringRegion(self)
-        } else {
-            poiRegionNotifyEnter = true
-            poiRegionNotifyExit = true
-            poiRegionRadius = 100.0
-            
-            POIDataManager.sharedInstance.updatePOI(self)
-            POIDataManager.sharedInstance.commitDatabase()
-            
-            LocationManager.sharedInstance.startMonitoringRegion(self)
+            _ = LocationManager.sharedInstance.stopMonitoringRegion(poi: self)
         }
     }
+    
+    
  }

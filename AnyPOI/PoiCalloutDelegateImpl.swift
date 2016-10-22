@@ -47,6 +47,29 @@ extension PoiCalloutDelegateImpl : PoiCalloutDelegate {
         }
     }
     
+    func startOrStopMonitoring(_ sender:UIButton) {
+        let selectedAnnotations = theMapView.selectedAnnotations
+        if selectedAnnotations.count > 0 {
+            let poi = selectedAnnotations[0] as! PointOfInterest
+            
+            if poi.isMonitored {
+                poi.stopMonitoring()
+            } else {
+                switch poi.startMonitoring() {
+                case .noError:
+                    break
+                case .deviceNotSupported:
+                    Utilities.showAlertMessage(viewController, title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("StartMonitoringDeviceNotSupported", comment: ""))
+                    break
+                case .internalError:
+                    Utilities.showAlertMessage(viewController, title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("InternalError", comment: ""))
+                    break
+                case .maxMonitoredRegionAlreadyReached:
+                    Utilities.showAlertMessage(viewController, title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("MaxMonitoredPOIReachedErrorMsg", comment: ""))
+                }
+            }
+        }
+    }
     
     func startPhoneCall(_ sender:UIButton) {
         let selectedAnnotations = theMapView.selectedAnnotations

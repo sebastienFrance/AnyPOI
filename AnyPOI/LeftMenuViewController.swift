@@ -61,7 +61,7 @@ extension LeftMenuViewController : UITableViewDataSource, UITableViewDelegate {
                 let theCell = theTableView.dequeueReusableCell(withIdentifier: storyboard.LeftMenuPOIsTableViewCellId, for: indexPath) as! LeftMenuPOIsTableViewCell
                 theCell.pinView.animatesDrop = false
                 theCell.pinView.canShowCallout = false
-                theCell.pinView.pinTintColor = UIColor.blue
+                theCell.pinView.pinTintColor = ColorsUtils.defaultGroupColor()
                 theCell.menuTitle.text = menuTitles[(indexPath as NSIndexPath).row]
                 return theCell
             } else {

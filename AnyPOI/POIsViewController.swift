@@ -400,7 +400,7 @@ extension POIsViewController : UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if (indexPath as NSIndexPath).section == Sections.MapView {
+        if indexPath.section == Sections.MapView {
             let theCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier.cellPoisMapAreaId, for: indexPath) as! PoisMapAreaTableViewCell
             if let theSnapshotter = snapshotter , !theSnapshotter.isLoading {
                 let imageView = UIImageView(image: snapshotImage)
@@ -418,9 +418,9 @@ extension POIsViewController : UITableViewDataSource, UITableViewDelegate {
                 let currentPOI = getPoiForIndexPath(indexPath)
                 
                 if let image = images[(indexPath as NSIndexPath).row] {
-                    theCell.initializeWith(currentPOI, index: (indexPath as NSIndexPath).row, image:image)
+                    theCell.initializeWith(currentPOI, index:indexPath.row, image:image)
                 } else {
-                    theCell.initializeWith(currentPOI, index: (indexPath as NSIndexPath).row)
+                    theCell.initializeWith(currentPOI, index:indexPath.row)
                 }
                 return theCell
             } else {
@@ -438,7 +438,7 @@ extension POIsViewController : UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        if (indexPath as NSIndexPath).section == Sections.MapView {
+        if indexPath.section == Sections.MapView {
             return Cste.MapViewHeight
         } else {
             return  UITableViewAutomaticDimension
@@ -446,7 +446,7 @@ extension POIsViewController : UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if (indexPath as NSIndexPath).section == Sections.MapView {
+        if indexPath.section == Sections.MapView {
             if let theSnapshotter = snapshotter , !theSnapshotter.isLoading {
                 return Cste.MapViewHeight
             } else {
@@ -458,7 +458,7 @@ extension POIsViewController : UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if (indexPath as NSIndexPath).section == Sections.POIs {
+        if indexPath.section == Sections.POIs {
             switch editingStyle {
             case .delete:
                 
@@ -479,9 +479,9 @@ extension POIsViewController : UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        if (indexPath as NSIndexPath).section == Sections.MapView {
+        if indexPath.section == Sections.MapView {
             return false
-        } else if (indexPath as NSIndexPath).section == Sections.POIs && getPois(true).count == 0 {
+        } else if indexPath.section == Sections.POIs && getPois(true).count == 0 {
             return false
         } else {
             return true
@@ -489,13 +489,13 @@ extension POIsViewController : UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if (indexPath as NSIndexPath).section == Sections.POIs {
+        if indexPath.section == Sections.POIs {
             if getPois(true).count > 0 && !theTableView.isEditing {
                 performSegue(withIdentifier: storyboard.showPOIDetails, sender: indexPath)
             } else if theTableView.isEditing {
                 moveButton.isEnabled = true
             }
-        } else if (indexPath as NSIndexPath).section == Sections.MapView {
+        } else if indexPath.section == Sections.MapView {
             let pois = getPois(false)
             NotificationCenter.default.post(name: Notification.Name(rawValue: MapViewController.MapNotifications.showPOIs), object: nil, userInfo: [MapViewController.MapNotifications.showPOIs_Parameter_POIs: pois])
             

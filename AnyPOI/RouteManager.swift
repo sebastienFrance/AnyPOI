@@ -19,7 +19,7 @@ protocol RouteDisplayInfos : class {
     func doFlyover(_ routeDatasource:RouteDataSource)
     
     func refreshRouteAllOverlays()
-    func displayNewGroupsOnMap(_ groups:[GroupOfInterest], withMonitoredOverlays:Bool)
+    func displayOnMap(groups:[GroupOfInterest], withMonitoredOverlays:Bool)
     
     
     func getViewController() -> UIViewController
@@ -62,7 +62,7 @@ class RouteManager: NSObject {
             theMapView.addAnnotations(poisToBeAdded)
         }
         
-        routeDisplayInfos.displayNewGroupsOnMap(POIDataManager.sharedInstance.findDisplayableGroups(), withMonitoredOverlays: false)
+        routeDisplayInfos.displayOnMap(groups:POIDataManager.sharedInstance.findDisplayableGroups(), withMonitoredOverlays: false)
 
         hasRouteChangedDueToReloading = true // Force the display of the Route even if no changes
         routeDatasource.theRoute.reloadDirections() // start to load the route
@@ -170,13 +170,13 @@ class RouteManager: NSObject {
                 
                 // Reset color of the old From only if it has really changed
                 if oldFrom != newFrom {
-                    refreshPoiAnnotation(oldFrom)
+                    refresh(poi:oldFrom)
                 }
                 
                 // Reset color of the old To only if it has really changed
                 // For the old To we need also to enable again the button to add the POI in the route
                 if oldTo != newTo {
-                    refreshPoiAnnotation(oldTo)
+                    refresh(poi:oldTo)
                 }
                 
                 refreshAnnotationsForCurrentWayPoint()
@@ -288,6 +288,7 @@ class RouteManager: NSObject {
         }
     }
     
+
     
     func showOnlyRouteAnnotations() {
         isShowOnlyRouteAnnotations = !isShowOnlyRouteAnnotations
@@ -295,16 +296,21 @@ class RouteManager: NSObject {
         if isShowOnlyRouteAnnotations {
             // Remove all annotations which are not used in the route
             var annotationsToRemove = [MKAnnotation]()
+            var overlaysToRemove = [MKOverlay]()
             for currentAnnotation in theMapView.annotations {
                 if currentAnnotation is PointOfInterest && !routeDatasource.hasPoi(currentAnnotation as! PointOfInterest) {
                     annotationsToRemove.append(currentAnnotation)
+                    if let overlay = (currentAnnotation as! PointOfInterest).getMonitordRegionOverlay() {
+                        overlaysToRemove.append(overlay)
+                    }
                 }
             }
             theMapView.removeAnnotations(annotationsToRemove)
+            theMapView.removeOverlays(overlaysToRemove)
         } else {
             // Add all annotations
             if isShowOnlyRouteAnnotations == false {
-                routeDisplayInfos.displayNewGroupsOnMap(POIDataManager.sharedInstance.findDisplayableGroups(), withMonitoredOverlays: false)
+                routeDisplayInfos.displayOnMap(groups:POIDataManager.sharedInstance.findDisplayableGroups(), withMonitoredOverlays: false)
             }
         }
         
@@ -316,16 +322,16 @@ class RouteManager: NSObject {
     //
     // This method create a new WayPoint for this POI in the route
     // When the new WayPoint is inserted, it will automatically trigger a route loading
-    func addPoiToTheRoute(_ poi:PointOfInterest) {
+    func add(poi:PointOfInterest) {
         if routeDatasource.isBeforeRouteSections && !routeDatasource.wayPoints.isEmpty {
             
             // Request to the user if the POI must be added as the start or as the end of the route
             let alertActionSheet = UIAlertController(title: "\(NSLocalizedString("AddWayPointRouteManager", comment: "")) \(poi.poiDisplayName!)", message: NSLocalizedString("WhereRouteManager", comment: ""), preferredStyle: .actionSheet)
             alertActionSheet.addAction(UIAlertAction(title: NSLocalizedString("AsStartPointRouteManager", comment: ""), style: .default) { alertAction in
-                self.insertPoiInRoute(poi, atPosition: .head)
+                self.insert(poi:poi, atPosition: .head)
                 })
             alertActionSheet.addAction(UIAlertAction(title: NSLocalizedString("AsEndPointRouteManager", comment: ""), style: .default) { alertAction in
-                self.insertPoiInRoute(poi, atPosition: .tail)
+                self.insert(poi:poi, atPosition: .tail)
                 })
             
             
@@ -335,9 +341,9 @@ class RouteManager: NSObject {
         } else {
             // If it's the first WayPoint we are adding in the route, it becomes the head
             if routeDatasource.wayPoints.isEmpty {
-                insertPoiInRoute(poi, atPosition: .head)
+                insert(poi:poi, atPosition: .head)
             } else {
-                insertPoiInRoute(poi, atPosition: .currentPosition)
+                insert(poi:poi, atPosition: .currentPosition)
             }
         }
     }
@@ -357,7 +363,7 @@ class RouteManager: NSObject {
         
         // Refresh all Poi used by the Route -> Could be improved?
         for currentWayPoint in routeDatasource.wayPoints {
-            refreshPoiAnnotation(currentWayPoint.wayPointPoi!)
+            refresh(poi:currentWayPoint.wayPointPoi!)
         }
         
     }
@@ -399,9 +405,9 @@ class RouteManager: NSObject {
                 routeDatasource.deleteWayPoint(wayPointToDelete)
                 
                 // Refresh Poi annotations
-                refreshPoiAnnotation(fromPoiToRefresh)
+                refresh(poi:fromPoiToRefresh)
                 if let toPoi = toPoiToRefresh {
-                    refreshPoiAnnotation(toPoi)
+                    refresh(poi:toPoi)
                 }
             } else {
                 // It's exactly as if the user has selected on the Map an Annotation and selected deletion on the Callout
@@ -459,7 +465,7 @@ class RouteManager: NSObject {
         
         // Update the removed Poi on the Map (Pin annotation & callout)
         //refreshPoiRemovedFromRoute(poi)
-        refreshPoiAnnotation(poi)
+        refresh(poi:poi)
         
         if needToRefreshCurrentRouteSection {
             refreshAnnotationsForCurrentWayPoint()
@@ -471,7 +477,7 @@ class RouteManager: NSObject {
         }
     }
     
-    fileprivate func insertPoiInRoute(_ poi:PointOfInterest, atPosition:MapViewController.InsertPoiPostion) {
+    fileprivate func insert(poi:PointOfInterest, atPosition:MapViewController.InsertPoiPostion) {
         
         switch atPosition {
         case .head: // Only when the whole route is displayed
@@ -479,46 +485,46 @@ class RouteManager: NSObject {
                 // The old starting WayPoint is changed to end if the route has only 1 wayPoint
                 // else it becomes a simple wayPoint of the route
                 if routeDatasource.theRoute.wayPoints.count == 1 {
-                    refreshPoiAnnotation(currentStartPoi, withType: .routeEnd)
+                    refreshAnnotation(poi:currentStartPoi, withType: .routeEnd)
                 } else {
-                    refreshPoiAnnotation(currentStartPoi, withType: .waypoint)
+                    refreshAnnotation(poi:currentStartPoi, withType: .waypoint)
                 }
             }
             
             // The new wayPoint is inserted at the start
             routeDatasource.insertPoiAsRouteStart(poi)
-            refreshPoiAnnotation(poi, withType: .routeStart)
+            refreshAnnotation(poi:poi, withType: .routeStart)
             
         case .tail: // Only when the whole route is displayed
             if let currentEndPoi = routeDatasource?.toPOI {
                 // the old ending waypoint is changed as the start if the route contains only 1 wayPoint
                 // else it becomes a simple WayPoint of the route
                 if routeDatasource.theRoute.wayPoints.count == 1 {
-                    refreshPoiAnnotation(currentEndPoi, withType: .routeStart)
+                    refreshAnnotation(poi:currentEndPoi, withType: .routeStart)
                 } else {
-                    refreshPoiAnnotation(currentEndPoi, withType: .waypoint)
+                    refreshAnnotation(poi:currentEndPoi, withType: .waypoint)
                 }
                 
             }
             
             // The new wayPoint is added at the end
             routeDatasource.insertPoiAtAsRouteEnd(poi)
-            refreshPoiAnnotation(poi, withType: .routeEnd)
+            refreshAnnotation(poi:poi, withType: .routeEnd)
             
         case .currentPosition: // Only when only a route section is displayed
             if let currentStartPoi = routeDatasource?.fromPOI {
                 // The old start becomes the simple wayPoint from the route
-                refreshPoiAnnotation(currentStartPoi, withType: .waypoint)
+                refreshAnnotation(poi:currentStartPoi, withType: .waypoint)
             }
             
             if let currentEndPoi = routeDatasource?.toPOI {
                 // the old ending waypoint is changed to become the start
-                refreshPoiAnnotation(currentEndPoi, withType: .routeStart)
+                refreshAnnotation(poi:currentEndPoi, withType: .routeStart)
             }
             
             // The new wayPoint is added at the end of the new route section
             routeDatasource.insertPoiInRoute(poi)
-            refreshPoiAnnotation(poi, withType: .routeEnd)
+            refreshAnnotation(poi:poi, withType: .routeEnd)
         }
     }
 
@@ -558,7 +564,7 @@ class RouteManager: NSObject {
     }
     
     // Request the route from the current location to target of the current route section
-    func buildRouteFromCurrentLocation(_ targetPOI: PointOfInterest, transportType:MKDirectionsTransportType) {
+    func buildRouteFromCurrentLocationTo(targetPOI: PointOfInterest, transportType:MKDirectionsTransportType) {
         let routeRequest = MKDirectionsRequest()
         routeRequest.transportType = transportType
         routeRequest.source = MKMapItem.forCurrentLocation()
@@ -624,7 +630,7 @@ class RouteManager: NSObject {
 
     
     //MARK: Refresh POI
-    fileprivate func refreshPoiAnnotation(_ poi:PointOfInterest, withType:MapUtils.PinAnnotationType) {
+    fileprivate func refreshAnnotation(poi:PointOfInterest, withType:MapUtils.PinAnnotationType) {
         if let annotationView = theMapView.view(for: poi) as? WayPointPinAnnotationView {
             MapUtils.refreshPin(annotationView, poi: poi, delegate: routeDisplayInfos.getPoiCalloutDelegate(), type: withType)
         }
@@ -632,17 +638,17 @@ class RouteManager: NSObject {
 
     fileprivate func refreshAnnotationsForCurrentWayPoint() {
         if let from = routeDatasource.fromPOI {
-            refreshPoiAnnotation(from)
+            refresh(poi:from)
             if let to = routeDatasource.toPOI , to != from {
-                refreshPoiAnnotation(to)
+                refresh(poi:to)
             }
         }
     }
     
     // Refresh a Poi depending on its role in the Map
-    func refreshPoiAnnotation(_ poi:PointOfInterest) {
+    func refresh(poi:PointOfInterest) {
         if let annotationView = theMapView.view(for: poi) as? WayPointPinAnnotationView {
-            let poiType = getPoiType(poi)
+            let poiType = getPinType(poi: poi)
             MapUtils.refreshPin(annotationView, poi: poi, delegate: routeDisplayInfos.getPoiCalloutDelegate(), type: poiType)
             
             // Specific case when the route contains only the From then we must not set the
@@ -699,7 +705,7 @@ class RouteManager: NSObject {
     }
 
     // Get the role of a POI in the Route (start/end/wayPoint/normal)?
-    func getPoiType(_ poi:PointOfInterest) -> MapUtils.PinAnnotationType {
+    func getPinType(poi:PointOfInterest) -> MapUtils.PinAnnotationType {
         var poiType = MapUtils.PinAnnotationType.normal
         if poi === routeDatasource.fromPOI {
             poiType = .routeStart

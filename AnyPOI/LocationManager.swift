@@ -10,27 +10,35 @@ import UIKit
 import CoreLocation
 import AudioToolbox
 
-// This class manage the user location 
-// By default we just request the location when the user is using the App, not in Background. This location
-// is used to display the user location on the Map.
-//
-// When the user activate the Region Monitoring on a POI then we ask for the Background location update with
-// AlwaysAuthorization
-//
-// When the Region Monitoring is enabled, the App trigger notifications to warn the user when he enters/exits a POI region
-//
-// Notifications: 
-// - AuthorizationHasChanged is sent each time the location authorization has been changed. Currently it's not used by the App
-
+/// This class manage the user location
+/// By default we just request the location when the user is using the App, not in Background. This location
+/// is used to display the user location on the Map.
+///
+/// When the user activate the Region Monitoring on a POI then we ask for the Background location update with
+/// AlwaysAuthorization
+///
+/// When the Region Monitoring is enabled, the App trigger notifications to warn the user when he enters/exits a POI region
+///
+/// Notifications:
+/// - AuthorizationHasChanged is sent each time the location authorization has been changed. Currently it's not used by the App
 class LocationManager : NSObject, CLLocationManagerDelegate {
     
     struct LocationNotifications {
         static let AuthorizationHasChanged = "AuthorizationHasChanged"
     }
     
-    var locationManager:CLLocationManager?
+    enum MonitoringStatus {
+        case noError, deviceNotSupported, maxMonitoredRegionAlreadyReached, internalError
+    }
+    
+    struct constants {
+        static let maxMonitoredPois = 20
+        static let maxRadius = Double(400.0)
+    }
+    
+    fileprivate(set) var locationManager:CLLocationManager?
 
-    static let MAX_MONITORED_POIS = 20
+
 
     // Initialize the Singleton
     class var sharedInstance: LocationManager {
@@ -60,73 +68,69 @@ class LocationManager : NSObject, CLLocationManagerDelegate {
         case .authorizedWhenInUse, .authorizedAlways:
             locationManager = CLLocationManager()
             locationManager?.delegate = self
-            print("\(#function): Authorization is: \(authorizationStatus.rawValue)")
+            print("\(#function): Authorization is: \(LocationManager.getStatus(status: authorizationStatus))")
         }
     }
 
+    
+    /// Check if the max POI that can be monitored has been reached
+    ///
+    /// - returns: true when the max has been reached otherwise it returns false
     func isMaxMonitoredRegionReached() -> Bool {
-        return POIDataManager.sharedInstance.getAllMonitoredPOI().count == LocationManager.MAX_MONITORED_POIS ? true : false
+        return locationManager!.monitoredRegions.count == constants.maxMonitoredPois ? true : false
     }
     
-    // When a POI must be monitored then:
-    //  1- We check if the max # of Monitored region has been already reached
-    //  2- We request the "Always Authorization" that is mandatory to use region monitoring
-    //  3- We start the monitoring the of POI and it's recorded in the list of monitored POIs
-    func startMonitoringRegion(_ poi:PointOfInterest) {
+    /// Start the monitoring of a POI
+    ///  1) We check if the max # of Monitored region has been already reached
+    ///  2) We request the "Always Authorization" that is mandatory to use region monitoring
+    ///  3) We start the monitoring the of POI and it's recorded in the list of monitored POIs
+    ///
+    /// - parameter poi: POI to be monitored
+    ///
+    /// - returns: noError if the POI can be monitored otherwise an error is returned
+    func startMonitoringRegion(poi:PointOfInterest) -> MonitoringStatus {
         if isMaxMonitoredRegionReached() {
             print("\(#function): Error, max numnber of monitored POI is already reached")
-            return
+            return .maxMonitoredRegionAlreadyReached
         }
-
+        
         requestAlwaysAuthorization()
         
         if CLLocationManager.isMonitoringAvailable(for: CLCircularRegion.self) {
             locationManager?.startMonitoring(for: CLCircularRegion(center: poi.coordinate, radius: poi.poiRegionRadius, identifier: poi.poiRegionId!))
-            if locationManager!.monitoredRegions.count != POIDataManager.sharedInstance.getAllMonitoredPOI().count {
-                print("\(#function) Error: Number of Monitored region: in CLLLocationManager \(locationManager!.monitoredRegions.count) and in Database \(POIDataManager.sharedInstance.getAllMonitoredPOI().count) are not equals!")
-               dumpMonitoredRegions()
-            }
-        } else {
-            print("\(#function): Warning isMonitoringAvailableForClass is not available on this device")
+            return .noError
+         } else {
+            return .deviceNotSupported
         }
     }
     
-    func dumpMonitoredRegions() {
-        for region in locationManager!.monitoredRegions {
-            print("RegionId from CLLocationManager: \(region.identifier)")
-        }
-        
-        for currentPOI in POIDataManager.sharedInstance.getAllMonitoredPOI() {
-            print("Monitored Poi: \(currentPOI.poiDisplayName!) with RegionId \(currentPOI.poiRegionId!) ")
-        }
-       
-    }
     
 
-    // When a POI must be removed from the Monitored region
-    //  1- the POI is removed from the Monitored region
-    //  2- It's removed from the internal list of monitored POIs
-    func stopMonitoringRegion(_ poi:PointOfInterest) {
+    /// Stop the monitoring of a POI
+    ///
+    /// - parameter poi: POI for which the monitoring must be stopped
+    ///
+    /// - returns: noError when the monitoring has been stopped otherwise it returns an error
+    func stopMonitoringRegion(poi:PointOfInterest) -> MonitoringStatus {
         if CLLocationManager.isMonitoringAvailable(for: CLCircularRegion.self) {
             locationManager?.stopMonitoring(for: CLCircularRegion(center: poi.coordinate, radius: poi.poiRegionRadius, identifier: poi.poiRegionId!))
-            if locationManager!.monitoredRegions.count != POIDataManager.sharedInstance.getAllMonitoredPOI().count {
-                print("\(#function) Error: Number of Monitored region: in CLLLocationManager \(locationManager!.monitoredRegions.count) and in Database \(POIDataManager.sharedInstance.getAllMonitoredPOI().count) are not equals!")
-                dumpMonitoredRegions()
-            }
+            return .noError
         } else {
-            print("\(#function): Warning isMonitoringAvailableForClass is not available on this device")
+            return .deviceNotSupported
         }
     }
 
-    func updateMonitoringRegion(_ poi:PointOfInterest) {
-        if CLLocationManager.isMonitoringAvailable(for: CLCircularRegion.self) {
-            stopMonitoringRegion(poi)
-            startMonitoringRegion(poi)
-        }
+    /// Update monitoring of a POI (called when the radius has been changed...)
+    ///
+    /// - parameter poi: POI for which the monitoring must be updated
+    ///
+    /// - returns: noError when the update has been done successfully otherwise it returns an error
+    func updateMonitoringRegion(_ poi:PointOfInterest) -> MonitoringStatus {
+        let status = stopMonitoringRegion(poi: poi)
+        return status == .noError ? startMonitoringRegion(poi:poi) : status
     }
  
-    // Ask the user to enable the "Always Authorization"
-    // The Settings button open the App Setting to enable the "Always Authorization"
+    /// Ask the user to enable the "Always Authorization"
     fileprivate func requestAlwaysAuthorization() {
         let authorizationStatus  = CLLocationManager.authorizationStatus()
         if authorizationStatus == .authorizedWhenInUse || authorizationStatus == .denied {
@@ -149,7 +153,10 @@ class LocationManager : NSObject, CLLocationManagerDelegate {
         }
     }
     
-    // Return true when at the App has WhenInUser or Always authorization, otherwise it returns false
+    
+    /// Used to check if the App has the authorization of localization
+    ///
+    /// - returns: Return true when at the App has WhenInUser or Always authorization, otherwise it returns false
     func isLocationAuthorized() -> Bool {
         let authorizationStatus  = CLLocationManager.authorizationStatus()
         if authorizationStatus == .authorizedWhenInUse || authorizationStatus == .authorizedAlways {
@@ -159,7 +166,8 @@ class LocationManager : NSObject, CLLocationManagerDelegate {
         }
     }
     
-    //MARK: SignificantLocationChanges
+    //MARK: CLLocationManagerDelegate
+    
    // Called when a SignificantLocationChanges has occured
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         print("\(#function): Location Manager didUpdateLocations")
@@ -169,35 +177,79 @@ class LocationManager : NSObject, CLLocationManagerDelegate {
         print("\(#function): Location Manager didFailWithError: \(error.localizedDescription)")
     }
     
-    //MARK: Enter/Exit region
-    
     // IMPORTANT: didEnterRegion and didExitRegion require .AuthorizedAlways. If it's not .AuthorizedAlways
     // it will not detect enter & exit region
     func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
         if let poi = POIDataManager.sharedInstance.findPOIWithRegiondId(region.identifier) {
             if poi.poiRegionNotifyEnter {
-                LocationManager.notifyRegionUpdate(poi, message:"\(NSLocalizedString("EnteringRegionLocationManager", comment: "")) \(poi.poiDisplayName!)")
+                LocationManager.notifyRegionUpdate(poi: poi, message:"\(NSLocalizedString("EnteringRegionLocationManager", comment: "")) \(poi.poiDisplayName!)")
             }
         } else {
-            print("\(#function): Error, didEnterRegion but not found the related POI! We should remove this CLRegion for the monitored list")
+            print("\(#function): Error, POI not found! This CLRegion \(region.identifier) will be removed!")
+            dumpMonitoredRegions()
+            
+            locationManager?.stopMonitoring(for: region)
         }
     }
     
     func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
         if let poi = POIDataManager.sharedInstance.findPOIWithRegiondId(region.identifier) {
             if poi.poiRegionNotifyExit {
-                LocationManager.notifyRegionUpdate(poi, message:"\(NSLocalizedString("ExitingRegionLocationManager", comment: "")) \(poi.poiDisplayName!)")
+                LocationManager.notifyRegionUpdate(poi: poi, message:"\(NSLocalizedString("ExitingRegionLocationManager", comment: "")) \(poi.poiDisplayName!)")
             }
         } else {
-            print("\(#function): Error, didEnterRegion but not found the related POI! We should remove this CLRegion for the monitored list")
+            print("\(#function): Error, POI not found! This CLRegion \(region.identifier) will be removed!")
+            dumpMonitoredRegions()
+            
+            locationManager?.stopMonitoring(for: region)
         }
     }
     
-    // Used to notify the user when he's entering/exiting a POI
-    //  1- Send a notification to the Notification Center
-    //  2- Update the Badge with Notification Number -> Always 1 !!!!
-    //  3- Vibrate the device
-    fileprivate static func notifyRegionUpdate(_ poi:PointOfInterest, message:String) {
+    func locationManager(_ manager: CLLocationManager, monitoringDidFailFor region: CLRegion?, withError error: Error) {
+        print("\(#function) has failed to start monitoring for \(region.debugDescription) with error \(error.localizedDescription)")
+        dumpMonitoredRegions()
+        
+        // If we have a POI related to this region we force it to stop the monitoring
+        if let failedRegion = region {
+            if let poi = POIDataManager.sharedInstance.findPOIWithRegiondId(failedRegion.identifier) {
+                poi.poiRegionNotifyExit = false
+                poi.poiRegionNotifyEnter = false
+                POIDataManager.sharedInstance.updatePOI(poi)
+                POIDataManager.sharedInstance.commitDatabase()
+            }
+            
+            print("\(#function): Error, POI not found! This CLRegion \(failedRegion.identifier) will be removed!")
+            dumpMonitoredRegions()
+            locationManager?.stopMonitoring(for: failedRegion)
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFinishDeferredUpdatesWithError error: Error?) {
+        print("Location Manager didFinishDeferredUpdatesWithError")
+    }
+    func locationManagerDidPauseLocationUpdates(_ manager: CLLocationManager) {
+        print("Location Manager locationManagerDidPauseLocationUpdates")
+    }
+    func locationManagerDidResumeLocationUpdates(_ manager: CLLocationManager) {
+        print("Location Manager locationManagerDidResumeLocationUpdates")
+    }
+    
+    // Post an internal notification when the Authorization status has been changed
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        print("\(#function): Warning the authorization status of Location Manager has changed to \(LocationManager.getStatus(status: status))")
+        NotificationCenter.default.post(name: Notification.Name(rawValue: LocationNotifications.AuthorizationHasChanged), object: manager)
+    }
+    
+    //MARK: Utilities
+
+    /// To notify user when he's entering or exiting the region around a POI
+    ///  1- Send a notification to the Notification Center
+    ///  2- Update the Badge with Notification Number -> Always 1 !!!!
+    ///  3- Vibrate the device
+    ///
+    /// - parameter poi:     POI near the current location
+    /// - parameter message: Message to be displayed
+    fileprivate static func notifyRegionUpdate(poi:PointOfInterest, message:String) {
         let notification = UILocalNotification()
         notification.fireDate = Date()
         // SEB: Swift3
@@ -211,20 +263,38 @@ class LocationManager : NSObject, CLLocationManagerDelegate {
         AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
     }
     
-    //MARK: Not yet used
-    func locationManager(_ manager: CLLocationManager, didFinishDeferredUpdatesWithError error: Error?) {
-        print("Location Manager didFinishDeferredUpdatesWithError")
-    }
-    func locationManagerDidPauseLocationUpdates(_ manager: CLLocationManager) {
-        print("Location Manager locationManagerDidPauseLocationUpdates")
-    }
-    func locationManagerDidResumeLocationUpdates(_ manager: CLLocationManager) {
-        print("Location Manager locationManagerDidResumeLocationUpdates")
+    
+  
+    /// Translate the status code to a human readable string
+    ///
+    /// - parameter status: status code to analyze
+    ///
+    /// - returns: String description of the status
+    fileprivate static func getStatus(status: CLAuthorizationStatus) -> String {
+        var authorizationStatus = "Always"
+        switch status {
+        case .authorizedAlways:
+            authorizationStatus = "Always"
+        case .authorizedWhenInUse:
+            authorizationStatus = "When in use"
+        case .denied:
+            authorizationStatus = "Denied"
+        case .notDetermined:
+            authorizationStatus = "Not determined"
+        case .restricted:
+            authorizationStatus = "Restricted"
+        }
+        return authorizationStatus
     }
     
-    // Post an internal notification when the Authorization status has been changed
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        print("\(#function): Warning the authorization status of Location Manager has changed to \(status.rawValue)")
-        NotificationCenter.default.post(name: Notification.Name(rawValue: LocationNotifications.AuthorizationHasChanged), object: manager)
+    fileprivate func dumpMonitoredRegions() {
+        for region in locationManager!.monitoredRegions {
+            print("RegionId from CLLocationManager: \(region.identifier)")
+        }
+        
+        for currentPOI in POIDataManager.sharedInstance.getAllMonitoredPOI() {
+            print("Monitored Poi: \(currentPOI.poiDisplayName!) with RegionId \(currentPOI.poiRegionId!) ")
+        }
     }
+
 }

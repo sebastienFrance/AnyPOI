@@ -40,23 +40,25 @@ class CustomCalloutAccessoryView: UIView {
         // Delegate will never change, it can be initialized once for all
         zoomButton.addTarget(delegate, action: #selector(PoiCalloutDelegate.zoomOnPoi(_:)), for: .touchUpInside)
         routeButton.addTarget(delegate, action: #selector(PoiCalloutDelegate.startRoute(_:)), for: .touchUpInside)
-        startStopMonitoring.addTarget(poi, action: #selector(PointOfInterest.startOrStopMonitoring(_:)), for: .touchUpInside)
+        startStopMonitoring.addTarget(delegate, action: #selector(PoiCalloutDelegate.startOrStopMonitoring(_:)), for: .touchUpInside)
         phoneButton.addTarget(delegate, action: #selector(PoiCalloutDelegate.startPhoneCall(_:)), for: .touchUpInside)
         emailButton.addTarget(delegate, action: #selector(PoiCalloutDelegate.startEmail(_:)), for: .touchUpInside)
         webSiteButton.addTarget(delegate, action: #selector(PoiCalloutDelegate.showURL(_:)), for: .touchUpInside)
 
-        refreshWith(poi)
+        refreshWith(poi, delegate: delegate)
     }
     
-    func refreshWith(_ poi:PointOfInterest) {
+    func refreshWith(_ poi:PointOfInterest, delegate:PoiCalloutDelegate) {
         if let subtitle = poi.subtitle {
             addressLabel.text = subtitle
         }
         
         let monitoringStateImageName = poi.isMonitored ? ImageName.monitoringEnabled : ImageName.monitoringDisabled
         startStopMonitoring.setImage(UIImage(named: monitoringStateImageName), for: UIControlState())
-        startStopMonitoring.removeTarget(nil, action: #selector(PointOfInterest.startOrStopMonitoring(_:)), for: .touchUpInside)
-        startStopMonitoring.addTarget(poi, action: #selector(PointOfInterest.startOrStopMonitoring(_:)), for: .touchUpInside)
+        startStopMonitoring.tintColor = poi.isMonitored ? UIColor.red : self.tintColor
+        
+        startStopMonitoring.removeTarget(nil, action: #selector(PoiCalloutDelegate.startOrStopMonitoring(_:)), for: .touchUpInside)
+        startStopMonitoring.addTarget(delegate, action: #selector(PoiCalloutDelegate.startOrStopMonitoring(_:)), for: .touchUpInside)
        
         poi.poiIsContact ? configureForContact(poi) : configureForSimplePoi(poi)
     }

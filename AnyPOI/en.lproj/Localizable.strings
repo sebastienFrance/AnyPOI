@@ -126,6 +126,10 @@
 "Wikipedia Language: %@"="Language %@";
 "LoadingWikipediaPOIDetailsVC"="Loading wikipedia articles...";
 "DeletePOIPoiDetailsVC"="Delete";
+"MaxMonitoredPOIReachedErrorTitle"="POI cannot be monitored";
+"MaxMonitoredPOIReachedErrorMsg"="Too many POIs are already monitored, you must disabled one to monitor this one";
+"StartMonitoringDeviceNotSupported"="Region monitoring is not supported on this device";
+"InternalError"="Internal error";
 "CategoryLabelUnknown"="Unknown";
 "CategoryLabelCoffee"="Cofee";
 "CategoryLabelRestaurant"="Restaurant";

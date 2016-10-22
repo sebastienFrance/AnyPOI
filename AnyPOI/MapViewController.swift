@@ -360,7 +360,7 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
             let poi = theMapView.selectedAnnotations[0] as! PointOfInterest
             
             if isRouteMode {
-                routeManager?.addPoiToTheRoute(poi)
+                routeManager?.add(poi:poi)
             } else {
                 RouteEditorController().createRouteWith(self, delegate: self, routeName: poi.poiDisplayName!, pois: [poi])
             }
@@ -369,7 +369,7 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
     
     func showRouteFromCurrentLocation(_ targetPOI:PointOfInterest) {
         if isRouteMode {
-            routeManager?.buildRouteFromCurrentLocation(targetPOI, transportType:routeDatasource!.fromWayPoint!.transportType!)
+            routeManager?.buildRouteFromCurrentLocationTo(targetPOI:targetPOI, transportType:routeDatasource!.fromWayPoint!.transportType!)
         }
     }
     
@@ -819,7 +819,7 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
             
             if isRouteMode {
                 // Add the POI as a new WayPoint in the route
-                routeManager?.addPoiToTheRoute(addedPoi)
+                routeManager?.add(poi:addedPoi)
             }
         default:
             break
@@ -935,7 +935,7 @@ extension MapViewController : RouteDisplayInfos {
         return poiCalloutDelegate
     }
     
-    func displayNewGroupsOnMap(_ groups:[GroupOfInterest], withMonitoredOverlays:Bool) {
+    func displayOnMap(groups:[GroupOfInterest], withMonitoredOverlays:Bool) {
         displayGroupsOnMap(groups, withMonitoredOverlays: withMonitoredOverlays)
     }
 
@@ -1130,7 +1130,7 @@ extension MapViewController : FlyoverWayPointsDelegate {
         
         for currentPoi in flyoverUpdatedPois {
             if isRouteMode {
-            routeManager?.refreshPoiAnnotation(currentPoi)
+                routeManager?.refresh(poi:currentPoi)
             } else if let annotationView = theMapView.view(for: currentPoi) as? WayPointPinAnnotationView {
                 annotationView.configureWith(currentPoi, delegate: poiCalloutDelegate, type: .normal)
             }
@@ -1178,7 +1178,7 @@ extension MapViewController : MKMapViewDelegate {
         MapUtils.refreshPin(annotationView,
                             poi: thePoi,
                             delegate: poiCalloutDelegate,
-                            type: routeManager?.getPoiType(thePoi) ?? MapUtils.PinAnnotationType.normal,
+                            type: routeManager?.getPinType(poi:thePoi) ?? MapUtils.PinAnnotationType.normal,
                             isFlyover:isFlyoverRunning)
         
         return annotationView

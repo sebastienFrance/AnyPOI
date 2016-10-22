@@ -128,6 +128,10 @@
 "Wikipedia Language: %@"="Langue %@";
 "LoadingWikipediaPOIDetailsVC"="Chargement des articles de Wikipedia...";
 "DeletePOIPoiDetailsVC"="Supprimer";
+"MaxMonitoredPOIReachedErrorTitle"="Ce POI ne peut pas être surveillé";
+"MaxMonitoredPOIReachedErrorMsg"="Trop de POIs sont déjà surveillés, vous devez en désactiver un pour surveiller celui-ci";
+"StartMonitoringDeviceNotSupported"="La surveillance de région n'est pas supporté sur cet appareil";
+"InternalError"="Erreur interne";
 "CategoryLabelUnknown"="Inconnue";
 "CategoryLabelCoffee"="Café";
 "CategoryLabelRestaurant"="Restaurant";

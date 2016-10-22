@@ -40,7 +40,7 @@ class WayPointPinAnnotationView : MKPinAnnotationView {
     fileprivate func updateDetailCalloutAccessory(_ poi:PointOfInterest, delegate:PoiCalloutDelegate, isFlyover:Bool = false) {
         var theDetailsAccessoryView:CustomCalloutAccessoryView
         if let accessoryView = detailCalloutAccessoryView as? CustomCalloutAccessoryView {
-            accessoryView.refreshWith(poi)
+            accessoryView.refreshWith(poi, delegate:delegate)
             theDetailsAccessoryView = accessoryView
         } else {
             let nib = UINib(nibName: NibIdentifier.calloutAccessoryView, bundle: nil)

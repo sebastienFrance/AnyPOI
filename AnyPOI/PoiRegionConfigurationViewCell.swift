@@ -28,8 +28,6 @@ class PoiRegionConfigurationViewCell: UITableViewCell {
             slideRadius.isEnabled = true
         }
 
-//        let distanceFormater = MKDistanceFormatter()
-//        radiusLabel.text = "Radius \(distanceFormater.stringFromDistance(radius))"
         radiusLabel.text = "\(NSLocalizedString("Radius", comment: "")) \(Int(radius)) m"
         slideRadius.setValue(Float(radius), animated: false)
         slideRadius.isContinuous = true

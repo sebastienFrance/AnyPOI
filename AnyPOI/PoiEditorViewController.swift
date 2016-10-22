@@ -83,39 +83,33 @@ class PoiEditorViewController: UIViewController {
     //MARK: Buttons Callback
     @IBAction func saveButtonPushed(_ sender: AnyObject) {
 
-        // Keep the old values to check if we need to start/stop the RegionMonitoring
-        let oldPoiRegionNotifyEnter = thePoi.poiRegionNotifyEnter
-        let oldPoiRegionNotifyExit = thePoi.poiRegionNotifyExit
-        let oldRadius = thePoi.poiRegionRadius
         
         // Save the new value in database
         thePoi.title = newDisplayName
         thePoi.poiDescription = newDescription
-        thePoi.poiRegionNotifyEnter = newRegionEnter
-        thePoi.poiRegionNotifyExit = newRegionExit
-        thePoi.poiRegionRadius = newRadius
         thePoi.poiCategory = Int16(newCategory)
         thePoi.parentGroup = newParentGroup
         
         POIDataManager.sharedInstance.updatePOI(thePoi)
         POIDataManager.sharedInstance.commitDatabase()
         
-        // If the RegionMonitoring was not activated for this POI, we check if we need to do it
-        if (!oldPoiRegionNotifyEnter && !oldPoiRegionNotifyExit) && (newRegionExit || newRegionEnter) {
-            // Start region monitoring
-            if !LocationManager.sharedInstance.isMaxMonitoredRegionReached() {
-                LocationManager.sharedInstance.startMonitoringRegion(thePoi)
-            } else {
-                Utilities.showAlertMessage(self, title: NSLocalizedString("Warning", comment: ""), message: NSLocalizedString("MaxMonitoredPOIReached", comment: ""))
+        if newRegionExit || newRegionEnter {
+            switch thePoi.startMonitoring(radius:newRadius, notifyEnterRegion: newRegionEnter, notifyExitRegion: newRegionExit) {
+            case .noError:
+                break
+            case .deviceNotSupported:
+                Utilities.showAlertMessage(self, title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("StartMonitoringDeviceNotSupported", comment: ""))
+                break
+            case .internalError:
+                Utilities.showAlertMessage(self, title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("InternalError", comment: ""))
+                break
+            case .maxMonitoredRegionAlreadyReached:
+                Utilities.showAlertMessage(self, title: NSLocalizedString("Error", comment: ""), message: NSLocalizedString("MaxMonitoredPOIReachedErrorMsg", comment: ""))
             }
-        } else if (oldPoiRegionNotifyEnter || oldPoiRegionNotifyExit) && (!newRegionEnter && !newRegionExit) {
-            // Stop region monitoring
-            LocationManager.sharedInstance.stopMonitoringRegion(thePoi)
-        } else if (oldPoiRegionNotifyEnter || oldPoiRegionNotifyExit) && (newRadius != oldRadius) {
-            // Update the radius of the monitored region
-            LocationManager.sharedInstance.updateMonitoringRegion(thePoi)
+        } else {
+            thePoi.stopMonitoring()
         }
-
+        
         dismiss(animated: true, completion: nil )
     }
     
@@ -125,13 +119,23 @@ class PoiEditorViewController: UIViewController {
     }
 
     @IBAction func switchMonitorEnterRegionChanged(_ sender: UISwitch) {
-        newRegionEnter = sender.isOn
-        refreshMonitoringSection()
+        if !thePoi.isMonitored && LocationManager.sharedInstance.isMaxMonitoredRegionReached() {
+            sender.setOn(false, animated: true)
+            Utilities.showAlertMessage(self, title: NSLocalizedString("MaxMonitoredPOIReachedErrorTitle", comment: ""), message: NSLocalizedString("MaxMonitoredPOIReachedErrorMsg", comment: ""))
+        } else {
+            newRegionEnter = sender.isOn
+            refreshMonitoringSection()
+        }
     }
     
     @IBAction func switchMonitorExitRegionChanged(_ sender: UISwitch) {
-        newRegionExit = sender.isOn
-        refreshMonitoringSection()
+        if !thePoi.isMonitored && LocationManager.sharedInstance.isMaxMonitoredRegionReached() {
+            sender.setOn(false, animated: true)
+            Utilities.showAlertMessage(self, title: NSLocalizedString("MaxMonitoredPOIReachedErrorTitle", comment: ""), message: NSLocalizedString("MaxMonitoredPOIReachedErrorMsg", comment: ""))
+        } else {
+            newRegionExit = sender.isOn
+            refreshMonitoringSection()
+        }
     }
 
     @IBAction func sliderRadiusChanged(_ sender: UISlider) {
@@ -188,7 +192,7 @@ extension PoiEditorViewController: UITableViewDataSource, UITableViewDelegate {
         static let poiDescriptionTextField = 1
         
         static let MapViewHeight = CGFloat(170.0)
-        static let MaxPerimeterInMeters = 400.0
+        static let MaxPerimeterInMeters = LocationManager.constants.maxRadius * 2
     }
 
 

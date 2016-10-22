@@ -608,7 +608,7 @@ class POIDataManager {
 
     func deletePOI(POI:PointOfInterest) {
         if POI.isMonitored {
-            LocationManager.sharedInstance.stopMonitoringRegion(POI)
+            _ = LocationManager.sharedInstance.stopMonitoringRegion(poi: POI)
         }
         deleteObject(POI)
     }

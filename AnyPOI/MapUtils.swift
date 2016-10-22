@@ -21,6 +21,8 @@ protocol PoiCalloutDelegate: class {
     func trashWayPoint(_ sender:UIButton)
     func addWayPoint(_ sender:UIButton)
     func showRouteFromCurrentLocation(_ sender:UIButton)
+    
+    func startOrStopMonitoring(_ sender:UIButton)
 }
 
 
