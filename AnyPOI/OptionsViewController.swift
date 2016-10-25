@@ -155,15 +155,7 @@ class OptionsViewController: UITableViewController, PasswordConfigurationDelegat
     
     //MARK: Contacts sync
     @IBAction func synchronizeContacts(_ sender: UIButton) {
-        let contactSync = ContactsSynchronization()
-        
-        PKHUD.sharedHUD.dimsBackground = true
-        HUD.show(.progress)
-        let hudBaseView = PKHUD.sharedHUD.contentView as! PKHUDSquareBaseView
-        hudBaseView.titleLabel.text = NSLocalizedString("Geocoding",comment:"")
-        hudBaseView.subtitleLabel.text = "\(contactSync.contactsToSynchronize()) \(NSLocalizedString("Adresses",comment:""))"
-
-        contactSync.synchronize()
+        ContactsSynchronization().synchronize()
     }
     
     // MARK: Password & TouchId

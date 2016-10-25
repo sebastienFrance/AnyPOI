@@ -384,11 +384,14 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
         
         coordinate = placemark.location!.coordinate
         
-        title = CNContactFormatter.string(from: contact, style: .fullName)
+        if let contactTitle = CNContactFormatter.string(from: contact, style: .fullName) {
+            title = contactTitle
+        } else {
+            title = constants.emptyTitle
+        }
         
         initializePlacemarks(placemark)
         poiWikipediaPageId = -1
-       // findWikipedia()
         
         parentGroup = POIDataManager.sharedInstance.getDefaultContactGroup()
         initRegionMonitoring()

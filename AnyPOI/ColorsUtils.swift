@@ -10,11 +10,11 @@ import UIKit
 
 class ColorsUtils {
     static func defaultGroupColor() -> UIColor {
-        return UIColor(hue: CGFloat(0.3), saturation: CGFloat(1.0), brightness: CGFloat(1.0), alpha: 1.0)
+        return UIColor.purple
     }
     
     static func contactsGroupColor() -> UIColor {
-        return UIColor(hue: CGFloat(0.6), saturation: CGFloat(1.0), brightness: CGFloat(1.0), alpha: 1.0)
+        return UIColor.blue
     }
     
     static func initColors() -> [UIColor] {
