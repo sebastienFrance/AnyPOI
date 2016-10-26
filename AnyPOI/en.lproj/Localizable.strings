@@ -130,6 +130,7 @@
 "MaxMonitoredPOIReachedErrorMsg"="Too many POIs are already monitored, you must disabled one to monitor this one";
 "StartMonitoringDeviceNotSupported"="Region monitoring is not supported on this device";
 "InternalError"="Internal error";
+"ResolvingContact"="Resolving";
 "CategoryLabelUnknown"="Unknown";
 "CategoryLabelCoffee"="Cofee";
 "CategoryLabelRestaurant"="Restaurant";

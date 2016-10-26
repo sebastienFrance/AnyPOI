@@ -132,6 +132,7 @@
 "MaxMonitoredPOIReachedErrorMsg"="Trop de POIs sont déjà surveillés, vous devez en désactiver un pour surveiller celui-ci";
 "StartMonitoringDeviceNotSupported"="La surveillance de région n'est pas supporté sur cet appareil";
 "InternalError"="Erreur interne";
+"ResolvingContact"="Résolution de";
 "CategoryLabelUnknown"="Inconnue";
 "CategoryLabelCoffee"="Café";
 "CategoryLabelRestaurant"="Restaurant";

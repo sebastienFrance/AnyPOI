@@ -20,6 +20,7 @@ class ContactsSynchronization {
     // It can occurs when severals contacts are living at the same address
     fileprivate var addressToPlacemark = [String:CLPlacemark]()
     
+    // List of contacts that must be removed when the synchronization has been completed
     fileprivate var contactsToBeDeleted:Set<String>?
     
     
@@ -27,20 +28,26 @@ class ContactsSynchronization {
     }
     
     func synchronize() {
-        
-        contacts = ContactsUtilities.getContactsWithAddress()
-        
+        // Display the HUD
         PKHUD.sharedHUD.dimsBackground = true
         HUD.show(.progress)
         let hudBaseView = PKHUD.sharedHUD.contentView as! PKHUDSquareBaseView
         hudBaseView.titleLabel.text = NSLocalizedString("Geocoding",comment:"")
         
-        
+        // Initialize the data before the synchronization
         addressToPlacemark.removeAll()
         contactsToBeDeleted = POIDataManager.sharedInstance.getAllContactsIdentifier()
+        contacts = ContactsUtilities.getContactsWithAddress()
+        
         contactsSynchronization(index:0)
     }
 
+    /// Synchronize a contact at the given index
+    /// This methods is called recursively to synchronize all contacts. It's a recursive method and not a simple loop because the 
+    /// GeoCoding is performed asynchronously and only one can be done at the same time
+    ///
+    /// - Parameter index: index of the contact that must be synchronized. When the index is > contacts.count the loop is stopped
+    // and the synchronization is completed
     fileprivate func contactsSynchronization(index:Int) {
         if index < contacts.count {
             
@@ -48,39 +55,46 @@ class ContactsSynchronization {
             let hudBaseView = PKHUD.sharedHUD.contentView as! PKHUDSquareBaseView
             hudBaseView.titleLabel.text = NSLocalizedString("Geocoding",comment:"")
             if let name = CNContactFormatter.string(from: contacts[index], style: .fullName) {
-                hudBaseView.subtitleLabel.text = "Resolving \(name) \(index)/\(contacts.count)"
+                hudBaseView.subtitleLabel.text = "\(NSLocalizedString("ResolvingContact", comment: "")) \(name) \(index)/\(contacts.count)"
             } else {
-                hudBaseView.subtitleLabel.text = "Resolving ? \(index)/\(contacts.count)"
+                hudBaseView.subtitleLabel.text = "\(NSLocalizedString("ResolvingContact", comment: "")) ? \(index)/\(contacts.count)"
             }
 
             
-            let contactToBeAdded = self.contacts[index]
-            let address = CNPostalAddressFormatter().string(from: contactToBeAdded.postalAddresses[0].value)
+            let contactToSync = contacts[index]
+            let address = CNPostalAddressFormatter().string(from: contactToSync.postalAddresses[0].value)
             
-            let foundContacts = POIDataManager.sharedInstance.findContact(contactToBeAdded.identifier)
+            let foundContacts = POIDataManager.sharedInstance.findContact(contactToSync.identifier)
             if foundContacts.count > 0 {
-                _ = contactsToBeDeleted?.remove(contactToBeAdded.identifier)
+                _ = contactsToBeDeleted?.remove(contactToSync.identifier)
                 
                 // The contact is already registered in the database, we just need to update it. We need to perform geocoding only if the
                 // address has been changed
                 if foundContacts.count > 1 {
-                    print("\(#function) Warning, more than one contact found with identifier \(contactToBeAdded.identifier)")
+                    print("\(#function) Warning, more than one contact found with identifier \(contactToSync.identifier)")
                 }
                 
                 if address == foundContacts[0].poiContactLatestAddress {
-                    foundContacts[0].updateWith(contactToBeAdded)
-                    contactsSynchronization(index:index + 1)
+                    // Update only the contact name because the address has not been changed
+                    foundContacts[0].updateWith(contactToSync)
+                    contactsSynchronization(index:index + 1) // Synchronize the next contact
                 } else {
-                    geoCodingFor(index:index, address: address, contactToBeAdded: contactToBeAdded)
+                    // When the address has changed we must perform a new GeoCoding only if we have not already resolved it
+                    if let placemarkContact = addressToPlacemark[address.lowercased()] {
+                        foundContacts[0].updateWith(contactToSync, placemark:placemarkContact)
+                        contactsSynchronization(index:index + 1)
+                    } else {
+                        geoCodingFor(index:index, address: address, contactToBeAdded: contactToSync)
+                    }
                 }
                 
             } else {
                 // It's a new contact but maybe we already have its placemark
                 if let placemarkContact = addressToPlacemark[address.lowercased()] {
-                    _ = POIDataManager.sharedInstance.addPOI(contactToBeAdded, placemark: placemarkContact)
+                    _ = POIDataManager.sharedInstance.addPOI(contactToSync, placemark: placemarkContact)
                     contactsSynchronization(index:index + 1)
                  } else {
-                    geoCodingFor(index:index, address: address, contactToBeAdded: contactToBeAdded)
+                    geoCodingFor(index:index, address: address, contactToBeAdded: contactToSync)
                 }
             }
         } else {
@@ -94,6 +108,7 @@ class ContactsSynchronization {
             
             addressToPlacemark.removeAll()
             contacts.removeAll()
+            contactsToBeDeleted?.removeAll()
         }
     }
     
