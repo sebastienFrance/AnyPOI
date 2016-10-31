@@ -33,6 +33,8 @@ class OptionsViewController: UITableViewController, PasswordConfigurationDelegat
     @IBOutlet weak var switchEnableTouchId: UISwitch!
     @IBOutlet weak var changePasswordButton: UIButton!
     
+    @IBOutlet weak var synchronizeContactsButton: UIButton!
+    @IBOutlet weak var synchronizationContactsActivity: UIActivityIndicatorView!
     var userAuthentication:UserAuthentication!
     
     var isStartedByLeftMenu = false
@@ -78,8 +80,23 @@ class OptionsViewController: UITableViewController, PasswordConfigurationDelegat
         enableChangePassword()
         enableTouchId()
         updateCellMapMode()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(OptionsViewController.contactsSynchronizationDone(_:)), name:  Notification.Name(rawValue: ContactsSynchronization.Notifications.synchronizationDone), object: ContactsSynchronization.sharedInstance)
+        
+        if ContactsSynchronization.sharedInstance.isSynchronizing {
+            synchronizeContactsButton.isEnabled = false
+            synchronizationContactsActivity.startAnimating()
+        }
     }
     
+    func contactsSynchronizationDone(_ notification:Notification) {
+        synchronizeContactsButton.isEnabled = true
+        synchronizationContactsActivity.stopAnimating()
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
     
     
     fileprivate func updateWikipediaDescription() {
@@ -155,7 +172,10 @@ class OptionsViewController: UITableViewController, PasswordConfigurationDelegat
     
     //MARK: Contacts sync
     @IBAction func synchronizeContacts(_ sender: UIButton) {
-        ContactsSynchronization().synchronize()
+        synchronizeContactsButton.isEnabled = false
+        synchronizationContactsActivity.startAnimating()
+
+        ContactsSynchronization.sharedInstance.synchronize()
     }
     
     // MARK: Password & TouchId

@@ -133,6 +133,8 @@
 "StartMonitoringDeviceNotSupported"="La surveillance de région n'est pas supporté sur cet appareil";
 "InternalError"="Erreur interne";
 "ResolvingContact"="Résolution de";
+"Information"="Information";
+"ContactsSynchronozationDone"="La synchronisation des contacts est terminée";
 "CategoryLabelUnknown"="Inconnue";
 "CategoryLabelCoffee"="Café";
 "CategoryLabelRestaurant"="Restaurant";

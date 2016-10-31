@@ -90,6 +90,7 @@ class POIsViewController: UIViewController  {
     //MARK: Initialization
      override func viewDidLoad() {
         super.viewDidLoad()
+        
         getMapSnapshot()
         resetStateOfEditButtons()
         
@@ -100,6 +101,7 @@ class POIsViewController: UIViewController  {
         
         NotificationCenter.default.addObserver(self, selector: #selector(POIsViewController.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(POIsViewController.keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(POIsViewController.synchronizationContactsDone(_:)), name: Notification.Name(rawValue: ContactsSynchronization.Notifications.synchronizationDone), object: ContactsSynchronization.sharedInstance)
    }
     
     
@@ -122,19 +124,34 @@ class POIsViewController: UIViewController  {
     }
     
     //MARK: notification
+    func synchronizationContactsDone(_ notification : Notification) {
+        pois = nil // Reset the data
+        poisWithFilters = nil
+        theTableView.reloadData()
+        moveButton.isEnabled = true
+        searchButton.isEnabled = true
+        selectButton.isEnabled = true
+        
+    }
+    
     func contextDidSaveNotification(_ notification : Notification) {
+        
         PoiNotificationUserInfo.dumpUserInfo("POIsViewController", userInfo: (notification as NSNotification).userInfo)
+        if displayMode == .simpleGroup && POIDataManager.sharedInstance.isDefaultContactGroup(POIGroup) {
+            if ContactsSynchronization.sharedInstance.isSynchronizing {
+                return // ignore the notification while Contacts are synchronizing
+            }
+        }
         
         pois = nil // Reset the data
         poisWithFilters = nil
-        
         // If the table is editing it means we are deleting the Poi directly from
         // this controller
         // If it's not editing it means the PoiGroup has been changed from another controller
         if !theTableView.isEditing {
             theTableView.reloadData()
         }
-
+        
         resetStateOfEditButtons()
         
         getMapSnapshot()
@@ -172,6 +189,16 @@ class POIsViewController: UIViewController  {
     
     
     fileprivate func resetStateOfEditButtons() {
+        if displayMode == .simpleGroup && POIDataManager.sharedInstance.isDefaultContactGroup(POIGroup) {
+            if ContactsSynchronization.sharedInstance.isSynchronizing {
+                moveButton.isEnabled = false
+                searchButton.isEnabled = false
+                selectButton.isEnabled = false
+                return
+            }
+        }
+        
+
         if getPois(true).count == 0 {
             selectButton.isEnabled = false
             moveButton.isEnabled = false
@@ -479,6 +506,12 @@ extension POIsViewController : UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        if displayMode == .simpleGroup && POIDataManager.sharedInstance.isDefaultContactGroup(POIGroup) {
+            if ContactsSynchronization.sharedInstance.isSynchronizing {
+                return false
+            }
+        }
+        
         if indexPath.section == Sections.MapView {
             return false
         } else if indexPath.section == Sections.POIs && getPois(true).count == 0 {

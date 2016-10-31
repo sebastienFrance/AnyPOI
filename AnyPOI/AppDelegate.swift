@@ -48,6 +48,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UserAuthenticationDelegat
             application.registerUserNotificationSettings(UIUserNotificationSettings(types: [.alert, .sound] , categories: nil))
         }
         
+        NotificationCenter.default.addObserver(self, selector: #selector(notifyContactsSynchronizationDone(_:)), name: NSNotification.Name(rawValue:ContactsSynchronization.Notifications.synchronizationDone), object: ContactsSynchronization.sharedInstance)
+        
         //SEB: Swift3 put in comment UBER
         // If true, all requests will hit the sandbox, useful for testing
 //        Configuration.setSandboxEnabled(true)
@@ -56,6 +58,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UserAuthenticationDelegat
         
         return true
     }
+    
+    func notifyContactsSynchronizationDone(_ notification:NSNotification) {
+        if let vc = Utilities.getCurrentViewController() {
+             Utilities.showAlertMessage(vc, title: NSLocalizedString("Information", comment: ""), message: NSLocalizedString("ContactsSynchronozationDone", comment: ""))
+        }
+    }
+
     
     // This method is called when the App is started by the Notification Center (or by another App)
     // Message flow when the App is started from scratch:
@@ -209,6 +218,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UserAuthenticationDelegat
     }
     
 
+    
     fileprivate func performNavigation() {
         // Perform navigation to the Poi or Route if needed
         if let mapController = MapViewController.instance , mapController.isViewLoaded {

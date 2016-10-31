@@ -129,6 +129,8 @@
 "MaxMonitoredPOIReachedErrorTitle"="POI cannot be monitored";
 "MaxMonitoredPOIReachedErrorMsg"="Too many POIs are already monitored, you must disabled one to monitor this one";
 "StartMonitoringDeviceNotSupported"="Region monitoring is not supported on this device";
+"Information"="Information";
+"ContactsSynchronozationDone"="Contacts synchronization is completed";
 "InternalError"="Internal error";
 "ResolvingContact"="Resolving";
 "CategoryLabelUnknown"="Unknown";

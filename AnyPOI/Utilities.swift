@@ -15,6 +15,33 @@ import PKHUD
 
 class Utilities {
 
+    
+    static func getCurrentViewController() -> UIViewController? {
+        let app = UIApplication.shared.delegate as! AppDelegate
+        guard let rvc = app.window?.rootViewController else {
+            return nil
+        }
+        return getCurrentViewController(vc:rvc)
+    }
+    
+    fileprivate static func getCurrentViewController(vc: UIViewController) -> UIViewController? {
+        if let pvc = vc.presentedViewController {
+            return getCurrentViewController(vc:pvc)
+        }
+        else if let svc = vc as? UISplitViewController, svc.viewControllers.count > 0 {
+            return getCurrentViewController(vc:svc.viewControllers.last!)
+        }
+        else if let nc = vc as? UINavigationController, nc.viewControllers.count > 0 {
+            return getCurrentViewController(vc:nc.topViewController!)
+        }
+        else if let tbc = vc as? UITabBarController {
+            if let svc = tbc.selectedViewController {
+                return getCurrentViewController(vc:svc)
+            }
+        }
+        return vc
+    }
+
     static func showAlertMessage(_ viewController: UIViewController, title:String, message:String) {
         // Show that nothing was found for this search
         let alertView = UIAlertController.init(title: title, message: message, preferredStyle: .alert)
