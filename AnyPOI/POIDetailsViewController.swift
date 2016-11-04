@@ -19,7 +19,7 @@ import AVKit
 import EventKitUI
 import MessageUI
 
-class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate,  EKEventEditViewDelegate, ContactsDelegate {
+class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate,  EKEventEditViewDelegate, ContactsDelegate, PHPhotoLibraryChangeObserver {
 
     @IBOutlet weak var theTableView: UITableView! {
         didSet {
@@ -61,22 +61,23 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
     fileprivate var snapshotAlreadyDisplayed = false
     fileprivate var mapSnapshot:MKMapSnapshot?
 
-
+    var photosFetchResult:PHFetchResult<PHAsset>!
+    
     //MARK: Initialization
     override func viewDidLoad() {
         super.viewDidLoad()
         
         NotificationCenter.default.addObserver(self,
-                                                         selector: #selector(POIDetailsViewController.wikipediaReady(_:)),
-                                                         name: NSNotification.Name(rawValue: PointOfInterest.Notifications.WikipediaReady),
-                                                         object: poi )
+                                               selector: #selector(POIDetailsViewController.wikipediaReady(_:)),
+                                               name: NSNotification.Name(rawValue: PointOfInterest.Notifications.WikipediaReady),
+                                               object: poi )
         
         let managedContext = DatabaseAccess.sharedInstance.managedObjectContext
         // FIXEDME: ⚡️😡 Check why this notifs doesn't report any changes in NSUpdateObjectKeys? What is the difference with NSManagedObjectContextObjectsDidChangeNotification?
         NotificationCenter.default.addObserver(self,
-                                                         selector: #selector(POIDetailsViewController.contextDidSaveNotification(_:)),
-                                                         name: NSNotification.Name.NSManagedObjectContextObjectsDidChange,
-                                                         // name: NSManagedObjectContextDidSaveNotification,
+                                               selector: #selector(POIDetailsViewController.contextDidSaveNotification(_:)),
+                                               name: NSNotification.Name.NSManagedObjectContextObjectsDidChange,
+                                               // name: NSManagedObjectContextDidSaveNotification,
             object: managedContext)
         
         
@@ -86,6 +87,8 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
         }
         
         poi.refreshIfNeeded()
+        PHPhotoLibrary.shared().register(self)
+        photosFetchResult = PHAsset.fetchAssets(with: nil)
         findSortedImagesAroundPoi()
         getMapSnapshot()
     }
@@ -96,18 +99,28 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
     }
     
     // MARK: utils
+    func photoLibraryDidChange(_ changeInstance: PHChange) {
+        let changeDetails = changeInstance.changeDetails(for: photosFetchResult)
+        photosFetchResult = changeDetails?.fetchResultAfterChanges
+        localImages.removeAll()
+    
+        DispatchQueue.main.sync {
+            findSortedImagesAroundPoi()
+            theTableView.reloadSections(IndexSet(arrayLiteral:0), with: .automatic)
+        }
+    }
     
     
     // extract images and videos from Photos and ordered them by date (most recent first)
     fileprivate func findSortedImagesAroundPoi() {
-        let fetchResult = PHAsset.fetchAssets(with: nil)
+        
         let poiLocation = CLLocation(latitude: poi.coordinate.latitude, longitude: poi.coordinate.longitude)
         
-        for i in 0..<fetchResult.count {
-            let currentObject = fetchResult.object(at: i) 
+        for i in 0..<photosFetchResult.count {
+            let currentObject = photosFetchResult.object(at: i) 
             if let imageLocation = currentObject.location {
                 if poiLocation.distance(from: imageLocation) <= Cste.radiusSearchImage {
-                    localImages.append(LocalImage(image: getAssetThumbnail(currentObject), asset: currentObject))
+                    localImages.append(LocalImage(image: getAssetThumbnail(asset:currentObject), asset: currentObject))
                 }
             }
         }
@@ -128,15 +141,15 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
         }
     }
     
-    fileprivate func getAssetThumbnail(_ asset: PHAsset) -> UIImage {
+    fileprivate func getAssetThumbnail(asset: PHAsset) -> UIImage {
         let option = PHImageRequestOptions()
         var thumbnail = UIImage()
         option.isSynchronous = true
         PHImageManager.default().requestImage(for: asset,
-                                                             targetSize: CGSize(width: Cste.imageWidth, height: Cste.imageHeight),
-                                                             contentMode: .aspectFit,
-                                                             options: option,
-                                                             resultHandler: {(result, info)->Void in
+                                              targetSize: CGSize(width: Cste.imageWidth, height: Cste.imageHeight),
+                                              contentMode: .aspectFit,
+                                              options: option,
+                                              resultHandler: {(result, info)->Void in
             thumbnail = result!
         })
         return thumbnail
@@ -354,6 +367,7 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
     fileprivate struct storyboard {
         static let showPoiEditor = "showPoiEditor"
         static let showImageDetailsId = "showImageDetailsId"
+        static let showImageCollectionId = "showImageCollectionId"
         static let openPhonesId = "openPhones"
         static let openEmailsId = "openEmails"
     }
@@ -365,6 +379,15 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
         } else if segue.identifier == storyboard.showImageDetailsId {
             let viewController = segue.destination as! PoiDetailImageViewController
             viewController.initWithAsset(sender as! PHAsset)
+        } else if segue.identifier == storyboard.showImageCollectionId {
+            let viewController = segue.destination as! PoiImageCollectionViewController
+            var assets = [PHAsset]()
+            for currentLocalImages in localImages {
+                assets.append(currentLocalImages.asset)
+            }
+            viewController.assets = assets
+            
+            //viewController.initWithAsset(sender as! PHAsset)
         } else if segue.identifier == storyboard.openPhonesId {
             let viewController = segue.destination as! ContactsViewController
             viewController.delegate = self
@@ -575,15 +598,15 @@ extension POIDetailsViewController : UICollectionViewDelegate, UICollectionViewD
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CollectionViewCell.poiImageCellId, for: indexPath) as! PoiDetailsImagesCollectionViewCell
-        cell.PoiImageView.image = localImages[(indexPath as NSIndexPath).row].image
+        cell.PoiImageView.image = localImages[indexPath.row].image
         return cell
     }
     
     //MARK: UICollectionViewDelegate
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        if localImages[(indexPath as NSIndexPath).row].asset.mediaType == .video {
-            PHImageManager.default().requestAVAsset(forVideo: localImages[(indexPath as NSIndexPath).row].asset, options: nil, resultHandler: { avAsset, audioMix, info in
+        if localImages[indexPath.row].asset.mediaType == .video {
+            PHImageManager.default().requestAVAsset(forVideo: localImages[indexPath.row].asset, options: nil, resultHandler: { avAsset, audioMix, info in
                 let playerItem = AVPlayerItem(asset: avAsset!)
                 let avPlayer = AVPlayer(playerItem: playerItem)
                 let playerViewController = AVPlayerViewController()
@@ -596,7 +619,7 @@ extension POIDetailsViewController : UICollectionViewDelegate, UICollectionViewD
                 }
             })
         } else {
-            performSegue(withIdentifier: storyboard.showImageDetailsId, sender: localImages[(indexPath as NSIndexPath).row].asset)
+            performSegue(withIdentifier: storyboard.showImageCollectionId, sender: localImages[indexPath.row].asset)
         }
     }
 }
