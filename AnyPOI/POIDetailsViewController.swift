@@ -100,13 +100,14 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
     
     // MARK: utils
     func photoLibraryDidChange(_ changeInstance: PHChange) {
-        let changeDetails = changeInstance.changeDetails(for: photosFetchResult)
-        photosFetchResult = changeDetails?.fetchResultAfterChanges
-        localImages.removeAll()
-    
-        DispatchQueue.main.sync {
-            findSortedImagesAroundPoi()
-            theTableView.reloadSections(IndexSet(arrayLiteral:0), with: .automatic)
+        if let changeDetails = changeInstance.changeDetails(for: photosFetchResult) {
+            photosFetchResult = changeDetails.fetchResultAfterChanges
+            localImages.removeAll()
+            
+            DispatchQueue.main.sync {
+                findSortedImagesAroundPoi()
+                theTableView.reloadSections(IndexSet(arrayLiteral:0), with: .automatic)
+            }
         }
     }
     
@@ -366,7 +367,6 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
 
     fileprivate struct storyboard {
         static let showPoiEditor = "showPoiEditor"
-        static let showImageDetailsId = "showImageDetailsId"
         static let showImageCollectionId = "showImageCollectionId"
         static let openPhonesId = "openPhones"
         static let openEmailsId = "openEmails"
@@ -376,9 +376,6 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
         if segue.identifier == storyboard.showPoiEditor {
             let poiController = segue.destination as! PoiEditorViewController
             poiController.thePoi = poi
-        } else if segue.identifier == storyboard.showImageDetailsId {
-            let viewController = segue.destination as! PoiDetailImageViewController
-            viewController.initWithAsset(sender as! PHAsset)
         } else if segue.identifier == storyboard.showImageCollectionId {
             let viewController = segue.destination as! PoiImageCollectionViewController
             var assets = [PHAsset]()
@@ -386,8 +383,7 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
                 assets.append(currentLocalImages.asset)
             }
             viewController.assets = assets
-            
-            //viewController.initWithAsset(sender as! PHAsset)
+            viewController.startAssetIndex = sender as! Int
         } else if segue.identifier == storyboard.openPhonesId {
             let viewController = segue.destination as! ContactsViewController
             viewController.delegate = self
@@ -433,7 +429,7 @@ extension POIDetailsViewController : UITableViewDataSource, UITableViewDelegate 
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if (indexPath as NSIndexPath).section == Sections.mapViewAndPhotos && (indexPath as NSIndexPath).row == 1 {
+        if indexPath.section == Sections.mapViewAndPhotos && indexPath.row == 1 {
             return Cste.photosCellHeight
         } else {
             return UITableViewAutomaticDimension
@@ -450,8 +446,8 @@ extension POIDetailsViewController : UITableViewDataSource, UITableViewDelegate 
     }
    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if (indexPath as NSIndexPath).section == Sections.mapViewAndPhotos {
-            if (indexPath as NSIndexPath).row == 0 {
+        if indexPath.section == Sections.mapViewAndPhotos {
+            if indexPath.row == 0 {
                 return configureMapAndPoiDetailsCell(indexPath)
             } else {
                 let theCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier.PoiDetailsImagesCellId, for: indexPath) as! PoiDetailsImagesTableViewCell
@@ -469,7 +465,7 @@ extension POIDetailsViewController : UITableViewDataSource, UITableViewDelegate 
                     return theCell
                 } else {
                     let theCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier.WikipediaCellId, for: indexPath) as! WikipediaCell
-                    theCell.initWith(poi.wikipedias[(indexPath as NSIndexPath).row], poi: poi, index: (indexPath as NSIndexPath).row)
+                    theCell.initWith(poi.wikipedias[indexPath.row], poi: poi, index: indexPath.row)
                     return theCell
                 }
             }
@@ -529,9 +525,9 @@ extension POIDetailsViewController : UITableViewDataSource, UITableViewDelegate 
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if (indexPath as NSIndexPath).section == Sections.wikipedia {
+        if indexPath.section == Sections.wikipedia {
             
-            let wikipedia = poi.wikipedias[(indexPath as NSIndexPath).row]
+            let wikipedia = poi.wikipedias[indexPath.row]
             
             
             let poiOfWiki = POIDataManager.sharedInstance.findPOIWith(wikipedia)
@@ -543,7 +539,7 @@ extension POIDetailsViewController : UITableViewDataSource, UITableViewDelegate 
                                                                       object: wikipedia,
                                                                       userInfo: [MapViewController.MapNotifications.showPOI_Parameter_Wikipedia: wikipedia])
             ContainerViewController.sharedInstance.goToMap()
-        } else if (indexPath as NSIndexPath).section == Sections.mapViewAndPhotos && (indexPath as NSIndexPath).row == 0 {
+        } else if indexPath.section == Sections.mapViewAndPhotos && indexPath.row == 0 {
             NotificationCenter.default.post(name: Notification.Name(rawValue: MapViewController.MapNotifications.showPOI),
                                                                       object: nil,
                                                                       userInfo: [MapViewController.MapNotifications.showPOI_Parameter_POI: poi])
@@ -552,7 +548,7 @@ extension POIDetailsViewController : UITableViewDataSource, UITableViewDelegate 
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if (indexPath as NSIndexPath).section == Sections.mapViewAndPhotos  && (indexPath as NSIndexPath).row == 0 {
+        if indexPath.section == Sections.mapViewAndPhotos  && indexPath.row == 0 {
             POIDataManager.sharedInstance.deletePOI(POI: self.poi)
             POIDataManager.sharedInstance.commitDatabase()
             _ = self.navigationController?.popViewController(animated: true)
@@ -560,14 +556,14 @@ extension POIDetailsViewController : UITableViewDataSource, UITableViewDelegate 
     }
     
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
-        if (indexPath as NSIndexPath).section == Sections.mapViewAndPhotos  && (indexPath as NSIndexPath).row == 0 {
+        if indexPath.section == Sections.mapViewAndPhotos  && indexPath.row == 0 {
             return .delete
         }
         return .none
     }
     
     func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath) -> String? {
-        if (indexPath as NSIndexPath).section == Sections.mapViewAndPhotos  && (indexPath as NSIndexPath).row == 0 {
+        if indexPath.section == Sections.mapViewAndPhotos  && indexPath.row == 0 {
             return NSLocalizedString("DeletePOIPoiDetailsVC", comment: "")
         }
         return nil
@@ -604,22 +600,6 @@ extension POIDetailsViewController : UICollectionViewDelegate, UICollectionViewD
     
     //MARK: UICollectionViewDelegate
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-        if localImages[indexPath.row].asset.mediaType == .video {
-            PHImageManager.default().requestAVAsset(forVideo: localImages[indexPath.row].asset, options: nil, resultHandler: { avAsset, audioMix, info in
-                let playerItem = AVPlayerItem(asset: avAsset!)
-                let avPlayer = AVPlayer(playerItem: playerItem)
-                let playerViewController = AVPlayerViewController()
-                playerViewController.player = avPlayer
-                
-                DispatchQueue.main.async {
-                    self.present(playerViewController, animated: true) {
-                        playerViewController.player?.play()
-                    }
-                }
-            })
-        } else {
-            performSegue(withIdentifier: storyboard.showImageCollectionId, sender: localImages[indexPath.row].asset)
-        }
+        performSegue(withIdentifier: storyboard.showImageCollectionId, sender: indexPath.row)
     }
 }

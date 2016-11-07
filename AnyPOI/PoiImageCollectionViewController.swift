@@ -12,30 +12,78 @@ import AVKit
 
 class PoiImageCollectionViewController: UIViewController {
 
-    @IBOutlet weak var theCollectionView: UICollectionView!
-    @IBOutlet weak var theFlowLayout: UICollectionViewFlowLayout!
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        theCollectionView.delegate = self
-        theCollectionView.dataSource = self
-        automaticallyAdjustsScrollViewInsets = false
-        theFlowLayout.itemSize = CGSize(width: theCollectionView.frame.size.width, height: theCollectionView.frame.size.height)
-        theFlowLayout.sectionInset = UIEdgeInsetsMake(0,0,0,0)
-        theFlowLayout.minimumLineSpacing = 0.0
-
-        
-        theCollectionView.reloadData()
+    @IBOutlet weak var theCollectionView: UICollectionView! {
+        didSet {
+            theCollectionView.backgroundColor = UIColor.black
+            theCollectionView.delegate = self
+            theCollectionView.dataSource = self
+        }
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-       
+    @IBOutlet weak var theFlowLayout: UICollectionViewFlowLayout! {
+        didSet {
+            theFlowLayout.itemSize = theCollectionView.frame.size
+            theFlowLayout.sectionInset = UIEdgeInsetsMake(0,0,0,0)
+            theFlowLayout.minimumLineSpacing = 0.0
+        }
     }
     
     var assets:[PHAsset]!
+    var startAssetIndex = 0
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = UIColor.black
+        automaticallyAdjustsScrollViewInsets = false
+        theCollectionView.reloadData()
+    }
+    
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        theCollectionView.scrollToItem(at: IndexPath(row:startAssetIndex, section:0), at: .left, animated: true)
+    }
+    
+    
+    /// Resize the collectionView during device rotation
+    ///
+    /// - Parameters:
+    ///   - size: New size of the viewController
+    ///   - coordinator: coordinator for the animation
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        
+        // Compute the index of the image/video currently displayed
+        let offset = self.theCollectionView.contentOffset;
+        let index = round(offset.x / self.theCollectionView.bounds.size.width);
+        
+        // hide the collection view to avoid horrible animation during the rotation
+        // animation is horrible due to the offset change
+        theCollectionView.alpha = 0.0
+        coordinator.animate(alongsideTransition: nil, completion: {
+            _ in
+            // display the collectionView during the animation
+            self.theCollectionView.alpha = 1.0
+            
+            // compute the new offset based on the index and the new size
+            let newOffset = CGPoint(x: index * self.theCollectionView.frame.size.width, y: offset.y)
+            self.theCollectionView.setContentOffset(newOffset, animated: false)
+        })
+    }
+
+    
+    /// Invalidate the layout of the FlowLayout, it's mandatory for the rotation
+    override func viewWillLayoutSubviews() {
+        theFlowLayout.invalidateLayout()
+        super.viewWillLayoutSubviews()
+    }
+    
+    
+    /// Set the size of the items (mandatory for the rotation)
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        theFlowLayout.itemSize = theCollectionView.frame.size
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -50,29 +98,18 @@ extension PoiImageCollectionViewController : UICollectionViewDelegateFlowLayout,
         static let ImageCollectionViewCellId = "ImageCollectionViewCellId"
     }
     
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-//        return UIEdgeInsetsMake(0, 0, 0, 0)
-//    }
-//    
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-//        return 0
-//    }
     
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-//        return 0
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        return CGSize(width: self.view.frame.size.width, height: self.view.frame.size.height)
-//    }
-//    
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
-//        return CGSize(width: 0, height: 0)
-//    }
-//    
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-//        return CGSize(width: 0, height: 0)
-//    }
+    /// Stop the video when the user starts to scroll
+    ///
+    /// - Parameter scrollView: the scrollView which is the CollectionView
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        for cell in theCollectionView.visibleCells {
+            if cell is VideoCollectionViewCell {
+                let videoCell = cell as! VideoCollectionViewCell
+                videoCell.resetPlayer()
+            }
+        }
+    }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
@@ -85,54 +122,14 @@ extension PoiImageCollectionViewController : UICollectionViewDelegateFlowLayout,
         if assets[indexPath.row].mediaType == .video {
             let theCell = theCollectionView.dequeueReusableCell(withReuseIdentifier: storyboard.VideoCollectionViewCellId, for: indexPath) as! VideoCollectionViewCell
             
-            let videoOptions = PHVideoRequestOptions()
-            videoOptions.deliveryMode = .automatic
-            videoOptions.isNetworkAccessAllowed = false
-        
-            PHImageManager.default().requestPlayerItem(forVideo: assets[indexPath.row], options: videoOptions) { playerItem, info in
-                if let videoItem = playerItem {
-                    DispatchQueue.main.async {
-                        theCell.initialize(video:videoItem)
-                    }
-                }
-            }
-            
+            theCell.configureWith(asset:assets[indexPath.row])
             return theCell
         } else {
             let theCell = theCollectionView.dequeueReusableCell(withReuseIdentifier: storyboard.ImageCollectionViewCellId, for: indexPath) as! ImageCollectionViewCell
             
-            let configuredOptions = PHImageRequestOptions()
-            configuredOptions.deliveryMode = .opportunistic
-            configuredOptions.isSynchronous = false
-            configuredOptions.resizeMode = .fast
-            configuredOptions.isNetworkAccessAllowed = true
-            configuredOptions.progressHandler = nil
-            
-            // The Handler can be called multiple times when images with higher resolution are loaded
-            let size = CGSize(width: assets[indexPath.row].pixelWidth, height: assets[indexPath.row].pixelHeight)
-            PHImageManager.default().requestImage(for: assets[indexPath.row],
-                                                  targetSize: size,
-                                                  contentMode: .aspectFit,
-                                                  options: configuredOptions,
-                                                  resultHandler: {(result, info)->Void in
-                                                    if let resultImage = result {
-                                                        theCell.theImageView.image = resultImage
-                                                        theCell.theScrollView.delegate = theCell
-                                                    }
-            })
-            
-
+            theCell.configureWith(asset:assets[indexPath.row])
             return theCell
-           
         }
     }
     
-    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if assets[indexPath.row].mediaType == .video {
-            if let videoCell = cell as? VideoCollectionViewCell {
-               // videoCell.playerViewController.player?.replaceCurrentItem(with: nil)
-                videoCell.playerViewController.player?.pause()
-            }
-        }
-    }
 }

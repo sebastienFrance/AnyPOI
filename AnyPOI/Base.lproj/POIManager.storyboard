@@ -242,7 +242,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="O2M-aj-7SV" userLabel="All">
-                                                    <rect key="frame" x="8" y="8" width="326" height="98"/>
+                                                    <rect key="frame" x="8" y="8" width="326" height="97"/>
                                                     <subviews>
                                                         <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Tgr-Fo-oae">
                                                             <rect key="frame" x="0.0" y="0.0" width="326" height="25"/>
@@ -263,13 +263,13 @@
                                                             </subviews>
                                                         </stackView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Description" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O17-9g-Ho8">
-                                                            <rect key="frame" x="0.0" y="30" width="326" height="22.5"/>
+                                                            <rect key="frame" x="0.0" y="30" width="326" height="22"/>
                                                             <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <stackView opaque="NO" contentMode="scaleToFill" alignment="top" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Kxi-iZ-wvp" userLabel="IconAndAddress">
-                                                            <rect key="frame" x="0.0" y="57.5" width="326" height="40.5"/>
+                                                            <rect key="frame" x="0.0" y="57" width="326" height="40"/>
                                                             <subviews>
                                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Airport-40" translatesAutoresizingMaskIntoConstraints="NO" id="NK3-vA-BIZ">
                                                                     <rect key="frame" x="0.0" y="0.0" width="25" height="25"/>
@@ -418,7 +418,7 @@
                                         <rect key="frame" x="0.0" y="28" width="375" height="86"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Ulh-sC-dOb" id="PBs-N4-gFW">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="85"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="86"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Bxl-WN-xr5">
@@ -474,7 +474,7 @@
                                         <rect key="frame" x="0.0" y="114" width="375" height="86"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Jmu-Jn-F76" id="CyB-ax-EX6">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="85"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="86"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Select a new group for POIs" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="rGL-UX-2fU">
@@ -543,10 +543,10 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="wyb-Q0-aOS">
-                                                    <rect key="frame" x="8" y="8" width="359" height="42"/>
+                                                    <rect key="frame" x="8" y="8" width="359" height="41"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No wikipedia articles found" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Fb-s5-wuP">
-                                                            <rect key="frame" x="71.5" y="0.0" width="216.5" height="42"/>
+                                                            <rect key="frame" x="71" y="0.0" width="217" height="41"/>
                                                             <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                             <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
@@ -570,16 +570,16 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="k3z-EJ-5iP">
-                                                    <rect key="frame" x="8" y="8" width="359" height="72"/>
+                                                    <rect key="frame" x="8" y="8" width="359" height="71"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Wikipedia Loading..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ozt-YL-gBH">
-                                                            <rect key="frame" x="0.0" y="0.0" width="339" height="72"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="339" height="71"/>
                                                             <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                             <color key="textColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="iC6-09-2GN">
-                                                            <rect key="frame" x="339" y="0.0" width="20" height="72"/>
+                                                            <rect key="frame" x="339" y="0.0" width="20" height="71"/>
                                                         </activityIndicatorView>
                                                     </subviews>
                                                 </stackView>
@@ -604,7 +604,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="2KW-t4-p7L">
-                                                    <rect key="frame" x="8" y="0.0" width="359" height="112"/>
+                                                    <rect key="frame" x="8" y="0.0" width="359" height="111"/>
                                                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="5" minimumInteritemSpacing="5" id="xjq-Hg-aip">
                                                         <size key="itemSize" width="110" height="101"/>
@@ -614,7 +614,7 @@
                                                     </collectionViewFlowLayout>
                                                     <cells>
                                                         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="poiImageCellId" id="lQW-dg-vhy" customClass="PoiDetailsImagesCollectionViewCell" customModule="AnyPOI" customModuleProvider="target">
-                                                            <rect key="frame" x="5" y="5.5" width="110" height="101"/>
+                                                            <rect key="frame" x="5" y="5" width="110" height="101"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                                                 <rect key="frame" x="0.0" y="0.0" width="110" height="101"/>
@@ -894,7 +894,6 @@
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="theTableView" destination="0To-pq-cR2" id="L4B-LL-2PM"/>
-                        <segue destination="gV2-fa-4mi" kind="show" identifier="showImageDetailsId" id="TBJ-Ok-45A"/>
                         <segue destination="ved-fd-njB" kind="presentation" identifier="openPhones" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="y9T-lr-gle"/>
                         <segue destination="ved-fd-njB" kind="presentation" identifier="openEmails" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="wND-00-xTV"/>
                         <segue destination="fTp-qj-ONQ" kind="show" identifier="showImageCollectionId" id="lpb-SV-U4d"/>
@@ -903,66 +902,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="08s-XZ-nAA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1846" y="1473"/>
-        </scene>
-        <!--Poi Detail Image View Controller-->
-        <scene sceneID="zYk-cp-qBi">
-            <objects>
-                <viewController hidesBottomBarWhenPushed="YES" id="gV2-fa-4mi" customClass="PoiDetailImageViewController" customModule="AnyPOI" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="bUn-Mf-g1S"/>
-                        <viewControllerLayoutGuide type="bottom" id="Eg7-S9-PYo"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="Z8Q-c1-pyQ">
-                        <rect key="frame" x="0.0" y="64" width="375" height="603"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" maximumZoomScale="6" translatesAutoresizingMaskIntoConstraints="NO" id="NSW-ZI-VTX">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
-                                <subviews>
-                                    <imageView contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="cyz-gi-3fN">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
-                                        <gestureRecognizers/>
-                                        <connections>
-                                            <outletCollection property="gestureRecognizers" destination="jZt-wp-YLS" appends="YES" id="ZEc-mt-wrr"/>
-                                        </connections>
-                                    </imageView>
-                                </subviews>
-                                <gestureRecognizers/>
-                                <constraints>
-                                    <constraint firstItem="cyz-gi-3fN" firstAttribute="leading" secondItem="NSW-ZI-VTX" secondAttribute="leading" id="6jg-8P-H4G"/>
-                                    <constraint firstItem="cyz-gi-3fN" firstAttribute="top" secondItem="NSW-ZI-VTX" secondAttribute="top" id="Edp-Xn-TYS"/>
-                                    <constraint firstItem="cyz-gi-3fN" firstAttribute="centerX" secondItem="NSW-ZI-VTX" secondAttribute="centerX" id="Vwv-MY-cAx"/>
-                                    <constraint firstItem="cyz-gi-3fN" firstAttribute="centerY" secondItem="NSW-ZI-VTX" secondAttribute="centerY" id="Xh5-y5-dgL"/>
-                                    <constraint firstAttribute="trailing" secondItem="cyz-gi-3fN" secondAttribute="trailing" id="XyB-lQ-8Cx"/>
-                                    <constraint firstAttribute="bottom" secondItem="cyz-gi-3fN" secondAttribute="bottom" id="mF5-AO-pMg"/>
-                                </constraints>
-                                <connections>
-                                    <outletCollection property="gestureRecognizers" destination="jZt-wp-YLS" appends="YES" id="CKW-U0-bFV"/>
-                                </connections>
-                            </scrollView>
-                        </subviews>
-                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <constraints>
-                            <constraint firstAttribute="trailing" secondItem="NSW-ZI-VTX" secondAttribute="trailing" id="2km-cj-0yZ"/>
-                            <constraint firstItem="Eg7-S9-PYo" firstAttribute="top" secondItem="NSW-ZI-VTX" secondAttribute="bottom" id="2yg-vn-qCm"/>
-                            <constraint firstItem="NSW-ZI-VTX" firstAttribute="top" secondItem="bUn-Mf-g1S" secondAttribute="bottom" id="FLv-xu-7HE"/>
-                            <constraint firstItem="NSW-ZI-VTX" firstAttribute="leading" secondItem="Z8Q-c1-pyQ" secondAttribute="leading" id="wuZ-9J-bkw"/>
-                        </constraints>
-                    </view>
-                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
-                    <connections>
-                        <outlet property="poiDetailImage" destination="cyz-gi-3fN" id="ion-4i-4ef"/>
-                        <outlet property="theScrollView" destination="NSW-ZI-VTX" id="K1G-Ou-jlH"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="jCD-x4-fCU" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer id="jZt-wp-YLS">
-                    <connections>
-                        <action selector="tapGestureRecognized:" destination="gV2-fa-4mi" id="9n1-sY-Pel"/>
-                    </connections>
-                </tapGestureRecognizer>
-            </objects>
-            <point key="canvasLocation" x="1846" y="2227"/>
         </scene>
         <!--Poi Image Collection View Controller-->
         <scene sceneID="9Nk-pv-bda">
@@ -976,28 +915,28 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="O9M-Fc-Aam">
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" dataMode="prototypes" prefetchingEnabled="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O9M-Fc-Aam">
                                 <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Kzt-0d-UMJ">
-                                    <size key="itemSize" width="50" height="50"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Kzt-0d-UMJ" customClass="ImageCollectionViewFlowLayout" customModule="AnyPOI" customModuleProvider="target">
+                                    <size key="itemSize" width="100" height="100"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ImageCollectionViewCellId" id="J7y-W1-tuv" customClass="ImageCollectionViewCell" customModule="AnyPOI" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" maximumZoomScale="6" translatesAutoresizingMaskIntoConstraints="NO" id="j53-Zr-4kc">
-                                                    <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
                                                     <subviews>
                                                         <imageView contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="NHh-Gf-EmP">
-                                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
                                                         </imageView>
                                                     </subviews>
                                                     <constraints>
@@ -1023,10 +962,10 @@
                                         </connections>
                                     </collectionViewCell>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="VideoCollectionViewCellId" id="cEf-00-0Sb" customClass="VideoCollectionViewCell" customModule="AnyPOI" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="61" width="50" height="50"/>
+                                        <rect key="frame" x="0.0" y="146.5" width="100" height="100"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </view>
                                     </collectionViewCell>
@@ -1048,7 +987,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Qw9-Ow-V4B" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2604" y="2226.8365817091458"/>
+            <point key="canvasLocation" x="1845.5999999999999" y="2226.8365817091458"/>
         </scene>
         <!--Poi Editor View Controller-->
         <scene sceneID="IjS-zA-ybm">

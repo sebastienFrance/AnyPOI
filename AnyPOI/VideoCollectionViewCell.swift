@@ -13,41 +13,49 @@ import AVKit
 class VideoCollectionViewCell: UICollectionViewCell {
     
     fileprivate(set) var playerViewController = AVPlayerViewController()
-    fileprivate var initDone = false
     
-    func initialize(video:AVPlayerItem) {
-        if !initDone {
-            playerViewController.videoGravity = AVLayerVideoGravityResizeAspect
-            //playerViewController.showsPlaybackControls = true
-            
-            translatesAutoresizingMaskIntoConstraints = false
-            playerViewController.view.translatesAutoresizingMaskIntoConstraints = false
-            addSubview(playerViewController.view)
-            
-            // Add my own constraints
-            
-            var constraint = playerViewController.view.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor)
-            constraint.isActive = true
-            addConstraint(constraint)
-            constraint = playerViewController.view.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor)
-            constraint.isActive = true
-            addConstraint(constraint)
-            constraint = playerViewController.view.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor)
-            constraint.isActive = true
-            addConstraint(constraint)
-            constraint = playerViewController.view.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor)
-            constraint.isActive = true
-            addConstraint(constraint)
-            layoutIfNeeded()
-            //setNeedsLayout()
-//            setNeedsDisplay()
-            
-            //playerViewController.view.frame = CGRect(x:0, y:0, width:frame.size.width, height:frame.size.height)
-            initDone = true
+    fileprivate var isLoadingVideo = false
+    fileprivate var requestId = PHImageRequestID()
+
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        backgroundColor = UIColor.black
+        addSubview(playerViewController.view)
+        playerViewController.videoGravity = AVLayerVideoGravityResizeAspect
+        playerViewController.view.frame = CGRect(x:0, y:0, width:frame.size.width, height:frame.size.height)
+    }
+    
+    func resetPlayer() {
+        playerViewController.player?.pause()
+    }
+    
+    /// Configure the cell with a Video
+    /// If the cell is already loading a video the loading is canceled and a new one is launched
+    ///
+    /// - Parameter asset: Contains the video
+    func configureWith(asset:PHAsset) {
+        if isLoadingVideo {
+            PHImageManager.default().cancelImageRequest(requestId)
+        } else {
+            isLoadingVideo = true
         }
         
-        let player = AVPlayer(playerItem: video)
-        playerViewController.player = player
-    }
 
+        playerViewController.player = nil
+        let videoOptions = PHVideoRequestOptions()
+        videoOptions.deliveryMode = .fastFormat
+        videoOptions.isNetworkAccessAllowed = false
+        
+        requestId = PHImageManager.default().requestPlayerItem(forVideo: asset, options: videoOptions) { playerItem, info in
+            self.isLoadingVideo = false
+            if let videoItem = playerItem {
+                DispatchQueue.main.async {
+                    let player = AVPlayer(playerItem: videoItem)
+                    self.playerViewController.showsPlaybackControls = true
+                    self.playerViewController.player = player
+                }
+            }
+        }
+    }
+    
 }
