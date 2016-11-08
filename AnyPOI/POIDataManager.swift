@@ -209,12 +209,6 @@ class POIDataManager {
 
     func updatePOIGroup(_ poiGroup: GroupOfInterest) {
     }
-    
-
-    func isUserAuthenticated() -> Bool {
-        return UserAuthentication.isUserAuthenticated
-    }
-
 
     //MARK: Find POI
     func getAllCities() -> [String] {
@@ -260,16 +254,8 @@ class POIDataManager {
         fetchRequest.resultType = .dictionaryResultType
         fetchRequest.returnsDistinctResults = true
         fetchRequest.propertiesToFetch = [propertyName]
-        if !isUserAuthenticated() {
-            if let andPredicate = withPredicate {
-                fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates:[NSPredicate(format: "isPrivate == FALSE"), andPredicate])
-            } else {
-                fetchRequest.predicate = NSPredicate(format: "isPrivate == FALSE")
-            }
-        } else {
-            if let andPredicate = withPredicate {
-                fetchRequest.predicate = andPredicate
-            }
+        if let andPredicate = withPredicate {
+            fetchRequest.predicate = andPredicate
         }
         
         if withSorting {
@@ -328,9 +314,6 @@ class POIDataManager {
         
         let managedContext = DatabaseAccess.sharedInstance.managedObjectContext
         let fetchRequest = NSFetchRequest<PointOfInterest>(entityName: entitiesCste.pointOfInterest)
-        if !isUserAuthenticated() {
-            fetchRequest.predicate = NSPredicate(format: "isPrivate == FALSE")
-        }
 
         let sortDescriptor = NSSortDescriptor(key: "poiDisplayName", ascending: true, selector: #selector(NSString.caseInsensitiveCompare(_:)))
         fetchRequest.sortDescriptors = [sortDescriptor]
@@ -347,7 +330,7 @@ class POIDataManager {
         let managedContext = DatabaseAccess.sharedInstance.managedObjectContext
         let fetchRequest = NSFetchRequest<PointOfInterest>(entityName: entitiesCste.pointOfInterest)
         
-        let basicPredicate = !isUserAuthenticated() ?  NSPredicate(format: "isPrivate == FALSE AND poiCity == %@", cityName) : NSPredicate(format: "poiCity == %@", cityName)
+        let basicPredicate = NSPredicate(format: "poiCity == %@", cityName)
 
         if !searchFilter.isEmpty {
             let searchPredicate = NSPredicate(format: "poiDisplayName CONTAINS[cd] %@", searchFilter)
@@ -371,7 +354,7 @@ class POIDataManager {
         let managedContext = DatabaseAccess.sharedInstance.managedObjectContext
         let fetchRequest = NSFetchRequest<PointOfInterest>(entityName: entitiesCste.pointOfInterest)
         
-        let basicPredicate = !isUserAuthenticated() ? NSPredicate(format: "isPrivate == FALSE AND poiISOCountryCode == %@", ISOCountryCode) :  NSPredicate(format: "poiISOCountryCode == %@", ISOCountryCode)
+        let basicPredicate = NSPredicate(format: "poiISOCountryCode == %@", ISOCountryCode)
         
         if !searchFilter.isEmpty {
             let searchPredicate = NSPredicate(format: "poiDisplayName CONTAINS[cd] %@", searchFilter)
@@ -397,8 +380,8 @@ class POIDataManager {
         let managedContext = DatabaseAccess.sharedInstance.managedObjectContext
         let fetchRequest = NSFetchRequest<PointOfInterest>(entityName: entitiesCste.pointOfInterest)
         
-        let basicPredicate = !isUserAuthenticated() ? NSPredicate(format: "isPrivate == FALSE AND ((poiRegionNotifyEnter == TRUE) OR (poiRegionNotifyExit == TRUE))") : NSPredicate(format: "(poiRegionNotifyEnter == TRUE) OR (poiRegionNotifyExit == TRUE)")
-        
+        let basicPredicate = NSPredicate(format: "(poiRegionNotifyEnter == TRUE) OR (poiRegionNotifyExit == TRUE)")
+       
         if !searchFilter.isEmpty {
             let searchPredicate = NSPredicate(format: "poiDisplayName CONTAINS[cd] %@", searchFilter)
             fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates:[searchPredicate, basicPredicate])
@@ -422,7 +405,7 @@ class POIDataManager {
         let managedContext = DatabaseAccess.sharedInstance.managedObjectContext
         let fetchRequest = NSFetchRequest<PointOfInterest>(entityName: entitiesCste.pointOfInterest)
         
-        let basicPredicate = !isUserAuthenticated() ? NSPredicate(format: "isPrivate == FALSE AND parentGroup = %@", group) : NSPredicate(format: "parentGroup = %@", group)
+        let basicPredicate = NSPredicate(format: "parentGroup = %@", group)
         
         if !searchFilter.isEmpty {
             let searchPredicate = NSPredicate(format: "poiDisplayName CONTAINS[cd] %@", searchFilter)
@@ -470,20 +453,11 @@ class POIDataManager {
         let managedContext = DatabaseAccess.sharedInstance.managedObjectContext
         let fetchRequest = NSFetchRequest<PointOfInterest>(entityName: entitiesCste.pointOfInterest)
         
-        if isUserAuthenticated() {
-            if category == CategoryUtils.EmptyCategoryIndex {
-                fetchRequest.predicate = NSPredicate(format: "poiDisplayName CONTAINS[cd] %@", searchText)
-            } else {
-                fetchRequest.predicate = NSPredicate(format: "poiDisplayName CONTAINS[cd] %@ AND poiCategory == %d", searchText, category)
-            }
+        if category == CategoryUtils.EmptyCategoryIndex {
+            fetchRequest.predicate = NSPredicate(format: "poiDisplayName CONTAINS[cd] %@", searchText)
         } else {
-            if category == CategoryUtils.EmptyCategoryIndex {
-                fetchRequest.predicate = NSPredicate(format: "isPrivate == FALSE AND poiDisplayName CONTAINS[cd] %@", searchText) // BEGINSWITH
-            } else {
-                fetchRequest.predicate = NSPredicate(format: "isPrivate == FALSE AND poiDisplayName CONTAINS[cd] %@ AND poiCategory == %d", searchText, category)
-            }
+            fetchRequest.predicate = NSPredicate(format: "poiDisplayName CONTAINS[cd] %@ AND poiCategory == %d", searchText, category)
         }
-
         
         let sortDescriptor = NSSortDescriptor(key: "poiDisplayName", ascending: true, selector: #selector(NSString.caseInsensitiveCompare(_:)))
         fetchRequest.sortDescriptors = [sortDescriptor]
@@ -499,12 +473,7 @@ class POIDataManager {
     func findPOIWith(_ name:String, coordinates:CLLocationCoordinate2D) -> [PointOfInterest] {
         let managedContext = DatabaseAccess.sharedInstance.managedObjectContext
         let fetchRequest = NSFetchRequest<PointOfInterest>(entityName: entitiesCste.pointOfInterest)
-        if isUserAuthenticated() {
-            fetchRequest.predicate = NSPredicate(format: "(poiDisplayName == %@) AND (poiLatitude == %@) AND (poiLongitude == %@)", name, NSNumber(value: coordinates.latitude as Double), NSNumber(value: coordinates.longitude as Double))
-        } else {
-            fetchRequest.predicate = NSPredicate(format: "isPrivate == FALSE AND (poiDisplayName == %@) AND (poiLatitude == %@) AND (poiLongitude == %@)", name, NSNumber(value: coordinates.latitude as Double), NSNumber(value: coordinates.longitude as Double))
-
-        }
+        fetchRequest.predicate = NSPredicate(format: "(poiDisplayName == %@) AND (poiLatitude == %@) AND (poiLongitude == %@)", name, NSNumber(value: coordinates.latitude as Double), NSNumber(value: coordinates.longitude as Double))
         do {
             return try managedContext.fetch(fetchRequest)
         } catch let error as NSError {
@@ -516,11 +485,7 @@ class POIDataManager {
     func findContact(_ contactIdentifier:String) -> [PointOfInterest] {
         let managedContext = DatabaseAccess.sharedInstance.managedObjectContext
         let fetchRequest = NSFetchRequest<PointOfInterest>(entityName: entitiesCste.pointOfInterest)
-        if isUserAuthenticated() {
-            fetchRequest.predicate = NSPredicate(format: "(poiContactIdentifier == %@) AND (poiIsContact == TRUE)", contactIdentifier)
-        } else {
-            fetchRequest.predicate = NSPredicate(format: "isPrivate == FALSE AND (poiContactIdentifier == %@) AND (poiIsContact == true)", contactIdentifier)
-        }
+        fetchRequest.predicate = NSPredicate(format: "(poiContactIdentifier == %@) AND (poiIsContact == TRUE)", contactIdentifier)
         
         do {
             return try managedContext.fetch(fetchRequest)
@@ -550,11 +515,7 @@ class POIDataManager {
     func findPOIWith(_ wikipedia:Wikipedia) -> PointOfInterest? {
         let managedContext = DatabaseAccess.sharedInstance.managedObjectContext
         let fetchRequest = NSFetchRequest<PointOfInterest>(entityName: entitiesCste.pointOfInterest)
-        if isUserAuthenticated() {
-            fetchRequest.predicate = NSPredicate(format: "poiWikipediaPageId = %d", wikipedia.pageId)
-        } else {
-            fetchRequest.predicate = NSPredicate(format: "isPrivate == FALSE AND poiWikipediaPageId = %d", wikipedia.pageId)
-        }
+        fetchRequest.predicate = NSPredicate(format: "poiWikipediaPageId = %d", wikipedia.pageId)
         
         do {
             let matchingPOI = try managedContext.fetch(fetchRequest)
