@@ -25,12 +25,13 @@ class LocationCell: UITableViewCell {
     @IBOutlet weak var phoneNumberButton: UIButton!
     @IBOutlet weak var urlButton: UIButton!
 
+    @IBOutlet weak var categoryImage: UIImageView!
     @IBOutlet weak var showContactDetailsButton: UIButton!
     
     func buildWith(_ poi:PointOfInterest) {
         configureGeneralInfo(poi)
-        configureCategory(poi)
         
+        poiCategoryImage.isHidden = true
         showContactDetailsButton.isHidden = true
         
         mailButton.isEnabled = false
@@ -45,7 +46,9 @@ class LocationCell: UITableViewCell {
         }
         
         configureURL(poi.poiURL)
+        configureCategory(poi:poi)
     }
+    
     
 
     func buildWith(_ poi:PointOfInterest, contact:CNContact) {
@@ -55,20 +58,19 @@ class LocationCell: UITableViewCell {
         configureThumbail(contact)
         configureEmail(contact)
         showContactDetailsButton.isHidden = false
+        configureCategory(poi:poi)
     }
     
-    fileprivate func configureCategory(_ poi:PointOfInterest) {
+    fileprivate func configureCategory(poi:PointOfInterest) {
         if let image = poi.categoryIcon {
-            poiCategoryImage.image = image
-            poiCategoryImage.tintColor = UIColor.black
-            poiCategoryWidth.constant = 25
-            poiCategoryHeight.constant = 25
-            poiCategoryImage.isHidden = false
+            categoryImage.image = image
+            categoryImage.tintColor = UIColor.black
+            categoryImage.isHidden = false
         } else {
-            poiCategoryImage.isHidden = true
+            categoryImage.isHidden = true
         }
-
     }
+
     
     fileprivate func configureGeneralInfo(_ poi:PointOfInterest) {
         addressTextView.text = poi.address
