@@ -151,83 +151,6 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
 
     fileprivate var monitoredRegion:MKOverlay?
     
-    func toHTML() -> String {
-        var htmlDescription = "<p><b>\(poiDisplayName!)</b></p>"
-        if let description = poiDescription {
-            htmlDescription += "<p>\(description)</p>"
-        }
-        
-        htmlDescription += "<p>\(address)"
-        
-        var phoneNumber:String?
-        var url:String?
-        if poiIsContact {
-            // Get infos from the Contact
-            if let theContact = ContactsUtilities.getContactForDetailedDescription(poiContactIdentifier!) {
-                phoneNumber = ContactsUtilities.extractPhoneNumber(theContact)?.stringValue
-                url = ContactsUtilities.extractURL(theContact)
-            }
-        } else {
-            phoneNumber = poiPhoneNumber
-            url = poiURL
-        }
-        
-        if let thePhoneNumber = phoneNumber {
-            htmlDescription += "<br>\(thePhoneNumber)"
-        }
-        
-        if let theURL = url {
-            htmlDescription += "<br><a href=\"\(theURL)\">Web site</a>"
-        }
-        htmlDescription += "</p><br>"
-        
-        htmlDescription += "Show on map with:"
-        htmlDescription += "<ul>"
-        htmlDescription += "<li><a href=\"http://maps.apple.com/?q=\(poiDisplayName!)&ll=\(poiLatitude),\(poiLongitude)\">Apple Maps</a></li>"
-        htmlDescription += "<li><a href=\"https://maps.google.com/?q=\(poiLatitude),\(poiLongitude)\">Google Maps</a></li>"
-        htmlDescription += "<li>\(poiLatitude)°, \(poiLongitude)°</li>"
-        htmlDescription += "</ul>"
-   
-        return htmlDescription
-    }
-    
-    func toMessage() -> String {
-        var stringDescription = "\(poiDisplayName!)\n"
-        if let description = poiDescription {
-            stringDescription = "\(stringDescription)\(description)\n"
-        }
-        stringDescription = "\(stringDescription)\(address)\n"
-        
-        
-        var phoneNumber:String?
-        var url:String?
-        if poiIsContact {
-            // Get infos from the Contact
-            if let theContact = ContactsUtilities.getContactForDetailedDescription(poiContactIdentifier!) {
-                
-                let contactPhoneNumber = ContactsUtilities.extractPhoneNumber(theContact)
-                if let number = contactPhoneNumber {
-                    phoneNumber = number.stringValue
-                }
-                
-                url = ContactsUtilities.extractURL(theContact)
-            }
-        } else {
-            phoneNumber = poiPhoneNumber
-            url = poiURL
-        }
-
-        if let thePhoneNumber = phoneNumber {
-            stringDescription = "\(stringDescription)\(thePhoneNumber)\n"
-        }
-        
-        if let theURL = url {
-            stringDescription = "\(stringDescription)\(theURL)\n"
-        }
-
-        
-        return stringDescription
-    }
     
     // This method is called at every commit (update, delete or create)
     override func didSave() {
@@ -592,3 +515,155 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
     
     
  }
+
+//MARK: HTML and Message export
+extension PointOfInterest {
+    fileprivate static let tableHeaderForPois =
+        "<table style=\"width:100%\">" +
+            "<tr>" +
+            "<th>\(NSLocalizedString("NamePOIMail", comment: ""))</th>" +
+            "<th>\(NSLocalizedString("DescriptionPOIMail", comment: ""))</th>" +
+            "<th>\(NSLocalizedString("AddressPOIMail", comment: ""))</th>" +
+            "<th>\(NSLocalizedString("PhonePOIMail", comment: ""))</th>" +
+            "<th>\(NSLocalizedString("URLPOIMail", comment: ""))</th>" +
+            "<th>\(NSLocalizedString("MapPOIMail", comment: ""))</th>" +
+    "</tr>"
+
+    
+    func toHTML() -> String {
+        var htmlDescription = "<p><b>\(poiDisplayName!)</b></p>"
+        if let description = poiDescription {
+            htmlDescription += "<p>\(description)</p>"
+        }
+        
+        htmlDescription += "<p>\(address)"
+        
+        var phoneNumber:String?
+        var url:String?
+        if poiIsContact {
+            // Get infos from the Contact
+            if let theContact = ContactsUtilities.getContactForDetailedDescription(poiContactIdentifier!) {
+                phoneNumber = ContactsUtilities.extractPhoneNumber(theContact)?.stringValue
+                url = ContactsUtilities.extractURL(theContact)
+            }
+        } else {
+            phoneNumber = poiPhoneNumber
+            url = poiURL
+        }
+        
+        if let thePhoneNumber = phoneNumber {
+            htmlDescription += "<br>\(thePhoneNumber)"
+        }
+        
+        if let theURL = url {
+            htmlDescription += "<br><a href=\"\(theURL)\">\(NSLocalizedString("WebSiteMail", comment: ""))</a>"
+        }
+        htmlDescription += "</p><br>"
+        
+        htmlDescription += "<ul>"
+        htmlDescription += "<li><a href=\"http://maps.apple.com/?q=\(poiDisplayName!)&ll=\(poiLatitude),\(poiLongitude)\">Apple Maps</a></li>"
+        htmlDescription += "<li><a href=\"https://maps.google.com/?q=\(poiLatitude),\(poiLongitude)\">Google Maps</a></li>"
+        htmlDescription += "<li>\(poiLatitude)°, \(poiLongitude)°</li>"
+        htmlDescription += "</ul>"
+        
+        return htmlDescription
+    }
+    
+    
+    static func toHTML(pois:[PointOfInterest]) -> String {
+        var html = PointOfInterest.tableHeaderForPois
+        for currentPoi in pois {
+            html += currentPoi.toHTMLForTable()
+        }
+        html += "</table>"
+        return html
+    }
+    
+    fileprivate func toHTMLForTable() -> String {
+        var htmlDescription = "<tr>"
+        htmlDescription += "<td>\(poiDisplayName!)</td>"
+        htmlDescription += "<td>"
+        if let description = poiDescription {
+            htmlDescription += "\(description)"
+        }
+        htmlDescription += "</td>"
+       
+        htmlDescription += "<td>\(address)</td>"
+        
+        var phoneNumber:String?
+        var url:String?
+        if poiIsContact {
+            // Get infos from the Contact
+            if let theContact = ContactsUtilities.getContactForDetailedDescription(poiContactIdentifier!) {
+                phoneNumber = ContactsUtilities.extractPhoneNumber(theContact)?.stringValue
+                url = ContactsUtilities.extractURL(theContact)
+            }
+        } else {
+            phoneNumber = poiPhoneNumber
+            url = poiURL
+        }
+        
+        htmlDescription += "<td>"
+        if let thePhoneNumber = phoneNumber {
+            htmlDescription += "\(thePhoneNumber)"
+        }
+        htmlDescription += "</td>"
+       
+        htmlDescription += "<td>"
+        if let theURL = url {
+            htmlDescription += "<a href=\"\(theURL)\">\(NSLocalizedString("WebSiteMail", comment: ""))</a>"
+        }
+        htmlDescription += "</td>"
+        htmlDescription += "<td>"
+        
+        htmlDescription += "<ul>"
+        htmlDescription += "<li><a href=\"http://maps.apple.com/?q=\(poiDisplayName!)&ll=\(poiLatitude),\(poiLongitude)\">Apple Maps</a></li>"
+        htmlDescription += "<li><a href=\"https://maps.google.com/?q=\(poiLatitude),\(poiLongitude)\">Google Maps</a></li>"
+        htmlDescription += "<li>\(poiLatitude)°, \(poiLongitude)°</li>"
+        htmlDescription += "</ul>"
+        htmlDescription += "</td>"
+        htmlDescription += "</tr>"
+        
+        return htmlDescription
+    }
+    
+    
+    func toMessage() -> String {
+        var stringDescription = "\(poiDisplayName!)\n"
+        if let description = poiDescription {
+            stringDescription = "\(stringDescription)\(description)\n"
+        }
+        stringDescription = "\(stringDescription)\(address)\n"
+        
+        
+        var phoneNumber:String?
+        var url:String?
+        if poiIsContact {
+            // Get infos from the Contact
+            if let theContact = ContactsUtilities.getContactForDetailedDescription(poiContactIdentifier!) {
+                
+                let contactPhoneNumber = ContactsUtilities.extractPhoneNumber(theContact)
+                if let number = contactPhoneNumber {
+                    phoneNumber = number.stringValue
+                }
+                
+                url = ContactsUtilities.extractURL(theContact)
+            }
+        } else {
+            phoneNumber = poiPhoneNumber
+            url = poiURL
+        }
+        
+        if let thePhoneNumber = phoneNumber {
+            stringDescription = "\(stringDescription)\(thePhoneNumber)\n"
+        }
+        
+        if let theURL = url {
+            stringDescription = "\(stringDescription)\(theURL)\n"
+        }
+        
+        
+        return stringDescription
+    }
+
+}

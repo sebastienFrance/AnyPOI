@@ -122,6 +122,7 @@
 		BE957E611DA90147006CF455 /* WikipediaSliderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE957E601DA90147006CF455 /* WikipediaSliderTableViewCell.swift */; };
 		BE957E631DA943D6006CF455 /* WikiLanguagePickerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE957E621DA943D6006CF455 /* WikiLanguagePickerTableViewCell.swift */; };
 		BE957E651DA94A03006CF455 /* WikiSelectedLanguageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE957E641DA94A03006CF455 /* WikiSelectedLanguageTableViewCell.swift */; };
+		BE982D0E1DD233E500C7941A /* PoisMailActivityItemSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE982D0D1DD233E500C7941A /* PoisMailActivityItemSource.swift */; };
 		BE9833F11D8D55C600B174A7 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE9833F01D8D55C600B174A7 /* NotificationCenter.framework */; };
 		BE9833F41D8D55C600B174A7 /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE9833F31D8D55C600B174A7 /* TodayViewController.swift */; };
 		BE9833F71D8D55C600B174A7 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE9833F51D8D55C600B174A7 /* MainInterface.storyboard */; };
@@ -311,6 +312,7 @@
 		BE957E601DA90147006CF455 /* WikipediaSliderTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WikipediaSliderTableViewCell.swift; sourceTree = "<group>"; };
 		BE957E621DA943D6006CF455 /* WikiLanguagePickerTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WikiLanguagePickerTableViewCell.swift; sourceTree = "<group>"; };
 		BE957E641DA94A03006CF455 /* WikiSelectedLanguageTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WikiSelectedLanguageTableViewCell.swift; sourceTree = "<group>"; };
+		BE982D0D1DD233E500C7941A /* PoisMailActivityItemSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PoisMailActivityItemSource.swift; sourceTree = "<group>"; };
 		BE9833EF1D8D55C600B174A7 /* AnyPOITodayWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = AnyPOITodayWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE9833F01D8D55C600B174A7 /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
 		BE9833F31D8D55C600B174A7 /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
@@ -715,6 +717,7 @@
 			children = (
 				BE0CF2D31D8B209A00344F8A /* ImageAcvitityItemSource.swift */,
 				BE0CF2D41D8B209A00344F8A /* PoiMailActivityItemSource.swift */,
+				BE982D0D1DD233E500C7941A /* PoisMailActivityItemSource.swift */,
 				BE8F7C391DB66B9300BE30C2 /* RouteMailActivityItemSource.swift */,
 				BE0CF2D51D8B209A00344F8A /* MessageActivityItemSource.swift */,
 				BE8F7C3B1DB6B28E00BE30C2 /* HTMLAnyPoi.swift */,
@@ -1168,6 +1171,7 @@
 				BE0CF2FD1D8B209A00344F8A /* ContactsUtilities.swift in Sources */,
 				BE0CF3491D8B209A00344F8A /* PickerGroupView.swift in Sources */,
 				BE0CF3611D8B21C800344F8A /* DatabaseAccess.swift in Sources */,
+				BE982D0E1DD233E500C7941A /* PoisMailActivityItemSource.swift in Sources */,
 				BE0CF3111D8B209A00344F8A /* GroupConfiguratorViewController.swift in Sources */,
 				BE0CF31A1D8B209A00344F8A /* PoiEditorViewController.swift in Sources */,
 				BE0CF3161D8B209A00344F8A /* MovePOIsTableViewCell.swift in Sources */,

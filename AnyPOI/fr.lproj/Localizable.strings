@@ -135,6 +135,13 @@
 "ResolvingContact"="Résolution de";
 "Information"="Information";
 "ContactsSynchronozationDone"="La synchronisation des contacts est terminée";
+"WebSiteMail"="Site web";
+"NamePOIMail"="Nom";
+"DescriptionPOIMail"="Description";
+"AddressPOIMail"="Adresse";
+"PhonePOIMail"="Téléphone";
+"URLPOIMail"="URL";
+"MapPOIMail"="Carte";
 "CategoryLabelUnknown"="Inconnue";
 "CategoryLabelCoffee"="Café";
 "CategoryLabelRestaurant"="Restaurant";

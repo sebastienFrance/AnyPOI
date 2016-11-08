@@ -133,6 +133,13 @@
 "ContactsSynchronozationDone"="Contacts synchronization is completed";
 "InternalError"="Internal error";
 "ResolvingContact"="Resolving";
+"WebSiteMail"="Web site";
+"NamePOIMail"="Name";
+"DescriptionPOIMail"="Description";
+"AddressPOIMail"="Address";
+"PhonePOIMail"="Phone";
+"URLPOIMail"="URL";
+"MapPOIMail"="Map";
 "CategoryLabelUnknown"="Unknown";
 "CategoryLabelCoffee"="Cofee";
 "CategoryLabelRestaurant"="Restaurant";

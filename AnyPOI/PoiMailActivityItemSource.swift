@@ -34,4 +34,6 @@ class PoiMailActivityItemSource: NSObject, UIActivityItemSource {
             return nil
         }
     }
+    
+
 }

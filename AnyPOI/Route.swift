@@ -518,3 +518,4 @@ class Route: NSManagedObject {
         POIDataManager.sharedInstance.commitDatabase()
     }
 }
+
