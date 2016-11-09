@@ -230,7 +230,7 @@ extension PoiEditorViewController: UITableViewDataSource, UITableViewDelegate {
     
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        if (indexPath as NSIndexPath).section == Sections.regionMonitoring {
+        if indexPath.section == Sections.regionMonitoring {
             return Cste.MapViewHeight
         } else {
             return  UITableViewAutomaticDimension
@@ -238,8 +238,8 @@ extension PoiEditorViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if (indexPath as NSIndexPath).section == Sections.regionMonitoring  && (indexPath as NSIndexPath).row == Rows.monitoringMap {
-                return Cste.MapViewHeight
+        if indexPath.section == Sections.regionMonitoring  && indexPath.row == Rows.monitoringMap {
+            return Cste.MapViewHeight
         } else {
             return  UITableViewAutomaticDimension
         }
@@ -256,11 +256,11 @@ extension PoiEditorViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        switch (indexPath as NSIndexPath).section {
+        switch indexPath.section {
         case Sections.properties:
             return getCellForProperties(indexPath)
         case Sections.regionMonitoring:
-            if (indexPath as NSIndexPath).row == Rows.monitoringControls {
+            if indexPath.row == Rows.monitoringControls {
                 let theCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier.poiRegionConfigurationCellId, for: indexPath) as! PoiRegionConfigurationViewCell
                 theCell.initWith(newRegionEnter, exitRegion:newRegionExit, radius:newRadius)
                 return theCell
@@ -270,21 +270,21 @@ extension PoiEditorViewController: UITableViewDataSource, UITableViewDelegate {
                 return theCell
             }
         default:
-            print("\(#function) unknown section \((indexPath as NSIndexPath).section)")
+            print("\(#function) unknown section \(indexPath.section)")
             return UITableViewCell()
         }
     }
     
     // MARK: UITableViewDelegate
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if (indexPath as NSIndexPath).section == Sections.properties {
+        if indexPath.section == Sections.properties {
             if isPickerDisplayed {
-                if (rowIndexForPicker(rawValue: pickerIndex) == rowIndexForPicker.category && ((indexPath as NSIndexPath).row == 2 || (indexPath as NSIndexPath).row == 4)) ||
-                    (rowIndexForPicker(rawValue: pickerIndex) == rowIndexForPicker.group && ((indexPath as NSIndexPath).row == 2 || (indexPath as NSIndexPath).row == 3)) {
+                if (rowIndexForPicker(rawValue: pickerIndex) == rowIndexForPicker.category && (indexPath.row == 2 || indexPath.row == 4)) ||
+                    (rowIndexForPicker(rawValue: pickerIndex) == rowIndexForPicker.group && (indexPath.row == 2 || indexPath.row == 3)) {
                     updateRowPicker(indexPath)
                 }
             } else {
-                if (indexPath as NSIndexPath).row == 2 || (indexPath as NSIndexPath).row  == 3 {
+                if indexPath.row == 2 || indexPath.row  == 3 {
                     updateRowPicker(indexPath)
                 }
             }
@@ -364,7 +364,7 @@ extension PoiEditorViewController: UITableViewDataSource, UITableViewDelegate {
 
     // MARK: RowPicker
     fileprivate func getCellForProperties(_ indexPath:IndexPath) -> UITableViewCell {
-        var row = (indexPath as NSIndexPath).row
+        var row = indexPath.row
         if isPickerDisplayed {
             if row == 3 && pickerIndex == row {
                 let pickerCell = theTableView.dequeueReusableCell(withIdentifier: cellIdentifier.cellPickerId, for: indexPath) as! PickerViewCell
@@ -392,7 +392,7 @@ extension PoiEditorViewController: UITableViewDataSource, UITableViewDelegate {
         }
         
         
-        let rowType = model[(indexPath as NSIndexPath).row]
+        let rowType = model[indexPath.row]
         switch rowType {
         case .poiDisplayName:
             let theCell = theTableView.dequeueReusableCell(withIdentifier: cellIdentifier.textFieldCellId, for: indexPath) as! TextFieldViewCell
@@ -442,12 +442,12 @@ extension PoiEditorViewController: UITableViewDataSource, UITableViewDelegate {
         // when no picker was already displayed or
         // when a picker was already displayed (and then closed) but the selected cell of the
         // indexPath contain also a picker then we display the new picker
-        if !hasClosedPicker || (hasClosedPicker && pickerIndex != ((indexPath as NSIndexPath).row + 1)) {
+        if !hasClosedPicker || (hasClosedPicker && pickerIndex != (indexPath.row + 1)) {
             isPickerDisplayed = true
-            if hasClosedPicker && (indexPath as NSIndexPath).row > pickerIndex {
-                pickerIndex = (indexPath as NSIndexPath).row
+            if hasClosedPicker && indexPath.row > pickerIndex {
+                pickerIndex = indexPath.row
             } else {
-                pickerIndex = (indexPath as NSIndexPath).row + 1
+                pickerIndex = indexPath.row + 1
             }
             
             // Add the new row that will display the Picker

@@ -137,7 +137,7 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
         
         switch mode {
         case .phone:
-            let currentLabeledValue = contact!.phoneNumbers[(indexPath as NSIndexPath).row]
+            let currentLabeledValue = contact!.phoneNumbers[indexPath.row]
             
             let phoneNumber = currentLabeledValue.value as CNPhoneNumber
             
@@ -146,13 +146,13 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
             
             if currentLabeledValue.label == CNLabelPhoneNumberiPhone {
                 cell.faceTimeButton.isHidden = false
-                cell.faceTimeButton.tag = (indexPath as NSIndexPath).row
+                cell.faceTimeButton.tag = indexPath.row
             } else {
                 cell.faceTimeButton.isHidden = true
             }
             
         case .email:
-            let currentLabeledValue = contact!.emailAddresses[(indexPath as NSIndexPath).row]
+            let currentLabeledValue = contact!.emailAddresses[indexPath.row]
             let email = currentLabeledValue.value as String
             
             cell.phoneLabel?.text = ContactsViewController.CNlabelTranslation(currentLabeledValue.label ?? "")
@@ -168,7 +168,7 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch mode {
         case .phone:
-            let currentLabeledValue = contact!.phoneNumbers[(indexPath as NSIndexPath).row]
+            let currentLabeledValue = contact!.phoneNumbers[indexPath.row]
             let phoneNumber = currentLabeledValue.value as CNPhoneNumber
             Utilities.startPhoneCall(phoneNumber.stringValue)
             dismiss(animated: true, completion: nil)
@@ -176,7 +176,7 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
 
         case .email:
             if MFMailComposeViewController.canSendMail() {
-                let currentLabeledValue = contact!.emailAddresses[(indexPath as NSIndexPath).row]
+                let currentLabeledValue = contact!.emailAddresses[indexPath.row]
                 let email = currentLabeledValue.value as String
                 let mailComposer = MFMailComposeViewController()
                 mailComposer.setToRecipients([email])

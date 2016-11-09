@@ -104,7 +104,7 @@ extension WikipediaOptionsViewController: UITableViewDelegate, UITableViewDataSo
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        switch (indexPath as NSIndexPath).row {
+        switch indexPath.row {
         case rowIndex.Language:
             let cell = theTableView.dequeueReusableCell(withIdentifier: storyboard.WikiSelectedLanguage, for: indexPath) as! WikiSelectedLanguageTableViewCell
             cell.theLabel.text = String.localizedStringWithFormat(NSLocalizedString("Wikipedia Language: %@", comment: ""), WikipediaLanguages.LanguageForISOcode(UserPreferences.sharedInstance.wikipediaLanguageISOcode))
@@ -121,7 +121,7 @@ extension WikipediaOptionsViewController: UITableViewDelegate, UITableViewDataSo
             cell.theSlider.maximumValue = 100
             cell.theLabel.text = "\(NSLocalizedString("MaxResultsWikipediaOptions",comment:"")) \(UserPreferences.sharedInstance.wikipediaMaxResults)"
             cell.theSlider.setValue(Float(UserPreferences.sharedInstance.wikipediaMaxResults), animated: false)
-            cell.theSlider.tag = (indexPath as NSIndexPath).row
+            cell.theSlider.tag = indexPath.row
             return cell
        case rowIndex.NearByDistance:
             let cell = theTableView.dequeueReusableCell(withIdentifier: storyboard.WikipediaSliderCellId, for: indexPath) as! WikipediaSliderTableViewCell
@@ -132,7 +132,7 @@ extension WikipediaOptionsViewController: UITableViewDelegate, UITableViewDataSo
             let distanceFormatter = LengthFormatter()
             distanceFormatter.unitStyle = .short
             cell.theLabel.text = "\(NSLocalizedString("NearByWikipediaOptions",comment:"")) \(distanceFormatter.string(fromMeters: Double(UserPreferences.sharedInstance.wikipediaNearByDistance)))"
-            cell.theSlider.tag = (indexPath as NSIndexPath).row
+            cell.theSlider.tag = indexPath.row
             return cell
        default:
             return UITableViewCell()

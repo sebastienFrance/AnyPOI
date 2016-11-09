@@ -141,19 +141,19 @@ class GroupConfiguratorViewController: UIViewController, UITextFieldDelegate, UI
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CollectionViewCell.colorCellId, for: indexPath) as! ColorCollectionViewCell
-        let stroke = selectedColorIndex == (indexPath as NSIndexPath).row ? true : false
+        let stroke = selectedColorIndex == indexPath.row ? true : false
         
-        cell.colorImage.image = DrawingUtils.getImageForColor(colors[(indexPath as NSIndexPath).row], imageSize: 25.0, lineWidth: stroke ? 2.0 : 0.0)
+        cell.colorImage.image = DrawingUtils.getImageForColor(colors[indexPath.row], imageSize: 25.0, lineWidth: stroke ? 2.0 : 0.0)
         return cell
      }
 
     //MARK: UICollectionViewDelegate
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if selectedColorIndex != (indexPath as NSIndexPath).row {
+        if selectedColorIndex != indexPath.row {
             // Refresh the unselected and selected colors
             let oldSelectedColorIndexPath =  IndexPath(row: selectedColorIndex, section: 0)
-            selectedColorIndex = (indexPath as NSIndexPath).row
+            selectedColorIndex = indexPath.row
             colorsCollectionView.reloadItems(at: [indexPath, oldSelectedColorIndexPath])
         }
     }

@@ -135,12 +135,10 @@ class POIsViewController: UIViewController  {
     func contextDidSaveNotification(_ notification : Notification) {
         
         PoiNotificationUserInfo.dumpUserInfo("POIsViewController", userInfo: (notification as NSNotification).userInfo)
-        if displayMode == .simpleGroup && POIDataManager.sharedInstance.isDefaultContactGroup(POIGroup) {
-            if ContactsSynchronization.sharedInstance.isSynchronizing {
-                return // ignore the notification while Contacts are synchronizing
-            }
+        if ContactsSynchronization.sharedInstance.isSynchronizing {
+            return // ignore the notification while Contacts are synchronizing
         }
-        
+
         pois = nil // Reset the data
         poisWithFilters = nil
         // If the table is editing it means we are deleting the Poi directly from
@@ -188,14 +186,12 @@ class POIsViewController: UIViewController  {
     
     /// Enable or disable buttons from toolbars based on list of POIs
     fileprivate func resetStateOfEditButtons() {
-        if displayMode == .simpleGroup && POIDataManager.sharedInstance.isDefaultContactGroup(POIGroup) {
-            if ContactsSynchronization.sharedInstance.isSynchronizing {
-                actionButton.isEnabled = false
-                moveButton.isEnabled = false
-                searchButton.isEnabled = false
-                selectButton.isEnabled = false
-                return
-            }
+        if ContactsSynchronization.sharedInstance.isSynchronizing {
+            actionButton.isEnabled = false
+            moveButton.isEnabled = false
+            searchButton.isEnabled = false
+            selectButton.isEnabled = false
+            return
         }
         // set all button to enable by default
         actionButton.isEnabled = true
@@ -475,7 +471,7 @@ extension POIsViewController : UITableViewDataSource, UITableViewDelegate {
                 let theCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier.descriptionCellId, for: indexPath) as! POISimpleViewCell
                 let currentPOI = getPoiForIndexPath(indexPath)
                 
-                if let image = images[(indexPath as NSIndexPath).row] {
+                if let image = images[indexPath.row] {
                     theCell.initializeWith(currentPOI, index:indexPath.row, image:image)
                 } else {
                     theCell.initializeWith(currentPOI, index:indexPath.row)
@@ -537,12 +533,10 @@ extension POIsViewController : UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        if displayMode == .simpleGroup && POIDataManager.sharedInstance.isDefaultContactGroup(POIGroup) {
-            if ContactsSynchronization.sharedInstance.isSynchronizing {
-                return false
-            }
+        if ContactsSynchronization.sharedInstance.isSynchronizing {
+            return false
         }
-        
+
         if indexPath.section == Sections.MapView {
             return false
         } else if indexPath.section == Sections.POIs && getPois(withFilter:true).count == 0 {
@@ -568,7 +562,7 @@ extension POIsViewController : UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        if (indexPath as NSIndexPath).section == Sections.POIs {
+        if indexPath.section == Sections.POIs {
             if theTableView.isEditing && theTableView.indexPathsForSelectedRows == nil {
                 moveButton.isEnabled = false
             }

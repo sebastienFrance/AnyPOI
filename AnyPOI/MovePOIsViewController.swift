@@ -48,13 +48,13 @@ class MovePOIsViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if (indexPath as NSIndexPath).row == 0 {
+        if indexPath.row == 0 {
             let cell = theTableView.dequeueReusableCell(withIdentifier: storyboard.moveCellHeaderId, for: indexPath)
             return cell
         } else {
             let cell = theTableView.dequeueReusableCell(withIdentifier: storyboard.moveToGroupCellId, for: indexPath) as! MovePOIsTableViewCell
             
-            cell.initWithGroup(POIDataManager.sharedInstance.getGroups()[(indexPath as NSIndexPath).row - 1])
+            cell.initWithGroup(POIDataManager.sharedInstance.getGroups()[indexPath.row - 1])
             
             return cell
         }
@@ -62,8 +62,8 @@ class MovePOIsViewController: UIViewController, UITableViewDelegate, UITableView
     
     //MARK: UITableViewDelegate
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if (indexPath as NSIndexPath).row > 0 {
-            let selectedGroup = POIDataManager.sharedInstance.getGroups()[(indexPath as NSIndexPath).row - 1]
+        if indexPath.row > 0 {
+            let selectedGroup = POIDataManager.sharedInstance.getGroups()[indexPath.row - 1]
             for currentPOI in self.pois {
                 if currentPOI.parentGroup != selectedGroup {
                     currentPOI.parentGroup = selectedGroup

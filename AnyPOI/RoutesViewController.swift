@@ -119,8 +119,8 @@ extension RoutesViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let theCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier.routesCellId, for: indexPath) as! RoutesTableViewCell
         
-        let theRoute = POIDataManager.sharedInstance.getAllRoutes()[(indexPath as NSIndexPath).row]
-        theCell.initWith(theRoute, index: (indexPath as NSIndexPath).row)
+        let theRoute = POIDataManager.sharedInstance.getAllRoutes()[indexPath.row]
+        theCell.initWith(theRoute, index: indexPath.row)
         
         return theCell
     }
@@ -128,7 +128,7 @@ extension RoutesViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         switch editingStyle {
         case .delete:
-            let theRoute = POIDataManager.sharedInstance.getAllRoutes()[(indexPath as NSIndexPath).row]
+            let theRoute = POIDataManager.sharedInstance.getAllRoutes()[indexPath.row]
             POIDataManager.sharedInstance.deleteRoute(theRoute)
             POIDataManager.sharedInstance.commitDatabase()
             theTableView.deleteRows(at: [indexPath], with: .automatic)

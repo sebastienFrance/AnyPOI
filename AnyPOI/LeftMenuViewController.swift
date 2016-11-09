@@ -62,12 +62,12 @@ extension LeftMenuViewController : UITableViewDataSource, UITableViewDelegate {
                 theCell.pinView.animatesDrop = false
                 theCell.pinView.canShowCallout = false
                 theCell.pinView.pinTintColor = ColorsUtils.defaultGroupColor()
-                theCell.menuTitle.text = menuTitles[(indexPath as NSIndexPath).row]
+                theCell.menuTitle.text = menuTitles[indexPath.row]
                 return theCell
             } else {
                 
                 let theCell = theTableView.dequeueReusableCell(withIdentifier: storyboard.LeftMenuCellId, for: indexPath) as! LeftMenuTableViewCell
-                theCell.menuTitle.text = menuTitles[(indexPath as NSIndexPath).row]
+                theCell.menuTitle.text = menuTitles[indexPath.row]
                 
                 switch indexPath.row {
                 case Row.Map:
@@ -94,13 +94,13 @@ extension LeftMenuViewController : UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if (indexPath as NSIndexPath).row == 0 {
+        if indexPath.row == 0 {
             container.showCenterView(.map)
-        } else if (indexPath as NSIndexPath).row == 1 {
+        } else if indexPath.row == 1 {
             container.showCenterView(.poiManager)
-        } else if (indexPath as NSIndexPath).row == 2 {
+        } else if indexPath.row == 2 {
             container.showCenterView(.travels)
-        } else if (indexPath as NSIndexPath).row == 3 {
+        } else if indexPath.row == 3 {
             container.showCenterView(.options)
         }
     }

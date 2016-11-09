@@ -284,8 +284,8 @@ class POIsGroupListViewController: UIViewController, UITableViewDataSource, UITa
     }
 
     fileprivate func getCityNameForIndex(_ indexPath:IndexPath) -> String {
-        if let country = getCountryForIndex((indexPath as NSIndexPath).section) {
-            return getCityNameFromCountry(country, row: (indexPath as NSIndexPath).row)
+        if let country = getCountryForIndex(indexPath.section) {
+            return getCityNameFromCountry(country, row: indexPath.row)
         } else {
             return NSLocalizedString("UnknownCountry", comment: "")
         }
@@ -309,7 +309,7 @@ class POIsGroupListViewController: UIViewController, UITableViewDataSource, UITa
             let theCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier.POIGroupListCellId, for: indexPath) as! POIGroupCell
             
             // build and array with the GroupOdPointOfInterest and extract the value at the index
-            theCell.initWithGroup(filteredGroups[(indexPath as NSIndexPath).row], index:(indexPath as NSIndexPath).row)
+            theCell.initWithGroup(filteredGroups[indexPath.row], index:indexPath.row)
             
             return theCell
         case SectionIndex.monitoredPois:
@@ -360,7 +360,7 @@ class POIsGroupListViewController: UIViewController, UITableViewDataSource, UITa
     
     fileprivate func deletePoiGroup(_ indexPath:IndexPath) {
         theTableView.beginUpdates()
-        POIDataManager.sharedInstance.deleteGroup(group:filteredGroups[(indexPath as NSIndexPath).row])
+        POIDataManager.sharedInstance.deleteGroup(group:filteredGroups[indexPath.row])
         POIDataManager.sharedInstance.commitDatabase()
         filteredGroups = POIDataManager.sharedInstance.getGroups(searchFilter)
         theTableView.deleteRows(at: [indexPath], with: .fade)
@@ -376,9 +376,9 @@ class POIsGroupListViewController: UIViewController, UITableViewDataSource, UITa
     }
     
     fileprivate func deleteRowFromCountriesAndCities(_ indexPath:IndexPath) {
-        if let country = getCountryForIndex((indexPath as NSIndexPath).section) {
+        if let country = getCountryForIndex(indexPath.section) {
          let isoCountryCode = country.ISOCountryCode
-            if (indexPath as NSIndexPath).row == 0 && searchFilter.isEmpty {
+            if indexPath.row == 0 && searchFilter.isEmpty {
                 theTableView.beginUpdates()
                 POIDataManager.sharedInstance.deleteCountryPOIs(isoCountryCode)
                 POIDataManager.sharedInstance.commitDatabase()
@@ -447,8 +447,8 @@ class POIsGroupListViewController: UIViewController, UITableViewDataSource, UITa
     
     
     fileprivate func showCountriesOrCitiesFor(_ indexPath:IndexPath, viewController: POIsViewController) {
-        if let country = getCountryForIndex((indexPath as NSIndexPath).section) {
-            if (indexPath as NSIndexPath).row == 0 && searchFilter.isEmpty {
+        if let country = getCountryForIndex(indexPath.section) {
+            if indexPath.row == 0 && searchFilter.isEmpty {
                 viewController.showCountryPoi(country.ISOCountryCode, name:country.countryName)
             } else {
                 viewController.showCityPoi(getCityNameFromCountry(country, row: indexPath.row))

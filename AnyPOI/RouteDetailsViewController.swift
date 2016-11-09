@@ -68,7 +68,7 @@ class RouteDetailsViewController: UIViewController {
 
     func getSelectedWayPointIndex() -> Int {
         if let indexPath = theTableView.indexPathForSelectedRow {
-            return (indexPath as NSIndexPath).row
+            return indexPath.row
         } else {
             return 0
         }
@@ -191,7 +191,7 @@ extension RouteDetailsViewController: UITableViewDataSource, UITableViewDelegate
                 switch editingStyle {
                 case .delete:
                     theTableView.beginUpdates() // Must be done before performing deletion in model
-                    wayPointsDelegate.deleteWayPointAt((indexPath as NSIndexPath).row)
+                    wayPointsDelegate.deleteWayPointAt(indexPath.row)
                     theTableView.deleteRows(at: [indexPath], with: .automatic)
                     theTableView.endUpdates() // After model update to delete the rows
                 default: break

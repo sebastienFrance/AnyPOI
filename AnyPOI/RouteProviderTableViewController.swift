@@ -224,7 +224,7 @@ extension RouteProviderTableViewController: UITableViewDelegate, UITableViewData
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if (indexPath as NSIndexPath).row == appIndex.Uber {
+        if indexPath.row == appIndex.Uber {
 //            let cell = tableView.dequeueReusableCell(withIdentifier: storyboard.uberCellId, for: indexPath) as! RouteProviderUberTableViewCell
 //            cell.uberView.addSubview(uberButton)
 //            
@@ -233,7 +233,7 @@ extension RouteProviderTableViewController: UITableViewDelegate, UITableViewData
          } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: storyboard.routeProviderWithTransportTypeCellId, for: indexPath) as! RouteProviderWithTransportTypeTableViewCell
             
-            switch (indexPath as NSIndexPath).row {
+            switch indexPath.row {
             case appIndex.AppleMaps:
                 cell.initForAppleMaps(appIndex.AppleMaps)
             case appIndex.GoogleMaps:

@@ -261,8 +261,8 @@ class OptionsViewController: UITableViewController, PasswordConfigurationDelegat
     //MARK: Tableview delegate
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        if (indexPath as NSIndexPath).section == 0 {
-            if (indexPath as NSIndexPath).row == 0 {
+        if indexPath.section == 0 {
+            if indexPath.row == 0 {
                 theMapView.mapType = .standard
             } else {
                 theMapView.mapType = .hybridFlyover

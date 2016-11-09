@@ -161,7 +161,7 @@ extension TodayViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if matchingPOI.count > 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: CellIndentifier.CellPoiAroundPositionId, for: indexPath) as! TodayViewCell
-            cell.initWith(matchingPOI[(indexPath as NSIndexPath).row])
+            cell.initWith(matchingPOI[indexPath.row])
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: CellIndentifier.CellEmptyCellId, for: indexPath)
@@ -183,7 +183,7 @@ extension TodayViewController: UITableViewDataSource, UITableViewDelegate {
             
             // Open AnyPOI App with the selected POI
             
-            if let url = NavigationURL.showPoiOnMapURL(matchingPOI[(indexPath as NSIndexPath).row]) {
+            if let url = NavigationURL.showPoiOnMapURL(matchingPOI[indexPath.row]) {
                 extensionContext?.open(url, completionHandler: nil)
             }
             
