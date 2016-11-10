@@ -137,6 +137,7 @@
 "NamePOIMail"="Name";
 "DescriptionPOIMail"="Description";
 "AddressPOIMail"="Address";
+"CategoryPOIMail"="Category";
 "PhonePOIMail"="Phone";
 "URLPOIMail"="URL";
 "MapPOIMail"="Map";

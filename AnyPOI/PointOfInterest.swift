@@ -523,6 +523,7 @@ extension PointOfInterest {
             "<tr>" +
             "<th>\(NSLocalizedString("NamePOIMail", comment: ""))</th>" +
             "<th>\(NSLocalizedString("DescriptionPOIMail", comment: ""))</th>" +
+            "<th>\(NSLocalizedString("CategoryPOIMail", comment: ""))</th>" +
             "<th>\(NSLocalizedString("AddressPOIMail", comment: ""))</th>" +
             "<th>\(NSLocalizedString("PhonePOIMail", comment: ""))</th>" +
             "<th>\(NSLocalizedString("URLPOIMail", comment: ""))</th>" +
@@ -587,7 +588,8 @@ extension PointOfInterest {
             htmlDescription += "\(description)"
         }
         htmlDescription += "</td>"
-       
+
+        htmlDescription += "<td>\(CategoryUtils.getLabelCategoryForIndex(Int(poiCategory)))</td>"
         htmlDescription += "<td>\(address)</td>"
         
         var phoneNumber:String?
