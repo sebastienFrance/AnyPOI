@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SafariServices
 
 class LeftMenuViewController: UIViewController {
     
@@ -28,10 +29,21 @@ class LeftMenuViewController: UIViewController {
         super.viewDidLoad()
     }
 
+
+    @IBAction func icons8ButtonPushed(_ sender: UIButton) {
+        Utilities.openSafariFrom(self, url: "https://icons8.com", delegate: self)
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+}
+
+extension LeftMenuViewController : SFSafariViewControllerDelegate {
+    func safariViewController(_ controller: SFSafariViewController, didCompleteInitialLoad didLoadSuccessfully: Bool) {
+        // Nothing to do
+    }
+
 }
 
 extension LeftMenuViewController : UITableViewDataSource, UITableViewDelegate {
