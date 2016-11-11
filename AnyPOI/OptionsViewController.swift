@@ -106,9 +106,16 @@ class OptionsViewController: UITableViewController, PasswordConfigurationDelegat
         let distanceFormatter = LengthFormatter()
         distanceFormatter.unitStyle = .short
         let distance = distanceFormatter.string(fromMeters: Double(userPrefs.wikipediaNearByDistance))
-        
-        wikiLanguage.text = "\(NSLocalizedString("LanguageWikipediaOptionVC", comment: "")) \(language)"
-        wikiDistanceAndResults.text = String.localizedStringWithFormat(NSLocalizedString("Range %@, maxResult %@", comment: ""), distance, "\(userPrefs.wikipediaMaxResults)")
+
+        let attributedText = NSMutableAttributedString(string: "\(NSLocalizedString("LanguageWikipediaOptionVC", comment: "")) ")
+        attributedText.append(NSAttributedString(string: language, attributes:[NSForegroundColorAttributeName : UIColor.blue]))
+        wikiLanguage.attributedText = attributedText
+
+        let rangeAndResults = NSMutableAttributedString(string:NSLocalizedString("RangeWikipediaOptionVC", comment: ""))
+        rangeAndResults.append(NSAttributedString(string: "\(distance) ", attributes:[NSForegroundColorAttributeName : UIColor.blue]))
+        rangeAndResults.append(NSAttributedString(string: NSLocalizedString("MaxResultWikipediaOptionVC", comment: "")))
+        rangeAndResults.append(NSAttributedString(string: "\(userPrefs.wikipediaMaxResults)", attributes:[NSForegroundColorAttributeName : UIColor.blue]))
+        wikiDistanceAndResults.attributedText = rangeAndResults
     }
     
     override func viewWillAppear(_ animated: Bool) {

@@ -122,7 +122,8 @@
 "NearByWikipediaOptions"="Near by";
 "MaxResultsWikipediaOptions"="Max results";
 "LanguageWikipediaOptionVC"="Language";
-"Range %@, maxResult %@"="Near by %@ with Max results %@";
+"RangeWikipediaOptionVC"="Near by ";
+"MaxResultWikipediaOptionVC"="with Max results ";
 "Wikipedia Language: %@"="Language %@";
 "LoadingWikipediaPOIDetailsVC"="Loading wikipedia articles...";
 "DeletePOIPoiDetailsVC"="Delete";

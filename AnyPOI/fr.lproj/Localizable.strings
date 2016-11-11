@@ -124,7 +124,8 @@
 "NearByWikipediaOptions"="Distance de";
 "MaxResultsWikipediaOptions"="Nombre résultats";
 "LanguageWikipediaOptionVC"="Langue";
-"Range %@, maxResult %@"="Distance %@ et nb résultats %@";
+"RangeWikipediaOptionVC"="Distance de ";
+"MaxResultWikipediaOptionVC"="et nb resultats ";
 "Wikipedia Language: %@"="Langue %@";
 "LoadingWikipediaPOIDetailsVC"="Chargement des articles de Wikipedia...";
 "DeletePOIPoiDetailsVC"="Supprimer";

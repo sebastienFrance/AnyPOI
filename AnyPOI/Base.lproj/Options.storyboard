@@ -183,7 +183,8 @@
                                                             <rect key="frame" x="0.0" y="0.0" width="339" height="33"/>
                                                             <subviews>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2iZ-K2-671">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="148" height="33"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="174" height="33"/>
+                                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                                     <state key="normal" title="Synchronize contacts"/>
                                                                     <connections>
                                                                         <action selector="synchronizeContacts:" destination="Au7-fF-1Oj" eventType="touchUpInside" id="V6z-yB-KxX"/>
