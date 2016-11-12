@@ -266,6 +266,9 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
             mapAnimation.fromCurrentMapLocationTo(userCoordinate)
         }
     }
+    @IBAction func filterButton(_ sender: UIButton) {
+        sender.setAttributedTitle(NSAttributedString(string: "Filtered", attributes: [NSForegroundColorAttributeName : UIColor.white, NSBackgroundColorAttributeName : self.view.tintColor]), for: .normal)
+    }
     
     @IBAction func exitRouteMode(_ sender: AnyObject) {
         disableRouteMode()
