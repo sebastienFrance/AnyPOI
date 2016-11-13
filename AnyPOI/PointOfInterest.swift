@@ -105,7 +105,7 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
     var categoryIcon:UIImage? {
         get {
             if CategoryUtils.EmptyCategoryIndex != Int(poiCategory) {
-                return CategoryUtils.getIconCategoryForIndex(Int(poiCategory))
+                return CategoryUtils.getIcon(index:Int(poiCategory))
             } else {
                 return nil
             }
@@ -190,7 +190,7 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
         
         let categoryIndex = Int(poiCategory)
         if categoryIndex != CategoryUtils.EmptyCategoryIndex {
-            keywords.append(CategoryUtils.getLabelCategoryForIndex(Int(categoryIndex)))
+            keywords.append(CategoryUtils.getLabel(index:Int(categoryIndex)))
         }
         
         attributeSet.keywords = keywords
@@ -589,7 +589,7 @@ extension PointOfInterest {
         }
         htmlDescription += "</td>"
 
-        htmlDescription += "<td>\(CategoryUtils.getLabelCategoryForIndex(Int(poiCategory)))</td>"
+        htmlDescription += "<td>\(CategoryUtils.getLabel(index:Int(poiCategory)))</td>"
         htmlDescription += "<td>\(address)</td>"
         
         var phoneNumber:String?

@@ -21,6 +21,8 @@ class MapFilterViewController: UIViewController {
             }
         }
     }
+    
+    let filter = MapFilter()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,24 +44,32 @@ extension MapFilterViewController : UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return CategoryUtils.getCategoryCount()
+        return CategoryUtils.getCount()
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: storyboard.categoryCellId, for: indexPath) as! MapFilterCategoryTableViewCell
-        let (image, label) = CategoryUtils.getCategoryForIndex(indexPath.row)
+        let (image, label) = CategoryUtils.getIconAndLabel(index:indexPath.row)
         cell.categoryImage.image = image
         cell.categoryLabel.text = label
+        
+        if filter.isFiletered(category: Int16(indexPath.row)) {
+            cell.accessoryType = .none
+        } else {
+            cell.accessoryType = .checkmark
+        }
 
         return cell
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-         let cell = theTableView.cellForRow(at: indexPath)
-        if let accessory = cell?.accessoryType, accessory == .checkmark {
-            cell?.accessoryType = .none
-        } else {
+        let cell = theTableView.cellForRow(at: indexPath)
+        if filter.isFiletered(category: Int16(indexPath.row)) {
+            filter.remove(category: Int16(indexPath.row))
             cell?.accessoryType = .checkmark
+        } else {
+            filter.add(category: Int16(indexPath.row))
+            cell?.accessoryType = .none
         }
     }
 }

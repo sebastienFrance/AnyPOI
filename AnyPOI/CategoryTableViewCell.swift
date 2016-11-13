@@ -18,9 +18,9 @@ class CategoryTableViewCell: UITableViewCell {
             categoryLabel?.text = NSLocalizedString("NoCategoryCategoryTableViewCell", comment: "")
             categoryImageStackView.isHidden = true
         } else {
-            categoryLabel?.text = "\(CategoryUtils.getLabelCategoryForIndex(newCategory))"
+            categoryLabel?.text = "\(CategoryUtils.getLabel(index:newCategory))"
             categoryImageStackView.isHidden = false
-            categoryImage.image = CategoryUtils.getIconCategoryForIndex(newCategory)
+            categoryImage.image = CategoryUtils.getIcon(index:newCategory)
             
         }
     }

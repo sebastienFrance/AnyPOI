@@ -68,12 +68,12 @@ class CategoryUtils {
         fileprivate static let image = UIImage(named: "Wikipedia-40")
     }
     
-    static func getCategoryCount() -> Int {
+    static func getCount() -> Int {
         return CategoryUtils.categoryIcons.count
     }
     
-    static func getCategoryForIndex(_ index:Int) -> (icon:UIImage?, label:String?) {
-        if case 0 ..< getCategoryCount() = index {
+    static func getIconAndLabel(index:Int) -> (icon:UIImage?, label:String?) {
+        if case 0 ..< getCount() = index {
             return (UIImage(named: CategoryUtils.categoryIcons[index]), CategoryUtils.categoryFromIcons[CategoryUtils.categoryIcons[index]])
         } else {
             if index == Wikipedia.categoryIndex {
@@ -84,8 +84,8 @@ class CategoryUtils {
         }
     }
     
-    static func getIconCategoryForIndex(_ index:Int) -> UIImage? {
-        if case 0 ..< getCategoryCount() = index {
+    static func getIcon(index:Int) -> UIImage? {
+        if case 0 ..< getCount() = index {
             return UIImage(named: CategoryUtils.categoryIcons[index])
         } else  if index == Wikipedia.categoryIndex {
             return Wikipedia.image
@@ -94,8 +94,8 @@ class CategoryUtils {
         }
     }
     
-    static func getLabelCategoryForIndex(_ index:Int) -> String {
-        if case 0 ..< getCategoryCount() = index {
+    static func getLabel(index:Int) -> String {
+        if case 0 ..< getCount() = index {
             return CategoryUtils.categoryFromIcons[CategoryUtils.categoryIcons[index]]!
         } else if index == Wikipedia.categoryIndex {
             return Wikipedia.label
@@ -104,7 +104,7 @@ class CategoryUtils {
         }
     }
     
-    static func getAllCategoriesLabel() -> [String] {
+    static func getAllLabels() -> [String] {
         var categories = [String]()
         for category in categoryIcons {
             categories.append(CategoryUtils.categoryFromIcons[category]!)

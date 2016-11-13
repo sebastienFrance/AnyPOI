@@ -62,7 +62,7 @@ class PickerViewCell: UITableViewCell, UIPickerViewDataSource, UIPickerViewDeleg
         if categoryView == nil {
             let nib = UINib(nibName: Storyboard.pickerCategoryView, bundle: nil)
             categoryView = nib.instantiate(withOwner: nil, options: nil)[0] as? PickerCategoryView
-            (categoryView!.categoryImage.image, categoryView!.categoryLabel.text) = CategoryUtils.getCategoryForIndex(row)
+            (categoryView!.categoryImage.image, categoryView!.categoryLabel.text) = CategoryUtils.getIconAndLabel(index:row)
         }
         return categoryView!
     }

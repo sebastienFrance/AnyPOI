@@ -154,6 +154,7 @@
 		BED83BDC1DC8DBFF0025349E /* ImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED83BDB1DC8DBFF0025349E /* ImageCollectionViewCell.swift */; };
 		BED83BDE1DC8DC140025349E /* VideoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED83BDD1DC8DC140025349E /* VideoCollectionViewCell.swift */; };
 		BEDC10541D97D4D1000C6A0D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BEDC10561D97D4D1000C6A0D /* InfoPlist.strings */; };
+		BEF580AB1DD8777D00306597 /* MapFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF580AA1DD8777D00306597 /* MapFilter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -351,6 +352,7 @@
 		BED83BDD1DC8DC140025349E /* VideoCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoCollectionViewCell.swift; sourceTree = "<group>"; };
 		BEDC10551D97D4D1000C6A0D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		BEDC10571D97D4D7000C6A0D /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		BEF580AA1DD8777D00306597 /* MapFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapFilter.swift; sourceTree = "<group>"; };
 		C69B0EFCEBF29F5E7437465D /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -412,8 +414,8 @@
 				BE98340D1D8D595000B174A7 /* Shared */,
 				BE2FF2CE1D8B284F00C0395A /* Storyboards */,
 				BE3A14451D8B233E002549D0 /* dataModel */,
-				BE2FF2CF1D8B296100C0395A /* Utilities */,
 				BE2FF2D01D8B299A00C0395A /* Database */,
+				BE2FF2CF1D8B296100C0395A /* Utilities */,
 				BE2FF2E31D8B316200C0395A /* ContainerVC */,
 				BEA7BA9E1D8B01E5005D2D21 /* AppDelegate.swift */,
 				BE2FF2E41D8B317F00C0395A /* Rsc */,
@@ -426,6 +428,7 @@
 			children = (
 				BE107D8E1DD72898008B09A1 /* MapFilterViewController.swift */,
 				BE107D901DD728C0008B09A1 /* MapFilterCategoryTableViewCell.swift */,
+				BEF580AA1DD8777D00306597 /* MapFilter.swift */,
 			);
 			name = MapFilter;
 			sourceTree = "<group>";
@@ -1188,6 +1191,7 @@
 				BE107D8F1DD72898008B09A1 /* MapFilterViewController.swift in Sources */,
 				BE982D0E1DD233E500C7941A /* PoisMailActivityItemSource.swift in Sources */,
 				BE0CF3111D8B209A00344F8A /* GroupConfiguratorViewController.swift in Sources */,
+				BEF580AB1DD8777D00306597 /* MapFilter.swift in Sources */,
 				BE0CF31A1D8B209A00344F8A /* PoiEditorViewController.swift in Sources */,
 				BE0CF3161D8B209A00344F8A /* MovePOIsTableViewCell.swift in Sources */,
 				BE0CF3051D8B209A00344F8A /* MapViewController.swift in Sources */,

@@ -368,9 +368,9 @@ extension PoiEditorViewController: UITableViewDataSource, UITableViewDelegate {
         if isPickerDisplayed {
             if row == 3 && pickerIndex == row {
                 let pickerCell = theTableView.dequeueReusableCell(withIdentifier: cellIdentifier.cellPickerId, for: indexPath) as! PickerViewCell
-                pickerCell.values = CategoryUtils.getAllCategoriesLabel()
+                pickerCell.values = CategoryUtils.getAllLabels()
                 pickerCell.delegate = self
-                pickerCell.setInitialValue(CategoryUtils.getLabelCategoryForIndex(Int(thePoi.poiCategory)))
+                pickerCell.setInitialValue(CategoryUtils.getLabel(index:Int(thePoi.poiCategory)))
                 return pickerCell
             } else if row == 4 && pickerIndex == row {
                 let pickerCell = theTableView.dequeueReusableCell(withIdentifier: cellIdentifier.cellGroupPickerId, for: indexPath) as! GroupPickerViewCell
