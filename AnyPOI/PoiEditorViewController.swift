@@ -48,7 +48,7 @@ class PoiEditorViewController: UIViewController {
             newRegionEnter = thePoi.poiRegionNotifyEnter
             newRegionExit = thePoi.poiRegionNotifyExit
             newRadius = thePoi.poiRegionRadius
-            newCategory = Int(thePoi.poiCategory)
+            newCategory = thePoi.category
             newParentGroup = thePoi.parentGroup
             newDisplayName = thePoi.poiDisplayName
             newDescription = thePoi.poiDescription
@@ -58,20 +58,21 @@ class PoiEditorViewController: UIViewController {
     fileprivate var newRegionEnter:Bool!
     fileprivate var newRegionExit:Bool!
     fileprivate var newRadius:Double!
-    fileprivate var newCategory:Int!
     fileprivate var newParentGroup:GroupOfInterest?
     fileprivate var newDisplayName:String!
     fileprivate var newDescription:String!
+    
+    fileprivate var newCategory:CategoryUtils.Category!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         loadMapSnapshot()
     }
 
-    func pickerViewUpdated(_ picker:PickerViewCell, selectedRowIndex:Int) {
+    func pickerViewUpdated(_ picker:PickerViewCell, selectedCategory:CategoryUtils.Category) {
         let theCell = theTableView.cellForRow(at: IndexPath(row: pickerIndex - 1, section: 0)) as! CategoryTableViewCell
-        newCategory = selectedRowIndex
-        theCell.initWithCategory(newCategory)
+        newCategory = selectedCategory
+        theCell.initWith(category:selectedCategory)
     }
     
     func pickerGroupViewUpdated(_ picker:GroupPickerViewCell, selectedRowIndex:Int) {
@@ -87,7 +88,9 @@ class PoiEditorViewController: UIViewController {
         // Save the new value in database
         thePoi.title = newDisplayName
         thePoi.poiDescription = newDescription
-        thePoi.poiCategory = Int16(newCategory)
+        thePoi.poiCategory = newCategory.categoryId
+        thePoi.poiGroupCategory = newCategory.groupCategory
+        
         thePoi.parentGroup = newParentGroup
         
         POIDataManager.sharedInstance.updatePOI(thePoi)
@@ -367,11 +370,12 @@ extension PoiEditorViewController: UITableViewDataSource, UITableViewDelegate {
         var row = indexPath.row
         if isPickerDisplayed {
             if row == 3 && pickerIndex == row {
-                let pickerCell = theTableView.dequeueReusableCell(withIdentifier: cellIdentifier.cellPickerId, for: indexPath) as! PickerViewCell
-                pickerCell.values = CategoryUtils.getAllLabels()
-                pickerCell.delegate = self
-                pickerCell.setInitialValue(CategoryUtils.getLabel(index:Int(thePoi.poiCategory)))
-                return pickerCell
+                let pickerCategoryCell = theTableView.dequeueReusableCell(withIdentifier: cellIdentifier.cellPickerId, for: indexPath) as! PickerViewCell
+                //pickerCategoryCell.values = CategoryUtils.getAllLabels()
+                pickerCategoryCell.delegate = self
+                //pickerCategoryCell.setInitialValue(CategoryUtils.getLabel(index:Int(thePoi.poiCategory)))
+                pickerCategoryCell.initWith(poi: thePoi)
+                return pickerCategoryCell
             } else if row == 4 && pickerIndex == row {
                 let pickerCell = theTableView.dequeueReusableCell(withIdentifier: cellIdentifier.cellGroupPickerId, for: indexPath) as! GroupPickerViewCell
                 
@@ -410,7 +414,7 @@ extension PoiEditorViewController: UITableViewDataSource, UITableViewDelegate {
             return theCell
         case .poiCategory:
             let theCell = theTableView.dequeueReusableCell(withIdentifier: cellIdentifier.cellCategoryId, for: indexPath) as! CategoryTableViewCell
-            theCell.initWithCategory(newCategory)
+            theCell.initWith(category: newCategory)
 
             return theCell
         case .poiGroup:

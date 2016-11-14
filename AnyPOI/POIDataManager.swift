@@ -448,12 +448,12 @@ class POIDataManager {
     }
 
 
-    
+    //SEB: TBC Category
     func findPOI(_ searchText:String, category:Int) -> [PointOfInterest] {
         let managedContext = DatabaseAccess.sharedInstance.managedObjectContext
         let fetchRequest = NSFetchRequest<PointOfInterest>(entityName: entitiesCste.pointOfInterest)
         
-        if category == CategoryUtils.EmptyCategoryIndex {
+        if category == Int(CategoryUtils.defaultGroupCategory.categoryId) {
             fetchRequest.predicate = NSPredicate(format: "poiDisplayName CONTAINS[cd] %@", searchText)
         } else {
             fetchRequest.predicate = NSPredicate(format: "poiDisplayName CONTAINS[cd] %@ AND poiCategory == %d", searchText, category)

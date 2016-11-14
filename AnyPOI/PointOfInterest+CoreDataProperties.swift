@@ -2,7 +2,7 @@
 //  PointOfInterest+CoreDataProperties.swift
 //  AnyPOI
 //
-//  Created by Sébastien Brugalières on 15/10/2016.
+//  Created by Sébastien Brugalières on 13/11/2016.
 //  Copyright © 2016 Sébastien Brugalières. All rights reserved.
 //
 
@@ -36,6 +36,7 @@ extension PointOfInterest {
     @NSManaged public var poiRegionRadius: Double
     @NSManaged public var poiURL: String?
     @NSManaged public var poiWikipediaPageId: Int64
+    @NSManaged public var poiGroupCategory: Int16
     @NSManaged public var parentGroup: GroupOfInterest?
     @NSManaged public var poiWayPoints: NSSet?
 

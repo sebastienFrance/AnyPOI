@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PickerViewCell: UITableViewCell, UIPickerViewDataSource, UIPickerViewDelegate {
+class PickerViewCell: UITableViewCell  {
 
     @IBOutlet weak var thePickerView: UIPickerView! {
         didSet {
@@ -19,38 +19,37 @@ class PickerViewCell: UITableViewCell, UIPickerViewDataSource, UIPickerViewDeleg
         }
     }
     
-    var values = [String]()
     weak var delegate:PoiEditorViewController!
+    
+    func initWith(poi:PointOfInterest) {
+        if let index = CategoryUtils.getIndexFor(groupCategoryId: poi.poiGroupCategory, categoryId: poi.poiCategory) {
+            thePickerView.selectRow(index, inComponent:0, animated:false)
+        } else {
+            thePickerView.selectRow(0, inComponent:0, animated:false)
 
-    func setInitialValue(_ value:String) {
-        for index in 0..<values.count {
-            if value == values[index] {
-                thePickerView.selectRow(index, inComponent: 0, animated: false)
-            }
         }
     }
+}
 
-    func getSelectedValue() -> String {
-        let index = thePickerView.selectedRow(inComponent: 0)
-        return values[index]
-    }
-    
+extension PickerViewCell : UIPickerViewDataSource, UIPickerViewDelegate {
     //MARK: UIPickerViewDataSource
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return values.count
+        return CategoryUtils.getCount()
     }
     
     //MARK: UIPickerViewDelegate
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return values[row]
+        return CategoryUtils.getAllLabels()[row]
     }
 
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        delegate.pickerViewUpdated(self, selectedRowIndex:row)
+        if let selectedCategory = CategoryUtils.getCategory(index:row) {
+            delegate.pickerViewUpdated(self, selectedCategory:selectedCategory)
+        }
     }
     
     fileprivate struct Storyboard {

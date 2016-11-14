@@ -32,6 +32,7 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
         static let parentGroup = "parentGroup"
         static let poiPlacemark = "poiPlacemark"
         static let poiCategory = "poiCategory"
+        static let poiGroupCategory = "poiGroupCategory"
         static let poiLatitude = "poiLatitude"
         static let poiLongitude = "poiLongitude"
         static let poiContactIdentifier = "poiContactIdentifier"
@@ -102,13 +103,15 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
         }
     }
     
-    var categoryIcon:UIImage? {
+    var category:CategoryUtils.Category! {
         get {
-            if CategoryUtils.EmptyCategoryIndex != Int(poiCategory) {
-                return CategoryUtils.getIcon(index:Int(poiCategory))
-            } else {
-                return nil
-            }
+            return CategoryUtils.getCategory(poi: self)
+        }
+    }
+    //SEB: TBC Category
+   var categoryIcon:UIImage? {
+        get {
+            return category.icon
         }
     }
     
@@ -152,108 +155,6 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
     fileprivate var monitoredRegion:MKOverlay?
     
     
-    // This method is called at every commit (update, delete or create)
-    override func didSave() {
-        if isDeleted {
-            // Poi is deleted, we must unregister it from Spotlight
-            removeFromSpotLight()
-        } else {
-            // Poi is updated or created, we need to update its properties in Spotlight
-            updateInSpotLight()
-        }
-    }
-    
-    var attributeSetForSearch : CSSearchableItemAttributeSet {
-        let attributeSet = CSSearchableItemAttributeSet(itemContentType: kUTTypeData as String)
-        // Add metadata that supplies details about the item.
-        attributeSet.title = poiDisplayName!
-        
-        // The contentDescription is set with the Poi description if configured
-        // otherwise it's configured with the Poi Address
-        if let thePoiDescription = poiDescription , thePoiDescription.characters.count > 0 {
-            attributeSet.contentDescription = thePoiDescription
-        } else {
-            // Put the address
-            attributeSet.contentDescription = address
-        }
-        
-        // Add keywords that will contains:
-        // - All words from the display name
-        // - The Category if not empty
-        let subStringFromDisplayName = poiDisplayName!.characters.split(separator: " ")
-        var keywords = [String]()
-        for currentString in subStringFromDisplayName {
-            if currentString.count > 1 {
-                keywords.append(String(currentString))
-            }
-        }
-        
-        let categoryIndex = Int(poiCategory)
-        if categoryIndex != CategoryUtils.EmptyCategoryIndex {
-            keywords.append(CategoryUtils.getLabel(index:Int(categoryIndex)))
-        }
-        
-        attributeSet.keywords = keywords
-        
-        
-        // It Seems SupportsNavigation & supportsPhoneCall are mutually exclusives!
-        
-        // Set the Location
-        attributeSet.supportsNavigation = 1
-        attributeSet.latitude = coordinate.latitude as NSNumber?
-        attributeSet.longitude = coordinate.longitude as NSNumber?
-        
-        // Set the PhoneNumber & Image
-        // If the Poi is the contact we extract the PhoneNumber from the Contact sheet
-        // else we get the one that is registered in the database (if any)
-        //
-        // Same is done for the Image
-        if poiIsContact,
-            let contactId = poiContactIdentifier {
-            if let contact = ContactsUtilities.getContactForDetailedDescription(contactId) {
-                
-                if let phoneNumber = ContactsUtilities.extractPhoneNumber(contact) {
-                    attributeSet.supportsPhoneCall = 1
-                    attributeSet.phoneNumbers = [phoneNumber.stringValue]
-                }
-                attributeSet.thumbnailData = ContactsUtilities.getThumbailImageDataFor(contactId)
-            }
-        } else {
-            if let phoneNumber = poiPhoneNumber {
-                attributeSet.supportsPhoneCall = 1
-                attributeSet.phoneNumbers = [phoneNumber]
-            }
-            if let icon = categoryIcon {
-                attributeSet.thumbnailData = UIImagePNGRepresentation(icon)
-            }
-        }
-        return attributeSet
-    }
-    
-    // Add or Update the Poi in Spotlight
-    fileprivate func updateInSpotLight() {
-    
-        // Create an item with a unique identifier, a domain identifier, and the attribute set you created earlier.
-        let item = CSSearchableItem(uniqueIdentifier: objectID.uriRepresentation().absoluteString, domainIdentifier: "POI", attributeSet: attributeSetForSearch)
-        
-        // Add the item to the on-device index.
-        CSSearchableIndex.default().indexSearchableItems([item]) { error in
-            if let theError = error {
-                print("\(#function) error with \(theError.localizedDescription)")
-            }
-        }
-    }
-    
-    func removeFromSpotLight() {
-        let URI = objectID.uriRepresentation().absoluteString
-        CSSearchableIndex.default().deleteSearchableItems(withIdentifiers: [URI]) { error in
-            if let theError = error {
-                print("\(#function) Error Poi \(self.poiDisplayName!) cannot be removed from Spotlightn, error: \(theError.localizedDescription)")
-            }
-        }
-    }
-    
-    
 
     func getMonitordRegionOverlay() -> MKOverlay? {
         if monitoredRegion == nil {
@@ -280,7 +181,8 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
         isPrivate = false
         
         poiIsContact = false
-        poiCategory = Int16(CategoryUtils.EmptyCategoryIndex)
+        poiGroupCategory = CategoryUtils.defaultGroupCategory.groupCategory
+        poiCategory = CategoryUtils.defaultGroupCategory.categoryId
        
         coordinate = coordinates
         title = constants.emptyTitle
@@ -303,7 +205,8 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
         poiContactLatestAddress = CNPostalAddressFormatter().string(from: contact.postalAddresses[0].value )
         
         isPrivate = false
-        poiCategory  = Int16(CategoryUtils.EmptyCategoryIndex)
+        poiGroupCategory = CategoryUtils.defaultGroupCategory.groupCategory
+        poiCategory  = CategoryUtils.defaultGroupCategory.categoryId
         
         coordinate = placemark.location!.coordinate
         
@@ -353,7 +256,8 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
         
         isPrivate = false
         poiIsContact = false
-        poiCategory = Int16(CategoryUtils.Wikipedia.categoryIndex)
+        poiGroupCategory = CategoryUtils.wikipediaCategory.groupCategory
+        poiCategory = CategoryUtils.wikipediaCategory.categoryId
         
         coordinate = wikipedia.coordinates
         
@@ -375,6 +279,7 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
 
         isPrivate = false
         poiIsContact = false
+        // SEB: TBC Category
         poiCategory = Int16(categoryIndex)
         
         coordinate = mapItem.placemark.coordinate
@@ -666,6 +571,112 @@ extension PointOfInterest {
         
         
         return stringDescription
+    }
+
+}
+
+// Extension to support SpotLight
+extension PointOfInterest {
+    // This method is called at every commit (update, delete or create)
+    override func didSave() {
+        if isDeleted {
+            // Poi is deleted, we must unregister it from Spotlight
+            removeFromSpotLight()
+        } else {
+            // Poi is updated or created, we need to update its properties in Spotlight
+            updateInSpotLight()
+        }
+    }
+    
+    var attributeSetForSearch : CSSearchableItemAttributeSet {
+        let attributeSet = CSSearchableItemAttributeSet(itemContentType: kUTTypeData as String)
+        // Add metadata that supplies details about the item.
+        attributeSet.title = poiDisplayName!
+        
+        // The contentDescription is set with the Poi description if configured
+        // otherwise it's configured with the Poi Address
+        if let thePoiDescription = poiDescription , thePoiDescription.characters.count > 0 {
+            attributeSet.contentDescription = thePoiDescription
+        } else {
+            // Put the address
+            attributeSet.contentDescription = address
+        }
+        
+        // Add keywords that will contains:
+        // - All words from the display name
+        // - The Category if not empty
+        let subStringFromDisplayName = poiDisplayName!.characters.split(separator: " ")
+        var keywords = [String]()
+        for currentString in subStringFromDisplayName {
+            if currentString.count > 1 {
+                keywords.append(String(currentString))
+            }
+        }
+        
+        //SEB: TBC Category
+        let categoryIndex = poiCategory
+        if categoryIndex != CategoryUtils.defaultGroupCategory.categoryId {
+            keywords.append(CategoryUtils.getLabel(index:Int(categoryIndex)))
+        }
+        
+        attributeSet.keywords = keywords
+        
+        
+        // It Seems SupportsNavigation & supportsPhoneCall are mutually exclusives!
+        
+        // Set the Location
+        attributeSet.supportsNavigation = 1
+        attributeSet.latitude = coordinate.latitude as NSNumber?
+        attributeSet.longitude = coordinate.longitude as NSNumber?
+        
+        // Set the PhoneNumber & Image
+        // If the Poi is the contact we extract the PhoneNumber from the Contact sheet
+        // else we get the one that is registered in the database (if any)
+        //
+        // Same is done for the Image
+        if poiIsContact,
+            let contactId = poiContactIdentifier {
+            if let contact = ContactsUtilities.getContactForDetailedDescription(contactId) {
+                
+                if let phoneNumber = ContactsUtilities.extractPhoneNumber(contact) {
+                    attributeSet.supportsPhoneCall = 1
+                    attributeSet.phoneNumbers = [phoneNumber.stringValue]
+                }
+                attributeSet.thumbnailData = ContactsUtilities.getThumbailImageDataFor(contactId)
+            }
+        } else {
+            if let phoneNumber = poiPhoneNumber {
+                attributeSet.supportsPhoneCall = 1
+                attributeSet.phoneNumbers = [phoneNumber]
+            }
+            if let icon = categoryIcon {
+                attributeSet.thumbnailData = UIImagePNGRepresentation(icon)
+            }
+        }
+        return attributeSet
+    }
+    
+    // Add or Update the Poi in Spotlight
+    fileprivate func updateInSpotLight() {
+        
+        // Create an item with a unique identifier, a domain identifier, and the attribute set you created earlier.
+        let item = CSSearchableItem(uniqueIdentifier: objectID.uriRepresentation().absoluteString, domainIdentifier: "POI", attributeSet: attributeSetForSearch)
+        
+        // Add the item to the on-device index.
+        CSSearchableIndex.default().indexSearchableItems([item]) { error in
+            if let theError = error {
+                print("\(#function) error with \(theError.localizedDescription)")
+            }
+        }
+    }
+    
+    func removeFromSpotLight() {
+        let URI = objectID.uriRepresentation().absoluteString
+        CSSearchableIndex.default().deleteSearchableItems(withIdentifiers: [URI]) { error in
+            if let theError = error {
+                print("\(#function) Error Poi \(self.poiDisplayName!) cannot be removed from Spotlightn, error: \(theError.localizedDescription)")
+            }
+        }
     }
 
 }
