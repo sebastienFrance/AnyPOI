@@ -23,6 +23,7 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
     
     struct constants {
         static let emptyTitle  = "No Name"
+        static let invalidWikipediaPage = Int64(-1)
     }
 
     struct properties {
@@ -37,6 +38,31 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
         static let poiLongitude = "poiLongitude"
         static let poiContactIdentifier = "poiContactIdentifier"
     }
+    
+    var imageForType:UIImage {
+        get {
+            if poiIsContact {
+                return #imageLiteral(resourceName: "Contacts-70")
+            } else if poiWikipediaPageId != constants.invalidWikipediaPage {
+                return #imageLiteral(resourceName: "Wikipedia-70")
+            } else {
+                return #imageLiteral(resourceName: "Pin-70")
+            }
+        }
+    }
+    
+    var smallImageForType:UIImage {
+        get {
+            if poiIsContact {
+                return #imageLiteral(resourceName: "Contacts-40")
+            } else if poiWikipediaPageId != constants.invalidWikipediaPage {
+                return #imageLiteral(resourceName: "Wikipedia-40")
+            } else {
+                return #imageLiteral(resourceName: "Pin-40")
+            }
+        }
+    }
+
     
     // Title is always equals to poiDisplayName stored in Database
     dynamic var title: String? {
@@ -190,7 +216,7 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
         
         getPlacemark()
         
-        poiWikipediaPageId = -1
+        poiWikipediaPageId = constants.invalidWikipediaPage
         findWikipedia()
         
         parentGroup = POIDataManager.sharedInstance.getDefaultGroup()
@@ -217,7 +243,7 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
         }
         
         initializePlacemarks(placemark)
-        poiWikipediaPageId = -1
+        poiWikipediaPageId = constants.invalidWikipediaPage
         
         parentGroup = POIDataManager.sharedInstance.getDefaultContactGroup()
         initRegionMonitoring()
@@ -296,7 +322,7 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
         
         initializePlacemarks(mapItem.placemark)
         
-        poiWikipediaPageId = -1
+        poiWikipediaPageId = constants.invalidWikipediaPage
         findWikipedia()
         
         parentGroup = POIDataManager.sharedInstance.getDefaultGroup()

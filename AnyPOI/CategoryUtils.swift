@@ -10,8 +10,8 @@ import UIKit
 
 class CategoryUtils {
     
-     static let defaultGroupCategory = Category(groupCategory: GroupId.defaultGroupId, categoryId: CategoryId.defaultGroup.questionMarkId, icon: #imageLiteral(resourceName: "Contacts-40"), localizedString: NSLocalizedString("CategoryLabelUnknown", comment: ""))
-     static let contactCategory = Category(groupCategory: GroupId.defaultGroupId, categoryId: CategoryId.defaultGroup.contactId, icon: #imageLiteral(resourceName: "Question Mark-40"), localizedString: "Contact")
+     static let defaultGroupCategory = Category(groupCategory: GroupId.defaultGroupId, categoryId: CategoryId.defaultGroup.questionMarkId, icon: #imageLiteral(resourceName: "Question Mark-40"), localizedString: NSLocalizedString("CategoryLabelUnknown", comment: ""))
+     static let contactCategory = Category(groupCategory: GroupId.defaultGroupId, categoryId: CategoryId.defaultGroup.contactId, icon: #imageLiteral(resourceName: "Contacts-40"), localizedString: "Contact")
      static let wikipediaCategory = Category(groupCategory: GroupId.defaultGroupId, categoryId: CategoryId.defaultGroup.wikipediaId, icon: #imageLiteral(resourceName: "Wikipedia-40"), localizedString: "Wikipedia")
     
     fileprivate struct GroupId {
@@ -93,7 +93,6 @@ class CategoryUtils {
         wikipediaCategory,
         Category(groupCategory: GroupId.cultureId, categoryId: CategoryId.culture.movieId, icon: #imageLiteral(resourceName: "Movie-40"), localizedString:  NSLocalizedString("CategoryLabelTheater", comment: "")),
         Category(groupCategory: GroupId.cultureId, categoryId: CategoryId.culture.museumId, icon: #imageLiteral(resourceName: "Museum-40"), localizedString:  NSLocalizedString("CategoryLabelMuseum", comment: "")),
-        Category(groupCategory: GroupId.cultureId, categoryId: CategoryId.culture.theatreId, icon: #imageLiteral(resourceName: "Theatre Mask-40"), localizedString:  NSLocalizedString("CategoryLabelOpera", comment: "")),
         Category(groupCategory: GroupId.dailyLifeId, categoryId: CategoryId.dailyLife.barId, icon: #imageLiteral(resourceName: "Theatre Mask-40"), localizedString:  NSLocalizedString("CategoryLabelOpera", comment: "")),
         Category(groupCategory: GroupId.dailyLifeId, categoryId: CategoryId.dailyLife.coffeeId, icon: #imageLiteral(resourceName: "Cup-40"), localizedString:  NSLocalizedString("CategoryLabelCoffee", comment: "")),
         Category(groupCategory: GroupId.dailyLifeId, categoryId: CategoryId.dailyLife.pizzaId, icon: #imageLiteral(resourceName: "Pizza-40"), localizedString:  NSLocalizedString("CategoryLabelPizzeria", comment: "")),

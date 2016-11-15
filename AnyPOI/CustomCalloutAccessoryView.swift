@@ -17,7 +17,7 @@ class CustomCalloutAccessoryView: UIView {
 
     @IBOutlet weak var categoryImageWidthConstraint: NSLayoutConstraint!
     @IBOutlet weak var addressLabel: UILabel!
-    @IBOutlet weak var zoomButton: UIButton!
+    @IBOutlet weak var flyoverButton: UIButton!
     @IBOutlet weak var routeButton: UIButton!
     @IBOutlet weak var startStopMonitoring: UIButton!
     @IBOutlet weak var webSiteButton: UIButton!
@@ -38,7 +38,7 @@ class CustomCalloutAccessoryView: UIView {
     func initWith(_ poi:PointOfInterest, delegate:PoiCalloutDelegate) {
         
         // Delegate will never change, it can be initialized once for all
-        zoomButton.addTarget(delegate, action: #selector(PoiCalloutDelegate.zoomOnPoi(_:)), for: .touchUpInside)
+        flyoverButton.addTarget(delegate, action: #selector(PoiCalloutDelegate.zoomOnPoi(_:)), for: .touchUpInside)
         routeButton.addTarget(delegate, action: #selector(PoiCalloutDelegate.startRoute(_:)), for: .touchUpInside)
         startStopMonitoring.addTarget(delegate, action: #selector(PoiCalloutDelegate.startOrStopMonitoring(_:)), for: .touchUpInside)
         phoneButton.addTarget(delegate, action: #selector(PoiCalloutDelegate.startPhoneCall(_:)), for: .touchUpInside)

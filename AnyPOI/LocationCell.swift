@@ -14,8 +14,6 @@ class LocationCell: UITableViewCell {
 
     @IBOutlet weak var addressTextView: UITextView!
     @IBOutlet weak var poiCategoryImage: UIImageView!
-    @IBOutlet weak var poiCategoryHeight: NSLayoutConstraint!
-    @IBOutlet weak var poiCategoryWidth: NSLayoutConstraint!
 
     @IBOutlet weak var groupName: UILabel!
     @IBOutlet weak var poiDescription: UILabel!
@@ -31,7 +29,9 @@ class LocationCell: UITableViewCell {
     func buildWith(_ poi:PointOfInterest) {
         configureGeneralInfo(poi)
         
-        poiCategoryImage.isHidden = true
+        poiCategoryImage.image = poi.imageForType
+
+        
         showContactDetailsButton.isHidden = true
         
         mailButton.isEnabled = false
@@ -55,7 +55,7 @@ class LocationCell: UITableViewCell {
         configureGeneralInfo(poi)
         configurePhone(contact)
         configureURL(ContactsUtilities.extractURL(contact))
-        configureThumbail(contact)
+        configureThumbail(poi:poi, contact:contact)
         configureEmail(contact)
         showContactDetailsButton.isHidden = false
         configureCategory(poi:poi)
@@ -86,18 +86,11 @@ class LocationCell: UITableViewCell {
         
     }
 
-    fileprivate func configureThumbail(_ contact:CNContact) {
-        if contact.imageDataAvailable {
-            if let thumbail = contact.thumbnailImageData {
-                poiCategoryImage.isHidden = false
-                poiCategoryImage.image = UIImage(data: thumbail)
-                poiCategoryWidth.constant = 70
-                poiCategoryHeight.constant = 70
-            } else {
-                poiCategoryImage.isHidden = true
-            }
+    fileprivate func configureThumbail(poi:PointOfInterest, contact:CNContact) {
+        if contact.imageDataAvailable, let thumbail = contact.thumbnailImageData {
+            poiCategoryImage.image = UIImage(data: thumbail)
         } else {
-            poiCategoryImage.isHidden = true
+            poiCategoryImage.image = poi.imageForType
         }
     }
     
