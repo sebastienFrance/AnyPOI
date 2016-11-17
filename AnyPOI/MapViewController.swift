@@ -430,7 +430,7 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
         mySearchController.delegate = self
         
         //FIXEDME: 😡😡⚡️⚡️
-        mySearchController.displayRoutes = true
+       // mySearchController.displayRoutes = true
         
         // Configure the UISearchController
         theSearchController!.searchResultsUpdater = self
@@ -996,10 +996,10 @@ extension MapViewController : RouteDisplayInfos {
 extension MapViewController : UISearchResultsUpdating, UISearchControllerDelegate, UISearchBarDelegate {
     //MARK: UISearchResultsUpdating
     func updateSearchResults(for searchController: UISearchController) {
-        let mySearchController = searchController.searchResultsController as! SearchController
         if let text = searchController.searchBar.text,
             let filter = SearchController.ScopeFilter(rawValue: searchController.searchBar.selectedScopeButtonIndex) {
-            mySearchController.updateWithText(text, region: theMapView.region, filter:filter)
+            let mySearchController = searchController.searchResultsController as! SearchController
+            mySearchController.updateWithText(searchString:text, region: theMapView.region, filter:filter)
         }
     }
     

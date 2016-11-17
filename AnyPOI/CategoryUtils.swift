@@ -14,6 +14,10 @@ class CategoryUtils {
      static let contactCategory = Category(groupCategory: GroupId.defaultGroupId, categoryId: CategoryId.defaultGroup.contactId, icon: #imageLiteral(resourceName: "Contacts-40"), localizedString: "Contact")
      static let wikipediaCategory = Category(groupCategory: GroupId.defaultGroupId, categoryId: CategoryId.defaultGroup.wikipediaId, icon: #imageLiteral(resourceName: "Wikipedia-40"), localizedString: "Wikipedia")
     
+    static func isWikipediaCategory(category:Category) -> Bool {
+        return category.groupCategory == GroupId.defaultGroupId && category.categoryId == CategoryId.defaultGroup.wikipediaId
+    }
+    
     fileprivate struct GroupId {
         static let defaultGroupId = Int16(0)
         static let cultureId = Int16(1)
