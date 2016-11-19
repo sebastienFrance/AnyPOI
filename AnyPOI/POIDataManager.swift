@@ -449,16 +449,16 @@ class POIDataManager {
 
 
     //SEB: TBC Category
-    func findPOI(_ searchText:String, category:Int) -> [PointOfInterest] {
+    func findPOI(_ searchText:String, category:CategoryUtils.Category? = nil) -> [PointOfInterest] {
         let managedContext = DatabaseAccess.sharedInstance.managedObjectContext
         let fetchRequest = NSFetchRequest<PointOfInterest>(entityName: entitiesCste.pointOfInterest)
         
-        if category == Int(CategoryUtils.defaultGroupCategory.categoryId) {
-            fetchRequest.predicate = NSPredicate(format: "poiDisplayName CONTAINS[cd] %@", searchText)
+        if let filterCategory = category {
+            fetchRequest.predicate = NSPredicate(format: "poiDisplayName CONTAINS[cd] %@ AND poiCategory == %d", searchText, filterCategory.categoryId)
         } else {
-            fetchRequest.predicate = NSPredicate(format: "poiDisplayName CONTAINS[cd] %@ AND poiCategory == %d", searchText, category)
+            fetchRequest.predicate = NSPredicate(format: "poiDisplayName CONTAINS[cd] %@", searchText)
         }
-        
+                
         let sortDescriptor = NSSortDescriptor(key: "poiDisplayName", ascending: true, selector: #selector(NSString.caseInsensitiveCompare(_:)))
         fetchRequest.sortDescriptors = [sortDescriptor]
         
@@ -554,9 +554,9 @@ class POIDataManager {
         return poi
     }
     
-    func addPOI(_ mapItem: MKMapItem, categoryIndex:Int) -> PointOfInterest {
+    func addPOI(_ mapItem: MKMapItem, category:CategoryUtils.Category?) -> PointOfInterest {
         let poi = getEmptyPoi()
-        poi.initializeWith(mapItem, categoryIndex:categoryIndex)
+        poi.initializeWith(mapItem, category:category)
         commitDatabase()
         return poi
     }

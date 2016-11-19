@@ -996,11 +996,9 @@ extension MapViewController : RouteDisplayInfos {
 extension MapViewController : UISearchResultsUpdating, UISearchControllerDelegate, UISearchBarDelegate {
     //MARK: UISearchResultsUpdating
     func updateSearchResults(for searchController: UISearchController) {
-        if let text = searchController.searchBar.text,
-            let filter = SearchController.ScopeFilter(rawValue: searchController.searchBar.selectedScopeButtonIndex) {
-            let mySearchController = searchController.searchResultsController as! SearchController
-            mySearchController.updateWithText(searchString:text, region: theMapView.region, filter:filter)
-        }
+        let mySearchController = searchController.searchResultsController as! SearchController
+        mySearchController.currentRegion = theMapView.region
+        mySearchController.updateSearch()
     }
     
     //MARK: UISearchControllerDelegate

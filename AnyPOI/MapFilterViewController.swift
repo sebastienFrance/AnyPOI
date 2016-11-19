@@ -44,14 +44,14 @@ extension MapFilterViewController : UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return CategoryUtils.getCount()
+        return CategoryUtils.localSearchCategories.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: storyboard.categoryCellId, for: indexPath) as! MapFilterCategoryTableViewCell
-        let (image, label) = CategoryUtils.getIconAndLabel(index:indexPath.row)
-        cell.categoryImage.image = image
-        cell.categoryLabel.text = label
+        let category = CategoryUtils.localSearchCategories[indexPath.row]
+        cell.categoryImage.image = category.icon
+        cell.categoryLabel.text = category.localizedString
         
         if filter.isFiletered(category: Int16(indexPath.row)) {
             cell.accessoryType = .none

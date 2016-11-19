@@ -133,8 +133,12 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
         get {
             return CategoryUtils.getCategory(poi: self)
         }
+        set {
+            poiGroupCategory = newValue.groupCategory
+            poiCategory = newValue.categoryId
+        }
     }
-    //SEB: TBC Category
+    
    var categoryIcon:UIImage? {
         get {
             return category.icon
@@ -207,9 +211,9 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
         isPrivate = false
         
         poiIsContact = false
-        poiGroupCategory = CategoryUtils.defaultGroupCategory.groupCategory
-        poiCategory = CategoryUtils.defaultGroupCategory.categoryId
-       
+        
+        category = CategoryUtils.defaultGroupCategory
+        
         coordinate = coordinates
         title = constants.emptyTitle
         camera = theCamera
@@ -231,8 +235,7 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
         poiContactLatestAddress = CNPostalAddressFormatter().string(from: contact.postalAddresses[0].value )
         
         isPrivate = false
-        poiGroupCategory = CategoryUtils.defaultGroupCategory.groupCategory
-        poiCategory  = CategoryUtils.defaultGroupCategory.categoryId
+        category = CategoryUtils.defaultGroupCategory
         
         coordinate = placemark.location!.coordinate
         
@@ -282,8 +285,7 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
         
         isPrivate = false
         poiIsContact = false
-        poiGroupCategory = CategoryUtils.wikipediaCategory.groupCategory
-        poiCategory = CategoryUtils.wikipediaCategory.categoryId
+        category = CategoryUtils.wikipediaCategory
         
         coordinate = wikipedia.coordinates
         
@@ -300,13 +302,13 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
     }
     
     // Used when a new POI is created from a local search
-    func initializeWith(_ mapItem:MKMapItem, categoryIndex:Int) {
+    func initializeWith(_ mapItem:MKMapItem, category:CategoryUtils.Category?) {
         initDefaultCamera(mapItem.placemark.coordinate)
 
         isPrivate = false
         poiIsContact = false
-        // SEB: TBC Category
-        poiCategory = Int16(categoryIndex)
+        
+        self.category = category ?? CategoryUtils.defaultGroupCategory
         
         coordinate = mapItem.placemark.coordinate
         title = mapItem.name
@@ -520,7 +522,7 @@ extension PointOfInterest {
         }
         htmlDescription += "</td>"
 
-        htmlDescription += "<td>\(CategoryUtils.getLabel(index:Int(poiCategory)))</td>"
+        htmlDescription += "<td>\(category.localizedString)</td>"
         htmlDescription += "<td>\(address)</td>"
         
         var phoneNumber:String?
@@ -639,10 +641,8 @@ extension PointOfInterest {
             }
         }
         
-        //SEB: TBC Category
-        let categoryIndex = poiCategory
-        if categoryIndex != CategoryUtils.defaultGroupCategory.categoryId {
-            keywords.append(CategoryUtils.getLabel(index:Int(categoryIndex)))
+        if category != CategoryUtils.defaultGroupCategory {
+            keywords.append(category.localizedString)
         }
         
         attributeSet.keywords = keywords

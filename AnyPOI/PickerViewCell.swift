@@ -22,7 +22,7 @@ class PickerViewCell: UITableViewCell  {
     weak var delegate:PoiEditorViewController!
     
     func initWith(poi:PointOfInterest) {
-        if let index = CategoryUtils.getIndexFor(groupCategoryId: poi.poiGroupCategory, categoryId: poi.poiCategory) {
+        if let index = CategoryUtils.getIndex(category:poi.category, inCategories:CategoryUtils.localSearchCategories) {
             thePickerView.selectRow(index, inComponent:0, animated:false)
         } else {
             thePickerView.selectRow(0, inComponent:0, animated:false)
@@ -38,18 +38,16 @@ extension PickerViewCell : UIPickerViewDataSource, UIPickerViewDelegate {
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return CategoryUtils.getCount()
+        return CategoryUtils.localSearchCategories.count
     }
     
     //MARK: UIPickerViewDelegate
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return CategoryUtils.getAllLabels()[row]
+        return CategoryUtils.localSearchCategories[row].localizedString
     }
 
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        if let selectedCategory = CategoryUtils.getCategory(index:row) {
-            delegate.pickerViewUpdated(self, selectedCategory:selectedCategory)
-        }
+        delegate.pickerViewUpdated(self, selectedCategory:CategoryUtils.localSearchCategories[row])
     }
     
     fileprivate struct Storyboard {
@@ -61,7 +59,7 @@ extension PickerViewCell : UIPickerViewDataSource, UIPickerViewDelegate {
         if categoryView == nil {
             let nib = UINib(nibName: Storyboard.pickerCategoryView, bundle: nil)
             categoryView = nib.instantiate(withOwner: nil, options: nil)[0] as? PickerCategoryView
-            (categoryView!.categoryImage.image, categoryView!.categoryLabel.text) = CategoryUtils.getIconAndLabel(index:row)
+            categoryView?.initWith(category:CategoryUtils.localSearchCategories[row])
         }
         return categoryView!
     }

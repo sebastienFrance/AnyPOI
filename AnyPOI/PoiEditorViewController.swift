@@ -88,8 +88,7 @@ class PoiEditorViewController: UIViewController {
         // Save the new value in database
         thePoi.title = newDisplayName
         thePoi.poiDescription = newDescription
-        thePoi.poiCategory = newCategory.categoryId
-        thePoi.poiGroupCategory = newCategory.groupCategory
+        thePoi.category = newCategory
         
         thePoi.parentGroup = newParentGroup
         
@@ -371,9 +370,7 @@ extension PoiEditorViewController: UITableViewDataSource, UITableViewDelegate {
         if isPickerDisplayed {
             if row == 3 && pickerIndex == row {
                 let pickerCategoryCell = theTableView.dequeueReusableCell(withIdentifier: cellIdentifier.cellPickerId, for: indexPath) as! PickerViewCell
-                //pickerCategoryCell.values = CategoryUtils.getAllLabels()
                 pickerCategoryCell.delegate = self
-                //pickerCategoryCell.setInitialValue(CategoryUtils.getLabel(index:Int(thePoi.poiCategory)))
                 pickerCategoryCell.initWith(poi: thePoi)
                 return pickerCategoryCell
             } else if row == 4 && pickerIndex == row {

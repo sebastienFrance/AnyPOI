@@ -84,12 +84,17 @@ class CategoryUtils {
     }
 
     
-     struct Category {
+     struct Category : Equatable {
         let groupCategory:Int16
         let categoryId:Int16
         let icon:UIImage
         let localizedString:String
+        
+        static func ==(lhs: Category, rhs: Category) -> Bool {
+            return lhs.groupCategory == rhs.groupCategory && lhs.categoryId == rhs.categoryId
+        }
     }
+    
 
     fileprivate static let allCategories = [
         contactCategory,
@@ -120,6 +125,32 @@ class CategoryUtils {
         Category(groupCategory: GroupId.othersId, categoryId: CategoryId.others.stadiumId, icon: #imageLiteral(resourceName: "Stadium-40"), localizedString:  NSLocalizedString("CategoryLabelStadium", comment: "")),
         ]
     
+    static let localSearchCategories = [
+        Category(groupCategory: GroupId.cultureId, categoryId: CategoryId.culture.movieId, icon: #imageLiteral(resourceName: "Movie-40"), localizedString:  NSLocalizedString("CategoryLabelTheater", comment: "")),
+        Category(groupCategory: GroupId.cultureId, categoryId: CategoryId.culture.museumId, icon: #imageLiteral(resourceName: "Museum-40"), localizedString:  NSLocalizedString("CategoryLabelMuseum", comment: "")),
+        Category(groupCategory: GroupId.dailyLifeId, categoryId: CategoryId.dailyLife.barId, icon: #imageLiteral(resourceName: "Theatre Mask-40"), localizedString:  NSLocalizedString("CategoryLabelOpera", comment: "")),
+        Category(groupCategory: GroupId.dailyLifeId, categoryId: CategoryId.dailyLife.coffeeId, icon: #imageLiteral(resourceName: "Cup-40"), localizedString:  NSLocalizedString("CategoryLabelCoffee", comment: "")),
+        Category(groupCategory: GroupId.dailyLifeId, categoryId: CategoryId.dailyLife.pizzaId, icon: #imageLiteral(resourceName: "Pizza-40"), localizedString:  NSLocalizedString("CategoryLabelPizzeria", comment: "")),
+        Category(groupCategory: GroupId.dailyLifeId, categoryId: CategoryId.dailyLife.wineBarId, icon: #imageLiteral(resourceName: "Bar-40"), localizedString:  NSLocalizedString("CategoryLabelWineBar", comment: "")),
+        Category(groupCategory: GroupId.dailyLifeId, categoryId: CategoryId.dailyLife.pubId, icon: #imageLiteral(resourceName: "Bavarian Beer Mug-40"), localizedString:  NSLocalizedString("CategoryLabelBar", comment: "")),
+        Category(groupCategory: GroupId.dailyLifeId, categoryId: CategoryId.dailyLife.restaurantId, icon: #imageLiteral(resourceName: "Restaurant-40"), localizedString:  NSLocalizedString("CategoryLabelRestaurant", comment: "")),
+        Category(groupCategory: GroupId.nightLifeId, categoryId: CategoryId.nightLife.dancingId, icon: #imageLiteral(resourceName: "Dancing-40"), localizedString:  NSLocalizedString("CategoryLabelNightClub", comment: "")),
+        Category(groupCategory: GroupId.shoppingId, categoryId: CategoryId.shopping.aTMId, icon: #imageLiteral(resourceName: "ATM-40"), localizedString:  NSLocalizedString("CategoryLabelATM", comment: "")),
+        Category(groupCategory: GroupId.shoppingId, categoryId: CategoryId.shopping.bankId, icon: #imageLiteral(resourceName: "Bank-40"), localizedString:  NSLocalizedString("CategoryLabelBank", comment: "")),
+        Category(groupCategory: GroupId.shoppingId, categoryId: CategoryId.shopping.shoppingCenterId, icon: #imageLiteral(resourceName: "Shopping Bag-40"), localizedString:  NSLocalizedString("CategoryLabelShopping", comment: "")),
+        Category(groupCategory: GroupId.transportationId, categoryId: CategoryId.transportation.airportId, icon: #imageLiteral(resourceName: "Airport-40"), localizedString:  NSLocalizedString("CategoryLabelAirport", comment: "")),
+        Category(groupCategory: GroupId.transportationId, categoryId: CategoryId.transportation.gasStationId, icon: #imageLiteral(resourceName: "Gas Station-40"), localizedString:  NSLocalizedString("CategoryLabelGasStation", comment: "")),
+        Category(groupCategory: GroupId.transportationId, categoryId: CategoryId.transportation.parkingId, icon: #imageLiteral(resourceName: "Parking-40"), localizedString:  NSLocalizedString("CategoryLabelParking", comment: "")),
+        Category(groupCategory: GroupId.transportationId, categoryId: CategoryId.transportation.railwayStationId, icon: #imageLiteral(resourceName: "City Railway Station-40"), localizedString:  NSLocalizedString("CategoryLabelStation", comment: "")),
+        Category(groupCategory: GroupId.othersId, categoryId: CategoryId.others.caduceusId, icon: #imageLiteral(resourceName: "Caduceus-40"), localizedString:  NSLocalizedString("CategoryLabelPharmacy", comment: "")),
+        Category(groupCategory: GroupId.othersId, categoryId: CategoryId.others.cathedralId, icon: #imageLiteral(resourceName: "Cathedral-40"), localizedString:  NSLocalizedString("CategoryLabelChurch", comment: "")),
+        Category(groupCategory: GroupId.othersId, categoryId: CategoryId.others.courtHouseId, icon: #imageLiteral(resourceName: "Courthouse-40"), localizedString:  NSLocalizedString("CategoryLabelCourtHouse", comment: "")),
+        Category(groupCategory: GroupId.othersId, categoryId: CategoryId.others.hospitalId, icon: #imageLiteral(resourceName: "Hospital 3-40"), localizedString:  NSLocalizedString("CategoryLabelHospital", comment: "")),
+        Category(groupCategory: GroupId.othersId, categoryId: CategoryId.others.hotelId, icon: #imageLiteral(resourceName: "Hotel Information-40"), localizedString:  NSLocalizedString("CategoryLabelHotel", comment: "")),
+        Category(groupCategory: GroupId.othersId, categoryId: CategoryId.others.parkBenchId, icon: #imageLiteral(resourceName: "Park Bench-40"), localizedString:  NSLocalizedString("CategoryLabelPark", comment: "")),
+        Category(groupCategory: GroupId.othersId, categoryId: CategoryId.others.stadiumId, icon: #imageLiteral(resourceName: "Stadium-40"), localizedString:  NSLocalizedString("CategoryLabelStadium", comment: "")),
+   ]
+    
     fileprivate static let groups = [GroupCategory(groupId: GroupId.defaultGroupId, localizedString: "Default"),
                                      GroupCategory(groupId: GroupId.cultureId, localizedString: "culture"),
                                      GroupCategory(groupId: GroupId.dailyLifeId, localizedString: "Daily life"),
@@ -129,83 +160,24 @@ class CategoryUtils {
                                      GroupCategory(groupId: GroupId.transportationId, localizedString: "Transportation")]
     
     
-    static func getCount() -> Int {
-        return allCategories.count
-    }
-    
-    static func getIndexFor(groupCategoryId:Int16, categoryId:Int16) -> Int? {
-        for i in 0...(allCategories.count - 1) {
-            let currentCategory = allCategories[i]
-            if currentCategory.groupCategory == groupCategoryId && currentCategory.categoryId == categoryId {
-                return i
+    static func getCategory(poi:PointOfInterest) -> Category {
+        for currentCategory in allCategories {
+            if currentCategory.categoryId == poi.poiCategory && currentCategory.groupCategory == poi.poiGroupCategory {
+                return currentCategory
             }
         }
         
+        return defaultGroupCategory
+    }
+    
+    static func getIndex(category:Category, inCategories:[Category]) -> Int? {
+        var index = 0
+        for currentCategory in inCategories {
+            if currentCategory == category {
+                return index
+            }
+            index += 1
+        }
         return nil
-    }
-    
-    static func getCategory(index:Int) -> Category? {
-        return index < allCategories.count ? allCategories[index] : nil
-    }
-    
-    static func getCategory(poi:PointOfInterest) -> Category {
-        if let index = getIndexFor(groupCategoryId: poi.poiGroupCategory, categoryId: poi.poiCategory) {
-            return allCategories[index]
-        } else {
-            return defaultGroupCategory
-        }
-    }
-    
-    //SEB: TBC Category index should be changed to Int16?
-    static func getIconAndLabel(index:Int) -> (icon:UIImage?, label:String?) {
-        if case 0 ..< getCount() = index {
-            let theCategory = allCategories[index]
-            return (theCategory.icon, theCategory.localizedString)
-        } else if index == Int(wikipediaCategory.categoryId) {
-            return getWikipediaCategory()
-        } else {
-            return (nil,"")
-        }
-    }
-    
-    static func getIcon(index:Int) -> UIImage? {
-        if case 0 ..< getCount() = index {
-            return allCategories[index].icon
-        } else if index == Int(wikipediaCategory.categoryId) {
-            return wikipediaCategory.icon
-        } else {
-            return nil
-        }
-    }
-    
-    static func getLabel(index:Int) -> String {
-        if case 0 ..< getCount() = index {
-            return allCategories[index].localizedString
-        } else if index == Int(wikipediaCategory.categoryId) {
-            return wikipediaCategory.localizedString
-        } else {
-            return ""
-        }
-    }
-    
-    static func getAllLabels() -> [String] {
-        var categories = [String]()
-        for category in allCategories {
-            categories.append(category.localizedString)
-        }
-       
-        return categories
-    }
-
-    static func isEmptyCategory(_ categoryIndex:Int) -> Bool {
-        return Int16(categoryIndex) == defaultGroupCategory.categoryId ? true : false
-    }
-    
-    static func isWikipediaCategory(_ categoryIndex:Int) -> Bool {
-        return Int16(categoryIndex) == wikipediaCategory.categoryId ? true : false
-    }
-    
-    static func getWikipediaCategory() -> (icon:UIImage?, label:String?) {
-        return (wikipediaCategory.icon, wikipediaCategory.localizedString)
     }
 }

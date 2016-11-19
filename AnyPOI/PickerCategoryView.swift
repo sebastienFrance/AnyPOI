@@ -13,4 +13,8 @@ class PickerCategoryView: UIView {
     @IBOutlet weak var categoryImage: UIImageView!
     @IBOutlet weak var categoryLabel: UILabel!
 
+    func initWith(category:CategoryUtils.Category) {
+        categoryImage.image = category.icon
+        categoryLabel.text = category.localizedString
+    }
 }

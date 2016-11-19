@@ -524,6 +524,7 @@
 				BE0CF2C61D8B209A00344F8A /* searchPoiViewCell.swift */,
 				BE0CF2B21D8B209A00344F8A /* LocalSearchTableViewCell.swift */,
 				BE0CF2AC1D8B209A00344F8A /* CategoryTableViewCell.swift */,
+				BE0CF2AB1D8B209A00344F8A /* CategoriesTableViewCell.swift */,
 				BE0CF2ED1D8B209A00344F8A /* searchRouteTableViewCell.swift */,
 				BE0CF2AA1D8B209A00344F8A /* WikipediaLocalSearchTableViewCell.swift */,
 				BEFE00AB1DDE4E7B009AA1BF /* SearchLoadingTableViewCell.swift */,
@@ -611,7 +612,6 @@
 				BE0CF2E71D8B209A00344F8A /* GroupPickerViewCell.swift */,
 				BE0CF2E81D8B209A00344F8A /* PickerGroupView.swift */,
 				BE0CF2EE1D8B209A00344F8A /* TextFieldViewCell.swift */,
-				BE0CF2AB1D8B209A00344F8A /* CategoriesTableViewCell.swift */,
 			);
 			name = POIEditorVC;
 			sourceTree = "<group>";
