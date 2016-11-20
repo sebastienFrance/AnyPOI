@@ -105,6 +105,7 @@
 		BE2FF2CA1D8B280B00C0395A /* CallOutLeftAccessoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE2FF2C51D8B280B00C0395A /* CallOutLeftAccessoryView.xib */; };
 		BE2FF2CC1D8B280B00C0395A /* PickerCategoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE2FF2C71D8B280B00C0395A /* PickerCategoryView.xib */; };
 		BE2FF2CD1D8B280B00C0395A /* PickerGroupView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE2FF2C81D8B280B00C0395A /* PickerGroupView.xib */; };
+		BE44B58B1DE1DF3700D08EC0 /* MapFilterGroupTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE44B58A1DE1DF3700D08EC0 /* MapFilterGroupTableViewCell.swift */; };
 		BE47BE3B1DAACA8E00862A0C /* POIManager.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE47BE391DAACA8E00862A0C /* POIManager.storyboard */; };
 		BE4A880C1D93137900A0DE2F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BE4A880E1D93137900A0DE2F /* Localizable.strings */; };
 		BE8F7C3A1DB66B9300BE30C2 /* RouteMailActivityItemSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8F7C391DB66B9300BE30C2 /* RouteMailActivityItemSource.swift */; };
@@ -297,6 +298,7 @@
 		BE2FF2C51D8B280B00C0395A /* CallOutLeftAccessoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CallOutLeftAccessoryView.xib; sourceTree = "<group>"; };
 		BE2FF2C71D8B280B00C0395A /* PickerCategoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PickerCategoryView.xib; sourceTree = "<group>"; };
 		BE2FF2C81D8B280B00C0395A /* PickerGroupView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PickerGroupView.xib; sourceTree = "<group>"; };
+		BE44B58A1DE1DF3700D08EC0 /* MapFilterGroupTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapFilterGroupTableViewCell.swift; sourceTree = "<group>"; };
 		BE47BE3A1DAACA8E00862A0C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/POIManager.storyboard; sourceTree = "<group>"; };
 		BE4A88071D930FFE00A0DE2F /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Main.strings; sourceTree = "<group>"; };
 		BE4A88081D930FFE00A0DE2F /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
@@ -431,6 +433,7 @@
 				BE107D8E1DD72898008B09A1 /* MapFilterViewController.swift */,
 				BE107D901DD728C0008B09A1 /* MapFilterCategoryTableViewCell.swift */,
 				BEF580AA1DD8777D00306597 /* MapFilter.swift */,
+				BE44B58A1DE1DF3700D08EC0 /* MapFilterGroupTableViewCell.swift */,
 			);
 			name = MapFilter;
 			sourceTree = "<group>";
@@ -1170,6 +1173,7 @@
 				BE0CF3471D8B209A00344F8A /* ColorsUtils.swift in Sources */,
 				BE0CF3091D8B209A00344F8A /* RoutesViewController.swift in Sources */,
 				BE93D5121DB263EE00104872 /* PointOfInterest+CoreDataProperties.swift in Sources */,
+				BE44B58B1DE1DF3700D08EC0 /* MapFilterGroupTableViewCell.swift in Sources */,
 				BE0CF34A1D8B209A00344F8A /* PickerViewCell.swift in Sources */,
 				BE0CF32F1D8B209A00344F8A /* POIDataManager.swift in Sources */,
 				BE957E651DA94A03006CF455 /* WikiSelectedLanguageTableViewCell.swift in Sources */,

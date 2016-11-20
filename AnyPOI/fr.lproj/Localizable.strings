@@ -144,6 +144,8 @@
 "PhonePOIMail"="Téléphone";
 "URLPOIMail"="URL";
 "MapPOIMail"="Carte";
+"MapFilterIsOn"="Filtré";
+"MapFilterIsOff"="Aucun filtre";
 "CategoryLabelUnknown"="Inconnue";
 "CategoryLabelCoffee"="Café";
 "CategoryLabelRestaurant"="Restaurant";

@@ -11,19 +11,23 @@ import UIKit
 class MapFilter {
     
     
-    var filter = Set<Int16>()
+    fileprivate var filter:Set<CategoryUtils.Category>!
     
-    func add(category:Int16) {
+    init(initialFilter:Set<CategoryUtils.Category>) {
+        filter = initialFilter
+    }
+    
+    func add(category:CategoryUtils.Category) {
         if !filter.contains(category) {
             filter.insert(category)
         }
     }
     
-    func remove(category:Int16) {
+    func remove(category:CategoryUtils.Category) {
         filter.remove(category)
     }
     
-    func isFiletered(category:Int16) -> Bool {
+    func isFiletered(category:CategoryUtils.Category) -> Bool {
         return filter.contains(category)
     }
     

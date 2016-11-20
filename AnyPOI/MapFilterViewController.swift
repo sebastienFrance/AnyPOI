@@ -10,6 +10,12 @@ import UIKit
 
 class MapFilterViewController: UIViewController {
 
+    struct Notifications {
+        static let addCategoryToFilter = "addCategoryToFilter"
+        static let removeCategoryFromFilter = "removeCategoryFromFilter"
+        static let categoryParameter = "category"
+    }
+    
     @IBOutlet weak var theTableView: UITableView! {
         didSet {
             if let theTableView = theTableView {
@@ -22,54 +28,91 @@ class MapFilterViewController: UIViewController {
         }
     }
     
-    let filter = MapFilter()
+    var filter:MapFilter!
+    let groups = POIDataManager.sharedInstance.getGroups()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
 }
 
 extension MapFilterViewController : UITableViewDelegate, UITableViewDataSource {
 
-    struct storyboard {
+    struct cellId {
         static let categoryCellId = "MapFilterCategoryCellId"
+        static let mapGroupFilterCellId = "mapGroupFilterCellId"
+    }
+    
+    struct Sections {
+        static let categories = 0
+        static let groups = 1
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if section == Sections.categories {
+            return "Categories"
+        } else {
+            return "Groups"
+        }
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return CategoryUtils.localSearchCategories.count
+        return section == Sections.categories ? CategoryUtils.localSearchCategories.count : groups.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: storyboard.categoryCellId, for: indexPath) as! MapFilterCategoryTableViewCell
-        let category = CategoryUtils.localSearchCategories[indexPath.row]
-        cell.categoryImage.image = category.icon
-        cell.categoryLabel.text = category.localizedString
-        
-        if filter.isFiletered(category: Int16(indexPath.row)) {
-            cell.accessoryType = .none
+        if indexPath.section == Sections.categories {
+            let cell = tableView.dequeueReusableCell(withIdentifier: cellId.categoryCellId, for: indexPath) as! MapFilterCategoryTableViewCell
+            
+            let category = CategoryUtils.localSearchCategories[indexPath.row]
+            cell.initWith(category:category, isFiltered:filter.isFiletered(category: category))
+            
+            return cell
         } else {
-            cell.accessoryType = .checkmark
-        }
+            let cell = tableView.dequeueReusableCell(withIdentifier: cellId.mapGroupFilterCellId, for: indexPath) as! MapFilterGroupTableViewCell
 
-        return cell
+            cell.initWith(group:groups[indexPath.row])
+            
+            return cell
+        }
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cell = theTableView.cellForRow(at: indexPath)
-        if filter.isFiletered(category: Int16(indexPath.row)) {
-            filter.remove(category: Int16(indexPath.row))
-            cell?.accessoryType = .checkmark
+        if indexPath.section == Sections.categories {
+            let cell = theTableView.cellForRow(at: indexPath) as! MapFilterCategoryTableViewCell
+            
+            let category = CategoryUtils.localSearchCategories[indexPath.row]
+            if filter.isFiletered(category: category) {
+                filter.remove(category: category)
+                cell.isFiltered = false
+                NotificationCenter.default.post(name: Notification.Name(rawValue: Notifications.removeCategoryFromFilter), object: self, userInfo:[Notifications.categoryParameter: category])
+            } else {
+                filter.add(category: category)
+                cell.isFiltered = true
+                NotificationCenter.default.post(name: Notification.Name(rawValue: Notifications.addCategoryToFilter), object: self, userInfo:[Notifications.categoryParameter: category])
+            }
         } else {
-            filter.add(category: Int16(indexPath.row))
-            cell?.accessoryType = .none
+            let POIGroup = groups[indexPath.row]
+            
+            // Default group cannot be filtered
+            if POIDataManager.sharedInstance.getDefaultGroup() != POIGroup {
+                
+                POIGroup.isGroupDisplayed = !POIGroup.isGroupDisplayed
+                let cell = theTableView.cellForRow(at: indexPath) as! MapFilterGroupTableViewCell
+                cell.initWith(group:groups[indexPath.row])
+                
+                // It will add/remove annotations from the Map, it can takes some times... so to no block
+                // user we do it asynchronously
+                DispatchQueue.main.async {
+                    POIDataManager.sharedInstance.updatePOIGroup(POIGroup)
+                    POIDataManager.sharedInstance.commitDatabase()
+                }
+            }
+
         }
     }
 }

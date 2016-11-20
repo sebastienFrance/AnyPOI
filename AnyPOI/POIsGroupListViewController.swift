@@ -162,17 +162,6 @@ class POIsGroupListViewController: UIViewController, UITableViewDataSource, UITa
     }
     
     //MARK: Action buttons
-    @IBAction func groupSwitchPushed(_ sender: UISwitch) {
-        let POIGroup = filteredGroups[sender.tag]
-        POIGroup.isGroupDisplayed = sender.isOn
-        
-        // It will add/remove annotations from the Map, it can takes some times... so to no block
-        // user we do it asynchronously
-        DispatchQueue.main.async {
-            POIDataManager.sharedInstance.updatePOIGroup(POIGroup)
-            POIDataManager.sharedInstance.commitDatabase()
-        }
-    }
     
     @IBAction func groupModifyPushed(_ sender: UIButton) {
         performSegue(withIdentifier: storyboard.updateGroupOfInterest, sender: filteredGroups[sender.tag])

@@ -357,7 +357,7 @@ class MapCameraAnimations  {
                     
                     // update overlays if requested by the current CameraPath
                     if self.theCameraPath[index].updateOverlays {
-                        self.theMapView.removeOverlays(self.theMapView.overlays) // Warning: SEB monitoring should not be removed???
+                        //self.theMapView.removeOverlays(self.theMapView.overlays) // Warning: SEB monitoring should not be removed???
                         if let polyLine = self.theCameraPath[index].routePolyline {
                             self.theMapView.add(polyLine, level: .aboveRoads)
                         }

@@ -38,7 +38,8 @@
                                             </mapView>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PgO-Ab-fYe">
                                                 <rect key="frame" x="327" y="467" width="40" height="40"/>
-                                                <state key="normal" image="Near Me-40"/>
+                                                <color key="tintColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                <state key="normal" image="Near Me Filled-40"/>
                                                 <connections>
                                                     <action selector="userLocationButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="WTV-Vw-Mlw"/>
                                                 </connections>
@@ -47,7 +48,7 @@
                                                 <rect key="frame" x="312" y="429" width="55" height="30"/>
                                                 <state key="normal" title="No filter"/>
                                                 <connections>
-                                                    <segue destination="mUb-Ux-CEN" kind="show" id="CJD-Yq-74I"/>
+                                                    <segue destination="mUb-Ux-CEN" kind="show" identifier="openMapFilterId" id="CJD-Yq-74I"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -213,6 +214,7 @@
                         <outlet property="distanceLabel" destination="1Yr-if-ntb" id="dta-EN-VGa"/>
                         <outlet property="exitRouteModeButton" destination="0f3-J6-fS3" id="FWX-Ih-5dp"/>
                         <outlet property="fromToLabel" destination="5Zb-Oe-5wh" id="7nM-lv-Rtl"/>
+                        <outlet property="mapFilterButton" destination="tkV-Hc-4mn" id="7MM-jK-fjJ"/>
                         <outlet property="routeStackView" destination="BvY-6y-yMt" id="eeR-k3-yY6"/>
                         <outlet property="selectedTransportType" destination="ld6-1T-i1Q" id="V8U-yp-tCb"/>
                         <outlet property="stackViewFromTo" destination="GuO-3P-4KJ" id="FJL-c8-fkH"/>
@@ -255,7 +257,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5NG-ml-02J" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-878" y="598"/>
+            <point key="canvasLocation" x="46" y="571"/>
         </scene>
         <!--Left Menu View Controller-->
         <scene sceneID="yrP-pc-IPl">
@@ -426,7 +428,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="q1l-Bv-Jls" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-890" y="-90"/>
+            <point key="canvasLocation" x="46" y="-79"/>
         </scene>
         <!--Search Controller-->
         <scene sceneID="yj8-dW-bwS">
@@ -827,13 +829,13 @@
                                                     </constraints>
                                                 </stackView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TYy-1f-TC3">
-                                                    <rect key="frame" x="0.0" y="25" width="359" height="25"/>
+                                                    <rect key="frame" x="0.0" y="25" width="359" height="25.5"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Address" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mv5-7d-Rzp">
-                                                    <rect key="frame" x="0.0" y="50" width="359" height="24"/>
+                                                    <rect key="frame" x="0.0" y="50.5" width="359" height="23.5"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
                                                     <color key="textColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -1019,7 +1021,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BsG-sK-nd4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2017" y="651"/>
+            <point key="canvasLocation" x="2524" y="634"/>
         </scene>
         <!--Routes-->
         <scene sceneID="bbz-Zf-2o7">
@@ -1122,7 +1124,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="seb-xb-2nm" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="Rop-gF-ecf" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="-890.39999999999998" y="-743.47826086956525"/>
+            <point key="canvasLocation" x="46" y="-741"/>
         </scene>
         <!--Route details-->
         <scene sceneID="FMq-5D-z5h">
@@ -1310,7 +1312,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IsM-Xg-Vrq" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="RzR-Ua-2Lq" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1797.5999999999999" y="-55.322338830584712"/>
+            <point key="canvasLocation" x="1884" y="-476"/>
         </scene>
         <!--Route Provider Table View Controller-->
         <scene sceneID="dgv-Ta-vex">
@@ -1478,7 +1480,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VFf-yb-bZc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="793" y="-182"/>
+            <point key="canvasLocation" x="1052" y="-320"/>
         </scene>
         <!--configureOptions-->
         <scene sceneID="jgT-gW-the">
@@ -1486,7 +1488,7 @@
                 <viewControllerPlaceholder storyboardIdentifier="configureOptions" storyboardName="Options" referencedIdentifier="configureOptions" id="mal-nZ-2lN" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZgP-pK-WCK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-229" y="976"/>
+            <point key="canvasLocation" x="334" y="957"/>
         </scene>
         <!--POIDetails-->
         <scene sceneID="Xzk-2c-Hhc">
@@ -1494,7 +1496,7 @@
                 <viewControllerPlaceholder storyboardIdentifier="POIDetails" storyboardName="POIManager" referencedIdentifier="POIDetails" id="m8I-DW-PIT" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ixC-fs-rh1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1264" y="1016"/>
+            <point key="canvasLocation" x="1243" y="1123"/>
         </scene>
         <!--Filter-->
         <scene sceneID="hmV-Xz-xd8">
@@ -1508,15 +1510,65 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="86" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="9CA-ca-MOQ">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="86" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="9CA-ca-MOQ">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="checkmark" indentationWidth="10" reuseIdentifier="MapFilterCategoryCellId" rowHeight="86" id="EMA-pa-0qQ" customClass="MapFilterCategoryTableViewCell" customModule="AnyPOI" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="checkmark" indentationWidth="10" reuseIdentifier="mapGroupFilterCellId" rowHeight="86" id="vCN-I5-m9W" customClass="MapFilterGroupTableViewCell" customModule="AnyPOI" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="86"/>
                                         <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="vCN-I5-m9W" id="Aof-KZ-SZV">
+                                            <rect key="frame" x="0.0" y="0.0" width="336" height="85"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="Iwc-My-dUw">
+                                                    <rect key="frame" x="8" y="8" width="320" height="69.5"/>
+                                                    <subviews>
+                                                        <stackView opaque="NO" contentMode="scaleToFill" alignment="top" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="hCh-hX-58A">
+                                                            <rect key="frame" x="0.0" y="0.0" width="320" height="40.5"/>
+                                                            <subviews>
+                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="fVn-PJ-SVn">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="25" height="25"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="height" constant="25" id="9pS-zb-wI6"/>
+                                                                        <constraint firstAttribute="width" constant="25" id="OgS-7B-mh6"/>
+                                                                    </constraints>
+                                                                </imageView>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="brt-H8-2nu">
+                                                                    <rect key="frame" x="30" y="0.0" width="290" height="18"/>
+                                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                            </subviews>
+                                                        </stackView>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P3v-oI-sq1">
+                                                            <rect key="frame" x="0.0" y="40.5" width="320" height="29"/>
+                                                            <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                                                            <color key="textColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                </stackView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="Iwc-My-dUw" firstAttribute="leading" secondItem="Aof-KZ-SZV" secondAttribute="leadingMargin" id="JhS-y9-7Hk"/>
+                                                <constraint firstItem="Iwc-My-dUw" firstAttribute="top" secondItem="Aof-KZ-SZV" secondAttribute="topMargin" id="eBi-tk-mFg"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="Iwc-My-dUw" secondAttribute="trailing" id="jcb-ip-qnY"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="Iwc-My-dUw" secondAttribute="bottom" id="nbg-WM-3On"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="groupDescription" destination="P3v-oI-sq1" id="9hh-3q-jtH"/>
+                                            <outlet property="groupDisplayName" destination="brt-H8-2nu" id="Mxc-Z4-W4P"/>
+                                            <outlet property="groupImage" destination="fVn-PJ-SVn" id="YQx-EQ-VhL"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="checkmark" indentationWidth="10" reuseIdentifier="MapFilterCategoryCellId" rowHeight="86" id="EMA-pa-0qQ" customClass="MapFilterCategoryTableViewCell" customModule="AnyPOI" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="114" width="375" height="86"/>
+                                        <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="EMA-pa-0qQ" id="d52-gp-rJo">
-                                            <rect key="frame" x="0.0" y="0.0" width="336" height="86"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="336" height="85"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="0Gr-q9-ote">
@@ -1567,7 +1619,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iew-r8-bLZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2017" y="1365"/>
+            <point key="canvasLocation" x="2524" y="1343.4782608695652"/>
         </scene>
         <!--UIViewController-miy-gh-wKC-->
         <scene sceneID="nNo-HO-2QS">
@@ -1575,7 +1627,7 @@
                 <viewControllerPlaceholder storyboardName="POIManager" referencedIdentifier="UIViewController-miy-gh-wKC" id="fo1-hB-Gy6" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gJs-nd-MUQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="886" y="1016"/>
+            <point key="canvasLocation" x="909" y="1123"/>
         </scene>
         <!--GroupConfiguratorControllerId-->
         <scene sceneID="oUZ-ao-RYl">
@@ -1583,7 +1635,7 @@
                 <viewControllerPlaceholder storyboardIdentifier="GroupConfiguratorControllerId" storyboardName="POIManager" referencedIdentifier="GroupConfiguratorControllerId" id="82a-nN-Pga" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ty5-Bl-A1e" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="286" y="1016"/>
+            <point key="canvasLocation" x="494" y="1123"/>
         </scene>
         <!--POIsGroupListViewControllerId-->
         <scene sceneID="5S8-cI-wH9">
@@ -1591,7 +1643,7 @@
                 <viewControllerPlaceholder storyboardIdentifier="POIsGroupListViewControllerId" storyboardName="POIManager" referencedIdentifier="POIsGroupListViewControllerId" id="4Wj-eH-1MD" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ShP-O8-RMH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-161" y="1016"/>
+            <point key="canvasLocation" x="401" y="912"/>
         </scene>
     </scenes>
     <resources>
@@ -1603,7 +1655,7 @@
         <image name="Home-30" width="30" height="30"/>
         <image name="Menu-30" width="30" height="30"/>
         <image name="MuseeOrsay01" width="667" height="139"/>
-        <image name="Near Me-40" width="40" height="40"/>
+        <image name="Near Me Filled-40" width="40" height="40"/>
         <image name="Safari Filled-40" width="40" height="40"/>
         <image name="Sedan-40" width="40" height="40"/>
         <image name="Walking-40" width="40" height="40"/>

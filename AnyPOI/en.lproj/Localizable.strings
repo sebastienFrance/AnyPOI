@@ -142,6 +142,8 @@
 "PhonePOIMail"="Phone";
 "URLPOIMail"="URL";
 "MapPOIMail"="Map";
+"MapFilterIsOn"="Filtered";
+"MapFilterIsOff"="No filter";
 "CategoryLabelUnknown"="Unknown";
 "CategoryLabelCoffee"="Cofee";
 "CategoryLabelRestaurant"="Restaurant";

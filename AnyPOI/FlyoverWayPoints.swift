@@ -17,6 +17,18 @@ protocol FlyoverWayPointsDelegate: class  {
     func flyoverDidEnd(_ flyoverUpdatedPois:[PointOfInterest], urgentStop:Bool)
     
     func flyoverGetPoiCalloutDelegate() -> PoiCalloutDelegateImpl
+    
+    
+    /// Add the POIs and their overlays (if any) on the Map
+    ///
+    /// - Parameter pois: List of PointOfInterest
+    func flyoverAddPoisOnMap(pois:[PointOfInterest])
+    
+    
+    /// Remove the POIs and their overlays (if any) from the Map
+    ///
+    /// - Parameter pois: List of PointOfInterest
+    func flyoverRemovePoisFromMap(pois:[PointOfInterest])
 }
 
 class FlyoverWayPoints: NSObject{
@@ -85,7 +97,6 @@ class FlyoverWayPoints: NSObject{
                 self.theMapView.mapType = .satelliteFlyover
 
                 self.flyoverUpdatedPois.removeAll()
-                self.flyoverRemovedOverlays.removeAll()
                 self.flyoverRemovedAnnotations.removeAll()
 
                 if let viewAnnotation = self.theMapView.view(for: poi) as? WayPointPinAnnotationView {
@@ -141,8 +152,7 @@ class FlyoverWayPoints: NSObject{
     }
     
     // Keep all overlays and annotations changed / removed during the Flyover
-    fileprivate var flyoverRemovedAnnotations = [MKAnnotation]()
-    fileprivate var flyoverRemovedOverlays = [MKOverlay]()
+    fileprivate var flyoverRemovedAnnotations = [PointOfInterest]()
     fileprivate var flyoverUpdatedPois = [PointOfInterest]()
     
     // Remove from the Map all overlays and Annotations that are not used during the Flyover
@@ -151,23 +161,16 @@ class FlyoverWayPoints: NSObject{
         // Remove all data from the Map except the annotations and overlays that
         // will be used by the Flyover
         flyoverUpdatedPois.removeAll()
-        flyoverRemovedOverlays.removeAll()
         flyoverRemovedAnnotations.removeAll()
         
         for currentAnnotation in theMapView.annotations {
             if let currentPoi = currentAnnotation as? PointOfInterest {
                 if !datasource.hasPoi(currentPoi) {
-                    flyoverRemovedAnnotations.append(currentAnnotation)
-                    if let overlay = currentPoi.getMonitordRegionOverlay() {
-                        flyoverRemovedOverlays.append(overlay)
-                    }
+                    flyoverRemovedAnnotations.append(currentPoi)
                 } else {
                     // If Flyover has been started for a section, we keep only the From & To of this section
                     if !datasource.isBeforeRouteSections && datasource.fromPOI != currentPoi && datasource.toPOI != currentPoi {
-                        flyoverRemovedAnnotations.append(currentAnnotation)
-                        if let overlay = currentPoi.getMonitordRegionOverlay() {
-                            flyoverRemovedOverlays.append(overlay)
-                        }
+                        flyoverRemovedAnnotations.append(currentPoi)
                     } else {
                         if let viewAnnotation = theMapView.view(for: currentAnnotation) as? WayPointPinAnnotationView {
                             viewAnnotation.configureForFlyover(currentPoi, delegate: flyoverDelegate.flyoverGetPoiCalloutDelegate())
@@ -178,17 +181,14 @@ class FlyoverWayPoints: NSObject{
             }
         }
         
-        theMapView.removeAnnotations(flyoverRemovedAnnotations)
-        theMapView.removeOverlays(flyoverRemovedOverlays)
+        flyoverDelegate.flyoverRemovePoisFromMap(pois: flyoverRemovedAnnotations)
     }
     
     // Add on the Map all overlays and annotations that were removed from the Map during the Flyover
     fileprivate func restoreRemovedAnnotationsAndOverlays() {
-        theMapView.addAnnotations(flyoverRemovedAnnotations)
-        theMapView.addOverlays(flyoverRemovedOverlays)
+        flyoverDelegate.flyoverAddPoisOnMap(pois: flyoverRemovedAnnotations)
         
         flyoverUpdatedPois.removeAll()
-        flyoverRemovedOverlays.removeAll()
         flyoverRemovedAnnotations.removeAll()
     }
     
