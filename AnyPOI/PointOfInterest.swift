@@ -235,7 +235,7 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
         poiContactLatestAddress = CNPostalAddressFormatter().string(from: contact.postalAddresses[0].value )
         
         isPrivate = false
-        category = CategoryUtils.defaultGroupCategory
+        category = CategoryUtils.contactCategory
         
         coordinate = placemark.location!.coordinate
         

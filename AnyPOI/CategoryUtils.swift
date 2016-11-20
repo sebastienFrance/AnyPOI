@@ -126,6 +126,9 @@ class CategoryUtils {
         ]
     
     static let localSearchCategories = [
+        contactCategory,
+        defaultGroupCategory,
+        wikipediaCategory,
         Category(groupCategory: GroupId.cultureId, categoryId: CategoryId.culture.movieId, icon: #imageLiteral(resourceName: "Movie-40"), localizedString:  NSLocalizedString("CategoryLabelTheater", comment: "")),
         Category(groupCategory: GroupId.cultureId, categoryId: CategoryId.culture.museumId, icon: #imageLiteral(resourceName: "Museum-40"), localizedString:  NSLocalizedString("CategoryLabelMuseum", comment: "")),
         Category(groupCategory: GroupId.dailyLifeId, categoryId: CategoryId.dailyLife.barId, icon: #imageLiteral(resourceName: "Theatre Mask-40"), localizedString:  NSLocalizedString("CategoryLabelOpera", comment: "")),
