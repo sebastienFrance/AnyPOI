@@ -481,7 +481,7 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
         theSearchController?.isActive = false
         
         // Make sure the category of the POI is not filtered
-        removeCategoryFromFilter(category:poi.category)
+        removeFromFilter(category:poi.category)
         
         // Make sure the Group is Displayed before to show the POI
         // and then add it to the Map and set the Camera
@@ -644,17 +644,17 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
     
      func addCategoryToFilter(_ notification:Notification) {
         if let userInfo = notification.userInfo, let category = userInfo[MapFilterViewController.Notifications.categoryParameter] as? CategoryUtils.Category {
-            addCategoryToFilter(category: category)
+            addToFilter(category: category)
         }
     }
     
      func removeCategoryFromFilter(_ notification:Notification) {
         if let userInfo = notification.userInfo, let category = userInfo[MapFilterViewController.Notifications.categoryParameter] as? CategoryUtils.Category {
-            removeCategoryFromFilter(category:category)
+            removeFromFilter(category:category)
         }
     }
     
-    fileprivate func addCategoryToFilter(category:CategoryUtils.Category) {
+    fileprivate func addToFilter(category:CategoryUtils.Category) {
         categoryFilter.insert(category)
         var poiToRemove = [PointOfInterest]()
         for currentAnnotation in theMapView.annotations  {
@@ -677,7 +677,7 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
                                            for: .normal)
     }
     
-    fileprivate func removeCategoryFromFilter(category:CategoryUtils.Category) {
+    fileprivate func removeFromFilter(category:CategoryUtils.Category) {
         categoryFilter.remove(category)
         
         // look into the filtered POIs if some matches the old category
@@ -784,13 +784,6 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
                 if updatedGroup.isGroupDisplayed {
                     displayGroupsOnMap([updatedGroup], withMonitoredOverlays: true)
                 }
-//                else {
-//                    for currentPoi in updatedGroup.pois {
-//                        if let monitoredRegionOverlay = currentPoi.getMonitordRegionOverlay() {
-//                            theMapView.remove(monitoredRegionOverlay)
-//                        }
-//                    }
-//                }
             }
         }
     }
@@ -800,17 +793,11 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
     // - Deleted POI, to remove the POI and its overlay from the Map
     // - Updated POI, to update its callout and position, color and overlay
     fileprivate func processNotificationsForPointOfInterest(notificationsContent:PoiNotificationUserInfo) {
-//        for newPoi in notificationsContent.insertedPois {
-//            addAnnotation(poi:newPoi)
-//        }
+        // Make sure added POIs will be displayed on the MAP even if its categor was filetered
+        for addedPoi in notificationsContent.insertedPois {
+            removeFromFilter(category:addedPoi.category)
+        }
         addAnnotations(pois: notificationsContent.insertedPois)
-        
-//        for deletedPoi in notificationsContent.deletedPois {
-//            removeAnnotation(poi:deletedPoi)
-////            if let monitoredRegionOverlay = deletedPoi.getMonitordRegionOverlay() {
-////                theMapView.remove(monitoredRegionOverlay)
-////            }
-//        }
         removeAnnotations(pois: notificationsContent.deletedPois)
         
         for updatedPoi in notificationsContent.updatedPois {
@@ -823,6 +810,13 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
                 if let annotationView = theMapView.view(for: updatedPoi) {
                     MapUtils.refreshDetailCalloutAccessoryView(updatedPoi, annotationView: annotationView, delegate: poiCalloutDelegate)
                 }
+            }
+            
+            // When the category has been changed maybe the POI must be added or removed from the 
+            // Map. To make sure to phave the good status we remove it and add it again
+            if  changedValues[PointOfInterest.properties.poiCategory] != nil {
+                removeAnnotation(poi: updatedPoi)
+                addAnnotation(poi: updatedPoi)
             }
             
             if changedValues[PointOfInterest.properties.poiLatitude] != nil ||
