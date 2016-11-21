@@ -30,8 +30,7 @@ class RouteManager: NSObject {
     
     fileprivate(set) var routeFromCurrentLocation : MKRoute?
     fileprivate(set) var isRouteFromCurrentLocationDisplayed = false
-    fileprivate var isShowOnlyRouteAnnotations = false
-    let routeDatasource:RouteDataSource!
+    let routeDatasource:RouteDataSource
     fileprivate var routeDirectionCounter = 0
     
     weak fileprivate var routeDisplayInfos: RouteDisplayInfos!
@@ -58,9 +57,7 @@ class RouteManager: NSObject {
         
         // Add route Annotations
         theMapView.removeAnnotations(theMapView.annotations)
-        if let poisToBeAdded = routeDatasource?.pois {
-            theMapView.addAnnotations(poisToBeAdded)
-        }
+        theMapView.addAnnotations(routeDatasource.pois)
         
         routeDisplayInfos.displayOnMap(groups:POIDataManager.sharedInstance.findDisplayableGroups(), withMonitoredOverlays: false)
 
@@ -68,7 +65,7 @@ class RouteManager: NSObject {
         routeDatasource.theRoute.reloadDirections() // start to load the route
         
         // Initialization of the Map must be done only when the view is ready.
-        if let region = routeDatasource?.theRoute.region {
+        if let region = routeDatasource.theRoute.region {
             // Don't change the MapView if we have only one wayPoint
             if routeDatasource.wayPoints.count > 1 {
                 theMapView.setRegion(region, animated: true)
@@ -78,7 +75,7 @@ class RouteManager: NSObject {
     
     func cleanup() {
         removeRouteOverlays()
-        theMapView.removeAnnotations(theMapView.annotations)
+        //theMapView.removeAnnotations(theMapView.annotations)
 
         UIView.animate(withDuration: 0.5, animations: {
             self.routeDisplayInfos.hideRouteDisplay()
@@ -290,32 +287,6 @@ class RouteManager: NSObject {
     
 
     
-    func showOnlyRouteAnnotations() {
-        isShowOnlyRouteAnnotations = !isShowOnlyRouteAnnotations
-        
-        if isShowOnlyRouteAnnotations {
-            // Remove all annotations which are not used in the route
-            var annotationsToRemove = [MKAnnotation]()
-            var overlaysToRemove = [MKOverlay]()
-            for currentAnnotation in theMapView.annotations {
-                if currentAnnotation is PointOfInterest && !routeDatasource.hasPoi(currentAnnotation as! PointOfInterest) {
-                    annotationsToRemove.append(currentAnnotation)
-                    if let overlay = (currentAnnotation as! PointOfInterest).getMonitordRegionOverlay() {
-                        overlaysToRemove.append(overlay)
-                    }
-                }
-            }
-            theMapView.removeAnnotations(annotationsToRemove)
-            theMapView.removeOverlays(overlaysToRemove)
-        } else {
-            // Add all annotations
-            if isShowOnlyRouteAnnotations == false {
-                routeDisplayInfos.displayOnMap(groups:POIDataManager.sharedInstance.findDisplayableGroups(), withMonitoredOverlays: false)
-            }
-        }
-        
-    }
-    
     //MARK: Route update
     // User has requested to add a POI in the route
     // It can be triggered by the user from the Callout, when creating a new POI on the Map, when using Route Editor
@@ -481,7 +452,7 @@ class RouteManager: NSObject {
         
         switch atPosition {
         case .head: // Only when the whole route is displayed
-            if let currentStartPoi = routeDatasource?.fromPOI {
+            if let currentStartPoi = routeDatasource.fromPOI {
                 // The old starting WayPoint is changed to end if the route has only 1 wayPoint
                 // else it becomes a simple wayPoint of the route
                 if routeDatasource.theRoute.wayPoints.count == 1 {
@@ -496,7 +467,7 @@ class RouteManager: NSObject {
             refreshAnnotation(poi:poi, withType: .routeStart)
             
         case .tail: // Only when the whole route is displayed
-            if let currentEndPoi = routeDatasource?.toPOI {
+            if let currentEndPoi = routeDatasource.toPOI {
                 // the old ending waypoint is changed as the start if the route contains only 1 wayPoint
                 // else it becomes a simple WayPoint of the route
                 if routeDatasource.theRoute.wayPoints.count == 1 {
@@ -512,12 +483,12 @@ class RouteManager: NSObject {
             refreshAnnotation(poi:poi, withType: .routeEnd)
             
         case .currentPosition: // Only when only a route section is displayed
-            if let currentStartPoi = routeDatasource?.fromPOI {
+            if let currentStartPoi = routeDatasource.fromPOI {
                 // The old start becomes the simple wayPoint from the route
                 refreshAnnotation(poi:currentStartPoi, withType: .waypoint)
             }
             
-            if let currentEndPoi = routeDatasource?.toPOI {
+            if let currentEndPoi = routeDatasource.toPOI {
                 // the old ending waypoint is changed to become the start
                 refreshAnnotation(poi:currentEndPoi, withType: .routeStart)
             }
@@ -595,8 +566,8 @@ class RouteManager: NSObject {
         }
     }
     
-    func buildRouteFromCurrentLocation(_ transportType:MKDirectionsTransportType) {
-        if let toPoi = routeDatasource?.toPOI {
+    fileprivate func buildRouteFromCurrentLocation(_ transportType:MKDirectionsTransportType) {
+        if let toPoi = routeDatasource.toPOI {
             let routeRequest = MKDirectionsRequest()
             routeRequest.transportType = transportType
             routeRequest.source = MKMapItem.forCurrentLocation()
@@ -653,7 +624,7 @@ class RouteManager: NSObject {
             
             // Specific case when the route contains only the From then we must not set the
             // Add Way Point accessory
-            if poiType == .routeStart && routeDatasource!.wayPoints.count == 1 {
+            if poiType == .routeStart && routeDatasource.wayPoints.count == 1 {
                 annotationView.disableAddWayPointAccessory()
             }
         }
@@ -678,18 +649,13 @@ class RouteManager: NSObject {
             self.performNavigation()
             })
         
-        let title = isShowOnlyRouteAnnotations ? NSLocalizedString("ShowPOIsNotInRouteRouteManager", comment: "")  : NSLocalizedString("HidePOIsNotInRouteRouteManager", comment: "")
-        alertActionSheet.addAction(UIAlertAction(title: title, style: .default) { alertAction in
-            self.showOnlyRouteAnnotations()
-            })
-
         
         alertActionSheet.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: nil))
         routeDisplayInfos.getViewController().present(alertActionSheet, animated: true, completion: nil)
         
     }
     
-    func performNavigation() {
+    fileprivate func performNavigation() {
         if routeDatasource.isBeforeRouteSections {
             var items = [MKMapItem]()
             

@@ -21,8 +21,10 @@ class MapFilterGroupTableViewCell: UITableViewCell {
         
         if group.isGroupDisplayed {
             accessoryType = .checkmark
+            groupDisplayName.textColor = UIColor.black
         } else {
             accessoryType = .none
+            groupDisplayName.textColor = UIColor.red
         }
     }
 }

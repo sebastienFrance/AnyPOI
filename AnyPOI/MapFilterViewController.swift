@@ -13,7 +13,11 @@ class MapFilterViewController: UIViewController {
     struct Notifications {
         static let addCategoryToFilter = "addCategoryToFilter"
         static let removeCategoryFromFilter = "removeCategoryFromFilter"
-        static let categoryParameter = "category"
+        struct categoryParameter {
+            static let categoryName = "category"
+        }
+        static let hidePOIsNotInRoute = "hidePOIsNotInRoute"
+        static let showPOIsNotInRoute = "showPOIsNotInRoute"
     }
     
     @IBOutlet weak var theTableView: UITableView! {
@@ -28,6 +32,8 @@ class MapFilterViewController: UIViewController {
         }
     }
     
+    var isRouteModeOn = false
+    var showPOIsNotInRoute = false
     var filter:MapFilter!
     let groups = POIDataManager.sharedInstance.getGroups()
 
@@ -44,24 +50,37 @@ extension MapFilterViewController : UITableViewDelegate, UITableViewDataSource {
     }
     
     struct Sections {
-        static let categories = 0
-        static let groups = 1
+        static let routeMode = 0
+        static let categories = 1
+        static let groups = 2
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if section == Sections.categories {
-            return "Categories"
+            return NSLocalizedString("CategoriesSectionMapFilterVC", comment: "")
+        } else if section == Sections.groups {
+            return NSLocalizedString("GroupsSectionMapFilterVC", comment: "")
+        } else if section == Sections.routeMode {
+            return isRouteModeOn ? NSLocalizedString("RouteSectionMapFilterVC", comment: "") : nil
         } else {
-            return "Groups"
+            return nil
         }
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return 3
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return section == Sections.categories ? CategoryUtils.localSearchCategories.count : groups.count
+        if section == Sections.categories {
+            return CategoryUtils.localSearchCategories.count
+        } else if section == Sections.groups {
+            return groups.count
+        } else if section == Sections.routeMode {
+            return isRouteModeOn ? 1 : 0
+        } else {
+            return 0
+        }
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -72,12 +91,21 @@ extension MapFilterViewController : UITableViewDelegate, UITableViewDataSource {
             cell.initWith(category:category, isFiltered:filter.isFiletered(category: category))
             
             return cell
-        } else {
+        } else if indexPath.section == Sections.groups {
             let cell = tableView.dequeueReusableCell(withIdentifier: cellId.mapGroupFilterCellId, for: indexPath) as! MapFilterGroupTableViewCell
 
             cell.initWith(group:groups[indexPath.row])
             
             return cell
+        } else if indexPath.section == Sections.routeMode {
+            let cell = tableView.dequeueReusableCell(withIdentifier: cellId.categoryCellId, for: indexPath) as! MapFilterCategoryTableViewCell
+            cell.categoryImage.image = nil
+            cell.categoryImage.isHidden = true
+            cell.categoryLabel.text = NSLocalizedString("ShowPOIsNotUsedMapFilterVC", comment: "")
+            cell.isFiltered = !showPOIsNotInRoute
+            return cell
+        } else {
+            return UITableViewCell()
         }
     }
 
@@ -89,13 +117,13 @@ extension MapFilterViewController : UITableViewDelegate, UITableViewDataSource {
             if filter.isFiletered(category: category) {
                 filter.remove(category: category)
                 cell.isFiltered = false
-                NotificationCenter.default.post(name: Notification.Name(rawValue: Notifications.removeCategoryFromFilter), object: self, userInfo:[Notifications.categoryParameter: category])
+                NotificationCenter.default.post(name: Notification.Name(rawValue: Notifications.removeCategoryFromFilter), object: self, userInfo:[Notifications.categoryParameter.categoryName: category])
             } else {
                 filter.add(category: category)
                 cell.isFiltered = true
-                NotificationCenter.default.post(name: Notification.Name(rawValue: Notifications.addCategoryToFilter), object: self, userInfo:[Notifications.categoryParameter: category])
+                NotificationCenter.default.post(name: Notification.Name(rawValue: Notifications.addCategoryToFilter), object: self, userInfo:[Notifications.categoryParameter.categoryName: category])
             }
-        } else {
+        } else if indexPath.section == Sections.groups {
             let POIGroup = groups[indexPath.row]
             
             // Default group cannot be filtered
@@ -112,7 +140,15 @@ extension MapFilterViewController : UITableViewDelegate, UITableViewDataSource {
                     POIDataManager.sharedInstance.commitDatabase()
                 }
             }
-
+        } else if indexPath.section == Sections.routeMode {
+            showPOIsNotInRoute = !showPOIsNotInRoute
+            let cell = theTableView.cellForRow(at: indexPath) as! MapFilterCategoryTableViewCell
+            cell.isFiltered = !showPOIsNotInRoute
+            if showPOIsNotInRoute {
+                NotificationCenter.default.post(name: Notification.Name(rawValue: Notifications.showPOIsNotInRoute), object: self)
+            } else {
+                NotificationCenter.default.post(name: Notification.Name(rawValue: Notifications.hidePOIsNotInRoute), object: self)
+            }
         }
     }
 }

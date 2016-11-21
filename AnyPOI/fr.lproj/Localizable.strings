@@ -106,8 +106,6 @@
 "POIUsedSeveralTimesDoWeDeleteItRouteManager"="est utilisé à plusieurs reprises, voulez-vous pour le supprimer?";
 "AsEndPointRouteManager"="Comme arrivée";
 "AsStartPointRouteManager"="Comme départ";
-"ShowPOIsNotInRouteRouteManager"="Monter les POIs en dehors de l'itineraire";
-"HidePOIsNotInRouteRouteManager"="Cacher les POIs en dehors de l'itineraire";
 "AsEndPoint"="Comme arrivée";
 "AsStartPoint"="Comme départ";
 "WhereRouteManager"="Où ?";
@@ -146,6 +144,10 @@
 "MapPOIMail"="Carte";
 "MapFilterIsOn"="Filtré";
 "MapFilterIsOff"="Aucun filtre";
+"ShowPOIsNotUsedMapFilterVC"="Afficher les POIs non utilisés";
+"RouteSectionMapFilterVC"="POIs sur l'itinéraire";
+"GroupsSectionMapFilterVC"="Groupes";
+"CategoriesSectionMapFilterVC"="Categories";
 "CategoryLabelUnknown"="Inconnue";
 "CategoryLabelCoffee"="Café";
 "CategoryLabelRestaurant"="Restaurant";

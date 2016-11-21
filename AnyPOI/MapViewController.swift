@@ -88,6 +88,11 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
     enum RouteSectionProgress {
         case forward, backward, all
     }
+    
+    //MARK: Filter Mgt
+    fileprivate var categoryFilter = Set<CategoryUtils.Category>()
+    fileprivate var filteredPOIs = Set<PointOfInterest>()
+    fileprivate var filterPOIsNotInRoute = false
 
     //MARK: Other vars
 
@@ -147,10 +152,7 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
         
         super.viewDidLoad()
         
-        mapFilterButton.setAttributedTitle(NSAttributedString(string: NSLocalizedString("MapFilterIsOff", comment: ""),
-                                                              attributes: [NSForegroundColorAttributeName : UIColor.white,
-                                                                           NSBackgroundColorAttributeName : UIColor.blue]),
-                                           for: .normal)
+        updateFilterStatus()
 
         
         poiCalloutDelegate = PoiCalloutDelegateImpl(mapView: theMapView, sourceViewController: self)
@@ -193,15 +195,6 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
     fileprivate func displayGroupsOnMap(_ groups:[GroupOfInterest], withMonitoredOverlays:Bool) {
         for currentGroup in groups {
             addAnnotations(pois:currentGroup.pois, withMonitoredOverlays:withMonitoredOverlays)
-
-            // Add overlays if the poi is monitored
-//           if withMonitoredOverlays {
-//                for currentPOI in currentGroup.pois {
-//                    if let monitoredRegionOverlay = currentPOI.getMonitordRegionOverlay() {
-//                        theMapView.add(monitoredRegionOverlay)
-//                    }
-//                }
-//            }
         }
     }
     
@@ -249,7 +242,15 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
                                                selector: #selector(MapViewController.removeCategoryFromFilter(_:)),
                                                name: NSNotification.Name(rawValue: MapFilterViewController.Notifications.removeCategoryFromFilter),
                                                object: nil)
-    }
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(MapViewController.showPOIsNotInRoute(_:)),
+                                               name: NSNotification.Name(rawValue: MapFilterViewController.Notifications.showPOIsNotInRoute),
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(MapViewController.hidePOIsNotInRoute(_:)),
+                                               name: NSNotification.Name(rawValue: MapFilterViewController.Notifications.hidePOIsNotInRoute),
+                                               object: nil)
+   }
 
     // Called only once?
     override func viewWillAppear(_ animated: Bool) {
@@ -577,10 +578,15 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
     }
 
     fileprivate func disableRouteMode() {
+        let poisToBeUpdated = routeDatasource!.pois
         routeManager?.cleanup()
         routeManager = nil
         
-        displayGroupsOnMap(POIDataManager.sharedInstance.findDisplayableGroups(), withMonitoredOverlays: true)
+        // We must remove/add POIs that were used in the Route because their Pin color can be different
+        // for source and target and the callout of these POIs are also different
+        removeAnnotations(pois: poisToBeUpdated)
+        addAnnotations(pois: poisToBeUpdated)
+        showPOIsNotInRoute() // If the filter was on we need to deactivate it
     }
     
     @IBAction func backToMapWayPoint(_ unwindSegue:UIStoryboardSegue) {
@@ -630,77 +636,31 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
             showMapLocation(mapItem)
         }
     }
-    //MARK: Filter Mgt
-    fileprivate var categoryFilter = Set<CategoryUtils.Category>()
-    fileprivate var filteredPOIs = Set<PointOfInterest>()
     
-    func isFiltered(poi:PointOfInterest) -> Bool {
-        if poi.parentGroup!.isGroupDisplayed && !categoryFilter.contains(poi.category) {
-            return false
-        } else {
-            return true
-        }
-    }
+    
+    
     
      func addCategoryToFilter(_ notification:Notification) {
-        if let userInfo = notification.userInfo, let category = userInfo[MapFilterViewController.Notifications.categoryParameter] as? CategoryUtils.Category {
+        if let userInfo = notification.userInfo, let category = userInfo[MapFilterViewController.Notifications.categoryParameter.categoryName] as? CategoryUtils.Category {
             addToFilter(category: category)
         }
     }
     
      func removeCategoryFromFilter(_ notification:Notification) {
-        if let userInfo = notification.userInfo, let category = userInfo[MapFilterViewController.Notifications.categoryParameter] as? CategoryUtils.Category {
+        if let userInfo = notification.userInfo, let category = userInfo[MapFilterViewController.Notifications.categoryParameter.categoryName] as? CategoryUtils.Category {
             removeFromFilter(category:category)
         }
     }
     
-    fileprivate func addToFilter(category:CategoryUtils.Category) {
-        categoryFilter.insert(category)
-        var poiToRemove = [PointOfInterest]()
-        for currentAnnotation in theMapView.annotations  {
-            if !(currentAnnotation is MKUserLocation) {
-                let currentPoi = currentAnnotation as! PointOfInterest
-                if currentPoi.category == category {
-                    poiToRemove.append(currentPoi)
-                    if let monitoredRegionOverlay = currentPoi.getMonitordRegionOverlay() {
-                        theMapView.remove(monitoredRegionOverlay)
-                    }
-                }
-            }
-        }
-        theMapView.removeAnnotations(poiToRemove)
-        filteredPOIs = filteredPOIs.union(poiToRemove)
-        
-        mapFilterButton.setAttributedTitle(NSAttributedString(string: NSLocalizedString("MapFilterIsOn", comment: ""),
-                                                              attributes: [NSForegroundColorAttributeName : UIColor.white,
-                                                                           NSBackgroundColorAttributeName : UIColor.red]),
-                                           for: .normal)
+    func showPOIsNotInRoute(_ notification:Notification) {
+        showPOIsNotInRoute()
     }
     
-    fileprivate func removeFromFilter(category:CategoryUtils.Category) {
-        categoryFilter.remove(category)
-        
-        // look into the filtered POIs if some matches the old category
-        var poiToAdd = [PointOfInterest]()
-        for currentPoi in filteredPOIs {
-            if currentPoi.category == category {
-                poiToAdd.append(currentPoi)
-                if let monitoredRegionOverlay = currentPoi.getMonitordRegionOverlay() {
-                    theMapView.add(monitoredRegionOverlay)
-                }
-            }
-        }
-        
-        theMapView.addAnnotations(poiToAdd)
-        filteredPOIs = filteredPOIs.subtracting(poiToAdd)
-        
-        if categoryFilter.isEmpty {
-            mapFilterButton.setAttributedTitle(NSAttributedString(string: NSLocalizedString("MapFilterIsOff", comment: ""),
-                                                                  attributes: [NSForegroundColorAttributeName : UIColor.white,
-                                                                               NSBackgroundColorAttributeName : UIColor.blue]),
-                                               for: .normal)
-        }
+    
+    func hidePOIsNotInRoute(_ notification:Notification) {
+        hidePOIsNotInRoute()
     }
+    
     
     fileprivate func addAnnotation(poi:PointOfInterest) {
         if isFiltered(poi:poi) {
@@ -784,6 +744,8 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
                 if updatedGroup.isGroupDisplayed {
                     displayGroupsOnMap([updatedGroup], withMonitoredOverlays: true)
                 }
+                
+                updateFilterStatus()
             }
         }
     }
@@ -1045,6 +1007,10 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
             let viewController = segue.destination as! MapFilterViewController
             let mapFilter = MapFilter(initialFilter:categoryFilter)
             viewController.filter = mapFilter
+            if isRouteMode {
+                viewController.isRouteModeOn = true
+                viewController.showPOIsNotInRoute = !filterPOIsNotInRoute
+            }
         }
        
     }
@@ -1300,6 +1266,138 @@ extension MapViewController : FlyoverWayPointsDelegate {
     }
     func flyoverRemovePoisFromMap(pois:[PointOfInterest]) {
         removeAnnotations(pois: pois)
+    }
+
+}
+
+// MARK: Map Filtering
+extension MapViewController {
+    
+    func isFiltered(poi:PointOfInterest) -> Bool {
+        if poi.parentGroup!.isGroupDisplayed && !categoryFilter.contains(poi.category) {
+            if isRouteMode && filterPOIsNotInRoute {
+                if let datasource = routeDatasource, datasource.hasPoi(poi) {
+                    return false
+                } else {
+                    return true
+                }
+            } else {
+                return false
+            }
+        } else {
+            return true
+        }
+    }
+    
+    func showPOIsNotInRoute() {
+        filterPOIsNotInRoute = false
+        
+        // look into the filtered POIs if some matches the old category
+        var poiToAdd = [PointOfInterest]()
+        for currentPoi in filteredPOIs {
+            if !categoryFilter.contains(currentPoi.category) {
+                poiToAdd.append(currentPoi)
+                if let monitoredRegionOverlay = currentPoi.getMonitordRegionOverlay() {
+                    theMapView.add(monitoredRegionOverlay)
+                }
+            }
+        }
+        
+        theMapView.addAnnotations(poiToAdd)
+        filteredPOIs = filteredPOIs.subtracting(poiToAdd)
+        
+        updateFilterStatus()
+    }
+    
+    fileprivate func hidePOIsNotInRoute() {
+        filterPOIsNotInRoute = true
+        
+        // Remove all annotations which are not used in the route
+        var annotationsToRemove = [PointOfInterest]()
+        var overlaysToRemove = [MKOverlay]()
+        for currentAnnotation in theMapView.annotations {
+            if let currentPoi = currentAnnotation as? PointOfInterest {
+                if !routeDatasource!.hasPoi(currentPoi) {
+                    annotationsToRemove.append(currentPoi)
+                    if let overlay = (currentAnnotation as! PointOfInterest).getMonitordRegionOverlay() {
+                        overlaysToRemove.append(overlay)
+                    }
+                }
+            }
+        }
+        filteredPOIs = filteredPOIs.union(annotationsToRemove)
+        theMapView.removeAnnotations(annotationsToRemove)
+        theMapView.removeOverlays(overlaysToRemove)
+        
+        updateFilterStatus()
+        
+    }
+    
+    fileprivate func updateFilterStatus() {
+        if categoryFilter.isEmpty && !filterPOIsNotInRoute {
+            let groups = POIDataManager.sharedInstance.getGroups()
+            for currentGroup in groups {
+                if !currentGroup.isGroupDisplayed {
+                    mapFilterButton.setAttributedTitle(NSAttributedString(string: NSLocalizedString("MapFilterIsOn", comment: ""),
+                                                                          attributes: [NSForegroundColorAttributeName : UIColor.white,
+                                                                                       NSBackgroundColorAttributeName : UIColor.red]),
+                                                       for: .normal)
+                    return
+                }
+            }
+            mapFilterButton.setAttributedTitle(NSAttributedString(string: NSLocalizedString("MapFilterIsOff", comment: ""),
+                                                                  attributes: [NSForegroundColorAttributeName : UIColor.white,
+                                                                               NSBackgroundColorAttributeName : UIColor.blue]),
+                                               for: .normal)
+        } else {
+            mapFilterButton.setAttributedTitle(NSAttributedString(string: NSLocalizedString("MapFilterIsOn", comment: ""),
+                                                                  attributes: [NSForegroundColorAttributeName : UIColor.white,
+                                                                               NSBackgroundColorAttributeName : UIColor.red]),
+                                               for: .normal)
+        }
+    }
+    
+    
+    fileprivate func addToFilter(category:CategoryUtils.Category) {
+        categoryFilter.insert(category)
+        var poiToRemove = [PointOfInterest]()
+        var overlaysToRemove = [MKOverlay]()
+        for currentAnnotation in theMapView.annotations  {
+            if let currentPoi = currentAnnotation as? PointOfInterest {
+                if currentPoi.category == category {
+                    poiToRemove.append(currentPoi)
+                    if let monitoredRegionOverlay = currentPoi.getMonitordRegionOverlay() {
+                        overlaysToRemove.append(monitoredRegionOverlay)
+                    }
+                }
+            }
+        }
+        
+        theMapView.removeAnnotations(poiToRemove)
+        theMapView.removeOverlays(overlaysToRemove)
+        filteredPOIs = filteredPOIs.union(poiToRemove)
+        
+        updateFilterStatus()
+    }
+    
+    fileprivate func removeFromFilter(category:CategoryUtils.Category) {
+        categoryFilter.remove(category)
+        
+        // look into the filtered POIs if some matches the old category
+        var poiToAdd = [PointOfInterest]()
+        for currentPoi in filteredPOIs {
+            if !isFiltered(poi: currentPoi) {
+                poiToAdd.append(currentPoi)
+                if let monitoredRegionOverlay = currentPoi.getMonitordRegionOverlay() {
+                    theMapView.add(monitoredRegionOverlay)
+                }
+            }
+        }
+        
+        theMapView.addAnnotations(poiToAdd)
+        filteredPOIs = filteredPOIs.subtracting(poiToAdd)
+        
+        updateFilterStatus()
     }
 
 }

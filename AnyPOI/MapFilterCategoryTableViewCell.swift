@@ -19,12 +19,14 @@ class MapFilterCategoryTableViewCell: UITableViewCell {
         }
         set {
             accessoryType = newValue ? .none : .checkmark
+            categoryLabel.textColor = newValue ? UIColor.red : UIColor.black
         }
     }
     
     
     func initWith(category:CategoryUtils.Category, isFiltered:Bool) {
         categoryImage.image = category.icon
+        categoryImage.isHidden = false
         categoryLabel.text = category.localizedString
         
         self.isFiltered = isFiltered
