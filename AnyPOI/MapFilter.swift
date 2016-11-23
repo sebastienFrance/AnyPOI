@@ -11,7 +11,7 @@ import UIKit
 class MapFilter {
     
     
-    fileprivate var filter:Set<CategoryUtils.Category>!
+    fileprivate(set) var filter:Set<CategoryUtils.Category>!
     
     init(initialFilter:Set<CategoryUtils.Category>) {
         filter = initialFilter
@@ -29,6 +29,10 @@ class MapFilter {
     
     func isFiletered(category:CategoryUtils.Category) -> Bool {
         return filter.contains(category)
+    }
+    
+    func reset() {
+        filter.removeAll()
     }
     
 }

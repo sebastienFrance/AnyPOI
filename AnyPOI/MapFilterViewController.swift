@@ -32,6 +32,7 @@ class MapFilterViewController: UIViewController {
         }
     }
     
+    @IBOutlet weak var resetButton: UIBarButtonItem!
     var isRouteModeOn = false
     var showPOIsNotInRoute = false
     var filter:MapFilter!
@@ -39,6 +40,59 @@ class MapFilterViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        updateResetButtonState()
+    }
+    
+    func updateResetButtonState() {
+        resetButton.isEnabled = false
+       if !filter.filter.isEmpty {
+            resetButton.isEnabled = true
+        } else {
+            if isRouteModeOn && !showPOIsNotInRoute {
+                resetButton.isEnabled = true
+            } else {
+                for currentGroup in groups {
+                    if !currentGroup.isGroupDisplayed {
+                        resetButton.isEnabled = true
+                        return
+                    }
+                }
+            }
+        }
+    }
+    
+    @IBAction func resetButtonPushed(_ sender: UIBarButtonItem) {
+        let sectionToUpdate = NSMutableIndexSet()
+        
+        if !showPOIsNotInRoute {
+            showPOIsNotInRoute = true
+            NotificationCenter.default.post(name: Notification.Name(rawValue: Notifications.showPOIsNotInRoute), object: self)
+            sectionToUpdate.add(Sections.routeMode)
+        }
+        
+        if !filter.filter.isEmpty {
+            for currentCategory in filter.filter {
+                NotificationCenter.default.post(name: Notification.Name(rawValue: Notifications.removeCategoryFromFilter), object: self, userInfo:[Notifications.categoryParameter.categoryName: currentCategory])
+            }
+            filter.reset()
+            sectionToUpdate.add(Sections.categories)
+        }
+        
+        for currentGroup in groups {
+            if !currentGroup.isGroupDisplayed {
+                sectionToUpdate.add(Sections.groups)
+                currentGroup.isGroupDisplayed = true
+                // It will add/remove annotations from the Map, it can takes some times... so to no block
+                // user we do it asynchronously
+                DispatchQueue.main.async {
+                    POIDataManager.sharedInstance.updatePOIGroup(currentGroup)
+                    POIDataManager.sharedInstance.commitDatabase()
+                }
+            }
+        }
+        
+        theTableView.reloadSections(sectionToUpdate as IndexSet, with: .automatic)
     }
 }
 
@@ -150,5 +204,7 @@ extension MapFilterViewController : UITableViewDelegate, UITableViewDataSource {
                 NotificationCenter.default.post(name: Notification.Name(rawValue: Notifications.hidePOIsNotInRoute), object: self)
             }
         }
+        
+        updateResetButtonState()
     }
 }
