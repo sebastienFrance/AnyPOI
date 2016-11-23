@@ -11,7 +11,7 @@ import MapKit
 
 protocol SearchControllerDelegate: class {
     
-    func showPOIOnMap(_ poi : PointOfInterest)
+    func showPOIOnMap(_ poi : PointOfInterest, isSelected:Bool)
     func showGroupOnMap(_ group : GroupOfInterest)
     func showMapLocation(_ mapItem: MKMapItem)
     func showWikipediaOnMap(_ wikipedia : Wikipedia)

@@ -477,12 +477,30 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
     }
     
     //MARK: SearchControllerDelegate
-    func showPOIOnMap(_ poi : PointOfInterest) {
+    func showPOIOnMap(_ poi : PointOfInterest, isSelected:Bool = true) {
         // Mandatory to hide the UISearchController
         theSearchController?.isActive = false
         
+        addPOIOnMapAndUpdateFilter(poi: poi)
+        
+        if isSelected {
+            if theMapView.selectedAnnotations.count > 0 {
+                theMapView.deselectAnnotation(theMapView.selectedAnnotations[0], animated: false)
+            }
+            theMapView.selectAnnotation(poi, animated: false)
+        }
+        
+        mapAnimation.fromCurrentMapLocationTo(poi.coordinate)
+    }
+
+    fileprivate func addPOIOnMapAndUpdateFilter(poi : PointOfInterest) {
         // Make sure the category of the POI is not filtered
         removeFromFilter(category:poi.category)
+        
+        // Make sure the POI is not hidden due to HidePOIsNotInRoute
+        if let datasource = routeDatasource, filterPOIsNotInRoute, !datasource.hasPoi(poi) {
+            showPOIsNotInRoute()
+        }
         
         // Make sure the Group is Displayed before to show the POI
         // and then add it to the Map and set the Camera
@@ -491,25 +509,17 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
             POIDataManager.sharedInstance.updatePOIGroup(poi.parentGroup!)
             POIDataManager.sharedInstance.commitDatabase()
         }
-        
-        theMapView.selectAnnotation(poi, animated: false)
-        mapAnimation.fromCurrentMapLocationTo(poi.coordinate)
+
     }
 
-
-    func showPOIsOnMap(_ pois : [PointOfInterest]) {
+    fileprivate func showPOIsOnMap(_ pois : [PointOfInterest]) {
         // Mandatory to hide the UISearchController
         theSearchController?.isActive = false
 
         for currentPoi in pois {
-            // Make sure the Group is Displayed before to show the POI
-            // and then add it to the Map and set the Camera
-            if !currentPoi.parentGroup!.isGroupDisplayed {
-                currentPoi.parentGroup!.isGroupDisplayed = true
-                POIDataManager.sharedInstance.updatePOIGroup(currentPoi.parentGroup!)
-            }
+            addPOIOnMapAndUpdateFilter(poi:currentPoi)
         }
-        POIDataManager.sharedInstance.commitDatabase()
+        
         let region = MapUtils.boundingBoxForAnnotations(pois)
         theMapView.setRegion(region, animated: true)
     }
@@ -534,19 +544,9 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
     }
     
     func showWikipediaOnMap(_ wikipedia : Wikipedia) {
-        // Mandatory to hide the UISearchController
-        theSearchController?.isActive = false
-        if theMapView.selectedAnnotations.count > 0 {
-            theMapView.deselectAnnotation(theMapView.selectedAnnotations[0], animated: false)
-        }
-        
         if let wikipediaPoi = POIDataManager.sharedInstance.findPOIWith(wikipedia) {
-            if wikipediaPoi.parentGroup!.isGroupDisplayed {
-                theMapView.selectAnnotation(wikipediaPoi, animated: true)
-            }
+            showPOIOnMap(wikipediaPoi)
         }
-        
-        mapAnimation.fromCurrentMapLocationTo(wikipedia.coordinates)
     }
     
     fileprivate func showAlertMessage(_ title:String, message:String) {
@@ -1292,7 +1292,7 @@ extension MapViewController {
     func showPOIsNotInRoute() {
         filterPOIsNotInRoute = false
         
-        // look into the filtered POIs if some matches the old category
+        // look into the filtered POIs if some POIs should be displayed
         var poiToAdd = [PointOfInterest]()
         for currentPoi in filteredPOIs {
             if !categoryFilter.contains(currentPoi.category) {
