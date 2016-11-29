@@ -11,14 +11,16 @@ class PoisMailActivityItemSource: NSObject, UIActivityItemSource {
     
     
     let pois:[PointOfInterest]
+    let title:String
     
-    init(pois:[PointOfInterest]) {
+    init(pois:[PointOfInterest], mailTitle:String) {
         self.pois = pois
+        title = mailTitle
     }
     
     
     func activityViewController(_ activityViewController: UIActivityViewController, subjectForActivityType activityType: UIActivityType?) -> String {
-        return ""
+        return title
     }
     
     func activityViewControllerPlaceholderItem(_ activityViewController: UIActivityViewController) -> Any {

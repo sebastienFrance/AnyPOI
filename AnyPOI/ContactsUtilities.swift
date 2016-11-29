@@ -14,6 +14,21 @@ import PKHUD
 
 class ContactsUtilities {
     
+    static func isContactExist(contactIdentifier:String) -> Bool {
+        let store = CNContactStore()
+        let keysToFetch = [CNContactFamilyNameKey]
+        do {
+            _ =  try store.unifiedContact(withIdentifier: contactIdentifier, keysToFetch: keysToFetch as [CNKeyDescriptor])
+            return true
+        }
+        catch{
+            print("\(#function) Contacts: \(contactIdentifier). doesn't exist in the database")
+            return false
+        }
+        
+        
+   }
+    
     static func getContactsWithAddress() -> [CNContact] {
         
         let keysToFetch = [CNContactFamilyNameKey, CNContactGivenNameKey, CNContactPhoneNumbersKey, CNContactPostalAddressesKey, CNContactFormatter.descriptorForRequiredKeys(for: .fullName)] as [Any]

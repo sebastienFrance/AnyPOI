@@ -1335,20 +1335,18 @@ extension MapViewController {
     
     fileprivate func updateFilterStatus() {
         if categoryFilter.isEmpty && !filterPOIsNotInRoute {
-            let groups = POIDataManager.sharedInstance.getGroups()
-            for currentGroup in groups {
-                if !currentGroup.isGroupDisplayed {
-                    mapFilterButton.setAttributedTitle(NSAttributedString(string: NSLocalizedString("MapFilterIsOn", comment: ""),
-                                                                          attributes: [NSForegroundColorAttributeName : UIColor.white,
-                                                                                       NSBackgroundColorAttributeName : UIColor.red]),
-                                                       for: .normal)
-                    return
-                }
+            if POIDataManager.sharedInstance.hasFilteredGroups() {
+                mapFilterButton.setAttributedTitle(NSAttributedString(string: NSLocalizedString("MapFilterIsOn", comment: ""),
+                                                                      attributes: [NSForegroundColorAttributeName : UIColor.white,
+                                                                                   NSBackgroundColorAttributeName : UIColor.red]),
+                                                   for: .normal)
+            } else {
+                mapFilterButton.setAttributedTitle(NSAttributedString(string: NSLocalizedString("MapFilterIsOff", comment: ""),
+                                                                      attributes: [NSForegroundColorAttributeName : UIColor.white,
+                                                                                   NSBackgroundColorAttributeName : UIColor.blue]),
+                                                   for: .normal)
+                
             }
-            mapFilterButton.setAttributedTitle(NSAttributedString(string: NSLocalizedString("MapFilterIsOff", comment: ""),
-                                                                  attributes: [NSForegroundColorAttributeName : UIColor.white,
-                                                                               NSBackgroundColorAttributeName : UIColor.blue]),
-                                               for: .normal)
         } else {
             mapFilterButton.setAttributedTitle(NSAttributedString(string: NSLocalizedString("MapFilterIsOn", comment: ""),
                                                                   attributes: [NSForegroundColorAttributeName : UIColor.white,

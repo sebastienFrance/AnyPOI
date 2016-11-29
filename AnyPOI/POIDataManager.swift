@@ -95,6 +95,21 @@ class POIDataManager {
         }
     }
     
+    //MARK: Check if there're filtered groups
+    func hasFilteredGroups() -> Bool {
+        let managedContext = DatabaseAccess.sharedInstance.managedObjectContext
+        let fetchRequest = NSFetchRequest<GroupOfInterest>(entityName: entitiesCste.groupOfInterest)
+        fetchRequest.predicate = NSPredicate(format: "isGroupDisplayed = FALSE")
+       
+        do {
+            let filteredGroupCount = try managedContext.count(for: fetchRequest)
+            return filteredGroupCount > 0 ? true : false
+        } catch let error as NSError {
+            print("\(#function) error \(error), \(error.userInfo)")
+            return false
+        }
+    }
+    
     
     //MARK: find Group
     func getGroups(_ searchFilter:String = "") -> [GroupOfInterest] {
@@ -150,7 +165,6 @@ class POIDataManager {
             print("\(#function) DisplayableGroups could not be fetch \(error), \(error.userInfo)")
             return [GroupOfInterest]()
         }
-        
     }
     
     func findGroups(_ searchText:String) -> [GroupOfInterest] {
@@ -179,9 +193,9 @@ class POIDataManager {
         return addGroup(groupId: groupId, groupName: groupName, groupDescription: groupDescription, groupColor: groupColor)
     }
     
-    fileprivate func addGroup(groupId: Int, groupName:String, groupDescription:String, groupColor:UIColor) -> GroupOfInterest {
+    func addGroup(groupId: Int, groupName:String, groupDescription:String, groupColor:UIColor, isDisplayed:Bool = true) -> GroupOfInterest {
         let group = getEmptyGroup()
-        group.initializeWith(groupId, name: groupName, description: groupDescription, color: groupColor)
+        group.initializeWith(groupId, name: groupName, description: groupDescription, color: groupColor, isDisplayed:isDisplayed)
         return group
     }
     
@@ -224,6 +238,7 @@ class POIDataManager {
         let countryName:String
         let ISOCountryCode:String
     }
+    
     
     func getAllCountriesOrderedByName() -> [CountryDescription] {
         let isoCountryNames = getAllISOCountryCode()
@@ -309,6 +324,21 @@ class POIDataManager {
         return POIsPerGroup
     }
     
+    func getPoisWithoutPlacemark() -> [PointOfInterest] {
+        let managedContext = DatabaseAccess.sharedInstance.managedObjectContext
+        let fetchRequest = NSFetchRequest<PointOfInterest>(entityName: entitiesCste.pointOfInterest)
+        
+        fetchRequest.predicate = NSPredicate(format: "poiCity == nil")
+        
+        do {
+            return try managedContext.fetch(fetchRequest)
+        } catch let error as NSError {
+            print("\(#function) could not be fetch \(error), \(error.userInfo)")
+            return []
+        }
+     
+    }
+
     func getAllPOI() -> [PointOfInterest] {
         
         
@@ -528,7 +558,6 @@ class POIDataManager {
             print("\(#function) could not be fetch \(error), \(error.userInfo)")
             return nil
         }
-        
     }
 
      //MARK: POI
@@ -539,6 +568,14 @@ class POIDataManager {
         commitDatabase()
         return poi
     }
+    
+    func addPOI(coordinates: CLLocationCoordinate2D) -> PointOfInterest {
+        let poi = getEmptyPoi()
+        poi.initializeWith(coordinates: coordinates)
+        commitDatabase()
+        return poi
+    }
+
     
     func addPOI(_ contact:CNContact, placemark:CLPlacemark) -> PointOfInterest {
         let poi = getEmptyPoi()
@@ -561,7 +598,7 @@ class POIDataManager {
         return poi
     }
     
-    fileprivate func getEmptyPoi() -> PointOfInterest {
+    func getEmptyPoi() -> PointOfInterest {
         let managedContext = DatabaseAccess.sharedInstance.managedObjectContext
         let entity = NSEntityDescription.entity(forEntityName: entitiesCste.pointOfInterest, in:managedContext)
         return PointOfInterest(entity: entity!, insertInto: managedContext)

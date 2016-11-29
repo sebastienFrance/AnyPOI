@@ -227,6 +227,26 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
         initRegionMonitoring()
     }
     
+    // Used when a new POI is directly added on the Map from the Import
+    // Warning: Placemark is not initialized in this call and Wikipedia are not searched
+    func initializeWith(coordinates: CLLocationCoordinate2D) {
+        isPrivate = false
+        
+        poiIsContact = false
+        
+        category = CategoryUtils.defaultGroupCategory
+        
+        coordinate = coordinates
+        title = constants.emptyTitle
+        initDefaultCamera(coordinates)
+        
+        poiWikipediaPageId = constants.invalidWikipediaPage
+        
+        parentGroup = POIDataManager.sharedInstance.getDefaultGroup()
+        initRegionMonitoring()
+    }
+
+    
     func initializeWith(_ contact:CNContact, placemark:CLPlacemark) {
         initDefaultCamera(placemark.location!.coordinate)
         
@@ -344,7 +364,7 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
         
     }
     
-    fileprivate func initializePlacemarks(_ placemark:CLPlacemark) {
+    func initializePlacemarks(_ placemark:CLPlacemark) {
         placemarks = placemark
         if let locality = self.placemarks?.locality {
             self.poiCity = locality
@@ -372,28 +392,8 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
     }
 
     // Perform reverse geocoding to find address of the coordinates
-    fileprivate func getPlacemark() {
-        let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
-        CLGeocoder().reverseGeocodeLocation(location, completionHandler: {(placemarks, error) -> Void in
-            
-            if let errorReverseGeocode = error {
-                print("Reverse geocoder failed with error" + errorReverseGeocode.localizedDescription)
-                return
-            }
-            
-            if let placemarksResults = placemarks {
-                if placemarksResults.count > 0 {
-                    self.initializePlacemarks(placemarksResults[0])
-                    POIDataManager.sharedInstance.updatePOI(self)
-                    POIDataManager.sharedInstance.commitDatabase()
-                } else {
-                    print("Empty data received")
-                }
-                
-            } else {
-                print("No received data")
-            }
-         })
+    func getPlacemark() {
+        GeoCodeMgr.sharedInstance.getPlacemark(poi:self)        
     }
     
     // Search Wikipedia Summary articles around POI location
@@ -705,4 +705,58 @@ extension PointOfInterest {
         }
     }
 
+}
+
+extension PointOfInterest {
+    
+    func toGPX() -> String {
+        var xml = "<wpt lat=\"\(coordinate.latitude)\" lon=\"\(coordinate.longitude)\">"
+        xml += "<name>\(poiDisplayName!)</name>"
+        if let description = poiDescription {
+            xml += "<desc>\(description)</desc>"
+        }
+        if let url = poiURL {
+            xml += "<link>\(url)</desc>"
+        }
+        xml += "<sym>\(category.localizedString)</sym>"
+        xml += "<extension>"
+        xml += "<poi groupId=\"\(poiGroupCategory)\" categoryId=\"\(poiCategory)\" isContact=\"\(poiIsContact)\" wikipediaId=\"\(poiWikipediaPageId)\""
+        if let city = poiCity {
+            xml += " city=\"\(city)\""
+        }
+       if let contactId = poiContactIdentifier {
+            xml += " contactId=\"\(contactId)\""
+        }
+        if let contactAddress = poiContactLatestAddress {
+            xml += " contactLatestAddress=\"\(contactAddress)\""
+        }
+        
+        if let countryCode = poiISOCountryCode {
+            xml += " ISOCountryCode=\"\(countryCode)\""
+        }
+        if let phoneNumber = poiPhoneNumber {
+            xml += " phoneNumber=\"\(phoneNumber)\""
+        }
+//        if let placemark = poiPlacemark {
+//            xml += "placemark=\"\(placemark)\""
+//        }
+        xml += ">"
+        if let regionId = poiRegionId {
+            xml += "<regionMonitoring regionId=\"\(regionId)\" notifyEnter=\"\(poiRegionNotifyEnter)\" notifyExit=\"\(poiRegionNotifyExit)\"  regionRadius=\"\(poiRegionRadius)\">"
+            xml += "</regionMonitoring>"
+        }
+        
+        xml += "<group name=\"\(parentGroup!.groupDisplayName!)\" groupId=\"\(parentGroup!.groupId)\" isDisplayed=\"\(parentGroup!.isGroupDisplayed)\" "
+        if let descriptionGroup = parentGroup!.groupDescription {
+            xml += " description=\"\(descriptionGroup)\""
+        }
+        xml += ">"
+        xml += "</group>"
+        
+        xml += "</poi>"
+        xml += "</extension>"
+        
+        xml += "</wpt>"
+        return xml
+    }
 }

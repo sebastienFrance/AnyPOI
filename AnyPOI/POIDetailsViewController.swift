@@ -67,6 +67,11 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // FIXEDME: Reload placemark because imported POIs have no Placemark! 
+        if poi.placemarks == nil {
+            poi.getPlacemark()
+        }
+        
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(POIDetailsViewController.wikipediaReady(_:)),
                                                name: NSNotification.Name(rawValue: PointOfInterest.Notifications.WikipediaReady),

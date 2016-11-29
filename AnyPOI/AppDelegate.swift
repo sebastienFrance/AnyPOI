@@ -11,6 +11,7 @@ import CoreData
 import CoreLocation
 import LocalAuthentication
 import CoreSpotlight
+import PKHUD
 //import UberRides
 
 @UIApplicationMain
@@ -84,14 +85,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UserAuthenticationDelegat
     //
     // When TouchId is enabled, we have one more applicationWillResignActive() + applicationDidBecomeActive() due to request authentication
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any]) -> Bool {
-        print("\(#function)")
+        print("\(#function) URL:\(url.absoluteString)")
        
         if let poiId = NavigationURL(openURL: url).getPoi(), let poi = POIDataManager.sharedInstance.getPOIWithURI(URL(string: poiId)!) {
             poiToShowOnMap = poi
             return true
         } else {
             poiToShowOnMap = nil
-            return false
+            
+            //FIXEDME: 😡 Need 2 successive DispatchQueue because if not, the first time the 
+            // import is triggered, the HUD doesn't display! Don't understand why it's not working the first time...
+            DispatchQueue.main.async {
+           
+                PKHUD.sharedHUD.dimsBackground = true
+                HUD.show(.progress)
+                let hudBaseView = PKHUD.sharedHUD.contentView as! PKHUDSquareBaseView
+                hudBaseView.titleLabel.text = "Importing POIs"
+
+                DispatchQueue.main.async {
+                    let parser = GPXParser(url: url)
+                    _ = parser.parse()
+                    
+                    HUD.hide()
+                    GeoCodeMgr.sharedInstance.resolvePlacemarksBatch()
+                }
+            }
+            
+            return true
         }
     }
     

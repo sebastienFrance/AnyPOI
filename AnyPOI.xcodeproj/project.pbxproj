@@ -108,6 +108,9 @@
 		BE44B58B1DE1DF3700D08EC0 /* MapFilterGroupTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE44B58A1DE1DF3700D08EC0 /* MapFilterGroupTableViewCell.swift */; };
 		BE47BE3B1DAACA8E00862A0C /* POIManager.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE47BE391DAACA8E00862A0C /* POIManager.storyboard */; };
 		BE4A880C1D93137900A0DE2F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BE4A880E1D93137900A0DE2F /* Localizable.strings */; };
+		BE4BF3BC1DEB36E10043891B /* GeoCodeMgr.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4BF3BB1DEB36E10043891B /* GeoCodeMgr.swift */; };
+		BE4BF3BE1DEB55E00043891B /* ExportGPX.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4BF3BD1DEB55E00043891B /* ExportGPX.swift */; };
+		BE4BF3C01DEB57ED0043891B /* GPXActivityItemSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4BF3BF1DEB57ED0043891B /* GPXActivityItemSource.swift */; };
 		BE8F7C3A1DB66B9300BE30C2 /* RouteMailActivityItemSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8F7C391DB66B9300BE30C2 /* RouteMailActivityItemSource.swift */; };
 		BE8F7C3C1DB6B28E00BE30C2 /* HTMLAnyPoi.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8F7C3B1DB6B28E00BE30C2 /* HTMLAnyPoi.swift */; };
 		BE901D2B1DCE32CD00FFB3E2 /* ImageCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE901D2A1DCE32CD00FFB3E2 /* ImageCollectionViewFlowLayout.swift */; };
@@ -156,6 +159,7 @@
 		BED83BDE1DC8DC140025349E /* VideoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED83BDD1DC8DC140025349E /* VideoCollectionViewCell.swift */; };
 		BEDC10541D97D4D1000C6A0D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BEDC10561D97D4D1000C6A0D /* InfoPlist.strings */; };
 		BEF580AB1DD8777D00306597 /* MapFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF580AA1DD8777D00306597 /* MapFilter.swift */; };
+		BEFDA7DB1DE9C9A200D3104D /* GPXParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEFDA7DA1DE9C9A200D3104D /* GPXParser.swift */; };
 		BEFE00AC1DDE4E7B009AA1BF /* SearchLoadingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEFE00AB1DDE4E7B009AA1BF /* SearchLoadingTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
@@ -305,6 +309,9 @@
 		BE4A88091D930FFE00A0DE2F /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/MainInterface.strings; sourceTree = "<group>"; };
 		BE4A880D1D93137900A0DE2F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BE4A880F1D93138900A0DE2F /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		BE4BF3BB1DEB36E10043891B /* GeoCodeMgr.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeoCodeMgr.swift; sourceTree = "<group>"; };
+		BE4BF3BD1DEB55E00043891B /* ExportGPX.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExportGPX.swift; sourceTree = "<group>"; };
+		BE4BF3BF1DEB57ED0043891B /* GPXActivityItemSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPXActivityItemSource.swift; sourceTree = "<group>"; };
 		BE8F7C391DB66B9300BE30C2 /* RouteMailActivityItemSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteMailActivityItemSource.swift; sourceTree = "<group>"; };
 		BE8F7C3B1DB6B28E00BE30C2 /* HTMLAnyPoi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTMLAnyPoi.swift; sourceTree = "<group>"; };
 		BE901D2A1DCE32CD00FFB3E2 /* ImageCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
@@ -356,6 +363,7 @@
 		BEDC10551D97D4D1000C6A0D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		BEDC10571D97D4D7000C6A0D /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		BEF580AA1DD8777D00306597 /* MapFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapFilter.swift; sourceTree = "<group>"; };
+		BEFDA7DA1DE9C9A200D3104D /* GPXParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPXParser.swift; sourceTree = "<group>"; };
 		BEFE00AB1DDE4E7B009AA1BF /* SearchLoadingTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchLoadingTableViewCell.swift; sourceTree = "<group>"; };
 		C69B0EFCEBF29F5E7437465D /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -456,6 +464,7 @@
 		BE2FF2CF1D8B296100C0395A /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				BEFDA7D91DE9C98D00D3104D /* XML */,
 				BE2FF2E61D8B31C700C0395A /* Contacts */,
 				BE2FF2E51D8B31B700C0395A /* Map */,
 				BE2FF2E71D8B31DE00C0395A /* Wikipedia */,
@@ -701,6 +710,7 @@
 				BE0CF2D21D8B209A00344F8A /* FlyoverWayPoints.swift */,
 				BE0CF2F61D8B209A00344F8A /* LocationManager.swift */,
 				BE0CF2DE1D8B209A00344F8A /* MapCameraAnimations.swift */,
+				BE4BF3BB1DEB36E10043891B /* GeoCodeMgr.swift */,
 			);
 			name = Map;
 			sourceTree = "<group>";
@@ -744,6 +754,7 @@
 				BE8F7C391DB66B9300BE30C2 /* RouteMailActivityItemSource.swift */,
 				BE0CF2D51D8B209A00344F8A /* MessageActivityItemSource.swift */,
 				BE8F7C3B1DB6B28E00BE30C2 /* HTMLAnyPoi.swift */,
+				BE4BF3BF1DEB57ED0043891B /* GPXActivityItemSource.swift */,
 			);
 			name = ActivitySource;
 			sourceTree = "<group>";
@@ -881,6 +892,15 @@
 			path = AnyPOIUITests;
 			sourceTree = "<group>";
 		};
+		BEFDA7D91DE9C98D00D3104D /* XML */ = {
+			isa = PBXGroup;
+			children = (
+				BEFDA7DA1DE9C9A200D3104D /* GPXParser.swift */,
+				BE4BF3BD1DEB55E00043891B /* ExportGPX.swift */,
+			);
+			name = XML;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -966,7 +986,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0800;
+				LastUpgradeCheck = 0810;
 				ORGANIZATIONNAME = "Sébastien Brugalières";
 				TargetAttributes = {
 					BE9833EE1D8D55C600B174A7 = {
@@ -1176,6 +1196,7 @@
 				BE44B58B1DE1DF3700D08EC0 /* MapFilterGroupTableViewCell.swift in Sources */,
 				BE0CF34A1D8B209A00344F8A /* PickerViewCell.swift in Sources */,
 				BE0CF32F1D8B209A00344F8A /* POIDataManager.swift in Sources */,
+				BE4BF3BE1DEB55E00043891B /* ExportGPX.swift in Sources */,
 				BE957E651DA94A03006CF455 /* WikiSelectedLanguageTableViewCell.swift in Sources */,
 				BE0CF3211D8B209A00344F8A /* RouteDetailsViewCell.swift in Sources */,
 				BE0CF34E1D8B209A00344F8A /* searchRouteTableViewCell.swift in Sources */,
@@ -1225,6 +1246,8 @@
 				BE187CF51DAA7739007737B4 /* NoWikipediaTableViewCell.swift in Sources */,
 				BE0CF3381D8B209A00344F8A /* PoiBoundingBox.swift in Sources */,
 				BEFE00AC1DDE4E7B009AA1BF /* SearchLoadingTableViewCell.swift in Sources */,
+				BEFDA7DB1DE9C9A200D3104D /* GPXParser.swift in Sources */,
+				BE4BF3BC1DEB36E10043891B /* GeoCodeMgr.swift in Sources */,
 				BE0CF31E1D8B209A00344F8A /* PoisMapAreaTableViewCell.swift in Sources */,
 				BE0CF3201D8B209A00344F8A /* Route.swift in Sources */,
 				BE0CF32B1D8B209A00344F8A /* WikipediaUtils.swift in Sources */,
@@ -1250,6 +1273,7 @@
 				BEA7BA9F1D8B01E5005D2D21 /* AppDelegate.swift in Sources */,
 				BE0CF3261D8B209A00344F8A /* searchGroupViewCell.swift in Sources */,
 				BE0CF3141D8B209A00344F8A /* LocationCell.swift in Sources */,
+				BE4BF3C01DEB57ED0043891B /* GPXActivityItemSource.swift in Sources */,
 				BE0CF32C1D8B209A00344F8A /* LeftMenuAboutTableViewCell.swift in Sources */,
 				BE0CF2FE1D8B209A00344F8A /* ContactsViewController.swift in Sources */,
 				BE0CF3341D8B209A00344F8A /* ImageAcvitityItemSource.swift in Sources */,
@@ -1418,7 +1442,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;

@@ -54,12 +54,12 @@ class GroupOfInterest: NSManagedObject {
         }
     }
     
-    func initializeWith(_ id: Int, name:String, description:String, color newColor:UIColor) {
+    func initializeWith(_ id: Int, name:String, description:String, color newColor:UIColor, isDisplayed:Bool = true) {
         isPrivate = false
         groupId = Int64(id)
         groupDisplayName = name
         groupDescription = description
-        isGroupDisplayed = true
+        isGroupDisplayed = isDisplayed
         self.color = newColor
     }
     

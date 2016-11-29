@@ -291,8 +291,10 @@ class POIsViewController: UIViewController  {
     // MARK: Action buttons
     @IBAction func actionButtonPushed(_ sender: UIBarButtonItem) {
         var activityItems = [UIActivityItemSource]()
-        let mailActivity = PoisMailActivityItemSource(pois:getPois(withFilter:true))
+        let mailActivity = PoisMailActivityItemSource(pois:getPois(withFilter:true), mailTitle:POIGroup.groupDisplayName!)
         activityItems.append(mailActivity)
+        let gpxActivity = GPXActivityItemSource(pois: getPois(withFilter:true))
+        activityItems.append(gpxActivity)
         
         if let snapshot = snapshotter, !snapshot.isLoading {
             let imageActivity = ImageAcvitityItemSource(image: snapshotImage!)
