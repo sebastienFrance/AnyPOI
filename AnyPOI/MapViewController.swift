@@ -174,6 +174,9 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
 
     }
     
+    func importFile(gpx:URL) {
+        performSegue(withIdentifier: storyboard.showGPXImportId, sender: gpx)
+    }
     
     func flyoverAround(_ poi:PointOfInterest) {
         isFlyoverAroundPoi = true
@@ -967,6 +970,7 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
         static let openPhonesId = "openPhones"
         static let openEmailsId = "openEmails"
         static let openMapFilterId = "openMapFilterId"
+        static let showGPXImportId = "showGPXImportId"
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -1011,6 +1015,9 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
                 viewController.isRouteModeOn = true
                 viewController.showPOIsNotInRoute = !filterPOIsNotInRoute
             }
+        } else if segue.identifier == storyboard.showGPXImportId {
+            let viewController = segue.destination as! GPXImportViewController
+            viewController.gpxURL = sender as! URL
         }
        
     }

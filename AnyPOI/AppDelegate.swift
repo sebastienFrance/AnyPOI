@@ -27,6 +27,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UserAuthenticationDelegat
     fileprivate var shortcutMarkCurrentLocation = false
     fileprivate var shortcutSearchPOIs = false
     
+    fileprivate var importURL:URL?
+    
     fileprivate struct ShortcutAction {
         static let markCurrentLocation = "com.sebastien.AnyPOI.POICurrentLocation"
         static let searchPOIs = "com.sebastien.AnyPOI.SearchPOI"
@@ -93,24 +95,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UserAuthenticationDelegat
         } else {
             poiToShowOnMap = nil
             
-            //FIXEDME: 😡 Need 2 successive DispatchQueue because if not, the first time the 
-            // import is triggered, the HUD doesn't display! Don't understand why it's not working the first time...
-            DispatchQueue.main.async {
-           
-                PKHUD.sharedHUD.dimsBackground = true
-                HUD.show(.progress)
-                let hudBaseView = PKHUD.sharedHUD.contentView as! PKHUDSquareBaseView
-                hudBaseView.titleLabel.text = "Importing POIs"
-
-                DispatchQueue.main.async {
-                    let parser = GPXParser(url: url)
-                    _ = parser.parse()
-                    
-                    HUD.hide()
-                    GeoCodeMgr.sharedInstance.resolvePlacemarksBatch()
-                }
-            }
-            
+            importURL = url
             return true
         }
     }
@@ -264,6 +249,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UserAuthenticationDelegat
                 shortcutSearchPOIs = false
                 navigateToMapViewControllerFromAnywhere(UIApplication.shared)
                 mapController.showSearchController()
+            } else if let importGPXFile = importURL {
+                print("\(#function) import \(importGPXFile.absoluteString)")
+                navigateToMapViewControllerFromAnywhere(UIApplication.shared)
+                importURL = nil
+                mapController.importFile(gpx:importGPXFile)
             } else {
                 print("\(#function) unknown action")
             }
