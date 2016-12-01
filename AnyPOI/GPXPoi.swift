@@ -19,6 +19,74 @@ class GPXPoi {
      var poiName = ""
      var poiSym = ""
     
+    var poiCategory:CategoryUtils.Category {
+        get {
+            if let poiAttr = poiAttributes, poiAttr.count > 0 {
+                if let categoryString = poiAttr[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Attributes.categoryId],
+                    let groupCategoryString = poiAttr[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Attributes.groupId],
+                    let categoryId = Int16(categoryString),
+                    let groupCategoryId = Int16(groupCategoryString){
+                    
+                    if let category = CategoryUtils.findCategory(groupCategory:groupCategoryId, categoryId:categoryId, inCategories: CategoryUtils.localSearchCategories) {
+                        return category
+                    }
+                }
+            }
+            
+            return CategoryUtils.defaultGroupCategory
+            
+        }
+    }
+    
+    var poiCoordinates:CLLocationCoordinate2D? {
+        get {
+            if let wptAttr = wptAttributes,
+                let latitudeString = wptAttr[GPXParser.XSD.GPX.Elements.WPT.Attributes.latitude],
+                let longitudeString = wptAttr[GPXParser.XSD.GPX.Elements.WPT.Attributes.longitude],
+                let latitude = Double(latitudeString), let longitude = Double(longitudeString) {
+                
+                return CLLocationCoordinate2DMake(latitude, longitude)
+            }
+            return nil
+        }
+    }
+    
+    var poiIsContact: Bool {
+        get {
+            if let poiAttr = poiAttributes,
+                let isContactString = poiAttr[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Attributes.isContact],
+                let isContact = Bool(isContactString) {
+                return isContact
+            } else {
+                return false
+            }
+            
+        }
+    }
+    
+    var poiContactId:String? {
+        get {
+            if let poiAttr = poiAttributes,
+                let contactIdString = poiAttr[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Attributes.contactId] {
+                if ContactsUtilities.isContactExist(contactIdentifier: contactIdString) {
+                    return contactIdString
+                }
+            }
+            return nil
+            
+        }
+    }
+    
+    var poiContactLastAddress:String? {
+        get {
+            if let poiAttr = poiAttributes {
+                return poiAttr[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Attributes.contactLatestAddress]
+            } else {
+                return nil
+            }
+        }
+    }
+    
     
     func importGPXPoi() {
         if poiAttributes != nil {
@@ -34,37 +102,15 @@ class GPXPoi {
         if let poiAttr = poiAttributes, let wptAttr = wptAttributes, poiAttr.count > 0, wptAttr.count > 0, !poiName.isEmpty {
             if let group = findGroup() {
                 // check mandatory parameters to create a POI
-                if let latitudeString = wptAttr[GPXParser.XSD.GPX.Elements.WPT.Attributes.latitude], let longitudeString = wptAttr[GPXParser.XSD.GPX.Elements.WPT.Attributes.longitude],
-                    let latitude = Double(latitudeString), let longitude = Double(longitudeString),
-                    let categoryString = poiAttr[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Attributes.categoryId],
-                    let groupCategoryString = poiAttr[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Attributes.categoryId],
-                    let categoryId = Int16(categoryString), let groupCategoryId = Int16(groupCategoryString){
+                if let coordinate = poiCoordinates {
                     
                     let emptyPoi = POIDataManager.sharedInstance.getEmptyPoi()
-                    emptyPoi.initializeWith(coordinates: CLLocationCoordinate2DMake(latitude, longitude))
+                    emptyPoi.initializeWith(coordinates: coordinate)
                     
-                    if let category = CategoryUtils.findCategory(groupCategory:groupCategoryId, categoryId:categoryId, inCategories: CategoryUtils.localSearchCategories) {
-                        emptyPoi.category = category
-                    } else {
-                        emptyPoi.category = CategoryUtils.defaultGroupCategory
-                    }
-                    
-                    if let isContactString = poiAttr[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Attributes.isContact],
-                        let isContact = Bool(isContactString),
-                        isContact {
-                        emptyPoi.poiIsContact = true
-                        if let contactIdString = poiAttr[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Attributes.contactId] {
-                            if ContactsUtilities.isContactExist(contactIdentifier: contactIdString) {
-                                emptyPoi.poiContactIdentifier = contactIdString
-                            }
-                        }
-                        
-                        if let latestAddress = poiAttr[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Attributes.contactLatestAddress] {
-                            emptyPoi.poiContactLatestAddress = latestAddress
-                        }
-                    } else {
-                        emptyPoi.poiIsContact = false
-                    }
+                    emptyPoi.category = poiCategory
+                    emptyPoi.poiIsContact = poiIsContact
+                    emptyPoi.poiContactIdentifier = poiContactId
+                    emptyPoi.poiContactLatestAddress = poiContactLastAddress
                     
                     if let city = poiAttr[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Attributes.city] {
                         emptyPoi.poiCity = city

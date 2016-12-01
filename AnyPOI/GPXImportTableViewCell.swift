@@ -12,4 +12,6 @@ class GPXImportTableViewCell: UITableViewCell {
 
     @IBOutlet weak var poiDisplayName: UILabel!
 
+    @IBOutlet weak var poiDescription: UILabel!
+    @IBOutlet weak var poiImageCategory: UIImageView!
 }

@@ -16,7 +16,7 @@ class GPXImportViewController: UIViewController {
             if let tableView = theTableView {
                 tableView.delegate = self
                 tableView.dataSource = self
-                tableView.estimatedRowHeight = 80
+                tableView.estimatedRowHeight = 70
                 tableView.rowHeight = UITableViewAutomaticDimension
             }
         }
@@ -25,9 +25,11 @@ class GPXImportViewController: UIViewController {
     var gpxURL:URL!
     
     fileprivate var GPXPois = [GPXPoi]()
+    fileprivate var selectedState:[Bool]!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -47,6 +49,7 @@ class GPXImportViewController: UIViewController {
             let parser = GPXParser(url: self.gpxURL)
             _ = parser.parse()
             self.GPXPois = parser.GPXPois
+            self.selectedState = Array(repeating: true, count: self.GPXPois.count)
             DispatchQueue.main.async(execute: {
                 self.theTableView.reloadData()
                 HUD.hide()
@@ -61,8 +64,10 @@ class GPXImportViewController: UIViewController {
     
 
     @IBAction func ImportButtonPushed(_ sender: UIBarButtonItem) {
-        for currentGPXPoi in GPXPois {
-            currentGPXPoi.importGPXPoi()
+        for index in 0...(GPXPois.count - 1) {
+            if selectedState[index] {
+                GPXPois[index].importGPXPoi()
+            }
         }
     }
     
@@ -86,7 +91,28 @@ extension GPXImportViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: CellId.GPXImportCellId, for: indexPath) as! GPXImportTableViewCell
         
         cell.poiDisplayName.text = GPXPois[indexPath.row].poiName
+        cell.poiDescription.text = GPXPois[indexPath.row].poiDescription
+        cell.poiImageCategory.image = GPXPois[indexPath.row].poiCategory.icon
+        
+        cell.tag = indexPath.row
+        if selectedState[indexPath.row] {
+            cell.accessoryType = .checkmark
+        } else {
+            cell.accessoryType = .none
+        }
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let cell = tableView.cellForRow(at: indexPath) as? GPXImportTableViewCell {
+            if selectedState[indexPath.row] {
+                cell.accessoryType = .none
+                selectedState[indexPath.row] = false
+            } else {
+                cell.accessoryType = .checkmark
+                selectedState[indexPath.row] = true
+            }
+        }
     }
 }
