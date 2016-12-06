@@ -8,16 +8,17 @@
 
 import Foundation
 import MapKit
+import Contacts
 
 class GPXPoi {
-     var wptAttributes:[String : String]? = nil
-     var poiAttributes:[String : String]? = nil
-     var groupAttributes:[String : String]? = nil
-     var regionMonitoringAttributes:[String : String]? = nil
-     var poiDescription = ""
-     var poiLink = ""
-     var poiName = ""
-     var poiSym = ""
+    var wptAttributes:[String : String]? = nil
+    var poiAttributes:[String : String]? = nil
+    var groupAttributes:[String : String]? = nil
+    var regionMonitoringAttributes:[String : String]? = nil
+    var poiDescription = ""
+    var poiLink = ""
+    var poiName = ""
+    var poiSym = ""
     
     var poiCategory:CategoryUtils.Category {
         get {
@@ -77,10 +78,20 @@ class GPXPoi {
         }
     }
     
-    var poiContactLastAddress:String? {
+    var poiAddress:String? {
         get {
             if let poiAttr = poiAttributes {
-                return poiAttr[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Attributes.contactLatestAddress]
+                return poiAttr[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Attributes.address]
+            } else {
+                return nil
+            }
+        }
+    }
+    
+    fileprivate var poiURL:URL? {
+        get {
+            if let poiAttr = poiAttributes, let urlString = poiAttr[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Attributes.internalUrl] {
+                return URL(string: urlString)
             } else {
                 return nil
             }
@@ -97,72 +108,86 @@ class GPXPoi {
     }
     
     fileprivate func restorePoi() {
-        // let emptyPoi = POIDataManager.sharedInstance.getEmptyPoi()
-        print("Create POI from restore")
-        if let poiAttr = poiAttributes, let wptAttr = wptAttributes, poiAttr.count > 0, wptAttr.count > 0, !poiName.isEmpty {
-            if let group = findGroup() {
-                // check mandatory parameters to create a POI
-                if let coordinate = poiCoordinates {
-                    
-                    let emptyPoi = POIDataManager.sharedInstance.getEmptyPoi()
-                    emptyPoi.initializeWith(coordinates: coordinate)
-                    
-                    emptyPoi.category = poiCategory
-                    emptyPoi.poiIsContact = poiIsContact
-                    emptyPoi.poiContactIdentifier = poiContactId
-                    emptyPoi.poiContactLatestAddress = poiContactLastAddress
-                    
-                    if let city = poiAttr[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Attributes.city] {
-                        emptyPoi.poiCity = city
+        if let poiAttr = poiAttributes, let wptAttr = wptAttributes, poiAttr.count > 0, wptAttr.count > 0,
+            !poiName.isEmpty,
+            let url = poiURL,
+            let group = findGroup(),
+            let coordinate = poiCoordinates {
+            
+            var restorePoi:PointOfInterest!
+            if let poi = POIDataManager.sharedInstance.getPOIWithURI(url), poi.poiDisplayName == poiName {
+                print("\(#function) update an existing Poi")
+                restorePoi = poi
+                
+                //FIXEDME: Warning if the updated POI is monitored and the imported is not
+                // the old one will stay monitored!
+            } else {
+                print("\(#function) create a new Poi")
+                restorePoi = POIDataManager.sharedInstance.getEmptyPoi()
+            }
+            
+            restorePoi.importWith(coordinates: coordinate)
+            
+            restorePoi.category = poiCategory
+            restorePoi.poiIsContact = poiIsContact
+            restorePoi.poiContactIdentifier = poiContactId
+            restorePoi.poiAddress = poiAddress
+            restorePoi.poiDisplayName = poiName
+            restorePoi.poiDescription = poiDescription
+            restorePoi.parentGroup = group
+            
+            if let city = poiAttr[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Attributes.city] {
+                restorePoi.poiCity = city
+            }
+            
+            if let ISOCountryCode = poiAttr[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Attributes.ISOCountryCode] {
+                restorePoi.poiISOCountryCode = ISOCountryCode
+            }
+            
+            if let phoneNumber = poiAttr[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Attributes.phoneNumber] {
+                restorePoi.poiPhoneNumber = phoneNumber
+            }
+            
+            if let wikipediaIdString = poiAttr[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Attributes.wikipediaId],
+                let wikipediaId = Int64(wikipediaIdString) {
+                restorePoi.poiWikipediaPageId = wikipediaId
+            }
+            
+            if let regionMonitoringAttr = regionMonitoringAttributes, regionMonitoringAttr.count > 0 {
+                
+                var notifyEnter = false
+                if let notifyEnterString = regionMonitoringAttr[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.regionMonitoring.Attributes.notifyEnter], let notifyEnterBool = Bool(notifyEnterString) {
+                    notifyEnter = notifyEnterBool
+                }
+                
+                var notifyExit = false
+                if let notifyExitString = regionMonitoringAttr[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.regionMonitoring.Attributes.notifyExit],
+                    let notifyExitBool = Bool(notifyExitString) {
+                    notifyExit = notifyExitBool
+                }
+                
+                if let radiusString = regionMonitoringAttr[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.regionMonitoring.Attributes.regionRadius],
+                    let radius = Double(radiusString) {
+                    restorePoi.poiRegionRadius = radius
+                }
+                
+                if notifyExit || notifyEnter {
+                    let result = restorePoi.startMonitoring(radius: restorePoi.poiRegionRadius, notifyEnterRegion: notifyEnter, notifyExitRegion: notifyExit)
+                    switch result {
+                    case .deviceNotSupported:
+                        print("\(#function) Device doesn't suppport region monitoring")
+                    case .internalError:
+                        print("\(#function) internal error")
+                    case .maxMonitoredRegionAlreadyReached:
+                        print("\(#function) max monitored region already reached")
+                    case .noError:
+                        print("\(#function) poi monitoring started for \(restorePoi.poiDisplayName!)")
                     }
-                    
-                    if let ISOCountryCode = poiAttr[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Attributes.ISOCountryCode] {
-                        emptyPoi.poiISOCountryCode = ISOCountryCode
-                    }
-                    
-                    if let phoneNumber = poiAttr[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Attributes.phoneNumber] {
-                        emptyPoi.poiPhoneNumber = phoneNumber
-                    }
-                    
-                    if let wikipediaIdString = poiAttr[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Attributes.wikipediaId],
-                        let wikipediaId = Int64(wikipediaIdString) {
-                        emptyPoi.poiWikipediaPageId = wikipediaId
-                    }
-                    
-                    
-                    emptyPoi.poiDisplayName = poiName
-                    emptyPoi.poiDescription = poiDescription
-                    
-                    emptyPoi.parentGroup = group
-                    
-                    if let regionMonitoringAttr = regionMonitoringAttributes, regionMonitoringAttr.count > 0 {
-                        
-                        if let notifyEnterString = regionMonitoringAttr[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.regionMonitoring.Attributes.notifyEnter],
-                            let notifyEnter = Bool(notifyEnterString) {
-                            emptyPoi.poiRegionNotifyEnter = notifyEnter
-                        }
-                        
-                        if let notifyExitString = regionMonitoringAttr[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.regionMonitoring.Attributes.notifyExit],
-                            let notifyExit = Bool(notifyExitString) {
-                            emptyPoi.poiRegionNotifyEnter = notifyExit
-                        }
-                        
-                        if let radiusString = regionMonitoringAttr[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.regionMonitoring.Attributes.regionRadius],
-                            let radius = Double(radiusString) {
-                            emptyPoi.poiRegionRadius = radius
-                        }
-                        
-                        //FIXEDME: Most probably it's not required because the regionId will be different on imported device
-                        //if let regionId = regionMonitoringAttr[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.regionMonitoring.Attributes.regionId] {
-                        // emptyPoi.poiRegionId = regionId
-                        //}
-                        
-                    }
-                    
-                    
-                    POIDataManager.sharedInstance.commitDatabase()
                 }
             }
+            
+            
+            POIDataManager.sharedInstance.commitDatabase()
         } else {
             print("\(#function) Poi is ignored because some mandatory data are missing")
         }
@@ -195,7 +220,20 @@ class GPXPoi {
     }
     
     fileprivate func importPoi() {
-        print("Import a new POI")
-        
+        if let wptAttr = wptAttributes, wptAttr.count > 0, !poiName.isEmpty {
+            // check mandatory parameters to create a POI
+            if let coordinate = poiCoordinates {
+                
+                let importPoi = POIDataManager.sharedInstance.getEmptyPoi()
+                importPoi.importWith(coordinates: coordinate)
+                
+                importPoi.poiDisplayName = poiName
+                importPoi.poiDescription = poiDescription
+                
+                POIDataManager.sharedInstance.commitDatabase()
+            }
+        } else {
+            print("\(#function) Poi is ignored because some mandatory data are missing")
+        }
     }
 }

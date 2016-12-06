@@ -76,11 +76,7 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
     
     dynamic var subtitle: String? {
         get {
-            if let placemark = placemarks {
-                return Utilities.getAddressFrom(placemark)
-            } else {
-                return nil
-            }
+            return address
         }
     }
 
@@ -91,41 +87,6 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
         set {
             poiLatitude = newValue.latitude
             poiLongitude = newValue.longitude
-        }
-    }
-    
-    // PlaceMark can be empty
-    var placemarks: CLPlacemark? {
-        get {
-            if let thePlacemark = poiPlacemark as? Data {
-                return NSKeyedUnarchiver.unarchiveObject(with: thePlacemark) as? CLPlacemark
-            } else {
-                return nil
-            }
-        }
-        set {
-            if let newPlacemark = newValue {
-                poiPlacemark = NSKeyedArchiver.archivedData(withRootObject: newPlacemark) as NSObject?
-                if self.poiDisplayName == constants.emptyTitle,
-                    let placemarkName = MapUtils.getNameFromPlacemark(newPlacemark) {
-                    self.title = placemarkName
-                }
-            }
-        }
-    }
-    
-    var camera: MKMapCamera! {
-        get {
-            if let theCamera = poiCamera as? Data {
-                return NSKeyedUnarchiver.unarchiveObject(with: theCamera) as? MKMapCamera
-            } else {
-                return MKMapCamera(lookingAtCenter: coordinate, fromDistance: 300, pitch:0, heading: 0)
-            }
-        }
-        set {
-            if let newCamera = newValue {
-                poiCamera = NSKeyedArchiver.archivedData(withRootObject: newCamera) as NSObject?
-            }
         }
     }
     
@@ -162,16 +123,12 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
     
     fileprivate var wikiRequest:WikipediaRequest?
     
-    // Currently not used...
-    var imageMap: UIImage?
-    var isImageLoading = false
-    
     var address:String {
         get {
-            if let placemark = placemarks {
-                return Utilities.getAddressFrom(placemark)
+            if let theAddress = poiAddress {
+                return theAddress
             } else {
-                return "No address"
+                return NSLocalizedString("NoAddressUtilities", comment: "")
             }
         }
     }
@@ -207,8 +164,7 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
     // MARK: Initializers
     
     // Used when a new POI is directly added on the Map using Long touch
-    func initializeWith(_ coordinates: CLLocationCoordinate2D, camera theCamera:MKMapCamera) {
-        isPrivate = false
+    func initializeWith(coordinates: CLLocationCoordinate2D) {
         
         poiIsContact = false
         
@@ -216,9 +172,8 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
         
         coordinate = coordinates
         title = constants.emptyTitle
-        camera = theCamera
         
-        getPlacemark()
+        GeoCodeMgr.sharedInstance.getPlacemark(poi:self)
         
         poiWikipediaPageId = constants.invalidWikipediaPage
         findWikipedia()
@@ -229,8 +184,7 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
     
     // Used when a new POI is directly added on the Map from the Import
     // Warning: Placemark is not initialized in this call and Wikipedia are not searched
-    func initializeWith(coordinates: CLLocationCoordinate2D) {
-        isPrivate = false
+    func importWith(coordinates: CLLocationCoordinate2D) {
         
         poiIsContact = false
         
@@ -238,7 +192,6 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
         
         coordinate = coordinates
         title = constants.emptyTitle
-        initDefaultCamera(coordinates)
         
         poiWikipediaPageId = constants.invalidWikipediaPage
         
@@ -248,13 +201,10 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
 
     
     func initializeWith(_ contact:CNContact, placemark:CLPlacemark) {
-        initDefaultCamera(placemark.location!.coordinate)
         
         poiIsContact = true
         poiContactIdentifier = contact.identifier
-        poiContactLatestAddress = CNPostalAddressFormatter().string(from: contact.postalAddresses[0].value )
         
-        isPrivate = false
         category = CategoryUtils.contactCategory
         
         coordinate = placemark.location!.coordinate
@@ -265,12 +215,60 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
             title = constants.emptyTitle
         }
         
-        initializePlacemarks(placemark)
+        initializeWith(placemark:placemark)
+        poiAddress = CNPostalAddressFormatter().string(from: contact.postalAddresses[0].value )
         poiWikipediaPageId = constants.invalidWikipediaPage
         
         parentGroup = POIDataManager.sharedInstance.getDefaultContactGroup()
         initRegionMonitoring()
         
+    }
+    
+    
+    // Used when a new POI is created from a Wikipedia article
+    func initializeWith(_ wikipedia: Wikipedia, group:GroupOfInterest) {
+
+        poiIsContact = false
+        category = CategoryUtils.wikipediaCategory
+        
+        coordinate = wikipedia.coordinates
+        
+        title = wikipedia.title
+        poiWikipediaPageId = Int64(wikipedia.pageId)
+        
+        poiURL = WikipediaUtils.getMobileURLForPageId(wikipedia.pageId)
+        
+        GeoCodeMgr.sharedInstance.getPlacemark(poi:self)
+        findWikipedia()
+        
+        parentGroup = group
+        initRegionMonitoring()
+    }
+    
+    // Used when a new POI is created from a local search
+    func initializeWith(_ mapItem:MKMapItem, category:CategoryUtils.Category?) {
+        poiIsContact = false
+        
+        self.category = category ?? CategoryUtils.defaultGroupCategory
+        
+        coordinate = mapItem.placemark.coordinate
+        title = mapItem.name
+        
+        if let phone = mapItem.phoneNumber {
+            poiPhoneNumber = phone
+        }
+        
+        if let url = mapItem.url {
+            poiURL = url.absoluteString
+        }
+        
+        initializeWith(placemark:mapItem.placemark)
+        
+        poiWikipediaPageId = constants.invalidWikipediaPage
+        findWikipedia()
+        
+        parentGroup = POIDataManager.sharedInstance.getDefaultGroup()
+        initRegionMonitoring()
     }
     
     func updateWith(_ contact:CNContact) {
@@ -287,9 +285,9 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
         }
         
         coordinate = placemark.location!.coordinate
-        poiContactLatestAddress = CNPostalAddressFormatter().string(from: contact.postalAddresses[0].value )
+        initializeWith(placemark:placemark)
+        poiAddress = CNPostalAddressFormatter().string(from: contact.postalAddresses[0].value )
         title = CNContactFormatter.string(from: contact, style: .fullName)
-        initializePlacemarks(placemark)
         
         if needToRestartMonitoring {
             _ = LocationManager.sharedInstance.startMonitoringRegion(poi: self)
@@ -297,63 +295,7 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
         // SEB: A FAIRE, peut-etre qu'il faut reinitialiser completement le region monitoring pour ce POI et la camera
         // si les coordonnées geo ne sont pas identique (ca peut arriver si quelqu'un change d'adresse!)
     }
-    
-    // Used when a new POI is created from a Wikipedia article
-    func initializeWith(_ wikipedia: Wikipedia, group:GroupOfInterest) {
 
-        initDefaultCamera(wikipedia.coordinates)
-        
-        isPrivate = false
-        poiIsContact = false
-        category = CategoryUtils.wikipediaCategory
-        
-        coordinate = wikipedia.coordinates
-        
-        title = wikipedia.title
-        poiWikipediaPageId = Int64(wikipedia.pageId)
-        
-        poiURL = WikipediaUtils.getMobileURLForPageId(wikipedia.pageId)
-        
-        getPlacemark()
-        findWikipedia()
-        
-        parentGroup = group
-        initRegionMonitoring()
-    }
-    
-    // Used when a new POI is created from a local search
-    func initializeWith(_ mapItem:MKMapItem, category:CategoryUtils.Category?) {
-        initDefaultCamera(mapItem.placemark.coordinate)
-
-        isPrivate = false
-        poiIsContact = false
-        
-        self.category = category ?? CategoryUtils.defaultGroupCategory
-        
-        coordinate = mapItem.placemark.coordinate
-        title = mapItem.name
-        
-        if let phone = mapItem.phoneNumber {
-            poiPhoneNumber = phone
-        }
-        
-        if let url = mapItem.url {
-            poiURL = url.absoluteString
-        }
-        
-        
-        initializePlacemarks(mapItem.placemark)
-        
-        poiWikipediaPageId = constants.invalidWikipediaPage
-        findWikipedia()
-        
-        parentGroup = POIDataManager.sharedInstance.getDefaultGroup()
-        initRegionMonitoring()
-    }
-    
-    fileprivate func initDefaultCamera(_ coordinate:CLLocationCoordinate2D) {
-        camera = MKMapCamera(lookingAtCenter: coordinate, fromDistance: 150, pitch: 45, heading: 0)
-    }
     
     fileprivate func initRegionMonitoring() {
         // Disable Region on startup
@@ -364,15 +306,22 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
         
     }
     
-    func initializePlacemarks(_ placemark:CLPlacemark) {
-        placemarks = placemark
-        if let locality = self.placemarks?.locality {
+    func initializeWith(placemark:CLPlacemark) {
+        
+        if self.poiDisplayName == constants.emptyTitle,
+            let placemarkName = MapUtils.getNameFromPlacemark(placemark) {
+            self.title = placemarkName
+        }
+
+        poiAddress = Utilities.getAddressFrom(placemark)
+        
+        if let locality = placemark.locality {
             self.poiCity = locality
         } else {
             self.poiCity = "Unknown city"
         }
         
-        if let ISOCountryCode = self.placemarks?.isoCountryCode {
+        if let ISOCountryCode = placemark.isoCountryCode {
             self.poiISOCountryCode = ISOCountryCode
         } else {
             self.poiISOCountryCode = "Unknown country"
@@ -381,7 +330,7 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
     
     // MARK: Utilities
     func refreshAll() {
-        getPlacemark()
+        GeoCodeMgr.sharedInstance.getPlacemark(poi:self)
         findWikipedia()
     }
     
@@ -391,11 +340,6 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
         }
     }
 
-    // Perform reverse geocoding to find address of the coordinates
-    func getPlacemark() {
-        GeoCodeMgr.sharedInstance.getPlacemark(poi:self)        
-    }
-    
     // Search Wikipedia Summary articles around POI location
     fileprivate func findWikipedia() {
         wikiRequest = WikipediaRequest(delegate: self)
@@ -710,53 +654,103 @@ extension PointOfInterest {
 extension PointOfInterest {
     
     func toGPX() -> String {
-        var xml = "<wpt lat=\"\(coordinate.latitude)\" lon=\"\(coordinate.longitude)\">"
-        xml += "<name>\(poiDisplayName!)</name>"
+        var xml = "<\(GPXParser.XSD.GPX.Elements.WPT.name)"
+        xml += " \(GPXParser.XSD.GPX.Elements.WPT.Attributes.latitude)=\"\(coordinate.latitude)\""
+        xml += " \(GPXParser.XSD.GPX.Elements.WPT.Attributes.longitude)=\"\(coordinate.longitude)\">"
+        xml += "<\(GPXParser.XSD.GPX.Elements.WPT.Elements.name.name)>\(poiDisplayName!)</\(GPXParser.XSD.GPX.Elements.WPT.Elements.name.name)>"
         if let description = poiDescription {
-            xml += "<desc>\(description)</desc>"
+            xml += "<\(GPXParser.XSD.GPX.Elements.WPT.Elements.desc.name)>\(description)</\(GPXParser.XSD.GPX.Elements.WPT.Elements.desc.name)>"
         }
         if let url = poiURL {
-            xml += "<link>\(url)</desc>"
+            xml += "<\(GPXParser.XSD.GPX.Elements.WPT.Elements.link.name)>\(url)</\(GPXParser.XSD.GPX.Elements.WPT.Elements.link.name)>"
         }
-        xml += "<sym>\(category.localizedString)</sym>"
-        xml += "<extension>"
-        xml += "<poi groupId=\"\(poiGroupCategory)\" categoryId=\"\(poiCategory)\" isContact=\"\(poiIsContact)\" wikipediaId=\"\(poiWikipediaPageId)\""
+        xml += "<\(GPXParser.XSD.GPX.Elements.WPT.Elements.sym.name)>\(category.localizedString)</\(GPXParser.XSD.GPX.Elements.WPT.Elements.sym.name)>"
+        xml += "<\(GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.name)>"
+        xml += addPoiToGPX()
+        xml += addRegionToGPX()
+        xml += addGroupToGPX()
+        
+        xml += "</\(GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.name)>"
+        xml += "</\(GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.name)>"
+        
+        xml += "</\(GPXParser.XSD.GPX.Elements.WPT.name)>"
+        return xml
+    }
+    
+    private static let internalUrlAttr = GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Attributes.internalUrl
+    private static let groupCategoryAttr = GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Attributes.groupId
+    private static let categoryIdAttr = GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Attributes.categoryId
+    private static let isContactAttr = GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Attributes.isContact
+    private static let wikipediaIdAttr = GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Attributes.wikipediaId
+    private static let cityAttr = GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Attributes.city
+    private static let contactIdAttr = GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Attributes.contactId
+    private static let addressAttr = GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Attributes.address
+    private static let ISOCountryCodeAttr = GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Attributes.ISOCountryCode
+    private static let phoneNumberAttr = GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Attributes.phoneNumber
+    
+    
+    
+    fileprivate func addPoiToGPX() -> String {
+        var xml = "<\(GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.name)"
+        // poi.objectID.uriRepresentation().absoluteString
+        xml += " \(PointOfInterest.internalUrlAttr)=\"\(objectID.uriRepresentation().absoluteString)\""
+        xml += " \(PointOfInterest.groupCategoryAttr)=\"\(poiGroupCategory)\""
+        xml += " \(PointOfInterest.categoryIdAttr)=\"\(poiCategory)\""
+        xml += " \(PointOfInterest.isContactAttr)=\"\(poiIsContact)\""
+        xml += " \(PointOfInterest.wikipediaIdAttr)=\"\(poiWikipediaPageId)\""
         if let city = poiCity {
-            xml += " city=\"\(city)\""
+            xml += " \(PointOfInterest.cityAttr)=\"\(city)\""
         }
-       if let contactId = poiContactIdentifier {
-            xml += " contactId=\"\(contactId)\""
+        if let contactId = poiContactIdentifier {
+            xml += " \(PointOfInterest.contactIdAttr)=\"\(contactId)\""
         }
-        if let contactAddress = poiContactLatestAddress {
-            xml += " contactLatestAddress=\"\(contactAddress)\""
+        if let contactAddress = poiAddress {
+            xml += " \(PointOfInterest.addressAttr)=\"\(contactAddress)\""
         }
         
         if let countryCode = poiISOCountryCode {
-            xml += " ISOCountryCode=\"\(countryCode)\""
+            xml += " \(PointOfInterest.ISOCountryCodeAttr)=\"\(countryCode)\""
         }
         if let phoneNumber = poiPhoneNumber {
-            xml += " phoneNumber=\"\(phoneNumber)\""
-        }
-//        if let placemark = poiPlacemark {
-//            xml += "placemark=\"\(placemark)\""
-//        }
-        xml += ">"
-        if let regionId = poiRegionId {
-            xml += "<regionMonitoring regionId=\"\(regionId)\" notifyEnter=\"\(poiRegionNotifyEnter)\" notifyExit=\"\(poiRegionNotifyExit)\"  regionRadius=\"\(poiRegionRadius)\">"
-            xml += "</regionMonitoring>"
-        }
-        
-        xml += "<group name=\"\(parentGroup!.groupDisplayName!)\" groupId=\"\(parentGroup!.groupId)\" isDisplayed=\"\(parentGroup!.isGroupDisplayed)\" "
-        if let descriptionGroup = parentGroup!.groupDescription {
-            xml += " description=\"\(descriptionGroup)\""
+            xml += " \(PointOfInterest.phoneNumberAttr)=\"\(phoneNumber)\""
         }
         xml += ">"
-        xml += "</group>"
-        
-        xml += "</poi>"
-        xml += "</extension>"
-        
-        xml += "</wpt>"
         return xml
     }
+    
+    private static let notifyEnterAttr = GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.regionMonitoring.Attributes.notifyEnter
+    private static let notifyExitAttr = GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.regionMonitoring.Attributes.notifyExit
+    private static let regionRadiusAttr = GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.regionMonitoring.Attributes.regionRadius
+
+    
+    fileprivate func addRegionToGPX() -> String {
+        var xml = ""
+        xml += "<\(GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.regionMonitoring.name)"
+        xml += " \(PointOfInterest.notifyEnterAttr)=\"\(poiRegionNotifyEnter)\""
+        xml += " \(PointOfInterest.notifyExitAttr)=\"\(poiRegionNotifyExit)\""
+        xml += " \(PointOfInterest.regionRadiusAttr)=\"\(poiRegionRadius)\">"
+        xml += "</\(GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.regionMonitoring.name)>"
+        return xml
+    }
+    
+    
+    private static let nameAttr = GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.group.Attributes.name
+    private static let groupIdAttr = GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.group.Attributes.groupId
+    private static let isDisplayedAttr = GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.group.Attributes.isDisplayed
+    private static let groupDescriptionAttr = GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.group.Attributes.groupDescription
+
+    
+    fileprivate func addGroupToGPX() -> String {
+        var xml = "<\(GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.group.name)"
+        xml += " \(PointOfInterest.nameAttr)=\"\(parentGroup!.groupDisplayName!)\""
+        xml += " \(PointOfInterest.groupIdAttr)=\"\(parentGroup!.groupId)\""
+        xml += " \(PointOfInterest.isDisplayedAttr)=\"\(parentGroup!.isGroupDisplayed)\""
+        if let descriptionGroup = parentGroup!.groupDescription {
+            xml += " \(PointOfInterest.groupDescriptionAttr)=\"\(descriptionGroup)\""
+        }
+        xml += ">"
+        xml += "</\(GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.group.name)>"
+        return xml
+    }
+ 
 }

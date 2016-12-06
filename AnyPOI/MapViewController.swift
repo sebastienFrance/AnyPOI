@@ -472,7 +472,7 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
     }
     
     func addPoiOnOnMapLocation(_ coordinate:CLLocationCoordinate2D) -> PointOfInterest {
-        return POIDataManager.sharedInstance.addPOI(coordinate, camera:theMapView.camera)
+        return POIDataManager.sharedInstance.addPOI(coordinates: coordinate)
     }
     
     func selectPoiOnMap(_ poi:PointOfInterest) {
@@ -926,7 +926,7 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
             // Add the new POI in database
             // The Poi will be added on the Map thanks to DB notifications
             let coordinates = theMapView.convert(sender.location(in: theMapView), toCoordinateFrom: theMapView)
-            let addedPoi = POIDataManager.sharedInstance.addPOI(coordinates, camera:theMapView.camera)
+            let addedPoi = POIDataManager.sharedInstance.addPOI(coordinates: coordinates)
             
             if isRouteMode {
                 // Add the POI as a new WayPoint in the route

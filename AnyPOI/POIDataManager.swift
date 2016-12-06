@@ -190,12 +190,15 @@ class POIDataManager {
     // MARK: Group
     func addGroup(groupName:String, groupDescription:String, groupColor:UIColor) -> GroupOfInterest {
         let groupId = Int(Date.timeIntervalSinceReferenceDate)
-        return addGroup(groupId: groupId, groupName: groupName, groupDescription: groupDescription, groupColor: groupColor)
+        let group = addGroup(groupId: groupId, groupName: groupName, groupDescription: groupDescription, groupColor: groupColor)
+        POIDataManager.sharedInstance.commitDatabase()
+        return group
     }
     
     func addGroup(groupId: Int, groupName:String, groupDescription:String, groupColor:UIColor, isDisplayed:Bool = true) -> GroupOfInterest {
         let group = getEmptyGroup()
         group.initializeWith(groupId, name: groupName, description: groupDescription, color: groupColor, isDisplayed:isDisplayed)
+        POIDataManager.sharedInstance.commitDatabase()
         return group
     }
     
@@ -203,7 +206,6 @@ class POIDataManager {
         
         let managedContext = DatabaseAccess.sharedInstance.managedObjectContext
         let entity = NSEntityDescription.entity(forEntityName: entitiesCste.groupOfInterest, in:managedContext)
-       // return GroupOfInterest(context: managedContext)
         return GroupOfInterest(entity: entity!, insertInto: managedContext)
     }
 
@@ -562,12 +564,6 @@ class POIDataManager {
 
      //MARK: POI
     // Insert a new PointOfInterest in the database in the default GroupOfInterest
-    func addPOI(_ coordinates: CLLocationCoordinate2D, camera:MKMapCamera) -> PointOfInterest {
-        let poi = getEmptyPoi()
-        poi.initializeWith(coordinates, camera:camera)
-        commitDatabase()
-        return poi
-    }
     
     func addPOI(coordinates: CLLocationCoordinate2D) -> PointOfInterest {
         let poi = getEmptyPoi()
@@ -575,6 +571,14 @@ class POIDataManager {
         commitDatabase()
         return poi
     }
+    
+    func importPOI(coordinates: CLLocationCoordinate2D) -> PointOfInterest {
+        let poi = getEmptyPoi()
+        poi.importWith(coordinates: coordinates)
+        commitDatabase()
+        return poi
+    }
+
 
     
     func addPOI(_ contact:CNContact, placemark:CLPlacemark) -> PointOfInterest {

@@ -57,7 +57,7 @@ class ContactsSynchronization {
     fileprivate func contactsSynchronization(index:Int) {
         if index < contacts.count {
             
-                let contactToSync = self.contacts[index]
+                let contactToSync = contacts[index]
                 let address = CNPostalAddressFormatter().string(from: contactToSync.postalAddresses[0].value)
                 
                 let foundContacts = POIDataManager.sharedInstance.findContact(contactToSync.identifier)
@@ -70,7 +70,7 @@ class ContactsSynchronization {
                         print("\(#function) Warning, more than one contact found with identifier \(contactToSync.identifier)")
                     }
                     
-                    if address == foundContacts[0].poiContactLatestAddress {
+                    if address == foundContacts[0].address {
                         // Update only the contact name because the address has not been changed
                         foundContacts[0].updateWith(contactToSync)
                         self.contactsSynchronization(index:index + 1) // Synchronize the next contact

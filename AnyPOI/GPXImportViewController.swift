@@ -64,11 +64,30 @@ class GPXImportViewController: UIViewController {
     
 
     @IBAction func ImportButtonPushed(_ sender: UIBarButtonItem) {
-        for index in 0...(GPXPois.count - 1) {
-            if selectedState[index] {
-                GPXPois[index].importGPXPoi()
+        //FIXEDME: It should by done in background!
+        for index in 0...(self.GPXPois.count - 1) {
+            if self.selectedState[index] {
+                self.GPXPois[index].importGPXPoi()
             }
         }
+
+        self.dismiss(animated: true, completion: nil)
+
+        
+//        PKHUD.sharedHUD.dimsBackground = true
+//        HUD.show(.progress)
+//
+//        DispatchQueue.global(qos: .userInitiated).async {
+//            for index in 0...(self.GPXPois.count - 1) {
+//                if self.selectedState[index] {
+//                    self.GPXPois[index].importGPXPoi()
+//                }
+//            }
+//            DispatchQueue.main.async(execute: {
+//                HUD.hide()
+//                self.dismiss(animated: true, completion: nil)
+//            })
+//       }
     }
     
     @IBAction func cancelButtonPushed(_ sender: UIBarButtonItem) {

@@ -51,22 +51,21 @@ class GPXParser: NSObject, XMLParserDelegate {
                                 struct poi {
                                     static let name = "poi"
                                     struct Attributes {
+                                        static let internalUrl = "internalUrl"
                                         static let groupId = "groupId"
                                         static let categoryId = "categoryId"
                                         static let isContact = "isContact"
                                         static let wikipediaId = "wikipediaId"
                                         static let city = "city"
                                         static let contactId = "contactId"
-                                        static let contactLatestAddress = "contactLatestAddress"
+                                        static let address = "address"
                                         static let ISOCountryCode = "ISOCountryCode"
                                         static let phoneNumber = "phoneNumber"
-                                        static let placemark = "placemark"
                                     }
                                     struct Elements {
                                         struct regionMonitoring {
                                             static let name = "regionMonitoring"
                                             struct Attributes {
-                                                static let regionId = "regionId"
                                                 static let notifyEnter = "notifyEnter"
                                                 static let notifyExit = "notifyExit"
                                                 static let regionRadius = "regionRadius"
@@ -203,17 +202,18 @@ class GPXParser: NSObject, XMLParserDelegate {
     }
     
     
- 
+    // Warning: foundCharacters can be called several times for the same element
+    // As a consequence we need to concat the values with += and not a single assignment
     func parser(_ parser: XMLParser, foundCharacters string: String) {
         switch isParsing {
         case .WPT_Desc:
-            poiDescription = string
+            poiDescription += string
         case .WPT_Link:
-            poiLink = string
+            poiLink += string
         case .WPT_Name:
-            poiName = string
+            poiName += string
         case .WPT_SYM:
-            poiSym = string
+            poiSym += string
         default:
             break
         }

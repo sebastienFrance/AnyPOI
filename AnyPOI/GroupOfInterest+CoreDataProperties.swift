@@ -2,7 +2,7 @@
 //  GroupOfInterest+CoreDataProperties.swift
 //  AnyPOI
 //
-//  Created by Sébastien Brugalières on 15/10/2016.
+//  Created by Sébastien Brugalières on 05/12/2016.
 //  Copyright © 2016 Sébastien Brugalières. All rights reserved.
 //
 
@@ -21,7 +21,6 @@ extension GroupOfInterest {
     @NSManaged public var groupDisplayName: String?
     @NSManaged public var groupId: Int64
     @NSManaged public var isGroupDisplayed: Bool
-    @NSManaged public var isPrivate: Bool
     @NSManaged public var listOfPOIs: NSSet?
 
 }

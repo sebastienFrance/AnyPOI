@@ -82,12 +82,13 @@ class GroupConfiguratorViewController: UIViewController, UITextFieldDelegate, UI
             theGroup.groupDisplayName = groupNameTextField.text ?? ""
             theGroup.color = colors[selectedColorIndex]
             POIDataManager.sharedInstance.updatePOIGroup(theGroup)
+            POIDataManager.sharedInstance.commitDatabase()
          } else {
             // Create a new group
             let groupDescription = groupDescriptionTextField.text ?? ""
             _ = POIDataManager.sharedInstance.addGroup(groupName: groupNameTextField.text!, groupDescription: groupDescription, groupColor:colors[selectedColorIndex])
         }
-        POIDataManager.sharedInstance.commitDatabase()
+        
         
         self.delegate?.didDismiss() // Warn the delegate the view will be dismissed
         dismiss(animated: true, completion:  nil)

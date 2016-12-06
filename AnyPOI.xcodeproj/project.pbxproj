@@ -507,6 +507,7 @@
 		BE2FF2D21D8B2AF800C0395A /* MapVC */ = {
 			isa = PBXGroup;
 			children = (
+				BE4628D71DEF5BBC00FB4C52 /* GPXImport */,
 				BE2FF2D11D8B2AE400C0395A /* ContactsVC */,
 				BE2FF2E11D8B2FFC00C0395A /* RouteProviderVC */,
 				BE0CF2A41D8B209A00344F8A /* MapViewController.swift */,
@@ -687,7 +688,6 @@
 		BE2FF2E31D8B316200C0395A /* ContainerVC */ = {
 			isa = PBXGroup;
 			children = (
-				BE4628D71DEF5BBC00FB4C52 /* GPXImport */,
 				BE2FF2D51D8B2B9C00C0395A /* LeftMenuVC */,
 				BE2FF2D21D8B2AF800C0395A /* MapVC */,
 				BE2FF2D61D8B2CCF00C0395A /* GroupListVC */,

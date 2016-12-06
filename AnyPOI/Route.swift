@@ -90,7 +90,7 @@ class Route: NSManagedObject {
             var items = [MKMapItem]()
             for wayPoint in wayPoints   {
                 let thePoi = wayPoint.wayPointPoi!
-                let newMapItem = MKMapItem(placemark: MKPlacemark(placemark: thePoi.placemarks!))
+                let newMapItem = MKMapItem(placemark: MKPlacemark(coordinate: thePoi.coordinate, addressDictionary: nil))
                 items.append(newMapItem)
             }
             return items
@@ -119,7 +119,6 @@ class Route: NSManagedObject {
 
 
     func initializeRoute(_ routeName:String, wayPoints:NSOrderedSet) {
-        isPrivate = false
         self.routeName = routeName
         self.routeWayPoints = wayPoints
         self.latestTotalDistance = Double.nan
@@ -266,18 +265,6 @@ class Route: NSManagedObject {
         }
     }
     
-    // Returns true when all WayPoints are ready to get direction. It means we have
-    // placemark for all point of interest in the route
-    fileprivate func checkRouteForDirections() -> Bool {
-        for currentWayPoint in wayPoints {
-            if currentWayPoint.wayPointPoi?.placemarks == nil {
-                return false
-            }
-        }
-        
-        return true
-    }
-
     // Re-compute the direction to the given wayPoint (if it's not the start of the route)
     func resetDirectionTo(_ wayPoint:WayPoint) {
         let index = routeWayPoints!.index(of: wayPoint)
@@ -313,11 +300,6 @@ class Route: NSManagedObject {
     var routeToReloadCounter = 0
     
     func reloadDirections() {
-        
-        if !checkRouteForDirections() {
-            print("Direction is not loaded because at least one placemark is nil")
-            return
-        }
         
         if isDirectionLoading {
             print("route \(routeName) is already loading direction, we don't resquest it twice")

@@ -61,7 +61,7 @@ class GeoCodeMgr {
             if let placemarksResults = placemarks {
                 if placemarksResults.count > 0 {
                     print("Resolved")
-                    poi.initializePlacemarks(placemarksResults[0])
+                    poi.initializeWith(placemark:placemarksResults[0])
                     POIDataManager.sharedInstance.updatePOI(poi)
                     POIDataManager.sharedInstance.commitDatabase()
                     
