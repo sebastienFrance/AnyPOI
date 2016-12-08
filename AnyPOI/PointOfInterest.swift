@@ -738,6 +738,7 @@ extension PointOfInterest {
     private static let groupIdAttr = GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.group.Attributes.groupId
     private static let isDisplayedAttr = GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.group.Attributes.isDisplayed
     private static let groupDescriptionAttr = GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.group.Attributes.groupDescription
+    private static let groupColorAttr = GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.group.Attributes.groupColor
 
     
     fileprivate func addGroupToGPX() -> String {
@@ -748,6 +749,11 @@ extension PointOfInterest {
         if let descriptionGroup = parentGroup!.groupDescription {
             xml += " \(PointOfInterest.groupDescriptionAttr)=\"\(descriptionGroup)\""
         }
+        
+        if let colorString = ColorsUtils.getColor(color:parentGroup!.color) {
+            xml += " \(PointOfInterest.groupColorAttr)=\"\(colorString)\""
+        }
+        
         xml += ">"
         xml += "</\(GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.group.name)>"
         return xml

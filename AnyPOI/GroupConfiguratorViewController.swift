@@ -81,6 +81,7 @@ class GroupConfiguratorViewController: UIViewController, UITextFieldDelegate, UI
             // Update an existing group
             theGroup.groupDisplayName = groupNameTextField.text ?? ""
             theGroup.color = colors[selectedColorIndex]
+            theGroup.groupDescription = groupDescriptionTextField.text ?? ""
             POIDataManager.sharedInstance.updatePOIGroup(theGroup)
             POIDataManager.sharedInstance.commitDatabase()
          } else {

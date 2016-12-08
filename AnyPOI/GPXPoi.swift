@@ -88,6 +88,19 @@ class GPXPoi {
         }
     }
     
+    var isPoiAlreadyExist:Bool {
+        get {
+            if let poiAttr = poiAttributes, poiAttr.count > 0,
+                let url = poiURL,
+                let poi = POIDataManager.sharedInstance.getPOIWithURI(url),
+                poi.poiDisplayName == poiName {
+                return true
+            } else {
+                return false
+            }
+        }
+    }
+    
     fileprivate var poiURL:URL? {
         get {
             if let poiAttr = poiAttributes, let urlString = poiAttr[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Attributes.internalUrl] {
@@ -116,17 +129,14 @@ class GPXPoi {
             
             var restorePoi:PointOfInterest!
             if let poi = POIDataManager.sharedInstance.getPOIWithURI(url), poi.poiDisplayName == poiName {
-                print("\(#function) update an existing Poi")
                 restorePoi = poi
                 
-                //FIXEDME: Warning if the updated POI is monitored and the imported is not
-                // the old one will stay monitored!
+                // If it's already monitored, we stop it and it will be restarted if needed
+                restorePoi.stopMonitoring()
             } else {
-                print("\(#function) create a new Poi")
                 restorePoi = POIDataManager.sharedInstance.getEmptyPoi()
+                restorePoi.importWith(coordinates: coordinate)
             }
-            
-            restorePoi.importWith(coordinates: coordinate)
             
             restorePoi.category = poiCategory
             restorePoi.poiIsContact = poiIsContact
@@ -196,21 +206,57 @@ class GPXPoi {
     fileprivate func findGroup() -> GroupOfInterest? {
         if let attributes = groupAttributes, attributes.count > 0 {
             if let groupIdString = attributes[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.group.Attributes.groupId],
-                let groupId = Int(groupIdString)  {
+                let groupId = Int(groupIdString),
+                let groupName = attributes[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.group.Attributes.name],
+                let groupDescription = attributes[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.group.Attributes.groupDescription],
+                let isDisplayedString = attributes[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.group.Attributes.isDisplayed],
+                let isDisplayed = Bool(isDisplayedString) {
                 
+                // Update the group if it has changed
                 if let group = POIDataManager.sharedInstance.findGroup(groupId: groupId) {
-                    //FIXEDME: Maybe the Group should be updated even if it already exists !
-                    return group
-                } else if let groupName = attributes[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.group.Attributes.name],
-                    let groupDescription = attributes[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.group.Attributes.groupDescription],
-                    let isDisplayedString = attributes[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.group.Attributes.isDisplayed],
-                    let isDisplayed = Bool(isDisplayedString) {
+                    var isGroupUpdated = false
+                    if group.groupDisplayName != groupName {
+                        group.groupDisplayName = groupName
+                        isGroupUpdated = true
+                    }
                     
+                    if group.groupDescription != groupDescription {
+                        group.groupDescription = groupDescription
+                        isGroupUpdated = true
+                    }
+                    
+                    if group.isGroupDisplayed != isDisplayed {
+                        group.isGroupDisplayed = isDisplayed
+                        isGroupUpdated = true
+                    }
+                    
+                    
+                    if let groupColorString = attributes[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.group.Attributes.groupColor],
+                        let newColor = ColorsUtils.getColor(rgba: groupColorString){
+                        // Compare color description because doesn't really work when comparing 2 UIColors (if not default colors)
+                        if newColor.description != group.color.description {
+                            group.color = newColor
+                            isGroupUpdated = true
+                        }
+                    }
+                    
+                    if isGroupUpdated {
+                        POIDataManager.sharedInstance.updatePOIGroup(group)
+                        POIDataManager.sharedInstance.commitDatabase()
+                    }
+                   return group
+                } else  {
                     //FIXEDME: Color should be imported
+                    var groupColor = ColorsUtils.importedGroupColor
+                    if let groupColorString = attributes[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.group.Attributes.groupColor],
+                        let newColor = ColorsUtils.getColor(rgba: groupColorString){
+                        groupColor = newColor
+                    }
+
                     return POIDataManager.sharedInstance.addGroup(groupId: groupId,
                                                                   groupName: groupName,
                                                                   groupDescription: groupDescription,
-                                                                  groupColor: UIColor.blue,
+                                                                  groupColor: groupColor,
                                                                   isDisplayed: isDisplayed)
                 }
             }
@@ -218,6 +264,7 @@ class GPXPoi {
         
         return nil
     }
+    
     
     fileprivate func importPoi() {
         if let wptAttr = wptAttributes, wptAttr.count > 0, !poiName.isEmpty {

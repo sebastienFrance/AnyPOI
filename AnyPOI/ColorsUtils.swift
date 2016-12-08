@@ -17,6 +17,45 @@ class ColorsUtils {
         return UIColor.blue
     }
     
+    static var importedGroupColor:UIColor {
+        get {
+            return UIColor.orange
+        }
+    }
+    
+    static func getColor(color:UIColor) -> String? {
+        var r: CGFloat = 0
+        var g: CGFloat = 0
+        var b: CGFloat = 0
+        var a: CGFloat = 0
+        
+        if color.getRed(&r, green: &g, blue: &b, alpha: &a) {
+            return String(format: "#%02X%02X%02X%02X", Int(r * 255), Int(g * 255), Int(b * 255), Int(a * 255))
+        } else {
+            return nil
+        }
+    }
+    
+    static func getColor(rgba:String) -> UIColor? {
+        guard rgba.hasPrefix("#") else {
+            return nil
+        }
+        
+        let hexString: String = rgba.substring(from: rgba.characters.index(rgba.startIndex, offsetBy: 1))
+        var hexValue:  UInt32 = 0
+        
+        guard Scanner(string: hexString).scanHexInt32(&hexValue) else {
+            return nil
+        }
+        
+        let divisor = CGFloat(255)
+        let red     = CGFloat((hexValue & 0xFF000000) >> 24) / divisor
+        let green   = CGFloat((hexValue & 0x00FF0000) >> 16) / divisor
+        let blue    = CGFloat((hexValue & 0x0000FF00) >>  8) / divisor
+        let alpha   = CGFloat( hexValue & 0x000000FF       ) / divisor
+        return UIColor(red: red, green: green, blue: blue, alpha: alpha)
+    }
+
     static func initColors() -> [UIColor] {
         
         var colors = [UIColor]()

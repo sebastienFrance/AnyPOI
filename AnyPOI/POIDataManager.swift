@@ -45,6 +45,10 @@ class POIDataManager {
         static let groupDescription = NSLocalizedString("ContactsGroupDescription", comment: "")
         static let groupColor = ColorsUtils.contactsGroupColor()
     }
+    
+    fileprivate struct defaultImportedGroupCste {
+        static let groupColor =  ColorsUtils.importedGroupColor
+    }
 
     // MARK: Default Groups
     func initDefaultGroups() {
@@ -472,8 +476,8 @@ class POIDataManager {
         if let managedObjectId = DatabaseAccess.sharedInstance.persistentStoreCoordinator.managedObjectID(forURIRepresentation: URI) {
             do {
                 return try managedContext.existingObject(with: managedObjectId)
-            } catch let error as NSError {
-                print("\(#function) could not be fetch \(error), \(error.userInfo)")
+            } catch {
+                // Do nothing, it's not always an error (especially when importing POI from a GPX
             }
         }
         return nil

@@ -78,6 +78,7 @@ class GPXParser: NSObject, XMLParserDelegate {
                                                 static let groupId = "groupId"
                                                 static let isDisplayed = "isDisplayed"
                                                 static let groupDescription = "description"
+                                                static let groupColor = "groupColor"
                                             }
                                         }
                                     }

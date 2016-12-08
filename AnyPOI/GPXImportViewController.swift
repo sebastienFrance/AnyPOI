@@ -109,7 +109,11 @@ extension GPXImportViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: CellId.GPXImportCellId, for: indexPath) as! GPXImportTableViewCell
         
-        cell.poiDisplayName.text = GPXPois[indexPath.row].poiName
+        if GPXPois[indexPath.row].isPoiAlreadyExist {
+            cell.poiDisplayName.text = "\(GPXPois[indexPath.row].poiName) (for update)"
+        } else {
+            cell.poiDisplayName.text = GPXPois[indexPath.row].poiName
+        }
         cell.poiDescription.text = GPXPois[indexPath.row].poiDescription
         cell.poiImageCategory.image = GPXPois[indexPath.row].poiCategory.icon
         
