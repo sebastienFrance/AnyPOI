@@ -111,16 +111,33 @@ class GPXPoi {
         }
     }
     
+    fileprivate var groupURL:URL? {
+        get {
+            if let groupAttr = groupAttributes, let urlString = groupAttr[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.group.Attributes.internalUrlAttr] {
+                return URL(string: urlString)
+            } else {
+                return nil
+            }
+        }
+        
+    }
     
-    func importGPXPoi() {
-        if poiAttributes != nil {
-            restorePoi()
-        } else {
-            importPoi()
+    fileprivate var isPoiFromAnyPoi:Bool {
+        get {
+            if let poiAttr = poiAttributes, poiAttr.count > 0 {
+                return true
+            } else {
+                return false
+            }
         }
     }
     
-    fileprivate func restorePoi() {
+    
+    func importGPXPoi(options:GPXImportOptions) {
+        isPoiFromAnyPoi ? restorePoi(options:options) : importPoi(options:options)
+    }
+    
+    fileprivate func restorePoi(options:GPXImportOptions) {
         if let poiAttr = poiAttributes, let wptAttr = wptAttributes, poiAttr.count > 0, wptAttr.count > 0,
             !poiName.isEmpty,
             let url = poiURL,
@@ -206,15 +223,15 @@ class GPXPoi {
     fileprivate func findGroup() -> GroupOfInterest? {
         if let attributes = groupAttributes, attributes.count > 0 {
             if let groupIdString = attributes[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.group.Attributes.groupId],
-                let groupId = Int(groupIdString),
+                let url = poiURL,
+                let groupId = Int64(groupIdString),
                 let groupName = attributes[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.group.Attributes.name],
                 let groupDescription = attributes[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.group.Attributes.groupDescription],
                 let isDisplayedString = attributes[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.group.Attributes.isDisplayed],
                 let isDisplayed = Bool(isDisplayedString) {
                 
-                // Update the group if it has changed
-                if let group = POIDataManager.sharedInstance.findGroup(groupId: groupId) {
-                    var isGroupUpdated = false
+                if let group = POIDataManager.sharedInstance.getGroupWithURI(url), group.groupId == groupId {
+                   var isGroupUpdated = false
                     if group.groupDisplayName != groupName {
                         group.groupDisplayName = groupName
                         isGroupUpdated = true
@@ -246,14 +263,13 @@ class GPXPoi {
                     }
                    return group
                 } else  {
-                    //FIXEDME: Color should be imported
                     var groupColor = ColorsUtils.importedGroupColor
                     if let groupColorString = attributes[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.group.Attributes.groupColor],
                         let newColor = ColorsUtils.getColor(rgba: groupColorString){
                         groupColor = newColor
                     }
-
-                    return POIDataManager.sharedInstance.addGroup(groupId: groupId,
+                    let theGroupId = Int(groupId)
+                    return POIDataManager.sharedInstance.addGroup(groupId: theGroupId,
                                                                   groupName: groupName,
                                                                   groupDescription: groupDescription,
                                                                   groupColor: groupColor,
@@ -266,7 +282,7 @@ class GPXPoi {
     }
     
     
-    fileprivate func importPoi() {
+    fileprivate func importPoi(options:GPXImportOptions) {
         if let wptAttr = wptAttributes, wptAttr.count > 0, !poiName.isEmpty {
             // check mandatory parameters to create a POI
             if let coordinate = poiCoordinates {

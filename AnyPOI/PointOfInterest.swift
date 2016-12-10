@@ -735,6 +735,7 @@ extension PointOfInterest {
     
     
     private static let nameAttr = GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.group.Attributes.name
+    private static let groupInternalUrlAttr = GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.group.Attributes.internalUrlAttr
     private static let groupIdAttr = GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.group.Attributes.groupId
     private static let isDisplayedAttr = GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.group.Attributes.isDisplayed
     private static let groupDescriptionAttr = GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.group.Attributes.groupDescription
@@ -744,6 +745,7 @@ extension PointOfInterest {
     fileprivate func addGroupToGPX() -> String {
         var xml = "<\(GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.group.name)"
         xml += " \(PointOfInterest.nameAttr)=\"\(parentGroup!.groupDisplayName!)\""
+        xml += " \(PointOfInterest.groupInternalUrlAttr)=\"\(parentGroup!.objectID.uriRepresentation().absoluteString)\""
         xml += " \(PointOfInterest.groupIdAttr)=\"\(parentGroup!.groupId)\""
         xml += " \(PointOfInterest.isDisplayedAttr)=\"\(parentGroup!.isGroupDisplayed)\""
         if let descriptionGroup = parentGroup!.groupDescription {

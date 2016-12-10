@@ -465,6 +465,11 @@ class POIDataManager {
         return getObjectWithURI(URI) as? PointOfInterest ?? nil
     }
     
+    func getGroupWithURI(_ URI:URL) -> GroupOfInterest? {
+        return getObjectWithURI(URI) as? GroupOfInterest ?? nil
+    }
+
+    
     func getRouteWithURI(_ URI:URL) -> Route? {
         return getObjectWithURI(URI) as? Route ?? nil
     }

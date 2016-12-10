@@ -75,6 +75,7 @@ class GPXParser: NSObject, XMLParserDelegate {
                                             static let name = "group"
                                             struct Attributes {
                                                 static let name = "name"
+                                                static let internalUrlAttr = "internalUrlAttr"
                                                 static let groupId = "groupId"
                                                 static let isDisplayed = "isDisplayed"
                                                 static let groupDescription = "description"
