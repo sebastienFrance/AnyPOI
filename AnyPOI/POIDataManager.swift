@@ -192,9 +192,11 @@ class POIDataManager {
     }
 
     // MARK: Group
-    func addGroup(groupName:String, groupDescription:String, groupColor:UIColor) -> GroupOfInterest {
+    func addGroup(groupName:String, groupDescription:String, groupColor:UIColor, isDisplayed:Bool = true) -> GroupOfInterest {
         let groupId = Int(Date.timeIntervalSinceReferenceDate)
-        let group = addGroup(groupId: groupId, groupName: groupName, groupDescription: groupDescription, groupColor: groupColor)
+        let group = addGroup(groupId: groupId, groupName: groupName,
+                             groupDescription: groupDescription, groupColor: groupColor,
+                             isDisplayed: isDisplayed)
         POIDataManager.sharedInstance.commitDatabase()
         return group
     }
@@ -240,10 +242,19 @@ class POIDataManager {
     }
     
     
-    struct CountryDescription {
+    struct CountryDescription : Equatable {
         let countryName:String
         let ISOCountryCode:String
+        
+        func getAllCities(filter:String = "") -> [String] {
+            return POIDataManager.sharedInstance.getAllCitiesFromCountry(ISOCountryCode, filter: filter)
+        }
+        
+        static func ==(lhs:CountryDescription, rhs:CountryDescription) -> Bool {
+            return lhs.ISOCountryCode == rhs.ISOCountryCode
+        }
     }
+    
     
     
     func getAllCountriesOrderedByName() -> [CountryDescription] {

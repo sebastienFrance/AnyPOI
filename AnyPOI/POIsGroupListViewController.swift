@@ -13,16 +13,17 @@ import CoreLocation
 import PKHUD
 
 
-class POIsGroupListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, DismissModalViewController, UISearchResultsUpdating, UISearchControllerDelegate, UISearchBarDelegate, ContainerViewControllerDelegate {
+class POIsGroupListViewController: UIViewController, DismissModalViewController, UISearchResultsUpdating, UISearchControllerDelegate, UISearchBarDelegate, ContainerViewControllerDelegate {
 
     
     @IBOutlet fileprivate weak var theTableView: UITableView! {
         didSet {
-            if let theTableView = theTableView {
-                theTableView.dataSource = self
-                theTableView.delegate = self
-                theTableView.estimatedRowHeight = 110
-                theTableView.rowHeight = UITableViewAutomaticDimension
+            if let tableView = theTableView {
+                tableView.dataSource = self
+                tableView.delegate = self
+                tableView.estimatedRowHeight = 110
+                tableView.rowHeight = UITableViewAutomaticDimension
+                tableView.tableFooterView = UIView(frame: CGRect.zero) // remove separator for empty lines
             }
         }
     }
@@ -38,7 +39,7 @@ class POIsGroupListViewController: UIViewController, UITableViewDataSource, UITa
 
     fileprivate var searchController:UISearchController!
     fileprivate var searchFilter = "" // Use to perform filtering on list of groups
-    fileprivate var filteredGroups:[GroupOfInterest]!
+    fileprivate var filteredGroups = [GroupOfInterest]()
 
     
     @objc fileprivate func menuButtonPushed(_ button:UIBarButtonItem) {
@@ -57,27 +58,30 @@ class POIsGroupListViewController: UIViewController, UITableViewDataSource, UITa
         super.viewDidLoad()
 
         if isStartedByLeftMenu {
-            let menuButton =  UIBarButtonItem(image: UIImage(named: "Menu-30"), style: .plain, target: self, action: #selector(POIsGroupListViewController.menuButtonPushed(_:)))
+            let menuButton =  UIBarButtonItem(image: UIImage(named: "Menu-30"),
+                                              style: .plain,
+                                              target: self,
+                                              action: #selector(POIsGroupListViewController.menuButtonPushed(_:)))
             
             navigationItem.leftBarButtonItem = menuButton
         }
         
         let managedContext = DatabaseAccess.sharedInstance.managedObjectContext
         NotificationCenter.default.addObserver(self,
-                                                         selector: #selector(POIsGroupListViewController.contextDidSaveNotification(_:)),
-                                                         name: NSNotification.Name.NSManagedObjectContextDidSave,
-                                                         object: managedContext)
-
+                                               selector: #selector(POIsGroupListViewController.contextDidSaveNotification(_:)),
+                                               name: NSNotification.Name.NSManagedObjectContextDidSave,
+                                               object: managedContext)
+        
         // Subscribe Keyboard notifications because when the keyboard is displayed we need to change the tableview insets
         // to make sure all rows of the table view can be correctly displayed (if not, then the latests rows are not visible)
         NotificationCenter.default.addObserver(self,
-                                                         selector: #selector(POIsGroupListViewController.keyboardWillShow(_:)),
-                                                         name: NSNotification.Name.UIKeyboardWillShow,
-                                                         object: nil)
+                                               selector: #selector(POIsGroupListViewController.keyboardWillShow(_:)),
+                                               name: NSNotification.Name.UIKeyboardWillShow,
+                                               object: nil)
         NotificationCenter.default.addObserver(self,
-                                                         selector: #selector(POIsGroupListViewController.keyboardWillHide(_:)),
-                                                         name: NSNotification.Name.UIKeyboardWillHide,
-                                                         object: nil)
+                                               selector: #selector(POIsGroupListViewController.keyboardWillHide(_:)),
+                                               name: NSNotification.Name.UIKeyboardWillHide,
+                                               object: nil)
 
        initSearchController()
     }
@@ -199,6 +203,59 @@ class POIsGroupListViewController: UIViewController, UITableViewDataSource, UITa
         searchBar.text = searchFilter
     }
     
+    //MARK: Segues
+    fileprivate struct storyboard {
+        static let showPOIList = "showPOIList"
+        static let updateGroupOfInterest = "updateGroupOfInterest"
+        static let showMonitoredPois = "showMonitoredPois"
+        static let showCityPois = "showCityPois"
+        static let openGroupConfiguratorId = "openGroupConfiguratorId"
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        switch segue.identifier! {
+        case storyboard.showPOIList:
+            let poiController = segue.destination as! POIsViewController
+            let group = filteredGroups[theTableView.indexPathForSelectedRow!.row]
+            poiController.showGroup(group)
+        case storyboard.showMonitoredPois:
+            let poiController = segue.destination as! POIsViewController
+            poiController.showMonitoredPois()
+        case storyboard.showCityPois:
+            if let indexPath = theTableView.indexPathForSelectedRow {
+                let poiController = segue.destination as! POIsViewController
+                showCountriesOrCitiesFor(indexPath:indexPath, viewController: poiController)
+            }
+        case storyboard.updateGroupOfInterest:
+            startDim()
+            let viewController = segue.destination as! GroupConfiguratorViewController
+            viewController.delegate = self
+            viewController.group = sender as? GroupOfInterest
+        case storyboard.openGroupConfiguratorId:
+            startDim()
+            let viewController = segue.destination as! GroupConfiguratorViewController
+            viewController.delegate = self
+        default:
+            print("\(#function) Error, unknown identifier")
+        }
+    }
+    
+    
+    
+    fileprivate func showCountriesOrCitiesFor(indexPath:IndexPath, viewController: POIsViewController) {
+        if let country = getCountryForIndex(indexPath.section) {
+            if indexPath.row == 0 && searchFilter.isEmpty {
+                viewController.showCountryPoi(country.ISOCountryCode, name:country.countryName)
+            } else {
+                viewController.showCityPoi(getCityNameFromCountry(country, row: indexPath.row))
+            }
+        } else {
+            print("\(#function) Warning, invalid index to look for a Country \(indexPath.row)")
+        }
+    }
+}
+
+extension POIsGroupListViewController : UITableViewDataSource, UITableViewDelegate  {
     //MARK: UITableViewDataSource
     func numberOfSections(in tableView: UITableView) -> Int {
         // 2 fix sections (POI Groups + Monitored POIs) + dynamic sections per Country
@@ -218,18 +275,18 @@ class POIsGroupListViewController: UIViewController, UITableViewDataSource, UITa
             let sectionIndex = getCountrySectionIndexFrom(section)
             let countries = POIDataManager.sharedInstance.getAllCountriesOrderedByName()
             if sectionIndex < countries.count {
-                let citiesForSection = POIDataManager.sharedInstance.getAllCitiesFromCountry(countries[sectionIndex].ISOCountryCode, filter: searchFilter)
+                let citiesForSection = countries[sectionIndex].getAllCities(filter: searchFilter)
                 if searchFilter.isEmpty {
                     return citiesForSection.count > 0 ? citiesForSection.count + 1 : 0
                 } else {
-                    return citiesForSection.count > 0 ? citiesForSection.count : 0                    
+                    return citiesForSection.count > 0 ? citiesForSection.count : 0
                 }
             } else {
                 print("\(#function) Warning, cannot find cities for index \(section)")
                 return 0
             }
         }
-     }
+    }
     
     // Index of Country is the number of section minus the number of fix sections
     fileprivate func getCountrySectionIndexFrom(_ section:Int) -> Int {
@@ -264,14 +321,14 @@ class POIsGroupListViewController: UIViewController, UITableViewDataSource, UITa
     }
     
     fileprivate func getCityNameFromCountry(_ country:POIDataManager.CountryDescription, row:Int) -> String {
-        let cities = POIDataManager.sharedInstance.getAllCitiesFromCountry(country.ISOCountryCode, filter: searchFilter)
+        let cities = country.getAllCities(filter: searchFilter)
         if (row - 1) < cities.count {
             return searchFilter.isEmpty ? cities[row - 1] : cities[row]
         } else {
             return NSLocalizedString("UnknownCity", comment: "")
         }
     }
-
+    
     fileprivate func getCityNameForIndex(_ indexPath:IndexPath) -> String {
         if let country = getCountryForIndex(indexPath.section) {
             return getCityNameFromCountry(country, row: indexPath.row)
@@ -320,7 +377,7 @@ class POIsGroupListViewController: UIViewController, UITableViewDataSource, UITa
             return theCell
         }
     }
-
+    
     
     //MARK: UITableViewDelegate
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -336,114 +393,121 @@ class POIsGroupListViewController: UIViewController, UITableViewDataSource, UITa
         case .delete:
             switch indexPath.section {
             case SectionIndex.poiGroups:
-                deletePoiGroup(indexPath)
+                deletePoiGroup(index:indexPath)
             case SectionIndex.monitoredPois:
-                deleteMonitoredPois(indexPath)
+                deleteMonitoredPois(index:indexPath)
             default:
-                deleteRowFromCountriesAndCities(indexPath)
+                deleteRowFromCountriesAndCities(index:indexPath)
             }
         default:
             break
         }
     }
     
-    fileprivate func deletePoiGroup(_ indexPath:IndexPath) {
+    fileprivate func deletePoiGroup(index:IndexPath) {
+        let countries = POIDataManager.sharedInstance.getAllCountriesOrderedByName()
+        var citiesPerCountry = [String:[String]]()
+        for currentCountry in countries {
+            citiesPerCountry[currentCountry.ISOCountryCode] = currentCountry.getAllCities(filter: searchFilter)
+        }
+        
         theTableView.beginUpdates()
-        POIDataManager.sharedInstance.deleteGroup(group:filteredGroups[indexPath.row])
+        POIDataManager.sharedInstance.deleteGroup(group:filteredGroups[index.row])
         POIDataManager.sharedInstance.commitDatabase()
         filteredGroups = POIDataManager.sharedInstance.getGroups(searchFilter)
-        theTableView.deleteRows(at: [indexPath], with: .fade)
+        
+        var (deletedSections, deletedRows) = computeDeletedSectionsAndRowsDueToGroupDeletion(initialCountries: countries, initialCitiesPerCountry: citiesPerCountry)
+        
+        if deletedSections.count > 0 {
+            theTableView.deleteSections(deletedSections, with: .fade)
+        }
+        
+        deletedRows.append(index)
+        theTableView.deleteRows(at: deletedRows, with: .fade)
         theTableView.endUpdates()
     }
     
-    fileprivate func deleteMonitoredPois(_ indexPath:IndexPath) {
+    
+    /// Compute the list of sections and rows that must be deleted from the table in section Countries & Cities due to a group deletion
+    ///
+    /// - Parameters:
+    ///   - initialCountries: List of Countries before the group has been deleted
+    ///   - initialCitiesPerCountry: List of Cities per Country before the group has been deleted
+    /// - Returns: List of sections and rows to be removed from the table
+    fileprivate func computeDeletedSectionsAndRowsDueToGroupDeletion(initialCountries:[POIDataManager.CountryDescription],
+                                                                     initialCitiesPerCountry:[String:[String]])
+        -> (deletedSections:IndexSet, deletedRows:[IndexPath]) {
+        
+        let countries = POIDataManager.sharedInstance.getAllCountriesOrderedByName()
+        var citiesPerCountry = [String:[String]]()
+        for currentCountry in countries {
+            citiesPerCountry[currentCountry.ISOCountryCode] = currentCountry.getAllCities(filter: searchFilter)
+        }
+            
+        var rowsToDelete = [IndexPath]()
+        // look for removed section
+        var deletedSection = IndexSet()
+        for i in 0...(initialCountries.count - 1) {
+            let currentCountry = initialCountries[i]
+            if countries.contains(currentCountry) {
+                if let oldCities = initialCitiesPerCountry[currentCountry.ISOCountryCode],
+                    let newCities = citiesPerCountry[currentCountry.ISOCountryCode],
+                    oldCities.count != newCities.count {
+                    
+                    // Look for missing cities
+                    for j in 0...(oldCities.count - 1) {
+                        let currentCity = oldCities[j]
+                        if !newCities.contains(currentCity) {
+                            rowsToDelete.append(IndexPath(row: searchFilter.isEmpty ? j + 1 : j, section: i + 2))
+                        }
+                    }
+                }
+            } else {
+                deletedSection.insert(i + 2)
+            }
+        }
+        return (deletedSection, rowsToDelete)
+    }
+    
+    fileprivate func deleteMonitoredPois(index:IndexPath) {
         theTableView.beginUpdates()
         POIDataManager.sharedInstance.deleteMonitoredPOIs()
         POIDataManager.sharedInstance.commitDatabase()
-        theTableView.deleteSections(IndexSet(integer:indexPath.section), with: .fade)
+        theTableView.deleteSections(IndexSet(integer:index.section), with: .fade)
         theTableView.endUpdates()
     }
     
-    fileprivate func deleteRowFromCountriesAndCities(_ indexPath:IndexPath) {
-        if let country = getCountryForIndex(indexPath.section) {
-         let isoCountryCode = country.ISOCountryCode
-            if indexPath.row == 0 && searchFilter.isEmpty {
+    fileprivate func deleteRowFromCountriesAndCities(index:IndexPath) {
+        if let country = getCountryForIndex(index.section) {
+            let isoCountryCode = country.ISOCountryCode
+            // Delete row all
+            if index.row == 0 && searchFilter.isEmpty {
                 theTableView.beginUpdates()
                 POIDataManager.sharedInstance.deleteCountryPOIs(isoCountryCode)
                 POIDataManager.sharedInstance.commitDatabase()
                 
-                theTableView.deleteSections(IndexSet(integer:indexPath.section), with: .fade)
+                theTableView.deleteSections(IndexSet(integer:index.section), with: .fade)
                 theTableView.endUpdates()
             } else {
-                let cities = POIDataManager.sharedInstance.getAllCitiesFromCountry(isoCountryCode, filter: searchFilter)
-                if (indexPath.row - 1) < cities.count {
+                let cities = country.getAllCities(filter: searchFilter)
+                if (index.row - 1) < cities.count {
                     theTableView.beginUpdates()
-                    POIDataManager.sharedInstance.deleteCityPOIs(searchFilter.isEmpty ? cities[indexPath.row - 1] : cities[indexPath.row], fromISOCountryCode:isoCountryCode)
+                    POIDataManager.sharedInstance.deleteCityPOIs(searchFilter.isEmpty ? cities[index.row - 1] : cities[index.row], fromISOCountryCode:isoCountryCode)
                     POIDataManager.sharedInstance.commitDatabase()
-                    if (cities.count == 1 && searchFilter.isEmpty) || (cities.count == 0 && !searchFilter.isEmpty) {
-                        theTableView.deleteSections(IndexSet(integer:indexPath.section), with: .fade)
+                    // we have deleted the last one so we delete the section
+                    if cities.count == 1 {
+                        theTableView.deleteSections(IndexSet(integer:index.section), with: .fade)
                     } else {
-                        theTableView.deleteRows(at: [indexPath], with: .fade)
+                        theTableView.deleteRows(at: [index], with: .fade)
                     }
                     
                     theTableView.endUpdates()
                 } else {
-                    print("\(#function) Warning, invalid index to look for a City : \(indexPath.row - 1)")
+                    print("\(#function) Warning, invalid index to look for a City : \(index.row - 1)")
                 }
             }
         } else {
-            print("\(#function) Warning, invalid index to look for a Country \(indexPath.section)")
-        }
-    }
-    
-    //MARK: Segues
-    fileprivate struct storyboard {
-        static let showPOIList = "showPOIList"
-        static let updateGroupOfInterest = "updateGroupOfInterest"
-        static let showMonitoredPois = "showMonitoredPois"
-        static let showCityPois = "showCityPois"
-        static let openGroupConfiguratorId = "openGroupConfiguratorId"
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch segue.identifier! {
-        case storyboard.showPOIList:
-            let poiController = segue.destination as! POIsViewController
-            let group = filteredGroups[theTableView.indexPathForSelectedRow!.row]
-            poiController.showGroup(group)
-        case storyboard.showMonitoredPois:
-            let poiController = segue.destination as! POIsViewController
-            poiController.showMonitoredPois()
-        case storyboard.showCityPois:
-            if let indexPath = theTableView.indexPathForSelectedRow {
-                let poiController = segue.destination as! POIsViewController
-                showCountriesOrCitiesFor(indexPath, viewController: poiController)
-            }
-        case storyboard.updateGroupOfInterest:
-            startDim()
-            let viewController = segue.destination as! GroupConfiguratorViewController
-            viewController.delegate = self
-            viewController.group = sender as? GroupOfInterest
-        case storyboard.openGroupConfiguratorId:
-            startDim()
-            let viewController = segue.destination as! GroupConfiguratorViewController
-            viewController.delegate = self
-        default:
-            print("\(#function) Error, unknown identifier")
-        }
-    }
-    
-    
-    
-    fileprivate func showCountriesOrCitiesFor(_ indexPath:IndexPath, viewController: POIsViewController) {
-        if let country = getCountryForIndex(indexPath.section) {
-            if indexPath.row == 0 && searchFilter.isEmpty {
-                viewController.showCountryPoi(country.ISOCountryCode, name:country.countryName)
-            } else {
-                viewController.showCityPoi(getCityNameFromCountry(country, row: indexPath.row))
-            }
-        } else {
-            print("\(#function) Warning, invalid index to look for a Country \(indexPath.row)")
+            print("\(#function) Warning, invalid index to look for a Country \(index.section)")
         }
     }
 }

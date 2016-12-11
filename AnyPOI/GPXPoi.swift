@@ -90,11 +90,14 @@ class GPXPoi {
     
     var isPoiAlreadyExist:Bool {
         get {
-            if let poiAttr = poiAttributes, poiAttr.count > 0,
-                let url = poiURL,
-                let poi = POIDataManager.sharedInstance.getPOIWithURI(url),
-                poi.poiDisplayName == poiName {
-                return true
+            if let url = poiURL,
+                let coordinates = poiCoordinates,
+                !poiName.isEmpty {
+                if let _ = findPoiInDatabase(url:url, poiName: poiName, coordinates: coordinates) {
+                    return true
+                } else {
+                    return false
+                }
             } else {
                 return false
             }
@@ -141,27 +144,38 @@ class GPXPoi {
         if let poiAttr = poiAttributes, let wptAttr = wptAttributes, poiAttr.count > 0, wptAttr.count > 0,
             !poiName.isEmpty,
             let url = poiURL,
-            let group = findGroup(),
             let coordinate = poiCoordinates {
             
             var restorePoi:PointOfInterest!
-            if let poi = POIDataManager.sharedInstance.getPOIWithURI(url), poi.poiDisplayName == poiName {
-                restorePoi = poi
-                
-                // If it's already monitored, we stop it and it will be restarted if needed
-                restorePoi.stopMonitoring()
+            if options.merge {
+                if let poi = findPoiInDatabase(url: url, poiName: poiName, coordinates: coordinate) {
+                    if options.importUpdate {
+                        // update the existing poi
+                        restorePoi = poi
+                        
+                        // If it's already monitored, we stop it and it will be restarted if needed
+                        restorePoi.stopMonitoring()
+                    }
+                } else if options.importNew {
+                    // create a new Poi
+                    restorePoi = POIDataManager.sharedInstance.getEmptyPoi()
+                    restorePoi.importWith(coordinates: coordinate)
+                }
             } else {
+                // create a new Poi
                 restorePoi = POIDataManager.sharedInstance.getEmptyPoi()
                 restorePoi.importWith(coordinates: coordinate)
             }
             
+            // Group may have changed, even if the POI was already existing in the database
+            restorePoi.parentGroup = getGroup()
+
             restorePoi.category = poiCategory
             restorePoi.poiIsContact = poiIsContact
             restorePoi.poiContactIdentifier = poiContactId
             restorePoi.poiAddress = poiAddress
             restorePoi.poiDisplayName = poiName
             restorePoi.poiDescription = poiDescription
-            restorePoi.parentGroup = group
             
             if let city = poiAttr[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Attributes.city] {
                 restorePoi.poiCity = city
@@ -213,14 +227,43 @@ class GPXPoi {
                 }
             }
             
-            
             POIDataManager.sharedInstance.commitDatabase()
         } else {
             print("\(#function) Poi is ignored because some mandatory data are missing")
         }
     }
     
-    fileprivate func findGroup() -> GroupOfInterest? {
+    fileprivate func findPoiInDatabase(url:URL, poiName:String, coordinates:CLLocationCoordinate2D) -> PointOfInterest? {
+        if let poi = POIDataManager.sharedInstance.getPOIWithURI(url) {
+            return poi
+        } else {
+            let pois = POIDataManager.sharedInstance.findPOIWith(poiName, coordinates: coordinates)
+            for currentPoi in pois {
+                if currentPoi.poiDisplayName == poiName {
+                    return currentPoi
+                }
+            }
+            return nil
+        }
+    }
+
+    fileprivate func findGroupInDatabase(url:URL, groupId:Int, groupName:String) -> GroupOfInterest? {
+        if let group = POIDataManager.sharedInstance.getGroupWithURI(url) {
+            return group
+        } else if let group = POIDataManager.sharedInstance.findGroup(groupId: groupId) {
+            return group
+        } else {
+            let groups = POIDataManager.sharedInstance.findGroups(groupName)
+            for currentGroup in groups {
+                if currentGroup.groupDisplayName == groupName {
+                    return currentGroup
+                }
+            }
+            return nil
+        }
+    }
+    
+    fileprivate func getGroup() -> GroupOfInterest {
         if let attributes = groupAttributes, attributes.count > 0 {
             if let groupIdString = attributes[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.group.Attributes.groupId],
                 let url = poiURL,
@@ -230,8 +273,9 @@ class GPXPoi {
                 let isDisplayedString = attributes[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.group.Attributes.isDisplayed],
                 let isDisplayed = Bool(isDisplayedString) {
                 
-                if let group = POIDataManager.sharedInstance.getGroupWithURI(url), group.groupId == groupId {
-                   var isGroupUpdated = false
+             
+                if let group = findGroupInDatabase(url: url, groupId: Int(groupId), groupName: groupName) {
+                    var isGroupUpdated = false
                     if group.groupDisplayName != groupName {
                         group.groupDisplayName = groupName
                         isGroupUpdated = true
@@ -268,9 +312,7 @@ class GPXPoi {
                         let newColor = ColorsUtils.getColor(rgba: groupColorString){
                         groupColor = newColor
                     }
-                    let theGroupId = Int(groupId)
-                    return POIDataManager.sharedInstance.addGroup(groupId: theGroupId,
-                                                                  groupName: groupName,
+                    return POIDataManager.sharedInstance.addGroup(groupName: groupName,
                                                                   groupDescription: groupDescription,
                                                                   groupColor: groupColor,
                                                                   isDisplayed: isDisplayed)
@@ -278,7 +320,7 @@ class GPXPoi {
             }
         }
         
-        return nil
+        return POIDataManager.sharedInstance.getDefaultGroup()
     }
     
     

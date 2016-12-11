@@ -51,7 +51,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UserAuthenticationDelegat
             application.registerUserNotificationSettings(UIUserNotificationSettings(types: [.alert, .sound] , categories: nil))
         }
         
-        NotificationCenter.default.addObserver(self, selector: #selector(notifyContactsSynchronizationDone(_:)), name: NSNotification.Name(rawValue:ContactsSynchronization.Notifications.synchronizationDone), object: ContactsSynchronization.sharedInstance)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(notifyContactsSynchronizationDone(_:)),
+                                               name: NSNotification.Name(rawValue:ContactsSynchronization.Notifications.synchronizationDone),
+                                               object: ContactsSynchronization.sharedInstance)
         
         //SEB: Swift3 put in comment UBER
         // If true, all requests will hit the sandbox, useful for testing

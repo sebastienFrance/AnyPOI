@@ -20,7 +20,8 @@ class GPXImportViewController: UIViewController {
                 tableView.dataSource = self
                 tableView.estimatedRowHeight = 70
                 tableView.rowHeight = UITableViewAutomaticDimension
-            }
+                tableView.tableFooterView = UIView(frame: CGRect.zero) // remove separator for empty lines
+           }
         }
     }
     @IBOutlet weak var importButton: UIBarButtonItem!
@@ -78,7 +79,6 @@ class GPXImportViewController: UIViewController {
     }
     
     fileprivate func updateFilteredGPXPois() {
-        //filteredGPXPois.removeAll()
         
         filteredGPXPois = allParsedGPXPois.filter { (currentGPXPoi) -> Bool in
             if !importOptions.textFilter.isEmpty && !currentGPXPoi.poiName.localizedCaseInsensitiveContains(importOptions.textFilter) {
@@ -98,24 +98,6 @@ class GPXImportViewController: UIViewController {
             }
             return false
         }
-        
-//        for currentGPXPoi in allParsedGPXPois {
-//            if !importOptions.textFilter.isEmpty && !currentGPXPoi.poiName.localizedCaseInsensitiveContains(importOptions.textFilter) {
-//                continue
-//            }
-//            
-//            if !importOptions.merge {
-//                filteredGPXPois.append(currentGPXPoi)
-//            } else {
-//                if currentGPXPoi.isPoiAlreadyExist {
-//                    if importOptions.importUpdate {
-//                        filteredGPXPois.append(currentGPXPoi)
-//                    }
-//                } else if importOptions.importNew {
-//                    filteredGPXPois.append(currentGPXPoi)
-//                }
-//            }
-//        }
         
         selectedState = Array(repeating: true, count: filteredGPXPois.count)
     }
