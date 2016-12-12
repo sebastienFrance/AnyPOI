@@ -13,7 +13,7 @@ import CoreLocation
 import PKHUD
 
 
-class POIsGroupListViewController: UIViewController, DismissModalViewController, UISearchResultsUpdating, UISearchControllerDelegate, UISearchBarDelegate, ContainerViewControllerDelegate {
+class POIsGroupListViewController: UIViewController, DismissModalViewController, ContainerViewControllerDelegate {
 
     
     @IBOutlet fileprivate weak var theTableView: UITableView! {
@@ -131,8 +131,11 @@ class POIsGroupListViewController: UIViewController, DismissModalViewController,
         // A Group has been added or changed, we must reload the table content
         // A POI has been added/deleted/updated we must reload the table content (one use case is to add create a new POI with monitored atttributes 
         // and it's the first one with it => we must add "Monitored POIs" as section in the table
-        if notifContent.insertedGroupOfInterest.count > 0 || notifContent.updatedGroupOfInterest.count > 0 ||
-            notifContent.deletedPois.count > 0 || notifContent.updatedPois.count > 0 || notifContent.insertedPois.count > 0 {
+        if notifContent.insertedGroupOfInterest.count > 0 ||
+            notifContent.updatedGroupOfInterest.count > 0 ||
+            notifContent.deletedPois.count > 0 ||
+            notifContent.updatedPois.count > 0 ||
+            notifContent.insertedPois.count > 0 {
             filteredGroups = POIDataManager.sharedInstance.getGroups(searchFilter)
             theTableView.reloadData()
         }
@@ -180,29 +183,6 @@ class POIsGroupListViewController: UIViewController, DismissModalViewController,
         stopDim()
     }
 
-    //MARK: UISearchResultsUpdating
-    func updateSearchResults(for searchController: UISearchController) {
-        // To be completed
-    }
-    
-    //MARK: UISearchControllerDelegate
-    func didDismissSearchController(_ searchController: UISearchController) {
-        // to be completed -> nothing to do if we keep the filter!
-        theTableView.reloadData()
-    }
-    
-    
-    //MARK: UISearchBarDelegate
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        searchFilter = searchText
-        filteredGroups = POIDataManager.sharedInstance.getGroups(searchFilter)
-        theTableView.reloadData()
-    }
-    
-    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        searchBar.text = searchFilter
-    }
-    
     //MARK: Segues
     fileprivate struct storyboard {
         static let showPOIList = "showPOIList"
@@ -213,6 +193,7 @@ class POIsGroupListViewController: UIViewController, DismissModalViewController,
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        searchController.isActive = false
         switch segue.identifier! {
         case storyboard.showPOIList:
             let poiController = segue.destination as! POIsViewController
@@ -240,17 +221,77 @@ class POIsGroupListViewController: UIViewController, DismissModalViewController,
         }
     }
     
-    
-    
     fileprivate func showCountriesOrCitiesFor(indexPath:IndexPath, viewController: POIsViewController) {
-        if let country = getCountryForIndex(indexPath.section) {
+        if let country = getCountryFrom(section: indexPath.section) {
             if indexPath.row == 0 && searchFilter.isEmpty {
                 viewController.showCountryPoi(country.ISOCountryCode, name:country.countryName)
             } else {
-                viewController.showCityPoi(getCityNameFromCountry(country, row: indexPath.row))
+                viewController.showCityPoi(getCityNameFrom(country: country, row: indexPath.row))
             }
         } else {
             print("\(#function) Warning, invalid index to look for a Country \(indexPath.row)")
+        }
+    }
+    
+    //var searchButtonPressed = false
+}
+
+extension POIsGroupListViewController : UISearchResultsUpdating, UISearchControllerDelegate, UISearchBarDelegate {
+    //MARK: UISearchResultsUpdating
+    func updateSearchResults(for searchController: UISearchController) {
+        print("\(#function) called")
+        // To be completed
+    }
+    
+    //MARK: UISearchControllerDelegate
+    func didDismissSearchController(_ searchController: UISearchController) {
+        print("\(#function) called")
+        clearFilter()
+    }
+    
+    func willDismissSearchController(_ searchController: UISearchController) {
+        print("\(#function) called")
+    }
+    
+    //MARK: UISearchBarDelegate
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        print("\(#function) called")
+       searchFilter = searchText
+        filteredGroups = POIDataManager.sharedInstance.getGroups(searchFilter)
+        theTableView.reloadData()
+    }
+    
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        print("\(#function) called")
+        //clearFilter()
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        print("\(#function) called")
+        //searchButtonPressed = true
+    }
+    
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        print("\(#function) called")
+        searchBar.text = searchFilter
+    }
+    
+    func searchBarShouldEndEditing(_ searchBar: UISearchBar) -> Bool {
+        print("\(#function) called")
+        return true
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        print("\(#function) called")
+        clearFilter()
+    }
+    
+    fileprivate func clearFilter() {
+        if !searchFilter.isEmpty {
+            searchFilter = ""
+            searchController.searchBar.text = ""
+            filteredGroups = POIDataManager.sharedInstance.getGroups(searchFilter)
+            theTableView.reloadData()
         }
     }
 }
@@ -310,11 +351,11 @@ extension POIsGroupListViewController : UITableViewDataSource, UITableViewDelega
         case SectionIndex.monitoredPois:
             return NSLocalizedString("MonitoredSectionHeader", comment: "")
         default:
-            return getCountryName(section)
+            return getCountryNameFrom(section: section)
         }
     }
     
-    fileprivate func getCountryForIndex(_ section:Int) -> CountryDescription? {
+    fileprivate func getCountryFrom(section:Int) -> CountryDescription? {
         let countryIndex = getCountrySectionIndexFrom(section)
         let countries = countriesWithCitiesMatching(filter: searchFilter)
         if countryIndex < countries.count {
@@ -324,7 +365,7 @@ extension POIsGroupListViewController : UITableViewDataSource, UITableViewDelega
         }
     }
     
-    fileprivate func getCityNameFromCountry(_ country:CountryDescription, row:Int) -> String {
+    fileprivate func getCityNameFrom(country:CountryDescription, row:Int) -> String {
         let cities = country.getAllCities(filter: searchFilter)
         if (row - 1) < cities.count {
             return searchFilter.isEmpty ? cities[row - 1] : cities[row]
@@ -334,16 +375,16 @@ extension POIsGroupListViewController : UITableViewDataSource, UITableViewDelega
     }
     
     fileprivate func getCityNameForIndex(_ indexPath:IndexPath) -> String {
-        if let country = getCountryForIndex(indexPath.section) {
-            return getCityNameFromCountry(country, row: indexPath.row)
+        if let country = getCountryFrom(section: indexPath.section) {
+            return getCityNameFrom(country:country, row: indexPath.row)
         } else {
             return NSLocalizedString("UnknownCountry", comment: "")
         }
     }
     
     
-    fileprivate func getCountryName(_ section:Int) -> String {
-        return getCountryForIndex(section)?.countryName ?? NSLocalizedString("UnknownCountry", comment: "")
+    fileprivate func getCountryNameFrom(section:Int) -> String {
+        return getCountryFrom(section: section)?.countryName ?? NSLocalizedString("UnknownCountry", comment: "")
     }
     
     fileprivate struct cellIdentifier {
@@ -467,7 +508,7 @@ extension POIsGroupListViewController : UITableViewDataSource, UITableViewDelega
                     }
                 }
             } else {
-                deletedSection.insert(i + 2)
+                deletedSection.insert(i + SectionIndex.count)
             }
         }
         return (deletedSection, rowsToDelete)
@@ -482,7 +523,7 @@ extension POIsGroupListViewController : UITableViewDataSource, UITableViewDelega
     }
     
     fileprivate func deleteRowFromCountriesAndCities(index:IndexPath) {
-        if let country = getCountryForIndex(index.section) {
+        if let country = getCountryFrom(section: index.section) {
             let isoCountryCode = country.ISOCountryCode
             // Delete row all
             if index.row == 0 && searchFilter.isEmpty {
@@ -496,7 +537,8 @@ extension POIsGroupListViewController : UITableViewDataSource, UITableViewDelega
                 let cities = country.getAllCities(filter: searchFilter)
                 if (index.row - 1) < cities.count {
                     theTableView.beginUpdates()
-                    POIDataManager.sharedInstance.deleteCityPOIs(searchFilter.isEmpty ? cities[index.row - 1] : cities[index.row], fromISOCountryCode:isoCountryCode)
+                    POIDataManager.sharedInstance.deleteCityPOIs(searchFilter.isEmpty ? cities[index.row - 1] : cities[index.row],
+                                                                 fromISOCountryCode:isoCountryCode)
                     POIDataManager.sharedInstance.commitDatabase()
                     // we have deleted the last one so we delete the section
                     if cities.count == 1 {
