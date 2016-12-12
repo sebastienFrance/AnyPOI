@@ -232,55 +232,44 @@ class POIDataManager {
     func updatePOIGroup(_ poiGroup: GroupOfInterest) {
     }
 
-    //MARK: Find POI
+    //MARK: Get Countries, Cities & Contacts
     func getAllCities() -> [String] {
-        return getUniqueStringFromPOI("poiCity", withSorting:true)
+        return getUniqueStringFromPOI(propertyName:"poiCity", withSorting:true)
     }
     
     func getAllCitiesFromCountry(_ isoCountryCode:String, filter:String = "") -> [String] {
-        return getUniqueStringFromPOI("poiCity", withSorting:true, withPredicate: NSPredicate(format: "poiISOCountryCode == %@",isoCountryCode), withCountryNameFilter:filter)
+        return getUniqueStringFromPOI(propertyName:"poiCity",
+                                      withSorting:true,
+                                      withPredicate: NSPredicate(format: "poiISOCountryCode == %@",isoCountryCode),
+                                      withValueFilter:filter)
     }
     
-    
-    struct CountryDescription : Equatable {
-        let countryName:String
-        let ISOCountryCode:String
-        
-        func getAllCities(filter:String = "") -> [String] {
-            return POIDataManager.sharedInstance.getAllCitiesFromCountry(ISOCountryCode, filter: filter)
-        }
-        
-        static func ==(lhs:CountryDescription, rhs:CountryDescription) -> Bool {
-            return lhs.ISOCountryCode == rhs.ISOCountryCode
+    func getCountriesWithCitiesMatching(filter:String) -> [CountryDescription] {
+        if filter.isEmpty {
+            return getAllCountriesOrderedByName()
+        } else {
+            let isoCountryNames = getUniqueStringFromPOI(propertyName:"poiISOCountryCode",
+                                                         withSorting:true,
+                                                         withPredicate: NSPredicate(format: "poiCity CONTAINS[cd]  %@",filter))
+            
+            return CountryDescription.isoCountryNamesToCountryDescription(isoCountryNames: isoCountryNames)
         }
     }
-    
-    
     
     func getAllCountriesOrderedByName() -> [CountryDescription] {
-        let isoCountryNames = getAllISOCountryCode()
-        
-        var countries = [CountryDescription]()
-        
-        for currentISOCountry in isoCountryNames {
-            if let countryName = (Locale.current as NSLocale).displayName(forKey: NSLocale.Key.countryCode, value: currentISOCountry) {
-                let newCountryNameToISO = CountryDescription(countryName: countryName, ISOCountryCode: currentISOCountry)
-                countries.append(newCountryNameToISO)
-            } else {
-                print("\(#function) cannot find translation for ISOCountry \(currentISOCountry), it's ignored")
-            }
-        }
-        countries = countries.sorted() {
-            $0.countryName < $1.countryName
-        }
-        return countries
+        let isoCountryNames = getUniqueStringFromPOI(propertyName:"poiISOCountryCode")
+        return CountryDescription.isoCountryNamesToCountryDescription(isoCountryNames: isoCountryNames)
     }
     
-    fileprivate func getAllISOCountryCode() -> [String] {
-        return getUniqueStringFromPOI("poiISOCountryCode")
+    func getAllContactsIdentifier() -> Set<String> {
+        let result = getUniqueStringFromPOI(propertyName: PointOfInterest.properties.poiContactIdentifier,
+                                            withSorting:false,
+                                            withPredicate: NSPredicate(format: "poiIsContact == TRUE"))
+        return Set(result)
     }
     
-    fileprivate func getUniqueStringFromPOI(_ propertyName:String, withSorting:Bool = false, withPredicate:NSPredicate? = nil, withCountryNameFilter:String = "") -> [String] {
+    //MARK: Utilities
+    fileprivate func getUniqueStringFromPOI(propertyName:String, withSorting:Bool = false, withPredicate:NSPredicate? = nil, withValueFilter:String = "") -> [String] {
         let managedContext = DatabaseAccess.sharedInstance.managedObjectContext
         let fetchRequest = NSFetchRequest<NSDictionary>(entityName: entitiesCste.pointOfInterest)
         fetchRequest.resultType = .dictionaryResultType
@@ -297,15 +286,15 @@ class POIDataManager {
        
         do {
             let propertiesResults = try managedContext.fetch(fetchRequest)
-            // CitiesResults is an Array where each value is a Dictionary which contains the key ("poiCity" attribute) and the unique value
+            // propertiesResults is an Array where each value is a Dictionary which contains the key ("propertyName" attribute) and the unique value
             // We must iterate each Dictionary and concat the values
             var properties = [String]()
             
-            let withCountryNameLowerCase = withCountryNameFilter.lowercased()
+            let withCountryNameLowerCase = withValueFilter.lowercased()
             
             for currentPropertyDictionary in propertiesResults {
                 if let values = currentPropertyDictionary.allValues as? [String] {
-                    if withCountryNameFilter.isEmpty {
+                    if withValueFilter.isEmpty {
                         properties.append(contentsOf: values)
                     } else {
                         if values[0].lowercased().contains(withCountryNameLowerCase) {
@@ -321,12 +310,7 @@ class POIDataManager {
         }
     }
 
-    func getAllContactsIdentifier() -> Set<String> {
-        let result = getUniqueStringFromPOI(PointOfInterest.properties.poiContactIdentifier, withSorting:false, withPredicate: NSPredicate(format: "poiIsContact == TRUE"))
-        return Set(result)
-    }
-
-
+    //MARK: Find POIs
     func getAllPOISortedByGroup(_ searchFilter:String = "", withEmptyGroup:Bool = false) -> [GroupOfInterest:[PointOfInterest]] {
         let groups = getGroups()
         var POIsPerGroup = [GroupOfInterest:[PointOfInterest]]()
@@ -357,8 +341,6 @@ class POIDataManager {
     }
 
     func getAllPOI() -> [PointOfInterest] {
-        
-        
         let managedContext = DatabaseAccess.sharedInstance.managedObjectContext
         let fetchRequest = NSFetchRequest<PointOfInterest>(entityName: entitiesCste.pointOfInterest)
 

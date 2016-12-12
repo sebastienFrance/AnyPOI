@@ -259,7 +259,11 @@ extension POIsGroupListViewController : UITableViewDataSource, UITableViewDelega
     //MARK: UITableViewDataSource
     func numberOfSections(in tableView: UITableView) -> Int {
         // 2 fix sections (POI Groups + Monitored POIs) + dynamic sections per Country
-        return SectionIndex.count + POIDataManager.sharedInstance.getAllCountriesOrderedByName().count
+        return SectionIndex.count + countriesWithCitiesMatching(filter: searchFilter).count
+    }
+    
+    fileprivate func countriesWithCitiesMatching(filter:String) -> [CountryDescription] {
+        return POIDataManager.sharedInstance.getCountriesWithCitiesMatching(filter: searchFilter)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -273,7 +277,7 @@ extension POIsGroupListViewController : UITableViewDataSource, UITableViewDelega
             }
         } else {
             let sectionIndex = getCountrySectionIndexFrom(section)
-            let countries = POIDataManager.sharedInstance.getAllCountriesOrderedByName()
+            let countries = countriesWithCitiesMatching(filter: searchFilter)
             if sectionIndex < countries.count {
                 let citiesForSection = countries[sectionIndex].getAllCities(filter: searchFilter)
                 if searchFilter.isEmpty {
@@ -310,9 +314,9 @@ extension POIsGroupListViewController : UITableViewDataSource, UITableViewDelega
         }
     }
     
-    fileprivate func getCountryForIndex(_ section:Int) -> POIDataManager.CountryDescription? {
+    fileprivate func getCountryForIndex(_ section:Int) -> CountryDescription? {
         let countryIndex = getCountrySectionIndexFrom(section)
-        let countries = POIDataManager.sharedInstance.getAllCountriesOrderedByName()
+        let countries = countriesWithCitiesMatching(filter: searchFilter)
         if countryIndex < countries.count {
             return countries[countryIndex]
         } else {
@@ -320,7 +324,7 @@ extension POIsGroupListViewController : UITableViewDataSource, UITableViewDelega
         }
     }
     
-    fileprivate func getCityNameFromCountry(_ country:POIDataManager.CountryDescription, row:Int) -> String {
+    fileprivate func getCityNameFromCountry(_ country:CountryDescription, row:Int) -> String {
         let cities = country.getAllCities(filter: searchFilter)
         if (row - 1) < cities.count {
             return searchFilter.isEmpty ? cities[row - 1] : cities[row]
@@ -405,7 +409,7 @@ extension POIsGroupListViewController : UITableViewDataSource, UITableViewDelega
     }
     
     fileprivate func deletePoiGroup(index:IndexPath) {
-        let countries = POIDataManager.sharedInstance.getAllCountriesOrderedByName()
+        let countries = countriesWithCitiesMatching(filter: searchFilter)
         var citiesPerCountry = [String:[String]]()
         for currentCountry in countries {
             citiesPerCountry[currentCountry.ISOCountryCode] = currentCountry.getAllCities(filter: searchFilter)
@@ -434,11 +438,11 @@ extension POIsGroupListViewController : UITableViewDataSource, UITableViewDelega
     ///   - initialCountries: List of Countries before the group has been deleted
     ///   - initialCitiesPerCountry: List of Cities per Country before the group has been deleted
     /// - Returns: List of sections and rows to be removed from the table
-    fileprivate func computeDeletedSectionsAndRowsDueToGroupDeletion(initialCountries:[POIDataManager.CountryDescription],
+    fileprivate func computeDeletedSectionsAndRowsDueToGroupDeletion(initialCountries:[CountryDescription],
                                                                      initialCitiesPerCountry:[String:[String]])
         -> (deletedSections:IndexSet, deletedRows:[IndexPath]) {
         
-        let countries = POIDataManager.sharedInstance.getAllCountriesOrderedByName()
+        let countries = countriesWithCitiesMatching(filter: searchFilter)
         var citiesPerCountry = [String:[String]]()
         for currentCountry in countries {
             citiesPerCountry[currentCountry.ISOCountryCode] = currentCountry.getAllCities(filter: searchFilter)
