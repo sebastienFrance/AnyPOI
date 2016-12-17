@@ -88,11 +88,59 @@ class GPXParser: NSObject, XMLParserDelegate {
                         }
                     }
                 }
-               
+                struct RTE {
+                    static let name = "rte"
+                    struct Elements {
+                        struct name {
+                            static let name = "name"
+                        }
+                        struct rtept {
+                            static let name = "rtept"
+                            struct Elements {
+                                struct WPT {
+                                    static let name = "wpt"
+                                    struct Attributes {
+                                        static let latitude = "lat"
+                                        static let longitude = "lon"
+                                    }
+                                    struct Elements {
+                                        struct customExtension {
+                                            static let name = "extension"
+                                            struct Elements {
+                                                struct wayPoint {
+                                                    static let name = "wayPoint"
+                                                    struct Attributes {
+                                                        static let internalUrl = "internalUrl"
+                                                        static let poiInternalUrl = "poiInternalUrl"
+                                                        static let transportType = "transportType"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        struct customExtension {
+                            static let name = "extension"
+                            struct Elements {
+                                struct route {
+                                    static let name = "route"
+                                    struct Attributes {
+                                        static let internalUrlAttr = "internalUrlAttr"
+                                        static let latestTotalDistance = "latestTotalDistance"
+                                        static let latestTotalDuration = "latestTotalDuration"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     }
     
+    var elementHierarchy = ""
     
     init(url:URL) {
         theParser = XMLParser(contentsOf: url)
@@ -140,6 +188,12 @@ class GPXParser: NSObject, XMLParserDelegate {
     
     func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String] = [:]) {
         
+        if elementHierarchy.isEmpty {
+            elementHierarchy = elementName
+        } else {
+            elementHierarchy += ".\(elementName)"
+        }
+        
         isParsing = ParsingElement.OTHERS
         switch elementName {
         case XSD.GPX.Elements.WPT.name:
@@ -173,9 +227,13 @@ class GPXParser: NSObject, XMLParserDelegate {
         
     }
     
+    fileprivate static let POI_PREFIX = "gpx.wpt"
+    fileprivate static let ROUTE_PREFIX = "gpx.rte"
+    
     func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
         
-        if elementName == XSD.GPX.Elements.WPT.name {
+        // Mandatory to check the hierarchy because WPT Element can be both outside route & inside route
+        if elementName == XSD.GPX.Elements.WPT.name, elementHierarchy.hasPrefix(GPXParser.POI_PREFIX) {
             
             let newGPXPoi = GPXPoi()
             newGPXPoi.wptAttributes = wptAttributes
@@ -200,7 +258,16 @@ class GPXParser: NSObject, XMLParserDelegate {
             poiName = ""
             poiSym = ""
  
+        } else if elementName == XSD.GPX.Elements.RTE.name, elementHierarchy.hasPrefix(GPXParser.ROUTE_PREFIX) {
+            
         }
+        
+        if let range = elementHierarchy.range(of: ".", options: .backwards) {
+            elementHierarchy = elementHierarchy.substring(to: range.lowerBound)
+        } else {
+            elementHierarchy = ""
+        }
+
     }
     
     

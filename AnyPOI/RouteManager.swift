@@ -235,7 +235,8 @@ class RouteManager: NSObject {
     
     func executeAction() {
         let mailActivity = RouteMailActivityItemSource(datasource:routeDatasource)
-        var activityItems:[UIActivityItemSource] = [mailActivity]
+        let GPXactivity = GPXActivityItemSource(route: [routeDatasource.theRoute])
+        var activityItems:[UIActivityItemSource] = [mailActivity, GPXactivity]
         
         if let image = MapViewController.instance!.mapImage() {
             let imageActivity = ImageAcvitityItemSource(image: image)

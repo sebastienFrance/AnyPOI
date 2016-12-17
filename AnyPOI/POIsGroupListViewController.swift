@@ -239,50 +239,22 @@ class POIsGroupListViewController: UIViewController, DismissModalViewController,
 extension POIsGroupListViewController : UISearchResultsUpdating, UISearchControllerDelegate, UISearchBarDelegate {
     //MARK: UISearchResultsUpdating
     func updateSearchResults(for searchController: UISearchController) {
-        print("\(#function) called")
-        // To be completed
+        // Nothing to do
     }
     
     //MARK: UISearchControllerDelegate
     func didDismissSearchController(_ searchController: UISearchController) {
-        print("\(#function) called")
         clearFilter()
-    }
-    
-    func willDismissSearchController(_ searchController: UISearchController) {
-        print("\(#function) called")
     }
     
     //MARK: UISearchBarDelegate
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        print("\(#function) called")
-       searchFilter = searchText
+        searchFilter = searchText
         filteredGroups = POIDataManager.sharedInstance.getGroups(searchFilter)
         theTableView.reloadData()
     }
     
-    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        print("\(#function) called")
-        //clearFilter()
-    }
-    
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        print("\(#function) called")
-        //searchButtonPressed = true
-    }
-    
-    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        print("\(#function) called")
-        searchBar.text = searchFilter
-    }
-    
-    func searchBarShouldEndEditing(_ searchBar: UISearchBar) -> Bool {
-        print("\(#function) called")
-        return true
-    }
-    
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        print("\(#function) called")
         clearFilter()
     }
     

@@ -162,6 +162,7 @@
 		BEBEBD1A1DB1621F003A81D0 /* AnyPOI.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BEA7BAA51D8B01E5005D2D21 /* AnyPOI.xcdatamodeld */; };
 		BEC3104E1DBA9F9400A923AF /* LeftMenuPOIsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC3104D1DBA9F9400A923AF /* LeftMenuPOIsTableViewCell.swift */; };
 		BED2C4641DBFEA5F0010886A /* TestStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BED2C4631DBFEA5F0010886A /* TestStoryboard.storyboard */; };
+		BED407AA1E0571C9009EEA97 /* XMLElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED407A91E0571C9009EEA97 /* XMLElement.swift */; };
 		BED751951DA2D539004BC613 /* RouteProviderUberTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED751941DA2D539004BC613 /* RouteProviderUberTableViewCell.swift */; };
 		BED83BDA1DC8D2DA0025349E /* PoiImageCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED83BD91DC8D2DA0025349E /* PoiImageCollectionViewController.swift */; };
 		BED83BDC1DC8DBFF0025349E /* ImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED83BDB1DC8DBFF0025349E /* ImageCollectionViewCell.swift */; };
@@ -374,6 +375,7 @@
 		BEC3104C1DBA735200A923AF /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Options.strings; sourceTree = "<group>"; };
 		BEC3104D1DBA9F9400A923AF /* LeftMenuPOIsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftMenuPOIsTableViewCell.swift; sourceTree = "<group>"; };
 		BED2C4631DBFEA5F0010886A /* TestStoryboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = TestStoryboard.storyboard; sourceTree = "<group>"; };
+		BED407A91E0571C9009EEA97 /* XMLElement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMLElement.swift; sourceTree = "<group>"; };
 		BED751941DA2D539004BC613 /* RouteProviderUberTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteProviderUberTableViewCell.swift; sourceTree = "<group>"; };
 		BED83BD91DC8D2DA0025349E /* PoiImageCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PoiImageCollectionViewController.swift; sourceTree = "<group>"; };
 		BED83BDB1DC8DBFF0025349E /* ImageCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -482,7 +484,7 @@
 		BE2FF2CF1D8B296100C0395A /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				BEFDA7D91DE9C98D00D3104D /* XML */,
+				BEFDA7D91DE9C98D00D3104D /* GPX */,
 				BE2FF2E61D8B31C700C0395A /* Contacts */,
 				BE2FF2E51D8B31B700C0395A /* Map */,
 				BE2FF2E71D8B31DE00C0395A /* Wikipedia */,
@@ -934,14 +936,15 @@
 			path = AnyPOIUITests;
 			sourceTree = "<group>";
 		};
-		BEFDA7D91DE9C98D00D3104D /* XML */ = {
+		BEFDA7D91DE9C98D00D3104D /* GPX */ = {
 			isa = PBXGroup;
 			children = (
 				BEFDA7DA1DE9C9A200D3104D /* GPXParser.swift */,
 				BE4BF3BD1DEB55E00043891B /* ExportGPX.swift */,
 				BE4628D51DEF5A3900FB4C52 /* GPXPoi.swift */,
+				BED407A91E0571C9009EEA97 /* XMLElement.swift */,
 			);
-			name = XML;
+			name = GPX;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1212,6 +1215,7 @@
 				BE0CF3081D8B209A00344F8A /* RouteManager.swift in Sources */,
 				BE4628DB1DEF5C0C00FB4C52 /* GPXImportTableViewCell.swift in Sources */,
 				BE957E631DA943D6006CF455 /* WikiLanguagePickerTableViewCell.swift in Sources */,
+				BED407AA1E0571C9009EEA97 /* XMLElement.swift in Sources */,
 				BE0CF3121D8B209A00344F8A /* GroupOfInterest.swift in Sources */,
 				BE0CF3521D8B209A00344F8A /* PickerCategoryView.swift in Sources */,
 				BE8F7C3A1DB66B9300BE30C2 /* RouteMailActivityItemSource.swift in Sources */,

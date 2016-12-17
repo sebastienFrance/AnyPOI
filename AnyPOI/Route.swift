@@ -501,3 +501,37 @@ class Route: NSManagedObject {
     }
 }
 
+extension Route {
+    func toGPXElement() -> XMLElement {
+        var rteElement = XMLElement(elementName: GPXParser.XSD.GPX.Elements.RTE.name)
+        rteElement.addSub(element: XMLElement(elementName: GPXParser.XSD.GPX.Elements.RTE.Elements.name.name, withValue:routeName!))
+        
+        var rtept = XMLElement(elementName: GPXParser.XSD.GPX.Elements.RTE.Elements.rtept.name)
+        for currentWayPoint in wayPoints {
+            rtept.addSub(element: currentWayPoint.toGPXElement())
+        }
+        
+        rteElement.addSub(element: rtept)
+        
+        var GPXExtension = XMLElement(elementName: GPXParser.XSD.GPX.Elements.RTE.Elements.customExtension.name)
+        GPXExtension.addSub(element: addRouteExtensionToGPX())
+        
+        rteElement.addSub(element: GPXExtension)
+        return rteElement
+    }
+    
+    
+    private static let internalUrlAttr = GPXParser.XSD.GPX.Elements.RTE.Elements.customExtension.Elements.route.Attributes.internalUrlAttr
+    private static let latestTotalDistanceAttr = GPXParser.XSD.GPX.Elements.RTE.Elements.customExtension.Elements.route.Attributes.latestTotalDistance
+    private static let latestTotalDurationAttr = GPXParser.XSD.GPX.Elements.RTE.Elements.customExtension.Elements.route.Attributes.latestTotalDuration
+
+    
+    fileprivate func addRouteExtensionToGPX() -> XMLElement {
+        let attributes = [Route.internalUrlAttr : objectID.uriRepresentation().absoluteString,
+                          Route.latestTotalDistanceAttr : "\(latestTotalDistance)",
+                          Route.latestTotalDurationAttr : "\(latestTotalDuration)"]
+        let element = XMLElement(elementName: GPXParser.XSD.GPX.Elements.RTE.Elements.customExtension.Elements.route.name, attributes: attributes)
+        return element
+    }
+}
+

@@ -653,112 +653,80 @@ extension PointOfInterest {
 
 extension PointOfInterest {
     
-    func toGPX() -> String {
-        var xml = "<\(GPXParser.XSD.GPX.Elements.WPT.name)"
-        xml += " \(GPXParser.XSD.GPX.Elements.WPT.Attributes.latitude)=\"\(coordinate.latitude)\""
-        xml += " \(GPXParser.XSD.GPX.Elements.WPT.Attributes.longitude)=\"\(coordinate.longitude)\">"
-        xml += "<\(GPXParser.XSD.GPX.Elements.WPT.Elements.name.name)>\(poiDisplayName!)</\(GPXParser.XSD.GPX.Elements.WPT.Elements.name.name)>"
+    
+    func toGPXElement() -> XMLElement {
+        let wptAttributes = [GPXParser.XSD.GPX.Elements.WPT.Attributes.latitude : "\(coordinate.latitude)",
+            GPXParser.XSD.GPX.Elements.WPT.Attributes.longitude : "\(coordinate.longitude)"]
+        
+        var wptElement = XMLElement(elementName: GPXParser.XSD.GPX.Elements.WPT.name, attributes: wptAttributes)
+        let nameElement = XMLElement(elementName: GPXParser.XSD.GPX.Elements.WPT.Elements.name.name, withValue: poiDisplayName!)
+        wptElement.addSub(element: nameElement)
+        
         if let description = poiDescription {
-            xml += "<\(GPXParser.XSD.GPX.Elements.WPT.Elements.desc.name)>\(description)</\(GPXParser.XSD.GPX.Elements.WPT.Elements.desc.name)>"
+            wptElement.addSub(element: XMLElement(elementName: GPXParser.XSD.GPX.Elements.WPT.Elements.desc.name, withValue: description))
         }
         if let url = poiURL {
-            xml += "<\(GPXParser.XSD.GPX.Elements.WPT.Elements.link.name)>\(url)</\(GPXParser.XSD.GPX.Elements.WPT.Elements.link.name)>"
+            wptElement.addSub(element: XMLElement(elementName: GPXParser.XSD.GPX.Elements.WPT.Elements.link.name, withValue: url))
         }
-        xml += "<\(GPXParser.XSD.GPX.Elements.WPT.Elements.sym.name)>\(category.localizedString)</\(GPXParser.XSD.GPX.Elements.WPT.Elements.sym.name)>"
-        xml += "<\(GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.name)>"
-        xml += addPoiToGPX()
-        xml += addRegionToGPX()
-        xml += addGroupToGPX()
+        wptElement.addSub(element: XMLElement(elementName: GPXParser.XSD.GPX.Elements.WPT.Elements.sym.name, withValue: category.localizedString))
         
-        xml += "</\(GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.name)>"
-        xml += "</\(GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.name)>"
+        var extensionElement = XMLElement(elementName: GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.name)
         
-        xml += "</\(GPXParser.XSD.GPX.Elements.WPT.name)>"
-        return xml
+        extensionElement.addSub(element: addPoiToGPX())
+        extensionElement.addSub(element: addRegionToGPX())
+        extensionElement.addSub(element: parentGroup!.toGPXElement())
+        
+        wptElement.addSub(element: extensionElement)
+        
+        return wptElement
     }
     
-    private static let internalUrlAttr = GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Attributes.internalUrl
-    private static let groupCategoryAttr = GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Attributes.groupId
-    private static let categoryIdAttr = GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Attributes.categoryId
-    private static let isContactAttr = GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Attributes.isContact
-    private static let wikipediaIdAttr = GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Attributes.wikipediaId
-    private static let cityAttr = GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Attributes.city
-    private static let contactIdAttr = GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Attributes.contactId
-    private static let addressAttr = GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Attributes.address
-    private static let ISOCountryCodeAttr = GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Attributes.ISOCountryCode
-    private static let phoneNumberAttr = GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Attributes.phoneNumber
+    fileprivate static let internalUrlAttr = GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Attributes.internalUrl
+    fileprivate static let groupCategoryAttr = GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Attributes.groupId
+    fileprivate static let categoryIdAttr = GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Attributes.categoryId
+    fileprivate static let isContactAttr = GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Attributes.isContact
+    fileprivate static let wikipediaIdAttr = GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Attributes.wikipediaId
+    fileprivate static let cityAttr = GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Attributes.city
+    fileprivate static let contactIdAttr = GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Attributes.contactId
+    fileprivate static let addressAttr = GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Attributes.address
+    fileprivate static let ISOCountryCodeAttr = GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Attributes.ISOCountryCode
+    fileprivate static let phoneNumberAttr = GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Attributes.phoneNumber
     
-    
-    
-    fileprivate func addPoiToGPX() -> String {
-        var xml = "<\(GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.name)"
-        // poi.objectID.uriRepresentation().absoluteString
-        xml += " \(PointOfInterest.internalUrlAttr)=\"\(objectID.uriRepresentation().absoluteString)\""
-        xml += " \(PointOfInterest.groupCategoryAttr)=\"\(poiGroupCategory)\""
-        xml += " \(PointOfInterest.categoryIdAttr)=\"\(poiCategory)\""
-        xml += " \(PointOfInterest.isContactAttr)=\"\(poiIsContact)\""
-        xml += " \(PointOfInterest.wikipediaIdAttr)=\"\(poiWikipediaPageId)\""
+    fileprivate func addPoiToGPX() -> XMLElement {
+        var attributes = [ PointOfInterest.internalUrlAttr : objectID.uriRepresentation().absoluteString,
+                           PointOfInterest.groupCategoryAttr : "\(poiGroupCategory)",
+                           PointOfInterest.categoryIdAttr : "\(poiCategory)",
+                           PointOfInterest.isContactAttr : "\(poiIsContact)",
+                           PointOfInterest.wikipediaIdAttr : "\(poiWikipediaPageId)"]
+        
         if let city = poiCity {
-            xml += " \(PointOfInterest.cityAttr)=\"\(city)\""
+            attributes[PointOfInterest.cityAttr] = city
         }
         if let contactId = poiContactIdentifier {
-            xml += " \(PointOfInterest.contactIdAttr)=\"\(contactId)\""
+            attributes[PointOfInterest.contactIdAttr] = contactId
         }
         if let contactAddress = poiAddress {
-            xml += " \(PointOfInterest.addressAttr)=\"\(contactAddress)\""
+            attributes[PointOfInterest.addressAttr] = contactAddress
         }
         
         if let countryCode = poiISOCountryCode {
-            xml += " \(PointOfInterest.ISOCountryCodeAttr)=\"\(countryCode)\""
+            attributes[PointOfInterest.ISOCountryCodeAttr] = countryCode
         }
         if let phoneNumber = poiPhoneNumber {
-            xml += " \(PointOfInterest.phoneNumberAttr)=\"\(phoneNumber)\""
+            attributes[PointOfInterest.phoneNumberAttr] = phoneNumber
         }
-        xml += ">"
-        return xml
+        return XMLElement(elementName: GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.name, attributes: attributes)
     }
     
-    private static let notifyEnterAttr = GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.regionMonitoring.Attributes.notifyEnter
-    private static let notifyExitAttr = GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.regionMonitoring.Attributes.notifyExit
-    private static let regionRadiusAttr = GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.regionMonitoring.Attributes.regionRadius
+    fileprivate static let notifyEnterAttr = GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.regionMonitoring.Attributes.notifyEnter
+    fileprivate static let notifyExitAttr = GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.regionMonitoring.Attributes.notifyExit
+    fileprivate static let regionRadiusAttr = GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.regionMonitoring.Attributes.regionRadius
 
-    
-    fileprivate func addRegionToGPX() -> String {
-        var xml = ""
-        xml += "<\(GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.regionMonitoring.name)"
-        xml += " \(PointOfInterest.notifyEnterAttr)=\"\(poiRegionNotifyEnter)\""
-        xml += " \(PointOfInterest.notifyExitAttr)=\"\(poiRegionNotifyExit)\""
-        xml += " \(PointOfInterest.regionRadiusAttr)=\"\(poiRegionRadius)\">"
-        xml += "</\(GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.regionMonitoring.name)>"
-        return xml
-    }
-    
-    
-    private static let nameAttr = GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.group.Attributes.name
-    private static let groupInternalUrlAttr = GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.group.Attributes.internalUrlAttr
-    private static let groupIdAttr = GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.group.Attributes.groupId
-    private static let isDisplayedAttr = GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.group.Attributes.isDisplayed
-    private static let groupDescriptionAttr = GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.group.Attributes.groupDescription
-    private static let groupColorAttr = GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.group.Attributes.groupColor
-
-    
-    fileprivate func addGroupToGPX() -> String {
-        var xml = "<\(GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.group.name)"
-        xml += " \(PointOfInterest.nameAttr)=\"\(parentGroup!.groupDisplayName!)\""
-        xml += " \(PointOfInterest.groupInternalUrlAttr)=\"\(parentGroup!.objectID.uriRepresentation().absoluteString)\""
-        xml += " \(PointOfInterest.groupIdAttr)=\"\(parentGroup!.groupId)\""
-        xml += " \(PointOfInterest.isDisplayedAttr)=\"\(parentGroup!.isGroupDisplayed)\""
-        if let descriptionGroup = parentGroup!.groupDescription {
-            xml += " \(PointOfInterest.groupDescriptionAttr)=\"\(descriptionGroup)\""
-        }
+    fileprivate func addRegionToGPX() -> XMLElement {
+        let attributes = [PointOfInterest.notifyEnterAttr : "\(poiRegionNotifyEnter)",
+                          PointOfInterest.notifyExitAttr : "\(poiRegionNotifyExit)",
+                          PointOfInterest.regionRadiusAttr : "\(poiRegionRadius)"]
         
-        if let colorString = ColorsUtils.getColor(color:parentGroup!.color) {
-            xml += " \(PointOfInterest.groupColorAttr)=\"\(colorString)\""
-        }
-        
-        xml += ">"
-        xml += "</\(GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.group.name)>"
-        return xml
+        return XMLElement(elementName: GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.regionMonitoring.name, attributes: attributes)
     }
- 
 }

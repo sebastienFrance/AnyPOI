@@ -114,10 +114,6 @@ class POIsViewController: UIViewController  {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        // remove the search controller when moving to another view controller
-        if searchController.isActive {
-            searchController.dismiss(animated: false, completion: nil)
-        }
     }
 
     deinit {
@@ -215,6 +211,7 @@ class POIsViewController: UIViewController  {
             // enabled except the action and the move when no rows have been
             // selected
             if theTableView.isEditing {
+                searchButton.isEnabled = false
                 actionButton.isEnabled = false
                 if theTableView.indexPathForSelectedRow == nil {
                     moveButton.isEnabled = false
@@ -228,6 +225,7 @@ class POIsViewController: UIViewController  {
         theTableView.setEditing(true, animated: true)
         moveButton.isEnabled = false
         selectButton.title = NSLocalizedString("MoveDoneButtonTitle", comment: "")
+        moveButton.title = NSLocalizedString("MoveSelectedPOIsButtonTitle", comment: "")
         resetStateOfEditButtons()
     }
     
@@ -311,7 +309,12 @@ class POIsViewController: UIViewController  {
     }
 
     @IBAction func searchButtonPushed(_ sender: UIBarButtonItem) {
-        present(searchController, animated: true, completion: nil)
+        if searchController.isActive {
+            searchController.searchBar.isHidden = false
+            searchController.searchBar.becomeFirstResponder()
+        } else {
+            present(searchController, animated: true, completion: nil)
+        }
     }
 
     @IBAction func showPOIOnMap(_ sender: UIButton) {
@@ -365,6 +368,9 @@ class POIsViewController: UIViewController  {
     
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // remove the search controller when moving to another view controller
+        searchController.isActive = false
+
         if segue.identifier == storyboard.showPOIDetails {
             let poiController = segue.destination as! POIDetailsViewController
             let currentPOI = getPoiForIndexPath(sender as! IndexPath)
@@ -411,10 +417,10 @@ extension POIsViewController : UISearchResultsUpdating, UISearchControllerDelega
     }
     
     //MARK: UISearchControllerDelegate
-    func didDismissSearchController(_ searchController: UISearchController) {
-        // Nothing to do because we keep the filter!
+     func didDismissSearchController(_ searchController: UISearchController) {
+        clearFilter()
     }
-    
+
     
     //MARK: UISearchBarDelegate
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
@@ -427,6 +433,27 @@ extension POIsViewController : UISearchResultsUpdating, UISearchControllerDelega
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         searchBar.text = searchFilter
     }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        clearFilter()
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchButton.tintColor = UIColor.red
+        searchBar.isHidden = true
+    }
+
+    fileprivate func clearFilter() {
+        searchButton.tintColor = actionButton.tintColor
+        if !searchFilter.isEmpty {
+            searchFilter = ""
+            poisWithFilters = nil
+            searchController.searchBar.text = ""
+            resetStateOfEditButtons()
+            theTableView.reloadData()
+        }
+    }
+
 }
 extension POIsViewController : UITableViewDataSource, UITableViewDelegate {
     

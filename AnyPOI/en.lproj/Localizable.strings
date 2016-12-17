@@ -146,6 +146,12 @@
 "RouteSectionMapFilterVC"="POIs in Route";
 "GroupsSectionMapFilterVC"="Groups";
 "CategoriesSectionMapFilterVC"="Categories";
+"ImportMsgAllPOIsAsNew"="All Point Of Interests will be imported as new";
+"ImportMsgMergeAndCreate" = "Existing Point Of Interests will be merged and new ones will be created";
+"ImportMsgOnlyNewPOIs" = "Only new Point Of Interests will be imported";
+"ImportMsgOnlyUpdate"="Only existing Point Of Interests will be merged";
+"ImportMsgNoImport"="Warning, nothing will be imported!";
+"ImportMsgFilter"="\nOnly POIs matching";
 "CategoryLabelUnknown"="Unknown";
 "CategoryLabelCoffee"="Cofee";
 "CategoryLabelRestaurant"="Restaurant";

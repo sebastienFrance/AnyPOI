@@ -129,3 +129,29 @@ class GroupOfInterest: NSManagedObject {
     }
  }
 
+extension GroupOfInterest {
+    private static let nameAttr = GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.group.Attributes.name
+    private static let groupInternalUrlAttr = GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.group.Attributes.internalUrlAttr
+    private static let groupIdAttr = GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.group.Attributes.groupId
+    private static let isDisplayedAttr = GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.group.Attributes.isDisplayed
+    private static let groupDescriptionAttr = GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.group.Attributes.groupDescription
+    private static let groupColorAttr = GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.group.Attributes.groupColor
+    
+    func toGPXElement() -> XMLElement {
+        var attributes = [GroupOfInterest.nameAttr : "\(groupDisplayName!)",
+            GroupOfInterest.groupInternalUrlAttr : "\(objectID.uriRepresentation().absoluteString)",
+            GroupOfInterest.groupIdAttr : "\(groupId)",
+            GroupOfInterest.isDisplayedAttr : "\(isGroupDisplayed)"]
+        
+        if let descriptionGroup = groupDescription {
+            attributes[GroupOfInterest.groupDescriptionAttr] = descriptionGroup
+        }
+        
+        if let colorString = ColorsUtils.getColor(color:color) {
+            attributes[GroupOfInterest.groupColorAttr] = colorString
+        }
+        return XMLElement(elementName: GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.group.name, attributes: attributes)
+    }
+
+}
+

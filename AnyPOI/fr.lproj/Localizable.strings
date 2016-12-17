@@ -147,6 +147,12 @@
 "ShowPOIsNotUsedMapFilterVC"="Afficher les POIs non utilisés";
 "RouteSectionMapFilterVC"="POIs sur l'itinéraire";
 "GroupsSectionMapFilterVC"="Groupes";
+"ImportMsgAllPOIsAsNew"="Tous les points d'interets seront importés comme nouveau";
+"ImportMsgMergeAndCreate" = "Les points d'interets existant seront mis à jour et les nouveaux seront créés";
+"ImportMsgOnlyNewPOIs" = "Seul les nouveaux points d'interets seront importés";
+"ImportMsgOnlyUpdate"="Seul les points d'interets existant seront importés (mis a jour)";
+"ImportMsgNoImport"="Attention, aucun point d'interets ne sera importés";
+"ImportMsgFilter"="\nUniquement les points d'interets passant le filtre";
 "CategoriesSectionMapFilterVC"="Categories";
 "CategoryLabelUnknown"="Inconnue";
 "CategoryLabelCoffee"="Café";

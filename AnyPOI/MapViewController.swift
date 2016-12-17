@@ -1169,22 +1169,6 @@ extension MapViewController : UISearchResultsUpdating, UISearchControllerDelegat
     //MARK: UISearchBarDelegate
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         // Perform Geocoding to find places using the text provided by the user
-        CLGeocoder().geocodeAddressString(searchBar.text!) { placemarks, error in
-            // Mandatory to hide the UISearchController from the screen
-            self.theSearchController?.isActive = false
-            if let theError = error {
-                self.showAlertMessage("GeoCoding", message: theError.localizedDescription)
-            } else {
-                if let thePlacemark = placemarks , thePlacemark.count > 0 {
-                    if let coordinate = thePlacemark[0].location?.coordinate {
-                        self.mapAnimation.fromCurrentMapLocationTo(coordinate)
-                    }
-                } else {
-                    self.showAlertMessage("PlaceMark", message: "No placemark found")
-                }
-            }
-            
-        }
     }
 }
 

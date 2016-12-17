@@ -18,6 +18,11 @@ class GPXActivityItemSource: NSObject, UIActivityItemSource {
         gpxExportData = gpxExport.getGPX()
     }
     
+    init(route:[Route]) {
+        let gpxExport = ExportGPX(routes: route)
+        gpxExportData = gpxExport.getGPX()
+    }
+    
     
     func activityViewControllerPlaceholderItem(_ activityViewController: UIActivityViewController) -> Any {
         return Data()
