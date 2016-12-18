@@ -54,6 +54,11 @@ class GPXImportViewController: UIViewController {
             _ = parser.parse()
             self.allParsedGPXPois = parser.GPXPois
             self.updateFilteredGPXPois()
+
+            for currentGPXRoute in parser.GPXRoutes {
+                print("\(#function) Import route \(currentGPXRoute.routeName)")
+            }
+
             DispatchQueue.main.async(execute: {
                 self.theTableView.reloadData()
                 HUD.hide()

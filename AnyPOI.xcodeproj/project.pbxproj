@@ -124,6 +124,7 @@
 		BE901D2B1DCE32CD00FFB3E2 /* ImageCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE901D2A1DCE32CD00FFB3E2 /* ImageCollectionViewFlowLayout.swift */; };
 		BE90C7B41DA1668900033DC9 /* RouteProviderTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE90C7B31DA1668900033DC9 /* RouteProviderTableViewController.swift */; };
 		BE90C7B61DA166A800033DC9 /* RouteProviderWithTransportTypeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE90C7B51DA166A800033DC9 /* RouteProviderWithTransportTypeTableViewCell.swift */; };
+		BE9195BD1E0691550039DE49 /* GPXRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE9195BC1E0691550039DE49 /* GPXRoute.swift */; };
 		BE93D5101DB263EE00104872 /* GroupOfInterest+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE93D5081DB263ED00104872 /* GroupOfInterest+CoreDataProperties.swift */; };
 		BE93D5121DB263EE00104872 /* PointOfInterest+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE93D50A1DB263ED00104872 /* PointOfInterest+CoreDataProperties.swift */; };
 		BE93D5141DB263EE00104872 /* Route+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE93D50C1DB263EE00104872 /* Route+CoreDataProperties.swift */; };
@@ -335,6 +336,7 @@
 		BE901D2A1DCE32CD00FFB3E2 /* ImageCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
 		BE90C7B31DA1668900033DC9 /* RouteProviderTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteProviderTableViewController.swift; sourceTree = "<group>"; };
 		BE90C7B51DA166A800033DC9 /* RouteProviderWithTransportTypeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteProviderWithTransportTypeTableViewCell.swift; sourceTree = "<group>"; };
+		BE9195BC1E0691550039DE49 /* GPXRoute.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPXRoute.swift; sourceTree = "<group>"; };
 		BE93D5081DB263ED00104872 /* GroupOfInterest+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "GroupOfInterest+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		BE93D50A1DB263ED00104872 /* PointOfInterest+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PointOfInterest+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		BE93D50C1DB263EE00104872 /* Route+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Route+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -942,6 +944,7 @@
 				BEFDA7DA1DE9C9A200D3104D /* GPXParser.swift */,
 				BE4BF3BD1DEB55E00043891B /* ExportGPX.swift */,
 				BE4628D51DEF5A3900FB4C52 /* GPXPoi.swift */,
+				BE9195BC1E0691550039DE49 /* GPXRoute.swift */,
 				BED407A91E0571C9009EEA97 /* XMLElement.swift */,
 			);
 			name = GPX;
@@ -1241,6 +1244,7 @@
 				BE93D5141DB263EE00104872 /* Route+CoreDataProperties.swift in Sources */,
 				BE0CF33F1D8B209A00344F8A /* MapCameraAnimations.swift in Sources */,
 				BE0CF3471D8B209A00344F8A /* ColorsUtils.swift in Sources */,
+				BE9195BD1E0691550039DE49 /* GPXRoute.swift in Sources */,
 				BE0CF3091D8B209A00344F8A /* RoutesViewController.swift in Sources */,
 				BE93D5121DB263EE00104872 /* PointOfInterest+CoreDataProperties.swift in Sources */,
 				BE44B58B1DE1DF3700D08EC0 /* MapFilterGroupTableViewCell.swift in Sources */,

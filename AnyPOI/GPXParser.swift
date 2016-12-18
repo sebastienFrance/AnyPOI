@@ -13,10 +13,9 @@ class GPXParser: NSObject, XMLParserDelegate {
     
     fileprivate let theParser:XMLParser?
     
-    fileprivate var currentPoi:PointOfInterest?
-    fileprivate var isParsingWPT = false
     fileprivate var importedPOICounter = 0
-    
+    fileprivate var importedRouteCounter = 0
+
     fileprivate var creator = "unknown"
     
      struct XSD {
@@ -170,7 +169,8 @@ class GPXParser: NSObject, XMLParserDelegate {
     }
     
     fileprivate(set) var GPXPois = [GPXPoi]()
-    
+
+    // Data extracted from XML to create POI
     fileprivate var wptAttributes:[String : String]? = nil
     fileprivate var poiAttributes:[String : String]? = nil
     fileprivate var groupAttributes:[String : String]? = nil
@@ -179,50 +179,95 @@ class GPXParser: NSObject, XMLParserDelegate {
     fileprivate var poiLink = ""
     fileprivate var poiName = ""
     fileprivate var poiSym = ""
-    
+
+    // Data extracted from XML to create Route
+    fileprivate(set) var GPXRoutes = [GPXRoute]()
+
+    fileprivate var routeName = ""
+    fileprivate var routeAttributes:[String : String]? = nil
+
+    struct RouteWayPointAtttributes {
+        fileprivate var routeWptAttributes:[String : String]? = nil
+        fileprivate var wayPointAttributes:[String : String]? = nil
+    }
+
+    fileprivate var currentRouteWayPointAttribute:RouteWayPointAtttributes? = nil
+    fileprivate var routeWayPoints:[RouteWayPointAtttributes]? = nil
+
+
     fileprivate enum ParsingElement {
-        case WPT, WPT_Name, WPT_Link, WPT_Desc, WPT_SYM, WPT_POI, WPT_GROUP, WPT_REGION_MONITORING, OTHERS
+        case WPT, WPT_Name, WPT_Link, WPT_Desc, WPT_SYM, WPT_POI, WPT_GROUP, WPT_REGION_MONITORING,
+        RTE, RTE_NAME, RTE_ROUTE, RTE_WPT, RTE_WPT_WAYPOINT,
+        OTHERS
     }
     
     fileprivate var isParsing = ParsingElement.OTHERS
     
     func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String] = [:]) {
-        
+
         if elementHierarchy.isEmpty {
             elementHierarchy = elementName
         } else {
             elementHierarchy += ".\(elementName)"
         }
-        
+
         isParsing = ParsingElement.OTHERS
-        switch elementName {
-        case XSD.GPX.Elements.WPT.name:
-            isParsing = .WPT
-            wptAttributes = attributeDict
-        case XSD.GPX.Elements.WPT.Elements.desc.name:
-            isParsing = .WPT_Desc
-        case XSD.GPX.Elements.WPT.Elements.link.name:
-            isParsing = .WPT_Link
-        case XSD.GPX.Elements.WPT.Elements.name.name:
-            isParsing = .WPT_Name
-        case XSD.GPX.Elements.WPT.Elements.sym.name:
-            isParsing = .WPT_SYM
-        case XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.name:
-            isParsing = .WPT_POI
-            poiAttributes = attributeDict
-        case XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.group.name:
-            isParsing = .WPT_GROUP
-            groupAttributes = attributeDict
-        case XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.regionMonitoring.name:
-            isParsing = .WPT_REGION_MONITORING
-            regionMonitoringAttributes = attributeDict
-        case XSD.GPX.name:
-            if let theCreator = attributeDict[XSD.GPX.Attributes.creator] {
-                creator = theCreator
+
+        if elementHierarchy.hasPrefix(GPXParser.POI_PREFIX) {
+            switch elementName {
+            case XSD.GPX.Elements.WPT.name:
+                isParsing = .WPT
+                wptAttributes = attributeDict
+            case XSD.GPX.Elements.WPT.Elements.desc.name:
+                isParsing = .WPT_Desc
+            case XSD.GPX.Elements.WPT.Elements.link.name:
+                isParsing = .WPT_Link
+            case XSD.GPX.Elements.WPT.Elements.name.name:
+                isParsing = .WPT_Name
+            case XSD.GPX.Elements.WPT.Elements.sym.name:
+                isParsing = .WPT_SYM
+            case XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.name:
+                isParsing = .WPT_POI
+                poiAttributes = attributeDict
+            case XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.group.name:
+                isParsing = .WPT_GROUP
+                groupAttributes = attributeDict
+            case XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.regionMonitoring.name:
+                isParsing = .WPT_REGION_MONITORING
+                regionMonitoringAttributes = attributeDict
+            case XSD.GPX.name:
+                if let theCreator = attributeDict[XSD.GPX.Attributes.creator] {
+                    creator = theCreator
+                }
+                break
+            default:
+                break
             }
-            break
-        default:
-            break
+        } else if elementHierarchy.hasPrefix(GPXParser.ROUTE_PREFIX) {
+            switch elementName {
+            case XSD.GPX.Elements.RTE.name:
+                isParsing = .RTE
+                routeWayPoints = [RouteWayPointAtttributes]()
+            case XSD.GPX.Elements.RTE.Elements.name.name:
+                isParsing = .RTE_NAME
+            case XSD.GPX.Elements.RTE.Elements.rtept.Elements.WPT.name:
+                isParsing = .RTE_WPT
+                currentRouteWayPointAttribute = RouteWayPointAtttributes()
+                currentRouteWayPointAttribute!.routeWptAttributes = attributeDict
+            case XSD.GPX.Elements.RTE.Elements.rtept.Elements.WPT.Elements.customExtension.Elements.wayPoint.name:
+                isParsing = .RTE_WPT_WAYPOINT
+                guard (currentRouteWayPointAttribute != nil) else {
+                    print("Warning, found WayPoint element without WPT!")
+                    return
+                }
+                currentRouteWayPointAttribute!.wayPointAttributes = attributeDict
+                routeWayPoints?.append(currentRouteWayPointAttribute!)
+           case XSD.GPX.Elements.RTE.Elements.customExtension.Elements.route.name:
+                isParsing = .RTE_ROUTE
+                routeAttributes = attributeDict
+            default:
+                break
+            }
         }
         
     }
@@ -259,7 +304,18 @@ class GPXParser: NSObject, XMLParserDelegate {
             poiSym = ""
  
         } else if elementName == XSD.GPX.Elements.RTE.name, elementHierarchy.hasPrefix(GPXParser.ROUTE_PREFIX) {
-            
+            let newGPXRoute = GPXRoute()
+            newGPXRoute.routeAttributes = routeAttributes
+            newGPXRoute.routeWayPoints = routeWayPoints
+            newGPXRoute.routeName = routeName
+
+            importedRouteCounter += 1
+
+            GPXRoutes.append(newGPXRoute)
+
+            routeAttributes = nil
+            routeWayPoints = nil
+            routeName = ""
         }
         
         if let range = elementHierarchy.range(of: ".", options: .backwards) {
@@ -283,6 +339,8 @@ class GPXParser: NSObject, XMLParserDelegate {
             poiName += string
         case .WPT_SYM:
             poiSym += string
+        case .RTE_NAME:
+            routeName += string
         default:
             break
         }
