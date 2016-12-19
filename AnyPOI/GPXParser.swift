@@ -187,8 +187,8 @@ class GPXParser: NSObject, XMLParserDelegate {
     fileprivate var routeAttributes:[String : String]? = nil
 
     struct RouteWayPointAtttributes {
-        fileprivate var routeWptAttributes:[String : String]? = nil
-        fileprivate var wayPointAttributes:[String : String]? = nil
+         var routeWptAttributes:[String : String]? = nil
+         var wayPointAttributes:[String : String]? = nil
     }
 
     fileprivate var currentRouteWayPointAttribute:RouteWayPointAtttributes? = nil

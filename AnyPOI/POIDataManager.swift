@@ -482,6 +482,38 @@ class POIDataManager {
     }
 
 
+    func findGroup(url:URL, groupId:Int, groupName:String) -> GroupOfInterest? {
+        if let group = getGroupWithURI(url) {
+            return group
+        } else if let group = findGroup(groupId: groupId) {
+            return group
+        } else {
+            let groups = findGroups(groupName)
+            for currentGroup in groups {
+                if currentGroup.groupDisplayName == groupName {
+                    return currentGroup
+                }
+            }
+            return nil
+        }
+    }
+
+
+    func findPOI(url:URL, poiName:String, coordinates:CLLocationCoordinate2D) -> PointOfInterest? {
+        if let poi = getPOIWithURI(url) {
+            return poi
+        } else {
+            let pois = findPOIWith(poiName, coordinates: coordinates)
+            for currentPoi in pois {
+                if currentPoi.poiDisplayName == poiName {
+                    return currentPoi
+                }
+            }
+            return nil
+        }
+    }
+
+
     //SEB: TBC Category
     func findPOI(_ searchText:String, category:CategoryUtils.Category? = nil) -> [PointOfInterest] {
         let managedContext = DatabaseAccess.sharedInstance.managedObjectContext
@@ -755,6 +787,24 @@ class POIDataManager {
             previousWayPoint.routeInfos = nil
         }
         
+        route.routeWayPoints = wayPoints
+    }
+
+    func appendWayPoint(route:Route, poi:PointOfInterest, transportType:MKDirectionsTransportType) {
+        let wayPoints = NSMutableOrderedSet(orderedSet: route.routeWayPoints!)
+
+        if wayPoints.count == 0 {
+            let newWayPoint = addWayPoint(poi, transportType: transportType)
+            wayPoints.add(newWayPoint)
+        } else {
+            let previousWayPoint = wayPoints.lastObject as! WayPoint
+            let newWayPoint = addWayPoint(poi)
+            wayPoints.add(newWayPoint)
+
+            newWayPoint.transportType = transportType
+            previousWayPoint.transportType = transportType
+            previousWayPoint.routeInfos = nil
+        }
         route.routeWayPoints = wayPoints
     }
 

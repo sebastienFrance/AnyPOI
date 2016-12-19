@@ -93,7 +93,7 @@ class GPXPoi {
             if let url = poiURL,
                 let coordinates = poiCoordinates,
                 !poiName.isEmpty {
-                if let _ = findPoiInDatabase(url:url, poiName: poiName, coordinates: coordinates) {
+                if let _ = POIDataManager.sharedInstance.findPOI(url:url, poiName: poiName, coordinates: coordinates) {
                     return true
                 } else {
                     return false
@@ -148,7 +148,7 @@ class GPXPoi {
             
             var restorePoi:PointOfInterest!
             if options.merge {
-                if let poi = findPoiInDatabase(url: url, poiName: poiName, coordinates: coordinate) {
+                if let poi = POIDataManager.sharedInstance.findPOI(url: url, poiName: poiName, coordinates: coordinate) {
                     if options.importUpdate {
                         // update the existing poi
                         restorePoi = poi
@@ -233,36 +233,6 @@ class GPXPoi {
         }
     }
     
-    fileprivate func findPoiInDatabase(url:URL, poiName:String, coordinates:CLLocationCoordinate2D) -> PointOfInterest? {
-        if let poi = POIDataManager.sharedInstance.getPOIWithURI(url) {
-            return poi
-        } else {
-            let pois = POIDataManager.sharedInstance.findPOIWith(poiName, coordinates: coordinates)
-            for currentPoi in pois {
-                if currentPoi.poiDisplayName == poiName {
-                    return currentPoi
-                }
-            }
-            return nil
-        }
-    }
-
-    fileprivate func findGroupInDatabase(url:URL, groupId:Int, groupName:String) -> GroupOfInterest? {
-        if let group = POIDataManager.sharedInstance.getGroupWithURI(url) {
-            return group
-        } else if let group = POIDataManager.sharedInstance.findGroup(groupId: groupId) {
-            return group
-        } else {
-            let groups = POIDataManager.sharedInstance.findGroups(groupName)
-            for currentGroup in groups {
-                if currentGroup.groupDisplayName == groupName {
-                    return currentGroup
-                }
-            }
-            return nil
-        }
-    }
-    
     fileprivate func getGroup() -> GroupOfInterest {
         if let attributes = groupAttributes, attributes.count > 0 {
             if let groupIdString = attributes[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.group.Attributes.groupId],
@@ -274,7 +244,7 @@ class GPXPoi {
                 let isDisplayed = Bool(isDisplayedString) {
                 
              
-                if let group = findGroupInDatabase(url: url, groupId: Int(groupId), groupName: groupName) {
+                if let group = POIDataManager.sharedInstance.findGroup(url: url, groupId: Int(groupId), groupName: groupName) {
                     var isGroupUpdated = false
                     if group.groupDisplayName != groupName {
                         group.groupDisplayName = groupName

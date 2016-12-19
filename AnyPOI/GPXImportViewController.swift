@@ -31,6 +31,7 @@ class GPXImportViewController: UIViewController {
     fileprivate var allParsedGPXPois = [GPXPoi]()
     fileprivate var filteredGPXPois = [GPXPoi]()
     fileprivate var selectedState:[Bool]!
+    fileprivate var allParsedGPXRoutes = [GPXRoute]()
     
     var importOptions = GPXImportOptions()
     
@@ -54,10 +55,7 @@ class GPXImportViewController: UIViewController {
             _ = parser.parse()
             self.allParsedGPXPois = parser.GPXPois
             self.updateFilteredGPXPois()
-
-            for currentGPXRoute in parser.GPXRoutes {
-                print("\(#function) Import route \(currentGPXRoute.routeName)")
-            }
+            self.allParsedGPXRoutes = parser.GPXRoutes
 
             DispatchQueue.main.async(execute: {
                 self.theTableView.reloadData()
@@ -118,6 +116,10 @@ class GPXImportViewController: UIViewController {
                 if self.selectedState[index] {
                     self.filteredGPXPois[index].importGPXPoi(options:self.importOptions)
                 }
+            }
+
+            for currentRoute in self.allParsedGPXRoutes {
+                currentRoute.importIt()
             }
             
             self.dismiss(animated: true, completion: nil)
