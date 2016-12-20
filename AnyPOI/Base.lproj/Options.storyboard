@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -70,7 +70,7 @@
                                                     <rect key="frame" x="8" y="8" width="359" height="33"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Apple's Points of Interest" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vsm-qm-kIN">
-                                                            <rect key="frame" x="0.0" y="6.5" width="310" height="20.5"/>
+                                                            <rect key="frame" x="0.0" y="6" width="310" height="21"/>
                                                             <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
@@ -103,7 +103,7 @@
                                                     <rect key="frame" x="8" y="8" width="359" height="33"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Traffic" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2WX-yq-HQd">
-                                                            <rect key="frame" x="0.0" y="6.5" width="310" height="20.5"/>
+                                                            <rect key="frame" x="0.0" y="6" width="310" height="21"/>
                                                             <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
@@ -140,13 +140,13 @@
                                                     <rect key="frame" x="8" y="8" width="326" height="80"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Langue" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YxM-CF-PzU">
-                                                            <rect key="frame" x="0.0" y="0.0" width="59" height="37.5"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="59" height="38"/>
                                                             <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Distance and results" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qVY-Vf-Tgr">
-                                                            <rect key="frame" x="0.0" y="42.5" width="163" height="37.5"/>
+                                                            <rect key="frame" x="0.0" y="43" width="163" height="37"/>
                                                             <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
@@ -180,7 +180,7 @@
                                                     <rect key="frame" x="8" y="8" width="359" height="33"/>
                                                     <subviews>
                                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="4sq-J7-0Zk">
-                                                            <rect key="frame" x="0.0" y="0.0" width="339" height="33"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="359" height="33"/>
                                                             <subviews>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2iZ-K2-671">
                                                                     <rect key="frame" x="0.0" y="0.0" width="174" height="33"/>
@@ -193,7 +193,7 @@
                                                             </subviews>
                                                         </stackView>
                                                         <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="sJb-OR-sbZ">
-                                                            <rect key="frame" x="339" y="0.0" width="20" height="33"/>
+                                                            <rect key="frame" x="359" y="0.0" width="0.0" height="33"/>
                                                         </activityIndicatorView>
                                                     </subviews>
                                                 </stackView>
@@ -249,10 +249,43 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
+                            <tableViewSection headerTitle="Database" id="5wS-Fc-NA5">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="50" id="QMY-OK-0iq" userLabel="Change Password">
+                                        <rect key="frame" x="0.0" y="738" width="375" height="50"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="QMY-OK-0iq" id="OuQ-wm-ALs">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="HkE-dU-Fft">
+                                                    <rect key="frame" x="8" y="8" width="359" height="33"/>
+                                                    <subviews>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eRn-me-nV9">
+                                                            <rect key="frame" x="0.0" y="0.0" width="149" height="33"/>
+                                                            <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                                            <state key="normal" title="Export all (in .GPX)"/>
+                                                            <connections>
+                                                                <action selector="exportAll:" destination="Au7-fF-1Oj" eventType="touchUpInside" id="FMw-kz-6uO"/>
+                                                            </connections>
+                                                        </button>
+                                                    </subviews>
+                                                </stackView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="HkE-dU-Fft" firstAttribute="top" secondItem="OuQ-wm-ALs" secondAttribute="topMargin" id="4O0-yA-Dwe"/>
+                                                <constraint firstItem="HkE-dU-Fft" firstAttribute="leading" secondItem="OuQ-wm-ALs" secondAttribute="leadingMargin" id="FpE-y6-kQp"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="HkE-dU-Fft" secondAttribute="trailing" id="Uug-aQ-cJI"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="HkE-dU-Fft" secondAttribute="bottom" id="ZKn-eC-sYM"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
                             <tableViewSection headerTitle="Authentication" id="77O-X0-Rhj">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="50" id="hGT-6k-okS" userLabel="Change Password">
-                                        <rect key="frame" x="0.0" y="738" width="375" height="50"/>
+                                        <rect key="frame" x="0.0" y="845" width="375" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hGT-6k-okS" id="3K3-qS-jBZ">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
@@ -262,7 +295,8 @@
                                                     <rect key="frame" x="8" y="8" width="359" height="33"/>
                                                     <subviews>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gHu-tP-X1j">
-                                                            <rect key="frame" x="0.0" y="1.5" width="359" height="30"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="359" height="33"/>
+                                                            <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                             <state key="normal" title="Change password"/>
                                                             <connections>
                                                                 <action selector="changePassword:" destination="Au7-fF-1Oj" eventType="touchUpInside" id="lby-1S-GTa"/>
@@ -280,7 +314,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="50" id="0Sr-gP-BbZ" userLabel="EnablePassword">
-                                        <rect key="frame" x="0.0" y="788" width="375" height="50"/>
+                                        <rect key="frame" x="0.0" y="895" width="375" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="0Sr-gP-BbZ" id="gmq-4K-yV6">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
@@ -290,7 +324,7 @@
                                                     <rect key="frame" x="8" y="8" width="359" height="33"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enable password" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Muh-Hq-1xV">
-                                                            <rect key="frame" x="0.0" y="6.5" width="310" height="20.5"/>
+                                                            <rect key="frame" x="0.0" y="6" width="310" height="21"/>
                                                             <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
@@ -313,7 +347,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="50" id="Bgj-2f-IRJ" userLabel="EnableTouchId">
-                                        <rect key="frame" x="0.0" y="838" width="375" height="50"/>
+                                        <rect key="frame" x="0.0" y="945" width="375" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Bgj-2f-IRJ" id="bwj-cl-xCB">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
@@ -323,7 +357,7 @@
                                                     <rect key="frame" x="8" y="8" width="359" height="33"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enable TouchId" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bwo-aN-erz">
-                                                            <rect key="frame" x="0.0" y="6.5" width="310" height="20.5"/>
+                                                            <rect key="frame" x="0.0" y="6" width="310" height="21"/>
                                                             <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>

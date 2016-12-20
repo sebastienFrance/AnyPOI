@@ -23,13 +23,18 @@ class GPXActivityItemSource: NSObject, UIActivityItemSource {
         gpxExportData = gpxExport.getGPX()
     }
     
+    override init() {
+        let gpxExport = ExportGPX()
+        gpxExportData = gpxExport.getGPX()
+    }
+    
     
     func activityViewControllerPlaceholderItem(_ activityViewController: UIActivityViewController) -> Any {
         return Data()
     }
     
     func activityViewController(_ activityViewController: UIActivityViewController, itemForActivityType activityType: UIActivityType) -> Any? {
-        if activityType == UIActivityType.mail  {
+        if activityType == UIActivityType.mail || activityType.rawValue == HTMLAnyPoi.readdleSparkActivity  {
             return gpxExportData.data(using: .utf8)
         } else {
             return nil

@@ -503,7 +503,7 @@ class POIDataManager {
         if let poi = getPOIWithURI(url) {
             return poi
         } else {
-            let pois = findPOIWith(poiName, coordinates: coordinates)
+            let pois = findPOIWith(name: poiName, andCoordinates: coordinates)
             for currentPoi in pois {
                 if currentPoi.poiDisplayName == poiName {
                     return currentPoi
@@ -536,10 +536,10 @@ class POIDataManager {
         }
     }
     
-    func findPOIWith(_ name:String, coordinates:CLLocationCoordinate2D) -> [PointOfInterest] {
+    func findPOIWith(name:String, andCoordinates:CLLocationCoordinate2D) -> [PointOfInterest] {
         let managedContext = DatabaseAccess.sharedInstance.managedObjectContext
         let fetchRequest = NSFetchRequest<PointOfInterest>(entityName: entitiesCste.pointOfInterest)
-        fetchRequest.predicate = NSPredicate(format: "(poiDisplayName == %@) AND (poiLatitude == %@) AND (poiLongitude == %@)", name, NSNumber(value: coordinates.latitude as Double), NSNumber(value: coordinates.longitude as Double))
+        fetchRequest.predicate = NSPredicate(format: "(poiDisplayName == %@) AND (poiLatitude == %@) AND (poiLongitude == %@)", name, NSNumber(value: andCoordinates.latitude as Double), NSNumber(value: andCoordinates.longitude as Double))
         do {
             return try managedContext.fetch(fetchRequest)
         } catch let error as NSError {

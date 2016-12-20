@@ -185,6 +185,17 @@ class OptionsViewController: UITableViewController, PasswordConfigurationDelegat
         ContactsSynchronization.sharedInstance.synchronize()
     }
     
+    @IBAction func exportAll(_ sender: UIButton) {
+        let activityController = UIActivityViewController(activityItems: [ExportAllMailActivityItemSource(), GPXActivityItemSource()],
+                                                          applicationActivities: nil)
+        activityController.excludedActivityTypes = [UIActivityType.print, UIActivityType.airDrop, UIActivityType.postToVimeo,
+                                                    UIActivityType.postToWeibo, UIActivityType.openInIBooks, UIActivityType.postToFlickr, UIActivityType.postToFacebook,
+                                                    UIActivityType.postToTwitter, UIActivityType.assignToContact, UIActivityType.addToReadingList, UIActivityType.copyToPasteboard,
+                                                    UIActivityType.saveToCameraRoll, UIActivityType.postToTencentWeibo, UIActivityType.message]
+        
+        present(activityController, animated: true, completion: nil)
+
+    }
     // MARK: Password & TouchId
     var isDisablingPassword = false
 

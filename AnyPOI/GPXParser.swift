@@ -103,6 +103,9 @@ class GPXParser: NSObject, XMLParserDelegate {
                                         static let longitude = "lon"
                                     }
                                     struct Elements {
+                                        struct name {
+                                            static let name = "name"
+                                        }
                                         struct customExtension {
                                             static let name = "extension"
                                             struct Elements {
@@ -184,9 +187,11 @@ class GPXParser: NSObject, XMLParserDelegate {
     fileprivate(set) var GPXRoutes = [GPXRoute]()
 
     fileprivate var routeName = ""
+    fileprivate var wayPointName = ""
     fileprivate var routeAttributes:[String : String]? = nil
 
     struct RouteWayPointAtttributes {
+         var poiName = ""
          var routeWptAttributes:[String : String]? = nil
          var wayPointAttributes:[String : String]? = nil
     }
@@ -197,7 +202,7 @@ class GPXParser: NSObject, XMLParserDelegate {
 
     fileprivate enum ParsingElement {
         case WPT, WPT_Name, WPT_Link, WPT_Desc, WPT_SYM, WPT_POI, WPT_GROUP, WPT_REGION_MONITORING,
-        RTE, RTE_NAME, RTE_ROUTE, RTE_WPT, RTE_WPT_WAYPOINT,
+        RTE, RTE_NAME, RTE_ROUTE, RTE_WPT, RTE_WPT_Name, RTE_WPT_WAYPOINT,
         OTHERS
     }
     
@@ -244,36 +249,45 @@ class GPXParser: NSObject, XMLParserDelegate {
                 break
             }
         } else if elementHierarchy.hasPrefix(GPXParser.ROUTE_PREFIX) {
-            switch elementName {
-            case XSD.GPX.Elements.RTE.name:
-                isParsing = .RTE
-                routeWayPoints = [RouteWayPointAtttributes]()
-            case XSD.GPX.Elements.RTE.Elements.name.name:
-                isParsing = .RTE_NAME
-            case XSD.GPX.Elements.RTE.Elements.rtept.Elements.WPT.name:
-                isParsing = .RTE_WPT
-                currentRouteWayPointAttribute = RouteWayPointAtttributes()
-                currentRouteWayPointAttribute!.routeWptAttributes = attributeDict
-            case XSD.GPX.Elements.RTE.Elements.rtept.Elements.WPT.Elements.customExtension.Elements.wayPoint.name:
-                isParsing = .RTE_WPT_WAYPOINT
-                guard (currentRouteWayPointAttribute != nil) else {
-                    print("Warning, found WayPoint element without WPT!")
-                    return
+            if elementHierarchy.hasPrefix(GPXParser.ROUTE_WPT_PREFIX) {
+                switch elementName {
+                case XSD.GPX.Elements.RTE.Elements.rtept.Elements.WPT.name:
+                    isParsing = .RTE_WPT
+                    currentRouteWayPointAttribute = RouteWayPointAtttributes()
+                    currentRouteWayPointAttribute!.routeWptAttributes = attributeDict
+                case XSD.GPX.Elements.RTE.Elements.rtept.Elements.WPT.Elements.name.name:
+                    isParsing = .RTE_WPT_Name
+                case XSD.GPX.Elements.RTE.Elements.rtept.Elements.WPT.Elements.customExtension.Elements.wayPoint.name:
+                    isParsing = .RTE_WPT_WAYPOINT
+                    guard (currentRouteWayPointAttribute != nil) else {
+                        print("Warning, found WayPoint element without WPT!")
+                        return
+                    }
+                    currentRouteWayPointAttribute!.wayPointAttributes = attributeDict
+                    routeWayPoints?.append(currentRouteWayPointAttribute!)
+                default:
+                    break
                 }
-                currentRouteWayPointAttribute!.wayPointAttributes = attributeDict
-                routeWayPoints?.append(currentRouteWayPointAttribute!)
-           case XSD.GPX.Elements.RTE.Elements.customExtension.Elements.route.name:
-                isParsing = .RTE_ROUTE
-                routeAttributes = attributeDict
-            default:
-                break
+            } else {
+                switch elementName {
+                case XSD.GPX.Elements.RTE.name:
+                    isParsing = .RTE
+                    routeWayPoints = [RouteWayPointAtttributes]()
+                case XSD.GPX.Elements.RTE.Elements.name.name:
+                    isParsing = .RTE_NAME
+                case XSD.GPX.Elements.RTE.Elements.customExtension.Elements.route.name:
+                    isParsing = .RTE_ROUTE
+                    routeAttributes = attributeDict
+                default:
+                    break
+                }
             }
         }
-        
     }
-    
+
     fileprivate static let POI_PREFIX = "gpx.wpt"
     fileprivate static let ROUTE_PREFIX = "gpx.rte"
+    fileprivate static let ROUTE_WPT_PREFIX = "gpx.rte.rtept"
     
     func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
         
@@ -285,10 +299,10 @@ class GPXParser: NSObject, XMLParserDelegate {
             newGPXPoi.poiAttributes = poiAttributes
             newGPXPoi.groupAttributes = groupAttributes
             newGPXPoi.regionMonitoringAttributes = regionMonitoringAttributes
-            newGPXPoi.poiDescription = poiDescription
-            newGPXPoi.poiLink = poiLink
-            newGPXPoi.poiName = poiName
-            newGPXPoi.poiSym = poiSym
+            newGPXPoi.poiDescription = poiDescription.trimmingCharacters(in: CharacterSet(charactersIn: "\n "))
+            newGPXPoi.poiLink = poiLink.trimmingCharacters(in: CharacterSet(charactersIn: "\n "))
+            newGPXPoi.poiName = poiName.trimmingCharacters(in: CharacterSet(charactersIn: "\n "))
+            newGPXPoi.poiSym = poiSym.trimmingCharacters(in: CharacterSet(charactersIn: "\n "))
             
             importedPOICounter += 1
             
@@ -303,19 +317,28 @@ class GPXParser: NSObject, XMLParserDelegate {
             poiName = ""
             poiSym = ""
  
-        } else if elementName == XSD.GPX.Elements.RTE.name, elementHierarchy.hasPrefix(GPXParser.ROUTE_PREFIX) {
-            let newGPXRoute = GPXRoute()
-            newGPXRoute.routeAttributes = routeAttributes
-            newGPXRoute.routeWayPoints = routeWayPoints
-            newGPXRoute.routeName = routeName
-
-            importedRouteCounter += 1
-
-            GPXRoutes.append(newGPXRoute)
-
-            routeAttributes = nil
-            routeWayPoints = nil
-            routeName = ""
+        } else if elementHierarchy.hasPrefix(GPXParser.ROUTE_PREFIX) {
+            if elementName == XSD.GPX.Elements.RTE.name {
+                let newGPXRoute = GPXRoute()
+                newGPXRoute.routeAttributes = routeAttributes
+                newGPXRoute.routeWayPoints = routeWayPoints
+                newGPXRoute.routeName = routeName.trimmingCharacters(in: CharacterSet(charactersIn: "\n "))
+                
+                importedRouteCounter += 1
+                
+                GPXRoutes.append(newGPXRoute)
+                
+                routeAttributes = nil
+                routeWayPoints = nil
+                routeName = ""
+            } else if elementName == XSD.GPX.Elements.RTE.Elements.rtept.Elements.WPT.Elements.name.name {
+                if currentRouteWayPointAttribute != nil {
+                    currentRouteWayPointAttribute?.poiName = wayPointName.trimmingCharacters(in: CharacterSet(charactersIn: "\n "))
+                    wayPointName = ""
+                } else {
+                    print("\(#function) cannot find wayPoint to initialize its name!")
+                }
+            }
         }
         
         if let range = elementHierarchy.range(of: ".", options: .backwards) {
@@ -341,6 +364,8 @@ class GPXParser: NSObject, XMLParserDelegate {
             poiSym += string
         case .RTE_NAME:
             routeName += string
+        case .RTE_WPT_Name:
+            wayPointName += string
         default:
             break
         }

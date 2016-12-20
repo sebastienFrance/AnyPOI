@@ -33,6 +33,11 @@ class ExportGPX {
         self.pois = uniquePois
     }
     
+    init() {
+        pois = POIDataManager.sharedInstance.getAllPOI()
+        routes = POIDataManager.sharedInstance.getAllRoutes()
+    }
+    
     func getGPX() -> String {
         let gpxAttributes = [ "xmlns" : "http://www.topografix.com/GPX/1/1",
                               "xmlns:xsi" : "http://www.w3.org/2001/XMLSchema-instance",

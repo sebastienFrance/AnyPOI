@@ -114,10 +114,18 @@ class WayPoint: NSManagedObject {
  }
 
 extension WayPoint {
+    
+    fileprivate static let wptLatitudeAttr = GPXParser.XSD.GPX.Elements.RTE.Elements.rtept.Elements.WPT.Attributes.latitude
+    fileprivate static let wptLongitudeAttr = GPXParser.XSD.GPX.Elements.RTE.Elements.rtept.Elements.WPT.Attributes.longitude
+    
+    
     func toGPXElement() -> XMLElement {
-        let wptAttributes = [GPXParser.XSD.GPX.Elements.RTE.Elements.rtept.Elements.WPT.Attributes.latitude : "\(wayPointPoi!.coordinate.latitude)",
-            GPXParser.XSD.GPX.Elements.RTE.Elements.rtept.Elements.WPT.Attributes.longitude : "\(wayPointPoi!.coordinate.longitude)"]
+        let wptAttributes = [WayPoint.wptLatitudeAttr : "\(wayPointPoi!.coordinate.latitude)",
+            WayPoint.wptLongitudeAttr : "\(wayPointPoi!.coordinate.longitude)"]
         var wptElement = XMLElement(elementName: GPXParser.XSD.GPX.Elements.RTE.Elements.rtept.Elements.WPT.name, attributes: wptAttributes)
+        
+        let wptNameElement = XMLElement(elementName: GPXParser.XSD.GPX.Elements.RTE.Elements.rtept.Elements.WPT.Elements.name.name, withValue: wayPointPoi!.poiDisplayName!)
+        wptElement.addSub(element: wptNameElement)
         
         var extensionElement = XMLElement(elementName: GPXParser.XSD.GPX.Elements.RTE.Elements.rtept.Elements.WPT.Elements.customExtension.name)
         extensionElement.addSub(element: addWayPointToGPX(poiPointInternalURL: wayPointPoi!.objectID.uriRepresentation().absoluteString))

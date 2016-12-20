@@ -153,6 +153,8 @@
 "ImportMsgOnlyUpdate"="Seul les points d'interets existant seront importés (mis a jour)";
 "ImportMsgNoImport"="Attention, aucun point d'interets ne sera importés";
 "ImportMsgFilter"="\nUniquement les points d'interets passant le filtre";
+"ExportAllMsgDescription"="Le fichier .gpx joint contient tous vos points d'interêts et itinéraires. Vous pouvez l'importer plus tard avec AnyPOI.";
+"ExportAllTitle"="Export d'AnyPOI";
 "CategoriesSectionMapFilterVC"="Categories";
 "CategoryLabelUnknown"="Inconnue";
 "CategoryLabelCoffee"="Café";

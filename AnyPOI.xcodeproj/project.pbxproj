@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0F382B0CA1F4FB823A13E9E5 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE16A0CA19DE97FD2626AC38 /* Pods.framework */; };
+		BE01D4591E0835D800D0105F /* ExportAllMailActivityItemSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE01D4581E0835D800D0105F /* ExportAllMailActivityItemSource.swift */; };
 		BE0CF2FD1D8B209A00344F8A /* ContactsUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF29C1D8B209A00344F8A /* ContactsUtilities.swift */; };
 		BE0CF2FE1D8B209A00344F8A /* ContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF29D1D8B209A00344F8A /* ContactsViewController.swift */; };
 		BE0CF2FF1D8B209A00344F8A /* ContactTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF29E1D8B209A00344F8A /* ContactTableViewCell.swift */; };
@@ -214,6 +215,7 @@
 
 /* Begin PBXFileReference section */
 		9AEB286247FFA011A043E591 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		BE01D4581E0835D800D0105F /* ExportAllMailActivityItemSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExportAllMailActivityItemSource.swift; sourceTree = "<group>"; };
 		BE0CF29C1D8B209A00344F8A /* ContactsUtilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsUtilities.swift; sourceTree = "<group>"; };
 		BE0CF29D1D8B209A00344F8A /* ContactsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsViewController.swift; sourceTree = "<group>"; };
 		BE0CF29E1D8B209A00344F8A /* ContactTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactTableViewCell.swift; sourceTree = "<group>"; };
@@ -778,6 +780,7 @@
 				BE0CF2D51D8B209A00344F8A /* MessageActivityItemSource.swift */,
 				BE8F7C3B1DB6B28E00BE30C2 /* HTMLAnyPoi.swift */,
 				BE4BF3BF1DEB57ED0043891B /* GPXActivityItemSource.swift */,
+				BE01D4581E0835D800D0105F /* ExportAllMailActivityItemSource.swift */,
 			);
 			name = ActivitySource;
 			sourceTree = "<group>";
@@ -1251,6 +1254,7 @@
 				BE0CF34A1D8B209A00344F8A /* PickerViewCell.swift in Sources */,
 				BE0CF32F1D8B209A00344F8A /* POIDataManager.swift in Sources */,
 				BE4BF3BE1DEB55E00043891B /* ExportGPX.swift in Sources */,
+				BE01D4591E0835D800D0105F /* ExportAllMailActivityItemSource.swift in Sources */,
 				BE957E651DA94A03006CF455 /* WikiSelectedLanguageTableViewCell.swift in Sources */,
 				BE0CF3211D8B209A00344F8A /* RouteDetailsViewCell.swift in Sources */,
 				BE0CF34E1D8B209A00344F8A /* searchRouteTableViewCell.swift in Sources */,

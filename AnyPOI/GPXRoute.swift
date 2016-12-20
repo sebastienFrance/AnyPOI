@@ -72,7 +72,7 @@ class GPXRoute {
                 let transportTypeString = wayPointAttr[GPXRoute.wayPointTransportTypeAttr],
                 let transportTypeInt = UInt(transportTypeString) {
                 let transportType = MKDirectionsTransportType(rawValue: transportTypeInt)
-                return (POIDataManager.sharedInstance.findPOI(url: poiUrl, poiName: "", coordinates:  wptCoordinate), transportType)
+                return (POIDataManager.sharedInstance.findPOI(url: poiUrl, poiName: wayPoint.poiName, coordinates:  wptCoordinate), transportType)
             }
         }
         return (nil, MKDirectionsTransportType.automobile)

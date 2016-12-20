@@ -32,11 +32,19 @@ class RouteMailActivityItemSource: NSObject, UIActivityItemSource {
     
     func activityViewController(_ activityViewController: UIActivityViewController, itemForActivityType activityType: UIActivityType) -> Any? {
         if routeDatasource.isBeforeRouteSections {
-            return HTMLAnyPoi.appendCSSAndSignature(html: routeToHTML())
+            if activityType == UIActivityType.mail  {
+                return HTMLAnyPoi.appendCSSAndSignature(html: routeToHTML())
+            } else if activityType.rawValue == HTMLAnyPoi.readdleSparkActivity  {
+                return HTMLAnyPoi.appendCSSAndSignatureForReaddleSpark(html:routeToHTML())
+            } else {
+                return nil
+            }
         } else {
             if let sourceWayPoint = routeDatasource.fromWayPoint, let targetWayPoint = routeDatasource.toWayPoint {
                 if activityType == UIActivityType.mail  {
-                     return HTMLAnyPoi.appendCSSAndSignature(html:routeStepToHTML(sourceWayPoint: sourceWayPoint, targetWayPoint: targetWayPoint))
+                    return HTMLAnyPoi.appendCSSAndSignature(html:routeStepToHTML(sourceWayPoint: sourceWayPoint, targetWayPoint: targetWayPoint))
+                } else if activityType.rawValue == HTMLAnyPoi.readdleSparkActivity  {
+                    return HTMLAnyPoi.appendCSSAndSignatureForReaddleSpark(html:routeStepToHTML(sourceWayPoint: sourceWayPoint, targetWayPoint: targetWayPoint))
                 } else {
                     return nil
                 }
