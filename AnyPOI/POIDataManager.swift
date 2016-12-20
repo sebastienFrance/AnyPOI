@@ -467,6 +467,15 @@ class POIDataManager {
         return getObjectWithURI(URI) as? Route ?? nil
     }
     
+    func findRoute(url:URL, routeName:String) -> Route? {
+        if let route = getRouteWithURI(url) {
+            return route
+        } else {
+            let routes = findRouteWith(name: routeName)
+            return routes.first
+        }
+    }
+    
     fileprivate func getObjectWithURI(_ URI:URL) -> NSManagedObject? {
         
         
@@ -719,6 +728,23 @@ class POIDataManager {
             return []
         }
     }
+    
+    func findRouteWith(name:String) -> [Route] {
+        let managedContext = DatabaseAccess.sharedInstance.managedObjectContext
+        let fetchRequest = NSFetchRequest<Route>(entityName: entitiesCste.route)
+        fetchRequest.predicate = NSPredicate(format: "routeName == %@", name)
+        
+        let sortDescriptor = NSSortDescriptor(key: "routeName", ascending: true, selector: #selector(NSString.caseInsensitiveCompare(_:)))
+        fetchRequest.sortDescriptors = [sortDescriptor]
+        
+        do {
+            return try managedContext.fetch(fetchRequest)
+        } catch let error as NSError {
+            print("findRoute could not be fetch: \(error), \(error.userInfo)")
+            return []
+        }
+    }
+
 
     
     //MARK: Route

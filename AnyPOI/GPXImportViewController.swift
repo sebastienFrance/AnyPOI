@@ -11,8 +11,6 @@ import PKHUD
 
 class GPXImportViewController: UIViewController {
     
-    
-
     @IBOutlet weak var theTableView: UITableView! {
         didSet {
             if let tableView = theTableView {
@@ -32,7 +30,8 @@ class GPXImportViewController: UIViewController {
     fileprivate var filteredGPXPois = [GPXPoi]()
     fileprivate var selectedState:[Bool]!
     fileprivate var allParsedGPXRoutes = [GPXRoute]()
-    
+    fileprivate var routeSelectedState:[Bool]!
+   
     var importOptions = GPXImportOptions()
     
     
@@ -56,6 +55,7 @@ class GPXImportViewController: UIViewController {
             self.allParsedGPXPois = parser.GPXPois
             self.updateFilteredGPXPois()
             self.allParsedGPXRoutes = parser.GPXRoutes
+            self.routeSelectedState = Array(repeating: true, count: self.allParsedGPXRoutes.count)
 
             DispatchQueue.main.async(execute: {
                 self.theTableView.reloadData()
@@ -118,8 +118,10 @@ class GPXImportViewController: UIViewController {
                 }
             }
 
-            for currentRoute in self.allParsedGPXRoutes {
-                currentRoute.importIt()
+            for index in 0...(self.allParsedGPXRoutes.count - 1) {
+                if self.routeSelectedState[index] {
+                    self.allParsedGPXRoutes[index].importIt()
+                }
             }
             
             self.dismiss(animated: true, completion: nil)
@@ -176,37 +178,55 @@ class GPXImportViewController: UIViewController {
 
 extension GPXImportViewController: UITableViewDelegate, UITableViewDataSource {
     
+    struct Sections {
+        static let importDescription = 0
+        static let routes = 1
+        static let pois = 2
+    }
+    
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return 3
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0 {
+        switch section {
+        case Sections.importDescription:
             return 1
-        } else {
+        case Sections.pois:
             return filteredGPXPois.count
+        case Sections.routes:
+            return allParsedGPXRoutes.count
+        default:
+            return 0
         }
-    }
+     }
     
     struct CellId {
         static let GPXImportCellId = "GPXImportCellId"
         static let ImportDescriptionCellId = "ImportDescriptionCellId"
+        static let GPXImportRouteTableViewCellId = "GPXImportRouteTableViewCellId"
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if section == 0 {
+        switch section {
+        case Sections.importDescription:
             return nil
-        } else {
-            return "POIs to import"
+        case Sections.pois:
+            return "Points of interests"
+        case Sections.routes:
+            return "Routes"
+        default:
+            return nil
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.section == 0 {
+        switch indexPath.section {
+        case Sections.importDescription:
             let cell = tableView.dequeueReusableCell(withIdentifier: CellId.ImportDescriptionCellId, for: indexPath) as! ImportTextualDescriptionTableViewCell
             cell.texttualDescriptionLabel?.attributedText = importOptions.textualDescription
             return cell
-        } else {
+        case Sections.pois:
             let cell = tableView.dequeueReusableCell(withIdentifier: CellId.GPXImportCellId, for: indexPath) as! GPXImportTableViewCell
             
             let poi = filteredGPXPois[indexPath.row]
@@ -224,11 +244,27 @@ extension GPXImportViewController: UITableViewDelegate, UITableViewDataSource {
             }
             
             return cell
+        case Sections.routes:
+            let cell = tableView.dequeueReusableCell(withIdentifier: CellId.GPXImportRouteTableViewCellId, for: indexPath) as! GPXImportRouteTableViewCell
+            cell.initWith(route:allParsedGPXRoutes[indexPath.row])
+            
+            cell.tag = indexPath.row
+            if routeSelectedState[indexPath.row] {
+                cell.accessoryType = .checkmark
+            } else {
+                cell.accessoryType = .none
+            }
+
+            return cell
+        default:
+            return UITableViewCell()
+            
         }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.section == 1 {
+        switch indexPath.section {
+        case Sections.pois:
             if let cell = tableView.cellForRow(at: indexPath) as? GPXImportTableViewCell {
                 if selectedState[indexPath.row] {
                     cell.accessoryType = .none
@@ -238,6 +274,18 @@ extension GPXImportViewController: UITableViewDelegate, UITableViewDataSource {
                     selectedState[indexPath.row] = true
                 }
             }
+        case Sections.routes:
+            if let cell = tableView.cellForRow(at: indexPath) as? GPXImportRouteTableViewCell {
+                if routeSelectedState[indexPath.row] {
+                    cell.accessoryType = .none
+                    routeSelectedState[indexPath.row] = false
+                } else {
+                    cell.accessoryType = .checkmark
+                    routeSelectedState[indexPath.row] = true
+                }
+            }
+        default:
+            return
         }
     }
 }

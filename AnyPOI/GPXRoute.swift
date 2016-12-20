@@ -8,22 +8,102 @@
 
 import Foundation
 import MapKit
+
 class GPXRoute {
 
     var routeAttributes:[String : String]? = nil
     var routeWayPoints:[GPXParser.RouteWayPointAtttributes]? = nil
     var routeName = ""
+    
+    var totalDuration:Double? {
+        get {
+            if let theRouteAttributes = routeAttributes,
+                let totalDurationString = theRouteAttributes[GPXRoute.totalDurationAttr],
+                let totalDuration = Double(totalDurationString){
+                return totalDuration
+            } else {
+                return nil
+            }
+        }
+    }
+    
+    var totalDistance:Double? {
+        get {
+            if let theRouteAttributes = routeAttributes,
+                let totalDistanceString = theRouteAttributes[GPXRoute.totalDistanceAttr],
+                let totalDistance = Double(totalDistanceString){
+                return totalDistance
+            } else {
+                return nil
+            }
+        }
+    }
+    
+    var routeFromToDescription:String {
+        get {
+            if let wayPoints = routeWayPoints {
+                if let fromWayPoint = wayPoints.first,
+                    let toWayPoint = wayPoints.last {
+                    return fromWayPoint.poiName + " ➔ " + toWayPoint.poiName
+                }
+            }
+            return "Unknown source and destination"
+        }
+    }
+    
+    var routeDistanceAndDuration:String {
+        get {
+            if let duration = totalDuration,
+                let distance = totalDistance,
+                let wayPoints = routeWayPoints {
+                
+                let distanceFormatter = LengthFormatter()
+                distanceFormatter.unitStyle = .short
+                let expectedTravelTime = Utilities.shortStringFromTimeInterval(duration) as String
+                return "\(distanceFormatter.string(fromMeters: distance)) in \(expectedTravelTime) with \(wayPoints.count - 1) steps"
+            } else {
+                return "No infos"
+            }
+        }
+    }
+    
+    var isRouteAlreadyExist:Bool {
+        get {
+            if let url = routeURL,
+                !routeName.isEmpty {
+                if let _ = POIDataManager.sharedInstance.findRoute(url: url, routeName: routeName) {
+                    return true
+                } else {
+                    return false
+                }
+            } else {
+                return false
+            }
+        }
+    }
+
+    fileprivate var routeURL:URL? {
+        get {
+            if let routeAttr = routeAttributes,
+                let urlString = routeAttr[GPXRoute.routeInternalUrlAttr] {
+                return URL(string: urlString)
+            } else {
+                return nil
+            }
+        }
+    }
+
 
 
     fileprivate static let totalDistanceAttr = GPXParser.XSD.GPX.Elements.RTE.Elements.customExtension.Elements.route.Attributes.latestTotalDistance
     fileprivate static let totalDurationAttr = GPXParser.XSD.GPX.Elements.RTE.Elements.customExtension.Elements.route.Attributes.latestTotalDuration
+    fileprivate static let routeInternalUrlAttr = GPXParser.XSD.GPX.Elements.RTE.Elements.customExtension.Elements.route.Attributes.internalUrlAttr
 
     func importIt() {
-        guard let theRouteAttributes = routeAttributes else {
+        guard let _ = routeAttributes else {
             print("\(#function) \(routeName) has no attribute, it cannot be imported...")
             return
         }
-
 
         let route = POIDataManager.sharedInstance.addRoute(routeName, routePath: [PointOfInterest]())
         if let theRouteWayPoints = routeWayPoints {
@@ -35,15 +115,12 @@ class GPXRoute {
             }
         }
 
-
-        if let totalDistanceString = theRouteAttributes[GPXRoute.totalDistanceAttr],
-            let totalDistance = Double(totalDistanceString){
-            route.latestTotalDistance = totalDistance
+        if let distance = totalDistance {
+            route.latestTotalDistance = distance
         }
-
-        if let totalDurationString = theRouteAttributes[GPXRoute.totalDurationAttr],
-            let totalDuration = Double(totalDurationString){
-            route.latestTotalDuration = totalDuration
+        
+        if let duration = totalDuration {
+            route.latestTotalDuration = duration
         }
 
         POIDataManager.sharedInstance.commitDatabase()
