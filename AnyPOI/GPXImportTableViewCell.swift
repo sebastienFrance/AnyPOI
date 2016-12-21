@@ -14,14 +14,10 @@ class GPXImportTableViewCell: UITableViewCell {
     @IBOutlet weak var poiDescription: UILabel!
     @IBOutlet weak var poiImageCategory: UIImageView!
     
-    func initWith(poi:GPXPoi, updatedPoi:Bool) {
+    func initWith(poi:GPXPoi, isPOINew:Bool) {
         let attributedText = NSMutableAttributedString(string: "\(poi.poiName) ")
-        var actionString = "(update)"
-        var actionColor = UIColor.green
-        if !updatedPoi {
-            actionColor = UIColor.red
-            actionString = "(new)"
-        }
+        let actionString = isPOINew ? NSLocalizedString("GPXImportNewItem", comment: "") : NSLocalizedString("GPXImportUpdateItem", comment: "")
+        let actionColor = isPOINew ? UIColor.red : UIColor.green
         
         attributedText.append(NSAttributedString(string: actionString,
                                                  attributes:[NSForegroundColorAttributeName : actionColor,

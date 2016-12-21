@@ -152,6 +152,8 @@
 "ImportMsgOnlyUpdate"="Only existing Point Of Interests will be merged";
 "ImportMsgNoImport"="Warning, nothing will be imported!";
 "ImportMsgFilter"="\nOnly POIs matching";
+"GPXImportUpdateItem"=" (update)";
+"GPXImportNewItem"=" (new)";
 "ExportAllMsgDescription"="The attached .gpx file contains all your points of interests and routes. It can be imported later with AnyPOI.";
 "ExportAllTitle"="AnyPOI export";
 "CategoryLabelUnknown"="Unknown";

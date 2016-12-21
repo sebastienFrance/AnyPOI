@@ -15,6 +15,8 @@ struct GPXImportOptions {
     var importUpdate = true
     var textFilter = ""
     
+    var routeImportAsNew = false
+    
     //FIXEDME: Add string translations in I18N
     var textualDescription:NSAttributedString {
         get {
@@ -52,6 +54,10 @@ struct GPXImportOptions {
 extension GPXImportOptions : Equatable {}
 
 func ==(lhs:GPXImportOptions, rhs:GPXImportOptions) -> Bool {
-    return lhs.merge == rhs.merge && lhs.importNew == rhs.importNew && lhs.importUpdate == rhs.importUpdate && lhs.textFilter == rhs.textFilter
+    return lhs.merge == rhs.merge &&
+        lhs.importNew == rhs.importNew &&
+        lhs.importUpdate == rhs.importUpdate &&
+        lhs.textFilter == rhs.textFilter &&
+        lhs.routeImportAsNew == rhs.routeImportAsNew
 }
 

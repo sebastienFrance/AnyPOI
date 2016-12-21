@@ -99,12 +99,20 @@ class GPXRoute {
     fileprivate static let totalDurationAttr = GPXParser.XSD.GPX.Elements.RTE.Elements.customExtension.Elements.route.Attributes.latestTotalDuration
     fileprivate static let routeInternalUrlAttr = GPXParser.XSD.GPX.Elements.RTE.Elements.customExtension.Elements.route.Attributes.internalUrlAttr
 
-    func importIt() {
+    func importIt(options:GPXImportOptions) {
         guard let _ = routeAttributes else {
             print("\(#function) \(routeName) has no attribute, it cannot be imported...")
             return
         }
 
+        if options.routeImportAsNew || !isRouteAlreadyExist {
+            _ = importAsNew()
+        } else {
+            _ = importAsUpdate()
+        }
+    }
+    
+    fileprivate func importAsNew() -> Route {
         let route = POIDataManager.sharedInstance.addRoute(routeName, routePath: [PointOfInterest]())
         if let theRouteWayPoints = routeWayPoints {
             for currentWayPoint in theRouteWayPoints {
@@ -114,7 +122,7 @@ class GPXRoute {
                 }
             }
         }
-
+        
         if let distance = totalDistance {
             route.latestTotalDistance = distance
         }
@@ -122,8 +130,42 @@ class GPXRoute {
         if let duration = totalDuration {
             route.latestTotalDuration = duration
         }
-
+        
         POIDataManager.sharedInstance.commitDatabase()
+
+        return route
+    }
+    
+    fileprivate func importAsUpdate()  {
+        if let url = routeURL,
+            !routeName.isEmpty {
+            if let theRoute = POIDataManager.sharedInstance.findRoute(url: url, routeName: routeName) {
+                theRoute.routeName = routeName
+                if let theRouteWayPoints = routeWayPoints {
+                    let wayPoints = NSMutableOrderedSet()
+                    for currentWayPoint in theRouteWayPoints {
+                        let (poi, transportType) = GPXRoute.getPOI(wayPoint: currentWayPoint)
+                        if let foundPoi = poi {
+                            let newWayPoint = POIDataManager.sharedInstance.addWayPoint(foundPoi, transportType: transportType)
+                            wayPoints.add(newWayPoint)
+                            
+                            POIDataManager.sharedInstance.appendWayPoint(route: theRoute, poi: foundPoi, transportType: transportType)
+                        }
+                    }
+                    theRoute.routeWayPoints = wayPoints
+                }
+                
+                if let distance = totalDistance {
+                    theRoute.latestTotalDistance = distance
+                }
+                
+                if let duration = totalDuration {
+                    theRoute.latestTotalDuration = duration
+                }
+                
+                POIDataManager.sharedInstance.commitDatabase()
+            }
+        }
     }
 
     fileprivate static let wayPointPoiInternalUrlAttr = GPXParser.XSD.GPX.Elements.RTE.Elements.rtept.Elements.WPT.Elements.customExtension.Elements.wayPoint.Attributes.poiInternalUrl

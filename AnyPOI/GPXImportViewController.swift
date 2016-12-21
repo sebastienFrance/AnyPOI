@@ -120,7 +120,7 @@ class GPXImportViewController: UIViewController {
 
             for index in 0...(self.allParsedGPXRoutes.count - 1) {
                 if self.routeSelectedState[index] {
-                    self.allParsedGPXRoutes[index].importIt()
+                    self.allParsedGPXRoutes[index].importIt(options:self.importOptions)
                 }
             }
             
@@ -156,11 +156,11 @@ class GPXImportViewController: UIViewController {
     }
 
     func isNewPoi(poi:GPXPoi) -> Bool {
-        if importOptions.merge {
-            return !poi.isPoiAlreadyExist
-        } else {
-            return true
-        }
+        return importOptions.merge ? !poi.isPoiAlreadyExist : true
+    }
+    
+    func isNewRoute(route:GPXRoute) -> Bool {
+        return importOptions.routeImportAsNew ? true : !route.isRouteAlreadyExist
     }
     
     fileprivate struct storyboard {
@@ -230,11 +230,7 @@ extension GPXImportViewController: UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: CellId.GPXImportCellId, for: indexPath) as! GPXImportTableViewCell
             
             let poi = filteredGPXPois[indexPath.row]
-            if isNewPoi(poi:poi) {
-                cell.initWith(poi: poi, updatedPoi: false)
-            } else {
-                cell.initWith(poi: poi, updatedPoi: true)
-            }
+            cell.initWith(poi: poi, isPOINew: isNewPoi(poi:poi))
             
             cell.tag = indexPath.row
             if selectedState[indexPath.row] {
@@ -246,7 +242,7 @@ extension GPXImportViewController: UITableViewDelegate, UITableViewDataSource {
             return cell
         case Sections.routes:
             let cell = tableView.dequeueReusableCell(withIdentifier: CellId.GPXImportRouteTableViewCellId, for: indexPath) as! GPXImportRouteTableViewCell
-            cell.initWith(route:allParsedGPXRoutes[indexPath.row])
+            cell.initWith(route:allParsedGPXRoutes[indexPath.row], isRouteNew: isNewRoute(route:allParsedGPXRoutes[indexPath.row]))
             
             cell.tag = indexPath.row
             if routeSelectedState[indexPath.row] {

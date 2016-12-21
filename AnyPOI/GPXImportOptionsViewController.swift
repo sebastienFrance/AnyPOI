@@ -32,29 +32,27 @@ class GPXImportOptionsViewController: UIViewController {
     var importViewController:GPXImportViewController!
 
     @IBAction func switchOptionPressed(_ sender: UISwitch) {
-        switch sender.tag {
-        case ImportOptionsRow.merge:
-            importOptions.merge = sender.isOn
-            if !importOptions.merge {
-                importOptions.importNew = true
-                importOptions.importUpdate = false
+        if sender.tag < 100 {
+            switch sender.tag {
+            case ImportOptionsRow.merge:
+                importOptions.merge = sender.isOn
+                if !importOptions.merge {
+                    importOptions.importNew = true
+                    importOptions.importUpdate = false
+                }
+            case ImportOptionsRow.importNew:
+                importOptions.importNew = sender.isOn
+            case ImportOptionsRow.importUpdate:
+                importOptions.importUpdate = sender.isOn
+            default:
+                break
             }
-        case ImportOptionsRow.importNew:
-            importOptions.importNew = sender.isOn
-        case ImportOptionsRow.importUpdate:
-            importOptions.importUpdate = sender.isOn
-        default:
-            break
+        } else {
+            importOptions.routeImportAsNew = sender.isOn
         }
         theTableView.reloadData()
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-
     @IBAction func closeButtonPressed(_ sender: UIBarButtonItem) {
         
         importViewController.update(options: importOptions)
@@ -80,6 +78,12 @@ extension GPXImportOptionsViewController: UITextFieldDelegate {
 }
 
 extension GPXImportOptionsViewController: UITableViewDataSource, UITableViewDelegate {
+    struct Sections {
+        static let TextualDescription = 0
+        static let RouteOptions = 1
+        static let POIOptions = 2
+    }
+    
     
      struct ImportOptionsRow {
         static let merge = 0
@@ -89,22 +93,32 @@ extension GPXImportOptionsViewController: UITableViewDataSource, UITableViewDele
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return 3
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if section == 0 {
+        switch section {
+        case Sections.TextualDescription:
             return nil
-        } else {
-            return "Options"
+        case Sections.POIOptions:
+            return "Point Of interest options"
+        case Sections.RouteOptions:
+            return "Route options"
+        default:
+            return nil
         }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0 {
+        switch section {
+        case Sections.TextualDescription:
             return 1
-        } else {
+        case Sections.POIOptions:
             return 4
+        case Sections.RouteOptions:
+            return 1
+        default:
+            return 0
         }
     }
     
@@ -115,11 +129,12 @@ extension GPXImportOptionsViewController: UITableViewDataSource, UITableViewDele
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.section == 0 {
+        switch indexPath.section {
+        case Sections.TextualDescription:
             let cell = tableView.dequeueReusableCell(withIdentifier: CellId.GPXImportOptionsDescriptionCellId, for: indexPath) as! ImportTextualDescriptionTableViewCell
             cell.texttualDescriptionLabel?.attributedText = importOptions.textualDescription
             return cell
-        } else {
+        case Sections.POIOptions:
             if indexPath.row == ImportOptionsRow.textFilter {
                 let cell = tableView.dequeueReusableCell(withIdentifier: CellId.GPXImportOptionsTextFilterCellId, for: indexPath) as! GPXImportOptionsTextFilterTableViewCell
                 cell.textFilter.text = importOptions.textFilter
@@ -159,7 +174,16 @@ extension GPXImportOptionsViewController: UITableViewDataSource, UITableViewDele
                 
                 return cell
             }
+        case Sections.RouteOptions:
+            let cell = tableView.dequeueReusableCell(withIdentifier: CellId.GPXImportOptionsCellId, for: indexPath) as! GPXImportOptionsTableViewCell
+            cell.cellTitle.text = "Import as new"
+            cell.cellSwitch.isOn = importOptions.routeImportAsNew
+            
+            cell.cellSwitch.tag = 101
+            
+            return cell
+        default:
+            return UITableViewCell()
         }
     }
-    
 }
