@@ -35,20 +35,20 @@ class GPXImportOptionsViewController: UIViewController {
         if sender.tag < 100 {
             switch sender.tag {
             case ImportOptionsRow.merge:
-                importOptions.merge = sender.isOn
-                if !importOptions.merge {
-                    importOptions.importNew = true
-                    importOptions.importUpdate = false
+                importOptions.poiOptions.merge = sender.isOn
+                if !importOptions.poiOptions.merge {
+                    importOptions.poiOptions.importNew = true
+                    importOptions.poiOptions.importUpdate = false
                 }
             case ImportOptionsRow.importNew:
-                importOptions.importNew = sender.isOn
+                importOptions.poiOptions.importNew = sender.isOn
             case ImportOptionsRow.importUpdate:
-                importOptions.importUpdate = sender.isOn
+                importOptions.poiOptions.importUpdate = sender.isOn
             default:
                 break
             }
         } else {
-            importOptions.routeImportAsNew = sender.isOn
+            importOptions.routeOptions.importAsNew = sender.isOn
         }
         theTableView.reloadData()
     }
@@ -64,13 +64,13 @@ extension GPXImportOptionsViewController: UITextFieldDelegate {
     //MARK: UITextFieldDelegate
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
-        importOptions.textFilter = (textField.text! as NSString).replacingCharacters(in: range, with: string)
+        importOptions.poiOptions.textFilter = (textField.text! as NSString).replacingCharacters(in: range, with: string)
         theTableView.reloadRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
         return true
     }
     
     func textFieldShouldClear(_ textField: UITextField) -> Bool {
-        importOptions.textFilter = ""
+        importOptions.poiOptions.textFilter = ""
         textField.text = "" // Force the text field to empty in case the Keyboard has selected it for auto correction
         theTableView.reloadRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
         return true
@@ -137,7 +137,7 @@ extension GPXImportOptionsViewController: UITableViewDataSource, UITableViewDele
         case Sections.POIOptions:
             if indexPath.row == ImportOptionsRow.textFilter {
                 let cell = tableView.dequeueReusableCell(withIdentifier: CellId.GPXImportOptionsTextFilterCellId, for: indexPath) as! GPXImportOptionsTextFilterTableViewCell
-                cell.textFilter.text = importOptions.textFilter
+                cell.textFilter.text = importOptions.poiOptions.textFilter
                 cell.textFilter.delegate = self
                 return cell
             } else {
@@ -146,23 +146,23 @@ extension GPXImportOptionsViewController: UITableViewDataSource, UITableViewDele
                 switch indexPath.row {
                 case ImportOptionsRow.merge:
                     cell.cellTitle.text = "Merge"
-                    cell.cellSwitch.isOn = importOptions.merge
+                    cell.cellSwitch.isOn = importOptions.poiOptions.merge
                 case ImportOptionsRow.importNew:
-                    cell.cellSwitch.isEnabled = importOptions.merge
-                    cell.cellTitle.isEnabled = importOptions.merge
-                    if !importOptions.merge {
+                    cell.cellSwitch.isEnabled = importOptions.poiOptions.merge
+                    cell.cellTitle.isEnabled = importOptions.poiOptions.merge
+                    if !importOptions.poiOptions.merge {
                         cell.cellSwitch.isOn = true
                     } else {
-                        cell.cellSwitch.isOn = importOptions.importNew
+                        cell.cellSwitch.isOn = importOptions.poiOptions.importNew
                     }
                     cell.cellTitle.text = "Import new POI"
                 case ImportOptionsRow.importUpdate:
-                    cell.cellSwitch.isEnabled = importOptions.merge
-                    cell.cellTitle.isEnabled = importOptions.merge
-                    if !importOptions.merge {
+                    cell.cellSwitch.isEnabled = importOptions.poiOptions.merge
+                    cell.cellTitle.isEnabled = importOptions.poiOptions.merge
+                    if !importOptions.poiOptions.merge {
                         cell.cellSwitch.isOn = false
                     } else {
-                        cell.cellSwitch.isOn = importOptions.importUpdate
+                        cell.cellSwitch.isOn = importOptions.poiOptions.importUpdate
                         
                     }
                     cell.cellTitle.text = "Update"
@@ -177,7 +177,7 @@ extension GPXImportOptionsViewController: UITableViewDataSource, UITableViewDele
         case Sections.RouteOptions:
             let cell = tableView.dequeueReusableCell(withIdentifier: CellId.GPXImportOptionsCellId, for: indexPath) as! GPXImportOptionsTableViewCell
             cell.cellTitle.text = "Import as new"
-            cell.cellSwitch.isOn = importOptions.routeImportAsNew
+            cell.cellSwitch.isOn = importOptions.routeOptions.importAsNew
             
             cell.cellSwitch.tag = 101
             

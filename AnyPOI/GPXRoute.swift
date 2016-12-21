@@ -105,7 +105,7 @@ class GPXRoute {
             return
         }
 
-        if options.routeImportAsNew || !isRouteAlreadyExist {
+        if options.routeOptions.importAsNew || !isRouteAlreadyExist {
             _ = importAsNew()
         } else {
             _ = importAsUpdate()

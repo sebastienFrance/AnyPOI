@@ -72,7 +72,7 @@ class GPXImportViewController: UIViewController {
     
     func update(options:GPXImportOptions) {
         if importOptions != options {
-            importButton.isEnabled = importOptions.importNew || importOptions.importUpdate
+            importButton.isEnabled = importOptions.poiOptions.importNew || importOptions.poiOptions.importUpdate
             importOptions = options
             
             updateFilteredGPXPois();
@@ -84,18 +84,18 @@ class GPXImportViewController: UIViewController {
     fileprivate func updateFilteredGPXPois() {
         
         filteredGPXPois = allParsedGPXPois.filter { (currentGPXPoi) -> Bool in
-            if !importOptions.textFilter.isEmpty && !currentGPXPoi.poiName.localizedCaseInsensitiveContains(importOptions.textFilter) {
+            if !importOptions.poiOptions.textFilter.isEmpty && !currentGPXPoi.poiName.localizedCaseInsensitiveContains(importOptions.poiOptions.textFilter) {
                 return false
             }
             
-            if !importOptions.merge {
+            if !importOptions.poiOptions.merge {
                 return true
             } else {
                 if currentGPXPoi.isPoiAlreadyExist {
-                    if importOptions.importUpdate {
+                    if importOptions.poiOptions.importUpdate {
                         return true
                     }
-                } else if importOptions.importNew {
+                } else if importOptions.poiOptions.importNew {
                     return true
                 }
             }
@@ -156,11 +156,11 @@ class GPXImportViewController: UIViewController {
     }
 
     func isNewPoi(poi:GPXPoi) -> Bool {
-        return importOptions.merge ? !poi.isPoiAlreadyExist : true
+        return importOptions.poiOptions.merge ? !poi.isPoiAlreadyExist : true
     }
     
     func isNewRoute(route:GPXRoute) -> Bool {
-        return importOptions.routeImportAsNew ? true : !route.isRouteAlreadyExist
+        return importOptions.routeOptions.importAsNew ? true : !route.isRouteAlreadyExist
     }
     
     fileprivate struct storyboard {

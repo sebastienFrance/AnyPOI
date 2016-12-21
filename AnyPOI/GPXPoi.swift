@@ -147,16 +147,16 @@ class GPXPoi {
             let coordinate = poiCoordinates {
             
             var restorePoi:PointOfInterest!
-            if options.merge {
+            if options.poiOptions.merge {
                 if let poi = POIDataManager.sharedInstance.findPOI(url: url, poiName: poiName, coordinates: coordinate) {
-                    if options.importUpdate {
+                    if options.poiOptions.importUpdate {
                         // update the existing poi
                         restorePoi = poi
                         
                         // If it's already monitored, we stop it and it will be restarted if needed
                         restorePoi.stopMonitoring()
                     }
-                } else if options.importNew {
+                } else if options.poiOptions.importNew {
                     // create a new Poi
                     restorePoi = POIDataManager.sharedInstance.getEmptyPoi()
                     restorePoi.importWith(coordinates: coordinate)

@@ -10,28 +10,35 @@ import UIKit
 
 
 struct GPXImportOptions {
-    var merge = true
-    var importNew = true
-    var importUpdate = true
-    var textFilter = ""
+    struct POI {
+        var merge = true
+        var importNew = true
+        var importUpdate = true
+        var textFilter = ""
+    }
     
-    var routeImportAsNew = false
+    struct Route {
+        var importAsNew = false
+    }
+    
+    var poiOptions = POI()
+    var routeOptions = Route()
     
     //FIXEDME: Add string translations in I18N
     var textualDescription:NSAttributedString {
         get {
             var descriptionString:NSAttributedString
-            if !merge {
+            if !poiOptions.merge {
                 descriptionString = NSAttributedString(string: NSLocalizedString("ImportMsgAllPOIsAsNew", comment: ""))
             } else {
-                if importNew {
-                    if importUpdate {
+                if poiOptions.importNew {
+                    if poiOptions.importUpdate {
                         descriptionString = NSAttributedString(string: NSLocalizedString("ImportMsgMergeAndCreate", comment: ""))
                     } else {
                         descriptionString = NSAttributedString(string: NSLocalizedString("ImportMsgOnlyNewPOIs", comment: ""))
                     }
                 } else {
-                    if importUpdate {
+                    if poiOptions.importUpdate {
                         descriptionString = NSAttributedString(string: NSLocalizedString("ImportMsgOnlyUpdate", comment: ""))
                     } else {
                         return NSAttributedString(string: NSLocalizedString("ImportMsgNoImport", comment: ""), attributes: [NSForegroundColorAttributeName : UIColor.red])
@@ -39,12 +46,12 @@ struct GPXImportOptions {
                 }
             }
             
-            if textFilter.isEmpty {
+            if poiOptions.textFilter.isEmpty {
                 return descriptionString
             } else {
                 let allString = NSMutableAttributedString(attributedString: descriptionString)
                 
-                allString.append(NSAttributedString(string: NSLocalizedString("ImportMsgFilter", comment: "") + " \(textFilter)", attributes: [NSForegroundColorAttributeName : UIColor.blue]))
+                allString.append(NSAttributedString(string: NSLocalizedString("ImportMsgFilter", comment: "") + " \(poiOptions.textFilter)", attributes: [NSForegroundColorAttributeName : UIColor.blue]))
                 return allString
             }
         }
@@ -54,10 +61,10 @@ struct GPXImportOptions {
 extension GPXImportOptions : Equatable {}
 
 func ==(lhs:GPXImportOptions, rhs:GPXImportOptions) -> Bool {
-    return lhs.merge == rhs.merge &&
-        lhs.importNew == rhs.importNew &&
-        lhs.importUpdate == rhs.importUpdate &&
-        lhs.textFilter == rhs.textFilter &&
-        lhs.routeImportAsNew == rhs.routeImportAsNew
+    return lhs.poiOptions.merge == rhs.poiOptions.merge &&
+        lhs.poiOptions.importNew == rhs.poiOptions.importNew &&
+        lhs.poiOptions.importUpdate == rhs.poiOptions.importUpdate &&
+        lhs.poiOptions.textFilter == rhs.poiOptions.textFilter &&
+        lhs.routeOptions.importAsNew == rhs.routeOptions.importAsNew
 }
 
