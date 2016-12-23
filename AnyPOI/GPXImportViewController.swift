@@ -34,6 +34,7 @@ class GPXImportViewController: UIViewController {
    
     var importOptions = GPXImportOptions()
     
+    fileprivate var dataParsed = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,27 +44,32 @@ class GPXImportViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        PKHUD.sharedHUD.dimsBackground = true
-        HUD.show(.progress)
-        let hudBaseView = PKHUD.sharedHUD.contentView as! PKHUDSquareBaseView
-        hudBaseView.titleLabel.text = "Importing POIs"
-        
-        DispatchQueue.global(qos: .userInitiated).async {
-            // Background thread
-            let parser = GPXParser(url: self.gpxURL)
-            _ = parser.parse()
-            self.allParsedGPXPois = parser.GPXPois
-            self.updateFilteredGPXPois()
-            self.allParsedGPXRoutes = parser.GPXRoutes
-            self.routeSelectedState = Array(repeating: true, count: self.allParsedGPXRoutes.count)
-
-            DispatchQueue.main.async(execute: {
-                self.theTableView.reloadData()
-                HUD.hide()
-            })
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        if !dataParsed {
+            dataParsed = true
+            PKHUD.sharedHUD.dimsBackground = true
+            HUD.show(.progress)
+            let hudBaseView = PKHUD.sharedHUD.contentView as! PKHUDSquareBaseView
+            hudBaseView.titleLabel.text = "Importing POIs"
+            
+            DispatchQueue.global(qos: .userInitiated).async {
+                // Background thread
+                let parser = GPXParser(url: self.gpxURL)
+                _ = parser.parse()
+                self.allParsedGPXPois = parser.GPXPois
+                self.updateFilteredGPXPois()
+                self.allParsedGPXRoutes = parser.GPXRoutes
+                self.routeSelectedState = Array(repeating: true, count: self.allParsedGPXRoutes.count)
+                
+                DispatchQueue.main.async(execute: {
+                    self.theTableView.reloadData()
+                    HUD.hide()
+                })
+            }
         }
-
-   }
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -169,7 +175,7 @@ class GPXImportViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == storyboard.openImportOptions {
-            let viewController = segue.destination as! GPXImportOptionsViewController
+            let viewController = segue.destination as! GPXImportOptionsTableViewController
             viewController.importOptions = importOptions
             viewController.importViewController = self
         }

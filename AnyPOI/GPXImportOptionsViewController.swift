@@ -50,14 +50,12 @@ class GPXImportOptionsViewController: UIViewController {
         } else {
             importOptions.routeOptions.importAsNew = sender.isOn
         }
-        theTableView.reloadData()
-    }
-    
-    @IBAction func closeButtonPressed(_ sender: UIBarButtonItem) {
         
         importViewController.update(options: importOptions)
-        dismiss(animated: true, completion: nil)
+
+        theTableView.reloadData()
     }
+
 }
 
 extension GPXImportOptionsViewController: UITextFieldDelegate {

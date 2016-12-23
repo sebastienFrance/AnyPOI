@@ -1016,7 +1016,9 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
                 viewController.showPOIsNotInRoute = !filterPOIsNotInRoute
             }
         } else if segue.identifier == storyboard.showGPXImportId {
-            let viewController = segue.destination as! GPXImportViewController
+            let navController = segue.destination as! UINavigationController
+            let viewController = navController.topViewController as! GPXImportViewController
+            //let viewController = segue.destination as! GPXImportViewController
             viewController.gpxURL = sender as! URL
         }
        
