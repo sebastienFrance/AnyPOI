@@ -94,7 +94,7 @@ class GPXImportViewController: UIViewController {
                 return false
             }
             
-            if !importOptions.poiOptions.merge {
+            if importOptions.poiOptions.importAsNew {
                 return true
             } else {
                 if currentGPXPoi.isPoiAlreadyExist {
@@ -115,18 +115,23 @@ class GPXImportViewController: UIViewController {
     @IBAction func ImportButtonPushed(_ sender: UIBarButtonItem) {
         let selectedPoisForImport = selectedState.filter { return $0 }
         
-        let alertActionSheet = UIAlertController(title: "Warning", message: "Do you really want to import \(selectedPoisForImport.count) POIs ?", preferredStyle: .alert)
-        alertActionSheet.addAction(UIAlertAction(title:  "Import", style: .default) { alertAction in
+        let alertActionSheet = UIAlertController(title: NSLocalizedString("Warning", comment: ""),
+                                                 message: String(format:NSLocalizedString("GPXImport %d POIs", comment: ""), selectedPoisForImport.count),
+                                                 preferredStyle: .alert)
+        alertActionSheet.addAction(UIAlertAction(title:  NSLocalizedString("ImportAction", comment: ""), style: .default) { alertAction in
             //FIXEDME: It should by done in background!
+            var importedPOIs = [PointOfInterest]()
             for index in 0...(self.filteredGPXPois.count - 1) {
                 if self.selectedState[index] {
-                    self.filteredGPXPois[index].importGPXPoi(options:self.importOptions)
+                    if let poi = self.filteredGPXPois[index].importGPXPoi(options:self.importOptions) {
+                        importedPOIs.append(poi)
+                    }
                 }
             }
 
             for index in 0...(self.allParsedGPXRoutes.count - 1) {
                 if self.routeSelectedState[index] {
-                    self.allParsedGPXRoutes[index].importIt(options:self.importOptions)
+                    self.allParsedGPXRoutes[index].importIt(options:self.importOptions, importedPOIs:importedPOIs)
                 }
             }
             
@@ -137,10 +142,7 @@ class GPXImportViewController: UIViewController {
         })
         
         present(alertActionSheet, animated: true, completion: nil)
-        
-        
 
-        
 //        PKHUD.sharedHUD.dimsBackground = true
 //        HUD.show(.progress)
 //
@@ -162,7 +164,7 @@ class GPXImportViewController: UIViewController {
     }
 
     func isNewPoi(poi:GPXPoi) -> Bool {
-        return importOptions.poiOptions.merge ? !poi.isPoiAlreadyExist : true
+        return importOptions.poiOptions.importAsNew ? true : !poi.isPoiAlreadyExist
     }
     
     func isNewRoute(route:GPXRoute) -> Bool {

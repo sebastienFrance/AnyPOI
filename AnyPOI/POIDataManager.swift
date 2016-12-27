@@ -508,6 +508,14 @@ class POIDataManager {
     }
 
 
+
+    /// Search in database a POI that matches the internalURL or coordinates AND PoiName
+    ///
+    /// - Parameters:
+    ///   - url: internalURL of the POI
+    ///   - poiName: name of the POI
+    ///   - coordinates: coordinates of the POI
+    /// - Returns: Found POI or nil
     func findPOI(url:URL, poiName:String, coordinates:CLLocationCoordinate2D) -> PointOfInterest? {
         if let poi = getPOIWithURI(url) {
             return poi
@@ -816,13 +824,23 @@ class POIDataManager {
         route.routeWayPoints = wayPoints
     }
 
+
+    /// Create a new WayPoint that's appended to the given route
+    ///
+    /// - Parameters:
+    ///   - route: Route on which the new WayPoint must be appended
+    ///   - poi: Point of interest that will be the new Destination of the route
+    ///   - transportType: Type of transport that must be configured to reach the destination
     func appendWayPoint(route:Route, poi:PointOfInterest, transportType:MKDirectionsTransportType) {
+
+        // get the existing wayPoints of the route and then append the new wayPoint
         let wayPoints = NSMutableOrderedSet(orderedSet: route.routeWayPoints!)
 
         if wayPoints.count == 0 {
             let newWayPoint = addWayPoint(poi, transportType: transportType)
             wayPoints.add(newWayPoint)
         } else {
+            // Update the previous wayPoint with the transport type to reach the new destination
             let previousWayPoint = wayPoints.lastObject as! WayPoint
             let newWayPoint = addWayPoint(poi)
             wayPoints.add(newWayPoint)

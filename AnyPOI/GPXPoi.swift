@@ -136,18 +136,22 @@ class GPXPoi {
     }
     
     
-    func importGPXPoi(options:GPXImportOptions) {
-        isPoiFromAnyPoi ? restorePoi(options:options) : importPoi(options:options)
+    func importGPXPoi(options:GPXImportOptions) -> PointOfInterest? {
+        return isPoiFromAnyPoi ? restorePoi(options:options) : importPoi(options:options)
     }
     
-    fileprivate func restorePoi(options:GPXImportOptions) {
+    
+    /// Import a GPXPoi that has been exported by AnyPoi
+    ///
+    /// - Parameter options: import options configured by the user
+    fileprivate func restorePoi(options:GPXImportOptions) -> PointOfInterest? {
         if let poiAttr = poiAttributes, let wptAttr = wptAttributes, poiAttr.count > 0, wptAttr.count > 0,
             !poiName.isEmpty,
             let url = poiURL,
             let coordinate = poiCoordinates {
             
             var restorePoi:PointOfInterest!
-            if options.poiOptions.merge {
+            if !options.poiOptions.importAsNew {
                 if let poi = POIDataManager.sharedInstance.findPOI(url: url, poiName: poiName, coordinates: coordinate) {
                     if options.poiOptions.importUpdate {
                         // update the existing poi
@@ -170,6 +174,7 @@ class GPXPoi {
             // Group may have changed, even if the POI was already existing in the database
             restorePoi.parentGroup = getGroup()
 
+            // Set POI mandatory parameters with imported values
             restorePoi.category = poiCategory
             restorePoi.poiIsContact = poiIsContact
             restorePoi.poiContactIdentifier = poiContactId
@@ -177,6 +182,7 @@ class GPXPoi {
             restorePoi.poiDisplayName = poiName
             restorePoi.poiDescription = poiDescription
             
+            // Set POI optional parameters with imported values
             if let city = poiAttr[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Attributes.city] {
                 restorePoi.poiCity = city
             }
@@ -194,45 +200,67 @@ class GPXPoi {
                 restorePoi.poiWikipediaPageId = wikipediaId
             }
             
-            if let regionMonitoringAttr = regionMonitoringAttributes, regionMonitoringAttr.count > 0 {
-                
-                var notifyEnter = false
-                if let notifyEnterString = regionMonitoringAttr[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.regionMonitoring.Attributes.notifyEnter], let notifyEnterBool = Bool(notifyEnterString) {
-                    notifyEnter = notifyEnterBool
-                }
-                
-                var notifyExit = false
-                if let notifyExitString = regionMonitoringAttr[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.regionMonitoring.Attributes.notifyExit],
-                    let notifyExitBool = Bool(notifyExitString) {
-                    notifyExit = notifyExitBool
-                }
-                
-                if let radiusString = regionMonitoringAttr[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.regionMonitoring.Attributes.regionRadius],
-                    let radius = Double(radiusString) {
-                    restorePoi.poiRegionRadius = radius
-                }
-                
-                if notifyExit || notifyEnter {
-                    let result = restorePoi.startMonitoring(radius: restorePoi.poiRegionRadius, notifyEnterRegion: notifyEnter, notifyExitRegion: notifyExit)
-                    switch result {
-                    case .deviceNotSupported:
-                        print("\(#function) Device doesn't suppport region monitoring")
-                    case .internalError:
-                        print("\(#function) internal error")
-                    case .maxMonitoredRegionAlreadyReached:
-                        print("\(#function) max monitored region already reached")
-                    case .noError:
-                        print("\(#function) poi monitoring started for \(restorePoi.poiDisplayName!)")
-                    }
-                }
-            }
+            // Configure the Region monitoring of the imported POI
+            configureRegionMonitoring(poi: restorePoi)
             
             POIDataManager.sharedInstance.commitDatabase()
+            
+            return restorePoi
         } else {
             print("\(#function) Poi is ignored because some mandatory data are missing")
+            return nil
         }
     }
     
+    
+    /// Configure the Region Monitoring for the given POI with the imported data
+    ///
+    /// - Parameter poi: Poi related to the GPXPoi that must be configured for region monitoring
+    fileprivate func configureRegionMonitoring(poi:PointOfInterest) {
+        if let regionMonitoringAttr = regionMonitoringAttributes, regionMonitoringAttr.count > 0 {
+            
+            // Get parameters from imported values (notifyEnter, notifyExit and radius) and update the POI
+            var notifyEnter = false
+            if let notifyEnterString = regionMonitoringAttr[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.regionMonitoring.Attributes.notifyEnter],
+                let notifyEnterBool = Bool(notifyEnterString) {
+                notifyEnter = notifyEnterBool
+            }
+            
+            var notifyExit = false
+            if let notifyExitString = regionMonitoringAttr[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.regionMonitoring.Attributes.notifyExit],
+                let notifyExitBool = Bool(notifyExitString) {
+                notifyExit = notifyExitBool
+            }
+            
+            if let radiusString = regionMonitoringAttr[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.regionMonitoring.Attributes.regionRadius],
+                let radius = Double(radiusString) {
+                poi.poiRegionRadius = radius
+            }
+            
+            // enable the monitoring if at least the notifyExit or notifyEnter are enabled
+            if notifyExit || notifyEnter {
+                let result = poi.startMonitoring(radius: poi.poiRegionRadius, notifyEnterRegion: notifyEnter, notifyExitRegion: notifyExit)
+                switch result {
+                case .deviceNotSupported:
+                    print("\(#function) Device doesn't suppport region monitoring")
+                case .internalError:
+                    print("\(#function) internal error")
+                case .maxMonitoredRegionAlreadyReached:
+                    print("\(#function) max monitored region already reached")
+                case .noError:
+                    print("\(#function) poi monitoring started for \(poi.poiDisplayName!)")
+                }
+            }
+        }
+    }
+    
+    
+    /// Get a group for the GPXPoi
+    ///  1) Look if the Group already exists, if it exists it's updated with the imported values
+    ///  2) If the Group doesn't exist then it's created with the imported values
+    ///  3) If the group doesn't exist and some values are missing in the imported values then the default Group is used
+    ///
+    /// - Returns: the Group in which the POI should be added
     fileprivate func getGroup() -> GroupOfInterest {
         if let attributes = groupAttributes, attributes.count > 0 {
             if let groupIdString = attributes[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.group.Attributes.groupId],
@@ -245,6 +273,7 @@ class GPXPoi {
                 
              
                 if let group = POIDataManager.sharedInstance.findGroup(url: url, groupId: Int(groupId), groupName: groupName) {
+                    // The group already exists in Database, we update it with the imported values
                     var isGroupUpdated = false
                     if group.groupDisplayName != groupName {
                         group.groupDisplayName = groupName
@@ -277,6 +306,7 @@ class GPXPoi {
                     }
                    return group
                 } else  {
+                    // The group doesn't exist, we create a new one with the imported values
                     var groupColor = ColorsUtils.importedGroupColor
                     if let groupColorString = attributes[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.group.Attributes.groupColor],
                         let newColor = ColorsUtils.getColor(rgba: groupColorString){
@@ -290,11 +320,13 @@ class GPXPoi {
             }
         }
         
+        // When the group doesn't already exist and some values are missing in the imported values 
+        // the default group is returned. Warning, it should never happend (except if the GPX file is corrupted)
         return POIDataManager.sharedInstance.getDefaultGroup()
     }
     
-    
-    fileprivate func importPoi(options:GPXImportOptions) {
+    ///FIXEDME: To be completed
+    fileprivate func importPoi(options:GPXImportOptions) -> PointOfInterest? {
         if let wptAttr = wptAttributes, wptAttr.count > 0, !poiName.isEmpty {
             // check mandatory parameters to create a POI
             if let coordinate = poiCoordinates {
@@ -306,9 +338,10 @@ class GPXPoi {
                 importPoi.poiDescription = poiDescription
                 
                 POIDataManager.sharedInstance.commitDatabase()
+                return importPoi
             }
-        } else {
-            print("\(#function) Poi is ignored because some mandatory data are missing")
         }
+        print("\(#function) Poi is ignored because some mandatory data are missing")
+        return nil
     }
 }

@@ -12,13 +12,13 @@ class GPXImportOptionsTableViewController: UITableViewController {
 
     @IBOutlet weak var textualDescription: UILabel!
     
-    @IBOutlet weak var poiMergeSwitch: UISwitch!
     @IBOutlet weak var poiImportAsNewSwitch: UISwitch!
-    @IBOutlet weak var poiUpdateSwitch: UISwitch!
+    @IBOutlet weak var poiMergeImportNewSwitch: UISwitch!
+    @IBOutlet weak var poiMergeImportUpdateSwitch: UISwitch!
     @IBOutlet weak var poiTextFilter: UITextField!
     
-    @IBOutlet weak var poiImportAsNewLabel: UILabel!
-    @IBOutlet weak var poiUpdateLabel: UILabel!
+    @IBOutlet weak var poiMergeImportNewLabel: UILabel!
+    @IBOutlet weak var poiMergeImportUpdateLabel: UILabel!
     @IBOutlet weak var routeImportAsNewSwitch: UISwitch!
     
     var importOptions:GPXImportOptions!
@@ -28,23 +28,26 @@ class GPXImportOptionsTableViewController: UITableViewController {
         super.viewDidLoad()
         poiTextFilter.delegate = self
        
-        refreshState()
+        refreshDisplayedState()
     }
     
-    func refreshState(withUpdate:Bool = false) {
+    
+    /// Refresh the buttons and textual description based on importOptions configuraton
+    /// and update the GPXImportViewController with the new importOptions
+    func refreshDisplayedState() {
         routeImportAsNewSwitch.isOn = importOptions.routeOptions.importAsNew
-        poiMergeSwitch.isOn = importOptions.poiOptions.merge
+        poiImportAsNewSwitch.isOn = importOptions.poiOptions.importAsNew
         
-        poiImportAsNewSwitch.isEnabled = importOptions.poiOptions.merge
-        poiUpdateSwitch.isEnabled = importOptions.poiOptions.merge
-        poiImportAsNewLabel.isEnabled = importOptions.poiOptions.merge
-        poiUpdateLabel.isEnabled = importOptions.poiOptions.merge
-        if !importOptions.poiOptions.merge {
-            poiImportAsNewSwitch.isOn = true
-            poiUpdateSwitch.isOn = false
+        poiMergeImportNewSwitch.isEnabled = !importOptions.poiOptions.importAsNew
+        poiMergeImportUpdateSwitch.isEnabled = !importOptions.poiOptions.importAsNew
+        poiMergeImportNewLabel.isEnabled = !importOptions.poiOptions.importAsNew
+        poiMergeImportUpdateLabel.isEnabled = !importOptions.poiOptions.importAsNew
+        if importOptions.poiOptions.importAsNew {
+            poiMergeImportNewSwitch.isOn = false
+            poiMergeImportUpdateSwitch.isOn = false
        } else {
-            poiImportAsNewSwitch.isOn = importOptions.poiOptions.importNew
-            poiUpdateSwitch.isOn = importOptions.poiOptions.importUpdate
+            poiMergeImportNewSwitch.isOn = importOptions.poiOptions.importNew
+            poiMergeImportUpdateSwitch.isOn = importOptions.poiOptions.importUpdate
         }
         
         textualDescription.attributedText = importOptions.textualDescription
@@ -57,23 +60,25 @@ class GPXImportOptionsTableViewController: UITableViewController {
     }
     @IBAction func switchRouteImportAsNew(_ sender: UISwitch) {
         importOptions.routeOptions.importAsNew = sender.isOn
-        refreshState(withUpdate: true)
+        refreshDisplayedState()
     }
 
-    @IBAction func switchPOIMerge(_ sender: UISwitch) {
-        importOptions.poiOptions.merge = sender.isOn
-        refreshState(withUpdate: true)
+    @IBAction func switchPOIImportAsNew(_ sender: UISwitch) {
+        importOptions.poiOptions.importAsNew = sender.isOn
+        importOptions.poiOptions.importNew = !importOptions.poiOptions.importAsNew
+        importOptions.poiOptions.importUpdate = !importOptions.poiOptions.importAsNew
+        refreshDisplayedState()
     }
     
-    @IBAction func switchPOIImportAsNew(_ sender: UISwitch) {
+    @IBAction func switchPOIMergeImportNew(_ sender: UISwitch) {
         importOptions.poiOptions.importNew = sender.isOn
-        refreshState(withUpdate: true)
+        refreshDisplayedState()
     }
     
     // MARK: - Table view data source
-    @IBAction func switchPOIUpdate(_ sender: UISwitch) {
+    @IBAction func switchPOIMergeImportUpdate(_ sender: UISwitch) {
         importOptions.poiOptions.importUpdate = sender.isOn
-        refreshState(withUpdate: true)
+        refreshDisplayedState()
    }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -92,7 +97,6 @@ extension GPXImportOptionsTableViewController: UITextFieldDelegate {
         
         importOptions.poiOptions.textFilter = (textField.text! as NSString).replacingCharacters(in: range, with: string)
         textualDescription.attributedText = importOptions.textualDescription
-        //tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
         tableView.reloadRows(at: [IndexPath(row:0, section:0)], with: .none)
         importViewController.update(options: importOptions)
         return true

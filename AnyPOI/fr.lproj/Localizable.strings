@@ -153,8 +153,12 @@
 "ImportMsgOnlyUpdate"="Seul les points d'interets existant seront importés (mis a jour)";
 "ImportMsgNoImport"="Attention, aucun point d'interets ne sera importés";
 "ImportMsgFilter"="\nUniquement les points d'interets passant le filtre";
+"ImportAction"="Importer";
 "GPXImportUpdateItem"=" (mise à jour)";
 "GPXImportNewItem"=" (nouveau)";
+"GPXImport %d POIs"="Voulez vous importer les %d points d'interêt?";
+"GPXRouteUnknownFromTo"="Départ et destination inconnues";
+"GPXRouteNoInfos"="Pas de données";
 "ExportAllMsgDescription"="Le fichier .gpx joint contient tous vos points d'interêts et itinéraires. Vous pouvez l'importer plus tard avec AnyPOI.";
 "ExportAllTitle"="Export d'AnyPOI";
 "CategoriesSectionMapFilterVC"="Categories";

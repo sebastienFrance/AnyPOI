@@ -11,7 +11,7 @@ import UIKit
 
 struct GPXImportOptions {
     struct POI {
-        var merge = true
+        var importAsNew = false
         var importNew = true
         var importUpdate = true
         var textFilter = ""
@@ -28,7 +28,7 @@ struct GPXImportOptions {
     var textualDescription:NSAttributedString {
         get {
             var descriptionString:NSAttributedString
-            if !poiOptions.merge {
+            if poiOptions.importAsNew {
                 descriptionString = NSAttributedString(string: NSLocalizedString("ImportMsgAllPOIsAsNew", comment: ""))
             } else {
                 if poiOptions.importNew {
@@ -61,7 +61,7 @@ struct GPXImportOptions {
 extension GPXImportOptions : Equatable {}
 
 func ==(lhs:GPXImportOptions, rhs:GPXImportOptions) -> Bool {
-    return lhs.poiOptions.merge == rhs.poiOptions.merge &&
+    return lhs.poiOptions.importAsNew == rhs.poiOptions.importAsNew &&
         lhs.poiOptions.importNew == rhs.poiOptions.importNew &&
         lhs.poiOptions.importUpdate == rhs.poiOptions.importUpdate &&
         lhs.poiOptions.textFilter == rhs.poiOptions.textFilter &&
