@@ -19,41 +19,64 @@ struct GPXImportOptions {
     
     struct Route {
         var importAsNew = false
+        var importNew = true
+        var importUpdate = true
     }
     
     var poiOptions = POI()
     var routeOptions = Route()
     
-    //FIXEDME: Add string translations in I18N
-    var textualDescription:NSAttributedString {
+    var poiTextualDescription:NSAttributedString {
         get {
-            var descriptionString:NSAttributedString
+            let descriptionString = NSMutableAttributedString()
             if poiOptions.importAsNew {
-                descriptionString = NSAttributedString(string: NSLocalizedString("ImportMsgAllPOIsAsNew", comment: ""))
+                descriptionString.append(NSAttributedString(string: NSLocalizedString("ImportMsgAllPOIsAsNew", comment: "")))
             } else {
                 if poiOptions.importNew {
                     if poiOptions.importUpdate {
-                        descriptionString = NSAttributedString(string: NSLocalizedString("ImportMsgMergeAndCreate", comment: ""))
+                        descriptionString.append(NSAttributedString(string: NSLocalizedString("ImportMsgMergeAndCreate", comment: "")))
                     } else {
-                        descriptionString = NSAttributedString(string: NSLocalizedString("ImportMsgOnlyNewPOIs", comment: ""))
+                        descriptionString.append(NSAttributedString(string: NSLocalizedString("ImportMsgOnlyNewPOIs", comment: "")))
                     }
                 } else {
                     if poiOptions.importUpdate {
-                        descriptionString = NSAttributedString(string: NSLocalizedString("ImportMsgOnlyUpdate", comment: ""))
+                        descriptionString.append(NSAttributedString(string: NSLocalizedString("ImportMsgOnlyUpdate", comment: "")))
                     } else {
-                        return NSAttributedString(string: NSLocalizedString("ImportMsgNoImport", comment: ""), attributes: [NSForegroundColorAttributeName : UIColor.red])
+                        descriptionString.append(NSAttributedString(string: NSLocalizedString("ImportMsgNoImport", comment: ""), attributes: [NSForegroundColorAttributeName : UIColor.red]))
                     }
                 }
             }
             
-            if poiOptions.textFilter.isEmpty {
-                return descriptionString
-            } else {
-                let allString = NSMutableAttributedString(attributedString: descriptionString)
-                
-                allString.append(NSAttributedString(string: NSLocalizedString("ImportMsgFilter", comment: "") + " \(poiOptions.textFilter)", attributes: [NSForegroundColorAttributeName : UIColor.blue]))
-                return allString
+            if !poiOptions.textFilter.isEmpty {
+                descriptionString.append(NSAttributedString(string: NSLocalizedString("ImportMsgFilter", comment: "") + " \(poiOptions.textFilter)", attributes: [NSForegroundColorAttributeName : UIColor.blue]))
             }
+            
+            return descriptionString
+        }
+    }
+    
+    var routeTextualDescription:NSAttributedString {
+        get {
+            let descriptionString = NSMutableAttributedString()
+            if routeOptions.importAsNew {
+                descriptionString.append(NSAttributedString(string: NSLocalizedString("ImportMsgRoutesAllAsNew", comment: "")))
+            } else {
+                if routeOptions.importNew {
+                    if routeOptions.importUpdate {
+                        descriptionString.append(NSAttributedString(string: NSLocalizedString("ImportMsgRoutesMergeAndCreate", comment: "")))
+                    } else {
+                        descriptionString.append(NSAttributedString(string: NSLocalizedString("ImportMsgRoutesOnlyNew", comment: "")))
+                    }
+                } else {
+                    if routeOptions.importUpdate {
+                        descriptionString.append(NSAttributedString(string: NSLocalizedString("ImportMsgRoutesOnlyUpdate", comment: "")))
+                    } else {
+                        descriptionString.append(NSAttributedString(string: NSLocalizedString("ImportMsgRoutesNoImport", comment: ""), attributes: [NSForegroundColorAttributeName : UIColor.red]))
+                    }
+                }
+            }
+            
+            return descriptionString
         }
     }
 }
@@ -65,6 +88,8 @@ func ==(lhs:GPXImportOptions, rhs:GPXImportOptions) -> Bool {
         lhs.poiOptions.importNew == rhs.poiOptions.importNew &&
         lhs.poiOptions.importUpdate == rhs.poiOptions.importUpdate &&
         lhs.poiOptions.textFilter == rhs.poiOptions.textFilter &&
-        lhs.routeOptions.importAsNew == rhs.routeOptions.importAsNew
+        lhs.routeOptions.importAsNew == rhs.routeOptions.importAsNew &&
+        lhs.routeOptions.importNew == rhs.routeOptions.importNew &&
+        lhs.routeOptions.importUpdate == rhs.routeOptions.importUpdate
 }
 

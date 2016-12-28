@@ -580,16 +580,20 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
         routeManager?.loadAndDisplayOnMap()
     }
 
-    fileprivate func disableRouteMode() {
-        let poisToBeUpdated = routeDatasource!.pois
-        routeManager?.cleanup()
-        routeManager = nil
-        
-        // We must remove/add POIs that were used in the Route because their Pin color can be different
-        // for source and target and the callout of these POIs are also different
-        removeAnnotations(pois: poisToBeUpdated)
-        addAnnotations(pois: poisToBeUpdated)
-        showPOIsNotInRoute() // If the filter was on we need to deactivate it
+    func disableRouteMode() {
+        if isRouteMode {
+            let poisToBeUpdated = routeDatasource?.pois
+            routeManager?.cleanup()
+            routeManager = nil
+            
+            // We must remove/add POIs that were used in the Route because their Pin color can be different
+            // for source and target and the callout of these POIs are also different
+            if let poisToUpdate = poisToBeUpdated {
+                removeAnnotations(pois: poisToUpdate)
+                addAnnotations(pois: poisToUpdate)
+            }
+            showPOIsNotInRoute() // If the filter was on we need to deactivate it
+        }
     }
     
     @IBAction func backToMapWayPoint(_ unwindSegue:UIStoryboardSegue) {

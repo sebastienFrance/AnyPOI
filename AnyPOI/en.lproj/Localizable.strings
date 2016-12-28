@@ -6,6 +6,8 @@
   Copyright © 2016 Sébastien Brugalières. All rights reserved.
 */
 
+"Points of interests"="Points of interests";
+"Routes"="Travels";
 "MapMenuTitle"="Map";
 "PointOfInterestMenuTitle"="Point of Interests";
 "TravelsMenuTitle"="Travels";
@@ -149,13 +151,20 @@
 "ImportMsgAllPOIsAsNew"="All Point Of Interests will be imported as new";
 "ImportMsgMergeAndCreate" = "Existing Point Of Interests will be merged and new ones will be created";
 "ImportMsgOnlyNewPOIs" = "Only new Point Of Interests will be imported";
-"ImportMsgOnlyUpdate"="Only existing Point Of Interests will be merged";
-"ImportMsgNoImport"="Warning, nothing will be imported!";
+"ImportMsgOnlyUpdate"="Only existing Point Of Interests will be imported and merged";
+"ImportMsgNoImport"="Warning, no POI will be imported!";
 "ImportMsgFilter"="\nOnly POIs matching";
+"ImportMsgRoutesAllAsNew"="All Routes will be imported as new";
+"ImportMsgRoutesMergeAndCreate"="Existing Routes will be merged and new ones will be created";
+"ImportMsgRoutesOnlyNew"="Only new Routes will be imported";
+"ImportMsgRoutesOnlyUpdate"="Only existing Routes will be imported and merged";
+"ImportMsgRoutesNoImport"="Warning, no route will be imported";
 "ImportAction"="Import";
 "GPXImportUpdateItem"=" (update)";
 "GPXImportNewItem"=" (new)";
-"GPXImport %d POIs"="Do you want to import %d POIs?";
+"GPXImport %d POIs and %d route"="Do you want to import %d POIs and %d Routes ?";
+"GPXImport %d route"="Do you want to import %d Routes ?";
+"GPXImport %d POIs"="Do you want to import %d POIs ?";
 "GPXRouteUnknownFromTo"="Unknown source and destination";
 "GPXRouteNoInfos"="No information";
 "ExportAllMsgDescription"="The attached .gpx file contains all your points of interests and routes. It can be imported later with AnyPOI.";

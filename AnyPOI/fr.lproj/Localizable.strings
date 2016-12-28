@@ -6,6 +6,8 @@
   Copyright © 2016 Sébastien Brugalières. All rights reserved.
 */
 
+"Points of interests"="Points d'intérêts";
+"Routes"="Voyages";
 "MapMenuTitle"="Carte";
 "PointOfInterestMenuTitle"="Points d'intérêts";
 "TravelsMenuTitle"="Voyages";
@@ -148,15 +150,22 @@
 "RouteSectionMapFilterVC"="POIs sur l'itinéraire";
 "GroupsSectionMapFilterVC"="Groupes";
 "ImportMsgAllPOIsAsNew"="Tous les points d'interets seront importés comme nouveau";
-"ImportMsgMergeAndCreate" = "Les points d'interets existant seront mis à jour et les nouveaux seront créés";
+"ImportMsgMergeAndCreate" = "Les points d'interets existant seront fusionnés et les nouveaux seront créés";
 "ImportMsgOnlyNewPOIs" = "Seul les nouveaux points d'interets seront importés";
-"ImportMsgOnlyUpdate"="Seul les points d'interets existant seront importés (mis a jour)";
+"ImportMsgOnlyUpdate"="Seul les points d'interets existant seront importés et fusionnés";
 "ImportMsgNoImport"="Attention, aucun point d'interets ne sera importés";
 "ImportMsgFilter"="\nUniquement les points d'interets passant le filtre";
+"ImportMsgRoutesAllAsNew"="Toutes les voyages seront importés comme nouveau";
+"ImportMsgRoutesMergeAndCreate"="Les voyages existants seront fusionnés et les nouveaux seront créées";
+"ImportMsgRoutesOnlyNew"="Seules les nouveaux voyages seront importées";
+"ImportMsgRoutesOnlyUpdate"="Seules les voyages existantes seront importées et fusionnées";
+"ImportMsgRoutesNoImport"="Attention, aucun voyages ne sera importé";
 "ImportAction"="Importer";
 "GPXImportUpdateItem"=" (mise à jour)";
 "GPXImportNewItem"=" (nouveau)";
-"GPXImport %d POIs"="Voulez vous importer les %d points d'interêt?";
+"GPXImport %d POIs and %d route"="Voulez vous importer les %d points d'interêt et les %d voyages ?";
+"GPXImport %d route"="Voulez vous importer les %d voyages ?";
+"GPXImport %d POIs"="Voulez vous importer les %d points d'interêts ?";
 "GPXRouteUnknownFromTo"="Départ et destination inconnues";
 "GPXRouteNoInfos"="Pas de données";
 "ExportAllMsgDescription"="Le fichier .gpx joint contient tous vos points d'interêts et itinéraires. Vous pouvez l'importer plus tard avec AnyPOI.";

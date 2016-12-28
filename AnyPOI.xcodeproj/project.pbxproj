@@ -101,6 +101,7 @@
 		BE187CF11DAA58C6007737B4 /* WikipediaLanguages.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE187CF01DAA58C6007737B4 /* WikipediaLanguages.swift */; };
 		BE187CF31DAA746D007737B4 /* LoadingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE187CF21DAA746D007737B4 /* LoadingTableViewCell.swift */; };
 		BE187CF51DAA7739007737B4 /* NoWikipediaTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE187CF41DAA7739007737B4 /* NoWikipediaTableViewCell.swift */; };
+		BE2A80281E13C48A003B1BE5 /* GPXRouteWayPointAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2A80271E13C48A003B1BE5 /* GPXRouteWayPointAttributes.swift */; };
 		BE2FF2C21D8B267D00C0395A /* SearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2FF2C11D8B267D00C0395A /* SearchController.swift */; };
 		BE2FF2C91D8B280B00C0395A /* CallOutAccessoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE2FF2C41D8B280B00C0395A /* CallOutAccessoryView.xib */; };
 		BE2FF2CA1D8B280B00C0395A /* CallOutLeftAccessoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE2FF2C51D8B280B00C0395A /* CallOutLeftAccessoryView.xib */; };
@@ -307,6 +308,7 @@
 		BE187CF01DAA58C6007737B4 /* WikipediaLanguages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WikipediaLanguages.swift; sourceTree = "<group>"; };
 		BE187CF21DAA746D007737B4 /* LoadingTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingTableViewCell.swift; sourceTree = "<group>"; };
 		BE187CF41DAA7739007737B4 /* NoWikipediaTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoWikipediaTableViewCell.swift; sourceTree = "<group>"; };
+		BE2A80271E13C48A003B1BE5 /* GPXRouteWayPointAttributes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPXRouteWayPointAttributes.swift; sourceTree = "<group>"; };
 		BE2FF2C11D8B267D00C0395A /* SearchController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchController.swift; sourceTree = "<group>"; };
 		BE2FF2C31D8B274C00C0395A /* AnyPOI.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = AnyPOI.entitlements; sourceTree = "<group>"; };
 		BE2FF2C41D8B280B00C0395A /* CallOutAccessoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CallOutAccessoryView.xib; sourceTree = "<group>"; };
@@ -937,12 +939,13 @@
 		BEFDA7D91DE9C98D00D3104D /* GPX */ = {
 			isa = PBXGroup;
 			children = (
-				BEFDA7DA1DE9C9A200D3104D /* GPXParser.swift */,
 				BE4BF3BD1DEB55E00043891B /* ExportGPX.swift */,
+				BED407A91E0571C9009EEA97 /* XMLElement.swift */,
+				BEFDA7DA1DE9C9A200D3104D /* GPXParser.swift */,
+				BE2A80271E13C48A003B1BE5 /* GPXRouteWayPointAttributes.swift */,
 				BE4628D51DEF5A3900FB4C52 /* GPXPoi.swift */,
 				BE9195BC1E0691550039DE49 /* GPXRoute.swift */,
 				BE71ADF51DFC98A4008FB6CD /* GPXImportOptions.swift */,
-				BED407A91E0571C9009EEA97 /* XMLElement.swift */,
 			);
 			name = GPX;
 			sourceTree = "<group>";
@@ -1227,6 +1230,7 @@
 				BE0CF33A1D8B209A00344F8A /* PoiDetailsImagesTableViewCell.swift in Sources */,
 				BE0CF3151D8B209A00344F8A /* MonitoredPoisGroupCell.swift in Sources */,
 				BE90C7B61DA166A800033DC9 /* RouteProviderWithTransportTypeTableViewCell.swift in Sources */,
+				BE2A80281E13C48A003B1BE5 /* GPXRouteWayPointAttributes.swift in Sources */,
 				BE0CF2FF1D8B209A00344F8A /* ContactTableViewCell.swift in Sources */,
 				BE0CF33E1D8B209A00344F8A /* Utilities.swift in Sources */,
 				BE90C7B41DA1668900033DC9 /* RouteProviderTableViewController.swift in Sources */,

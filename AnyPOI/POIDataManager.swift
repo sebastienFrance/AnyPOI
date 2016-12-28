@@ -895,7 +895,6 @@ class POIDataManager {
     }
     
     func commitDatabase() {
-        
         DatabaseAccess.sharedInstance.saveContext()
     }
     

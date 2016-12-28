@@ -29,7 +29,9 @@ class GPXImportViewController: UIViewController {
     fileprivate var allParsedGPXPois = [GPXPoi]()
     fileprivate var filteredGPXPois = [GPXPoi]()
     fileprivate var selectedState:[Bool]!
+    
     fileprivate var allParsedGPXRoutes = [GPXRoute]()
+    fileprivate var filteredGPXRoutes = [GPXRoute]()
     fileprivate var routeSelectedState:[Bool]!
    
     var importOptions = GPXImportOptions()
@@ -58,10 +60,19 @@ class GPXImportViewController: UIViewController {
                 // Background thread
                 let parser = GPXParser(url: self.gpxURL)
                 _ = parser.parse()
+                
+                // Remove the GPX file from the disk
+                do {
+                   try FileManager.default.removeItem(at: self.gpxURL)
+                } catch {
+                    print("\(#function) warning file \(self.gpxURL.absoluteString) cannot be deleted")
+                }
+                
                 self.allParsedGPXPois = parser.GPXPois
                 self.updateFilteredGPXPois()
+                
                 self.allParsedGPXRoutes = parser.GPXRoutes
-                self.routeSelectedState = Array(repeating: true, count: self.allParsedGPXRoutes.count)
+                self.updateFilteredGPXRoutes()
                 
                 DispatchQueue.main.async(execute: {
                     self.theTableView.reloadData()
@@ -78,14 +89,18 @@ class GPXImportViewController: UIViewController {
     
     func update(options:GPXImportOptions) {
         if importOptions != options {
-            importButton.isEnabled = importOptions.poiOptions.importNew || importOptions.poiOptions.importUpdate
-            importOptions = options
             
-            updateFilteredGPXPois();
+            // FIXEDME: should take into account routes !
+       //     importButton.isEnabled = importOptions.poiOptions.importNew || importOptions.poiOptions.importUpdate
+           importOptions = options
             
+            updateFilteredGPXPois()
+            updateFilteredGPXRoutes()
+          
             theTableView.reloadData()
         }
     }
+    
     
     fileprivate func updateFilteredGPXPois() {
         
@@ -109,14 +124,48 @@ class GPXImportViewController: UIViewController {
         }
         
         selectedState = Array(repeating: true, count: filteredGPXPois.count)
+        importButton.isEnabled = filteredGPXPois.count > 0 || filteredGPXRoutes.count > 0
     }
+    
+    fileprivate func updateFilteredGPXRoutes() {
+        
+        filteredGPXRoutes = allParsedGPXRoutes.filter { (currentGPXRoute) -> Bool in
+            
+            if importOptions.routeOptions.importAsNew {
+                return true
+            } else {
+                if currentGPXRoute.isRouteAlreadyExist {
+                    if importOptions.routeOptions.importUpdate {
+                        return true
+                    }
+                } else if importOptions.routeOptions.importNew {
+                    return true
+                }
+            }
+            return false
+        }
+        
+        routeSelectedState = Array(repeating: true, count: filteredGPXRoutes.count)
+        importButton.isEnabled = filteredGPXPois.count > 0 || filteredGPXRoutes.count > 0
+   }
+
     
 
     @IBAction func ImportButtonPushed(_ sender: UIBarButtonItem) {
         let selectedPoisForImport = selectedState.filter { return $0 }
+        let selectedRouteForImport = routeSelectedState.filter { return $0 }
+        
+        var message:String
+        if selectedPoisForImport.count > 0 && selectedRouteForImport.count > 0 {
+            message = String(format:NSLocalizedString("GPXImport %d POIs and %d route", comment: ""), selectedPoisForImport.count, selectedRouteForImport.count)
+        } else if selectedRouteForImport.count > 0 {
+            message = String(format:NSLocalizedString("GPXImport %d route", comment: ""), selectedRouteForImport.count)
+        } else {
+            message = String(format:NSLocalizedString("GPXImport %d POIs", comment: ""), selectedPoisForImport.count)
+        }
         
         let alertActionSheet = UIAlertController(title: NSLocalizedString("Warning", comment: ""),
-                                                 message: String(format:NSLocalizedString("GPXImport %d POIs", comment: ""), selectedPoisForImport.count),
+                                                 message: message,
                                                  preferredStyle: .alert)
         alertActionSheet.addAction(UIAlertAction(title:  NSLocalizedString("ImportAction", comment: ""), style: .default) { alertAction in
             //FIXEDME: It should by done in background!
@@ -129,9 +178,9 @@ class GPXImportViewController: UIViewController {
                 }
             }
 
-            for index in 0...(self.allParsedGPXRoutes.count - 1) {
+            for index in 0...(self.filteredGPXRoutes.count - 1) {
                 if self.routeSelectedState[index] {
-                    self.allParsedGPXRoutes[index].importIt(options:self.importOptions, importedPOIs:importedPOIs)
+                    self.filteredGPXRoutes[index].importIt(options:self.importOptions, importedPOIs:importedPOIs)
                 }
             }
             
@@ -180,6 +229,7 @@ class GPXImportViewController: UIViewController {
             let viewController = segue.destination as! GPXImportOptionsTableViewController
             viewController.importOptions = importOptions
             viewController.importViewController = self
+            viewController.enableRouteOptions = allParsedGPXRoutes.count > 0
         }
     }
 }
@@ -203,7 +253,7 @@ extension GPXImportViewController: UITableViewDelegate, UITableViewDataSource {
         case Sections.pois:
             return filteredGPXPois.count
         case Sections.routes:
-            return allParsedGPXRoutes.count
+            return filteredGPXRoutes.count
         default:
             return 0
         }
@@ -220,9 +270,9 @@ extension GPXImportViewController: UITableViewDelegate, UITableViewDataSource {
         case Sections.importDescription:
             return nil
         case Sections.pois:
-            return "Points of interests"
+            return NSLocalizedString("Points of interests", comment: "")
         case Sections.routes:
-            return "Routes"
+            return allParsedGPXRoutes.count == 0 ? nil : NSLocalizedString("Routes", comment: "")
         default:
             return nil
         }
@@ -232,7 +282,19 @@ extension GPXImportViewController: UITableViewDelegate, UITableViewDataSource {
         switch indexPath.section {
         case Sections.importDescription:
             let cell = tableView.dequeueReusableCell(withIdentifier: CellId.ImportDescriptionCellId, for: indexPath) as! ImportTextualDescriptionTableViewCell
-            cell.texttualDescriptionLabel?.attributedText = importOptions.textualDescription
+            
+            let descriptionString = NSMutableAttributedString()
+            
+            if allParsedGPXRoutes.count > 0 {
+                descriptionString.append(NSAttributedString(string:"Routes: ", attributes: [NSForegroundColorAttributeName : UIColor.blue]))
+                descriptionString.append(importOptions.routeTextualDescription)
+                descriptionString.append(NSAttributedString(string:"\n"))
+            }
+            
+            descriptionString.append(NSAttributedString(string:"Points of interests: ", attributes: [NSForegroundColorAttributeName : UIColor.blue]))
+            descriptionString.append(importOptions.poiTextualDescription)
+            
+            cell.texttualDescriptionLabel?.attributedText = descriptionString
             return cell
         case Sections.pois:
             let cell = tableView.dequeueReusableCell(withIdentifier: CellId.GPXImportCellId, for: indexPath) as! GPXImportTableViewCell
@@ -250,7 +312,7 @@ extension GPXImportViewController: UITableViewDelegate, UITableViewDataSource {
             return cell
         case Sections.routes:
             let cell = tableView.dequeueReusableCell(withIdentifier: CellId.GPXImportRouteTableViewCellId, for: indexPath) as! GPXImportRouteTableViewCell
-            cell.initWith(route:allParsedGPXRoutes[indexPath.row], isRouteNew: isNewRoute(route:allParsedGPXRoutes[indexPath.row]))
+            cell.initWith(route:filteredGPXRoutes[indexPath.row], isRouteNew: isNewRoute(route:filteredGPXRoutes[indexPath.row]))
             
             cell.tag = indexPath.row
             if routeSelectedState[indexPath.row] {

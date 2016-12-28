@@ -160,15 +160,12 @@ class GPXParser: NSObject, XMLParserDelegate {
     }
     
     func parserDidStartDocument(_ parser: XMLParser) {
-        print("\(#function) line: \(parser.lineNumber) column: \(parser.columnNumber)")
     }
     
     func parserDidEndDocument(_ parser: XMLParser) {
-        print("\(#function) creator: \(creator) has created : \(importedPOICounter)")
     }
     
     func parser(_ parser: XMLParser, foundCDATA CDATABlock: Data) {
-        print("\(#function) foundCDATA")
     }
     
     fileprivate(set) var GPXPois = [GPXPoi]()
@@ -190,14 +187,9 @@ class GPXParser: NSObject, XMLParserDelegate {
     fileprivate var wayPointName = ""
     fileprivate var routeAttributes:[String : String]? = nil
 
-    struct RouteWayPointAtttributes {
-         var poiName = ""
-         var routeWptAttributes:[String : String]? = nil
-         var wayPointAttributes:[String : String]? = nil
-    }
 
-    fileprivate var currentRouteWayPointAttribute:RouteWayPointAtttributes? = nil
-    fileprivate var routeWayPoints:[RouteWayPointAtttributes]? = nil
+    fileprivate var currentRouteWayPointAttribute:GPXRouteWayPointAtttributes? = nil
+    fileprivate var routeWayPoints:[GPXRouteWayPointAtttributes]? = nil
 
 
     fileprivate enum ParsingElement {
@@ -253,7 +245,7 @@ class GPXParser: NSObject, XMLParserDelegate {
                 switch elementName {
                 case XSD.GPX.Elements.RTE.Elements.rtept.Elements.WPT.name:
                     isParsing = .RTE_WPT
-                    currentRouteWayPointAttribute = RouteWayPointAtttributes()
+                    currentRouteWayPointAttribute = GPXRouteWayPointAtttributes()
                     currentRouteWayPointAttribute!.routeWptAttributes = attributeDict
                 case XSD.GPX.Elements.RTE.Elements.rtept.Elements.WPT.Elements.name.name:
                     isParsing = .RTE_WPT_Name
@@ -272,7 +264,7 @@ class GPXParser: NSObject, XMLParserDelegate {
                 switch elementName {
                 case XSD.GPX.Elements.RTE.name:
                     isParsing = .RTE
-                    routeWayPoints = [RouteWayPointAtttributes]()
+                    routeWayPoints = [GPXRouteWayPointAtttributes]()
                 case XSD.GPX.Elements.RTE.Elements.name.name:
                     isParsing = .RTE_NAME
                 case XSD.GPX.Elements.RTE.Elements.customExtension.Elements.route.name:
@@ -318,7 +310,16 @@ class GPXParser: NSObject, XMLParserDelegate {
             poiSym = ""
  
         } else if elementHierarchy.hasPrefix(GPXParser.ROUTE_PREFIX) {
-            if elementName == XSD.GPX.Elements.RTE.name {
+            if elementHierarchy.hasPrefix(GPXParser.ROUTE_WPT_PREFIX) {
+                if elementName == XSD.GPX.Elements.RTE.Elements.rtept.Elements.WPT.Elements.name.name {
+                    if currentRouteWayPointAttribute != nil {
+                        currentRouteWayPointAttribute?.poiName = wayPointName.trimmingCharacters(in: CharacterSet(charactersIn: "\n "))
+                        wayPointName = ""
+                    } else {
+                        print("\(#function) cannot find wayPoint to initialize its name!")
+                    }
+                }
+            } else if elementName == XSD.GPX.Elements.RTE.name {
                 let newGPXRoute = GPXRoute()
                 newGPXRoute.routeAttributes = routeAttributes
                 newGPXRoute.routeWayPoints = routeWayPoints
@@ -331,14 +332,8 @@ class GPXParser: NSObject, XMLParserDelegate {
                 routeAttributes = nil
                 routeWayPoints = nil
                 routeName = ""
-            } else if elementName == XSD.GPX.Elements.RTE.Elements.rtept.Elements.WPT.Elements.name.name {
-                if currentRouteWayPointAttribute != nil {
-                    currentRouteWayPointAttribute?.poiName = wayPointName.trimmingCharacters(in: CharacterSet(charactersIn: "\n "))
-                    wayPointName = ""
-                } else {
-                    print("\(#function) cannot find wayPoint to initialize its name!")
-                }
             }
+            
         }
         
         if let range = elementHierarchy.range(of: ".", options: .backwards) {

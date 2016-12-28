@@ -11,8 +11,13 @@ import MapKit
 
 class GPXRoute {
 
+    fileprivate static let totalDistanceAttr = GPXParser.XSD.GPX.Elements.RTE.Elements.customExtension.Elements.route.Attributes.latestTotalDistance
+    fileprivate static let totalDurationAttr = GPXParser.XSD.GPX.Elements.RTE.Elements.customExtension.Elements.route.Attributes.latestTotalDuration
+    fileprivate static let routeInternalUrlAttr = GPXParser.XSD.GPX.Elements.RTE.Elements.customExtension.Elements.route.Attributes.internalUrlAttr
+
+    
     var routeAttributes:[String : String]? = nil
-    var routeWayPoints:[GPXParser.RouteWayPointAtttributes]? = nil
+    var routeWayPoints:[GPXRouteWayPointAtttributes]? = nil
     var routeName = ""
     
     var totalDuration:Double? {
@@ -100,9 +105,6 @@ class GPXRoute {
         }
     }
 
-    fileprivate static let totalDistanceAttr = GPXParser.XSD.GPX.Elements.RTE.Elements.customExtension.Elements.route.Attributes.latestTotalDistance
-    fileprivate static let totalDurationAttr = GPXParser.XSD.GPX.Elements.RTE.Elements.customExtension.Elements.route.Attributes.latestTotalDuration
-    fileprivate static let routeInternalUrlAttr = GPXParser.XSD.GPX.Elements.RTE.Elements.customExtension.Elements.route.Attributes.internalUrlAttr
 
     func importIt(options:GPXImportOptions, importedPOIs:[PointOfInterest]) {
         guard let _ = routeAttributes else {
@@ -124,7 +126,7 @@ class GPXRoute {
     /// - Returns: the new created route
     fileprivate func importAsNew(importedPOIs:[PointOfInterest]) -> Route {
         let route = POIDataManager.sharedInstance.addRoute(routeName, routePath: [PointOfInterest]())
-        appendRouteWayPoints(route:route, importedPOIs: importedPOIs)
+        setWayPointsFor(route:route, importedPOIs: importedPOIs)
         POIDataManager.sharedInstance.commitDatabase()
         return route
     }
@@ -133,20 +135,42 @@ class GPXRoute {
     ///  - existing wayPoints are replaced with the wayPoints from GPXRoute (it's not a merge)
     ///  - RouteName is updated
     ///  - LatestTotalDuration and LatestTotalDistance are updated
-    fileprivate func importAsUpdate(importedPOIs:[PointOfInterest])  {
+    fileprivate func importAsUpdate(importedPOIs:[PointOfInterest]) -> Route?  {
         if let theRoute = relatedRoute {
             theRoute.routeName = routeName
-            appendRouteWayPoints(route:theRoute, importedPOIs: importedPOIs)
+            
+            // Delete the old wayPoints of the route before to set the new ones
+            for currentWayPoint in theRoute.wayPoints {
+                POIDataManager.sharedInstance.deleteWayPoint(currentWayPoint)
+            }
+            
+            // Commit to make sure the old data are not yet available when the new WayPoints will
+            // be imported
             POIDataManager.sharedInstance.commitDatabase()
+            
+            setWayPointsFor(route:theRoute, importedPOIs: importedPOIs)
+            POIDataManager.sharedInstance.commitDatabase()
+            return theRoute
         } else {
             print("\(#function) WARNING: route is nil, it should never appear!")
+            return nil
         }
     }
 
-    fileprivate func appendRouteWayPoints(route:Route, importedPOIs:[PointOfInterest]) {
+    
+    /// Configure the route with the list of WayPoints found in the GPX file.
+    /// If the route was already configured, all its old wayPoints will be removed and then replaced by the new ones
+    /// We look first in the imported POIs to create the wayPoints because maybe the user has imported POIs using "asNew"
+    /// and then we want to make sure we will attach the wayPoints to the newly created POIs and not POIs that were already in 
+    /// the database before the import of the GPX file
+    ///
+    /// - Parameters:
+    ///   - route: the route that must be reconfigured
+    ///   - importedPOIs: POIs from GPX file that have been imported
+    fileprivate func setWayPointsFor(route:Route, importedPOIs:[PointOfInterest]) {
         if let theRouteWayPoints = routeWayPoints {
             for currentWayPoint in theRouteWayPoints {
-                let (poi, transportType) = GPXRoute.searchPoi(wayPoint: currentWayPoint, inPois:importedPOIs)
+                let (poi, transportType) = GPXRoute.searchPoi(wayPoint: currentWayPoint, importedPois:importedPOIs)
                 if let foundPoi = poi {
                     POIDataManager.sharedInstance.appendWayPoint(route: route, poi: foundPoi, transportType: transportType)
                 }
@@ -161,60 +185,32 @@ class GPXRoute {
         }
     }
 
-
-
-    fileprivate static let wayPointPoiInternalUrlAttr = GPXParser.XSD.GPX.Elements.RTE.Elements.rtept.Elements.WPT.Elements.customExtension.Elements.wayPoint.Attributes.poiInternalUrl
-    fileprivate static let wayPointInternalUrlAttr = GPXParser.XSD.GPX.Elements.RTE.Elements.rtept.Elements.WPT.Elements.customExtension.Elements.wayPoint.Attributes.internalUrl
-    fileprivate static let wayPointTransportTypeAttr = GPXParser.XSD.GPX.Elements.RTE.Elements.rtept.Elements.WPT.Elements.customExtension.Elements.wayPoint.Attributes.transportType
-
-    fileprivate static let wptLatitudeAttr = GPXParser.XSD.GPX.Elements.RTE.Elements.rtept.Elements.WPT.Attributes.latitude
-    fileprivate static let wptLongitudeAttr = GPXParser.XSD.GPX.Elements.RTE.Elements.rtept.Elements.WPT.Attributes.longitude
-
-
-
     /// Search the POI and directionType of a RouteWayPointAttributes. First we look in the imported POIs and only if it cannot be found we look directly
     /// in the database
     ///
-    /// - Parameter wayPoint: Contains the information to find the related POI and to get its direction type
-    /// - Returns: the POI if it exists in the database otherwise nil is returned
-    fileprivate static func searchPoi(wayPoint:GPXParser.RouteWayPointAtttributes, inPois:[PointOfInterest]) -> (poi:PointOfInterest?, transportType:MKDirectionsTransportType) {
-        if let wptAttr = wayPoint.routeWptAttributes,
-            let latitudeString = wptAttr[GPXRoute.wptLatitudeAttr],
-            let longitudeString = wptAttr[GPXRoute.wptLongitudeAttr],
-            let latitude = Double(latitudeString),
-            let longitude = Double(longitudeString) {
-            
-            let wptCoordinate = CLLocationCoordinate2DMake(latitude, longitude)
-            // Look for the POI using internalURL or poiName AND coordinates
-            for currentPoi in inPois {
-                if currentPoi.coordinate.latitude == wptCoordinate.latitude &&
-                    currentPoi.coordinate.longitude == wptCoordinate.longitude &&
+    /// - Parameter wayPoint: Contains the information to find the POI and to get its transport type
+    /// - Parameter importedPois: Contains the POIs that have been imported
+    /// - Returns: the POI if it exists in the database otherwise nil is returned. It returns also the transport type of the RouteWayPointAttribute
+    fileprivate static func searchPoi(wayPoint:GPXRouteWayPointAtttributes, importedPois:[PointOfInterest]) -> (poi:PointOfInterest?, transportType:MKDirectionsTransportType) {
+        if let coordinate = wayPoint.coordinate {
+            // Look for the POI in the imported POIs
+            for currentPoi in importedPois {
+                if currentPoi.coordinate.latitude == coordinate.latitude &&
+                    currentPoi.coordinate.longitude == coordinate.longitude &&
                     wayPoint.poiName == currentPoi.poiDisplayName! {
-                    return (currentPoi, getTransportType(wayPoint: wayPoint))
+                    return (currentPoi, wayPoint.transportType)
                 }
             }
             
-            if let wayPointAttr = wayPoint.wayPointAttributes,
-                let poiInternalUrl = wayPointAttr[GPXRoute.wayPointPoiInternalUrlAttr],
-                let poiUrl =  URL(string: poiInternalUrl) {
-                return (POIDataManager.sharedInstance.findPOI(url: poiUrl, poiName: wayPoint.poiName, coordinates:  wptCoordinate), getTransportType(wayPoint: wayPoint))
+            // Look for the POI using internalURL or poiName AND coordinates
+            if let poiUrl = wayPoint.poiInternalURL {
+                return (POIDataManager.sharedInstance.findPOI(url: poiUrl,
+                                                              poiName: wayPoint.poiName,
+                                                              coordinates: coordinate),
+                        wayPoint.transportType)
             }
         }
         return (nil, MKDirectionsTransportType.automobile)
-    }
-    
-    /// Get the transport type of a RouteWayPointAttribute
-    ///
-    /// - Parameter wayPoint: RouteWayPointAttribute from which to extract the transportType
-    /// - Returns: the value of the TransportType. When it cannot be found it return Automobile as default value
-    fileprivate static func getTransportType(wayPoint:GPXParser.RouteWayPointAtttributes) -> MKDirectionsTransportType {
-        if let wayPointAttr = wayPoint.wayPointAttributes,
-            let transportTypeString = wayPointAttr[GPXRoute.wayPointTransportTypeAttr],
-            let transportTypeInt = UInt(transportTypeString) {
-            return MKDirectionsTransportType(rawValue: transportTypeInt)
-        } else {
-            return MKDirectionsTransportType.automobile
-        }
     }
 }
 

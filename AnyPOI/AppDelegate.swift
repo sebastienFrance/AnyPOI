@@ -61,7 +61,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UserAuthenticationDelegat
 //        Configuration.setSandboxEnabled(true)
 //        // If true, Native login will try and fallback to using Authorization Code Grant login (for privileged scopes). Otherwise will redirect to App store
 //        Configuration.setFallbackEnabled(false)
-        
+         
         return true
     }
     
@@ -256,6 +256,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UserAuthenticationDelegat
                 print("\(#function) import \(importGPXFile.absoluteString)")
                 navigateToMapViewControllerFromAnywhere(UIApplication.shared)
                 importURL = nil
+                mapController.disableRouteMode()
                 mapController.importFile(gpx:importGPXFile)
             } else {
                 print("\(#function) unknown action")
