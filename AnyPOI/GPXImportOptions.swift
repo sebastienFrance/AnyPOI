@@ -9,16 +9,18 @@
 import UIKit
 
 
+/// Contains the options used to perform import of POIs and Route
+/// It provides also a textual description (I18N) of the configured import options
 struct GPXImportOptions {
     struct POI {
-        var importAsNew = false
+        var importAsNew = false // When set to true, all POIs will be imported as new otherwise it's a merge
         var importNew = true
         var importUpdate = true
         var textFilter = ""
     }
     
     struct Route {
-        var importAsNew = false
+        var importAsNew = false // When set to true, all routes will be imported as new otherwise it's a merge
         var importNew = true
         var importUpdate = true
     }
@@ -42,13 +44,16 @@ struct GPXImportOptions {
                     if poiOptions.importUpdate {
                         descriptionString.append(NSAttributedString(string: NSLocalizedString("ImportMsgOnlyUpdate", comment: "")))
                     } else {
-                        descriptionString.append(NSAttributedString(string: NSLocalizedString("ImportMsgNoImport", comment: ""), attributes: [NSForegroundColorAttributeName : UIColor.red]))
+                        descriptionString.append(NSAttributedString(string: NSLocalizedString("ImportMsgNoImport", comment: ""),
+                                                                    attributes: [NSForegroundColorAttributeName : UIColor.red]))
                     }
                 }
             }
             
             if !poiOptions.textFilter.isEmpty {
-                descriptionString.append(NSAttributedString(string: NSLocalizedString("ImportMsgFilter", comment: "") + " \(poiOptions.textFilter)", attributes: [NSForegroundColorAttributeName : UIColor.blue]))
+                descriptionString.append(NSAttributedString(string: NSLocalizedString("ImportMsgFilter", comment: "")))
+                descriptionString.append(NSAttributedString(string: " \"\(poiOptions.textFilter)\"",
+                    attributes: [NSForegroundColorAttributeName : UIColor.purple]))
             }
             
             return descriptionString
@@ -71,7 +76,8 @@ struct GPXImportOptions {
                     if routeOptions.importUpdate {
                         descriptionString.append(NSAttributedString(string: NSLocalizedString("ImportMsgRoutesOnlyUpdate", comment: "")))
                     } else {
-                        descriptionString.append(NSAttributedString(string: NSLocalizedString("ImportMsgRoutesNoImport", comment: ""), attributes: [NSForegroundColorAttributeName : UIColor.red]))
+                        descriptionString.append(NSAttributedString(string: NSLocalizedString("ImportMsgRoutesNoImport", comment: ""),
+                                                                    attributes: [NSForegroundColorAttributeName : UIColor.red]))
                     }
                 }
             }

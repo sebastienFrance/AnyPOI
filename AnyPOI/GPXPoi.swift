@@ -136,7 +136,7 @@ class GPXPoi {
     }
     
     
-    func importGPXPoi(options:GPXImportOptions) -> PointOfInterest? {
+    func importIt(options:GPXImportOptions) -> PointOfInterest? {
         return isPoiFromAnyPoi ? restorePoi(options:options) : importPoi(options:options)
     }
     

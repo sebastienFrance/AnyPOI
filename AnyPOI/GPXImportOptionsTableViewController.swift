@@ -90,6 +90,7 @@ class GPXImportOptionsTableViewController: UITableViewController {
             poiMergeImportUpdateSwitch.isOn = importOptions.poiOptions.importUpdate
         }
         poiTextualDescription.attributedText = importOptions.poiTextualDescription
+        poiTextFilter.text = importOptions.poiOptions.textFilter
         
         // Update the importViewController with the new filter
         importViewController.update(options: importOptions)
