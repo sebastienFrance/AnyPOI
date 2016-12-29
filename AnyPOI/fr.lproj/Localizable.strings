@@ -149,6 +149,7 @@
 "ShowPOIsNotUsedMapFilterVC"="Afficher les POIs non utilisés";
 "RouteSectionMapFilterVC"="POIs sur l'itinéraire";
 "GroupsSectionMapFilterVC"="Groupes";
+"ImportLoadingGPXFile"="Chargement du fichier GPX";
 "ImportMsgAllPOIsAsNew"="Tous les points d'interêts seront importés comme nouveau";
 "ImportMsgMergeAndCreate" = "Les points d'interêts existant seront fusionnés et les nouveaux seront créés";
 "ImportMsgOnlyNewPOIs" = "Seul les nouveaux points d'interets seront importés";

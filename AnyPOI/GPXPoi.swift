@@ -23,12 +23,14 @@ class GPXPoi {
     var poiCategory:CategoryUtils.Category {
         get {
             if let poiAttr = poiAttributes, poiAttr.count > 0 {
-                if let categoryString = poiAttr[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Attributes.categoryId],
-                    let groupCategoryString = poiAttr[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Attributes.groupId],
+                if let categoryString = poiAttr[GPXParser.poiCategoryIdAttr],
+                    let groupCategoryString = poiAttr[GPXParser.poiGroupIdAttr],
                     let categoryId = Int16(categoryString),
                     let groupCategoryId = Int16(groupCategoryString){
                     
-                    if let category = CategoryUtils.findCategory(groupCategory:groupCategoryId, categoryId:categoryId, inCategories: CategoryUtils.localSearchCategories) {
+                    if let category = CategoryUtils.findCategory(groupCategory:groupCategoryId,
+                                                                 categoryId:categoryId,
+                                                                 inCategories: CategoryUtils.localSearchCategories) {
                         return category
                     }
                 }
@@ -42,8 +44,8 @@ class GPXPoi {
     var poiCoordinates:CLLocationCoordinate2D? {
         get {
             if let wptAttr = wptAttributes,
-                let latitudeString = wptAttr[GPXParser.XSD.GPX.Elements.WPT.Attributes.latitude],
-                let longitudeString = wptAttr[GPXParser.XSD.GPX.Elements.WPT.Attributes.longitude],
+                let latitudeString = wptAttr[GPXParser.wptLatitudeAttr],
+                let longitudeString = wptAttr[GPXParser.wptLongitudeAttr],
                 let latitude = Double(latitudeString), let longitude = Double(longitudeString) {
                 
                 return CLLocationCoordinate2DMake(latitude, longitude)
@@ -55,7 +57,7 @@ class GPXPoi {
     var poiIsContact: Bool {
         get {
             if let poiAttr = poiAttributes,
-                let isContactString = poiAttr[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Attributes.isContact],
+                let isContactString = poiAttr[GPXParser.poiIsContactAttr],
                 let isContact = Bool(isContactString) {
                 return isContact
             } else {
@@ -68,7 +70,7 @@ class GPXPoi {
     var poiContactId:String? {
         get {
             if let poiAttr = poiAttributes,
-                let contactIdString = poiAttr[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Attributes.contactId] {
+                let contactIdString = poiAttr[GPXParser.poiContactIdAttr] {
                 if ContactsUtilities.isContactExist(contactIdentifier: contactIdString) {
                     return contactIdString
                 }
@@ -81,7 +83,7 @@ class GPXPoi {
     var poiAddress:String? {
         get {
             if let poiAttr = poiAttributes {
-                return poiAttr[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Attributes.address]
+                return poiAttr[GPXParser.poiAddressAttr]
             } else {
                 return nil
             }
@@ -106,7 +108,7 @@ class GPXPoi {
     
     fileprivate var poiURL:URL? {
         get {
-            if let poiAttr = poiAttributes, let urlString = poiAttr[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Attributes.internalUrl] {
+            if let poiAttr = poiAttributes, let urlString = poiAttr[GPXParser.poiInternalUrlAttr] {
                 return URL(string: urlString)
             } else {
                 return nil
@@ -114,9 +116,11 @@ class GPXPoi {
         }
     }
     
+
+    
     fileprivate var groupURL:URL? {
         get {
-            if let groupAttr = groupAttributes, let urlString = groupAttr[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.group.Attributes.internalUrlAttr] {
+            if let groupAttr = groupAttributes, let urlString = groupAttr[GPXParser.groupInternalUrlAttr] {
                 return URL(string: urlString)
             } else {
                 return nil
@@ -182,20 +186,21 @@ class GPXPoi {
             restorePoi.poiDisplayName = poiName
             restorePoi.poiDescription = poiDescription
             
+            
             // Set POI optional parameters with imported values
-            if let city = poiAttr[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Attributes.city] {
+            if let city = poiAttr[GPXParser.poiCityAttr] {
                 restorePoi.poiCity = city
             }
             
-            if let ISOCountryCode = poiAttr[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Attributes.ISOCountryCode] {
+            if let ISOCountryCode = poiAttr[GPXParser.poiISOCountryCodeAttr] {
                 restorePoi.poiISOCountryCode = ISOCountryCode
             }
             
-            if let phoneNumber = poiAttr[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Attributes.phoneNumber] {
+            if let phoneNumber = poiAttr[GPXParser.poiPhoneNumberAttr] {
                 restorePoi.poiPhoneNumber = phoneNumber
             }
             
-            if let wikipediaIdString = poiAttr[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Attributes.wikipediaId],
+            if let wikipediaIdString = poiAttr[GPXParser.poiWikipediaIdAttr],
                 let wikipediaId = Int64(wikipediaIdString) {
                 restorePoi.poiWikipediaPageId = wikipediaId
             }
@@ -221,18 +226,18 @@ class GPXPoi {
             
             // Get parameters from imported values (notifyEnter, notifyExit and radius) and update the POI
             var notifyEnter = false
-            if let notifyEnterString = regionMonitoringAttr[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.regionMonitoring.Attributes.notifyEnter],
+            if let notifyEnterString = regionMonitoringAttr[GPXParser.regionMonitoringNotifyEnterAttr],
                 let notifyEnterBool = Bool(notifyEnterString) {
                 notifyEnter = notifyEnterBool
             }
             
             var notifyExit = false
-            if let notifyExitString = regionMonitoringAttr[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.regionMonitoring.Attributes.notifyExit],
+            if let notifyExitString = regionMonitoringAttr[GPXParser.regionMonitoringNotifyExitAttr],
                 let notifyExitBool = Bool(notifyExitString) {
                 notifyExit = notifyExitBool
             }
             
-            if let radiusString = regionMonitoringAttr[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.regionMonitoring.Attributes.regionRadius],
+            if let radiusString = regionMonitoringAttr[GPXParser.regionMonitoringRadiusAttr],
                 let radius = Double(radiusString) {
                 poi.poiRegionRadius = radius
             }
@@ -255,6 +260,7 @@ class GPXPoi {
     }
     
     
+    
     /// Get a group for the GPXPoi
     ///  1) Look if the Group already exists, if it exists it's updated with the imported values
     ///  2) If the Group doesn't exist then it's created with the imported values
@@ -263,12 +269,12 @@ class GPXPoi {
     /// - Returns: the Group in which the POI should be added
     fileprivate func getGroup() -> GroupOfInterest {
         if let attributes = groupAttributes, attributes.count > 0 {
-            if let groupIdString = attributes[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.group.Attributes.groupId],
+            if let groupIdString = attributes[GPXParser.groupGroupIdAttr],
                 let url = poiURL,
                 let groupId = Int64(groupIdString),
-                let groupName = attributes[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.group.Attributes.name],
-                let groupDescription = attributes[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.group.Attributes.groupDescription],
-                let isDisplayedString = attributes[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.group.Attributes.isDisplayed],
+                let groupName = attributes[GPXParser.groupNameAttr],
+                let groupDescription = attributes[GPXParser.groupDescriptionAttr],
+                let isDisplayedString = attributes[GPXParser.groupIsDisplayedAttr],
                 let isDisplayed = Bool(isDisplayedString) {
                 
              
@@ -291,7 +297,7 @@ class GPXPoi {
                     }
                     
                     
-                    if let groupColorString = attributes[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.group.Attributes.groupColor],
+                    if let groupColorString = attributes[GPXParser.groupColorAttr],
                         let newColor = ColorsUtils.getColor(rgba: groupColorString){
                         // Compare color description because doesn't really work when comparing 2 UIColors (if not default colors)
                         if newColor.description != group.color.description {
@@ -308,7 +314,7 @@ class GPXPoi {
                 } else  {
                     // The group doesn't exist, we create a new one with the imported values
                     var groupColor = ColorsUtils.importedGroupColor
-                    if let groupColorString = attributes[GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.group.Attributes.groupColor],
+                    if let groupColorString = attributes[GPXParser.groupColorAttr],
                         let newColor = ColorsUtils.getColor(rgba: groupColorString){
                         groupColor = newColor
                     }

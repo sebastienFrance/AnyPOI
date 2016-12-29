@@ -521,15 +521,10 @@ extension Route {
     }
     
     
-    private static let internalUrlAttr = GPXParser.XSD.GPX.Elements.RTE.Elements.customExtension.Elements.route.Attributes.internalUrlAttr
-    private static let latestTotalDistanceAttr = GPXParser.XSD.GPX.Elements.RTE.Elements.customExtension.Elements.route.Attributes.latestTotalDistance
-    private static let latestTotalDurationAttr = GPXParser.XSD.GPX.Elements.RTE.Elements.customExtension.Elements.route.Attributes.latestTotalDuration
-
-    
     fileprivate func addRouteExtensionToGPX() -> XMLElement {
-        let attributes = [Route.internalUrlAttr : objectID.uriRepresentation().absoluteString,
-                          Route.latestTotalDistanceAttr : "\(latestTotalDistance)",
-                          Route.latestTotalDurationAttr : "\(latestTotalDuration)"]
+        let attributes = [GPXParser.routeInternalUrlAttr : objectID.uriRepresentation().absoluteString,
+                          GPXParser.routeTotalDistanceAttr : "\(latestTotalDistance)",
+                          GPXParser.routeTotalDurationAttr : "\(latestTotalDuration)"]
         let element = XMLElement(elementName: GPXParser.XSD.GPX.Elements.RTE.Elements.customExtension.Elements.route.name, attributes: attributes)
         return element
     }

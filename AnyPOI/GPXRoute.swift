@@ -10,11 +10,6 @@ import Foundation
 import MapKit
 
 class GPXRoute {
-
-    fileprivate static let totalDistanceAttr = GPXParser.XSD.GPX.Elements.RTE.Elements.customExtension.Elements.route.Attributes.latestTotalDistance
-    fileprivate static let totalDurationAttr = GPXParser.XSD.GPX.Elements.RTE.Elements.customExtension.Elements.route.Attributes.latestTotalDuration
-    fileprivate static let routeInternalUrlAttr = GPXParser.XSD.GPX.Elements.RTE.Elements.customExtension.Elements.route.Attributes.internalUrlAttr
-
     
     var routeAttributes:[String : String]? = nil
     var routeWayPoints:[GPXRouteWayPointAtttributes]? = nil
@@ -23,7 +18,7 @@ class GPXRoute {
     var totalDuration:Double? {
         get {
             if let theRouteAttributes = routeAttributes,
-                let totalDurationString = theRouteAttributes[GPXRoute.totalDurationAttr],
+                let totalDurationString = theRouteAttributes[GPXParser.routeTotalDurationAttr],
                 let totalDuration = Double(totalDurationString){
                 return totalDuration
             } else {
@@ -35,7 +30,7 @@ class GPXRoute {
     var totalDistance:Double? {
         get {
             if let theRouteAttributes = routeAttributes,
-                let totalDistanceString = theRouteAttributes[GPXRoute.totalDistanceAttr],
+                let totalDistanceString = theRouteAttributes[GPXParser.routeTotalDistanceAttr],
                 let totalDistance = Double(totalDistanceString){
                 return totalDistance
             } else {
@@ -97,7 +92,7 @@ class GPXRoute {
     fileprivate var routeURL:URL? {
         get {
             if let routeAttr = routeAttributes,
-                let urlString = routeAttr[GPXRoute.routeInternalUrlAttr] {
+                let urlString = routeAttr[GPXParser.routeInternalUrlAttr] {
                 return URL(string: urlString)
             } else {
                 return nil

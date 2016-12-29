@@ -14,16 +14,10 @@ struct GPXRouteWayPointAtttributes {
     var routeWptAttributes:[String : String]? = nil
     var wayPointAttributes:[String : String]? = nil
     
-    fileprivate static let wayPointTransportTypeAttr = GPXParser.XSD.GPX.Elements.RTE.Elements.rtept.Elements.WPT.Elements.customExtension.Elements.wayPoint.Attributes.transportType
-    fileprivate static let wptLatitudeAttr = GPXParser.XSD.GPX.Elements.RTE.Elements.rtept.Elements.WPT.Attributes.latitude
-    fileprivate static let wptLongitudeAttr = GPXParser.XSD.GPX.Elements.RTE.Elements.rtept.Elements.WPT.Attributes.longitude
-    
-    fileprivate static let wayPointPoiInternalUrlAttr = GPXParser.XSD.GPX.Elements.RTE.Elements.rtept.Elements.WPT.Elements.customExtension.Elements.wayPoint.Attributes.poiInternalUrl
-    
     var transportType: MKDirectionsTransportType {
         get {
             if let wayPointAttr = wayPointAttributes,
-                let transportTypeString = wayPointAttr[GPXRouteWayPointAtttributes.wayPointTransportTypeAttr],
+                let transportTypeString = wayPointAttr[GPXParser.wayPointTransportTypeAttr],
                 let transportTypeInt = UInt(transportTypeString) {
                 return MKDirectionsTransportType(rawValue: transportTypeInt)
             } else {
@@ -35,8 +29,8 @@ struct GPXRouteWayPointAtttributes {
     var coordinate: CLLocationCoordinate2D? {
         get {
             if let wptAttr = routeWptAttributes,
-                let latitudeString = wptAttr[GPXRouteWayPointAtttributes.wptLatitudeAttr],
-                let longitudeString = wptAttr[GPXRouteWayPointAtttributes.wptLongitudeAttr],
+                let latitudeString = wptAttr[GPXParser.wptLatitudeAttr],
+                let longitudeString = wptAttr[GPXParser.wptLongitudeAttr],
                 let latitude = Double(latitudeString),
                 let longitude = Double(longitudeString){
                 return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
@@ -48,7 +42,7 @@ struct GPXRouteWayPointAtttributes {
     
     var poiInternalURL: URL? {
         if let wayPointAttr = wayPointAttributes,
-            let poiInternalUrl = wayPointAttr[GPXRouteWayPointAtttributes.wayPointPoiInternalUrlAttr] {
+            let poiInternalUrl = wayPointAttr[GPXParser.wayPointPoiInternalUrlAttr] {
             return URL(string: poiInternalUrl)
         } else {
             return nil

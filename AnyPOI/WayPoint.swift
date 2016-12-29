@@ -115,13 +115,9 @@ class WayPoint: NSManagedObject {
 
 extension WayPoint {
     
-    fileprivate static let wptLatitudeAttr = GPXParser.XSD.GPX.Elements.RTE.Elements.rtept.Elements.WPT.Attributes.latitude
-    fileprivate static let wptLongitudeAttr = GPXParser.XSD.GPX.Elements.RTE.Elements.rtept.Elements.WPT.Attributes.longitude
-    
-    
     func toGPXElement() -> XMLElement {
-        let wptAttributes = [WayPoint.wptLatitudeAttr : "\(wayPointPoi!.coordinate.latitude)",
-            WayPoint.wptLongitudeAttr : "\(wayPointPoi!.coordinate.longitude)"]
+        let wptAttributes = [GPXParser.wptLatitudeAttr : "\(wayPointPoi!.coordinate.latitude)",
+            GPXParser.wptLongitudeAttr : "\(wayPointPoi!.coordinate.longitude)"]
         var wptElement = XMLElement(elementName: GPXParser.XSD.GPX.Elements.RTE.Elements.rtept.Elements.WPT.name, attributes: wptAttributes)
         
         let wptNameElement = XMLElement(elementName: GPXParser.XSD.GPX.Elements.RTE.Elements.rtept.Elements.WPT.Elements.name.name, withValue: wayPointPoi!.poiDisplayName!)
@@ -134,15 +130,10 @@ extension WayPoint {
         return wptElement
     }
 
-    fileprivate static let internalUrlAttr = GPXParser.XSD.GPX.Elements.RTE.Elements.rtept.Elements.WPT.Elements.customExtension.Elements.wayPoint.Attributes.internalUrl
-    fileprivate static let poiInternalUrlAttr = GPXParser.XSD.GPX.Elements.RTE.Elements.rtept.Elements.WPT.Elements.customExtension.Elements.wayPoint.Attributes.poiInternalUrl
-    fileprivate static let transportTypeAttr = GPXParser.XSD.GPX.Elements.RTE.Elements.rtept.Elements.WPT.Elements.customExtension.Elements.wayPoint.Attributes.transportType
-    
-    
     fileprivate func addWayPointToGPX(poiPointInternalURL:String) -> XMLElement {
-        let attributes = [ WayPoint.internalUrlAttr : objectID.uriRepresentation().absoluteString,
-                           WayPoint.poiInternalUrlAttr : poiPointInternalURL,
-                           WayPoint.transportTypeAttr : "\(wayPointTransportType)"]
+        let attributes = [ GPXParser.wayPointInternalUrlAttr : objectID.uriRepresentation().absoluteString,
+                           GPXParser.wayPointPoiInternalUrlAttr : poiPointInternalURL,
+                           GPXParser.wayPointTransportTypeAttr : "\(wayPointTransportType)"]
         
         return XMLElement(elementName: GPXParser.XSD.GPX.Elements.RTE.Elements.rtept.Elements.WPT.Elements.customExtension.Elements.wayPoint.name, attributes: attributes)
     }
