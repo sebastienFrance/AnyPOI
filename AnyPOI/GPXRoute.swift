@@ -18,7 +18,7 @@ class GPXRoute {
     var totalDuration:Double? {
         get {
             if let theRouteAttributes = routeAttributes,
-                let totalDurationString = theRouteAttributes[GPXParser.routeTotalDurationAttr],
+                let totalDurationString = theRouteAttributes[XSD.routeTotalDurationAttr],
                 let totalDuration = Double(totalDurationString){
                 return totalDuration
             } else {
@@ -30,7 +30,7 @@ class GPXRoute {
     var totalDistance:Double? {
         get {
             if let theRouteAttributes = routeAttributes,
-                let totalDistanceString = theRouteAttributes[GPXParser.routeTotalDistanceAttr],
+                let totalDistanceString = theRouteAttributes[XSD.routeTotalDistanceAttr],
                 let totalDistance = Double(totalDistanceString){
                 return totalDistance
             } else {
@@ -92,7 +92,7 @@ class GPXRoute {
     fileprivate var routeURL:URL? {
         get {
             if let routeAttr = routeAttributes,
-                let urlString = routeAttr[GPXParser.routeInternalUrlAttr] {
+                let urlString = routeAttr[XSD.routeInternalUrlAttr] {
                 return URL(string: urlString)
             } else {
                 return nil

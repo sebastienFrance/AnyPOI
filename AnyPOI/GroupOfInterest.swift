@@ -132,19 +132,19 @@ class GroupOfInterest: NSManagedObject {
 extension GroupOfInterest {
     
     func toGPXElement() -> XMLElement {
-        var attributes = [GPXParser.groupNameAttr : "\(groupDisplayName!)",
-            GPXParser.groupInternalUrlAttr : "\(objectID.uriRepresentation().absoluteString)",
-            GPXParser.groupGroupIdAttr : "\(groupId)",
-            GPXParser.groupIsDisplayedAttr : "\(isGroupDisplayed)"]
+        var attributes = [XSD.groupNameAttr : "\(groupDisplayName!)",
+            XSD.groupInternalUrlAttr : "\(objectID.uriRepresentation().absoluteString)",
+            XSD.groupGroupIdAttr : "\(groupId)",
+            XSD.groupIsDisplayedAttr : "\(isGroupDisplayed)"]
         
         if let descriptionGroup = groupDescription {
-            attributes[GPXParser.groupDescriptionAttr] = descriptionGroup
+            attributes[XSD.groupDescriptionAttr] = descriptionGroup
         }
         
         if let colorString = ColorsUtils.getColor(color:color) {
-            attributes[GPXParser.groupColorAttr] = colorString
+            attributes[XSD.groupColorAttr] = colorString
         }
-        return XMLElement(elementName: GPXParser.XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.group.name, attributes: attributes)
+        return XMLElement(elementName: XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.group.name, attributes: attributes)
     }
 
 }

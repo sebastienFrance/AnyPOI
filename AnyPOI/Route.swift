@@ -503,17 +503,17 @@ class Route: NSManagedObject {
 
 extension Route {
     func toGPXElement() -> XMLElement {
-        var rteElement = XMLElement(elementName: GPXParser.XSD.GPX.Elements.RTE.name)
-        rteElement.addSub(element: XMLElement(elementName: GPXParser.XSD.GPX.Elements.RTE.Elements.name.name, withValue:routeName!))
+        var rteElement = XMLElement(elementName: XSD.GPX.Elements.RTE.name)
+        rteElement.addSub(element: XMLElement(elementName: XSD.GPX.Elements.RTE.Elements.name.name, withValue:routeName!))
         
-        var rtept = XMLElement(elementName: GPXParser.XSD.GPX.Elements.RTE.Elements.rtept.name)
+        var rtept = XMLElement(elementName: XSD.GPX.Elements.RTE.Elements.rtept.name)
         for currentWayPoint in wayPoints {
             rtept.addSub(element: currentWayPoint.toGPXElement())
         }
         
         rteElement.addSub(element: rtept)
         
-        var GPXExtension = XMLElement(elementName: GPXParser.XSD.GPX.Elements.RTE.Elements.customExtension.name)
+        var GPXExtension = XMLElement(elementName: XSD.GPX.Elements.RTE.Elements.customExtension.name)
         GPXExtension.addSub(element: addRouteExtensionToGPX())
         
         rteElement.addSub(element: GPXExtension)
@@ -522,10 +522,10 @@ extension Route {
     
     
     fileprivate func addRouteExtensionToGPX() -> XMLElement {
-        let attributes = [GPXParser.routeInternalUrlAttr : objectID.uriRepresentation().absoluteString,
-                          GPXParser.routeTotalDistanceAttr : "\(latestTotalDistance)",
-                          GPXParser.routeTotalDurationAttr : "\(latestTotalDuration)"]
-        let element = XMLElement(elementName: GPXParser.XSD.GPX.Elements.RTE.Elements.customExtension.Elements.route.name, attributes: attributes)
+        let attributes = [XSD.routeInternalUrlAttr : objectID.uriRepresentation().absoluteString,
+                          XSD.routeTotalDistanceAttr : "\(latestTotalDistance)",
+                          XSD.routeTotalDurationAttr : "\(latestTotalDuration)"]
+        let element = XMLElement(elementName: XSD.GPX.Elements.RTE.Elements.customExtension.Elements.route.name, attributes: attributes)
         return element
     }
 }

@@ -45,7 +45,7 @@ class ExportGPX {
                               "version" : "1.1",
                               "creator" : "AnyPOI"]
         
-        var gpxElement = XMLElement(elementName: GPXParser.XSD.GPX.name, attributes: gpxAttributes)
+        var gpxElement = XMLElement(elementName: XSD.GPX.name, attributes: gpxAttributes)
         for currentPoi in pois {
             gpxElement.addSub(element: currentPoi.toGPXElement())
         }

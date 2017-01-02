@@ -17,7 +17,7 @@ struct GPXRouteWayPointAtttributes {
     var transportType: MKDirectionsTransportType {
         get {
             if let wayPointAttr = wayPointAttributes,
-                let transportTypeString = wayPointAttr[GPXParser.wayPointTransportTypeAttr],
+                let transportTypeString = wayPointAttr[XSD.wayPointTransportTypeAttr],
                 let transportTypeInt = UInt(transportTypeString) {
                 return MKDirectionsTransportType(rawValue: transportTypeInt)
             } else {
@@ -29,8 +29,8 @@ struct GPXRouteWayPointAtttributes {
     var coordinate: CLLocationCoordinate2D? {
         get {
             if let wptAttr = routeWptAttributes,
-                let latitudeString = wptAttr[GPXParser.wptLatitudeAttr],
-                let longitudeString = wptAttr[GPXParser.wptLongitudeAttr],
+                let latitudeString = wptAttr[XSD.wptLatitudeAttr],
+                let longitudeString = wptAttr[XSD.wptLongitudeAttr],
                 let latitude = Double(latitudeString),
                 let longitude = Double(longitudeString){
                 return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
@@ -42,7 +42,7 @@ struct GPXRouteWayPointAtttributes {
     
     var poiInternalURL: URL? {
         if let wayPointAttr = wayPointAttributes,
-            let poiInternalUrl = wayPointAttr[GPXParser.wayPointPoiInternalUrlAttr] {
+            let poiInternalUrl = wayPointAttr[XSD.wayPointPoiInternalUrlAttr] {
             return URL(string: poiInternalUrl)
         } else {
             return nil

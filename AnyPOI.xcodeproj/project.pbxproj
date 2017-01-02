@@ -118,6 +118,7 @@
 		BE4BF3C01DEB57ED0043891B /* GPXActivityItemSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4BF3BF1DEB57ED0043891B /* GPXActivityItemSource.swift */; };
 		BE71ADF41DFC76F5008FB6CD /* ImportTextualDescriptionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE71ADF31DFC76F5008FB6CD /* ImportTextualDescriptionTableViewCell.swift */; };
 		BE71ADF61DFC98A4008FB6CD /* GPXImportOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE71ADF51DFC98A4008FB6CD /* GPXImportOptions.swift */; };
+		BE77AACC1E1A947F00DACC73 /* GPXXSD.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE77AACB1E1A947F00DACC73 /* GPXXSD.swift */; };
 		BE8F7C3A1DB66B9300BE30C2 /* RouteMailActivityItemSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8F7C391DB66B9300BE30C2 /* RouteMailActivityItemSource.swift */; };
 		BE8F7C3C1DB6B28E00BE30C2 /* HTMLAnyPoi.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8F7C3B1DB6B28E00BE30C2 /* HTMLAnyPoi.swift */; };
 		BE901D2B1DCE32CD00FFB3E2 /* ImageCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE901D2A1DCE32CD00FFB3E2 /* ImageCollectionViewFlowLayout.swift */; };
@@ -330,6 +331,7 @@
 		BE4BF3BF1DEB57ED0043891B /* GPXActivityItemSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPXActivityItemSource.swift; sourceTree = "<group>"; };
 		BE71ADF31DFC76F5008FB6CD /* ImportTextualDescriptionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImportTextualDescriptionTableViewCell.swift; sourceTree = "<group>"; };
 		BE71ADF51DFC98A4008FB6CD /* GPXImportOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPXImportOptions.swift; sourceTree = "<group>"; };
+		BE77AACB1E1A947F00DACC73 /* GPXXSD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPXXSD.swift; sourceTree = "<group>"; };
 		BE8F7C391DB66B9300BE30C2 /* RouteMailActivityItemSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteMailActivityItemSource.swift; sourceTree = "<group>"; };
 		BE8F7C3B1DB6B28E00BE30C2 /* HTMLAnyPoi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTMLAnyPoi.swift; sourceTree = "<group>"; };
 		BE901D2A1DCE32CD00FFB3E2 /* ImageCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
@@ -940,6 +942,7 @@
 			isa = PBXGroup;
 			children = (
 				BE4BF3BD1DEB55E00043891B /* ExportGPX.swift */,
+				BE77AACB1E1A947F00DACC73 /* GPXXSD.swift */,
 				BED407A91E0571C9009EEA97 /* XMLElement.swift */,
 				BEFDA7DA1DE9C9A200D3104D /* GPXParser.swift */,
 				BE2A80271E13C48A003B1BE5 /* GPXRouteWayPointAttributes.swift */,
@@ -1267,6 +1270,7 @@
 				BE0CF3041D8B209A00344F8A /* MapUtils.swift in Sources */,
 				BE957E611DA90147006CF455 /* WikipediaSliderTableViewCell.swift in Sources */,
 				BE0CF31B1D8B209A00344F8A /* POIGroupCell.swift in Sources */,
+				BE77AACC1E1A947F00DACC73 /* GPXXSD.swift in Sources */,
 				BE0CF30B1D8B209A00344F8A /* WikipediaLocalSearchTableViewCell.swift in Sources */,
 				BE0CF2FD1D8B209A00344F8A /* ContactsUtilities.swift in Sources */,
 				BE0CF3491D8B209A00344F8A /* PickerGroupView.swift in Sources */,
