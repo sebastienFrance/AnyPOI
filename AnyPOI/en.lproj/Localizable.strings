@@ -21,7 +21,7 @@
 "DisableTouchIdAuthentication"="Disable TouchId authentication";
 "MapSearchPlaceHolder"="Place, POI, addresse...";
 "UserGroupSectionHeader"="Your groups";
-"MonitoredSectionHeader"="Monitored";
+"OthersSectionHeader"="Others";
 "GroupNamePlaceHolderSearchBar"="Group name";
 "UnknownCity"="Unknown city";
 "UnknownCountry"="Unknown country";

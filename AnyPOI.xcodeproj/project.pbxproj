@@ -98,6 +98,7 @@
 		BE0CF3621D8B21C800344F8A /* GeoLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF35F1D8B21C800344F8A /* GeoLocation.swift */; };
 		BE107D8F1DD72898008B09A1 /* MapFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE107D8E1DD72898008B09A1 /* MapFilterViewController.swift */; };
 		BE107D911DD728C0008B09A1 /* MapFilterCategoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE107D901DD728C0008B09A1 /* MapFilterCategoryTableViewCell.swift */; };
+		BE16DF461E2C1A8B0004A491 /* GPXPoisTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE16DF451E2C1A8B0004A491 /* GPXPoisTableViewCell.swift */; };
 		BE187CF11DAA58C6007737B4 /* WikipediaLanguages.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE187CF01DAA58C6007737B4 /* WikipediaLanguages.swift */; };
 		BE187CF31DAA746D007737B4 /* LoadingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE187CF21DAA746D007737B4 /* LoadingTableViewCell.swift */; };
 		BE187CF51DAA7739007737B4 /* NoWikipediaTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE187CF41DAA7739007737B4 /* NoWikipediaTableViewCell.swift */; };
@@ -306,6 +307,7 @@
 		BE107D8E1DD72898008B09A1 /* MapFilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapFilterViewController.swift; sourceTree = "<group>"; };
 		BE107D901DD728C0008B09A1 /* MapFilterCategoryTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapFilterCategoryTableViewCell.swift; sourceTree = "<group>"; };
 		BE16A0CA19DE97FD2626AC38 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BE16DF451E2C1A8B0004A491 /* GPXPoisTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPXPoisTableViewCell.swift; sourceTree = "<group>"; };
 		BE187CF01DAA58C6007737B4 /* WikipediaLanguages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WikipediaLanguages.swift; sourceTree = "<group>"; };
 		BE187CF21DAA746D007737B4 /* LoadingTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingTableViewCell.swift; sourceTree = "<group>"; };
 		BE187CF41DAA7739007737B4 /* NoWikipediaTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoWikipediaTableViewCell.swift; sourceTree = "<group>"; };
@@ -586,6 +588,7 @@
 				BE2FF2D81D8B2DC300C0395A /* GroupConfiguratorVC */,
 				BE0CF2A61D8B209A00344F8A /* POIsGroupListViewController.swift */,
 				BE0CF2B41D8B209A00344F8A /* MonitoredPoisGroupCell.swift */,
+				BE16DF451E2C1A8B0004A491 /* GPXPoisTableViewCell.swift */,
 				BE0CF2BA1D8B209A00344F8A /* POIGroupCell.swift */,
 				BE0CF2AE1D8B209A00344F8A /* CityGroupCell.swift */,
 			);
@@ -1260,6 +1263,7 @@
 				BE0CF34E1D8B209A00344F8A /* searchRouteTableViewCell.swift in Sources */,
 				BE0CF3101D8B209A00344F8A /* DrawingUtils.swift in Sources */,
 				BE0CF3001D8B209A00344F8A /* ContainerViewController.swift in Sources */,
+				BE16DF461E2C1A8B0004A491 /* GPXPoisTableViewCell.swift in Sources */,
 				BE0CF3441D8B209A00344F8A /* UserPreferences.swift in Sources */,
 				BE0CF3191D8B209A00344F8A /* PoiEditorGroupViewCell.swift in Sources */,
 				BE187CF11DAA58C6007737B4 /* WikipediaLanguages.swift in Sources */,

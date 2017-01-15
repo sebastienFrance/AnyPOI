@@ -30,12 +30,6 @@ class POIsGroupListViewController: UIViewController, DismissModalViewController,
     
     var isStartedByLeftMenu = false
     weak var container:ContainerViewController?
-    // Fix sections, next there's one dynamic section per country
-    fileprivate struct SectionIndex {
-        static let poiGroups = 0
-        static let monitoredPois = 1
-        static let count = 2
-    }
 
     fileprivate var searchController:UISearchController!
     fileprivate var searchFilter = "" // Use to perform filtering on list of groups
@@ -188,6 +182,7 @@ class POIsGroupListViewController: UIViewController, DismissModalViewController,
         static let showPOIList = "showPOIList"
         static let updateGroupOfInterest = "updateGroupOfInterest"
         static let showMonitoredPois = "showMonitoredPois"
+        static let showPOIsWithoutAddress = "showPOIsWithoutAddress"
         static let showCityPois = "showCityPois"
         static let openGroupConfiguratorId = "openGroupConfiguratorId"
     }
@@ -202,6 +197,9 @@ class POIsGroupListViewController: UIViewController, DismissModalViewController,
         case storyboard.showMonitoredPois:
             let poiController = segue.destination as! POIsViewController
             poiController.showMonitoredPois()
+        case storyboard.showPOIsWithoutAddress:
+            let poiController = segue.destination as! POIsViewController
+            poiController.showPoisWithoutAddress()
         case storyboard.showCityPois:
             if let indexPath = theTableView.indexPathForSelectedRow {
                 let poiController = segue.destination as! POIsViewController
@@ -269,10 +267,17 @@ extension POIsGroupListViewController : UISearchResultsUpdating, UISearchControl
 }
 
 extension POIsGroupListViewController : UITableViewDataSource, UITableViewDelegate  {
+    // Fix sections, next there's one dynamic section per country
+    fileprivate struct SectionIndex {
+        static let poiGroups = 0
+        static let others = 1
+        static let fixedSectionsCount = 2
+    }
+
     //MARK: UITableViewDataSource
     func numberOfSections(in tableView: UITableView) -> Int {
-        // 2 fix sections (POI Groups + Monitored POIs) + dynamic sections per Country
-        return SectionIndex.count + countriesWithCitiesMatching(filter: searchFilter).count
+        // 3 fix sections (POI Groups + Monitored POIs + POIs without address) + dynamic sections per Country
+        return SectionIndex.fixedSectionsCount + countriesWithCitiesMatching(filter: searchFilter).count
     }
     
     fileprivate func countriesWithCitiesMatching(filter:String) -> [CountryDescription] {
@@ -282,12 +287,10 @@ extension POIsGroupListViewController : UITableViewDataSource, UITableViewDelega
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == SectionIndex.poiGroups {
             return filteredGroups.count
-        } else if section == SectionIndex.monitoredPois {
-            if searchFilter.isEmpty {
-                return POIDataManager.sharedInstance.getAllMonitoredPOI().count > 0 ? 1 : 0
-            } else {
-                return 0
-            }
+        } else if section == SectionIndex.others {
+            var numberOfRows = POIDataManager.sharedInstance.getAllMonitoredPOI().count > 0 ? 1 : 0
+            numberOfRows += POIDataManager.sharedInstance.getPoisWithoutPlacemark().count > 0 ? 1 : 0
+            return numberOfRows
         } else {
             let sectionIndex = getCountrySectionIndexFrom(section)
             let countries = countriesWithCitiesMatching(filter: searchFilter)
@@ -307,7 +310,7 @@ extension POIsGroupListViewController : UITableViewDataSource, UITableViewDelega
     
     // Index of Country is the number of section minus the number of fix sections
     fileprivate func getCountrySectionIndexFrom(_ section:Int) -> Int {
-        return section - SectionIndex.count
+        return section - SectionIndex.fixedSectionsCount
     }
     
     
@@ -320,8 +323,8 @@ extension POIsGroupListViewController : UITableViewDataSource, UITableViewDelega
         switch (section) {
         case SectionIndex.poiGroups:
             return NSLocalizedString("UserGroupSectionHeader", comment: "")
-        case SectionIndex.monitoredPois:
-            return NSLocalizedString("MonitoredSectionHeader", comment: "")
+        case SectionIndex.others:
+            return NSLocalizedString("OthersSectionHeader", comment: "")
         default:
             return getCountryNameFrom(section: section)
         }
@@ -367,6 +370,7 @@ extension POIsGroupListViewController : UITableViewDataSource, UITableViewDelega
     fileprivate struct cellIdentifier {
         static let POIGroupListCellId = "POIGroupListCellId"
         static let MonitoredPoisGroupCellId = "MonitoredPoisGroupCellId"
+        static let GPXPoisTableViewCellId = "GPXPoisTableViewCellId"
         static let CityGroupCell = "CityGroupCellId"
     }
     
@@ -380,8 +384,14 @@ extension POIsGroupListViewController : UITableViewDataSource, UITableViewDelega
             theCell.initWithGroup(filteredGroups[indexPath.row], index:indexPath.row)
             
             return theCell
-        case SectionIndex.monitoredPois:
-            let theCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier.MonitoredPoisGroupCellId, for: indexPath) as! MonitoredPoisGroupCell
+        case SectionIndex.others:
+            if indexPath.row == 0 {
+                if POIDataManager.sharedInstance.getAllMonitoredPOI().count > 0 {
+                    let theCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier.MonitoredPoisGroupCellId, for: indexPath) as! MonitoredPoisGroupCell
+                    return theCell
+                }
+            }
+            let theCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier.GPXPoisTableViewCellId, for: indexPath) as! GPXPoisTableViewCell
             return theCell
         default:
             return getCountryOrCityTableViewCell(tableView, indexPath: indexPath)
@@ -416,8 +426,12 @@ extension POIsGroupListViewController : UITableViewDataSource, UITableViewDelega
             switch indexPath.section {
             case SectionIndex.poiGroups:
                 deletePoiGroup(index:indexPath)
-            case SectionIndex.monitoredPois:
-                deleteMonitoredPois(index:indexPath)
+            case SectionIndex.others:
+                if indexPath.row == 0, POIDataManager.sharedInstance.getAllMonitoredPOI().count > 0 {
+                    deleteMonitoredPois(index:indexPath)
+                } else {
+                    deletePoisWithoutAddress(index:indexPath)
+                }
             default:
                 deleteRowFromCountriesAndCities(index:indexPath)
             }
@@ -485,7 +499,7 @@ extension POIsGroupListViewController : UITableViewDataSource, UITableViewDelega
                     }
                 }
             } else {
-                deletedSection.insert(i + SectionIndex.count)
+                deletedSection.insert(i + SectionIndex.fixedSectionsCount)
             }
         }
         return (deletedSection, rowsToDelete)
@@ -495,7 +509,16 @@ extension POIsGroupListViewController : UITableViewDataSource, UITableViewDelega
         theTableView.beginUpdates()
         POIDataManager.sharedInstance.deleteMonitoredPOIs()
         POIDataManager.sharedInstance.commitDatabase()
-        theTableView.deleteSections(IndexSet(integer:index.section), with: .fade)
+        theTableView.deleteRows(at: [index], with: .automatic)
+        //theTableView.deleteSections(IndexSet(integer:index.section), with: .fade)
+        theTableView.endUpdates()
+    }
+    
+    fileprivate func deletePoisWithoutAddress(index:IndexPath) {
+        theTableView.beginUpdates()
+        POIDataManager.sharedInstance.deletePOIsWithoutPlacemark()
+        POIDataManager.sharedInstance.commitDatabase()
+        theTableView.deleteRows(at: [index], with: .automatic)
         theTableView.endUpdates()
     }
     

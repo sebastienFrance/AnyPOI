@@ -30,7 +30,7 @@ class POIsViewController: UIViewController  {
     @IBOutlet weak var searchButton: UIBarButtonItem!
     
     enum DisplayMode {
-        case simpleGroup, monitoredPois, cityPois, countryPois
+        case simpleGroup, monitoredPois, cityPois, countryPois, poisWithoutAddress
     }
     
     fileprivate var displayMode = DisplayMode.simpleGroup
@@ -75,6 +75,11 @@ class POIsViewController: UIViewController  {
     func showMonitoredPois() {
         displayMode = .monitoredPois
         areaName = NSLocalizedString("MonitoredPOIs", comment: "")
+    }
+    
+    func showPoisWithoutAddress() {
+        displayMode = .poisWithoutAddress
+        areaName = "POIs without address"
     }
     
     func showGroup(_ group:GroupOfInterest) {
@@ -176,6 +181,8 @@ class POIsViewController: UIViewController  {
             return POIDataManager.sharedInstance.getAllPOIFromCity(displayModeFilter, searchFilter: filter)
         case .countryPois:
             return POIDataManager.sharedInstance.getAllPOIFromCountry(displayModeFilter, searchFilter: filter)
+        case .poisWithoutAddress:
+            return POIDataManager.sharedInstance.getPoisWithoutPlacemark(searchFilter: filter)
         }
     }
     

@@ -325,12 +325,21 @@ class POIDataManager {
         return POIsPerGroup
     }
     
-    func getPoisWithoutPlacemark() -> [PointOfInterest] {
+    func getPoisWithoutPlacemark(searchFilter:String = "") -> [PointOfInterest] {
         let managedContext = DatabaseAccess.sharedInstance.managedObjectContext
         let fetchRequest = NSFetchRequest<PointOfInterest>(entityName: entitiesCste.pointOfInterest)
         
-        fetchRequest.predicate = NSPredicate(format: "poiCity == nil")
-        
+        let basicPredicate = NSPredicate(format: "poiCity == nil")
+        if !searchFilter.isEmpty {
+            let searchPredicate = NSPredicate(format: "poiDisplayName CONTAINS[cd] %@", searchFilter)
+            fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates:[searchPredicate, basicPredicate])
+        } else {
+            fetchRequest.predicate = basicPredicate
+        }
+
+        let sortDescriptor = NSSortDescriptor(key: "poiDisplayName", ascending: true, selector: #selector(NSString.caseInsensitiveCompare(_:)))
+        fetchRequest.sortDescriptors = [sortDescriptor]
+
         do {
             return try managedContext.fetch(fetchRequest)
         } catch let error as NSError {
@@ -682,6 +691,13 @@ class POIDataManager {
     
     func deleteMonitoredPOIs() {
         let pois = POIDataManager.sharedInstance.getAllMonitoredPOI()
+        for currentPOI in pois {
+            deletePOI(POI: currentPOI)
+        }
+    }
+    
+    func deletePOIsWithoutPlacemark() {
+        let pois = POIDataManager.sharedInstance.getPoisWithoutPlacemark()
         for currentPOI in pois {
             deletePOI(POI: currentPOI)
         }
