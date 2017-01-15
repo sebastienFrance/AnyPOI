@@ -224,7 +224,7 @@ class POIsGroupListViewController: UIViewController, DismissModalViewController,
     fileprivate func showCountriesOrCitiesFor(indexPath:IndexPath, viewController: POIsViewController) {
         if let country = getCountryFrom(section: indexPath.section) {
             if indexPath.row == 0 && searchFilter.isEmpty {
-                viewController.showCountryPoi(country.ISOCountryCode, name:country.countryName)
+                viewController.showCountryPoi(country:country)
             } else {
                 viewController.showCityPoi(getCityNameFrom(country: country, row: indexPath.row))
             }
@@ -356,7 +356,12 @@ extension POIsGroupListViewController : UITableViewDataSource, UITableViewDelega
     
     
     fileprivate func getCountryNameFrom(section:Int) -> String {
-        return getCountryFrom(section: section)?.countryName ?? NSLocalizedString("UnknownCountry", comment: "")
+        if let country = getCountryFrom(section: section) {
+            return "\(country.countryFlag) \(country.countryName)"
+        } else {
+            return NSLocalizedString("UnknownCountry", comment: "")
+        }
+        //return getCountryFrom(section: section)?.countryName ?? NSLocalizedString("UnknownCountry", comment: "")
     }
     
     fileprivate struct cellIdentifier {

@@ -34,6 +34,7 @@ class OptionsViewController: UITableViewController, PasswordConfigurationDelegat
     @IBOutlet weak var changePasswordButton: UIButton!
     
     @IBOutlet weak var synchronizeContactsButton: UIButton!
+    @IBOutlet weak var synchronizationContactsProgressLabel: UILabel!
     @IBOutlet weak var synchronizationContactsActivity: UIActivityIndicatorView!
     var userAuthentication:UserAuthentication!
     
@@ -82,7 +83,9 @@ class OptionsViewController: UITableViewController, PasswordConfigurationDelegat
         updateCellMapMode()
         
         NotificationCenter.default.addObserver(self, selector: #selector(OptionsViewController.contactsSynchronizationDone(_:)), name:  Notification.Name(rawValue: ContactsSynchronization.Notifications.synchronizationDone), object: ContactsSynchronization.sharedInstance)
+        NotificationCenter.default.addObserver(self, selector: #selector(OptionsViewController.contactsSynchronizationUpdate(_:)), name:  Notification.Name(rawValue: ContactsSynchronization.Notifications.sycnhronizationUpdate), object: ContactsSynchronization.sharedInstance)
         
+        synchronizationContactsProgressLabel.text = ""
         if ContactsSynchronization.sharedInstance.isSynchronizing {
             synchronizeContactsButton.isEnabled = false
             synchronizationContactsActivity.startAnimating()
@@ -92,7 +95,17 @@ class OptionsViewController: UITableViewController, PasswordConfigurationDelegat
     func contactsSynchronizationDone(_ notification:Notification) {
         synchronizeContactsButton.isEnabled = true
         synchronizationContactsActivity.stopAnimating()
+        synchronizationContactsProgressLabel.text = ""
     }
+    
+    func contactsSynchronizationUpdate(_ notification:Notification) {
+        if let userInfo = notification.userInfo,
+            let synchronizedContacts = userInfo[ContactsSynchronization.Notifications.Parameter.synchronizedContactsNumber] as? Int,
+            let totalContacts = userInfo[ContactsSynchronization.Notifications.Parameter.totalContactsNumber] as? Int {
+            synchronizationContactsProgressLabel.text = "\(synchronizedContacts) / \(totalContacts)"
+        }
+    }
+
     
     deinit {
         NotificationCenter.default.removeObserver(self)

@@ -9,7 +9,7 @@
 import Foundation
 import CoreLocation
 
-
+// Warning: This class is not used due to restriction on number of Geocoding request
 class GeoCodeMgr {
     
     // Initialize the Singleton
@@ -25,8 +25,8 @@ class GeoCodeMgr {
     
     func resolvePlacemarksBatch() {
         poisWithoutPlacemark = Set<PointOfInterest>(POIDataManager.sharedInstance.getPoisWithoutPlacemark())
-        if poisWithoutPlacemark.count > 0 {
-            getPlacemark(poi: poisWithoutPlacemark.first!)
+        if let poiWithoutPlacemark = poisWithoutPlacemark.first  {
+            getPlacemark(poi: poiWithoutPlacemark)
         }
     }
     
@@ -42,12 +42,12 @@ class GeoCodeMgr {
                 case CLError.network:
                     print("Warning error because too many requests! (network error)")
 
-                    let deadlineTime = DispatchTime.now() + .seconds(10)
+                    let deadlineTime = DispatchTime.now() + .seconds(60)
                     DispatchQueue.main.asyncAfter(deadline: deadlineTime) {
                         print("*************************** RESTART after 10 seconds ***************")
 
-                        if self.poisWithoutPlacemark.count > 0 {
-                            self.getPlacemark(poi: self.poisWithoutPlacemark.first!)
+                        if let poiWithoutPlacemark = self.poisWithoutPlacemark.first {
+                            self.getPlacemark(poi: poiWithoutPlacemark)
                         }
                     }
                 default:

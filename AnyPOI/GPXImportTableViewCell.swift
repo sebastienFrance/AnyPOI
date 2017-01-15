@@ -13,18 +13,16 @@ class GPXImportTableViewCell: UITableViewCell {
     @IBOutlet weak var poiDisplayName: UILabel!
     @IBOutlet weak var poiDescription: UILabel!
     @IBOutlet weak var poiImageCategory: UIImageView!
+    @IBOutlet weak var poiImportMode: UILabel!
     
     func initWith(poi:GPXPoi, isPOINew:Bool) {
-        let attributedText = NSMutableAttributedString(string: "\(poi.poiName) ")
         let actionString = isPOINew ? NSLocalizedString("GPXImportNewItem", comment: "") : NSLocalizedString("GPXImportUpdateItem", comment: "")
         let actionColor = isPOINew ? UIColor.red : UIColor.green
         
-        attributedText.append(NSAttributedString(string: actionString,
-                                                 attributes:[NSForegroundColorAttributeName : actionColor,
-                                                             NSFontAttributeName : UIFont.boldSystemFont(ofSize: poiDisplayName.font.pointSize)]))
-
-        poiDisplayName.attributedText = attributedText
+        poiDisplayName.attributedText = NSMutableAttributedString(string: "\(poi.poiName) ")
         poiDescription.text = poi.poiDescription
         poiImageCategory.image = poi.poiCategory.icon
+        poiImportMode.attributedText = NSAttributedString(string: actionString, attributes: [NSForegroundColorAttributeName : actionColor,
+                                                                                             NSFontAttributeName : UIFont.boldSystemFont(ofSize: poiDisplayName.font.pointSize)])
     }
 }

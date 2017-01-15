@@ -131,7 +131,10 @@
 "MaxMonitoredPOIReachedErrorMsg"="Too many POIs are already monitored, you must disabled one to monitor this one";
 "StartMonitoringDeviceNotSupported"="Region monitoring is not supported on this device";
 "Information"="Information";
-"ContactsSynchronozationDone"="Contacts synchronization is completed";
+"ContactsSynchronizationDone %d"="Contacts synchronization is completed (%d contacts)";
+"ContactsSynchronizationNotCompleted"="All contacts not synchonized due to limitation of Geocoding requests rate. Please wait around 2 minutes and restart it to resume the synchronization";
+"Contacts synchronized: %d total: %d"="%d contacts over %d have been synchronized";
+"ContactsSynchronizationUnknownError"="An unknown error has occurrent during the contact synchronization.";
 "InternalError"="Internal error";
 "ResolvingContact"="Resolving";
 "WebSiteMail"="Web site";

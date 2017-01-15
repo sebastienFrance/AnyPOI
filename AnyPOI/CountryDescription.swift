@@ -11,6 +11,11 @@ import Foundation
 struct CountryDescription : Equatable {
     let countryName:String
     let ISOCountryCode:String
+    var countryFlag: Character {
+        get {
+            return CountryDescription.emoji(countryCode: ISOCountryCode)
+        }
+    }
     
     func getAllCities(filter:String = "") -> [String] {
         return POIDataManager.sharedInstance.getAllCitiesFromCountry(ISOCountryCode, filter: filter)
@@ -37,4 +42,18 @@ struct CountryDescription : Equatable {
     static func ==(lhs:CountryDescription, rhs:CountryDescription) -> Bool {
         return lhs.ISOCountryCode == rhs.ISOCountryCode
     }
+    
+    static func emoji(countryCode: String) -> Character {
+        let base = UnicodeScalar("🇦").value - UnicodeScalar("A").value
+        
+        var string = ""
+        countryCode.uppercased().unicodeScalars.forEach {
+            if let scala = UnicodeScalar(base + $0.value) {
+                string.append(String(describing: scala))
+            }
+        }
+        
+        return Character(string)
+    }
+
 }

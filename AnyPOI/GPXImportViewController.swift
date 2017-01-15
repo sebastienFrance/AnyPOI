@@ -22,7 +22,7 @@ class GPXImportViewController: UIViewController {
             if let tableView = theTableView {
                 tableView.delegate = self
                 tableView.dataSource = self
-                tableView.estimatedRowHeight = 70
+                tableView.estimatedRowHeight = 103
                 tableView.rowHeight = UITableViewAutomaticDimension
                 tableView.tableFooterView = UIView(frame: CGRect.zero) // remove separator for empty lines
            }
@@ -183,6 +183,7 @@ class GPXImportViewController: UIViewController {
                 $0.element.importIt(options:self.importOptions, importedPOIs:importedPOIs)
             }
 
+            //GeoCodeMgr.sharedInstance.resolvePlacemarksBatch()
             self.dismiss(animated: true, completion: nil)
         })
         

@@ -66,10 +66,10 @@ class POIsViewController: UIViewController  {
         areaName = cityName
     }
     
-    func showCountryPoi(_ countryName: String, name:String) {
+    func showCountryPoi(country:CountryDescription) {
         displayMode = .countryPois
-        displayModeFilter = countryName
-        areaName = name
+        displayModeFilter = country.ISOCountryCode
+        areaName = "\(country.countryFlag) \(country.countryName)"
     }
     
     func showMonitoredPois() {

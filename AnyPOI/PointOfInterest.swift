@@ -655,8 +655,9 @@ extension PointOfInterest {
     
     
     func toGPXElement() -> XMLElement {
-        let wptAttributes = [XSD.GPX.Elements.WPT.Attributes.latitude : "\(coordinate.latitude)",
-            XSD.GPX.Elements.WPT.Attributes.longitude : "\(coordinate.longitude)"]
+        
+        let wptAttributes = [XSD.wptLatitudeAttr : "\(coordinate.latitude)",
+            XSD.wptLongitudeAttr : "\(coordinate.longitude)"]
         
         var wptElement = XMLElement(elementName: XSD.GPX.Elements.WPT.name, attributes: wptAttributes)
         let nameElement = XMLElement(elementName: XSD.GPX.Elements.WPT.Elements.name.name, withValue: poiDisplayName!)

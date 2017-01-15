@@ -67,7 +67,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UserAuthenticationDelegat
     
     func notifyContactsSynchronizationDone(_ notification:NSNotification) {
         if let vc = Utilities.getCurrentViewController() {
-             Utilities.showAlertMessage(vc, title: NSLocalizedString("Information", comment: ""), message: NSLocalizedString("ContactsSynchronozationDone", comment: ""))
+            
+            var theMessage:String
+            if let userInfo = notification.userInfo,
+                let isSuccess = userInfo[ContactsSynchronization.Notifications.Parameter.isSuccess] as? Bool,
+                let synchronizedContacts = userInfo[ContactsSynchronization.Notifications.Parameter.synchronizedContactsNumber] as? Int,
+                let totalContacts = userInfo[ContactsSynchronization.Notifications.Parameter.totalContactsNumber] as? Int {
+                if isSuccess {
+                    theMessage = String(format: NSLocalizedString("ContactsSynchronizationDone %d", comment: ""), totalContacts)
+                } else {
+                    theMessage = NSLocalizedString("ContactsSynchronizationNotCompleted", comment: "")
+                    theMessage += "\n"
+                    theMessage += String(format:NSLocalizedString("Contacts synchronized: %d total: %d", comment: ""), synchronizedContacts, totalContacts)
+                }
+            } else {
+                theMessage = "ContactsSynchronizationUnknownError"
+            }
+            
+            Utilities.showAlertMessage(vc, title: NSLocalizedString("Information", comment: ""), message:theMessage)
         }
     }
 

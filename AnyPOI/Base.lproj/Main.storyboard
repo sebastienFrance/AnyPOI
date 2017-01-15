@@ -1654,38 +1654,44 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="checkmark" indentationWidth="10" reuseIdentifier="GPXImportCellId" id="1pV-Lc-3h1" customClass="GPXImportTableViewCell" customModule="AnyPOI" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="71"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="checkmark" indentationWidth="10" reuseIdentifier="GPXImportCellId" rowHeight="103" id="1pV-Lc-3h1" customClass="GPXImportTableViewCell" customModule="AnyPOI" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="103"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="1pV-Lc-3h1" id="NDY-jL-JM4">
-                                            <rect key="frame" x="0.0" y="0.0" width="336" height="70"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="336" height="103"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Azr-HJ-Gr4">
-                                                    <rect key="frame" x="8" y="8" width="320" height="54"/>
+                                                    <rect key="frame" x="8" y="8" width="320" height="86.5"/>
                                                     <subviews>
-                                                        <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="11f-Rn-FE0">
-                                                            <rect key="frame" x="0.0" y="0.0" width="320" height="25"/>
+                                                        <stackView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="11f-Rn-FE0">
+                                                            <rect key="frame" x="0.0" y="0.0" width="320" height="40.5"/>
                                                             <subviews>
-                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="751" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="kqD-OW-NXf">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="25" height="25"/>
+                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="kqD-OW-NXf">
+                                                                    <rect key="frame" x="0.0" y="8" width="25" height="25"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="25" id="4V2-rd-F1f"/>
                                                                         <constraint firstAttribute="height" constant="25" id="Pqu-42-KYa"/>
                                                                     </constraints>
                                                                 </imageView>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PoiName" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qGJ-2d-bdo">
-                                                                    <rect key="frame" x="30" y="0.0" width="290" height="25"/>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="750" text="PoiName" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qGJ-2d-bdo">
+                                                                    <rect key="frame" x="30" y="11.5" width="290" height="18"/>
                                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                             </subviews>
                                                         </stackView>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PoiDescription" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Obl-wM-JyU">
-                                                            <rect key="frame" x="0.0" y="30" width="320" height="24"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PoiDescription" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Obl-wM-JyU">
+                                                            <rect key="frame" x="0.0" y="45.5" width="320" height="18"/>
                                                             <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                                             <color key="textColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="New" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iTa-dr-7sY">
+                                                            <rect key="frame" x="0.0" y="68.5" width="320" height="18"/>
+                                                            <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                                                            <color key="textColor" red="0.98039215690000003" green="0.066666666669999999" blue="0.30980392159999998" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
@@ -1702,10 +1708,11 @@
                                             <outlet property="poiDescription" destination="Obl-wM-JyU" id="VjK-jq-OiC"/>
                                             <outlet property="poiDisplayName" destination="qGJ-2d-bdo" id="KQh-ly-foS"/>
                                             <outlet property="poiImageCategory" destination="kqD-OW-NXf" id="qXy-Ku-nBq"/>
+                                            <outlet property="poiImportMode" destination="iTa-dr-7sY" id="m8y-k6-2xY"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="ImportDescriptionCellId" id="os7-7g-lOq" customClass="ImportTextualDescriptionTableViewCell" customModule="AnyPOI" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="99" width="375" height="71"/>
+                                        <rect key="frame" x="0.0" y="131" width="375" height="71"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="os7-7g-lOq" id="fLG-38-QW9">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="71"/>
@@ -1735,7 +1742,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="checkmark" indentationWidth="10" reuseIdentifier="GPXImportRouteTableViewCellId" rowHeight="116" id="JrL-V0-Mly" customClass="GPXImportRouteTableViewCell" customModule="AnyPOI" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="170" width="375" height="116"/>
+                                        <rect key="frame" x="0.0" y="202" width="375" height="116"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="JrL-V0-Mly" id="3uB-2I-RbM">
                                             <rect key="frame" x="0.0" y="0.0" width="336" height="116"/>
@@ -1756,10 +1763,16 @@
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="127,4km in 02:40 with 4 steps" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4x2-gG-xIR">
-                                                            <rect key="frame" x="0.0" y="48.5" width="320" height="50.5"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="127,4km in 02:40 with 4 steps" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4x2-gG-xIR">
+                                                            <rect key="frame" x="0.0" y="48.5" width="320" height="27.5"/>
                                                             <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="New" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Nm-RX-zMA">
+                                                            <rect key="frame" x="0.0" y="81" width="320" height="18"/>
+                                                            <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                                                            <color key="textColor" red="0.98039215690000003" green="0.066666666669999999" blue="0.30980392159999998" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
@@ -1775,6 +1788,7 @@
                                         <connections>
                                             <outlet property="routeDistanceAndDuration" destination="4x2-gG-xIR" id="Vm9-Ut-ZF7"/>
                                             <outlet property="routeFromTo" destination="rBm-A5-0dM" id="FQL-Sz-PA7"/>
+                                            <outlet property="routeImportMode" destination="3Nm-RX-zMA" id="0qs-ps-1Yf"/>
                                             <outlet property="routeName" destination="squ-6p-CQT" id="7dp-FW-11y"/>
                                         </connections>
                                     </tableViewCell>
@@ -1815,7 +1829,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZUn-Nw-XeT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="604" y="1501"/>
+            <point key="canvasLocation" x="604" y="1500.8995502248877"/>
         </scene>
         <!--Import Options Table View Controller-->
         <scene sceneID="3wA-TF-OlR">
@@ -1859,17 +1873,17 @@
                                         <rect key="frame" x="0.0" y="100" width="375" height="91"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="T7e-Jz-ni8" id="ERX-rH-SuC">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="91"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="90"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Oso-Ol-98P">
                                                     <rect key="frame" x="8" y="8" width="359" height="74"/>
                                                     <subviews>
                                                         <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="W8c-pK-yMQ">
-                                                            <rect key="frame" x="0.0" y="0.0" width="359" height="38"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="359" height="38.5"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Import all as new" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="51X-Q2-OHI">
-                                                                    <rect key="frame" x="0.0" y="9" width="310" height="21"/>
+                                                                    <rect key="frame" x="0.0" y="9" width="310" height="20.5"/>
                                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
@@ -1883,7 +1897,7 @@
                                                             </subviews>
                                                         </stackView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="If enabledt hen all routes are created as new else they are merged with existing" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3lw-Lr-ggy">
-                                                            <rect key="frame" x="0.0" y="43" width="359" height="31"/>
+                                                            <rect key="frame" x="0.0" y="43.5" width="359" height="30.5"/>
                                                             <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
                                                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                             <nil key="highlightedColor"/>
@@ -1971,7 +1985,7 @@
                             <tableViewSection headerTitle="Point Of Interest" id="lax-OD-Rop">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="czA-3e-SbK" userLabel="Textual description">
-                                        <rect key="frame" x="0.0" y="367" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="366" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="czA-3e-SbK" id="Iuy-43-ln9">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
@@ -1998,10 +2012,10 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="59" id="xrr-zo-7Kq" userLabel="Text Filter">
-                                        <rect key="frame" x="0.0" y="411" width="375" height="59"/>
+                                        <rect key="frame" x="0.0" y="410" width="375" height="59"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="xrr-zo-7Kq" id="s0N-p2-qxw">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="59"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="58"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="1mx-Dk-k0i">
@@ -2031,26 +2045,26 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="86" id="Ke9-eq-sRX" userLabel="Import As new">
-                                        <rect key="frame" x="0.0" y="470" width="375" height="86"/>
+                                        <rect key="frame" x="0.0" y="469" width="375" height="86"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Ke9-eq-sRX" id="AtG-sH-Jv9">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="86"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="85"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="4qH-hM-LlI">
                                                     <rect key="frame" x="8" y="8" width="359" height="69"/>
                                                     <subviews>
                                                         <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="fia-z2-hA6">
-                                                            <rect key="frame" x="0.0" y="0.0" width="359" height="33"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="359" height="33.5"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Import all as new" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MCH-bC-y1O">
-                                                                    <rect key="frame" x="0.0" y="6" width="310" height="21"/>
+                                                                    <rect key="frame" x="0.0" y="6.5" width="310" height="20.5"/>
                                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="89j-As-PS7">
-                                                                    <rect key="frame" x="310" y="1" width="51" height="31"/>
+                                                                    <rect key="frame" x="310" y="1.5" width="51" height="31"/>
                                                                     <connections>
                                                                         <action selector="switchPOIImportAsNew:" destination="ipi-Hr-rau" eventType="valueChanged" id="LXa-Z7-1qh"/>
                                                                     </connections>
@@ -2058,7 +2072,7 @@
                                                             </subviews>
                                                         </stackView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="If enabled then Point of Interests are imported as new else they are merged with existing" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PcO-63-oPa">
-                                                            <rect key="frame" x="0.0" y="38" width="359" height="31"/>
+                                                            <rect key="frame" x="0.0" y="38.5" width="359" height="30.5"/>
                                                             <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
                                                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                             <nil key="highlightedColor"/>
@@ -2075,26 +2089,26 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="119" id="JXO-le-oMn" userLabel="Merge Options">
-                                        <rect key="frame" x="0.0" y="556" width="375" height="119"/>
+                                        <rect key="frame" x="0.0" y="555" width="375" height="119"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="JXO-le-oMn" id="12d-fk-iMV">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="118"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="LiR-qg-sOW">
-                                                    <rect key="frame" x="8" y="8" width="359" height="103"/>
+                                                    <rect key="frame" x="8" y="8" width="359" height="102"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Merge options" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EWO-P4-oM6">
-                                                            <rect key="frame" x="0.0" y="0.0" width="359" height="19"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="359" height="18.5"/>
                                                             <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Bgc-cz-sIv">
-                                                            <rect key="frame" x="0.0" y="24" width="359" height="28.5"/>
+                                                            <rect key="frame" x="0.0" y="23.5" width="359" height="28.5"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Import new" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rxK-YA-Ri4">
-                                                                    <rect key="frame" x="0.0" y="5" width="310" height="18"/>
+                                                                    <rect key="frame" x="0.0" y="5.5" width="310" height="18"/>
                                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
@@ -2108,7 +2122,7 @@
                                                             </subviews>
                                                         </stackView>
                                                         <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="6g9-5X-9Fz">
-                                                            <rect key="frame" x="0.0" y="57.5" width="359" height="28.5"/>
+                                                            <rect key="frame" x="0.0" y="57" width="359" height="28"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Import update" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OOK-OE-2q1">
                                                                     <rect key="frame" x="0.0" y="5" width="310" height="18"/>
@@ -2117,7 +2131,7 @@
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Mc8-cQ-7aW">
-                                                                    <rect key="frame" x="310" y="0.0" width="51" height="28.5"/>
+                                                                    <rect key="frame" x="310" y="0.0" width="51" height="28"/>
                                                                     <connections>
                                                                         <action selector="switchPOIMergeImportUpdate:" destination="ipi-Hr-rau" eventType="valueChanged" id="BSx-DK-upn"/>
                                                                     </connections>
@@ -2125,7 +2139,7 @@
                                                             </subviews>
                                                         </stackView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Applicable only when imported Point of Interests are merged" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YNz-Mb-dmw">
-                                                            <rect key="frame" x="0.0" y="91" width="359" height="12"/>
+                                                            <rect key="frame" x="0.0" y="90" width="359" height="12"/>
                                                             <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
                                                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                             <nil key="highlightedColor"/>
