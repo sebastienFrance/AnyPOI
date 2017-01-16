@@ -68,9 +68,9 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
         super.viewDidLoad()
         
         // FIXEDME: Reload placemark because imported POIs have no Placemark! 
-//        if poi.placemarks == nil {
-//            poi.getPlacemark()
-//        }
+        if !poi.hasPlacemark {
+            GeoCodeMgr.sharedInstance.getPlacemark(poi: poi)
+        }
         
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(POIDetailsViewController.wikipediaReady(_:)),

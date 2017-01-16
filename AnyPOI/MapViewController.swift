@@ -775,7 +775,7 @@ class MapViewController: UIViewController, SearchControllerDelegate, MapCameraAn
             if changedValues[PointOfInterest.properties.poiRegionNotifyEnter] != nil ||
                 changedValues[PointOfInterest.properties.poiRegionNotifyExit] != nil  ||
                 changedValues[PointOfInterest.properties.poiCategory] != nil ||
-                changedValues[PointOfInterest.properties.poiPlacemark] != nil {
+                changedValues[PointOfInterest.properties.poiAddress] != nil {
                 if let annotationView = theMapView.view(for: updatedPoi) {
                     MapUtils.refreshDetailCalloutAccessoryView(updatedPoi, annotationView: annotationView, delegate: poiCalloutDelegate)
                 }

@@ -23,13 +23,6 @@ class GeoCodeMgr {
     fileprivate let geoCoder = CLGeocoder()
     fileprivate var poisWithoutPlacemark = Set<PointOfInterest>()
     
-    func resolvePlacemarksBatch() {
-        poisWithoutPlacemark = Set<PointOfInterest>(POIDataManager.sharedInstance.getPoisWithoutPlacemark())
-        if let poiWithoutPlacemark = poisWithoutPlacemark.first  {
-            getPlacemark(poi: poiWithoutPlacemark)
-        }
-    }
-    
     func getPlacemark(poi:PointOfInterest) {
         guard !geoCoder.isGeocoding else { return }
         
@@ -42,14 +35,6 @@ class GeoCodeMgr {
                 case CLError.network:
                     print("Warning error because too many requests! (network error)")
 
-                    let deadlineTime = DispatchTime.now() + .seconds(60)
-                    DispatchQueue.main.asyncAfter(deadline: deadlineTime) {
-                        print("*************************** RESTART after 10 seconds ***************")
-
-                        if let poiWithoutPlacemark = self.poisWithoutPlacemark.first {
-                            self.getPlacemark(poi: poiWithoutPlacemark)
-                        }
-                    }
                 default:
                     break
                 }
@@ -64,13 +49,6 @@ class GeoCodeMgr {
                     poi.initializeWith(placemark:placemarksResults[0])
                     POIDataManager.sharedInstance.updatePOI(poi)
                     POIDataManager.sharedInstance.commitDatabase()
-                    
-                    self.poisWithoutPlacemark.remove(poi)
-                    if self.poisWithoutPlacemark.count > 0 {
-                        self.getPlacemark(poi: self.poisWithoutPlacemark.first!)
-                    } else {
-                        print("------------------------- ALL DONE --------------------")
-                    }
                     
                 } else {
                     print("Empty data received")

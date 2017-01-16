@@ -31,11 +31,11 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
         static let poiRegionNotifyEnter = "poiRegionNotifyEnter"
         static let poiRegionNotifyExit = "poiRegionNotifyExit"
         static let parentGroup = "parentGroup"
-        static let poiPlacemark = "poiPlacemark"
         static let poiCategory = "poiCategory"
         static let poiGroupCategory = "poiGroupCategory"
         static let poiLatitude = "poiLatitude"
         static let poiLongitude = "poiLongitude"
+        static let poiAddress = "poiAddress"
         static let poiContactIdentifier = "poiContactIdentifier"
     }
     
@@ -129,6 +129,16 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
                 return theAddress
             } else {
                 return NSLocalizedString("NoAddressUtilities", comment: "")
+            }
+        }
+    }
+    
+    var hasPlacemark:Bool {
+        get {
+            if let city = poiCity, !city.isEmpty {
+                return true
+            } else {
+                return false
             }
         }
     }
@@ -308,23 +318,23 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
     
     func initializeWith(placemark:CLPlacemark) {
         
-        if self.poiDisplayName == constants.emptyTitle,
+        if poiDisplayName == constants.emptyTitle,
             let placemarkName = MapUtils.getNameFromPlacemark(placemark) {
-            self.title = placemarkName
+            title = placemarkName
         }
 
         poiAddress = Utilities.getAddressFrom(placemark)
         
         if let locality = placemark.locality {
-            self.poiCity = locality
+            poiCity = locality
         } else {
-            self.poiCity = "Unknown city"
+            poiCity = "Unknown city"
         }
         
         if let ISOCountryCode = placemark.isoCountryCode {
-            self.poiISOCountryCode = ISOCountryCode
+            poiISOCountryCode = ISOCountryCode
         } else {
-            self.poiISOCountryCode = "Unknown country"
+            poiISOCountryCode = "Unknown country"
         }
     }
     
