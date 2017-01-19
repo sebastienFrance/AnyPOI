@@ -271,7 +271,19 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
        }
     }
     
-    
+    /*
+     var activityItems = [UIActivityItemSource]()
+     let mailActivity = PoisMailActivityItemSource(pois:getPois(withFilter:true), mailTitle:POIGroup.groupDisplayName!)
+     activityItems.append(mailActivity)
+     let gpxActivity = GPXActivityItemSource(pois: getPois(withFilter:true))
+     activityItems.append(gpxActivity)
+     
+     if let snapshot = snapshotter, !snapshot.isLoading {
+     let imageActivity = ImageAcvitityItemSource(image: snapshotImage!)
+     activityItems.append(imageActivity)
+     }
+
+ */
     @IBAction func actionButtonPushed(_ sender: UIBarButtonItem) {
         let mailActivity = PoiMailActivityItemSource(poi:poi)
         let messageActivity = MessageActivityItemSource(messageContent: poi.toMessage())
@@ -282,6 +294,10 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
             let imageActivity = ImageAcvitityItemSource(image: snapshotImage!)
             activityItems.append(imageActivity)
         }
+        
+        let gpxActivity = GPXActivityItemSource(pois: [poi])
+        activityItems.append(gpxActivity)
+
         
         let activityController = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
         activityController.excludedActivityTypes = [UIActivityType.print, UIActivityType.airDrop, UIActivityType.postToVimeo,

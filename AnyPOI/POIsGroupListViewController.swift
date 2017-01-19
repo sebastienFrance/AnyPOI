@@ -288,9 +288,13 @@ extension POIsGroupListViewController : UITableViewDataSource, UITableViewDelega
         if section == SectionIndex.poiGroups {
             return filteredGroups.count
         } else if section == SectionIndex.others {
-            var numberOfRows = POIDataManager.sharedInstance.getAllMonitoredPOI().count > 0 ? 1 : 0
-            numberOfRows += POIDataManager.sharedInstance.getPoisWithoutPlacemark().count > 0 ? 1 : 0
-            return numberOfRows
+            if searchFilter.isEmpty {
+                var numberOfRows = POIDataManager.sharedInstance.getAllMonitoredPOI().count > 0 ? 1 : 0
+                numberOfRows += POIDataManager.sharedInstance.getPoisWithoutPlacemark().count > 0 ? 1 : 0
+                return numberOfRows
+            } else {
+                return 0
+            }
         } else {
             let sectionIndex = getCountrySectionIndexFrom(section)
             let countries = countriesWithCitiesMatching(filter: searchFilter)
