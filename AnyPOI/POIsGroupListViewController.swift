@@ -429,44 +429,133 @@ extension POIsGroupListViewController : UITableViewDataSource, UITableViewDelega
         case .delete:
             switch indexPath.section {
             case SectionIndex.poiGroups:
-                deletePoiGroup(index:indexPath)
+               // deletePoiGroup(index:indexPath)
+                deleteRow(index: indexPath, fromSection: .group)
             case SectionIndex.others:
                 if indexPath.row == 0, POIDataManager.sharedInstance.getAllMonitoredPOI().count > 0 {
-                    deleteMonitoredPois(index:indexPath)
+                   // deleteMonitoredPois(index:indexPath)
+                    deleteRow(index: indexPath, fromSection: .monitoredPois)
                 } else {
-                    deletePoisWithoutAddress(index:indexPath)
+                    // deletePoisWithoutAddress(index:indexPath)
+                    deleteRow(index: indexPath, fromSection: .GPXPois)
                 }
             default:
-                deleteRowFromCountriesAndCities(index:indexPath)
+                //deleteRowFromCountriesAndCities(index:indexPath)
+                deleteRow(index: indexPath, fromSection: .CountryAndCities)
             }
         default:
             break
         }
     }
     
-    fileprivate func deletePoiGroup(index:IndexPath) {
+    fileprivate enum SectionId {
+        case group, monitoredPois, GPXPois, CountryAndCities
+    }
+    
+    fileprivate func deleteRow(index:IndexPath, fromSection:SectionId) {
+        
+        // Keep in mind the list of Counties / Cities before we started to delete POIs
         let countries = countriesWithCitiesMatching(filter: searchFilter)
         var citiesPerCountry = [String:[String]]()
         for currentCountry in countries {
             citiesPerCountry[currentCountry.ISOCountryCode] = currentCountry.getAllCities(filter: searchFilter)
         }
         
-        theTableView.beginUpdates()
-        POIDataManager.sharedInstance.deleteGroup(group:filteredGroups[index.row])
-        POIDataManager.sharedInstance.commitDatabase()
-        filteredGroups = POIDataManager.sharedInstance.getGroups(searchFilter)
+        // Keep in mind if the Monitored POIs and GPX POIs rows are displayed
+        var hasMonitoredPOIsRow = false
+        var hasGPXPois = false
+        if searchFilter.isEmpty {
+            hasMonitoredPOIsRow = POIDataManager.sharedInstance.getAllMonitoredPOI().count > 0 ? true : false
+            hasGPXPois = POIDataManager.sharedInstance.getPoisWithoutPlacemark().count > 0 ? true : false
+        }
         
-        var (deletedSections, deletedRows) = computeDeletedSectionsAndRowsDueToGroupDeletion(initialCountries: countries, initialCitiesPerCountry: citiesPerCountry)
+        theTableView.beginUpdates()
+        var deletedSections = IndexSet()
+        var deletedRows = [IndexPath]()
+        
+        // Remove from the database the data related to the deleted row
+        switch fromSection {
+        case .group:
+            POIDataManager.sharedInstance.deleteGroup(group:filteredGroups[index.row])
+            POIDataManager.sharedInstance.commitDatabase()
+            filteredGroups = POIDataManager.sharedInstance.getGroups(searchFilter)
+        case .monitoredPois:
+            POIDataManager.sharedInstance.deleteMonitoredPOIs()
+            POIDataManager.sharedInstance.commitDatabase()
+        case .GPXPois:
+            POIDataManager.sharedInstance.deletePOIsWithoutPlacemark()
+            POIDataManager.sharedInstance.commitDatabase()
+        case .CountryAndCities:
+            // When we delete a City, it can delete a whole section if it's the latest City from the country
+            // if it's not the latest we just delete the row
+            // When we delete a Country, we delete the whole section
+            if let country = getCountryFrom(section: index.section) {
+                let isoCountryCode = country.ISOCountryCode
+                // Delete row all
+                if index.row == 0 && searchFilter.isEmpty {
+                    POIDataManager.sharedInstance.deleteCountryPOIs(isoCountryCode)
+                    POIDataManager.sharedInstance.commitDatabase()
+                    
+                    //theTableView.deleteSections(IndexSet(integer:index.section), with: .fade)
+                    deletedSections.insert(index.section)
+                } else {
+                    let cities = country.getAllCities(filter: searchFilter)
+                    if (index.row - 1) < cities.count {
+                        POIDataManager.sharedInstance.deleteCityPOIs(searchFilter.isEmpty ? cities[index.row - 1] : cities[index.row],
+                                                                     fromISOCountryCode:isoCountryCode)
+                        POIDataManager.sharedInstance.commitDatabase()
+                        // we have deleted the last one so we delete the section
+                        if cities.count == 1 {
+                            //theTableView.deleteSections(IndexSet(integer:index.section), with: .fade)
+                            deletedSections.insert(index.section)
+                        } else {
+                            //theTableView.deleteRows(at: [index], with: .fade)
+                            deletedRows.append(index)
+                        }
+                    } else {
+                        print("\(#function) Warning, invalid index to look for a City : \(index.row - 1)")
+                        return
+                    }
+                }
+            } else {
+                print("\(#function) Warning, invalid index to look for a Country \(index.section)")
+                return
+            }
+        }
+        
+        // When user has deleted a row that is not a country or city then we get the list of Cities / Countries that must be removed because of the deleted row
+        if fromSection != .CountryAndCities {
+            let (deletedCountrySections, deletedCitiesRows) = computeDeletedSectionsAndRowsDueToGroupDeletion(initialCountries: countries, initialCitiesPerCountry: citiesPerCountry)
+            deletedSections.formUnion(deletedCountrySections)
+            deletedRows.append(contentsOf: deletedCitiesRows)
+        }
         
         if deletedSections.count > 0 {
             theTableView.deleteSections(deletedSections, with: .fade)
+        }
+        
+        // Check if the Monitored POIs must be removed from the list
+        if hasMonitoredPOIsRow && fromSection != .monitoredPois {
+            if POIDataManager.sharedInstance.getAllMonitoredPOI().count == 0 {
+                deletedRows.append(IndexPath(row: 0, section: SectionIndex.others))
+            }
+        }
+        
+        // Check ifthe GPX POIs must be removed
+        if hasGPXPois && fromSection != .GPXPois {
+            if POIDataManager.sharedInstance.getPoisWithoutPlacemark().count == 0 {
+                if hasMonitoredPOIsRow {
+                    deletedRows.append(IndexPath(row: 0, section: SectionIndex.others))
+                } else {
+                    deletedRows.append(IndexPath(row: 1, section: SectionIndex.others))
+                }
+            }
         }
         
         deletedRows.append(index)
         theTableView.deleteRows(at: deletedRows, with: .fade)
         theTableView.endUpdates()
     }
-    
     
     /// Compute the list of sections and rows that must be deleted from the table in section Countries & Cities due to a group deletion
     ///
@@ -509,55 +598,4 @@ extension POIsGroupListViewController : UITableViewDataSource, UITableViewDelega
         return (deletedSection, rowsToDelete)
     }
     
-    fileprivate func deleteMonitoredPois(index:IndexPath) {
-        theTableView.beginUpdates()
-        POIDataManager.sharedInstance.deleteMonitoredPOIs()
-        POIDataManager.sharedInstance.commitDatabase()
-        theTableView.deleteRows(at: [index], with: .automatic)
-        //theTableView.deleteSections(IndexSet(integer:index.section), with: .fade)
-        theTableView.endUpdates()
-    }
-    
-    fileprivate func deletePoisWithoutAddress(index:IndexPath) {
-        theTableView.beginUpdates()
-        POIDataManager.sharedInstance.deletePOIsWithoutPlacemark()
-        POIDataManager.sharedInstance.commitDatabase()
-        theTableView.deleteRows(at: [index], with: .automatic)
-        theTableView.endUpdates()
-    }
-    
-    fileprivate func deleteRowFromCountriesAndCities(index:IndexPath) {
-        if let country = getCountryFrom(section: index.section) {
-            let isoCountryCode = country.ISOCountryCode
-            // Delete row all
-            if index.row == 0 && searchFilter.isEmpty {
-                theTableView.beginUpdates()
-                POIDataManager.sharedInstance.deleteCountryPOIs(isoCountryCode)
-                POIDataManager.sharedInstance.commitDatabase()
-                
-                theTableView.deleteSections(IndexSet(integer:index.section), with: .fade)
-                theTableView.endUpdates()
-            } else {
-                let cities = country.getAllCities(filter: searchFilter)
-                if (index.row - 1) < cities.count {
-                    theTableView.beginUpdates()
-                    POIDataManager.sharedInstance.deleteCityPOIs(searchFilter.isEmpty ? cities[index.row - 1] : cities[index.row],
-                                                                 fromISOCountryCode:isoCountryCode)
-                    POIDataManager.sharedInstance.commitDatabase()
-                    // we have deleted the last one so we delete the section
-                    if cities.count == 1 {
-                        theTableView.deleteSections(IndexSet(integer:index.section), with: .fade)
-                    } else {
-                        theTableView.deleteRows(at: [index], with: .fade)
-                    }
-                    
-                    theTableView.endUpdates()
-                } else {
-                    print("\(#function) Warning, invalid index to look for a City : \(index.row - 1)")
-                }
-            }
-        } else {
-            print("\(#function) Warning, invalid index to look for a Country \(index.section)")
-        }
-    }
-}
+ }
