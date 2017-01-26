@@ -280,6 +280,7 @@ extension POIsGroupListViewController : UITableViewDataSource, UITableViewDelega
         return SectionIndex.fixedSectionsCount + countriesWithCitiesMatching(filter: searchFilter).count
     }
     
+    // Get all Countries that have at least one city matching the Filter
     fileprivate func countriesWithCitiesMatching(filter:String) -> [CountryDescription] {
         return POIDataManager.sharedInstance.getCountriesWithCitiesMatching(filter: searchFilter)
     }
@@ -296,15 +297,13 @@ extension POIsGroupListViewController : UITableViewDataSource, UITableViewDelega
                 return 0
             }
         } else {
+            // Get again the list of countries where at least one city match the filter
             let sectionIndex = getCountrySectionIndexFrom(section)
             let countries = countriesWithCitiesMatching(filter: searchFilter)
             if sectionIndex < countries.count {
+                // For the country matching the filter we get all its cities, it will gives the number of row in the section
                 let citiesForSection = countries[sectionIndex].getAllCities(filter: searchFilter)
-                if searchFilter.isEmpty {
-                    return citiesForSection.count > 0 ? citiesForSection.count + 1 : 0
-                } else {
-                    return citiesForSection.count > 0 ? citiesForSection.count : 0
-                }
+                return searchFilter.isEmpty ? citiesForSection.count + 1  : citiesForSection.count
             } else {
                 print("\(#function) Warning, cannot find cities for index \(section)")
                 return 0
@@ -368,7 +367,6 @@ extension POIsGroupListViewController : UITableViewDataSource, UITableViewDelega
         } else {
             return NSLocalizedString("UnknownCountry", comment: "")
         }
-        //return getCountryFrom(section: section)?.countryName ?? NSLocalizedString("UnknownCountry", comment: "")
     }
     
     fileprivate struct cellIdentifier {
@@ -405,7 +403,14 @@ extension POIsGroupListViewController : UITableViewDataSource, UITableViewDelega
     fileprivate func getCountryOrCityTableViewCell(_ tableView: UITableView, indexPath:IndexPath) -> UITableViewCell {
         if indexPath.row == 0 && searchFilter.isEmpty {
             let theCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier.CityGroupCell, for: indexPath) as! CityGroupCell
-            theCell.cityNameLabel.text  = NSLocalizedString("AllFomCountry", comment: "")
+            var countryName:String
+            if let country = getCountryFrom(section: indexPath.section) {
+                countryName = country.countryName
+            } else {
+                countryName = NSLocalizedString("UnknownCountry", comment: "")
+            }
+
+            theCell.cityNameLabel.text  = "\(countryName) (\(NSLocalizedString("AllFomCountry", comment: "")))"
             return theCell
         } else {
             let theCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier.CityGroupCell, for: indexPath) as! CityGroupCell
@@ -429,7 +434,6 @@ extension POIsGroupListViewController : UITableViewDataSource, UITableViewDelega
         case .delete:
             switch indexPath.section {
             case SectionIndex.poiGroups:
-               // deletePoiGroup(index:indexPath)
                 deleteRow(index: indexPath, fromSection: .group)
             case SectionIndex.others:
                 if indexPath.row == 0, POIDataManager.sharedInstance.getAllMonitoredPOI().count > 0 {

@@ -200,11 +200,8 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
             snapshotMapImageView!.contentMode = .scaleAspectFill
             snapshotMapImageView!.clipsToBounds = true
             
-           
-            // Update the section 0 that display the Map as background
-            if let cell = theTableView.cellForRow(at: IndexPath(row: 0, section: Sections.mapViewAndPhotos)) as? LocationCell {
-                refreshMapBackground(cell)
-            }
+            theTableView.reloadRows(at: [IndexPath(row: 0, section: Sections.mapViewAndPhotos)], with: .none)
+         
         }
     }
 

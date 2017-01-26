@@ -76,7 +76,6 @@ class LocationCell: UITableViewCell {
         addressTextView.text = poi.address
         poiDescription.text = poi.poiDescription
         
-        
         if let group = poi.parentGroup {
             groupName.text = group.groupDisplayName
             groupImage.image = group.iconImage
