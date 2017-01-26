@@ -31,7 +31,12 @@ class CustomCalloutLeftAccessoryView: UIView {
                 disableRouteFromCurrentLocation()
             }
         case .routeStart:
-            enableAddWayPoint(delegate)
+            // Do not authorize to add the route start as a new WayPoint when the route contains only the start
+            if let wayPoints = MapViewController.instance?.routeDatasource?.wayPoints, wayPoints.count > 1 {
+                enableAddWayPoint(delegate)
+            } else {
+                disableAddWayPoint()
+            }
             enableRemoveWayPoint(delegate)
             disableRouteFromCurrentLocation()
         case .waypoint:

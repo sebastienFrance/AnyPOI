@@ -23,7 +23,19 @@ class OptionsViewController: UITableViewController, PasswordConfigurationDelegat
     @IBOutlet weak var cellStandard: UITableViewCell!
     @IBOutlet weak var cellHybridFlyover: UITableViewCell!
     
-    @IBOutlet weak var switchDefaultTransportType: UISegmentedControl!
+    @IBOutlet weak var switchDefaultTransportType: UISegmentedControl! {
+        didSet {
+            let defaultTransportType = UserPreferences.sharedInstance.routeDefaultTransportType
+            switch(defaultTransportType) {
+            case MKDirectionsTransportType.automobile:
+                switchDefaultTransportType.selectedSegmentIndex = 0
+            case MKDirectionsTransportType.walking:
+                switchDefaultTransportType.selectedSegmentIndex = 1
+            default:
+                switchDefaultTransportType.selectedSegmentIndex = 0
+            }
+        }
+    }
 
 
     @IBOutlet weak var wikiLanguage: UILabel!
@@ -65,18 +77,7 @@ class OptionsViewController: UITableViewController, PasswordConfigurationDelegat
 
         switchApplePOIs.isOn = UserPreferences.sharedInstance.mapShowPointsOfInterest
         switchTraffic.isOn = UserPreferences.sharedInstance.mapShowTraffic
-        
-        
-        let defaultTransportType = UserPreferences.sharedInstance.routeDefaultTransportType
-        switch(defaultTransportType) {
-        case MKDirectionsTransportType.automobile:
-            switchDefaultTransportType.selectedSegmentIndex = 0
-        case MKDirectionsTransportType.walking:
-            switchDefaultTransportType.selectedSegmentIndex = 1
-        default:
-            switchDefaultTransportType.selectedSegmentIndex = 0
-        }
-
+ 
         switchEnablePassword.isOn = UserPreferences.sharedInstance.authenticationPasswordEnabled
         enableChangePassword()
         enableTouchId()
@@ -114,13 +115,13 @@ class OptionsViewController: UITableViewController, PasswordConfigurationDelegat
     
     fileprivate func updateWikipediaDescription() {
         let userPrefs = UserPreferences.sharedInstance
-        let language = WikipediaLanguages.LanguageForISOcode(userPrefs.wikipediaLanguageISOcode)
         
         let distanceFormatter = LengthFormatter()
         distanceFormatter.unitStyle = .short
         let distance = distanceFormatter.string(fromMeters: Double(userPrefs.wikipediaNearByDistance))
 
         let attributedText = NSMutableAttributedString(string: "\(NSLocalizedString("LanguageWikipediaOptionVC", comment: "")) ")
+        let language = WikipediaLanguages.LanguageForISOcode(userPrefs.wikipediaLanguageISOcode)
         attributedText.append(NSAttributedString(string: language, attributes:[NSForegroundColorAttributeName : UIColor.blue]))
         wikiLanguage.attributedText = attributedText
 
@@ -184,10 +185,6 @@ class OptionsViewController: UITableViewController, PasswordConfigurationDelegat
        } else {
             print("\(#function) Error unknown sender")
         }
-    }
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     //MARK: Contacts sync

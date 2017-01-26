@@ -468,19 +468,26 @@ class RouteManager: NSObject {
             refreshAnnotation(poi:poi, withType: .routeStart)
             
         case .tail: // Only when the whole route is displayed
-            if let currentEndPoi = routeDatasource.toPOI {
-                // the old ending waypoint is changed as the start if the route contains only 1 wayPoint
-                // else it becomes a simple WayPoint of the route
-                if routeDatasource.theRoute.wayPoints.count == 1 {
-                    refreshAnnotation(poi:currentEndPoi, withType: .routeStart)
-                } else {
-                    refreshAnnotation(poi:currentEndPoi, withType: .waypoint)
-                }
-                
+
+            // We first check if the WayPoint before the new .tail is the start of the route
+            // because we will have to refresh it
+            var fromType = MapUtils.PinAnnotationType.waypoint
+            let fromPoi = routeDatasource.toPOI
+            if let _ = fromPoi {
+                fromType = routeDatasource.theRoute.wayPoints.count == 1 ? .routeStart : .waypoint
             }
             
             // The new wayPoint is added at the end
             routeDatasource.insertPoiAtAsRouteEnd(poi)
+            
+            // Refresh the fromPoi of the new .tail
+            // It must be done after the new POI has been added in the route
+            // else the start of the route could not be correctly refreshed
+            // FIXEDME: Maybe we should pass the Full routeDatasource to avoid pb during the refresh???
+            if let theFromPoi = fromPoi {
+                refreshAnnotation(poi: theFromPoi, withType: fromType)
+            }
+            
             refreshAnnotation(poi:poi, withType: .routeEnd)
             
         case .currentPosition: // Only when only a route section is displayed

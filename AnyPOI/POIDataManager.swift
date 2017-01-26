@@ -794,13 +794,16 @@ class POIDataManager {
     }
 
 
-    func addWayPointToRoute(_ route:Route, pois:[PointOfInterest]) {
+    func addWayPointToRoute(_ route:Route, poi:PointOfInterest) {
         let wayPoints = NSMutableOrderedSet(orderedSet: route.routeWayPoints!)
-
-        for currentPOI in pois {
-            let newWayPoint = addWayPoint(currentPOI)
-            wayPoints.add(newWayPoint)
+        
+        // The Transport type is on the source of the Path, so we must update it with the default transport type
+        if let previousWayPoint = wayPoints.lastObject as? WayPoint {
+            previousWayPoint.transportType = UserPreferences.sharedInstance.routeDefaultTransportType
         }
+        
+        let newWayPoint = addWayPoint(poi)
+        wayPoints.add(newWayPoint)
 
         route.routeWayPoints = wayPoints
     }

@@ -323,7 +323,7 @@ class RouteDataSource {
     
     // insert a wayPoint at the end of the route
     func insertPoiAtAsRouteEnd(_ poi:PointOfInterest) {
-        POIDataManager.sharedInstance.addWayPointToRoute(theRoute, pois: [poi])
+        POIDataManager.sharedInstance.addWayPointToRoute(theRoute, poi:poi)
         POIDataManager.sharedInstance.commitDatabase()
     }
 

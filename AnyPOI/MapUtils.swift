@@ -37,8 +37,7 @@ class MapUtils {
         static let routeColorForTransit = UIColor.yellow
         static let routeColorForCurrentPosition = UIColor.green
         static let routeColorForUnknown = UIColor.black
-
-}
+    }
     
     struct MapConstantes {
         static let defaultCoordinateSpan = MKCoordinateSpanMake(0.01, 0.01)

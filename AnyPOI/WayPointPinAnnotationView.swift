@@ -83,14 +83,11 @@ class WayPointPinAnnotationView : MKPinAnnotationView {
     }
     
     func disableAddWayPointAccessory() {
-        if let leftAccessoryView = leftCalloutAccessoryView {
-            if leftAccessoryView.subviews.count == 1 {
-                let leftCustomCallout = leftAccessoryView.subviews[0] as! CustomCalloutLeftAccessoryView
-                leftCustomCallout.disableAddWayPoint()
-            }
+        if let leftCustomCallout = leftCalloutAccessoryView as? CustomCalloutLeftAccessoryView {
+            leftCustomCallout.disableAddWayPoint()
         }
     }
-        
+    
 
     // This constructor is never used because this view is not created
     // by a storyboard
