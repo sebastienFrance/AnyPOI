@@ -258,34 +258,10 @@ class POIsViewController: UIViewController  {
             if let error = error {
                 print("\(#function) Error when loading Map image with Snapshotter \(error.localizedDescription)")
             } else {
-                
-                if let mapImage = mapSnapshot?.image {
-                    
-                    UIGraphicsBeginImageContextWithOptions(mapImage.size, true, mapImage.scale)
-                    // Put the Map in the Graphic Context
-                    mapImage.draw(at: CGPoint(x: 0, y: 0))
-                    
-                    for currentPoi in self.getPois(withFilter:false) {
-                        
-                        // Draw the Pin image in the graphic context
-                        let background = CAShapeLayer()
-                        let rect = CGRect(x: mapSnapshot!.point(for: currentPoi.coordinate).x,
-                            y: mapSnapshot!.point(for: currentPoi.coordinate).y,
-                            width: Cste.POISizeInMapView,height: Cste.POISizeInMapView)
-                        let path = UIBezierPath(ovalIn: rect)
-                        background.path = path.cgPath
-                        background.fillColor = currentPoi.parentGroup!.color.cgColor
-                        background.strokeColor = UIColor.black.cgColor
-                        background.lineWidth = 1
-                        background.setNeedsDisplay()
-                        background.render(in: UIGraphicsGetCurrentContext()!)
-                    }
-                    
-                    // Get the final image from the Grapic context
-                    self.snapshotImage  = UIGraphicsGetImageFromCurrentImageContext()
-                    UIGraphicsEndImageContext()
-                    
-                    // Update the section 0 that display the Map as background
+                if let theMapSnapshot = mapSnapshot {
+                    self.snapshotImage = MapUtils.configureMapImageFor(pois:self.getPois(withFilter:false),
+                                                                       mapSnapshot:theMapSnapshot,
+                                                                       poiSizeInMap:Cste.POISizeInMapView)
                     self.theTableView.reloadSections(IndexSet(integer: 0), with: .automatic)
                 }
             }

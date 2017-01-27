@@ -60,8 +60,8 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
     fileprivate var snapshotMapImageView:UIImageView?
     fileprivate var snapshotAlreadyDisplayed = false
     fileprivate var mapSnapshot:MKMapSnapshot?
-
-    var photosFetchResult:PHFetchResult<PHAsset>!
+    
+    fileprivate var photosFetchResult:PHFetchResult<PHAsset>!
     
     //MARK: Initialization
     override func viewDidLoad() {
@@ -95,7 +95,7 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
         PHPhotoLibrary.shared().register(self)
         photosFetchResult = PHAsset.fetchAssets(with: nil)
         findSortedImagesAroundPoi()
-        getMapSnapshot()
+        initializeMapSnapshot()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -161,7 +161,8 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
         return thumbnail
     }
     
-    fileprivate func getMapSnapshot() {
+    fileprivate func initializeMapSnapshot() {
+        
         let snapshotOptions = MKMapSnapshotOptions()
         snapshotOptions.region = MKCoordinateRegionMake(poi.coordinate, MKCoordinateSpanMake(Cste.mapLatitudeDelta, Cste.mapLatitudeDelta))
         snapshotOptions.mapType = UserPreferences.sharedInstance.mapMode == .standard ? .standard : .satellite
@@ -170,6 +171,7 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
         snapshotOptions.size = CGSize(width: view.bounds.width, height: Cste.mapViewCellSize)
         snapshotOptions.scale = 2.0
         snapshotter = MKMapSnapshotter(options: snapshotOptions)
+ 
         snapshotter.start(completionHandler: { mapSnapshot, error in
             if let error = error {
                 print("\(#function) Error when loading Map image with Snapshotter \(error.localizedDescription)")
@@ -181,27 +183,13 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
     }
     
     func refreshMapImage() {
-        if let mapImage = mapSnapshot?.image {
-            
-            UIGraphicsBeginImageContextWithOptions(mapImage.size, true, mapImage.scale)
-            // Put the Map in the Graphic Context
-            mapImage.draw(at: CGPoint(x: 0, y: 0))
-            
-            if poi.poiRegionNotifyEnter || poi.poiRegionNotifyExit {
-                MapUtils.addCircleInMapSnapshot(poi.coordinate, radius: poi.poiRegionRadius, mapSnapshot: mapSnapshot!)
-            }
-            
-            MapUtils.addAnnotationInMapSnapshot(poi, tintColor: poi.parentGroup!.color, mapSnapshot: mapSnapshot!)
-            
-            snapshotImage  = UIGraphicsGetImageFromCurrentImageContext()
-            
+        if let theMapSnapshot = mapSnapshot, let snapshotImage = MapUtils.configureMapImageFor(poi: poi, mapSnapshot: theMapSnapshot) {
             // Build the UIImageView only once for the tableView
             snapshotMapImageView = UIImageView(image: snapshotImage)
             snapshotMapImageView!.contentMode = .scaleAspectFill
             snapshotMapImageView!.clipsToBounds = true
             
             theTableView.reloadRows(at: [IndexPath(row: 0, section: Sections.mapViewAndPhotos)], with: .none)
-         
         }
     }
 

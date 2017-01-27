@@ -11,7 +11,6 @@ import MapKit
 
 class RouteUtilities {
     
-    
     static let wazeProductId = 323229106
     static let cityMapperProductId = 469463298
     static let googleMapsProductId = 585027354
@@ -55,6 +54,7 @@ class RouteUtilities {
         let source = MKMapItem(placemark: MKPlacemark(coordinate: sourceCoordinate, addressDictionary: nil))
         source.name = sourceName
         items.append(source)
+        
         let destination = MKMapItem(placemark: MKPlacemark(coordinate: destinationCoordinate, addressDictionary: nil))
         destination.name = destinationName
         items.append(destination)
@@ -64,8 +64,12 @@ class RouteUtilities {
     
     static func startGoogleMap(_ sourceCoordinate:CLLocationCoordinate2D, destinationCoordinate:CLLocationCoordinate2D, transportType:String) {
         if RouteUtilities.hasGoogleMap() {
-            UIApplication.shared.openURL(URL(string:
-                "\(GoogleURL)?saddr=\(sourceCoordinate.latitude),\(sourceCoordinate.longitude)&daddr=\(destinationCoordinate.latitude),\(destinationCoordinate.longitude)&directionsmode=\(transportType)")!)
+            let googleParameters = "saddr=\(sourceCoordinate.latitude),\(sourceCoordinate.longitude)&daddr=\(destinationCoordinate.latitude),\(destinationCoordinate.longitude)&directionsmode=\(transportType)"
+            if let googleURL = URL(string:"\(GoogleURL)?\(googleParameters)"){
+                UIApplication.shared.openURL(googleURL)
+            } else {
+                print("\(#function) Can't configure the URL");
+            }
         } else {
             print("\(#function) Can't use \(GoogleURL)");
         }
@@ -77,8 +81,12 @@ class RouteUtilities {
     
     static func startWaze(_ sourceCoordinate:CLLocationCoordinate2D, destinationCoordinate:CLLocationCoordinate2D) {
         if RouteUtilities.hasWaze() {
-            UIApplication.shared.openURL(URL(string:
-                "\(WazeURL)?ll=\(destinationCoordinate.latitude),\(destinationCoordinate.longitude)&navigate=yes")!)
+            let wazeParameters = "ll=\(destinationCoordinate.latitude),\(destinationCoordinate.longitude)&navigate=yes"
+            if let wazeURL = URL(string:"\(WazeURL)?\(wazeParameters)"){
+                UIApplication.shared.openURL(wazeURL)
+            } else {
+                print("\(#function) Can't configure the URL");
+            }
         } else {
             print("\(#function) Can't use \(WazeURL)");
         }
@@ -90,12 +98,16 @@ class RouteUtilities {
     
     static func startCityMapper(_ sourceCoordinate:CLLocationCoordinate2D, destinationCoordinate:CLLocationCoordinate2D) {
         if RouteUtilities.hasCityMapper() {
-            let myURL = URL(string: "\(CityMapperURL)directions?startcoord=\(sourceCoordinate.latitude),\(sourceCoordinate.longitude)&endcoord=\(destinationCoordinate.latitude),\(destinationCoordinate.longitude)")
-            UIApplication.shared.openURL(myURL!)
+            let cityMapperParameters = "startcoord=\(sourceCoordinate.latitude),\(sourceCoordinate.longitude)&endcoord=\(destinationCoordinate.latitude),\(destinationCoordinate.longitude)"
+            if let cityMapperURL = URL(string: "\(CityMapperURL)directions?\(cityMapperParameters)") {
+                UIApplication.shared.openURL(cityMapperURL)
+            } else {
+                print("\(#function) Can't configure the URL");
+            }
         } else {
             print("\(#function) Can't use \(CityMapperURL)");
         }
-
+        
     }
     
     static func hasCityMapper() -> Bool {

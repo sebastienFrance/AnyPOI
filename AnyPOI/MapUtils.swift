@@ -389,6 +389,50 @@ class MapUtils {
         return distanceFromTo
     }
     
+    static func configureMapImageFor(poi:PointOfInterest, mapSnapshot:MKMapSnapshot) -> UIImage? {
+        let mapImage = mapSnapshot.image
+        UIGraphicsBeginImageContextWithOptions(mapImage.size, true, mapImage.scale)
+        // Put the Map in the Graphic Context
+        mapImage.draw(at: CGPoint(x: 0, y: 0))
+        
+        if poi.poiRegionNotifyEnter || poi.poiRegionNotifyExit {
+            MapUtils.addCircleInMapSnapshot(poi.coordinate, radius: poi.poiRegionRadius, mapSnapshot: mapSnapshot)
+        }
+        
+        MapUtils.addAnnotationInMapSnapshot(poi, tintColor: poi.parentGroup!.color, mapSnapshot: mapSnapshot)
+        
+        return UIGraphicsGetImageFromCurrentImageContext()
+     }
+    
+    static func configureMapImageFor(pois:[PointOfInterest], mapSnapshot:MKMapSnapshot, poiSizeInMap:CGFloat) -> UIImage? {
+        let mapImage = mapSnapshot.image
+        
+        UIGraphicsBeginImageContextWithOptions(mapImage.size, true, mapImage.scale)
+        // Put the Map in the Graphic Context
+        mapImage.draw(at: CGPoint(x: 0, y: 0))
+        
+        for currentPoi in pois {
+            
+            // Draw the Pin image in the graphic context
+            let background = CAShapeLayer()
+            let rect = CGRect(x: mapSnapshot.point(for: currentPoi.coordinate).x,
+                              y: mapSnapshot.point(for: currentPoi.coordinate).y,
+                              width: poiSizeInMap,height: poiSizeInMap)
+            let path = UIBezierPath(ovalIn: rect)
+            background.path = path.cgPath
+            background.fillColor = currentPoi.parentGroup!.color.cgColor
+            background.strokeColor = UIColor.black.cgColor
+            background.lineWidth = 1
+            background.setNeedsDisplay()
+            background.render(in: UIGraphicsGetCurrentContext()!)
+        }
+        
+        // Get the final image from the Grapic context
+        let snapshotImage  = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return snapshotImage
+    }
+    
     // MARK: MapSnapshot utils
     static func addCircleInMapSnapshot(_ centerCoordinate:CLLocationCoordinate2D, radius:Double, mapSnapshot:MKMapSnapshot) {
         // Append the monitoring region
