@@ -390,19 +390,33 @@ class MapUtils {
     }
     
     static func configureMapImageFor(poi:PointOfInterest, mapSnapshot:MKMapSnapshot) -> UIImage? {
+        return MapUtils.configureMapImageFor(poi:poi,
+                                             mapSnapshot: mapSnapshot,
+                                             withColor:poi.parentGroup!.color,
+                                             withMonitoringCircle: poi.poiRegionNotifyEnter || poi.poiRegionNotifyExit,
+                                             radius: poi.poiRegionRadius)        
+     }
+    
+    static func configureMapImageFor(poi:PointOfInterest,
+                                     mapSnapshot:MKMapSnapshot,
+                                     withColor:UIColor,
+                                     withMonitoringCircle:Bool = false,
+                                     radius:Double = 0.0) -> UIImage? {
         let mapImage = mapSnapshot.image
-        UIGraphicsBeginImageContextWithOptions(mapImage.size, true, mapImage.scale)
+        UIGraphicsBeginImageContextWithOptions(mapImage.size, true, 0)
         // Put the Map in the Graphic Context
         mapImage.draw(at: CGPoint(x: 0, y: 0))
         
-        if poi.poiRegionNotifyEnter || poi.poiRegionNotifyExit {
-            MapUtils.addCircleInMapSnapshot(poi.coordinate, radius: poi.poiRegionRadius, mapSnapshot: mapSnapshot)
+        if withMonitoringCircle {
+            MapUtils.addCircleIn(mapSnapshot: mapSnapshot, centerCoordinate:poi.coordinate, radius: radius)
         }
+        MapUtils.addAnnotationIn(mapSnapshot: mapSnapshot, annotation:poi, tintColor: withColor)
         
-        MapUtils.addAnnotationInMapSnapshot(poi, tintColor: poi.parentGroup!.color, mapSnapshot: mapSnapshot)
-        
-        return UIGraphicsGetImageFromCurrentImageContext()
-     }
+        // Get the final image from the Grapic context
+        let snapshotImage  = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return snapshotImage
+    }
     
     static func configureMapImageFor(pois:[PointOfInterest], mapSnapshot:MKMapSnapshot, poiSizeInMap:CGFloat) -> UIImage? {
         let mapImage = mapSnapshot.image
@@ -427,14 +441,14 @@ class MapUtils {
             background.render(in: UIGraphicsGetCurrentContext()!)
         }
         
-        // Get the final image from the Grapic context
+        // Get the final image from the Graphic context
         let snapshotImage  = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         return snapshotImage
     }
     
     // MARK: MapSnapshot utils
-    static func addCircleInMapSnapshot(_ centerCoordinate:CLLocationCoordinate2D, radius:Double, mapSnapshot:MKMapSnapshot) {
+    static fileprivate func addCircleIn(mapSnapshot:MKMapSnapshot, centerCoordinate:CLLocationCoordinate2D, radius:Double) {
         // Append the monitoring region
         let background = CAShapeLayer()
         
@@ -466,7 +480,7 @@ class MapUtils {
         background.render(in: UIGraphicsGetCurrentContext()!)
     }
     
-    static func addAnnotationInMapSnapshot(_ annotation:MKAnnotation, tintColor:UIColor, mapSnapshot:MKMapSnapshot) {
+    static fileprivate func addAnnotationIn(mapSnapshot:MKMapSnapshot, annotation:MKAnnotation, tintColor:UIColor) {
         let pinAnnotation = MKPinAnnotationView(annotation: annotation, reuseIdentifier: "")
         pinAnnotation.pinTintColor = tintColor
         if let pinImage = pinAnnotation.image {
@@ -478,19 +492,6 @@ class MapUtils {
             pinImagePoint.y = pinImagePoint.y - pinAnnotation.frame.size.height
             // Draw the Pin image in the graphic context
             pinImage.draw(at: pinImagePoint)
-            
-//            let rect = CGRectMake(
-//                mapSnapshot.pointForCoordinate(annotation.coordinate).x,
-//                mapSnapshot.pointForCoordinate(annotation.coordinate).y - pinAnnotation.frame.size.height,
-//                pinAnnotation.frame.size.width,
-//                pinAnnotation.frame.size.height)
-            
-            // Not very clear!
-           // pinAnnotation.drawViewHierarchyInRect(rect, afterScreenUpdates: true)
         }
     }
-
-    
-
-
 }

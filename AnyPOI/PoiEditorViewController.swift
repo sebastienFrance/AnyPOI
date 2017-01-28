@@ -336,31 +336,21 @@ extension PoiEditorViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func refreshMapImageForMonitoring() {
-        if let mapImage = mapSnapshot?.image {
+        if let theMapSnapshot = mapSnapshot {
             
-            UIGraphicsBeginImageContextWithOptions(mapImage.size, true, 0)
-            // Put the Map in the Graphic Context
-            mapImage.draw(at: CGPoint(x: 0, y: 0))
+            let newMapImage = MapUtils.configureMapImageFor(poi:thePoi,
+                                                            mapSnapshot: theMapSnapshot,
+                                                            withColor: newParentGroup!.color,
+                                                            withMonitoringCircle: newRegionExit || newRegionEnter,
+                                                            radius: newRadius)
+            let newImageView = UIImageView(image: newMapImage)
             
-            if newRegionExit || newRegionEnter {
-                MapUtils.addCircleInMapSnapshot(thePoi.coordinate, radius: newRadius, mapSnapshot: mapSnapshot!)
-            }
-            MapUtils.addAnnotationInMapSnapshot(self.thePoi, tintColor: newParentGroup!.color, mapSnapshot: mapSnapshot!)
-            
-            // Get the final image from the Grapic context
-            let snapshotImage  = UIGraphicsGetImageFromCurrentImageContext()
-            UIGraphicsEndImageContext()
-            
-            // Build the UIImageView only once for the tableView
-            let newImageView = UIImageView(image: snapshotImage)
             snapshotMapImageView = newImageView
             snapshotMapImageView!.contentMode = .scaleAspectFill
             snapshotMapImageView!.clipsToBounds = true
             
-            // Update the section 0 that display the Map as background
-            if let cell = theTableView.cellForRow(at: IndexPath(row: Rows.monitoringMap, section: Sections.regionMonitoring)) {
-                refreshMapCell(cell)
-            }
+            // Update the row in the table
+            theTableView.reloadRows(at: [IndexPath(row: Rows.monitoringMap, section: Sections.regionMonitoring)], with: .none)
         }
     }
 
