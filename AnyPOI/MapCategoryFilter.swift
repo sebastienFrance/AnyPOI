@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MapFilter {
+class MapCategoryFilter {
     
     
     fileprivate(set) var filter:Set<CategoryUtils.Category>!

@@ -154,7 +154,7 @@
 "MapPOIMail"="Carte";
 "MapFilterIsOn"="Filtré";
 "MapFilterIsOff"="Aucun filtre";
-"ShowPOIsNotUsedMapFilterVC"="Afficher les POIs non utilisés";
+"ShowPOIsNotUsedMapFilterVC"="Afficher les POIs non utilisés par l'itinéraire";
 "RouteSectionMapFilterVC"="POIs sur l'itinéraire";
 "GroupsSectionMapFilterVC"="Groupes";
 "ImportLoadingGPXFile"="Chargement du fichier GPX";

@@ -32,4 +32,11 @@ class MapFilterCategoryTableViewCell: UITableViewCell {
         self.isFiltered = isFiltered
     }
     
+    func initWith(showPOIsNotInRoute:Bool) {
+        categoryImage.image = nil
+        categoryImage.isHidden = true
+        categoryLabel.text = NSLocalizedString("ShowPOIsNotUsedMapFilterVC", comment: "")
+        isFiltered = !showPOIsNotInRoute
+    }
+    
 }

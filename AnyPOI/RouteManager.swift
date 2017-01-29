@@ -13,8 +13,6 @@ import PKHUD
 protocol RouteDisplayInfos : class {
     func refresh(datasource:RouteDataSource)
     func hideRouteDisplay()
-    func refreshRouteOverlays()
-    func displayOnMap(groups:[GroupOfInterest], withMonitoredOverlays:Bool)
 }
 
 class RouteManager: NSObject {
@@ -30,7 +28,6 @@ class RouteManager: NSObject {
     fileprivate var hasRouteChangedDueToReloading = false
     
     weak fileprivate var routeDisplayInfos: RouteDisplayInfos!
-    //weak fileprivate var theMapView:MKMapView!
     fileprivate var theMapView:MKMapView {
         get {
             return MapViewController.instance!.theMapView
@@ -43,15 +40,15 @@ class RouteManager: NSObject {
         }
     }
     
-    fileprivate var mapViewController:UIViewController {
+    fileprivate var mapViewController:MapViewController {
         get {
             return MapViewController.instance!
         }
     }
 
     // MARK: Initializations
-    init(datasource:RouteDataSource, routeDisplay:RouteDisplayInfos) {
-        routeDatasource = datasource
+    init(route:Route, routeDisplay:RouteDisplayInfos) {
+        routeDatasource = RouteDataSource(route:route)
         routeDisplayInfos = routeDisplay
         super.init()
         subscribeRouteNotifications()
@@ -62,14 +59,17 @@ class RouteManager: NSObject {
         print("Deinit for RouteManager")
     }
     
+    
+    /// Put on the screen the view to display route infos
+    /// Add all POIs used by the route and non filtered annotation on the Map
     func loadAndDisplayOnMap() {
         displayRouteInfos()
         
-        // Add route Annotations
-        theMapView.removeAnnotations(theMapView.annotations)
-        theMapView.addAnnotations(routeDatasource.pois)
-        
-        routeDisplayInfos.displayOnMap(groups:POIDataManager.sharedInstance.findDisplayableGroups(), withMonitoredOverlays: false)
+        // Warning: remove all POIs from the Route and then add them again
+        // it's mandatory to reset the pin color and the content of the callout 
+        // to have the right button to add/remove the POI from the route
+        mapViewController.removeFromMap(pois: routeDatasource.pois)
+        mapViewController.addOnMap(pois: routeDatasource.pois)
 
         hasRouteChangedDueToReloading = true // Force the display of the Route even if no changes
         routeDatasource.theRoute.reloadDirections() // start to load the route
@@ -85,7 +85,6 @@ class RouteManager: NSObject {
     
     func cleanup() {
         removeRouteOverlays()
-        //theMapView.removeAnnotations(theMapView.annotations)
 
         UIView.animate(withDuration: 0.5, animations: {
             self.routeDisplayInfos.hideRouteDisplay()
@@ -137,7 +136,7 @@ class RouteManager: NSObject {
         let hudBaseView = PKHUD.sharedHUD.contentView as! PKHUDSquareBaseView
         hudBaseView.subtitleLabel.text = "\(NSLocalizedString("FromRouteManager", comment: "")) \(routeDatasource.fromPOI!.poiDisplayName!) \(routeDirectionCounter - routeDatasource.theRoute.routeToReloadCounter)/\(routeDirectionCounter)"
         
-        routeDisplayInfos.refreshRouteOverlays()
+        mapViewController.refreshRouteOverlays()
         displayRouteInfos()
     }
     
@@ -146,7 +145,7 @@ class RouteManager: NSObject {
         // Even if the route is empty we need to refresh it if it's requested
         // because we could still have old overlays from a previous route...
         if hasRouteChangedDueToReloading {
-            routeDisplayInfos.refreshRouteOverlays()
+            mapViewController.refreshRouteOverlays()
             displayRouteInfos()
             displayRouteMapRegion()
         }
@@ -237,24 +236,6 @@ class RouteManager: NSObject {
         }
     }
     
-    func executeAction() {
-        let mailActivity = RouteMailActivityItemSource(datasource:routeDatasource)
-        let GPXactivity = GPXActivityItemSource(route: [routeDatasource.theRoute])
-        var activityItems:[UIActivityItemSource] = [mailActivity, GPXactivity]
-        
-        if let image = MapViewController.instance!.mapImage() {
-            let imageActivity = ImageAcvitityItemSource(image: image)
-             activityItems.append(imageActivity)
-        }
-        
-        let activityController = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
-        activityController.excludedActivityTypes = [UIActivityType.print, UIActivityType.airDrop, UIActivityType.postToVimeo,
-                                                    UIActivityType.postToWeibo, UIActivityType.openInIBooks, UIActivityType.postToFlickr, UIActivityType.postToFacebook,
-                                                    UIActivityType.postToTwitter, UIActivityType.assignToContact, UIActivityType.addToReadingList, UIActivityType.copyToPasteboard,
-                                                    UIActivityType.saveToCameraRoll, UIActivityType.postToTencentWeibo, UIActivityType.message]
-        
-        MapViewController.instance!.present(activityController, animated: true, completion: nil)
-    }
     
 
     // MARK: Annotations & Overlays
@@ -324,7 +305,7 @@ class RouteManager: NSObject {
         }
     }
     
-    func setTransportType(_ transportType:MKDirectionsTransportType) {
+    func set(transportType:MKDirectionsTransportType) {
         if !isRouteFromCurrentLocationDisplayed {
             // Route will be automatically update thanks to database notification
             routeDatasource.updateWith(transportType:transportType)
@@ -344,7 +325,7 @@ class RouteManager: NSObject {
     }
     
 
-    func deleteWayPointAt(_ index:Int) {
+    func deleteWayPointAt(index:Int) {
         if routeDatasource.wayPoints.count > index {
             if routeDatasource.isFullRouteMode {
                 let wayPointToDelete = routeDatasource.wayPoints[index]

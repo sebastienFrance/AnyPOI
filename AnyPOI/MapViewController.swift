@@ -27,7 +27,8 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
     @IBOutlet weak var selectedTransportType: UISegmentedControl!
     @IBOutlet weak var userLocationButton: UIButton!
     
-    @IBOutlet weak var mapFilterButton: UIButton! 
+    @IBOutlet weak var mapFilterButton: UIButton!
+    
     @IBOutlet weak var exitRouteModeButton: UIButton!
     // Route
     fileprivate var isRouteMode:Bool {
@@ -84,7 +85,6 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
     fileprivate var filterPOIsNotInRoute = false
 
     //MARK: Other vars
-
     @IBOutlet weak var theMapView: MKMapView! {
         didSet {
             if let theMapView = theMapView {
@@ -184,11 +184,17 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
         return nil
     }
     
-    fileprivate func displayGroupsOnMap(_ groups:[GroupOfInterest], withMonitoredOverlays:Bool) {
+    func displayGroupsOnMap(_ groups:[GroupOfInterest], withMonitoredOverlays:Bool) {
         for currentGroup in groups {
             addOnMap(pois:currentGroup.pois, withMonitoredOverlays:withMonitoredOverlays)
         }
     }
+    
+    func refreshRouteOverlays() {
+        theMapView.removeOverlays(theMapView.overlays)
+        addRouteAllOverlays()
+    }
+
     
     fileprivate func subscribeNotifications() {
         subscribeMapNotifications()
@@ -299,8 +305,27 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
     }
 
     @IBAction func routeActionButtonPushed(_ sender: UIBarButtonItem) {
-        routeManager?.executeAction()
+        if let routeDatasource = routeManager?.routeDatasource {
+            let mailActivity = RouteMailActivityItemSource(datasource:routeDatasource)
+            let GPXactivity = GPXActivityItemSource(route: [routeDatasource.theRoute])
+            var activityItems:[UIActivityItemSource] = [mailActivity, GPXactivity]
+            
+            if let image = mapImage() {
+                let imageActivity = ImageAcvitityItemSource(image: image)
+                activityItems.append(imageActivity)
+            }
+            
+            let activityController = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
+            activityController.excludedActivityTypes = [UIActivityType.print, UIActivityType.airDrop, UIActivityType.postToVimeo,
+                                                        UIActivityType.postToWeibo, UIActivityType.openInIBooks, UIActivityType.postToFlickr, UIActivityType.postToFacebook,
+                                                        UIActivityType.postToTwitter, UIActivityType.assignToContact, UIActivityType.addToReadingList, UIActivityType.copyToPasteboard,
+                                                        UIActivityType.saveToCameraRoll, UIActivityType.postToTencentWeibo, UIActivityType.message]
+            
+            present(activityController, animated: true, completion: nil)
+        }
     }
+    
+
     //MARK: Actions from Information view
     
     @IBAction func editButtonPushed(_ sender: UIButton) {
@@ -350,7 +375,7 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
 
 
     @IBAction func selectedTransportTypeHasChanged(_ sender: UISegmentedControl) {
-        routeManager?.setTransportType(MapUtils.segmentIndexToTransportType(sender))
+        routeManager?.set(transportType:MapUtils.segmentIndexToTransportType(sender))
     }
 
     fileprivate func addMonitoredRegionOverlays() {
@@ -391,7 +416,7 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
     }
     
     func deleteWayPointAt(_ index:Int) {
-        routeManager?.deleteWayPointAt(index)
+        routeManager?.deleteWayPointAt(index:index)
     }
     
     func removeSelectedPoiFromRoute() {
@@ -498,7 +523,7 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
         // Mandatory to hide the UISearchController
         theSearchController?.isActive = false
         
-        addPOIOnMapAndUpdateFilter(poi: poi)
+        forceToShowPOIOnMap(poi: poi)
         
         if isSelected {
             if theMapView.selectedAnnotations.count > 0 {
@@ -510,7 +535,12 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
         mapAnimation.fromCurrentMapLocationTo(poi.coordinate)
     }
 
-    fileprivate func addPOIOnMapAndUpdateFilter(poi : PointOfInterest) {
+    
+    /// Force to how a POI on the Map. If filter configuration hide the given POI
+    /// the filter is automatically reconfigured to display the POI
+    ///
+    /// - Parameter poi: POI that must be displayed on the Map
+    fileprivate func forceToShowPOIOnMap(poi : PointOfInterest) {
         // Make sure the category of the POI is not filtered
         removeFromFilter(category:poi.category)
         
@@ -529,12 +559,17 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
 
     }
 
-    fileprivate func showPOIsOnMap(_ pois : [PointOfInterest]) {
+    
+    /// Force a list a POIs to be displayed on the Map. The Filter will be changed if needed and 
+    /// the map region will be changed to display the list of POIs
+    ///
+    /// - Parameter pois: List of POIs that must be displayed on the Map
+    fileprivate func forceToShowPOIsOnMap(_ pois : [PointOfInterest]) {
         // Mandatory to hide the UISearchController
         theSearchController?.isActive = false
 
         for currentPoi in pois {
-            addPOIOnMapAndUpdateFilter(poi:currentPoi)
+            forceToShowPOIOnMap(poi:currentPoi)
         }
         
         let region = MapUtils.boundingBoxForAnnotations(pois)
@@ -590,7 +625,9 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
     }
     
     func enableRouteModeWith(_ routeToDisplay:Route) {
-        routeManager = RouteManager(datasource:RouteDataSource(route:routeToDisplay), routeDisplay: self)
+        // Reset this flag before we display a route
+        filterPOIsNotInRoute = false
+        routeManager = RouteManager(route:routeToDisplay, routeDisplay: self)
         routeManager?.loadAndDisplayOnMap()
     }
 
@@ -634,7 +671,7 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
     func showPOIsFromNotification(_ notification : Notification) {
         let pois = (notification as NSNotification).userInfo![MapNotifications.showPOIs_Parameter_POIs] as? [PointOfInterest]
         if let thePois = pois {
-            showPOIsOnMap(thePois)
+            forceToShowPOIsOnMap(thePois)
         }
     }
 
@@ -658,9 +695,6 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
         }
     }
     
-    
-    
-    
      func addCategoryToFilter(_ notification:Notification) {
         if let userInfo = notification.userInfo, let category = userInfo[MapFilterViewController.Notifications.categoryParameter.categoryName] as? CategoryUtils.Category {
             addToFilter(category: category)
@@ -682,9 +716,13 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
         hidePOIsNotInRoute()
     }
     
-    
-    
-    fileprivate func addOnMap(pois:[PointOfInterest], withMonitoredOverlays:Bool = true) {
+    /// Add POIs (and their overlays) on the Map. Only POIs that are not filtered
+    /// are added in the Map, else they are put in the Filtered list
+    ///
+    /// - Parameters:
+    ///   - pois: An array of POI
+    ///   - withMonitoredOverlays: True to display the overlay (default value)
+    func addOnMap(pois:[PointOfInterest], withMonitoredOverlays:Bool = true) {
         var newPoisToBeAddedOnMap = [PointOfInterest]()
         var newOverlaysToBeAddedOnMap = [MKOverlay]()
         for currentPoi in pois {
@@ -705,7 +743,18 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
         }
     }
     
-    fileprivate func removeFromMap(pois:[PointOfInterest]) {
+    func removeAllPOIsFromMap() {
+        var poiToRemove = [PointOfInterest]()
+        // We can have other MKAnnotation like MKUserLocation
+        for currentAnnotation in theMapView.annotations {
+            if let poi = currentAnnotation as? PointOfInterest {
+                poiToRemove.append(poi)
+            }
+        }
+        removeFromMap(pois: poiToRemove)
+    }
+    
+    func removeFromMap(pois:[PointOfInterest]) {
         filteredPOIs = filteredPOIs.subtracting(pois)
         theMapView.removeAnnotations(pois)
         
@@ -986,7 +1035,7 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
             viewController.mode = .email 
         } else if segue.identifier == storyboard.openMapFilterId {
             let viewController = segue.destination as! MapFilterViewController
-            let mapFilter = MapFilter(initialFilter:categoryFilter)
+            let mapFilter = MapCategoryFilter(initialFilter:categoryFilter)
             viewController.filter = mapFilter
             if isRouteMode {
                 viewController.isRouteModeOn = true
@@ -1064,10 +1113,6 @@ extension MapViewController : RouteDisplayInfos {
         displayRouteInterfaces(false)
     }
     
-    func displayOnMap(groups:[GroupOfInterest], withMonitoredOverlays:Bool) {
-        displayGroupsOnMap(groups, withMonitoredOverlays: withMonitoredOverlays)
-    }
-
     func refresh(datasource:RouteDataSource) {
         displayRouteInterfaces(true)
        if datasource.wayPoints.isEmpty {
@@ -1079,10 +1124,6 @@ extension MapViewController : RouteDisplayInfos {
         }
     }
     
-    func refreshRouteOverlays() {
-        theMapView.removeOverlays(theMapView.overlays)
-        addRouteAllOverlays()
-    }
 
     fileprivate func showEmptyRoute() {
         fromToLabel.text = NSLocalizedString("RouteDisplayInfosRouteIsEmpty", comment: "")
@@ -1294,23 +1335,11 @@ extension MapViewController {
     }
     
     func showPOIsNotInRoute() {
-        filterPOIsNotInRoute = false
-        
-        // look into the filtered POIs if some POIs should be displayed
-        var poiToAdd = [PointOfInterest]()
-        for currentPoi in filteredPOIs {
-            if !categoryFilter.contains(currentPoi.category) {
-                poiToAdd.append(currentPoi)
-                if let monitoredRegionOverlay = currentPoi.getMonitordRegionOverlay() {
-                    theMapView.add(monitoredRegionOverlay)
-                }
-            }
+        if filterPOIsNotInRoute {
+            filterPOIsNotInRoute = false
+            addOnMap(pois: Array(filteredPOIs), withMonitoredOverlays: true)
+            updateFilterStatus()
         }
-        
-        theMapView.addAnnotations(poiToAdd)
-        filteredPOIs = filteredPOIs.subtracting(poiToAdd)
-        
-        updateFilterStatus()
     }
     
     fileprivate func hidePOIsNotInRoute() {

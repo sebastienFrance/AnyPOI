@@ -35,7 +35,7 @@ class MapFilterViewController: UIViewController {
     @IBOutlet weak var resetButton: UIBarButtonItem!
     var isRouteModeOn = false
     var showPOIsNotInRoute = false
-    var filter:MapFilter!
+    var filter:MapCategoryFilter!
     let groups = POIDataManager.sharedInstance.getGroups()
 
     override func viewDidLoad() {
@@ -110,13 +110,14 @@ extension MapFilterViewController : UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if section == Sections.categories {
+        switch section {
+        case Sections.categories:
             return NSLocalizedString("CategoriesSectionMapFilterVC", comment: "")
-        } else if section == Sections.groups {
+        case Sections.groups:
             return NSLocalizedString("GroupsSectionMapFilterVC", comment: "")
-        } else if section == Sections.routeMode {
+        case Sections.routeMode:
             return isRouteModeOn ? NSLocalizedString("RouteSectionMapFilterVC", comment: "") : nil
-        } else {
+        default:
             return nil
         }
     }
@@ -126,58 +127,58 @@ extension MapFilterViewController : UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == Sections.categories {
+        switch section {
+        case Sections.categories:
             return CategoryUtils.localSearchCategories.count
-        } else if section == Sections.groups {
+        case Sections.groups:
             return groups.count
-        } else if section == Sections.routeMode {
+        case Sections.routeMode:
             return isRouteModeOn ? 1 : 0
-        } else {
+        default:
             return 0
         }
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.section == Sections.categories {
+        switch indexPath.section {
+        case Sections.categories:
             let cell = tableView.dequeueReusableCell(withIdentifier: cellId.categoryCellId, for: indexPath) as! MapFilterCategoryTableViewCell
-            
             let category = CategoryUtils.localSearchCategories[indexPath.row]
             cell.initWith(category:category, isFiltered:filter.isFiletered(category: category))
-            
             return cell
-        } else if indexPath.section == Sections.groups {
+        case Sections.groups:
             let cell = tableView.dequeueReusableCell(withIdentifier: cellId.mapGroupFilterCellId, for: indexPath) as! MapFilterGroupTableViewCell
-
             cell.initWith(group:groups[indexPath.row])
-            
             return cell
-        } else if indexPath.section == Sections.routeMode {
+        case Sections.routeMode:
             let cell = tableView.dequeueReusableCell(withIdentifier: cellId.categoryCellId, for: indexPath) as! MapFilterCategoryTableViewCell
-            cell.categoryImage.image = nil
-            cell.categoryImage.isHidden = true
-            cell.categoryLabel.text = NSLocalizedString("ShowPOIsNotUsedMapFilterVC", comment: "")
-            cell.isFiltered = !showPOIsNotInRoute
+            cell.initWith(showPOIsNotInRoute: showPOIsNotInRoute)
             return cell
-        } else {
+        default:
             return UITableViewCell()
         }
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.section == Sections.categories {
+        switch indexPath.section {
+        case Sections.categories:
             let cell = theTableView.cellForRow(at: indexPath) as! MapFilterCategoryTableViewCell
             
             let category = CategoryUtils.localSearchCategories[indexPath.row]
             if filter.isFiletered(category: category) {
                 filter.remove(category: category)
                 cell.isFiltered = false
-                NotificationCenter.default.post(name: Notification.Name(rawValue: Notifications.removeCategoryFromFilter), object: self, userInfo:[Notifications.categoryParameter.categoryName: category])
+                NotificationCenter.default.post(name: Notification.Name(rawValue: Notifications.removeCategoryFromFilter),
+                                                object: self,
+                                                userInfo:[Notifications.categoryParameter.categoryName: category])
             } else {
                 filter.add(category: category)
                 cell.isFiltered = true
-                NotificationCenter.default.post(name: Notification.Name(rawValue: Notifications.addCategoryToFilter), object: self, userInfo:[Notifications.categoryParameter.categoryName: category])
+                NotificationCenter.default.post(name: Notification.Name(rawValue: Notifications.addCategoryToFilter),
+                                                object: self,
+                                                userInfo:[Notifications.categoryParameter.categoryName: category])
             }
-        } else if indexPath.section == Sections.groups {
+        case Sections.groups:
             let POIGroup = groups[indexPath.row]
             
             // Default group cannot be filtered
@@ -194,17 +195,16 @@ extension MapFilterViewController : UITableViewDelegate, UITableViewDataSource {
                     POIDataManager.sharedInstance.commitDatabase()
                 }
             }
-        } else if indexPath.section == Sections.routeMode {
+        case Sections.routeMode:
             showPOIsNotInRoute = !showPOIsNotInRoute
             let cell = theTableView.cellForRow(at: indexPath) as! MapFilterCategoryTableViewCell
-            cell.isFiltered = !showPOIsNotInRoute
-            if showPOIsNotInRoute {
-                NotificationCenter.default.post(name: Notification.Name(rawValue: Notifications.showPOIsNotInRoute), object: self)
-            } else {
-                NotificationCenter.default.post(name: Notification.Name(rawValue: Notifications.hidePOIsNotInRoute), object: self)
-            }
+            cell.initWith(showPOIsNotInRoute: showPOIsNotInRoute)
+            let notificationType = showPOIsNotInRoute ? Notifications.showPOIsNotInRoute : Notifications.hidePOIsNotInRoute
+            NotificationCenter.default.post(name: Notification.Name(rawValue: notificationType), object: self)
+
+        default:
+            return
         }
-        
         updateResetButtonState()
     }
 }

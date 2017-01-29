@@ -171,7 +171,7 @@
 		BEDC10541D97D4D1000C6A0D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BEDC10561D97D4D1000C6A0D /* InfoPlist.strings */; };
 		BEE8707F1E0D7A6400196000 /* GPXImportOptionsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE8707E1E0D7A6400196000 /* GPXImportOptionsTableViewController.swift */; };
 		BEEACE0C1E09CD9900E7D202 /* GPXImportRouteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEEACE0B1E09CD9900E7D202 /* GPXImportRouteTableViewCell.swift */; };
-		BEF580AB1DD8777D00306597 /* MapFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF580AA1DD8777D00306597 /* MapFilter.swift */; };
+		BEF580AB1DD8777D00306597 /* MapCategoryFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF580AA1DD8777D00306597 /* MapCategoryFilter.swift */; };
 		BEFDA7DB1DE9C9A200D3104D /* GPXParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEFDA7DA1DE9C9A200D3104D /* GPXParser.swift */; };
 		BEFE00AC1DDE4E7B009AA1BF /* SearchLoadingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEFE00AB1DDE4E7B009AA1BF /* SearchLoadingTableViewCell.swift */; };
 /* End PBXBuildFile section */
@@ -388,7 +388,7 @@
 		BEDC10571D97D4D7000C6A0D /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		BEE8707E1E0D7A6400196000 /* GPXImportOptionsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPXImportOptionsTableViewController.swift; sourceTree = "<group>"; };
 		BEEACE0B1E09CD9900E7D202 /* GPXImportRouteTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPXImportRouteTableViewCell.swift; sourceTree = "<group>"; };
-		BEF580AA1DD8777D00306597 /* MapFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapFilter.swift; sourceTree = "<group>"; };
+		BEF580AA1DD8777D00306597 /* MapCategoryFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapCategoryFilter.swift; sourceTree = "<group>"; };
 		BEFDA7DA1DE9C9A200D3104D /* GPXParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPXParser.swift; sourceTree = "<group>"; };
 		BEFE00AB1DDE4E7B009AA1BF /* SearchLoadingTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchLoadingTableViewCell.swift; sourceTree = "<group>"; };
 		C69B0EFCEBF29F5E7437465D /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
@@ -466,7 +466,7 @@
 			children = (
 				BE107D8E1DD72898008B09A1 /* MapFilterViewController.swift */,
 				BE107D901DD728C0008B09A1 /* MapFilterCategoryTableViewCell.swift */,
-				BEF580AA1DD8777D00306597 /* MapFilter.swift */,
+				BEF580AA1DD8777D00306597 /* MapCategoryFilter.swift */,
 				BE44B58A1DE1DF3700D08EC0 /* MapFilterGroupTableViewCell.swift */,
 			);
 			name = MapFilterVC;
@@ -1290,7 +1290,7 @@
 				BE107D8F1DD72898008B09A1 /* MapFilterViewController.swift in Sources */,
 				BE982D0E1DD233E500C7941A /* PoisMailActivityItemSource.swift in Sources */,
 				BE0CF3111D8B209A00344F8A /* GroupConfiguratorViewController.swift in Sources */,
-				BEF580AB1DD8777D00306597 /* MapFilter.swift in Sources */,
+				BEF580AB1DD8777D00306597 /* MapCategoryFilter.swift in Sources */,
 				BE0CF31A1D8B209A00344F8A /* PoiEditorViewController.swift in Sources */,
 				BE0CF3161D8B209A00344F8A /* MovePOIsTableViewCell.swift in Sources */,
 				BE0CF3051D8B209A00344F8A /* MapViewController.swift in Sources */,
