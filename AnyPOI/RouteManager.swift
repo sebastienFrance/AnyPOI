@@ -11,19 +11,10 @@ import MapKit
 import PKHUD
 
 protocol RouteDisplayInfos : class {
-    func displayRouteEmptyInfos()
-    func displayRouteSummaryInfos(_ datasource:RouteDataSource)
-    func displayRouteWayPointsInfos(_ datasource:RouteDataSource)
+    func refresh(datasource:RouteDataSource)
     func hideRouteDisplay()
-   
-    func doFlyover(_ routeDatasource:RouteDataSource)
-    
-    func refreshRouteAllOverlays()
+    func refreshRouteOverlays()
     func displayOnMap(groups:[GroupOfInterest], withMonitoredOverlays:Bool)
-    
-    
-    func getViewController() -> UIViewController
-    func getPoiCalloutDelegate() -> PoiCalloutDelegate
 }
 
 class RouteManager: NSObject {
@@ -39,13 +30,29 @@ class RouteManager: NSObject {
     fileprivate var hasRouteChangedDueToReloading = false
     
     weak fileprivate var routeDisplayInfos: RouteDisplayInfos!
-    weak fileprivate var theMapView:MKMapView!
+    //weak fileprivate var theMapView:MKMapView!
+    fileprivate var theMapView:MKMapView {
+        get {
+            return MapViewController.instance!.theMapView
+        }
+    }
+    
+    fileprivate var poiCallOutDelegate:PoiCalloutDelegate {
+        get {
+            return MapViewController.instance!.poiCalloutDelegate
+        }
+    }
+    
+    fileprivate var mapViewController:UIViewController {
+        get {
+            return MapViewController.instance!
+        }
+    }
 
     // MARK: Initializations
-    init(datasource:RouteDataSource, routeDisplay:RouteDisplayInfos, mapView:MKMapView) {
+    init(datasource:RouteDataSource, routeDisplay:RouteDisplayInfos) {
         routeDatasource = datasource
         routeDisplayInfos = routeDisplay
-        theMapView = mapView
         super.init()
         subscribeRouteNotifications()
     }
@@ -130,7 +137,7 @@ class RouteManager: NSObject {
         let hudBaseView = PKHUD.sharedHUD.contentView as! PKHUDSquareBaseView
         hudBaseView.subtitleLabel.text = "\(NSLocalizedString("FromRouteManager", comment: "")) \(routeDatasource.fromPOI!.poiDisplayName!) \(routeDirectionCounter - routeDatasource.theRoute.routeToReloadCounter)/\(routeDirectionCounter)"
         
-        routeDisplayInfos.refreshRouteAllOverlays()
+        routeDisplayInfos.refreshRouteOverlays()
         displayRouteInfos()
     }
     
@@ -139,7 +146,7 @@ class RouteManager: NSObject {
         // Even if the route is empty we need to refresh it if it's requested
         // because we could still have old overlays from a previous route...
         if hasRouteChangedDueToReloading {
-            routeDisplayInfos.refreshRouteAllOverlays()
+            routeDisplayInfos.refreshRouteOverlays()
             displayRouteInfos()
             displayRouteMapRegion()
         }
@@ -198,14 +205,7 @@ class RouteManager: NSObject {
     // When at the beginning of the list we display a summary of the date (full distance, full travel duration...)
     // Else we display only infos related to the From/To (with some differences when the route from the user location is displayed)
     func displayRouteInfos() {
-        if routeDatasource.wayPoints.isEmpty {
-            routeDisplayInfos.displayRouteEmptyInfos()
-        } else if routeDatasource.isFullRouteMode {
-            routeDisplayInfos.displayRouteSummaryInfos(routeDatasource)
-        } else {
-            routeDisplayInfos.displayRouteWayPointsInfos(routeDatasource)
-        }
-        
+        routeDisplayInfos.refresh(datasource: routeDatasource)
     }
 
     func showWayPointIndex(_ index:Int) {
@@ -312,7 +312,7 @@ class RouteManager: NSObject {
             
             
             alertActionSheet.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: nil))
-            routeDisplayInfos.getViewController().present(alertActionSheet, animated: true, completion: nil)
+            mapViewController.present(alertActionSheet, animated: true, completion: nil)
             
         } else {
             // If it's the first WayPoint we are adding in the route, it becomes the head
@@ -408,7 +408,7 @@ class RouteManager: NSObject {
                     self.removeAndRefreshRoute(poi:poi)
                 })
                 
-                routeDisplayInfos.getViewController().present(alertActionSheet, animated: true, completion: nil)
+                mapViewController.present(alertActionSheet, animated: true, completion: nil)
             } else {
                 removeAndRefreshRoute(poi:poi)
             }
@@ -564,7 +564,7 @@ class RouteManager: NSObject {
         routeDirections.calculate { routeResponse, routeError in
             HUD.hide()
             if let error = routeError {
-                Utilities.showAlertMessage(self.routeDisplayInfos.getViewController(), title:NSLocalizedString("Warning", comment: ""), error: error)
+                Utilities.showAlertMessage(self.mapViewController, title:NSLocalizedString("Warning", comment: ""), error: error)
                 self.isRouteFromCurrentLocationDisplayed = false
             } else {
                 // Get the first route direction from the response
@@ -596,7 +596,7 @@ class RouteManager: NSObject {
             routeDirections.calculate { routeResponse, routeError in
                 HUD.hide()
                 if let error = routeError {
-                    Utilities.showAlertMessage(self.routeDisplayInfos.getViewController(), title:NSLocalizedString("Warning", comment: ""), error: error)
+                    Utilities.showAlertMessage(self.mapViewController, title:NSLocalizedString("Warning", comment: ""), error: error)
                     self.isRouteFromCurrentLocationDisplayed = false
                 } else {
                     // Get the first route direction from the response
@@ -614,7 +614,7 @@ class RouteManager: NSObject {
     //MARK: Refresh POI
     fileprivate func refreshAnnotation(poi:PointOfInterest, withType:MapUtils.PinAnnotationType) {
         if let annotationView = theMapView.view(for: poi) as? WayPointPinAnnotationView {
-            MapUtils.refreshPin(annotationView, poi: poi, delegate: routeDisplayInfos.getPoiCalloutDelegate(), type: withType)
+            MapUtils.refreshPin(annotationView, poi: poi, delegate: poiCallOutDelegate, type: withType)
         }
     }
 
@@ -631,53 +631,13 @@ class RouteManager: NSObject {
     func refresh(poi:PointOfInterest) {
         if let annotationView = theMapView.view(for: poi) as? WayPointPinAnnotationView {
             let poiType = getPinType(poi: poi)
-            MapUtils.refreshPin(annotationView, poi: poi, delegate: routeDisplayInfos.getPoiCalloutDelegate(), type: poiType)
+            MapUtils.refreshPin(annotationView, poi: poi, delegate: poiCallOutDelegate, type: poiType)
             
             // Specific case when the route contains only the From then we must not set the
             // Add Way Point accessory
             if poiType == .routeStart && routeDatasource.wayPoints.count == 1 {
                 annotationView.disableAddWayPointAccessory()
             }
-        }
-    }
-
-
-    //MARK: Utils
-    // Display actions buttons
-    // Buttons always displayed:
-    // - Flyover and Navigation are always displayed
-    //
-    // Buttons displayed only when a route section is shown:
-    // - Show/Hide route from current location
-    // - Delete To/From WayPoint
-    func showActions() {
-        let alertActionSheet = UIAlertController(title: "\(routeDatasource.fromPOI!.poiDisplayName!) ➔ \(routeDatasource.toPOI!.poiDisplayName!)", message: "", preferredStyle: .actionSheet)
-        alertActionSheet.addAction(UIAlertAction(title:  NSLocalizedString("Flyover", comment: ""), style: .default) { alertAction in
-            self.routeDisplayInfos.doFlyover(self.routeDatasource)
-            })
-        
-        alertActionSheet.addAction(UIAlertAction(title: NSLocalizedString("Navigation", comment: ""), style: .default) { alertAction in
-            self.performNavigation()
-            })
-        
-        
-        alertActionSheet.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: nil))
-        routeDisplayInfos.getViewController().present(alertActionSheet, animated: true, completion: nil)
-        
-    }
-    
-    fileprivate func performNavigation() {
-        if routeDatasource.isFullRouteMode {
-            var items = [MKMapItem]()
-            
-            let mapAppOptions:[String : AnyObject] = [
-                MKLaunchOptionsMapTypeKey : MKMapType.standard.rawValue as AnyObject,
-                MKLaunchOptionsShowsTrafficKey: true as AnyObject]
-            
-            items = routeDatasource.theRoute.mapItems
-            MKMapItem.openMaps(with: items, launchOptions: mapAppOptions)
-        } else {
-            routeDisplayInfos.getViewController().performSegue(withIdentifier: PoiCalloutDelegateImpl.storyboard.startTableRouteId, sender: nil)
         }
     }
 
@@ -707,6 +667,4 @@ class RouteManager: NSObject {
             self.theMapView.selectAnnotation(self.routeDatasource.fromPOI!, animated: true)
         }
     }
-
-    
 }

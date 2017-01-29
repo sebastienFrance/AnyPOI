@@ -61,7 +61,7 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
 
     // Others
     fileprivate var mapAnimation:MapCameraAnimations!
-    fileprivate var poiCalloutDelegate:PoiCalloutDelegateImpl!
+    fileprivate(set) var poiCalloutDelegate:PoiCalloutDelegateImpl!
     fileprivate(set) var hideStatusBar = false
 
     var theSearchController:UISearchController?
@@ -315,8 +315,39 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
     // - Show/Hide route from current location
     // - Delete To/From WayPoint
     @IBAction func actionsButtonPushed(_ sender: UIButton) {
-        routeManager?.showActions()
+        if let routeDatasource = routeManager?.routeDatasource {
+            let alertActionSheet = UIAlertController(title: "\(routeDatasource.fromPOI!.poiDisplayName!) ➔ \(routeDatasource.toPOI!.poiDisplayName!)", message: "", preferredStyle: .actionSheet)
+            alertActionSheet.addAction(UIAlertAction(title:  NSLocalizedString("Flyover", comment: ""), style: .default) { alertAction in
+                self.flyover = FlyoverWayPoints(mapView: self.theMapView, delegate: self)
+                self.flyover!.doFlyover(routeDatasource, routeFromCurrentLocation:self.routeFromCurrentLocation)
+            })
+            
+            alertActionSheet.addAction(UIAlertAction(title: NSLocalizedString("Navigation", comment: ""), style: .default) { alertAction in
+                self.performNavigation(routeDatasource:routeDatasource)
+            })
+            
+            
+            alertActionSheet.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: nil))
+            present(alertActionSheet, animated: true, completion: nil)
+        }
+        
     }
+    
+    fileprivate func performNavigation(routeDatasource:RouteDataSource) {
+        if routeDatasource.isFullRouteMode {
+            var items = [MKMapItem]()
+            
+            let mapAppOptions:[String : AnyObject] = [
+                MKLaunchOptionsMapTypeKey : MKMapType.standard.rawValue as AnyObject,
+                MKLaunchOptionsShowsTrafficKey: true as AnyObject]
+            
+            items = routeDatasource.theRoute.mapItems
+            MKMapItem.openMaps(with: items, launchOptions: mapAppOptions)
+        } else {
+            performSegue(withIdentifier: PoiCalloutDelegateImpl.storyboard.startTableRouteId, sender: nil)
+        }
+    }
+
 
     @IBAction func selectedTransportTypeHasChanged(_ sender: UISegmentedControl) {
         routeManager?.setTransportType(MapUtils.segmentIndexToTransportType(sender))
@@ -559,7 +590,7 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
     }
     
     func enableRouteModeWith(_ routeToDisplay:Route) {
-        routeManager = RouteManager(datasource:RouteDataSource(route:routeToDisplay), routeDisplay: self, mapView: theMapView)
+        routeManager = RouteManager(datasource:RouteDataSource(route:routeToDisplay), routeDisplay: self)
         routeManager?.loadAndDisplayOnMap()
     }
 
@@ -1029,37 +1060,38 @@ extension MapViewController: RouteEditorDelegate {
 
 extension MapViewController : RouteDisplayInfos {
     
-    func doFlyover(_ routeDatasource:RouteDataSource) {
-        flyover = FlyoverWayPoints(mapView: theMapView, delegate: self)
-        flyover!.doFlyover(routeDatasource, routeFromCurrentLocation:self.routeFromCurrentLocation)
-    }
-
     func hideRouteDisplay() {
         displayRouteInterfaces(false)
-    }
-    
-    func getViewController() -> UIViewController {
-        return self
-    }
-    
-    func getPoiCalloutDelegate() -> PoiCalloutDelegate {
-        return poiCalloutDelegate
     }
     
     func displayOnMap(groups:[GroupOfInterest], withMonitoredOverlays:Bool) {
         displayGroupsOnMap(groups, withMonitoredOverlays: withMonitoredOverlays)
     }
 
-    func displayRouteEmptyInfos() {
+    func refresh(datasource:RouteDataSource) {
         displayRouteInterfaces(true)
-        fromToLabel.text = "Add a new or existing POI to start your route"
+       if datasource.wayPoints.isEmpty {
+            showEmptyRoute()
+        } else if datasource.isFullRouteMode {
+            showRouteSummary(datasource:datasource)
+        } else {
+            showRouteWayPoints(datasource:datasource)
+        }
+    }
+    
+    func refreshRouteOverlays() {
+        theMapView.removeOverlays(theMapView.overlays)
+        addRouteAllOverlays()
+    }
+
+    fileprivate func showEmptyRoute() {
+        fromToLabel.text = NSLocalizedString("RouteDisplayInfosRouteIsEmpty", comment: "")
         distanceLabel.text = ""
         thirdActionBarStackView.isHidden = true
     }
     
     // Show the summary infos when we are displaying the full route
-    func displayRouteSummaryInfos(_ datasource:RouteDataSource) {
-        displayRouteInterfaces(true)
+    fileprivate func showRouteSummary(datasource:RouteDataSource) {
         fromToLabel.text = datasource.routeName
         fromToLabel.textColor = UIColor.magenta
         distanceLabel.text = datasource.routeDistanceAndTime
@@ -1068,37 +1100,31 @@ extension MapViewController : RouteDisplayInfos {
     }
     
     // Show the infos about the route between the 2 wayPoints or between the current location and the To
-    func displayRouteWayPointsInfos(_ datasource:RouteDataSource) {
-        displayRouteInterfaces(true)
+    fileprivate func showRouteWayPoints(datasource:RouteDataSource) {
         let distanceFormatter = LengthFormatter()
         distanceFormatter.unitStyle = .short
-        if !isRouteFromCurrentLocationDisplayed {
-            // Show information between the 2 wayPoints
-            fromToLabel.textColor = UIColor.white
-
-            fromToLabel.text = datasource.routeName
-            distanceLabel.text = datasource.routeDistanceAndTime
-        } else {
+        if isRouteFromCurrentLocationDisplayed {
             // Show information between the current location and the To
-            fromToLabel.text = "Current location"
+            fromToLabel.text = NSLocalizedString("FromCurrentLocationRouteManager", comment: "")
             fromToLabel.textColor = UIColor.magenta
             let expectedTravelTime = Utilities.shortStringFromTimeInterval(routeFromCurrentLocation!.expectedTravelTime) as String
-            distanceLabel.text = "\(distanceFormatter.string(fromMeters: routeFromCurrentLocation!.distance)) in \(expectedTravelTime)"
+            distanceLabel.text = String(format: "\(NSLocalizedString("RouteDisplayInfos %@ in %@", comment:""))",
+                distanceFormatter.string(fromMeters: routeFromCurrentLocation!.distance),
+                expectedTravelTime)
             if let toDisplayName = datasource.toPOI?.poiDisplayName {
                 fromToLabel.text =  fromToLabel.text! + " ➔ \(toDisplayName)"
             }
+        } else {
+            // Show information between the 2 wayPoints
+            fromToLabel.textColor = UIColor.white
+            fromToLabel.text = datasource.routeName
+            distanceLabel.text = datasource.routeDistanceAndTime
         }
 
         selectedTransportType.selectedSegmentIndex = MapUtils.transportTypeToSegmentIndex(datasource.fromWayPoint!.transportType!)
-        
         thirdActionBarStackView.isHidden = false
     }
 
-    //MARK: Route overlays
-    func refreshRouteAllOverlays() {
-        theMapView.removeOverlays(theMapView.overlays)
-        addRouteAllOverlays()
-    }
 }
 
 extension MapViewController : UISearchResultsUpdating, UISearchControllerDelegate, UISearchBarDelegate {

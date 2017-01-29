@@ -461,7 +461,7 @@
 			name = src;
 			sourceTree = "<group>";
 		};
-		BE107D8D1DD7286C008B09A1 /* MapFilter */ = {
+		BE107D8D1DD7286C008B09A1 /* MapFilterVC */ = {
 			isa = PBXGroup;
 			children = (
 				BE107D8E1DD72898008B09A1 /* MapFilterViewController.swift */,
@@ -469,7 +469,7 @@
 				BEF580AA1DD8777D00306597 /* MapFilter.swift */,
 				BE44B58A1DE1DF3700D08EC0 /* MapFilterGroupTableViewCell.swift */,
 			);
-			name = MapFilter;
+			name = MapFilterVC;
 			sourceTree = "<group>";
 		};
 		BE2FF2CE1D8B284F00C0395A /* Storyboards */ = {
@@ -526,30 +526,26 @@
 		BE2FF2D21D8B2AF800C0395A /* MapVC */ = {
 			isa = PBXGroup;
 			children = (
-				BE4628D71DEF5BBC00FB4C52 /* GPXImport */,
-				BE2FF2D11D8B2AE400C0395A /* ContactsVC */,
-				BE2FF2E11D8B2FFC00C0395A /* RouteProviderVC */,
-				BE0CF2A41D8B209A00344F8A /* MapViewController.swift */,
-				BE107D8D1DD7286C008B09A1 /* MapFilter */,
-				BE0CF2A01D8B209A00344F8A /* CustomCalloutAccessoryView.swift */,
-				BE0CF2A11D8B209A00344F8A /* CustomCalloutLeftAccessoryView.swift */,
-				BE0CF2A51D8B209A00344F8A /* PoiCalloutDelegateImpl.swift */,
-				BE0CF2A91D8B209A00344F8A /* WayPointPinAnnotationView.swift */,
+				BE2FF2D31D8B2B2000C0395A /* RouteDetailsVC */,
 				BE2FF2D41D8B2B6A00C0395A /* SearchController */,
-				BE2FF2D31D8B2B2000C0395A /* Route */,
+				BE4628D71DEF5BBC00FB4C52 /* GPXImportVC */,
+				BE107D8D1DD7286C008B09A1 /* MapFilterVC */,
+				BE8C6EF71E3DFEAC00E961DC /* Callout AnnotationView */,
+				BE0CF2A41D8B209A00344F8A /* MapViewController.swift */,
+				BE0CF2A71D8B209A00344F8A /* RouteManager.swift */,
+				BE0CF2A51D8B209A00344F8A /* PoiCalloutDelegateImpl.swift */,
 			);
 			name = MapVC;
 			sourceTree = "<group>";
 		};
-		BE2FF2D31D8B2B2000C0395A /* Route */ = {
+		BE2FF2D31D8B2B2000C0395A /* RouteDetailsVC */ = {
 			isa = PBXGroup;
 			children = (
 				BE0CF2C11D8B209A00344F8A /* RouteDetailsViewController.swift */,
-				BE0CF2A71D8B209A00344F8A /* RouteManager.swift */,
 				BE0CF2C01D8B209A00344F8A /* RouteDetailsViewCell.swift */,
 				BE0CF2E21D8B209A00344F8A /* RouteSummaryTableViewCell.swift */,
 			);
-			name = Route;
+			name = RouteDetailsVC;
 			sourceTree = "<group>";
 		};
 		BE2FF2D41D8B2B6A00C0395A /* SearchController */ = {
@@ -816,7 +812,7 @@
 			name = dataModel;
 			sourceTree = "<group>";
 		};
-		BE4628D71DEF5BBC00FB4C52 /* GPXImport */ = {
+		BE4628D71DEF5BBC00FB4C52 /* GPXImportVC */ = {
 			isa = PBXGroup;
 			children = (
 				BE4628D81DEF5BEE00FB4C52 /* GPXImportViewController.swift */,
@@ -825,7 +821,7 @@
 				BE71ADF31DFC76F5008FB6CD /* ImportTextualDescriptionTableViewCell.swift */,
 				BE71ADEE1DFC50F1008FB6CD /* GPXImportOptions */,
 			);
-			name = GPXImport;
+			name = GPXImportVC;
 			sourceTree = "<group>";
 		};
 		BE71ADEE1DFC50F1008FB6CD /* GPXImportOptions */ = {
@@ -834,6 +830,18 @@
 				BEE8707E1E0D7A6400196000 /* GPXImportOptionsTableViewController.swift */,
 			);
 			name = GPXImportOptions;
+			sourceTree = "<group>";
+		};
+		BE8C6EF71E3DFEAC00E961DC /* Callout AnnotationView */ = {
+			isa = PBXGroup;
+			children = (
+				BE2FF2D11D8B2AE400C0395A /* ContactsVC */,
+				BE2FF2E11D8B2FFC00C0395A /* RouteProviderVC */,
+				BE0CF2A01D8B209A00344F8A /* CustomCalloutAccessoryView.swift */,
+				BE0CF2A11D8B209A00344F8A /* CustomCalloutLeftAccessoryView.swift */,
+				BE0CF2A91D8B209A00344F8A /* WayPointPinAnnotationView.swift */,
+			);
+			name = "Callout AnnotationView";
 			sourceTree = "<group>";
 		};
 		BE957E5D1DA8FDC7006CF455 /* WikipediaOptions */ = {

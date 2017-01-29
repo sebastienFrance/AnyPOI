@@ -56,6 +56,7 @@
 "Radius"="Rayon";
 "RouteNotDefined"="Pas de route configurée";
 "RouteNoDestination"="Pas de destination configurée";
+"RouteDisplayInfosRouteIsEmpty"="Ajoutez un points d'interêt pour démarrer votre itinéraire";
 "SpotlightKeywordTravel"="voyage";
 "SpotlightKeywordRoute"="itineraire";
 "SpotlightKeywordHolidays"="vacances";
@@ -81,6 +82,7 @@
 "UnknownFromToRouteDatasource"="Départ/Arrivée inconnues";
 "FullDirectionRouteDatasource"="Itinéraire pour";
 "RouteDatasource %@ in %@"="%@ en %@";
+"RouteDisplayInfos %@ in %@"="%@ en %@";
 "RouteDataSourceNoInfos"="Aucune information sur le voyage";
 "RouteSummaryTableRouteIsEmpty"="Le voyage est vide, ajoutez des points d'interêts";
 "NoRouteInfoRouteDatasource"="Pas d'infos sur l'itinéraire";

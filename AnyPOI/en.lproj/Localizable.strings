@@ -56,6 +56,7 @@
 "Radius"="Radius";
 "RouteNotDefined"="Route is not yet defined";
 "RouteNoDestination"="Destination not defined";
+"RouteDisplayInfosRouteIsEmpty"="add a Point of Interest to start your route";
 "SpotlightKeywordTravel"="travel";
 "SpotlightKeywordRoute"="route";
 "SpotlightKeywordHolidays"="holidays";
@@ -81,6 +82,7 @@
 "UnknownFromToRouteDatasource"="Unknown From/To";
 "FullDirectionRouteDatasource"="Full direction for";
 "RouteDatasource %@ in %@"="%@ in %@";
+"RouteDisplayInfos %@ in %@"="%@ in %@";
 "RouteDataSourceNoInfos"="No route information";
 "RouteSummaryTableRouteIsEmpty"="The route is not defined, add Points of interests";
 "NoRouteInfoRouteDatasource"="No route info";
