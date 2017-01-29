@@ -155,6 +155,8 @@
 "MapFilterIsOn"="Filtré";
 "MapFilterIsOff"="Aucun filtre";
 "ShowPOIsNotUsedMapFilterVC"="Afficher les POIs non utilisés par l'itinéraire";
+"MapFilterShowAllPoisTitle"="Affichez tous les points d'interêts";
+"MapFilterShowAllPoisDescription"="Si cette option n'est pas cochée, seuls les points d'intérêt utilisés dans l'itinéraire sont affichés";
 "RouteSectionMapFilterVC"="POIs sur l'itinéraire";
 "GroupsSectionMapFilterVC"="Groupes";
 "ImportLoadingGPXFile"="Chargement du fichier GPX";

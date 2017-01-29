@@ -153,6 +153,8 @@
 "MapFilterIsOn"="Filtered";
 "MapFilterIsOff"="No filter";
 "ShowPOIsNotUsedMapFilterVC"="Show POIs not used in route";
+"MapFilterShowAllPoisTitle"="Show all Points of Interests";
+"MapFilterShowAllPoisDescription"="When unchecked, only Points of Interests used in the route are displayed";
 "RouteSectionMapFilterVC"="POIs in Route";
 "GroupsSectionMapFilterVC"="Groups";
 "CategoriesSectionMapFilterVC"="Categories";

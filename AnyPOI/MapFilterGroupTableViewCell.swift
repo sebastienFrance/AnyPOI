@@ -26,5 +26,13 @@ class MapFilterGroupTableViewCell: UITableViewCell {
             accessoryType = .none
             groupDisplayName.textColor = UIColor.red
         }
+        
+        if POIDataManager.sharedInstance.isDefaultGroup(group) {
+            groupDisplayName.isEnabled = false
+            tintColor = UIColor.lightGray
+        } else {
+            groupDisplayName.isEnabled = true
+            tintColor = nil
+        }
     }
 }

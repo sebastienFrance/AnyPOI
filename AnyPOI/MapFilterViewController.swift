@@ -101,6 +101,7 @@ extension MapFilterViewController : UITableViewDelegate, UITableViewDataSource {
     struct cellId {
         static let categoryCellId = "MapFilterCategoryCellId"
         static let mapGroupFilterCellId = "mapGroupFilterCellId"
+        static let mapFilterShowAllPoisId = "mapFilterShowAllPoisId"
     }
     
     struct Sections {
@@ -151,7 +152,7 @@ extension MapFilterViewController : UITableViewDelegate, UITableViewDataSource {
             cell.initWith(group:groups[indexPath.row])
             return cell
         case Sections.routeMode:
-            let cell = tableView.dequeueReusableCell(withIdentifier: cellId.categoryCellId, for: indexPath) as! MapFilterCategoryTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: cellId.mapFilterShowAllPoisId, for: indexPath) as! MapFilterShowAllPoisTableViewCell
             cell.initWith(showPOIsNotInRoute: showPOIsNotInRoute)
             return cell
         default:
@@ -197,7 +198,7 @@ extension MapFilterViewController : UITableViewDelegate, UITableViewDataSource {
             }
         case Sections.routeMode:
             showPOIsNotInRoute = !showPOIsNotInRoute
-            let cell = theTableView.cellForRow(at: indexPath) as! MapFilterCategoryTableViewCell
+            let cell = theTableView.cellForRow(at: indexPath) as! MapFilterShowAllPoisTableViewCell
             cell.initWith(showPOIsNotInRoute: showPOIsNotInRoute)
             let notificationType = showPOIsNotInRoute ? Notifications.showPOIsNotInRoute : Notifications.hidePOIsNotInRoute
             NotificationCenter.default.post(name: Notification.Name(rawValue: notificationType), object: self)
