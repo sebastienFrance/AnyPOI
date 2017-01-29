@@ -60,7 +60,7 @@ class RouteDetailsViewController: UIViewController {
     @IBAction func transportTypeChangeForWayPoint(_ sender: UISegmentedControl) {
         let transportType = MapUtils.segmentIndexToTransportType(sender)
         
-        wayPointsDelegate.routeDatasource?.setTransportTypeForWayPointAtIndex(sender.tag, transportType: transportType)
+        wayPointsDelegate.routeDatasource?.setTransportTypeForWayPoint(index:sender.tag, transportType: transportType)
 
         loadRoute()// Route has been changed -> reload direction!
     }

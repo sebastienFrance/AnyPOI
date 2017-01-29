@@ -31,7 +31,7 @@ class RouteMailActivityItemSource: NSObject, UIActivityItemSource {
     }
     
     func activityViewController(_ activityViewController: UIActivityViewController, itemForActivityType activityType: UIActivityType) -> Any? {
-        if routeDatasource.isBeforeRouteSections {
+        if routeDatasource.isFullRouteMode {
             if activityType == UIActivityType.mail  {
                 return HTMLAnyPoi.appendCSSAndSignature(html: routeToHTML())
             } else if activityType.rawValue == HTMLAnyPoi.readdleSparkActivity  {

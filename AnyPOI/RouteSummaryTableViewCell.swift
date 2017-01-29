@@ -19,7 +19,7 @@ class RouteSummaryTableViewCell: UITableViewCell {
     }
     
     func initWith(_ route:Route) {
-        fromLabel.text = "Route is empty"
+        fromLabel.text = NSLocalizedString("RouteSummaryTableRouteIsEmpty", comment: "")
         totalDistanceAndDurationLabel.text = ""
     }
     

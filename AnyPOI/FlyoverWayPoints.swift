@@ -138,7 +138,7 @@ class FlyoverWayPoints: NSObject{
                 // set the Map to satellite for Flyover / Remove all useless annotation & overlays from the map and start Flyover animation
                 self.theMapView.mapType = .satelliteFlyover
                 self.prepareAnnotationsAndOverlaysForFlyover(routeDatasource)
-                if routeDatasource.isBeforeRouteSections {
+                if routeDatasource.isFullRouteMode {
                     self.mapAnimation!.flyover(routeDatasource.wayPoints)
                 } else {
                     if let route = routeFromCurrentLocation {
@@ -165,11 +165,11 @@ class FlyoverWayPoints: NSObject{
         
         for currentAnnotation in theMapView.annotations {
             if let currentPoi = currentAnnotation as? PointOfInterest {
-                if !datasource.hasPoi(currentPoi) {
+                if !datasource.contains(poi:currentPoi) {
                     flyoverRemovedAnnotations.append(currentPoi)
                 } else {
                     // If Flyover has been started for a section, we keep only the From & To of this section
-                    if !datasource.isBeforeRouteSections && datasource.fromPOI != currentPoi && datasource.toPOI != currentPoi {
+                    if !datasource.isFullRouteMode && datasource.fromPOI != currentPoi && datasource.toPOI != currentPoi {
                         flyoverRemovedAnnotations.append(currentPoi)
                     } else {
                         if let viewAnnotation = theMapView.view(for: currentAnnotation) as? WayPointPinAnnotationView {

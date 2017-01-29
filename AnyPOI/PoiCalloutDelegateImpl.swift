@@ -136,12 +136,12 @@ extension PoiCalloutDelegateImpl : PoiCalloutDelegate {
     
     func trashWayPoint(_ sender:UIButton) {
         let mapViewControler = viewController as! MapViewController
-        mapViewControler.removeSelectedPoi()
+        mapViewControler.removeSelectedPoiFromRoute()
     }
     
     func addWayPoint(_ sender:UIButton) {
         let mapViewControler = viewController as! MapViewController
-        mapViewControler.addSelectedPoi()
+        mapViewControler.addSelectedPoiInRoute()
        
     }
     

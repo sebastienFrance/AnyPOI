@@ -25,7 +25,7 @@ class CustomCalloutLeftAccessoryView: UIView {
         case .routeEnd:
             enableRemoveWayPoint(delegate)
             disableAddWayPoint()
-            if !(MapViewController.instance?.routeDatasource?.isBeforeRouteSections)! {
+            if !(MapViewController.instance?.routeDatasource?.isFullRouteMode)! {
                 enableRouteFromCurrentLocation(delegate)
             } else {
                 disableRouteFromCurrentLocation()

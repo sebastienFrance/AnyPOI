@@ -27,16 +27,19 @@ protocol RouteDisplayInfos : class {
 }
 
 class RouteManager: NSObject {
+    let routeDatasource:RouteDataSource
+
+    enum RouteSectionProgress {
+        case forward, backward, all
+    }
     
     fileprivate(set) var routeFromCurrentLocation : MKRoute?
     fileprivate(set) var isRouteFromCurrentLocationDisplayed = false
-    let routeDatasource:RouteDataSource
     fileprivate var routeDirectionCounter = 0
+    fileprivate var hasRouteChangedDueToReloading = false
     
     weak fileprivate var routeDisplayInfos: RouteDisplayInfos!
     weak fileprivate var theMapView:MKMapView!
-    
-    fileprivate var hasRouteChangedDueToReloading = false
 
     // MARK: Initializations
     init(datasource:RouteDataSource, routeDisplay:RouteDisplayInfos, mapView:MKMapView) {
@@ -92,19 +95,19 @@ class RouteManager: NSObject {
     fileprivate func subscribeRouteNotifications() {
         // Route notifications
         NotificationCenter.default.addObserver(self,
-                                                         selector: #selector(RouteManager.directionForWayPointUpdated(_:)),
-                                                         name: NSNotification.Name(rawValue: Route.Notifications.directionForWayPointUpdated),
-                                                         object: nil)
+                                               selector: #selector(RouteManager.directionForWayPointUpdated(_:)),
+                                               name: NSNotification.Name(rawValue: Route.Notifications.directionForWayPointUpdated),
+                                               object: nil)
         
         NotificationCenter.default.addObserver(self,
-                                                         selector:  #selector(RouteManager.directionsDone(_:)),
-                                                         name: NSNotification.Name(rawValue: Route.Notifications.directionsDone),
-                                                         object: nil)
+                                               selector:  #selector(RouteManager.directionsDone(_:)),
+                                               name: NSNotification.Name(rawValue: Route.Notifications.directionsDone),
+                                               object: nil)
         
         NotificationCenter.default.addObserver(self,
-                                                         selector: #selector(RouteManager.directionStarting(_:)),
-                                                         name: NSNotification.Name(rawValue: Route.Notifications.directionStarting),
-                                                         object: nil)
+                                               selector: #selector(RouteManager.directionStarting(_:)),
+                                               name: NSNotification.Name(rawValue: Route.Notifications.directionStarting),
+                                               object: nil)
     }
     
     func directionStarting(_ notification : Notification) {
@@ -133,7 +136,9 @@ class RouteManager: NSObject {
     
     func directionsDone(_ notification : Notification) {
         HUD.hide()
-       if routeDatasource.wayPoints.count > 1  && hasRouteChangedDueToReloading {
+        // Even if the route is empty we need to refresh it if it's requested
+        // because we could still have old overlays from a previous route...
+        if hasRouteChangedDueToReloading {
             routeDisplayInfos.refreshRouteAllOverlays()
             displayRouteInfos()
             displayRouteMapRegion()
@@ -143,7 +148,7 @@ class RouteManager: NSObject {
     // Display the next, previous route section or the full route
     //  - Annotations & Callouts will be refreshed appropriately
     //  - Overlays will be refreshed to reflect the current route position
-    func displayRouteSection(_ direction:MapViewController.RouteSectionProgress) {
+    func moveTo(direction:RouteSectionProgress) {
         if let oldFrom = routeDatasource.fromPOI,
             let oldTo = routeDatasource.toPOI {
             
@@ -151,7 +156,7 @@ class RouteManager: NSObject {
             switch direction {
             case .forward: routeDatasource.moveToNextWayPoint()
             case .backward: routeDatasource.moveToPreviousWayPoint()
-            case .all: routeDatasource.showAllRoute()
+            case .all: routeDatasource.setFullRouteMode()
             }
             
             if let newFrom = routeDatasource.fromPOI,
@@ -195,7 +200,7 @@ class RouteManager: NSObject {
     func displayRouteInfos() {
         if routeDatasource.wayPoints.isEmpty {
             routeDisplayInfos.displayRouteEmptyInfos()
-        } else if routeDatasource.isBeforeRouteSections {
+        } else if routeDatasource.isFullRouteMode {
             routeDisplayInfos.displayRouteSummaryInfos(routeDatasource)
         } else {
             routeDisplayInfos.displayRouteWayPointsInfos(routeDatasource)
@@ -204,8 +209,8 @@ class RouteManager: NSObject {
     }
 
     func showWayPointIndex(_ index:Int) {
-        routeDatasource.setCurrentWayPoint(index)
-        displayRouteSection(.forward)
+        routeDatasource.setFromWayPoint(wayPointIndex:index)
+        moveTo(direction:.forward)
     }
     
     
@@ -213,9 +218,8 @@ class RouteManager: NSObject {
     // - When a route section is displayed it zooms on the route section
     // - When the full route is displayed it zooms to display the full route...
     func displayRouteMapRegion() {
-        if routeDatasource.isBeforeRouteSections {
+        if routeDatasource.isFullRouteMode {
             if let region = routeDatasource.theRoute.region {
-                //let regionThatFits = theMapView.regionThatFits(region)
                 theMapView.setRegion(region, animated: true)
             }
         } else {
@@ -272,7 +276,7 @@ class RouteManager: NSObject {
     // - When a route section is displayed only the related overlay is added on the Map
     // - When the route from current location is enabled then only this overlay is added on the Map
     func addRouteOverlays() {
-        if routeDatasource.isBeforeRouteSections {
+        if routeDatasource.isFullRouteMode {
             // Add all overlays to show the full route
             theMapView.addOverlays(routeDatasource.theRoute.polyLines, level: .aboveRoads)
         } else {
@@ -295,7 +299,7 @@ class RouteManager: NSObject {
     // This method create a new WayPoint for this POI in the route
     // When the new WayPoint is inserted, it will automatically trigger a route loading
     func add(poi:PointOfInterest) {
-        if routeDatasource.isBeforeRouteSections && !routeDatasource.wayPoints.isEmpty {
+        if routeDatasource.isFullRouteMode && !routeDatasource.wayPoints.isEmpty {
             
             // Request to the user if the POI must be added as the start or as the end of the route
             let alertActionSheet = UIAlertController(title: "\(NSLocalizedString("AddWayPointRouteManager", comment: "")) \(poi.poiDisplayName!)", message: NSLocalizedString("WhereRouteManager", comment: ""), preferredStyle: .actionSheet)
@@ -323,9 +327,9 @@ class RouteManager: NSObject {
     func setTransportType(_ transportType:MKDirectionsTransportType) {
         if !isRouteFromCurrentLocationDisplayed {
             // Route will be automatically update thanks to database notification
-            routeDatasource.updateTransportTypeFromWayPoint(transportType)
+            routeDatasource.updateWith(transportType:transportType)
         } else {
-            buildRouteFromCurrentLocation(transportType)
+            addRouteFromCurrentLocation(withTransportType:transportType)
         }
         
     }
@@ -337,13 +341,12 @@ class RouteManager: NSObject {
         for currentWayPoint in routeDatasource.wayPoints {
             refresh(poi:currentWayPoint.wayPointPoi!)
         }
-        
     }
     
 
     func deleteWayPointAt(_ index:Int) {
         if routeDatasource.wayPoints.count > index {
-            if routeDatasource.isBeforeRouteSections {
+            if routeDatasource.isFullRouteMode {
                 let wayPointToDelete = routeDatasource.wayPoints[index]
                 
                 // Remove the overlay of the deleted WayPoint
@@ -374,7 +377,7 @@ class RouteManager: NSObject {
                 }
                 
                 // Delete the WayPoint and update the indexes
-                routeDatasource.deleteWayPoint(wayPointToDelete)
+                routeDatasource.delete(wayPoint:wayPointToDelete)
                 
                 // Refresh Poi annotations
                 refresh(poi:fromPoiToRefresh)
@@ -383,38 +386,34 @@ class RouteManager: NSObject {
                 }
             } else {
                 // It's exactly as if the user has selected on the Map an Annotation and selected deletion on the Callout
-                removePoiAndRefresh(routeDatasource.wayPoints[index].wayPointPoi!)
+                removeAndRefreshRoute(poi:routeDatasource.wayPoints[index].wayPointPoi!)
             }
         }
     }
     
     // Delete from the route the POI with a selected annotation on the Map
     // Dialog box is opened to request confirmation when the Poi is used by several route sections
-    func removeSelectedPoi() {
-        if theMapView.selectedAnnotations.count > 0,
-            let selectedPoi = theMapView.selectedAnnotations[0] as? PointOfInterest {
-            
-            if routeDatasource.poiOccurences(selectedPoi) > 1 {
-                // the POI is used several times in the route
-                // If the full route is displayed or
-                // if a section only is displayed and the Poi to remove is not the start / stop
-                // we request user confirm the Poi must be fully removed from the route
-                if routeDatasource.isBeforeRouteSections ||
-                    (routeDatasource.fromPOI != selectedPoi && routeDatasource.toPOI != selectedPoi) {
-                    let alertActionSheet = UIAlertController(title: NSLocalizedString("Warning", comment: ""), message: "\(selectedPoi.poiDisplayName!) \(NSLocalizedString("POIUsedSeveralTimesDoWeDeleteItRouteManager", comment: ""))", preferredStyle: .alert)
-                    alertActionSheet.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: nil))
-                    alertActionSheet.addAction(UIAlertAction(title: NSLocalizedString("Ok", comment: ""), style: .default) {  alertAction in
-                        
-                        self.removePoiAndRefresh(selectedPoi)
-                        })
+    func remove(poi:PointOfInterest) {
+        if routeDatasource.occurencesOf(poi:poi) > 1 {
+            // the POI is used several times in the route
+            // If the full route is displayed or
+            // if a section only is displayed and the Poi to remove is not the start / stop
+            // we request user confirm the Poi must be fully removed from the route
+            if routeDatasource.isFullRouteMode ||
+                (routeDatasource.fromPOI != poi && routeDatasource.toPOI != poi) {
+                let alertActionSheet = UIAlertController(title: NSLocalizedString("Warning", comment: ""), message: "\(poi.poiDisplayName!) \(NSLocalizedString("POIUsedSeveralTimesDoWeDeleteItRouteManager", comment: ""))", preferredStyle: .alert)
+                alertActionSheet.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: nil))
+                alertActionSheet.addAction(UIAlertAction(title: NSLocalizedString("Ok", comment: ""), style: .default) {  alertAction in
                     
-                    routeDisplayInfos.getViewController().present(alertActionSheet, animated: true, completion: nil)
-                } else {
-                    removePoiAndRefresh(selectedPoi)
-                }
+                    self.removeAndRefreshRoute(poi:poi)
+                })
+                
+                routeDisplayInfos.getViewController().present(alertActionSheet, animated: true, completion: nil)
             } else {
-                removePoiAndRefresh(selectedPoi)
+                removeAndRefreshRoute(poi:poi)
             }
+        } else {
+            removeAndRefreshRoute(poi:poi)
         }
     }
     
@@ -423,9 +422,13 @@ class RouteManager: NSObject {
     //  - Poi is removed from route data source
     //  - To & From annotations are refreshed
     //  - If required, we display the full route
-    fileprivate func removePoiAndRefresh(_ poi:PointOfInterest) {
+    fileprivate func removeAndRefreshRoute(poi:PointOfInterest) {
         var needToRefreshCurrentRouteSection = false
         // If the POI is used to display the current WayPoint we remove its overlay
+        
+        //FIXEDME: Error, when we are in FR Mode we must not delete the overlay from the fromWayPoint because
+        // in this mode the fromWayPoint is the start of the route and not the segment we want to remove (which can 
+        // be anywhere in the route (start, middle, end...)
         if poi === routeDatasource.fromPOI || poi === routeDatasource.toPOI,
             let overlayToRemove = routeDatasource.fromWayPoint?.routeInfos?.polyline {
             theMapView.remove(overlayToRemove)
@@ -433,7 +436,7 @@ class RouteManager: NSObject {
         }
         
         // Remove the Poi from the datasource
-        routeDatasource.deleteWayPointsWith(poi)
+        routeDatasource.deleteWayPointsWith(poi: poi)
         
         // Update the removed Poi on the Map (Pin annotation & callout)
         //refreshPoiRemovedFromRoute(poi)
@@ -445,7 +448,7 @@ class RouteManager: NSObject {
         
         // If there's no route section, we go back to route start
         if routeDatasource.theRoute.wayPoints.count == 1 {
-            displayRouteSection(.all)
+            moveTo(direction:.all)
         }
     }
     
@@ -464,7 +467,7 @@ class RouteManager: NSObject {
             }
             
             // The new wayPoint is inserted at the start
-            routeDatasource.insertPoiAsRouteStart(poi)
+            routeDatasource.insertAsRouteStart(poi:poi)
             refreshAnnotation(poi:poi, withType: .routeStart)
             
         case .tail: // Only when the whole route is displayed
@@ -478,7 +481,7 @@ class RouteManager: NSObject {
             }
             
             // The new wayPoint is added at the end
-            routeDatasource.insertPoiAtAsRouteEnd(poi)
+            routeDatasource.insertAsRouteEnd(poi:poi)
             
             // Refresh the fromPoi of the new .tail
             // It must be done after the new POI has been added in the route
@@ -502,7 +505,7 @@ class RouteManager: NSObject {
             }
             
             // The new wayPoint is added at the end of the new route section
-            routeDatasource.insertPoiInRoute(poi)
+            routeDatasource.append(poi:poi)
             refreshAnnotation(poi:poi, withType: .routeEnd)
         }
     }
@@ -574,10 +577,10 @@ class RouteManager: NSObject {
         }
     }
     
-    fileprivate func buildRouteFromCurrentLocation(_ transportType:MKDirectionsTransportType) {
+    fileprivate func addRouteFromCurrentLocation(withTransportType:MKDirectionsTransportType) {
         if let toPoi = routeDatasource.toPOI {
             let routeRequest = MKDirectionsRequest()
-            routeRequest.transportType = transportType
+            routeRequest.transportType = withTransportType
             routeRequest.source = MKMapItem.forCurrentLocation()
             routeRequest.destination = MKMapItem(placemark: MKPlacemark(coordinate: toPoi.coordinate, addressDictionary: nil))
             
@@ -664,7 +667,7 @@ class RouteManager: NSObject {
     }
     
     fileprivate func performNavigation() {
-        if routeDatasource.isBeforeRouteSections {
+        if routeDatasource.isFullRouteMode {
             var items = [MKMapItem]()
             
             let mapAppOptions:[String : AnyObject] = [
@@ -688,7 +691,7 @@ class RouteManager: NSObject {
             // === The Poi is displayed as the To
             poiType = .routeEnd
         } else {
-            if routeDatasource.hasPoi(poi) {
+            if routeDatasource.contains(poi:poi) {
                 // === The Poi is part of the route but currently its WayPoint is not displayed
                 poiType = .waypoint
             }

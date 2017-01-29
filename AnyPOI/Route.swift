@@ -31,30 +31,39 @@ class Route: NSManagedObject {
     // Get the bounding box to display the route on Map
     var region: MKCoordinateRegion? {
         get {
-
-            var overlays = [MKMultiPoint]()
-            var annotations = [PointOfInterest]()
-            for wayPoint in routeWayPoints! {
-                let theWayPoint = wayPoint as! WayPoint
-                if let theRoutePolyline = theWayPoint.routeInfos?.polyline {
-                    overlays.append(theRoutePolyline)
-                }
+            if let wayPoints = routeWayPoints {
                 
-                if let thePoi = theWayPoint.wayPointPoi {
-                    annotations.append(thePoi)
-                }
-            }
-
-            if overlays.count == 0 {
-                if annotations.count > 0 {
-                   return MapUtils.boundingBoxForAnnotations(annotations)
-                } else {
+                if wayPoints.count <= 1 {
                     return nil
                 }
+                
+                
+                var overlays = [MKMultiPoint]()
+                var annotations = [PointOfInterest]()
+                for wayPoint in wayPoints {
+                    let theWayPoint = wayPoint as! WayPoint
+                    if let theRoutePolyline = theWayPoint.routeInfos?.polyline {
+                        overlays.append(theRoutePolyline)
+                    }
+                    
+                    if let thePoi = theWayPoint.wayPointPoi {
+                        annotations.append(thePoi)
+                    }
+                }
+                
+                if overlays.count == 0 {
+                    if annotations.count > 0 {
+                        return MapUtils.boundingBoxForAnnotations(annotations)
+                    } else {
+                        return nil
+                    }
+                } else {
+                    var (topLeft, bottomRight) = MapUtils.boundingBoxForOverlays(overlays)
+                    (topLeft, bottomRight) = MapUtils.extendBoundingBox(topLeft, bottomRightCoord: bottomRight, annotations: annotations)
+                    return MapUtils.appendMargingToBoundBox(topLeft, bottomRightCoord: bottomRight)
+                }
             } else {
-                var (topLeft, bottomRight) = MapUtils.boundingBoxForOverlays(overlays)
-                (topLeft, bottomRight) = MapUtils.extendBoundingBox(topLeft, bottomRightCoord: bottomRight, annotations: annotations)
-                return MapUtils.appendMargingToBoundBox(topLeft, bottomRightCoord: bottomRight)
+                return nil
             }
         }
     }
@@ -308,7 +317,6 @@ class Route: NSManagedObject {
         
         // look for the first wayPoint without calculatedRoute and request an update
         var foundWayPoint = false
-        //var index = 0
         var startIndex = 0
         
         // We cannot have route to compute if don't have at least 2 WayPoints
@@ -326,7 +334,7 @@ class Route: NSManagedObject {
         
         
         if foundWayPoint {
-            print("Request direction from index: \(startIndex)")
+            print("\(#function) Request direction from index: \(startIndex)")
             NotificationCenter.default.post(name: Notification.Name(rawValue: Notifications.directionStarting),
                                                                       object: self,
                                                                       userInfo:[DirectionStartingParameters.startingWayPoint : wayPoints[startIndex]])
@@ -353,15 +361,15 @@ class Route: NSManagedObject {
         }
         
         if currentIndex >= (wayPoints.count - 1) {
-            print("Error, cannot request a route starting with the latest wayPoint")
+            print("\(#function) Error, cannot request a route starting with the latest wayPoint")
             isDirectionLoading = false
             return
         }
         if wayPoints[currentIndex].routeInfos == nil || (wayPoints[currentIndex].routeInfos != nil && forceToReload) {
             if let directions = RouteUtilities.getDirectionRequestFor(wayPoints[currentIndex], destination: wayPoints[currentIndex + 1]) {
-                print("requestRouteDirectionFrom to Server with currentIndex : \(currentIndex)")
+                print("\(#function) requestRouteDirectionFrom to Server with currentIndex : \(currentIndex)")
                 directions.calculate { routeResponse, routeError in
-                    print("calculateDirectionsWithCompletionHandler with currentIndex : \(currentIndex)")
+                    print("\(#function) calculateDirectionsWithCompletionHandler with currentIndex : \(currentIndex)")
                     
                     self.routeToReloadCounter -= 1
                     
@@ -399,7 +407,7 @@ class Route: NSManagedObject {
                     }
                 }
             } else {
-                print("Direction cannot be allocated from \(wayPoints[currentIndex].wayPointPoi?.poiDisplayName) to \(wayPoints[currentIndex + 1].wayPointPoi?.poiDisplayName)")
+                print("\(#function) Direction cannot be allocated from \(wayPoints[currentIndex].wayPointPoi?.poiDisplayName) to \(wayPoints[currentIndex + 1].wayPointPoi?.poiDisplayName)")
                 isDirectionLoading = false
             }
         } else {
