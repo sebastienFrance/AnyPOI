@@ -190,12 +190,6 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
         }
     }
     
-    func refreshRouteOverlays() {
-        theMapView.removeOverlays(theMapView.overlays)
-        addRouteAllOverlays()
-    }
-
-    
     fileprivate func subscribeNotifications() {
         subscribeMapNotifications()
         subscribeMapNotificationsFilter()
@@ -390,25 +384,7 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
         }
     }
     
-    // Display all overlays which include:
-    //  - Route overlays
-    //  - Monitored regions
-    fileprivate func addRouteAllOverlays() {
-        routeManager?.addRouteOverlays()
-        addMonitoredRegionOverlays()
-    }
     
-    // Remove from the map all overlays used to display the route
-    fileprivate func removeRouteOverlays() {
-        var overlaysToRemove = [MKOverlay]()
-        for currentOverlay in theMapView.overlays {
-            if currentOverlay is MKPolyline {
-                overlaysToRemove.append(currentOverlay)
-            }
-        }
-        
-        theMapView.removeOverlays(overlaysToRemove)
-    }
     
     // MARK: Route API
     func moveWayPoint(sourceIndex: Int, destinationIndex:Int) {
@@ -883,7 +859,7 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
                 if isRouteMode && !notificationsContent.updatedRoutes.isEmpty {
                     for currentRoute in notificationsContent.updatedRoutes {
                         if currentRoute === routeDatasource!.theRoute {
-                            routeManager?.displayRouteInfos()
+                            routeManager?.refreshRouteInfosOverview()
                             break
                         }
                     }
@@ -1284,10 +1260,10 @@ extension MapViewController : FlyoverWayPointsDelegate {
     func flyoverDidEnd(_ flyoverUpdatedPois:[PointOfInterest], urgentStop:Bool) {
         if isRouteMode  {
             if routeDatasource!.isFullRouteMode {
-                removeRouteOverlays()
+                routeManager?.removeAllRouteOverlays()
                 routeManager?.addRouteOverlays()
             }
-            routeManager?.displayRouteInfos()
+            routeManager?.refreshRouteInfosOverview()
        }
         
         for currentPoi in flyoverUpdatedPois {

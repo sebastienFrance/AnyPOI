@@ -346,7 +346,7 @@ class Route: NSManagedObject {
     }
 
     fileprivate func requestRouteFrom(currentIndex:Int, untilEnd:Bool, forceToReload:Bool) {
-        isDirectionLoading = true
+//        isDirectionLoading = true
         requestRouteDirectionFrom(currentIndex:currentIndex, untilEnd: untilEnd, forceToReload: forceToReload)
     }
     
@@ -368,6 +368,7 @@ class Route: NSManagedObject {
         if wayPoints[currentIndex].routeInfos == nil || (wayPoints[currentIndex].routeInfos != nil && forceToReload) {
             if let directions = RouteUtilities.getDirectionRequestFor(wayPoints[currentIndex], destination: wayPoints[currentIndex + 1]) {
                 print("\(#function) requestRouteDirectionFrom to Server with currentIndex : \(currentIndex)")
+                isDirectionLoading = true
                 directions.calculate { routeResponse, routeError in
                     print("\(#function) calculateDirectionsWithCompletionHandler with currentIndex : \(currentIndex)")
                     
@@ -401,9 +402,12 @@ class Route: NSManagedObject {
                     if untilEnd && (currentIndex + 1 < self.wayPoints.count - 1) {
                         self.requestRouteFrom(currentIndex:currentIndex + 1, untilEnd:true, forceToReload: forceToReload)
                     } else {
-                        self.isDirectionLoading = false
                         self.updateLatestDistanceAndDuration()
                         NotificationCenter.default.post(name: Notification.Name(rawValue: Notifications.directionsDone), object: self)
+                        // It must be done after the post of directionDone
+                        // If not then the MapView will detect the route has been changed and then triggers a new route synchronization
+                        // which will be useless
+                        self.isDirectionLoading = false
                     }
                 }
             } else {

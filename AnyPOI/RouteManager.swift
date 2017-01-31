@@ -25,7 +25,6 @@ class RouteManager: NSObject {
     fileprivate(set) var routeFromCurrentLocation : MKRoute?
     fileprivate(set) var isRouteFromCurrentLocationDisplayed = false
     fileprivate var routeDirectionCounter = 0
-    fileprivate var hasRouteChangedDueToReloading = false
     
     weak fileprivate var routeDisplayInfos: RouteDisplayInfos!
     fileprivate var theMapView:MKMapView {
@@ -47,6 +46,13 @@ class RouteManager: NSObject {
     }
 
     // MARK: Initializations
+    
+    /// Initialize a RouteManager
+    ///
+    /// - Parameters:
+    ///   - route: Route that must be managed and displayed
+    ///   - routeDisplay: interface that display the route overview and that must be refreshed
+    ///   when the route is changed
     init(route:Route, routeDisplay:RouteDisplayInfos) {
         routeDatasource = RouteDataSource(route:route)
         routeDisplayInfos = routeDisplay
@@ -57,44 +63,6 @@ class RouteManager: NSObject {
     deinit {
         NotificationCenter.default.removeObserver(self)
         print("Deinit for RouteManager")
-    }
-    
-    
-    /// Put on the screen the view to display route infos
-    /// Add all POIs used by the route and non filtered annotation on the Map
-    func loadAndDisplayOnMap() {
-        displayRouteInfos()
-        
-        // Warning: remove all POIs from the Route and then add them again
-        // it's mandatory to reset the pin color and the content of the callout 
-        // to have the right button to add/remove the POI from the route
-        mapViewController.removeFromMap(pois: routeDatasource.pois)
-        mapViewController.addOnMap(pois: routeDatasource.pois)
-
-        hasRouteChangedDueToReloading = true // Force the display of the Route even if no changes
-        routeDatasource.theRoute.reloadDirections() // start to load the route
-        
-        // Initialization of the Map must be done only when the view is ready.
-        if let region = routeDatasource.theRoute.region {
-            // Don't change the MapView if we have only one wayPoint
-            if routeDatasource.wayPoints.count > 1 {
-                theMapView.setRegion(region, animated: true)
-            }
-        }
-    }
-    
-    func cleanup() {
-        removeRouteOverlays()
-
-        UIView.animate(withDuration: 0.5, animations: {
-            self.routeDisplayInfos.hideRouteDisplay()
-        }, completion: nil)
-        
-    }
-    
-    func reloadDirections() {
-        hasRouteChangedDueToReloading = false
-        routeDatasource.theRoute.reloadDirections()
     }
     
     //MARK: Route notifications
@@ -116,8 +84,13 @@ class RouteManager: NSObject {
                                                object: nil)
     }
     
+    
+    /// Called only when the direction must be computed. It set a flag
+    /// to force to refresh the overlays... of the route when the directions will be computed
+    /// and it displays a hud with the number of direction that must be resolved
+    ///
+    /// - Parameter notification: notification that has triggered the direction
     func directionStarting(_ notification : Notification) {
-        hasRouteChangedDueToReloading = true
         PKHUD.sharedHUD.dimsBackground = true
         HUD.show(.progress)
         let hudBaseView = PKHUD.sharedHUD.contentView as! PKHUDSquareBaseView
@@ -132,24 +105,65 @@ class RouteManager: NSObject {
         }
     }
     
+    
+    /// Called when a part of the direction is available and can be displayed on the Map
+    /// It removes all overlays related to the route from the Map and add it again to add the new
+    /// available sections
+    /// It refreshes also the counter in the HUD (number of direction that must still be computed)
+    ///
+    /// - Parameter notification: notification that has triggered the direction update
     func directionForWayPointUpdated(_ notification : Notification) {
         let hudBaseView = PKHUD.sharedHUD.contentView as! PKHUDSquareBaseView
         hudBaseView.subtitleLabel.text = "\(NSLocalizedString("FromRouteManager", comment: "")) \(routeDatasource.fromPOI!.poiDisplayName!) \(routeDirectionCounter - routeDatasource.theRoute.routeToReloadCounter)/\(routeDirectionCounter)"
         
-        mapViewController.refreshRouteOverlays()
-        displayRouteInfos()
+        //removeAllRouteOverlays()
+        addRouteOverlays()
+        displayRouteMapRegion()
+        
+        refreshRouteInfosOverview()
     }
     
     func directionsDone(_ notification : Notification) {
         HUD.hide()
         // Even if the route is empty we need to refresh it if it's requested
         // because we could still have old overlays from a previous route...
-        if hasRouteChangedDueToReloading {
-            mapViewController.refreshRouteOverlays()
-            displayRouteInfos()
-            displayRouteMapRegion()
-        }
+        removeAllRouteOverlays()
+        addRouteOverlays()
+        
+        refreshRouteInfosOverview()
+        displayRouteMapRegion()
     }
+
+    //MARK: public interface
+    
+    /// Put on the screen the view to display route infos
+    /// Add all POIs used by the route and non filtered annotation on the Map
+    func loadAndDisplayOnMap() {
+        refreshRouteInfosOverview()
+        
+        // Warning: remove all POIs from the Route and then add them again
+        // it's mandatory to reset the pin color and the content of the callout 
+        // to have the right button to add/remove the POI from the route
+        mapViewController.removeFromMap(pois: routeDatasource.pois)
+        mapViewController.addOnMap(pois: routeDatasource.pois)
+
+        // start to load the route asynchronously
+        routeDatasource.theRoute.reloadDirections()
+    }
+    
+    func cleanup() {
+        removeRouteOverlays()
+
+        UIView.animate(withDuration: 0.5, animations: {
+            self.routeDisplayInfos.hideRouteDisplay()
+        }, completion: nil)
+        
+    }
+    
+    func reloadDirections() {
+        routeDatasource.theRoute.reloadDirections()
+    }
+    
     
     // Display the next, previous route section or the full route
     //  - Annotations & Callouts will be refreshed appropriately
@@ -158,6 +172,9 @@ class RouteManager: NSObject {
         if let oldFrom = routeDatasource.fromPOI,
             let oldTo = routeDatasource.toPOI {
             
+            // Remove the overlays currently displayed for the route before we go to the next section
+            removeRouteOverlays()
+
             // Update From & To based on direction
             switch direction {
             case .forward: routeDatasource.moveToNextWayPoint()
@@ -174,7 +191,7 @@ class RouteManager: NSObject {
                 isRouteFromCurrentLocationDisplayed = false
                 
                 // Update the short infos based on new route section displayed
-                displayRouteInfos()
+                refreshRouteInfosOverview()
                 
                 // Reset color of the old From only if it has really changed
                 if oldFrom != newFrom {
@@ -189,8 +206,7 @@ class RouteManager: NSObject {
                 
                 refreshAnnotationsForCurrentWayPoint()
                 
-                // Remove all route overlays currently displayed and add the new ones
-                removeRouteOverlays()
+                // add the overlays to display the current route section (or the full route)
                 addRouteOverlays()
                 
                 // Update the Map region based on the route section currently displayed
@@ -203,7 +219,7 @@ class RouteManager: NSObject {
     // Show information on Map (distance, duration...)
     // When at the beginning of the list we display a summary of the date (full distance, full travel duration...)
     // Else we display only infos related to the From/To (with some differences when the route from the user location is displayed)
-    func displayRouteInfos() {
+    func refreshRouteInfosOverview() {
         routeDisplayInfos.refresh(datasource: routeDatasource)
     }
 
@@ -239,23 +255,26 @@ class RouteManager: NSObject {
     
 
     // MARK: Annotations & Overlays
-    // Remove from the map all overlays used to display the route
-    // FIXEDME: 😡😡⚡️⚡️ Should be improved
+    
+    func removeAllRouteOverlays() {
+        theMapView.removeOverlays(routeDatasource.theRoute.polyLines)
+    }
+    
+    /// Remove the route overlays of the current position
     fileprivate func removeRouteOverlays() {
-        var overlaysToRemove = [MKOverlay]()
-        for currentOverlay in theMapView.overlays {
-            if currentOverlay is MKPolyline {
-                overlaysToRemove.append(currentOverlay)
+        if routeDatasource.isFullRouteMode {
+            theMapView.removeOverlays(routeDatasource.theRoute.polyLines)
+        } else {
+            if let polyLine = routeDatasource.fromWayPoint?.routeInfos?.polyline {
+                theMapView.remove(polyLine)
             }
         }
-        
-        theMapView.removeOverlays(overlaysToRemove)
     }
 
-    // Add the overlays for the Route based on routeDatasource
-    // - When the whole route is displayed all routes overlays are added on the Map
-    // - When a route section is displayed only the related overlay is added on the Map
-    // - When the route from current location is enabled then only this overlay is added on the Map
+    /// Add the overlays for the Route based on routeDatasource
+    /// - When the whole route is displayed all routes overlays are added on the Map
+    /// - When a route section is displayed only the related overlay is added on the Map
+    /// - When the route from current location is enabled then only this overlay is added on the Map
     func addRouteOverlays() {
         if routeDatasource.isFullRouteMode {
             // Add all overlays to show the full route
@@ -420,7 +439,6 @@ class RouteManager: NSObject {
         routeDatasource.deleteWayPointsWith(poi: poi)
         
         // Update the removed Poi on the Map (Pin annotation & callout)
-        //refreshPoiRemovedFromRoute(poi)
         refresh(poi:poi)
         
         if needToRefreshCurrentRouteSection {
@@ -505,7 +523,7 @@ class RouteManager: NSObject {
         }
         routeFromCurrentLocation = nil
         
-        displayRouteInfos()
+        refreshRouteInfosOverview()
         displayRouteMapRegion()
     }
 
@@ -522,7 +540,7 @@ class RouteManager: NSObject {
         
         theMapView.add(routeFromCurrentLocation!.polyline)
         
-        displayRouteInfos()
+        refreshRouteInfosOverview()
         displayRouteMapRegion()
     }
     
