@@ -22,6 +22,7 @@ class RouteManager: NSObject {
         case forward, backward, all
     }
     
+    fileprivate(set) var routeFromCurrentLocationTo: PointOfInterest?
     fileprivate(set) var routeFromCurrentLocation : MKRoute?
     fileprivate(set) var isRouteFromCurrentLocationDisplayed = false
     fileprivate var routeDirectionCounter = 0
@@ -107,8 +108,9 @@ class RouteManager: NSObject {
     
     
     /// Called when a part of the direction is available and can be displayed on the Map
-    /// It removes all overlays related to the route from the Map and add it again to add the new
-    /// available sections
+    /// Add overlays on the Map based on the current position (when not in FMR and a new WayPoint is
+    /// added the Map will contains 2 overlays, one for the previous wayPoint and one for the new one.
+    /// the Old overlay will be removed in directionsDone() with removeAllOverlays
     /// It refreshes also the counter in the HUD (number of direction that must still be computed)
     ///
     /// - Parameter notification: notification that has triggered the direction update
@@ -116,13 +118,20 @@ class RouteManager: NSObject {
         let hudBaseView = PKHUD.sharedHUD.contentView as! PKHUDSquareBaseView
         hudBaseView.subtitleLabel.text = "\(NSLocalizedString("FromRouteManager", comment: "")) \(routeDatasource.fromPOI!.poiDisplayName!) \(routeDirectionCounter - routeDatasource.theRoute.routeToReloadCounter)/\(routeDirectionCounter)"
         
-        //removeAllRouteOverlays()
+        // FIXEDME: Maybe we should not add the overlays in this method? or we should find a better
+        // way to see the progress when a new one is added
         addRouteOverlays()
         displayRouteMapRegion()
         
         refreshRouteInfosOverview()
     }
     
+    
+    /// Called when the direction has been completed
+    /// All route overlays are removed and they are displayed again
+    /// to make sure displayed overlays reflect the position in the route
+    ///
+    /// - Parameter notification: notification that has triggered the direction update
     func directionsDone(_ notification : Notification) {
         HUD.hide()
         // Even if the route is empty we need to refresh it if it's requested
@@ -151,6 +160,8 @@ class RouteManager: NSObject {
         routeDatasource.theRoute.reloadDirections()
     }
     
+    
+    /// Remove all route overlays and hide the RouteInfos view from the Map
     func cleanup() {
         removeRouteOverlays()
 
@@ -160,18 +171,31 @@ class RouteManager: NSObject {
         
     }
     
+    
+    /// Called when a new WayPoint has been added in the Route
+    /// It will start a reload of direction for the new WayPoint
     func reloadDirections() {
         routeDatasource.theRoute.reloadDirections()
     }
     
-    
-    // Display the next, previous route section or the full route
-    //  - Annotations & Callouts will be refreshed appropriately
-    //  - Overlays will be refreshed to reflect the current route position
+     /// Display the next, previous route section or the full route
+    ///  - Annotations & Callouts will be refreshed appropriately
+    ///  - Overlays will be refreshed to reflect the current route position
+    ///
+    /// - Parameter direction: direction to move on the route (forward, backward or all)
     func moveTo(direction:RouteSectionProgress) {
         if let oldFrom = routeDatasource.fromPOI,
             let oldTo = routeDatasource.toPOI {
             
+            // Remove Overlay for from current location
+            if isRouteFromCurrentLocationDisplayed {
+                isRouteFromCurrentLocationDisplayed = false
+                routeFromCurrentLocationTo = nil
+                if let routeToRemove = routeFromCurrentLocation {
+                    theMapView.remove(routeToRemove.polyline)
+                }
+            }
+
             // Remove the overlays currently displayed for the route before we go to the next section
             removeRouteOverlays()
 
@@ -187,8 +211,6 @@ class RouteManager: NSObject {
                 
                 showHUDForTransition()
                 
-                // Remove Overlay for from current location
-                isRouteFromCurrentLocationDisplayed = false
                 
                 // Update the short infos based on new route section displayed
                 refreshRouteInfosOverview()
@@ -238,16 +260,16 @@ class RouteManager: NSObject {
                 theMapView.setRegion(region, animated: true)
             }
         } else {
-            if !isRouteFromCurrentLocationDisplayed {
+            if isRouteFromCurrentLocationDisplayed {
+                let (topLeft, bottomRight) = MapUtils.boundingBoxForOverlay(routeFromCurrentLocation!.polyline)
+                let region = MapUtils.appendMargingToBoundBox(topLeft, bottomRightCoord: bottomRight)
+                self.theMapView.setRegion(region, animated: true)
+            } else {
                 let region = routeDatasource.fromWayPoint!.regionWith([routeDatasource.fromPOI!, routeDatasource.toPOI!])
                 if let theRegion = region {
                     theMapView.setRegion(theRegion, animated: true)
                 }
-            } else {
-                var (topLeft, bottomRight) = MapUtils.boundingBoxForAnnotationsNew([routeDatasource.fromPOI!, routeDatasource.toPOI!])
-                (topLeft, bottomRight) = MapUtils.extendBoundingBox(topLeft, bottomRightCoord: bottomRight, multiPointOverlay: routeFromCurrentLocation!.polyline)
-                let region = MapUtils.appendMargingToBoundBox(topLeft, bottomRightCoord: bottomRight)
-                self.theMapView.setRegion(region, animated: true)
+
             }
         }
     }
@@ -256,8 +278,17 @@ class RouteManager: NSObject {
 
     // MARK: Annotations & Overlays
     
+    /// Remove all overlays of the route and 
+    /// the overlay displaying the route from the current position (if displayed)
     func removeAllRouteOverlays() {
         theMapView.removeOverlays(routeDatasource.theRoute.polyLines)
+        
+        if isRouteFromCurrentLocationDisplayed {
+            isRouteFromCurrentLocationDisplayed = false
+            if let routeToRemove = routeFromCurrentLocation {
+                theMapView.remove(routeToRemove.polyline)
+            }
+        }
     }
     
     /// Remove the route overlays of the current position
@@ -267,6 +298,13 @@ class RouteManager: NSObject {
         } else {
             if let polyLine = routeDatasource.fromWayPoint?.routeInfos?.polyline {
                 theMapView.remove(polyLine)
+            }
+        }
+        
+        if isRouteFromCurrentLocationDisplayed {
+            isRouteFromCurrentLocationDisplayed = false
+            if let routeToRemove = routeFromCurrentLocation {
+                theMapView.remove(routeToRemove.polyline)
             }
         }
     }
@@ -329,7 +367,7 @@ class RouteManager: NSObject {
             // Route will be automatically update thanks to database notification
             routeDatasource.updateWith(transportType:transportType)
         } else {
-            addRouteFromCurrentLocation(withTransportType:transportType)
+            reconfigureCurrentLocationRoute(withTransportType:transportType)
         }
         
     }
@@ -522,6 +560,7 @@ class RouteManager: NSObject {
             theMapView.remove(overlayFromCurrentLocation)
         }
         routeFromCurrentLocation = nil
+        routeFromCurrentLocationTo = nil
         
         refreshRouteInfosOverview()
         displayRouteMapRegion()
@@ -530,10 +569,12 @@ class RouteManager: NSObject {
     // - Add the Polyline overlay to display the route from the current location
     // - Update the Summary infos
     // - Change the Map bounding box to display the whole route
-    fileprivate func displayRouteFromCurrentLocation(_ route:MKRoute) {
+    fileprivate func displayRouteFromCurrentLocation(route:MKRoute, toPOI:PointOfInterest) {
         if let oldRoute = routeFromCurrentLocation {
             theMapView.remove(oldRoute.polyline)
         }
+        
+        routeFromCurrentLocationTo = toPOI
         routeFromCurrentLocation = route
         routeFromCurrentLocation?.polyline.title = MapUtils.PolyLineType.fromCurrentPosition
         isRouteFromCurrentLocationDisplayed = true
@@ -544,8 +585,12 @@ class RouteManager: NSObject {
         displayRouteMapRegion()
     }
     
-    // Request the route from the current location to target of the current route section
-    func buildRouteFromCurrentLocationTo(targetPOI: PointOfInterest, transportType:MKDirectionsTransportType) {
+    /// Request the route from the current location to target POI. When the route is computed it's displayed on the map
+    ///
+    /// - Parameters:
+    ///   - targetPOI: Destination of the route
+    ///   - transportType: transport to be used for the route computation (walk, automobile...)
+    func addRouteFromCurrentLocation(targetPOI: PointOfInterest, transportType:MKDirectionsTransportType) {
         let routeRequest = MKDirectionsRequest()
         routeRequest.transportType = transportType
         routeRequest.source = MKMapItem.forCurrentLocation()
@@ -565,18 +610,26 @@ class RouteManager: NSObject {
             if let error = routeError {
                 Utilities.showAlertMessage(self.mapViewController, title:NSLocalizedString("Warning", comment: ""), error: error)
                 self.isRouteFromCurrentLocationDisplayed = false
+                self.routeFromCurrentLocationTo = nil
+
             } else {
                 // Get the first route direction from the response
                 if let firstRoute = routeResponse?.routes[0] {
-                    self.displayRouteFromCurrentLocation(firstRoute)
+                    self.displayRouteFromCurrentLocation(route:firstRoute, toPOI:targetPOI)
                 } else {
                     self.isRouteFromCurrentLocationDisplayed = false
+                    self.routeFromCurrentLocationTo = nil
+
                 }
             }
         }
     }
     
-    fileprivate func addRouteFromCurrentLocation(withTransportType:MKDirectionsTransportType) {
+    
+    /// Called when the user change the transport type for the route from current location
+    ///
+    /// - Parameter withTransportType: the new transport type (car, walk...)
+    fileprivate func reconfigureCurrentLocationRoute(withTransportType:MKDirectionsTransportType) {
         if let toPoi = routeDatasource.toPOI {
             let routeRequest = MKDirectionsRequest()
             routeRequest.transportType = withTransportType
@@ -597,12 +650,15 @@ class RouteManager: NSObject {
                 if let error = routeError {
                     Utilities.showAlertMessage(self.mapViewController, title:NSLocalizedString("Warning", comment: ""), error: error)
                     self.isRouteFromCurrentLocationDisplayed = false
+                    self.routeFromCurrentLocationTo = nil
+
                 } else {
                     // Get the first route direction from the response
                     if let firstRoute = routeResponse?.routes[0] {
-                        self.displayRouteFromCurrentLocation(firstRoute)
+                        self.displayRouteFromCurrentLocation(route:firstRoute, toPOI: toPoi)
                     } else {
                         self.isRouteFromCurrentLocationDisplayed = false
+                        self.routeFromCurrentLocationTo = nil
                     }
                 }
             }

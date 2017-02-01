@@ -415,15 +415,11 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
     }
     
     func showRouteFromCurrentLocation(_ targetPOI:PointOfInterest) {
-        if isRouteMode {
-            routeManager?.buildRouteFromCurrentLocationTo(targetPOI:targetPOI, transportType:routeDatasource!.fromWayPoint!.transportType!)
-        }
+        routeManager?.addRouteFromCurrentLocation(targetPOI:targetPOI, transportType:routeDatasource!.fromWayPoint!.transportType!)
     }
     
     func removeRouteFromCurrentLocation() {
-        if isRouteMode {
-            routeManager?.removeRouteFromCurrentLocation()
-        }
+        routeManager?.removeRouteFromCurrentLocation()
     }
     
     fileprivate func refreshPoiAnnotation(_ poi:PointOfInterest, withType:MapUtils.PinAnnotationType) {
@@ -615,6 +611,8 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
             
             // We must remove/add POIs that were used in the Route because their Pin color can be different
             // for source and target and the callout of these POIs are also different
+            // Warning: it's important to do it after setting the routeManager to nil otherwise the POIs will be 
+            // added as if the route was still enabled
             if let poisToUpdate = poisToBeUpdated {
                 removeFromMap(pois: poisToUpdate)
                 addOnMap(pois: poisToUpdate)
@@ -847,7 +845,6 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
                 refreshPoiAnnotation(startPoi, withType: .routeStart)
             }
         } else {
-            
             if isRouteMode && !notificationsContent.deletedRoutes.isEmpty {
                 for currentRoute in notificationsContent.deletedRoutes {
                     if currentRoute === routeDatasource!.theRoute {

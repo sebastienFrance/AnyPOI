@@ -219,9 +219,7 @@ class MapUtils {
         
         var newTopLeftCoord = topLeftCoord
         var newBottomRightCoord = bottomRightCoord
-        // SEB: Swift3 to be checked
         let coordinates = UnsafeMutablePointer<CLLocationCoordinate2D>.allocate(capacity: multiPointOverlay.pointCount)
-//        let coordinates = UnsafeMutablePointer<CLLocationCoordinate2D>(allocatingCapacity: multiPointOverlay.pointCount)
         multiPointOverlay.getCoordinates(coordinates, range: NSMakeRange(0, multiPointOverlay.pointCount))
         
         for index in 0..<multiPointOverlay.pointCount {
