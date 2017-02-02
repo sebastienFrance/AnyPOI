@@ -1125,7 +1125,8 @@ extension MapViewController : RouteDisplayInfos {
             distanceLabel.text = String(format: "\(NSLocalizedString("RouteDisplayInfos %@ in %@", comment:""))",
                 distanceFormatter.string(fromMeters: routeFromCurrentLocation!.distance),
                 expectedTravelTime)
-            if let toDisplayName = datasource.toPOI?.poiDisplayName {
+            
+            if let toDisplayName = routeManager?.routeFromCurrentLocationTo?.poiDisplayName {
                 fromToLabel.text =  fromToLabel.text! + " ➔ \(toDisplayName)"
             }
         } else {

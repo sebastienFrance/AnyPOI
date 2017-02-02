@@ -21,15 +21,11 @@ class CustomCalloutLeftAccessoryView: UIView {
             disableRemoveWayPoint()
             enableAddWayPoint(delegate)
             disableRouteFromCurrentLocation()
-          break
+            break
         case .routeEnd:
             enableRemoveWayPoint(delegate)
             disableAddWayPoint()
-            if !(MapViewController.instance?.routeDatasource?.isFullRouteMode)! {
-                enableRouteFromCurrentLocation(delegate)
-            } else {
-                disableRouteFromCurrentLocation()
-            }
+            enableRouteFromCurrentLocation(delegate)
         case .routeStart:
             // Do not authorize to add the route start as a new WayPoint when the route contains only the start
             if let wayPoints = MapViewController.instance?.routeDatasource?.wayPoints, wayPoints.count > 1 {
@@ -38,12 +34,12 @@ class CustomCalloutLeftAccessoryView: UIView {
                 disableAddWayPoint()
             }
             enableRemoveWayPoint(delegate)
-            disableRouteFromCurrentLocation()
+            enableRouteFromCurrentLocation(delegate)
         case .waypoint:
             enableAddWayPoint(delegate)
             enableRemoveWayPoint(delegate)
             disableRouteFromCurrentLocation()
-       }
+        }
     }
     
     fileprivate func enableAddWayPoint(_ delegate:PoiCalloutDelegate) {
@@ -69,17 +65,22 @@ class CustomCalloutLeftAccessoryView: UIView {
     }
     
     fileprivate func enableRouteFromCurrentLocation(_ delegate:PoiCalloutDelegate) {
-        if let routeManager = MapViewController.instance?.routeManager {
-            if routeManager.isRouteFromCurrentLocationDisplayed {
-                routeFromCurrentLocationButton.tintColor = UIColor.red
-            } else {
-                routeFromCurrentLocationButton.tintColor = MapViewController.instance!.view.tintColor
+        if let fullRouteMode = MapViewController.instance?.routeDatasource?.isFullRouteMode, !fullRouteMode {
+            
+            if let routeManager = MapViewController.instance?.routeManager {
+                if routeManager.isRouteFromCurrentLocationDisplayed {
+                    routeFromCurrentLocationButton.tintColor = UIColor.red
+                } else {
+                    routeFromCurrentLocationButton.tintColor = MapViewController.instance!.view.tintColor
+                }
             }
+            
+            routeFromCurrentLocationButton.isHidden = false
+            routeFromCurrentLocationButton.removeTarget(nil, action: #selector(PoiCalloutDelegate.showRouteFromCurrentLocation(_:)), for: .touchUpInside)
+            routeFromCurrentLocationButton.addTarget(delegate, action: #selector(PoiCalloutDelegate.showRouteFromCurrentLocation(_:)), for: .touchUpInside)
+        } else {
+            disableRouteFromCurrentLocation()
         }
-        
-        routeFromCurrentLocationButton.isHidden = false
-        routeFromCurrentLocationButton.removeTarget(nil, action: #selector(PoiCalloutDelegate.showRouteFromCurrentLocation(_:)), for: .touchUpInside)
-        routeFromCurrentLocationButton.addTarget(delegate, action: #selector(PoiCalloutDelegate.showRouteFromCurrentLocation(_:)), for: .touchUpInside)
     }
     
     fileprivate func disableRouteFromCurrentLocation() {

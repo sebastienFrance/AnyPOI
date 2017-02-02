@@ -145,17 +145,33 @@ extension PoiCalloutDelegateImpl : PoiCalloutDelegate {
        
     }
     
+    
+    /// Called when the user has pressed a button to display the route from the current location
+    /// to the selected WayPoint
+    ///
+    /// If route from current location is NOT already displayed we just compute the new one and we display it
+    /// If route from current location is already displayed from the same wayPoint, we just remove it
+    /// If route from current location is already displayed but user request to display it to a new Waypoint then we remove 
+    /// the old one and we compute the new one and it's displayed
+    ///
+    /// - Parameter sender: <#sender description#>
     func showRouteFromCurrentLocation(_ sender:UIButton) {
         if let routeManager = MapViewController.instance?.routeManager {
             if !routeManager.isRouteFromCurrentLocationDisplayed {
-                sender.tintColor = UIColor.red
                 if theMapView.selectedAnnotations.count > 0 {
+                    sender.tintColor = UIColor.red
                     let mapViewControler = viewController as! MapViewController
                     mapViewControler.showRouteFromCurrentLocation(theMapView.selectedAnnotations[0] as! PointOfInterest)
                 }
             } else {
-                sender.tintColor = MapViewController.instance!.view.tintColor
-                MapViewController.instance!.removeRouteFromCurrentLocation()
+                if routeManager.routeFromCurrentLocationTo === theMapView.selectedAnnotations[0] as! PointOfInterest {
+                    sender.tintColor = MapViewController.instance!.view.tintColor
+                    MapViewController.instance!.removeRouteFromCurrentLocation()
+                } else {
+                    sender.tintColor = UIColor.red
+                    let mapViewControler = viewController as! MapViewController
+                    mapViewControler.showRouteFromCurrentLocation(theMapView.selectedAnnotations[0] as! PointOfInterest)
+                }
             }
         }
     }

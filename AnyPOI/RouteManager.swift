@@ -591,6 +591,23 @@ class RouteManager: NSObject {
     ///   - targetPOI: Destination of the route
     ///   - transportType: transport to be used for the route computation (walk, automobile...)
     func addRouteFromCurrentLocation(targetPOI: PointOfInterest, transportType:MKDirectionsTransportType) {
+        // If a route from current location is already displayed, we first remove it
+        // before to compute the new one
+        if isRouteFromCurrentLocationDisplayed {
+            if let poiToRefresh = routeFromCurrentLocationTo {
+                removeRouteFromCurrentLocation()
+            
+                // refresh the callout that was the previous target of the "route from current location"
+                if let annotationView = mapViewController.theMapView.view(for: poiToRefresh) as? WayPointPinAnnotationView {
+                    var wayPointType = MapUtils.PinAnnotationType.routeEnd
+                    if poiToRefresh === routeDatasource.fromPOI {
+                        wayPointType = .routeStart
+                    }
+                    MapUtils.refreshPin(annotationView, poi: poiToRefresh, delegate: poiCallOutDelegate, type: wayPointType)
+                }
+            }
+        }
+        
         let routeRequest = MKDirectionsRequest()
         routeRequest.transportType = transportType
         routeRequest.source = MKMapItem.forCurrentLocation()
