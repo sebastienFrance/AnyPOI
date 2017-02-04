@@ -41,6 +41,13 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
             return routeManager?.routeFromCurrentLocation ?? nil
         }
     }
+    
+    fileprivate var routeFromCurrentLocationTransportType: MKDirectionsTransportType {
+        get {
+            return routeManager?.routeFromCurrentLocationTransportType ?? .automobile
+        }
+    }
+    
     fileprivate var isRouteFromCurrentLocationDisplayed:Bool {
         get {
             return routeManager?.isRouteFromCurrentLocationDisplayed ?? false
@@ -1117,6 +1124,7 @@ extension MapViewController : RouteDisplayInfos {
     fileprivate func showRouteWayPoints(datasource:RouteDataSource) {
         let distanceFormatter = LengthFormatter()
         distanceFormatter.unitStyle = .short
+        
         if isRouteFromCurrentLocationDisplayed {
             // Show information between the current location and the To
             fromToLabel.text = NSLocalizedString("FromCurrentLocationRouteManager", comment: "")
@@ -1129,14 +1137,16 @@ extension MapViewController : RouteDisplayInfos {
             if let toDisplayName = routeManager?.routeFromCurrentLocationTo?.poiDisplayName {
                 fromToLabel.text =  fromToLabel.text! + " ➔ \(toDisplayName)"
             }
+            selectedTransportType.selectedSegmentIndex = MapUtils.transportTypeToSegmentIndex(routeFromCurrentLocationTransportType)
         } else {
             // Show information between the 2 wayPoints
             fromToLabel.textColor = UIColor.white
             fromToLabel.text = datasource.routeName
             distanceLabel.text = datasource.routeDistanceAndTime
+            selectedTransportType.selectedSegmentIndex = MapUtils.transportTypeToSegmentIndex(datasource.fromWayPoint!.transportType!)
         }
 
-        selectedTransportType.selectedSegmentIndex = MapUtils.transportTypeToSegmentIndex(datasource.fromWayPoint!.transportType!)
+        
         thirdActionBarStackView.isHidden = false
     }
 

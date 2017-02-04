@@ -25,6 +25,17 @@ class RouteManager: NSObject {
     fileprivate(set) var routeFromCurrentLocationTo: PointOfInterest?
     fileprivate(set) var routeFromCurrentLocation : MKRoute?
     fileprivate(set) var isRouteFromCurrentLocationDisplayed = false
+    fileprivate(set) var routeFromCurrentLocationTransportType = MKDirectionsTransportType.automobile
+    
+    struct RouteFromCurrentLocation {
+        var routeFromCurrentLocationTo: PointOfInterest?
+        var routeFromCurrentLocation : MKRoute?
+        var isRouteFromCurrentLocationDisplayed = false
+        var routeFromCurrentLocationTransportType = MKDirectionsTransportType.automobile
+       
+        
+    }
+    
     fileprivate var routeDirectionCounter = 0
     
     weak fileprivate var routeDisplayInfos: RouteDisplayInfos!
@@ -178,7 +189,7 @@ class RouteManager: NSObject {
         routeDatasource.theRoute.reloadDirections()
     }
     
-     /// Display the next, previous route section or the full route
+    /// Display the next, previous route section or the full route
     ///  - Annotations & Callouts will be refreshed appropriately
     ///  - Overlays will be refreshed to reflect the current route position
     ///
@@ -191,6 +202,7 @@ class RouteManager: NSObject {
             if isRouteFromCurrentLocationDisplayed {
                 isRouteFromCurrentLocationDisplayed = false
                 routeFromCurrentLocationTo = nil
+                routeFromCurrentLocationTransportType = .automobile
                 if let routeToRemove = routeFromCurrentLocation {
                     theMapView.remove(routeToRemove.polyline)
                 }
@@ -363,11 +375,11 @@ class RouteManager: NSObject {
     }
     
     func set(transportType:MKDirectionsTransportType) {
-        if !isRouteFromCurrentLocationDisplayed {
+        if isRouteFromCurrentLocationDisplayed {
+            reconfigureCurrentLocationRoute(withTransportType:transportType)
+        } else {
             // Route will be automatically update thanks to database notification
             routeDatasource.updateWith(transportType:transportType)
-        } else {
-            reconfigureCurrentLocationRoute(withTransportType:transportType)
         }
         
     }
@@ -561,6 +573,7 @@ class RouteManager: NSObject {
         }
         routeFromCurrentLocation = nil
         routeFromCurrentLocationTo = nil
+        routeFromCurrentLocationTransportType = .automobile
         
         refreshRouteInfosOverview()
         displayRouteMapRegion()
@@ -628,6 +641,7 @@ class RouteManager: NSObject {
                 Utilities.showAlertMessage(self.mapViewController, title:NSLocalizedString("Warning", comment: ""), error: error)
                 self.isRouteFromCurrentLocationDisplayed = false
                 self.routeFromCurrentLocationTo = nil
+                self.routeFromCurrentLocationTransportType = .automobile
 
             } else {
                 // Get the first route direction from the response
@@ -636,6 +650,7 @@ class RouteManager: NSObject {
                 } else {
                     self.isRouteFromCurrentLocationDisplayed = false
                     self.routeFromCurrentLocationTo = nil
+                    self.routeFromCurrentLocationTransportType = .automobile
 
                 }
             }
@@ -668,14 +683,17 @@ class RouteManager: NSObject {
                     Utilities.showAlertMessage(self.mapViewController, title:NSLocalizedString("Warning", comment: ""), error: error)
                     self.isRouteFromCurrentLocationDisplayed = false
                     self.routeFromCurrentLocationTo = nil
+                    self.routeFromCurrentLocationTransportType = .automobile
 
                 } else {
                     // Get the first route direction from the response
                     if let firstRoute = routeResponse?.routes[0] {
+                        self.routeFromCurrentLocationTransportType = withTransportType
                         self.displayRouteFromCurrentLocation(route:firstRoute, toPOI: toPoi)
                     } else {
                         self.isRouteFromCurrentLocationDisplayed = false
                         self.routeFromCurrentLocationTo = nil
+                        self.routeFromCurrentLocationTransportType = .automobile
                     }
                 }
             }
