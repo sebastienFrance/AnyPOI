@@ -154,20 +154,20 @@ extension PoiCalloutDelegateImpl : PoiCalloutDelegate {
     /// If route from current location is already displayed but user request to display it to a new Waypoint then we remove 
     /// the old one and we compute the new one and it's displayed
     ///
-    /// - Parameter sender: <#sender description#>
+    /// - Parameter sender: button used to trigger the action
     func showRouteFromCurrentLocation(_ sender:UIButton) {
         if let routeManager = MapViewController.instance?.routeManager {
-            if !routeManager.isRouteFromCurrentLocationDisplayed {
-                if theMapView.selectedAnnotations.count > 0 {
+            if let routeFromCurrentLocation = routeManager.fromCurrentLocation {
+                if routeFromCurrentLocation.toPOI === theMapView.selectedAnnotations[0] as! PointOfInterest {
+                    sender.tintColor = MapViewController.instance!.view.tintColor
+                    MapViewController.instance!.removeRouteFromCurrentLocation()
+                } else {
                     sender.tintColor = UIColor.red
                     let mapViewControler = viewController as! MapViewController
                     mapViewControler.showRouteFromCurrentLocation(theMapView.selectedAnnotations[0] as! PointOfInterest)
                 }
             } else {
-                if routeManager.routeFromCurrentLocationTo === theMapView.selectedAnnotations[0] as! PointOfInterest {
-                    sender.tintColor = MapViewController.instance!.view.tintColor
-                    MapViewController.instance!.removeRouteFromCurrentLocation()
-                } else {
+                if theMapView.selectedAnnotations.count > 0 {
                     sender.tintColor = UIColor.red
                     let mapViewControler = viewController as! MapViewController
                     mapViewControler.showRouteFromCurrentLocation(theMapView.selectedAnnotations[0] as! PointOfInterest)

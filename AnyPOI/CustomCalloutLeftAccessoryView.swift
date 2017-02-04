@@ -68,7 +68,8 @@ class CustomCalloutLeftAccessoryView: UIView {
         if let fullRouteMode = MapViewController.instance?.routeDatasource?.isFullRouteMode, !fullRouteMode {
             
             if let routeManager = MapViewController.instance?.routeManager {
-                if routeManager.isRouteFromCurrentLocationDisplayed {
+                // SEB SEB
+                if let _ = routeManager.fromCurrentLocation {
                     routeFromCurrentLocationButton.tintColor = UIColor.red
                 } else {
                     routeFromCurrentLocationButton.tintColor = MapViewController.instance!.view.tintColor

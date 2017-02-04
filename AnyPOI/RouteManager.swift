@@ -22,19 +22,52 @@ class RouteManager: NSObject {
         case forward, backward, all
     }
     
-    fileprivate(set) var routeFromCurrentLocationTo: PointOfInterest?
-    fileprivate(set) var routeFromCurrentLocation : MKRoute?
-    fileprivate(set) var isRouteFromCurrentLocationDisplayed = false
-    fileprivate(set) var routeFromCurrentLocationTransportType = MKDirectionsTransportType.automobile
+//    var routeFromCurrentLocationTo: PointOfInterest? {
+//        get {
+//            return fromCurrentLocation?.toPOI
+//        }
+//    }
+//    var routeFromCurrentLocation : MKRoute? {
+//        get {
+//            return fromCurrentLocation?.route
+//        }
+//    }
+//    var isRouteFromCurrentLocationDisplayed: Bool {
+//        get {
+//            if let _ = fromCurrentLocation {
+//                return true
+//            } else {
+//                return false
+//            }
+//        }
+//    }
+//    
+//    var routeFromCurrentLocationTransportType : MKDirectionsTransportType {
+//        get {
+//            return fromCurrentLocation?.transportType ?? .automobile
+//        }
+//    }
     
     struct RouteFromCurrentLocation {
-        var routeFromCurrentLocationTo: PointOfInterest?
-        var routeFromCurrentLocation : MKRoute?
-        var isRouteFromCurrentLocationDisplayed = false
-        var routeFromCurrentLocationTransportType = MKDirectionsTransportType.automobile
+        var toPOI: PointOfInterest
+        var route: MKRoute
+        var transportType:MKDirectionsTransportType
+        var region:MKCoordinateRegion {
+            get {
+                let (topLeft, bottomRight) = MapUtils.boundingBoxForOverlay(route.polyline)
+                return MapUtils.appendMargingToBoundBox(topLeft, bottomRightCoord: bottomRight)
+            }
+        }
        
-        
+        init(poi:PointOfInterest, route:MKRoute, transportType:MKDirectionsTransportType) {
+            self.toPOI = poi
+            self.route = route
+            self.route.polyline.title = MapUtils.PolyLineType.fromCurrentPosition
+            self.transportType = transportType
+        }
     }
+    
+    fileprivate(set) var fromCurrentLocation: RouteFromCurrentLocation?
     
     fileprivate var routeDirectionCounter = 0
     
@@ -198,16 +231,11 @@ class RouteManager: NSObject {
         if let oldFrom = routeDatasource.fromPOI,
             let oldTo = routeDatasource.toPOI {
             
-            // Remove Overlay for from current location
-            if isRouteFromCurrentLocationDisplayed {
-                isRouteFromCurrentLocationDisplayed = false
-                routeFromCurrentLocationTo = nil
-                routeFromCurrentLocationTransportType = .automobile
-                if let routeToRemove = routeFromCurrentLocation {
-                    theMapView.remove(routeToRemove.polyline)
-                }
+            if let routeFromCurrentLocation = fromCurrentLocation {
+                theMapView.remove(routeFromCurrentLocation.route.polyline)
+                fromCurrentLocation = nil
             }
-
+            
             // Remove the overlays currently displayed for the route before we go to the next section
             removeRouteOverlays()
 
@@ -272,10 +300,8 @@ class RouteManager: NSObject {
                 theMapView.setRegion(region, animated: true)
             }
         } else {
-            if isRouteFromCurrentLocationDisplayed {
-                let (topLeft, bottomRight) = MapUtils.boundingBoxForOverlay(routeFromCurrentLocation!.polyline)
-                let region = MapUtils.appendMargingToBoundBox(topLeft, bottomRightCoord: bottomRight)
-                self.theMapView.setRegion(region, animated: true)
+            if let routeFromCurrentLocation = fromCurrentLocation {
+                self.theMapView.setRegion(routeFromCurrentLocation.region, animated: true)
             } else {
                 let region = routeDatasource.fromWayPoint!.regionWith([routeDatasource.fromPOI!, routeDatasource.toPOI!])
                 if let theRegion = region {
@@ -294,12 +320,10 @@ class RouteManager: NSObject {
     /// the overlay displaying the route from the current position (if displayed)
     func removeAllRouteOverlays() {
         theMapView.removeOverlays(routeDatasource.theRoute.polyLines)
-        
-        if isRouteFromCurrentLocationDisplayed {
-            isRouteFromCurrentLocationDisplayed = false
-            if let routeToRemove = routeFromCurrentLocation {
-                theMapView.remove(routeToRemove.polyline)
-            }
+       
+        if let routeFromCurrentLocation = fromCurrentLocation {
+            theMapView.remove(routeFromCurrentLocation.route.polyline)
+            fromCurrentLocation = nil
         }
     }
     
@@ -312,13 +336,11 @@ class RouteManager: NSObject {
                 theMapView.remove(polyLine)
             }
         }
-        
-        if isRouteFromCurrentLocationDisplayed {
-            isRouteFromCurrentLocationDisplayed = false
-            if let routeToRemove = routeFromCurrentLocation {
-                theMapView.remove(routeToRemove.polyline)
-            }
+        if let routeFromCurrentLocation = fromCurrentLocation {
+            theMapView.remove(routeFromCurrentLocation.route.polyline)
+            fromCurrentLocation = nil
         }
+
     }
 
     /// Add the overlays for the Route based on routeDatasource
@@ -334,8 +356,8 @@ class RouteManager: NSObject {
             if let theRoutePolyline = routeDatasource.fromWayPoint!.routeInfos?.polyline {
                 theMapView.add(theRoutePolyline, level: .aboveRoads)
             }
-            if isRouteFromCurrentLocationDisplayed {
-                theMapView.add(routeFromCurrentLocation!.polyline)
+            if let routeFromCurrentLocation = fromCurrentLocation {
+                theMapView.add(routeFromCurrentLocation.route.polyline)
             }
         }
     }
@@ -375,7 +397,7 @@ class RouteManager: NSObject {
     }
     
     func set(transportType:MKDirectionsTransportType) {
-        if isRouteFromCurrentLocationDisplayed {
+        if let _ = fromCurrentLocation {
             reconfigureCurrentLocationRoute(withTransportType:transportType)
         } else {
             // Route will be automatically update thanks to database notification
@@ -566,15 +588,12 @@ class RouteManager: NSObject {
     // - Update the Summary infos
     // - Change the Map bounding box to display the current route section
     func removeRouteFromCurrentLocation() {
-        isRouteFromCurrentLocationDisplayed = false
         
-        if let overlayFromCurrentLocation = routeFromCurrentLocation?.polyline {
-            theMapView.remove(overlayFromCurrentLocation)
+        if let routeFromCurrentLocation = fromCurrentLocation {
+            theMapView.remove(routeFromCurrentLocation.route.polyline)
+            fromCurrentLocation = nil
         }
-        routeFromCurrentLocation = nil
-        routeFromCurrentLocationTo = nil
-        routeFromCurrentLocationTransportType = .automobile
-        
+  
         refreshRouteInfosOverview()
         displayRouteMapRegion()
     }
@@ -582,17 +601,13 @@ class RouteManager: NSObject {
     // - Add the Polyline overlay to display the route from the current location
     // - Update the Summary infos
     // - Change the Map bounding box to display the whole route
-    fileprivate func displayRouteFromCurrentLocation(route:MKRoute, toPOI:PointOfInterest) {
-        if let oldRoute = routeFromCurrentLocation {
-            theMapView.remove(oldRoute.polyline)
+    fileprivate func displayRouteFromCurrentLocation(route:MKRoute, toPOI:PointOfInterest, withTransportType:MKDirectionsTransportType = .automobile) {
+        if let routeFromCurrentLocation = fromCurrentLocation {
+            theMapView.remove(routeFromCurrentLocation.route.polyline)
         }
         
-        routeFromCurrentLocationTo = toPOI
-        routeFromCurrentLocation = route
-        routeFromCurrentLocation?.polyline.title = MapUtils.PolyLineType.fromCurrentPosition
-        isRouteFromCurrentLocationDisplayed = true
-        
-        theMapView.add(routeFromCurrentLocation!.polyline)
+        fromCurrentLocation = RouteFromCurrentLocation(poi: toPOI, route: route, transportType: withTransportType)
+        theMapView.add(fromCurrentLocation!.route.polyline)
         
         refreshRouteInfosOverview()
         displayRouteMapRegion()
@@ -606,18 +621,17 @@ class RouteManager: NSObject {
     func addRouteFromCurrentLocation(targetPOI: PointOfInterest, transportType:MKDirectionsTransportType) {
         // If a route from current location is already displayed, we first remove it
         // before to compute the new one
-        if isRouteFromCurrentLocationDisplayed {
-            if let poiToRefresh = routeFromCurrentLocationTo {
-                removeRouteFromCurrentLocation()
+        if let routeFromCurrentLocation = fromCurrentLocation {
+            let poiToRefresh = routeFromCurrentLocation.toPOI
+            removeRouteFromCurrentLocation()
             
-                // refresh the callout that was the previous target of the "route from current location"
-                if let annotationView = mapViewController.theMapView.view(for: poiToRefresh) as? WayPointPinAnnotationView {
-                    var wayPointType = MapUtils.PinAnnotationType.routeEnd
-                    if poiToRefresh === routeDatasource.fromPOI {
-                        wayPointType = .routeStart
-                    }
-                    MapUtils.refreshPin(annotationView, poi: poiToRefresh, delegate: poiCallOutDelegate, type: wayPointType)
+            // refresh the callout that was the previous target of the "route from current location"
+            if let annotationView = mapViewController.theMapView.view(for: poiToRefresh) as? WayPointPinAnnotationView {
+                var wayPointType = MapUtils.PinAnnotationType.routeEnd
+                if poiToRefresh === routeDatasource.fromPOI {
+                    wayPointType = .routeStart
                 }
+                MapUtils.refreshPin(annotationView, poi: poiToRefresh, delegate: poiCallOutDelegate, type: wayPointType)
             }
         }
         
@@ -639,18 +653,14 @@ class RouteManager: NSObject {
             HUD.hide()
             if let error = routeError {
                 Utilities.showAlertMessage(self.mapViewController, title:NSLocalizedString("Warning", comment: ""), error: error)
-                self.isRouteFromCurrentLocationDisplayed = false
-                self.routeFromCurrentLocationTo = nil
-                self.routeFromCurrentLocationTransportType = .automobile
+                self.fromCurrentLocation = nil
 
             } else {
                 // Get the first route direction from the response
                 if let firstRoute = routeResponse?.routes[0] {
                     self.displayRouteFromCurrentLocation(route:firstRoute, toPOI:targetPOI)
                 } else {
-                    self.isRouteFromCurrentLocationDisplayed = false
-                    self.routeFromCurrentLocationTo = nil
-                    self.routeFromCurrentLocationTransportType = .automobile
+                    self.fromCurrentLocation = nil
 
                 }
             }
@@ -681,19 +691,14 @@ class RouteManager: NSObject {
                 HUD.hide()
                 if let error = routeError {
                     Utilities.showAlertMessage(self.mapViewController, title:NSLocalizedString("Warning", comment: ""), error: error)
-                    self.isRouteFromCurrentLocationDisplayed = false
-                    self.routeFromCurrentLocationTo = nil
-                    self.routeFromCurrentLocationTransportType = .automobile
+                    self.fromCurrentLocation = nil
 
                 } else {
                     // Get the first route direction from the response
                     if let firstRoute = routeResponse?.routes[0] {
-                        self.routeFromCurrentLocationTransportType = withTransportType
-                        self.displayRouteFromCurrentLocation(route:firstRoute, toPOI: toPoi)
+                        self.displayRouteFromCurrentLocation(route:firstRoute, toPOI: toPoi, withTransportType: withTransportType)
                     } else {
-                        self.isRouteFromCurrentLocationDisplayed = false
-                        self.routeFromCurrentLocationTo = nil
-                        self.routeFromCurrentLocationTransportType = .automobile
+                        self.fromCurrentLocation = nil
                     }
                 }
             }

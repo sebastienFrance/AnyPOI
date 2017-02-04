@@ -36,23 +36,7 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
             return routeManager == nil ? false : true
         }
     }
-    fileprivate var routeFromCurrentLocation : MKRoute? {
-        get {
-            return routeManager?.routeFromCurrentLocation ?? nil
-        }
-    }
     
-    fileprivate var routeFromCurrentLocationTransportType: MKDirectionsTransportType {
-        get {
-            return routeManager?.routeFromCurrentLocationTransportType ?? .automobile
-        }
-    }
-    
-    fileprivate var isRouteFromCurrentLocationDisplayed:Bool {
-        get {
-            return routeManager?.isRouteFromCurrentLocationDisplayed ?? false
-        }
-    }
     var routeDatasource:RouteDataSource? {
         get {
             return routeManager?.routeDatasource
@@ -342,10 +326,17 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
     // - Delete To/From WayPoint
     @IBAction func actionsButtonPushed(_ sender: UIButton) {
         if let routeDatasource = routeManager?.routeDatasource {
-            let alertActionSheet = UIAlertController(title: "\(routeDatasource.fromPOI!.poiDisplayName!) ➔ \(routeDatasource.toPOI!.poiDisplayName!)", message: "", preferredStyle: .actionSheet)
+            
+            var source = routeDatasource.fromPOI!.poiDisplayName!
+            var destination = routeDatasource.toPOI!.poiDisplayName!
+            if let fromCurrentLocation = routeManager?.fromCurrentLocation?.toPOI.poiDisplayName {
+                source = NSLocalizedString("FlyoverFromCurrentLocation", comment: "")
+                destination = fromCurrentLocation
+            }
+            let alertActionSheet = UIAlertController(title: "\(source) ➔ \(destination)", message: "", preferredStyle: .actionSheet)
             alertActionSheet.addAction(UIAlertAction(title:  NSLocalizedString("Flyover", comment: ""), style: .default) { alertAction in
                 self.flyover = FlyoverWayPoints(mapView: self.theMapView, delegate: self)
-                self.flyover!.doFlyover(routeDatasource, routeFromCurrentLocation:self.routeFromCurrentLocation)
+                self.flyover!.doFlyover(routeDatasource, routeFromCurrentLocation:self.routeManager?.fromCurrentLocation?.route)
             })
             
             alertActionSheet.addAction(UIAlertAction(title: NSLocalizedString("Navigation", comment: ""), style: .default) { alertAction in
@@ -1036,7 +1027,7 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
             if let targetPoi = sender as? PointOfInterest {
                 viewController.initializeWith(theMapView.userLocation.coordinate, targetPoi: targetPoi, delegate:self)
             } else {
-                if isRouteFromCurrentLocationDisplayed {
+                if let _ = routeManager?.fromCurrentLocation {
                     viewController.initializeWith(theMapView.userLocation.coordinate, targetPoi: routeDatasource!.toPOI!, delegate:self)
                 } else {
                     viewController.initializeWithPois(routeDatasource!.fromPOI!, targetPoi: routeDatasource!.toPOI!, delegate:self)
@@ -1125,19 +1116,19 @@ extension MapViewController : RouteDisplayInfos {
         let distanceFormatter = LengthFormatter()
         distanceFormatter.unitStyle = .short
         
-        if isRouteFromCurrentLocationDisplayed {
+        if let fromCurrentLocation = routeManager?.fromCurrentLocation {
             // Show information between the current location and the To
             fromToLabel.text = NSLocalizedString("FromCurrentLocationRouteManager", comment: "")
             fromToLabel.textColor = UIColor.magenta
-            let expectedTravelTime = Utilities.shortStringFromTimeInterval(routeFromCurrentLocation!.expectedTravelTime) as String
+            let expectedTravelTime = Utilities.shortStringFromTimeInterval(fromCurrentLocation.route.expectedTravelTime) as String
             distanceLabel.text = String(format: "\(NSLocalizedString("RouteDisplayInfos %@ in %@", comment:""))",
-                distanceFormatter.string(fromMeters: routeFromCurrentLocation!.distance),
+                distanceFormatter.string(fromMeters: fromCurrentLocation.route.distance),
                 expectedTravelTime)
-            
-            if let toDisplayName = routeManager?.routeFromCurrentLocationTo?.poiDisplayName {
-                fromToLabel.text =  fromToLabel.text! + " ➔ \(toDisplayName)"
+
+            if let toDisplayName = fromCurrentLocation.toPOI.poiDisplayName {
+                fromToLabel.text = fromToLabel.text! + " ➔ \(toDisplayName)"
             }
-            selectedTransportType.selectedSegmentIndex = MapUtils.transportTypeToSegmentIndex(routeFromCurrentLocationTransportType)
+            selectedTransportType.selectedSegmentIndex = MapUtils.transportTypeToSegmentIndex(fromCurrentLocation.transportType)
         } else {
             // Show information between the 2 wayPoints
             fromToLabel.textColor = UIColor.white
