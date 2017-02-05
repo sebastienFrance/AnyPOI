@@ -56,7 +56,6 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
     fileprivate var localImages = [LocalImage]()
     
     fileprivate var snapshotter:MKMapSnapshotter!
-    fileprivate var snapshotImage:UIImage?
     fileprivate var snapshotMapImageView:UIImageView?
     fileprivate var snapshotAlreadyDisplayed = false
     fileprivate var mapSnapshot:MKMapSnapshot?
@@ -256,20 +255,22 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
        }
     }
     
-   @IBAction func actionButtonPushed(_ sender: UIBarButtonItem) {
+    @IBAction func actionButtonPushed(_ sender: UIBarButtonItem) {
         let mailActivity = PoiMailActivityItemSource(poi:poi)
         let messageActivity = MessageActivityItemSource(messageContent: poi.toMessage())
         
         var activityItems = [mailActivity, messageActivity]
         
-        if !snapshotter.isLoading {
-            let imageActivity = ImageAcvitityItemSource(image: snapshotImage!)
+        if !snapshotter.isLoading,
+            let theMapSnapshot = mapSnapshot,
+            let snapshotImage = MapUtils.configureMapImageFor(poi: poi, mapSnapshot: theMapSnapshot)  {
+            let imageActivity = ImageAcvitityItemSource(image: snapshotImage)
             activityItems.append(imageActivity)
         }
         
         let gpxActivity = GPXActivityItemSource(pois: [poi])
         activityItems.append(gpxActivity)
-
+        
         
         let activityController = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
         activityController.excludedActivityTypes = [UIActivityType.print, UIActivityType.airDrop, UIActivityType.postToVimeo,
@@ -490,7 +491,7 @@ extension POIDetailsViewController : UITableViewDataSource, UITableViewDelegate 
                     self.snapshotMapImageView!.alpha = UserPreferences.sharedInstance.mapMode == .standard ? 0.3 : 0.4
                 })
             } else {
-                // The map has been already display, we change it directly withoyt animations
+                // The map has been already display, we change it directly without animations
                 snapshotMapImageView!.alpha = UserPreferences.sharedInstance.mapMode == .standard ? 0.3 : 0.4
                 cell.backgroundView = snapshotMapImageView
             }

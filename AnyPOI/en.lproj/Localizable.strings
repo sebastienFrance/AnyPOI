@@ -57,6 +57,7 @@
 "Radius"="Radius";
 "RouteNotDefined"="Route is not yet defined";
 "RouteNoDestination"="Destination not defined";
+"Route Distance %@ in %@"="%@ in %@";
 "RouteDisplayInfosRouteIsEmpty"="add a Point of Interest to start your route";
 "SpotlightKeywordTravel"="travel";
 "SpotlightKeywordRoute"="route";
@@ -181,6 +182,19 @@
 "GPXRouteNoInfos"="No information";
 "ExportAllMsgDescription"="The attached .gpx file contains all your points of interests and routes. It can be imported later with AnyPOI.";
 "ExportAllTitle"="AnyPOI export";
+"MailGeneratedBy"="Created by";
+// Mail Route
+"RouteTableHeaderFrom"="From";
+"RouteTableHeaderTo"="To";
+"RouteTableHeaderTransportType"="Transport mode";
+"RouteTableHeaderDistance"="Distance";
+"RouteTableHeaderDuration"="Duration";
+"RouteTableHeaderFromDetails"="From (details)";
+"RouteTableHeaderToDetails"="To (details)";
+"RouteFullNameWithDistanceAndTime %@ with %@"="%@ : %@";
+"RouteName %@ has not destination"="%@ has no destination";
+"RouteName %@ is empty"="%@ is empty";
+// Category
 "CategoryLabelUnknown"="Unknown";
 "CategoryLabelCoffee"="Cofee";
 "CategoryLabelRestaurant"="Restaurant";

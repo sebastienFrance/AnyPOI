@@ -57,6 +57,7 @@
 "Radius"="Rayon";
 "RouteNotDefined"="Pas de route configurée";
 "RouteNoDestination"="Pas de destination configurée";
+"Route Distance %@ in %@"="%@ en %@";
 "RouteDisplayInfosRouteIsEmpty"="Ajoutez un points d'interêt pour démarrer votre itinéraire";
 "SpotlightKeywordTravel"="voyage";
 "SpotlightKeywordRoute"="itineraire";
@@ -181,7 +182,20 @@
 "GPXRouteUnknownFromTo"="Départ et destination inconnues";
 "GPXRouteNoInfos"="Pas de données";
 "ExportAllMsgDescription"="Le fichier .gpx joint contient tous vos points d'interêts et voyages. Vous pouvez l'importer plus tard avec AnyPOI.";
+"MailGeneratedBy"="Créé par";
+// Mail Route
+"RouteTableHeaderFrom"="Départ";
+"RouteTableHeaderTo"="Destination";
+"RouteTableHeaderTransportType"="Moyen de transport";
+"RouteTableHeaderDistance"="Distance";
+"RouteTableHeaderDuration"="Durée";
+"RouteTableHeaderFromDetails"="Départ (détails)";
+"RouteTableHeaderToDetails"="Destination (détails)";
+"RouteFullNameWithDistanceAndTime %@ with %@"="%@ : %@";
+"RouteName %@ has not destination"="%@ sans destination";
+"RouteName %@ is empty"="%@ est vide";
 "ExportAllTitle"="Export d'AnyPOI";
+// Category
 "CategoriesSectionMapFilterVC"="Categories";
 "CategoryLabelUnknown"="Inconnue";
 "CategoryLabelCoffee"="Café";

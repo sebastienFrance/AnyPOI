@@ -131,6 +131,7 @@ extension RoutesViewController: UITableViewDataSource, UITableViewDelegate {
         switch editingStyle {
         case .delete:
             let theRoute = POIDataManager.sharedInstance.getAllRoutes()[indexPath.row]
+            MapViewController.instance!.cleanup(withRoute:theRoute)
             POIDataManager.sharedInstance.deleteRoute(theRoute)
             POIDataManager.sharedInstance.commitDatabase()
             theTableView.deleteRows(at: [indexPath], with: .automatic)

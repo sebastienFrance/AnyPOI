@@ -619,6 +619,12 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
         }
     }
     
+    func cleanup(withRoute:Route) {
+        if isRouteMode && routeDatasource?.theRoute === withRoute {
+            disableRouteMode()
+        }
+    }
+    
     @IBAction func backToMapWayPoint(_ unwindSegue:UIStoryboardSegue) {
         if let routeDetailsVC = unwindSegue.source as? RouteDetailsViewController {
             // Get the index of the selected WayPoint and go to the next one to display the appropriate
@@ -829,7 +835,7 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
     
     // Process notifications for Route and WayPoints
     // - When a new route is created (its number of WayPoints == 1), the POI is refreshed to be displayed with the right color
-    // - When the current route is deleted, the routeMode is deactivated
+    // - route deletion are ignored because everything is done when the user click Remove in the RoutesViewController
     // - when the current route is updated, the routeMode is updated with the latest data
     // - A reload of the route is triggered when the route mode is on
     fileprivate func processNotificationsForRouteAndWayPoint(notificationsContent:PoiNotificationUserInfo) {
@@ -843,33 +849,23 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
                 refreshPoiAnnotation(startPoi, withType: .routeStart)
             }
         } else {
-            if isRouteMode && !notificationsContent.deletedRoutes.isEmpty {
-                for currentRoute in notificationsContent.deletedRoutes {
+            if isRouteMode && !notificationsContent.updatedRoutes.isEmpty {
+                for currentRoute in notificationsContent.updatedRoutes {
                     if currentRoute === routeDatasource!.theRoute {
-                        disableRouteMode()
+                        routeManager?.refreshRouteInfosOverview()
                         break
                     }
                 }
-            } else {
-                if isRouteMode && !notificationsContent.updatedRoutes.isEmpty {
-                    for currentRoute in notificationsContent.updatedRoutes {
-                        if currentRoute === routeDatasource!.theRoute {
-                            routeManager?.refreshRouteInfosOverview()
-                            break
-                        }
-                    }
-                }
-                
-                if isRouteMode {
-                    routeManager?.reloadDirections()
-                }
+            }
+            
+            if isRouteMode {
+                routeManager?.reloadDirections()
             }
         }
-
     }
     
  
-    // Check if the MonitoredRegion overlay for a POI must be removed, added or updated when its properties have 
+    // Check if the MonitoredRegion overlay for a POI must be removed, added or updated when its properties have
     // changed (notifyEnter, notifyExit and radius)
     // Warning: changedValues contains the list of changed properties with their NEW VALUE
     // Warning: The updatedPoi contains also the new properties values

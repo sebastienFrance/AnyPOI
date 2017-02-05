@@ -183,7 +183,8 @@ class Route: NSManagedObject {
                 let distanceFormatter = LengthFormatter()
                 distanceFormatter.unitStyle = .short
                 let expectedTravelTime = Utilities.shortStringFromTimeInterval(latestTotalDuration) as String
-                return "\(distanceFormatter.string(fromMeters: latestTotalDistance)) in \(expectedTravelTime)"
+                return String(format:"\(NSLocalizedString("Route Distance %@ in %@", comment: ""))", distanceFormatter.string(fromMeters: latestTotalDistance), expectedTravelTime)
+                //return "\(distanceFormatter.string(fromMeters: latestTotalDistance)) in \(expectedTravelTime)"
             } else {
                 return ""
             }

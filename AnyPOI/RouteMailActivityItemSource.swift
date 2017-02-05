@@ -66,13 +66,13 @@ class RouteMailActivityItemSource: NSObject, UIActivityItemSource {
     fileprivate static let tableHeaderForRoute =
             "<table style=\"width:100%\">" +
             "<tr>" +
-            "<th>From</th>" +
-            "<th>To</th>" +
-            "<th>Transport type</th>" +
-            "<th>Distance</th>" +
-            "<th>Expected travel time</th>" +
-            "<th>From details</th>" +
-            "<th>To details</th>" +
+            "<th>\(NSLocalizedString("RouteTableHeaderFrom", comment: ""))</th>" +
+            "<th>\(NSLocalizedString("RouteTableHeaderTo", comment: ""))</th>" +
+            "<th>\(NSLocalizedString("RouteTableHeaderTransportType", comment: ""))</th>" +
+            "<th>\(NSLocalizedString("RouteTableHeaderDistance", comment: ""))</th>" +
+            "<th>\(NSLocalizedString("RouteTableHeaderDuration", comment: ""))</th>" +
+            "<th>\(NSLocalizedString("RouteTableHeaderFromDetails", comment: ""))</th>" +
+            "<th>\(NSLocalizedString("RouteTableHeaderToDetails", comment: ""))</th>" +
             "</tr>"
     
     fileprivate func getRowFor(fromWP:WayPoint, toWP:WayPoint) -> String {
@@ -84,8 +84,8 @@ class RouteMailActivityItemSource: NSObject, UIActivityItemSource {
             HTMLString += "<td>\(routeInfos.distanceFormatted)</td>"
             HTMLString += "<td>\(routeInfos.expectedTravelTimeFormatted)</td>"
         } else {
-            HTMLString += "<td>unknown</td>"
-            HTMLString += "<td>unknown</td>"
+            HTMLString += "<td>\(NSLocalizedString("Unknown", comment: ""))</td>"
+            HTMLString += "<td>\(NSLocalizedString("Unknown", comment: ""))</td>"
             
         }
         HTMLString += "<td>\(fromWP.wayPointPoi!.toHTML())"
@@ -98,7 +98,8 @@ class RouteMailActivityItemSource: NSObject, UIActivityItemSource {
     fileprivate func routeToHTML() -> String {
         var HTMLString = ""
         if routeDatasource.wayPoints.count > 1 {
-            HTMLString += "<b>\(routeDatasource.allRouteName) with \(routeDatasource.allRouteDistanceAndTime)</b><br>"
+            let routeTitle = String(format:"\(NSLocalizedString("RouteFullNameWithDistanceAndTime %@ with %@", comment: ""))", routeDatasource.allRouteName, routeDatasource.allRouteDistanceAndTime)
+            HTMLString += "<b>\(routeTitle)</b><br>"
             
             HTMLString += RouteMailActivityItemSource.tableHeaderForRoute
             
@@ -109,12 +110,14 @@ class RouteMailActivityItemSource: NSObject, UIActivityItemSource {
             HTMLString += "</table>"
         } else {
             if routeDatasource.wayPoints.count == 1 {
-                HTMLString += "<b>\(routeDatasource.allRouteName) has no destination</b><br>"
+                let noDestination = String(format:"RouteName %@ has not destination",routeDatasource.allRouteName)
+                HTMLString += "<b>\(noDestination)</b><br>"
                 if let fromWP = routeDatasource.fromWayPoint {
                     HTMLString += "\(fromWP.wayPointPoi!.toHTML())"
                 }
             } else {
-                HTMLString += "<b>\(routeDatasource.allRouteName) is empty</b>"
+                let emptyRoute = String(format:"RouteName %@ is empty", routeDatasource.allRouteName)
+                HTMLString += "<b>\(emptyRoute)</b>"
             }
         }
         return HTMLString
