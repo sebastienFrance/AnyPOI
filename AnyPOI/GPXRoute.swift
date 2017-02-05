@@ -166,7 +166,7 @@ class GPXRoute {
         if let theRouteWayPoints = routeWayPoints {
             for currentWayPoint in theRouteWayPoints {
                 if let foundPoi = GPXRoute.searchPoi(wayPoint: currentWayPoint, importedPois:importedPOIs) {
-                    POIDataManager.sharedInstance.appendWayPoint(route: route, poi: foundPoi, gpxWayPoint:currentWayPoint)
+                    POIDataManager.sharedInstance.append(gpxWayPoint:currentWayPoint, route: route, poi: foundPoi)
                 }
             }
         }

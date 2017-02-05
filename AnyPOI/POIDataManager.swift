@@ -850,7 +850,7 @@ class POIDataManager {
     ///   - route: Route on which the new WayPoint must be appended
     ///   - poi: Point of interest that will be the new Destination of the route
     ///   - gpxWayPoint: GPX WayPoint that must be appended to the route
-    func appendWayPoint(route:Route, poi:PointOfInterest, gpxWayPoint:GPXRouteWayPointAtttributes) {
+    func append(gpxWayPoint:GPXRouteWayPointAtttributes, route:Route, poi:PointOfInterest) {
 
         // get the existing wayPoints of the route and then append the new wayPoint
         let wayPoints = NSMutableOrderedSet(orderedSet: route.routeWayPoints!)

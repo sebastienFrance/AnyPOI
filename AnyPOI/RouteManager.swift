@@ -182,7 +182,7 @@ class RouteManager: NSObject {
     
     /// Remove all route overlays and hide the RouteInfos view from the Map
     func cleanup() {
-        removeRouteOverlays()
+        removeAllRouteOverlays()
 
         UIView.animate(withDuration: 0.5, animations: {
             self.routeDisplayInfos.hideRouteDisplay()
@@ -301,7 +301,9 @@ class RouteManager: NSObject {
             fromCurrentLocation = nil
         }
         
-        // look if there're still polylines that should be removed (in case of bugs)
+        // look if there're still polylines that should be removed (It can happens when the route is displayed on the Map
+        // and the user delete it from the RoutesViewController -> The route is deleted from the database before it has 
+        // been removed from the map, so we must still remove the related overlays from the Map)
         var polyLineToRemove = [MKPolyline]()
         for currentOverlay in theMapView.overlays {
             if let polyLine = currentOverlay as? MKPolyline {
