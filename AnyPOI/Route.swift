@@ -176,22 +176,6 @@ class Route: NSManagedObject {
         }
     }
 
-    // Get the full distance & travel time of the route
-    func fullDistanceAndTravelTime() -> (distance:CLLocationDistance, travelTime:TimeInterval) {
-        var fullDistance = CLLocationDistance(0)
-        var fullExpectedTravelTime = TimeInterval(0)
-        
-        for wayPoint in routeWayPoints! {
-            let currentWayPoint = wayPoint as! WayPoint
-            if let route = currentWayPoint.routeInfos {
-                fullDistance += route.distance
-                fullExpectedTravelTime += route.expectedTravelTime
-            }
-        }
-        
-        return (fullDistance, fullExpectedTravelTime)
-    }
-    
     var latestFullRouteDistanceAndTime:String! {
         get {
             if !latestTotalDistance.isNaN && !latestTotalDistance.isInfinite &&

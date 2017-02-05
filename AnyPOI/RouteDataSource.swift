@@ -76,11 +76,6 @@ class RouteDataSource {
         }
     }
 
-    // Full distance and travel time of the whole route
-    fileprivate func fullDistanceAndTravelTime() -> (distance:CLLocationDistance, travelTime:TimeInterval) {
-        return theRoute.fullDistanceAndTravelTime()
-    }
-    
     init(route:Route) {
         theRoute = route
         fromWayPointIndex = 0
@@ -122,13 +117,8 @@ class RouteDataSource {
             if isFullRouteMode {
                 return allRouteDistanceAndTime
             } else {
-                if let route = fromWayPoint?.routeInfos {
-                    let distanceFormatter = LengthFormatter()
-                    distanceFormatter.unitStyle = .short
-                    let expectedTravelTime = Utilities.shortStringFromTimeInterval(route.expectedTravelTime) as String
-                    return String(format:("\(NSLocalizedString("RouteDatasource %@ in %@", comment: ""))"),
-                                  distanceFormatter.string(fromMeters: route.distance),
-                                  expectedTravelTime)
+                if let from = fromWayPoint {
+                    return from.distanceAndTime
                 } else {
                     return NSLocalizedString("RouteDataSourceNoInfos", comment:"")
                 }
@@ -139,13 +129,7 @@ class RouteDataSource {
     
     var allRouteDistanceAndTime:String {
         get {
-            let  (fullDistance, fullExpectedTravelTime) = fullDistanceAndTravelTime()
-            let distanceFormatter = LengthFormatter()
-            distanceFormatter.unitStyle = .short
-            let expectedTravelTime = Utilities.shortStringFromTimeInterval(fullExpectedTravelTime) as String
-            return String(format:("\(NSLocalizedString("RouteDatasource %@ in %@", comment: ""))"),
-                          distanceFormatter.string(fromMeters: fullDistance),
-                          expectedTravelTime)
+            return theRoute.latestFullRouteDistanceAndTime
         }
     }
     

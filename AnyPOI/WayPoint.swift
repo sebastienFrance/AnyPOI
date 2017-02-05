@@ -87,6 +87,23 @@ class WayPoint: NSManagedObject {
         }
     }
     
+    // Gives the distance & time of the full route or of the WayPoint currently displayed
+    var distanceAndTime:String {
+        get {
+            if wayPointDistance != Double.nan && wayPointDistance != Double.infinity {
+                let distanceFormatter = LengthFormatter()
+                distanceFormatter.unitStyle = .short
+                let expectedTravelTime = Utilities.shortStringFromTimeInterval(wayPointDuration) as String
+                return String(format:("\(NSLocalizedString("RouteDatasource %@ in %@", comment: ""))"),
+                              distanceFormatter.string(fromMeters: wayPointDistance),
+                              expectedTravelTime)
+            } else {
+                return NSLocalizedString("RouteDataSourceNoInfos", comment:"")
+            }
+        }
+    }
+
+    
     fileprivate var unarchivedRouteInfos: RouteInfos? = nil
 
  
@@ -137,7 +154,9 @@ extension WayPoint {
     fileprivate func addWayPointToGPX(poiPointInternalURL:String) -> XMLElement {
         let attributes = [ XSD.wayPointInternalUrlAttr : objectID.uriRepresentation().absoluteString,
                            XSD.wayPointPoiInternalUrlAttr : poiPointInternalURL,
-                           XSD.wayPointTransportTypeAttr : "\(wayPointTransportType)"]
+                           XSD.wayPointTransportTypeAttr : "\(wayPointTransportType)",
+                           XSD.wayPointDistanceAttr: "\(wayPointDistance)",
+                           XSD.wayPointDurationAttr: "\(wayPointDuration)"]
         
         return XMLElement(elementName: XSD.GPX.Elements.RTE.Elements.rtept.Elements.WPT.Elements.customExtension.Elements.wayPoint.name, attributes: attributes)
     }

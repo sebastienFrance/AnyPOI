@@ -849,29 +849,20 @@ class POIDataManager {
     /// - Parameters:
     ///   - route: Route on which the new WayPoint must be appended
     ///   - poi: Point of interest that will be the new Destination of the route
-    ///   - transportType: Type of transport that must be configured to reach the destination
-    func appendWayPoint(route:Route, poi:PointOfInterest, transportType:MKDirectionsTransportType) {
+    ///   - gpxWayPoint: GPX WayPoint that must be appended to the route
+    func appendWayPoint(route:Route, poi:PointOfInterest, gpxWayPoint:GPXRouteWayPointAtttributes) {
 
         // get the existing wayPoints of the route and then append the new wayPoint
         let wayPoints = NSMutableOrderedSet(orderedSet: route.routeWayPoints!)
+   
+        let newWayPoint = addWayPoint(poi, transportType: gpxWayPoint.transportType)
+        newWayPoint.wayPointDistance = gpxWayPoint.distance
+        newWayPoint.wayPointDuration = gpxWayPoint.duration
 
-        if wayPoints.count == 0 {
-            let newWayPoint = addWayPoint(poi, transportType: transportType)
-            wayPoints.add(newWayPoint)
-        } else {
-            // Update the previous wayPoint with the transport type to reach the new destination
-            let previousWayPoint = wayPoints.lastObject as! WayPoint
-            let newWayPoint = addWayPoint(poi)
-            wayPoints.add(newWayPoint)
+        wayPoints.add(newWayPoint)
 
-            newWayPoint.transportType = transportType
-            previousWayPoint.transportType = transportType
-            previousWayPoint.routeInfos = nil
-        }
         route.routeWayPoints = wayPoints
     }
-
-
     
     func updateRoute(route:Route) {
     }

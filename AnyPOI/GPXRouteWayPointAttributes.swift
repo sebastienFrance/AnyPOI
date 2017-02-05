@@ -48,4 +48,29 @@ struct GPXRouteWayPointAtttributes {
             return nil
         }
     }
+    
+    var distance: Double {
+        get {
+            if let wayPointAttr = wayPointAttributes,
+                let distanceString = wayPointAttr[XSD.wayPointDistanceAttr],
+                let theDistance = Double(distanceString) {
+                return theDistance
+            } else {
+                return Double.nan
+            }
+        }
+    }
+    
+    var duration: Double {
+        get {
+            if let wayPointAttr = wayPointAttributes,
+                let durationString = wayPointAttr[XSD.wayPointDurationAttr],
+                let theDuration = Double(durationString) {
+                return theDuration
+            } else {
+                return Double.nan
+            }
+        }
+    }
+
 }

@@ -165,9 +165,8 @@ class GPXRoute {
     fileprivate func setWayPointsFor(route:Route, importedPOIs:[PointOfInterest]) {
         if let theRouteWayPoints = routeWayPoints {
             for currentWayPoint in theRouteWayPoints {
-                let (poi, transportType) = GPXRoute.searchPoi(wayPoint: currentWayPoint, importedPois:importedPOIs)
-                if let foundPoi = poi {
-                    POIDataManager.sharedInstance.appendWayPoint(route: route, poi: foundPoi, transportType: transportType)
+                if let foundPoi = GPXRoute.searchPoi(wayPoint: currentWayPoint, importedPois:importedPOIs) {
+                    POIDataManager.sharedInstance.appendWayPoint(route: route, poi: foundPoi, gpxWayPoint:currentWayPoint)
                 }
             }
         }
@@ -179,26 +178,25 @@ class GPXRoute {
     /// - Parameter wayPoint: Contains the information to find the POI and to get its transport type
     /// - Parameter importedPois: Contains the POIs that have been imported
     /// - Returns: the POI if it exists in the database otherwise nil is returned. It returns also the transport type of the RouteWayPointAttribute
-    fileprivate static func searchPoi(wayPoint:GPXRouteWayPointAtttributes, importedPois:[PointOfInterest]) -> (poi:PointOfInterest?, transportType:MKDirectionsTransportType) {
+    fileprivate static func searchPoi(wayPoint:GPXRouteWayPointAtttributes, importedPois:[PointOfInterest]) -> PointOfInterest? {
         if let coordinate = wayPoint.coordinate {
             // Look for the POI in the imported POIs
             for currentPoi in importedPois {
                 if currentPoi.coordinate.latitude == coordinate.latitude &&
                     currentPoi.coordinate.longitude == coordinate.longitude &&
                     wayPoint.poiName == currentPoi.poiDisplayName! {
-                    return (currentPoi, wayPoint.transportType)
+                    return currentPoi
                 }
             }
             
             // Look for the POI using internalURL or poiName AND coordinates
             if let poiUrl = wayPoint.poiInternalURL {
-                return (POIDataManager.sharedInstance.findPOI(url: poiUrl,
+                return POIDataManager.sharedInstance.findPOI(url: poiUrl,
                                                               poiName: wayPoint.poiName,
-                                                              coordinates: coordinate),
-                        wayPoint.transportType)
+                                                              coordinates: coordinate)
             }
         }
-        return (nil, MKDirectionsTransportType.automobile)
+        return nil
     }
 }
 

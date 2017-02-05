@@ -105,6 +105,8 @@ struct XSD {
                                                     static let internalUrl = "internalUrl"
                                                     static let poiInternalUrl = "poiInternalUrl"
                                                     static let transportType = "transportType"
+                                                    static let distance = "distance"
+                                                    static let duration = "duration"
                                                 }
                                             }
                                         }
@@ -167,6 +169,8 @@ struct XSD {
     
     // WayPoint Attributes
     static let wayPointTransportTypeAttr = XSD.GPX.Elements.RTE.Elements.rtept.Elements.WPT.Elements.customExtension.Elements.wayPoint.Attributes.transportType
+    static let wayPointDistanceAttr = XSD.GPX.Elements.RTE.Elements.rtept.Elements.WPT.Elements.customExtension.Elements.wayPoint.Attributes.distance
+    static let wayPointDurationAttr = XSD.GPX.Elements.RTE.Elements.rtept.Elements.WPT.Elements.customExtension.Elements.wayPoint.Attributes.duration
     static let wayPointPoiInternalUrlAttr = XSD.GPX.Elements.RTE.Elements.rtept.Elements.WPT.Elements.customExtension.Elements.wayPoint.Attributes.poiInternalUrl
     static let wayPointInternalUrlAttr = XSD.GPX.Elements.RTE.Elements.rtept.Elements.WPT.Elements.customExtension.Elements.wayPoint.Attributes.internalUrl
 
