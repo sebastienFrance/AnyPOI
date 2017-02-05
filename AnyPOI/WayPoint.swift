@@ -75,10 +75,14 @@ class WayPoint: NSManagedObject {
         set {
             if let newRouteInfos = newValue {
                 unarchivedRouteInfos = newValue
+                wayPointDistance = newRouteInfos.distance
+                wayPointDuration = newRouteInfos.expectedTravelTime
                 wayPointRouteInfos = NSKeyedArchiver.archivedData(withRootObject: newRouteInfos) as NSObject?
             } else {
                 unarchivedRouteInfos = nil
                 wayPointRouteInfos = nil
+                wayPointDuration = Double.nan
+                wayPointDistance = Double.nan
             }
         }
     }

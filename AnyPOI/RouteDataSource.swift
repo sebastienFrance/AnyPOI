@@ -112,7 +112,7 @@ class RouteDataSource {
     
     var allRouteName:String {
         get {
-            return "\(NSLocalizedString("FullDirectionRouteDatasource", comment: "")) \(theRoute.routeName!)"
+            return "\(NSLocalizedString("FullDirectionRouteDatasource", comment: "")) (\(theRoute.routeName!))"
         }
     }
     

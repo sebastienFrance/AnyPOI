@@ -124,14 +124,38 @@ class Route: NSManagedObject {
         }
     }
     
+    var latestTotalDistance: Double {
+        get {
+            var fullDistance = CLLocationDistance(0)
+            
+            for wayPoint in routeWayPoints! {
+                let currentWayPoint = wayPoint as! WayPoint
+                fullDistance += currentWayPoint.wayPointDistance
+            }
+
+            return fullDistance
+         }
+    }
+    
+    var latestTotalDuration: Double {
+        get {
+            var fullExpectedTravelTime = TimeInterval(0)
+            
+            for wayPoint in routeWayPoints! {
+                let currentWayPoint = wayPoint as! WayPoint
+                fullExpectedTravelTime += currentWayPoint.wayPointDuration
+            }
+            
+            return fullExpectedTravelTime
+        }
+    }
+    
     fileprivate var isDirectionLoading = false
 
 
     func initializeRoute(_ routeName:String, wayPoints:NSOrderedSet) {
         self.routeName = routeName
         self.routeWayPoints = wayPoints
-        self.latestTotalDistance = Double.nan
-        self.latestTotalDuration = Double.nan
     }
     
     // Get a WayPoint from the route
@@ -346,7 +370,6 @@ class Route: NSManagedObject {
     }
 
     fileprivate func requestRouteFrom(currentIndex:Int, untilEnd:Bool, forceToReload:Bool) {
-//        isDirectionLoading = true
         requestRouteDirectionFrom(currentIndex:currentIndex, untilEnd: untilEnd, forceToReload: forceToReload)
     }
     
@@ -402,7 +425,6 @@ class Route: NSManagedObject {
                     if untilEnd && (currentIndex + 1 < self.wayPoints.count - 1) {
                         self.requestRouteFrom(currentIndex:currentIndex + 1, untilEnd:true, forceToReload: forceToReload)
                     } else {
-                        self.updateLatestDistanceAndDuration()
                         NotificationCenter.default.post(name: Notification.Name(rawValue: Notifications.directionsDone), object: self)
                         // It must be done after the post of directionDone
                         // If not then the MapView will detect the route has been changed and then triggers a new route synchronization
@@ -420,17 +442,9 @@ class Route: NSManagedObject {
                 self.requestRouteFrom(currentIndex:currentIndex + 1, untilEnd:true, forceToReload: forceToReload)
             } else {
                 self.isDirectionLoading = false
-                self.updateLatestDistanceAndDuration()
                 NotificationCenter.default.post(name: Notification.Name(rawValue: Notifications.directionsDone), object: self)
             }
         }
-    }
-    
-    fileprivate func updateLatestDistanceAndDuration() {
-       let (distance, travelTime) = fullDistanceAndTravelTime()
-        latestTotalDuration = travelTime
-        latestTotalDistance = distance
-        POIDataManager.sharedInstance.commitDatabase()
     }
     
     func getShortestRouteFrom(_ routeDirections:MKDirectionsResponse) -> MKRoute? {

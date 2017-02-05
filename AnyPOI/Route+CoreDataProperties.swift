@@ -2,8 +2,8 @@
 //  Route+CoreDataProperties.swift
 //  AnyPOI
 //
-//  Created by Sébastien Brugalières on 05/12/2016.
-//  Copyright © 2016 Sébastien Brugalières. All rights reserved.
+//  Created by Sébastien Brugalières on 05/02/2017.
+//  Copyright © 2017 Sébastien Brugalières. All rights reserved.
 //
 
 import Foundation
@@ -16,8 +16,6 @@ extension Route {
         return NSFetchRequest<Route>(entityName: "Route");
     }
 
-    @NSManaged public var latestTotalDistance: Double
-    @NSManaged public var latestTotalDuration: Double
     @NSManaged public var routeName: String?
     @NSManaged public var routeWayPoints: NSOrderedSet?
 

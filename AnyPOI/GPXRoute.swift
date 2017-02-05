@@ -171,13 +171,6 @@ class GPXRoute {
                 }
             }
         }
-        if let distance = totalDistance {
-            route.latestTotalDistance = distance
-        }
-        
-        if let duration = totalDuration {
-            route.latestTotalDuration = duration
-        }
     }
 
     /// Search the POI and directionType of a RouteWayPointAttributes. First we look in the imported POIs and only if it cannot be found we look directly

@@ -46,6 +46,7 @@
 "Error"="Erreur";
 "Close"="Fermer";
 "Flyover"="Flyover";
+"FlyoverFromCurrentLocation"="Vôtre position";
 "Navigation"="Navigation";
 "Wikipedia"="Wikipedia";
 "MaxMonitoredPOIReached"="Nombre maximal de POIs sous surveillance atteint. Désactivez en un autre pour activer celui-ci";
@@ -80,7 +81,7 @@
 "PhoneLabelOtherFax"="Autre fax";
 "PhoneLabelOther"="Autre";
 "UnknownFromToRouteDatasource"="Départ/Arrivée inconnues";
-"FullDirectionRouteDatasource"="Itinéraire pour";
+"FullDirectionRouteDatasource"="Itinéraire complet";
 "RouteDatasource %@ in %@"="%@ en %@";
 "RouteDisplayInfos %@ in %@"="%@ en %@";
 "RouteDataSourceNoInfos"="Aucune information sur le voyage";

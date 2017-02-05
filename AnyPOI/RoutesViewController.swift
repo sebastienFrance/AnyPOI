@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class RoutesViewController: UIViewController, RouteEditorDelegate, ContainerViewControllerDelegate {
+class RoutesViewController: UIViewController, ContainerViewControllerDelegate {
 
     @IBOutlet weak var theTableView: UITableView! {
         didSet {
@@ -90,7 +90,9 @@ class RoutesViewController: UIViewController, RouteEditorDelegate, ContainerView
             return nil
         }
     }
-    
+}
+
+extension RoutesViewController: RouteEditorDelegate {
     //MARK: RouteEditorDelegate
     func routeCreated(_ route:Route) {
         // Nothing to do

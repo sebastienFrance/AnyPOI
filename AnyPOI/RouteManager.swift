@@ -22,31 +22,6 @@ class RouteManager: NSObject {
         case forward, backward, all
     }
     
-//    var routeFromCurrentLocationTo: PointOfInterest? {
-//        get {
-//            return fromCurrentLocation?.toPOI
-//        }
-//    }
-//    var routeFromCurrentLocation : MKRoute? {
-//        get {
-//            return fromCurrentLocation?.route
-//        }
-//    }
-//    var isRouteFromCurrentLocationDisplayed: Bool {
-//        get {
-//            if let _ = fromCurrentLocation {
-//                return true
-//            } else {
-//                return false
-//            }
-//        }
-//    }
-//    
-//    var routeFromCurrentLocationTransportType : MKDirectionsTransportType {
-//        get {
-//            return fromCurrentLocation?.transportType ?? .automobile
-//        }
-//    }
     
     struct RouteFromCurrentLocation {
         var toPOI: PointOfInterest
@@ -266,7 +241,7 @@ class RouteManager: NSObject {
                     refresh(poi:oldTo)
                 }
                 
-                refreshAnnotationsForCurrentWayPoint()
+                refreshFromToAnnotations()
                 
                 // add the overlays to display the current route section (or the full route)
                 addRouteOverlays()
@@ -325,6 +300,15 @@ class RouteManager: NSObject {
             theMapView.remove(routeFromCurrentLocation.route.polyline)
             fromCurrentLocation = nil
         }
+        
+        // look if there're still polylines that should be removed (in case of bugs)
+        var polyLineToRemove = [MKPolyline]()
+        for currentOverlay in theMapView.overlays {
+            if let polyLine = currentOverlay as? MKPolyline {
+                polyLineToRemove.append(polyLine)
+            }
+        }
+        theMapView.removeOverlays(polyLineToRemove)
     }
     
     /// Remove the route overlays of the current position
@@ -366,7 +350,7 @@ class RouteManager: NSObject {
     
     //MARK: Route update
     // User has requested to add a POI in the route
-    // It can be triggered by the user from the Callout, when creating a new POI on the Map, when using Route Editor
+    // It can be triggered by the user from the Callout, when creating a new POI on the Map
     //
     // This method create a new WayPoint for this POI in the route
     // When the new WayPoint is inserted, it will automatically trigger a route loading
@@ -396,42 +380,54 @@ class RouteManager: NSObject {
         }
     }
     
+    
+    /// Change the Transport type for the section currently displayed (it can be a section
+    /// from the route or a route from the current location
+    ///
+    /// - Parameter transportType: new transport type
     func set(transportType:MKDirectionsTransportType) {
         if let _ = fromCurrentLocation {
-            reconfigureCurrentLocationRoute(withTransportType:transportType)
+            setCurrentLocationRoute(withTransportType:transportType)
         } else {
-            // Route will be automatically update thanks to database notification
+            // Remove from the map the current overlay for the route section before the compute the new one
+            // FIXEDME: Maybe it should be removed only when the new one has been successfully computed
+            if let routeOverlay = routeDatasource.fromWayPoint?.routeInfos?.polyline {
+                theMapView.remove(routeOverlay)
+            }
+            // Route will be automatically updated thanks to database notification
             routeDatasource.updateWith(transportType:transportType)
         }
         
     }
     
+    
+    /// Move a WayPoint from an index to another one
+    ///
+    /// - Parameters:
+    ///   - sourceIndex: current index of the WayPoint in the route
+    ///   - destinationIndex: index where the WayPoint must be moved in the route
     func moveWayPoint(sourceIndex: Int, destinationIndex:Int) {
-        routeDatasource.moveWayPoint(fromIndex:sourceIndex, toIndex: destinationIndex)
-        
-        // Refresh all Poi used by the Route -> Could be improved?
-        for currentWayPoint in routeDatasource.wayPoints {
-            refresh(poi:currentWayPoint.wayPointPoi!)
+        if sourceIndex != destinationIndex {
+            routeDatasource.moveWayPoint(fromIndex:sourceIndex, toIndex: destinationIndex)
+            
+            // Refresh all Poi used by the Route -> Could be improved?
+            for currentWayPoint in routeDatasource.wayPoints {
+                refresh(poi:currentWayPoint.wayPointPoi!)
+            }
         }
     }
     
 
+    /// Delete a wayPoint located at given index from the route (called from RouteViewEditor)
+    /// When the wayPoint has been removed the MapView is refreshed (POIs, Overlays...)
+    ///
+    /// - Parameter index: index of the wayPoint to be removed from the route
     func deleteWayPointAt(index:Int) {
         if routeDatasource.wayPoints.count > index {
             if routeDatasource.isFullRouteMode {
                 let wayPointToDelete = routeDatasource.wayPoints[index]
                 
-                // Remove the overlay of the deleted WayPoint
-                if let overlayToRemove = wayPointToDelete.routeInfos?.polyline {
-                    theMapView.remove(overlayToRemove)
-                } else {
-                    // When there is no overlay it probably means it's the latest WayPoint we want to delete
-                    // In this case we need to get the overlay where this WayPoint is the target and to delete it
-                    if routeDatasource.wayPoints.count >= 2,
-                        let overlayToRemove = routeDatasource.wayPoints[index - 1].routeInfos?.polyline {
-                        theMapView.remove(overlayToRemove)
-                    }
-                }
+                // overlays will be remove when directionDone() will be called
                 
                 // Keep in mind the from & to related to the deleted WayPoint
                 let fromPoiToRefresh = wayPointToDelete.wayPointPoi!
@@ -495,16 +491,19 @@ class RouteManager: NSObject {
     //  - To & From annotations are refreshed
     //  - If required, we display the full route
     fileprivate func removeAndRefreshRoute(poi:PointOfInterest) {
-        var needToRefreshCurrentRouteSection = false
-        // If the POI is used to display the current WayPoint we remove its overlay
+        var needRefreshFromTo = false
         
-        //FIXEDME: Error, when we are in FR Mode we must not delete the overlay from the fromWayPoint because
-        // in this mode the fromWayPoint is the start of the route and not the segment we want to remove (which can 
-        // be anywhere in the route (start, middle, end...)
-        if poi === routeDatasource.fromPOI || poi === routeDatasource.toPOI,
-            let overlayToRemove = routeDatasource.fromWayPoint?.routeInfos?.polyline {
-            theMapView.remove(overlayToRemove)
-            needToRefreshCurrentRouteSection = true
+        // No need to remove overlay because the route overlays will be refreshed in directionDone()
+     
+//        // If the POI is used to display the current WayPoint we remove its overlay
+//        FIXEDME: Error, when we are in FR Mode we must not delete the overlay from the fromWayPoint because
+//         in this mode the fromWayPoint is the start of the route and not the segment we want to remove (which can 
+//         be anywhere in the route (start, middle, end...)
+//        if poi === routeDatasource.fromPOI || poi === routeDatasource.toPOI,
+//            let overlayToRemove = routeDatasource.fromWayPoint?.routeInfos?.polyline {
+//            theMapView.remove(overlayToRemove)
+        if poi === routeDatasource.fromPOI || poi === routeDatasource.toPOI {
+            needRefreshFromTo = true
         }
         
         // Remove the Poi from the datasource
@@ -513,8 +512,8 @@ class RouteManager: NSObject {
         // Update the removed Poi on the Map (Pin annotation & callout)
         refresh(poi:poi)
         
-        if needToRefreshCurrentRouteSection {
-            refreshAnnotationsForCurrentWayPoint()
+        if needRefreshFromTo {
+            refreshFromToAnnotations()
         }
         
         // If there's no route section, we go back to route start
@@ -671,7 +670,7 @@ class RouteManager: NSObject {
     /// Called when the user change the transport type for the route from current location
     ///
     /// - Parameter withTransportType: the new transport type (car, walk...)
-    fileprivate func reconfigureCurrentLocationRoute(withTransportType:MKDirectionsTransportType) {
+    fileprivate func setCurrentLocationRoute(withTransportType:MKDirectionsTransportType) {
         if let toPoi = routeDatasource.toPOI {
             let routeRequest = MKDirectionsRequest()
             routeRequest.transportType = withTransportType
@@ -713,7 +712,7 @@ class RouteManager: NSObject {
         }
     }
 
-    fileprivate func refreshAnnotationsForCurrentWayPoint() {
+    fileprivate func refreshFromToAnnotations() {
         if let from = routeDatasource.fromPOI {
             refresh(poi:from)
             if let to = routeDatasource.toPOI , to != from {

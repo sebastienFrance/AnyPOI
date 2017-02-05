@@ -46,6 +46,7 @@
 "Error"="Error";
 "Close"="Close";
 "Flyover"="Flyover";
+"FlyoverFromCurrentLocation"="Current position";
 "Navigation"="Navigation";
 "Wikipedia"="Wikipedia";
 "MaxMonitoredPOIReached"="Maximum number of POIs under monitoring reached. Disable another one to activate this one";
@@ -80,7 +81,7 @@
 "PhoneLabelOtherFax"="Other fax";
 "PhoneLabelOther"="Other";
 "UnknownFromToRouteDatasource"="Unknown From/To";
-"FullDirectionRouteDatasource"="Full direction for";
+"FullDirectionRouteDatasource"="Full direction";
 "RouteDatasource %@ in %@"="%@ in %@";
 "RouteDisplayInfos %@ in %@"="%@ in %@";
 "RouteDataSourceNoInfos"="No route information";
