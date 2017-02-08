@@ -87,6 +87,7 @@
 "RouteDisplayInfos %@ in %@"="%@ en %@";
 "RouteDataSourceNoInfos"="Aucune information sur le voyage";
 "RouteSummaryTableRouteIsEmpty"="Le voyage est vide, ajoutez des points d'interêts";
+"WayPointNoInfos"="Pas d'information sur cet itinéraire";
 "NoRouteInfoRouteDatasource"="Pas d'infos sur l'itinéraire";
 "UpdateRouteRouteEditorController"="Modification du voyage";
 "GetNewRouteNameRouteEditorController"="Entrez le nom du voyage";

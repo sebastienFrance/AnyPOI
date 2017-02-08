@@ -878,8 +878,8 @@ class POIDataManager {
 
     func addWayPoint(_ poi: PointOfInterest, transportType:MKDirectionsTransportType) -> WayPoint {
         let wayPoint = getEmptyWayPoint()
-        wayPoint.transportType = transportType
-        wayPoint.wayPointPoi = poi
+        wayPoint.initializeWith(poi:poi, withTransportType:transportType)
+
         return wayPoint
     }
 

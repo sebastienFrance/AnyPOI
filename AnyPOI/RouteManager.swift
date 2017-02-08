@@ -22,6 +22,10 @@ class RouteManager: NSObject {
         case forward, backward, all
     }
     
+    fileprivate enum InsertPoiPostion {
+        case head, tail, currentPosition
+    }
+
     
     struct RouteFromCurrentLocation {
         var toPOI: PointOfInterest
@@ -351,11 +355,12 @@ class RouteManager: NSObject {
 
     
     //MARK: Route update
-    // User has requested to add a POI in the route
-    // It can be triggered by the user from the Callout, when creating a new POI on the Map
-    //
-    // This method create a new WayPoint for this POI in the route
-    // When the new WayPoint is inserted, it will automatically trigger a route loading
+    
+    /// Add a Point of interest in the Route
+    /// When we are in Full Route Mode, we request the user if the POI must be added at the start or end of the route
+    /// else it's inserted at the current position
+    ///
+    /// - Parameter poi: The Point of interest to be added in the route
     func add(poi:PointOfInterest) {
         if routeDatasource.isFullRouteMode && !routeDatasource.wayPoints.isEmpty {
             
@@ -399,7 +404,6 @@ class RouteManager: NSObject {
             // Route will be automatically updated thanks to database notification
             routeDatasource.updateWith(transportType:transportType)
         }
-        
     }
     
     
@@ -461,8 +465,12 @@ class RouteManager: NSObject {
         }
     }
     
-    // Delete from the route the POI with a selected annotation on the Map
-    // Dialog box is opened to request confirmation when the Poi is used by several route sections
+    /// This method is used when the remove POI from route has been selected from its callout
+    /// When the POI is used several time in the route we request first the confirmation.
+    ///
+    /// When the POI is removed it triggers automatically a refresh and a recomputation of the route (when needed)
+    ///
+    /// - Parameter poi: Point of Interest to remove from the route
     func remove(poi:PointOfInterest) {
         if routeDatasource.occurencesOf(poi:poi) > 1 {
             // the POI is used several times in the route
@@ -487,34 +495,28 @@ class RouteManager: NSObject {
         }
     }
     
-    // Remove the given Poi from the route and refresh the Map display
-    //  - WayPoint overlay is removed
-    //  - Poi is removed from route data source
-    //  - To & From annotations are refreshed
-    //  - If required, we display the full route
+    /// Remove the given Poi from the route and refresh the Map display
+    ///
+    /// - Parameter poi: Point of interest to remove from the Route
     fileprivate func removeAndRefreshRoute(poi:PointOfInterest) {
-        var needRefreshFromTo = false
+        var needRefreshAnnotationFromTo = false
         
         // No need to remove overlay because the route overlays will be refreshed in directionDone()
      
-//        // If the POI is used to display the current WayPoint we remove its overlay
-//        FIXEDME: Error, when we are in FR Mode we must not delete the overlay from the fromWayPoint because
-//         in this mode the fromWayPoint is the start of the route and not the segment we want to remove (which can 
-//         be anywhere in the route (start, middle, end...)
-//        if poi === routeDatasource.fromPOI || poi === routeDatasource.toPOI,
-//            let overlayToRemove = routeDatasource.fromWayPoint?.routeInfos?.polyline {
-//            theMapView.remove(overlayToRemove)
+        // If the POI to be removed is the from or to, it means the from or to will
+        // change after its removal and we will have to refresh the new From/To
         if poi === routeDatasource.fromPOI || poi === routeDatasource.toPOI {
-            needRefreshFromTo = true
+            needRefreshAnnotationFromTo = true
         }
         
         // Remove the Poi from the datasource
+        // The From/To can be different after this call
         routeDatasource.deleteWayPointsWith(poi: poi)
         
         // Update the removed Poi on the Map (Pin annotation & callout)
         refresh(poi:poi)
         
-        if needRefreshFromTo {
+        if needRefreshAnnotationFromTo {
             refreshFromToAnnotations()
         }
         
@@ -524,7 +526,13 @@ class RouteManager: NSObject {
         }
     }
     
-    fileprivate func insert(poi:PointOfInterest, atPosition:MapViewController.InsertPoiPostion) {
+    
+    /// Add the POI in the route at the given position. Annotations are refreshed on the Map
+    ///
+    /// - Parameters:
+    ///   - poi: Point of interest to be added in the route
+    ///   - atPosition: Position where the POI must be inserted in the route (head, tail or current position)
+    fileprivate func insert(poi:PointOfInterest, atPosition:InsertPoiPostion) {
         
         switch atPosition {
         case .head: // Only when the whole route is displayed

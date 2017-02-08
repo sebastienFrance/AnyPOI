@@ -87,6 +87,7 @@
 "RouteDisplayInfos %@ in %@"="%@ in %@";
 "RouteDataSourceNoInfos"="No route information";
 "RouteSummaryTableRouteIsEmpty"="The route is not defined, add Points of interests";
+"WayPointNoInfos"="No data on this travel";
 "NoRouteInfoRouteDatasource"="No route info";
 "UpdateRouteRouteEditorController"="Update route";
 "GetNewRouteNameRouteEditorController"="Enter route name";

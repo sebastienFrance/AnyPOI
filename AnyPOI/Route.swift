@@ -384,7 +384,7 @@ class Route: NSManagedObject {
                     
                     let theWayPoint = self.wayPoints[currentIndex]
                     if let error = routeError {
-                        theWayPoint.routeInfos = nil
+                        //theWayPoint.routeInfos = nil
                         print("Error calculating direction \(error.localizedDescription)")
                     } else {
                         // Get the first route direction from the response

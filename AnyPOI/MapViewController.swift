@@ -65,9 +65,6 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
     
     fileprivate var isFirstInitialization = true
     
-     enum InsertPoiPostion {
-        case head, tail, currentPosition
-    }
 
     
     //MARK: Filter Mgt

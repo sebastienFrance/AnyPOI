@@ -90,7 +90,7 @@ class WayPoint: NSManagedObject {
     // Gives the distance & time of the full route or of the WayPoint currently displayed
     var distanceAndTime:String {
         get {
-            if wayPointDistance != Double.nan && wayPointDistance != Double.infinity {
+            if !wayPointDistance.isNaN && !wayPointDistance.isInfinite {
                 let distanceFormatter = LengthFormatter()
                 distanceFormatter.unitStyle = .short
                 let expectedTravelTime = Utilities.shortStringFromTimeInterval(wayPointDuration) as String
@@ -98,7 +98,7 @@ class WayPoint: NSManagedObject {
                               distanceFormatter.string(fromMeters: wayPointDistance),
                               expectedTravelTime)
             } else {
-                return NSLocalizedString("RouteDataSourceNoInfos", comment:"")
+                return NSLocalizedString("WayPointNoInfos", comment:"")
             }
         }
     }
@@ -106,7 +106,13 @@ class WayPoint: NSManagedObject {
     
     fileprivate var unarchivedRouteInfos: RouteInfos? = nil
 
- 
+    func initializeWith(poi:PointOfInterest, withTransportType:MKDirectionsTransportType) {
+        transportType = withTransportType
+        wayPointPoi = poi
+        wayPointDistance = Double.nan
+        wayPointDuration = Double.nan
+    }
+    
     override func prepareForDeletion() {
         wayPointParent?.willRemoveWayPoint(self)
     }
