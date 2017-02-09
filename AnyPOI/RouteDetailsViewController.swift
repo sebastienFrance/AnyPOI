@@ -15,7 +15,7 @@ class RouteDetailsViewController: UIViewController {
             if let tableView = theTableView {
                 tableView.delegate = self
                 tableView.dataSource = self
-                tableView.estimatedRowHeight = 112
+                tableView.estimatedRowHeight = 163
                 tableView.rowHeight = UITableViewAutomaticDimension
             }
         }
@@ -32,19 +32,19 @@ class RouteDetailsViewController: UIViewController {
         
         // Subscribe Route notifications
         NotificationCenter.default.addObserver(self,
-                                                         selector: #selector(RouteDetailsViewController.directionForWayPointUpdated(_:)),
-                                                         name: NSNotification.Name(rawValue: Route.Notifications.directionForWayPointUpdated),
-                                                         object: nil)
+                                               selector: #selector(RouteDetailsViewController.directionForWayPointUpdated(_:)),
+                                               name: NSNotification.Name(rawValue: Route.Notifications.directionForWayPointUpdated),
+                                               object: nil)
         
         NotificationCenter.default.addObserver(self,
-                                                         selector: #selector(RouteDetailsViewController.directionDone(_:)),
-                                                         name: NSNotification.Name(rawValue: Route.Notifications.directionsDone),
-                                                         object: nil)
+                                               selector: #selector(RouteDetailsViewController.directionDone(_:)),
+                                               name: NSNotification.Name(rawValue: Route.Notifications.directionsDone),
+                                               object: nil)
         
         NotificationCenter.default.addObserver(self,
-                                                         selector: #selector(RouteDetailsViewController.directionStarting(_:)),
-                                                         name: NSNotification.Name(rawValue: Route.Notifications.directionStarting),
-                                                         object: nil)
+                                               selector: #selector(RouteDetailsViewController.directionStarting(_:)),
+                                               name: NSNotification.Name(rawValue: Route.Notifications.directionStarting),
+                                               object: nil)
     }
     
     deinit {
