@@ -97,7 +97,7 @@ class CustomCalloutAccessoryView: UIView {
     }
     
     fileprivate func configureForContact(_ poi:PointOfInterest) {
-        if let theContact = ContactsUtilities.getContactForDetailedDescription(poi.poiContactIdentifier!) {
+        if let contactId = poi.poiContactIdentifier, let theContact = ContactsUtilities.getContactForDetailedDescription(contactId) {
             configureContactThumbail(theContact)
             configurePhoneNumber(theContact)
             configureURL(ContactsUtilities.extractURL(theContact))

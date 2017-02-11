@@ -428,17 +428,15 @@ extension PointOfInterest {
         
         var phoneNumber:String?
         var url:String?
-        if poiIsContact {
+        if poiIsContact, let contactId = poiContactIdentifier, let theContact = ContactsUtilities.getContactForDetailedDescription(contactId) {
             // Get infos from the Contact
-            if let theContact = ContactsUtilities.getContactForDetailedDescription(poiContactIdentifier!) {
-                phoneNumber = ContactsUtilities.extractPhoneNumber(theContact)?.stringValue
-                url = ContactsUtilities.extractURL(theContact)
-            }
+            phoneNumber = ContactsUtilities.extractPhoneNumber(theContact)?.stringValue
+            url = ContactsUtilities.extractURL(theContact)
         } else {
             phoneNumber = poiPhoneNumber
             url = poiURL
         }
-        
+
         if let thePhoneNumber = phoneNumber {
             htmlDescription += "<br>\(thePhoneNumber)"
         }
@@ -481,12 +479,10 @@ extension PointOfInterest {
         
         var phoneNumber:String?
         var url:String?
-        if poiIsContact {
+        if poiIsContact, let contactId = poiContactIdentifier, let theContact = ContactsUtilities.getContactForDetailedDescription(contactId) {
             // Get infos from the Contact
-            if let theContact = ContactsUtilities.getContactForDetailedDescription(poiContactIdentifier!) {
-                phoneNumber = ContactsUtilities.extractPhoneNumber(theContact)?.stringValue
-                url = ContactsUtilities.extractURL(theContact)
-            }
+            phoneNumber = ContactsUtilities.extractPhoneNumber(theContact)?.stringValue
+            url = ContactsUtilities.extractURL(theContact)
         } else {
             phoneNumber = poiPhoneNumber
             url = poiURL
@@ -527,17 +523,14 @@ extension PointOfInterest {
         
         var phoneNumber:String?
         var url:String?
-        if poiIsContact {
+        if poiIsContact, let contactId = poiContactIdentifier, let theContact = ContactsUtilities.getContactForDetailedDescription(contactId) {
             // Get infos from the Contact
-            if let theContact = ContactsUtilities.getContactForDetailedDescription(poiContactIdentifier!) {
-                
-                let contactPhoneNumber = ContactsUtilities.extractPhoneNumber(theContact)
-                if let number = contactPhoneNumber {
-                    phoneNumber = number.stringValue
-                }
-                
-                url = ContactsUtilities.extractURL(theContact)
+            let contactPhoneNumber = ContactsUtilities.extractPhoneNumber(theContact)
+            if let number = contactPhoneNumber {
+                phoneNumber = number.stringValue
             }
+
+            url = ContactsUtilities.extractURL(theContact)
         } else {
             phoneNumber = poiPhoneNumber
             url = poiURL
@@ -614,8 +607,7 @@ extension PointOfInterest {
         // else we get the one that is registered in the database (if any)
         //
         // Same is done for the Image
-        if poiIsContact,
-            let contactId = poiContactIdentifier {
+        if poiIsContact, let contactId = poiContactIdentifier {
             if let contact = ContactsUtilities.getContactForDetailedDescription(contactId) {
                 
                 if let phoneNumber = ContactsUtilities.extractPhoneNumber(contact) {

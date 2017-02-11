@@ -181,7 +181,11 @@ class GPXPoi {
             // Set POI mandatory parameters with imported values
             restorePoi.category = poiCategory
             restorePoi.poiIsContact = poiIsContact
-            restorePoi.poiContactIdentifier = poiContactId
+            if let contactId = poiContactId {
+                restorePoi.poiContactIdentifier = contactId
+            } else {
+                restorePoi.poiIsContact = false
+            }
             restorePoi.poiAddress = poiAddress
             restorePoi.poiDisplayName = poiName
             restorePoi.poiDescription = poiDescription

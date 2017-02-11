@@ -42,8 +42,10 @@ class ContactsViewController: UIViewController   {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        contact = ContactsUtilities.getContactForDetailedDescription(poi!.poiContactIdentifier!)
+
+        if let thePOI = poi, let contactId = thePOI.poiContactIdentifier {
+            contact = ContactsUtilities.getContactForDetailedDescription(contactId)
+        }
         backgroundView.layer.cornerRadius = 10.0;
         backgroundView.layer.masksToBounds = true;
         
@@ -66,13 +68,15 @@ class ContactsViewController: UIViewController   {
     }
     
     @IBAction func faceTimeButtonPushed(_ sender: UIButton) {
-        let currentLabeledValue = contact!.phoneNumbers[sender.tag]
-        let phoneNumber = (currentLabeledValue.value as CNPhoneNumber).stringValue
-        if let facetimeURL = URL(string: "facetime://\(phoneNumber)") {
-            if UIApplication.shared.canOpenURL(facetimeURL) {
-                UIApplication.shared.openURL(facetimeURL)
-                dismiss(animated: true, completion: nil)
-                delegate.endContacts()
+        if let theContact =  contact {
+            let currentLabeledValue = theContact.phoneNumbers[sender.tag]
+            let phoneNumber = (currentLabeledValue.value as CNPhoneNumber).stringValue
+            if let facetimeURL = URL(string: "facetime://\(phoneNumber)") {
+                if UIApplication.shared.canOpenURL(facetimeURL) {
+                    UIApplication.shared.openURL(facetimeURL)
+                    dismiss(animated: true, completion: nil)
+                    delegate.endContacts()
+                }
             }
         }
     }
@@ -134,59 +138,63 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: storyboard.contactCellId, for: indexPath) as! ContactTableViewCell
-        
-        switch mode {
-        case .phone:
-            let currentLabeledValue = contact!.phoneNumbers[indexPath.row]
-            
-            let phoneNumber = currentLabeledValue.value as CNPhoneNumber
-            
-            cell.phoneLabel?.text = ContactsViewController.CNlabelTranslation(currentLabeledValue.label ?? "")
-            cell.phoneNumber?.text = phoneNumber.stringValue
-            
-            if currentLabeledValue.label == CNLabelPhoneNumberiPhone {
-                cell.faceTimeButton.isHidden = false
-                cell.faceTimeButton.tag = indexPath.row
-            } else {
+        if let theContact = contact {
+
+            switch mode {
+            case .phone:
+                let currentLabeledValue = theContact.phoneNumbers[indexPath.row]
+
+                let phoneNumber = currentLabeledValue.value as CNPhoneNumber
+
+                cell.phoneLabel?.text = ContactsViewController.CNlabelTranslation(currentLabeledValue.label ?? "")
+                cell.phoneNumber?.text = phoneNumber.stringValue
+
+                if currentLabeledValue.label == CNLabelPhoneNumberiPhone {
+                    cell.faceTimeButton.isHidden = false
+                    cell.faceTimeButton.tag = indexPath.row
+                } else {
+                    cell.faceTimeButton.isHidden = true
+                }
+            case .email:
+                let currentLabeledValue = theContact.emailAddresses[indexPath.row]
+                let email = currentLabeledValue.value as String
+
+                cell.phoneLabel?.text = ContactsViewController.CNlabelTranslation(currentLabeledValue.label ?? "")
+                cell.phoneNumber?.text = email
                 cell.faceTimeButton.isHidden = true
+                break
             }
-            
-        case .email:
-            let currentLabeledValue = contact!.emailAddresses[indexPath.row]
-            let email = currentLabeledValue.value as String
-            
-            cell.phoneLabel?.text = ContactsViewController.CNlabelTranslation(currentLabeledValue.label ?? "")
-            cell.phoneNumber?.text = email
-            cell.faceTimeButton.isHidden = true
-            break
+        } else {
+            cell.phoneLabel?.text = "Unknown error, contact doesn't exist"
         }
-        
+
         return cell
     }
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        switch mode {
-        case .phone:
-            let currentLabeledValue = contact!.phoneNumbers[indexPath.row]
-            let phoneNumber = currentLabeledValue.value as CNPhoneNumber
-            Utilities.startPhoneCall(phoneNumber.stringValue)
-            dismiss(animated: true, completion: nil)
-            delegate.endContacts()
+        if let theContact = contact {
+            switch mode {
+            case .phone:
+                let currentLabeledValue = theContact.phoneNumbers[indexPath.row]
+                let phoneNumber = currentLabeledValue.value as CNPhoneNumber
+                Utilities.startPhoneCall(phoneNumber.stringValue)
+                dismiss(animated: true, completion: nil)
+                delegate.endContacts()
 
-        case .email:
-            if MFMailComposeViewController.canSendMail() {
-                let currentLabeledValue = contact!.emailAddresses[indexPath.row]
-                let email = currentLabeledValue.value as String
-                let mailComposer = MFMailComposeViewController()
-                mailComposer.setToRecipients([email])
-                mailComposer.mailComposeDelegate = self
-                present(mailComposer, animated: true, completion: nil)                
+            case .email:
+                if MFMailComposeViewController.canSendMail() {
+                    let currentLabeledValue = theContact.emailAddresses[indexPath.row]
+                    let email = currentLabeledValue.value as String
+                    let mailComposer = MFMailComposeViewController()
+                    mailComposer.setToRecipients([email])
+                    mailComposer.mailComposeDelegate = self
+                    present(mailComposer, animated: true, completion: nil)
+                }
+                break
             }
-            break
         }
     }
-
 }
 
 extension ContactsViewController: MFMailComposeViewControllerDelegate {

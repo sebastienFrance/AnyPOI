@@ -86,8 +86,8 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
         
         
         title = poi.poiDisplayName
-        if poi.poiIsContact {
-            contact = ContactsUtilities.getContactForDetailedDescription(poi.poiContactIdentifier!)
+        if poi.poiIsContact, let contactId = poi.poiContactIdentifier {
+            contact = ContactsUtilities.getContactForDetailedDescription(contactId)
         }
         
         poi.refreshIfNeeded()
@@ -281,23 +281,20 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
         present(activityController, animated: true, completion: nil)
     }
     @IBAction func startMail(_ sender: UIButton) {
-        if poi.poiIsContact {
-            if let contact = ContactsUtilities.getContactForDetailedDescription(poi.poiContactIdentifier!) {
-                if contact.emailAddresses.count > 1 {
-                    performSegue(withIdentifier: storyboard.openEmailsId, sender: poi)
-                } else {
-                    // To be completed, start a mail !
-                    if MFMailComposeViewController.canSendMail() {
-                        let currentLabeledValue = contact.emailAddresses[0]
-                        let mailComposer = MFMailComposeViewController()
-                        mailComposer.setToRecipients([currentLabeledValue.value as String])
-                        mailComposer.mailComposeDelegate = self
-                        present(mailComposer, animated: true, completion: nil)
-                    }
+        if poi.poiIsContact, let contactId = poi.poiContactIdentifier, let contact = ContactsUtilities.getContactForDetailedDescription(contactId) {
+            if contact.emailAddresses.count > 1 {
+                performSegue(withIdentifier: storyboard.openEmailsId, sender: poi)
+            } else {
+                // To be completed, start a mail !
+                if MFMailComposeViewController.canSendMail() {
+                    let currentLabeledValue = contact.emailAddresses[0]
+                    let mailComposer = MFMailComposeViewController()
+                    mailComposer.setToRecipients([currentLabeledValue.value as String])
+                    mailComposer.mailComposeDelegate = self
+                    present(mailComposer, animated: true, completion: nil)
                 }
             }
         }
-
     }
 
     @IBAction func startPhoneCall(_ sender: UIButton) {
@@ -325,15 +322,13 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
     }
     
     @IBAction func showContactDetails(_ sender: UIButton) {
-        if let theContact = contact {
-            if let theFullContact = ContactsUtilities.getContactForCNContactViewController(theContact.identifier) {
-                let viewController = CNContactViewController(for: theFullContact)
-                show(viewController, sender: self)
-            }
+        if let theContact = contact, let theFullContact = ContactsUtilities.getContactForCNContactViewController(theContact.identifier) {
+            let viewController = CNContactViewController(for: theFullContact)
+            show(viewController, sender: self)
         }
     }
-    
-    
+
+
     @IBAction func showWikipediaURL(_ sender: UIButton) {
         let wikipedia = poi.wikipedias[sender.tag]
         let wikiURL = WikipediaUtils.getMobileURLForPageId(wikipedia.pageId)

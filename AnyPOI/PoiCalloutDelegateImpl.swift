@@ -77,15 +77,13 @@ extension PoiCalloutDelegateImpl : PoiCalloutDelegate {
             let poi = selectedAnnotations[0] as! PointOfInterest
             let viewAnnotation = theMapView.view(for: poi)
             let calloutAccessoryView = viewAnnotation?.detailCalloutAccessoryView as? CustomCalloutAccessoryView
-            
-            if poi.poiIsContact {
-                if let contact = ContactsUtilities.getContactForDetailedDescription(poi.poiContactIdentifier!) {
-                    if contact.phoneNumbers.count > 1 {
-                        viewController.performSegue(withIdentifier: storyboard.openPhonesId, sender: poi)
-                    } else {
-                        if let phoneNumber = ContactsUtilities.extractPhoneNumber(contact) {
-                            Utilities.startPhoneCall(phoneNumber.stringValue)
-                        }
+
+            if poi.poiIsContact, let contectId = poi.poiContactIdentifier, let contact = ContactsUtilities.getContactForDetailedDescription(contectId) {
+                if contact.phoneNumbers.count > 1 {
+                    viewController.performSegue(withIdentifier: storyboard.openPhonesId, sender: poi)
+                } else {
+                    if let phoneNumber = ContactsUtilities.extractPhoneNumber(contact) {
+                        Utilities.startPhoneCall(phoneNumber.stringValue)
                     }
                 }
             } else {
@@ -93,35 +91,33 @@ extension PoiCalloutDelegateImpl : PoiCalloutDelegate {
             }
         }
     }
-    
+
     func startEmail(_ sender:UIButton) {
         let selectedAnnotations = theMapView.selectedAnnotations
         if selectedAnnotations.count > 0 {
             let poi = selectedAnnotations[0] as! PointOfInterest
-           // let viewAnnotation = theMapView.viewForAnnotation(poi)
-           // let calloutAccessoryView = viewAnnotation?.detailCalloutAccessoryView as? CustomCalloutAccessoryView
-            
-            if poi.poiIsContact {
-                if let contact = ContactsUtilities.getContactForDetailedDescription(poi.poiContactIdentifier!) {
-                    if contact.emailAddresses.count > 1 {
-                        viewController.performSegue(withIdentifier: storyboard.openEmailsId, sender: poi)
-                    } else {
-                        // To be completed, start a mail !
-                        if MFMailComposeViewController.canSendMail() {
-                            let currentLabeledValue = contact.emailAddresses[0]
-                            let email = currentLabeledValue.value as String
-                            let mailComposer = MFMailComposeViewController()
-                            mailComposer.setToRecipients([email])
-                            mailComposer.mailComposeDelegate = self
-                            viewController.present(mailComposer, animated: true, completion: nil)
-                        }
+            // let viewAnnotation = theMapView.viewForAnnotation(poi)
+            // let calloutAccessoryView = viewAnnotation?.detailCalloutAccessoryView as? CustomCalloutAccessoryView
 
+            if poi.poiIsContact, let contactId = poi.poiContactIdentifier, let contact = ContactsUtilities.getContactForDetailedDescription(contactId) {
+                if contact.emailAddresses.count > 1 {
+                    viewController.performSegue(withIdentifier: storyboard.openEmailsId, sender: poi)
+                } else {
+                    // To be completed, start a mail !
+                    if MFMailComposeViewController.canSendMail() {
+                        let currentLabeledValue = contact.emailAddresses[0]
+                        let email = currentLabeledValue.value as String
+                        let mailComposer = MFMailComposeViewController()
+                        mailComposer.setToRecipients([email])
+                        mailComposer.mailComposeDelegate = self
+                        viewController.present(mailComposer, animated: true, completion: nil)
                     }
+
                 }
             }
         }
     }
-    
+
     func showURL(_ sender: UIButton) {
         let selectedAnnotations = theMapView.selectedAnnotations
         if selectedAnnotations.count > 0 {
