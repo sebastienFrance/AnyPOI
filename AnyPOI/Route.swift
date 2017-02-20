@@ -94,6 +94,7 @@ class Route: NSManagedObject {
         }
     }
     
+    // Get all MapItems from the Route
     var mapItems:[MKMapItem] {
         get {
             var items = [MKMapItem]()
@@ -126,27 +127,36 @@ class Route: NSManagedObject {
     
     var latestTotalDistance: Double {
         get {
-            var fullDistance = CLLocationDistance(0)
-            
-            for wayPoint in routeWayPoints! {
-                let currentWayPoint = wayPoint as! WayPoint
-                fullDistance += currentWayPoint.wayPointDistance
+            let theWayPoints = wayPoints
+            if theWayPoints.count > 1 {
+                var fullDistance = CLLocationDistance(0)
+                for i in 0..<(theWayPoints.count - 1) {
+                    let currentWayPoint = theWayPoints[i]
+                    fullDistance += currentWayPoint.wayPointDistance
+                }
+                
+                return fullDistance
+            } else {
+                return Double.nan
             }
-
-            return fullDistance
          }
     }
     
     var latestTotalDuration: Double {
         get {
-            var fullExpectedTravelTime = TimeInterval(0)
-            
-            for wayPoint in routeWayPoints! {
-                let currentWayPoint = wayPoint as! WayPoint
-                fullExpectedTravelTime += currentWayPoint.wayPointDuration
+            let theWayPoints = wayPoints
+            if theWayPoints.count > 1 {
+                var fullExpectedTravelTime = TimeInterval(0)
+                for i in 0..<(theWayPoints.count - 1) {
+                    let currentWayPoint = theWayPoints[i]
+                    fullExpectedTravelTime += currentWayPoint.wayPointDuration
+                }
+                
+                return fullExpectedTravelTime
             }
-            
-            return fullExpectedTravelTime
+            else {
+                return Double.nan
+            }
         }
     }
     
@@ -176,22 +186,38 @@ class Route: NSManagedObject {
         }
     }
 
-    var latestFullRouteDistanceAndTime:String! {
+    var localizedDistanceAndTime:String {
         get {
-            if !latestTotalDistance.isNaN && !latestTotalDistance.isInfinite &&
-                !latestTotalDuration.isNaN && !latestTotalDuration.isInfinite {
+            // Get the value instead of computing it each time it's used
+            let theLatestTotalDistance = latestTotalDistance
+            let theLatestTotalDuration = latestTotalDuration
+            
+            if !theLatestTotalDistance.isNaN && !theLatestTotalDistance.isInfinite &&
+                !theLatestTotalDuration.isNaN && !theLatestTotalDuration.isInfinite {
                 let distanceFormatter = LengthFormatter()
                 distanceFormatter.unitStyle = .short
-                let expectedTravelTime = Utilities.shortStringFromTimeInterval(latestTotalDuration) as String
-                return String(format:"\(NSLocalizedString("Route Distance %@ in %@", comment: ""))", distanceFormatter.string(fromMeters: latestTotalDistance), expectedTravelTime)
-                //return "\(distanceFormatter.string(fromMeters: latestTotalDistance)) in \(expectedTravelTime)"
+                let expectedTravelTime = Utilities.shortStringFromTimeInterval(theLatestTotalDuration) as String
+                return String(format:"\(NSLocalizedString("Route Distance %@ in %@ with %d steps", comment: ""))", distanceFormatter.string(fromMeters: theLatestTotalDistance), expectedTravelTime, wayPoints.count)
             } else {
-                return ""
+                return NSLocalizedString("RouteNotDefined", comment: "")
             }
         }
     }
     
-    var routeDescription:String! {
+    var localizedFullDescription:String {
+        get {
+            if wayPoints.count > 1 {
+                return "\(wayPoints[0].wayPointPoi!.poiDisplayName!) ➔ \(wayPoints.last!.wayPointPoi!.poiDisplayName!) / \(localizedDistanceAndTime)"
+            } else if wayPoints.count == 1 {
+                return "\(wayPoints[0].wayPointPoi!.poiDisplayName!) ➔ \(NSLocalizedString("RouteNoDestination", comment: ""))"
+            } else {
+                return NSLocalizedString("RouteNotDefined", comment: "")
+            }
+            
+        }
+    }
+    
+    var localizedFromTo:String! {
         get {
             if wayPoints.count > 1 {
                 return "\(wayPoints[0].wayPointPoi!.poiDisplayName!) ➔ \(wayPoints.last!.wayPointPoi!.poiDisplayName!)"
@@ -219,7 +245,7 @@ class Route: NSManagedObject {
         // Add metadata that supplies details about the item.
         attributeSet.title = routeName!
         
-        attributeSet.contentDescription = routeDescription + " " + latestFullRouteDistanceAndTime
+        attributeSet.contentDescription = localizedFullDescription
         
         // Add keywords that will contains:
         // - All words from the display name
@@ -232,7 +258,6 @@ class Route: NSManagedObject {
             }
         }
 
-        //FIXEDME: 😡 Translate I18N
         keywords.append(NSLocalizedString("SpotlightKeywordTravel", comment: ""))
         keywords.append(NSLocalizedString("SpotlightKeywordHolidays", comment: ""))
         keywords.append(NSLocalizedString("SpotlightKeywordRoute", comment: ""))
@@ -248,7 +273,7 @@ class Route: NSManagedObject {
     }
     
     // Add or Update the Poi in Spotlight
-    fileprivate func updateInSpotLight() {
+    func updateInSpotLight() {
 
         
         // Create an item with a unique identifier, a domain identifier, and the attribute set you created earlier.
@@ -402,6 +427,7 @@ class Route: NSManagedObject {
                                 firstRoute.polyline.title = "Unknown"
                             }
                             theWayPoint.routeInfos = RouteInfos(route:firstRoute)
+                            POIDataManager.sharedInstance.commitDatabase()
 
                             NotificationCenter.default.post(name: Notification.Name(rawValue: Notifications.directionForWayPointUpdated), object: theWayPoint)
                         }

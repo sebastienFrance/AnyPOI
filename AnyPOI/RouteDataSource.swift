@@ -115,7 +115,7 @@ class RouteDataSource {
     var routeDistanceAndTime:String! {
         get {
             if isFullRouteMode {
-                return allRouteDistanceAndTime
+                return theRoute.localizedDistanceAndTime
             } else {
                 if let from = fromWayPoint {
                     return from.distanceAndTime
@@ -127,11 +127,6 @@ class RouteDataSource {
     }
     
     
-    var allRouteDistanceAndTime:String {
-        get {
-            return theRoute.latestFullRouteDistanceAndTime
-        }
-    }
     
     // Returns the number of occurences a WayPoint is used by this route
     func occurencesOf(poi:PointOfInterest) -> Int {

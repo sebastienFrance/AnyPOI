@@ -18,13 +18,13 @@ class RouteSummaryTableViewCell: UITableViewCell {
         // Initialization code
     }
     
-    func initWith(_ route:Route) {
-        fromLabel.text = NSLocalizedString("RouteSummaryTableRouteIsEmpty", comment: "")
-        totalDistanceAndDurationLabel.text = ""
-    }
-    
-    func initWith(_ routeName:String, distanceAndDuration:String) {
-        fromLabel.text = routeName
-        totalDistanceAndDurationLabel.text = distanceAndDuration
+    func initWith(route:Route) {
+        if route.wayPoints.count <= 1 {
+            fromLabel.text = NSLocalizedString("RouteSummaryTableRouteIsEmpty", comment: "")
+            totalDistanceAndDurationLabel.text = ""
+        } else {
+            fromLabel.text = route.localizedFromTo
+            totalDistanceAndDurationLabel.text = route.localizedDistanceAndTime
+        }
     }
 }

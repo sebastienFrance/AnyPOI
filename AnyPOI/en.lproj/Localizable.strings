@@ -38,6 +38,7 @@
 "POIsSearchBarPlaceholder"="Point of interest";
 "POIsNoPOIsMatchingSearch"="No POI matching";
 "POIsNoPOIsInGoup"="No POI in this group";
+"MapNotificationRouteStartAdded"="Route start added";
 "Warning"="Warning";
 "Delete"="Delete";
 "Cancel"="Cancel";
@@ -58,6 +59,7 @@
 "RouteNotDefined"="Route is not yet defined";
 "RouteNoDestination"="Destination not defined";
 "Route Distance %@ in %@"="%@ in %@";
+"Route Distance %@ in %@ with %d steps"="%@ in %@ (%d steps)";
 "RouteDisplayInfosRouteIsEmpty"="add a Point of Interest to start your route";
 "SpotlightKeywordTravel"="travel";
 "SpotlightKeywordRoute"="route";

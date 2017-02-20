@@ -18,13 +18,13 @@ class RoutesTableViewCell: UITableViewCell {
     
     func initWith(_ theRoute:Route, index:Int) {
         routeName.text = theRoute.routeName
-        fromTo.text = theRoute.routeDescription
+        fromTo.text = theRoute.localizedFromTo
         if theRoute.wayPoints.count == 0 {
             fromTo.textColor = UIColor.red
             distanceAndDuration.text = nil
         } else {
             fromTo.textColor = UIColor.black
-            distanceAndDuration.text = theRoute.latestFullRouteDistanceAndTime + " with \(theRoute.wayPoints.count) steps"
+            distanceAndDuration.text = theRoute.localizedDistanceAndTime 
         }
         editButton.tag = index
     }

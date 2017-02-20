@@ -38,6 +38,7 @@
 "POIsSearchBarPlaceholder"="Points d'intérêts";
 "POIsNoPOIsMatchingSearch"="Pas de Points d'intérêts pour";
 "POIsNoPOIsInGoup"="Aucun Points d'intérêts dans ce groupe";
+"MapNotificationRouteStartAdded"="Départ de l'itinéraire ajouté";
 "Warning"="Attention";
 "Delete"="Supprimer";
 "Cancel"="Annuler";
@@ -58,6 +59,7 @@
 "RouteNotDefined"="Pas de route configurée";
 "RouteNoDestination"="Pas de destination configurée";
 "Route Distance %@ in %@"="%@ en %@";
+"Route Distance %@ in %@ with %d steps"="%@ en %@ (%d étapes)";
 "RouteDisplayInfosRouteIsEmpty"="Ajoutez un points d'interêt pour démarrer votre itinéraire";
 "SpotlightKeywordTravel"="voyage";
 "SpotlightKeywordRoute"="itineraire";

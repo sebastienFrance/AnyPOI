@@ -149,12 +149,7 @@ extension RouteDetailsViewController: UITableViewDataSource, UITableViewDelegate
         switch Sections(rawValue: indexPath.section)! {
         case .summary:
             let theCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier.routeSummaryId,for: indexPath) as! RouteSummaryTableViewCell
-            
-            if wayPointsDelegate.routeDatasource!.theRoute.wayPoints.count <= 1 {
-                theCell.initWith(wayPointsDelegate.routeDatasource!.theRoute)
-            } else {
-                theCell.initWith(wayPointsDelegate.routeDatasource!.allRouteName, distanceAndDuration: wayPointsDelegate.routeDatasource!.allRouteDistanceAndTime)
-            }
+            theCell.initWith(route:wayPointsDelegate.routeDatasource!.theRoute)
             return theCell
         case .wayPoints:
             let theCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier.routeDetailsCellId, for: indexPath) as! RouteDetailsViewCell

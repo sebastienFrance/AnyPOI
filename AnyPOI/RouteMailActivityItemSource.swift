@@ -98,7 +98,7 @@ class RouteMailActivityItemSource: NSObject, UIActivityItemSource {
     fileprivate func routeToHTML() -> String {
         var HTMLString = ""
         if routeDatasource.wayPoints.count > 1 {
-            let routeTitle = String(format:"\(NSLocalizedString("RouteFullNameWithDistanceAndTime %@ with %@", comment: ""))", routeDatasource.allRouteName, routeDatasource.allRouteDistanceAndTime)
+            let routeTitle = String(format:"\(NSLocalizedString("RouteFullNameWithDistanceAndTime %@ with %@", comment: ""))", routeDatasource.allRouteName, routeDatasource.theRoute.localizedDistanceAndTime)
             HTMLString += "<b>\(routeTitle)</b><br>"
             
             HTMLString += RouteMailActivityItemSource.tableHeaderForRoute

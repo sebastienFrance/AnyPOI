@@ -138,6 +138,11 @@ class WayPoint: NSManagedObject {
         }
     }
     
+    
+    // This method is called at every commit (update, delete or create) to update SpotLight
+    override func didSave() {
+        wayPointParent?.updateInSpotLight()
+    }
  }
 
 extension WayPoint {

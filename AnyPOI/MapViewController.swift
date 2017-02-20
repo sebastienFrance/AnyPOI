@@ -592,6 +592,8 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
     }
     
     func enableRouteModeWith(_ routeToDisplay:Route) {
+        // Remove the old displayed route (if any)
+        disableRouteMode()
         // Reset this flag before we display a route
         filterPOIsNotInRoute = false
         routeManager = RouteManager(route:routeToDisplay, routeDisplay: self)
@@ -836,11 +838,22 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
     // - when the current route is updated, the routeMode is updated with the latest data
     // - A reload of the route is triggered when the route mode is on
     fileprivate func processNotificationsForRouteAndWayPoint(notificationsContent:PoiNotificationUserInfo) {
+        
+        // If nothing has been changed, we just return
+        if notificationsContent.insertedWayPoints.isEmpty &&
+            notificationsContent.updatedWayPoints.isEmpty &&
+            notificationsContent.deletedWayPoints.isEmpty &&
+            notificationsContent.insertedRoutes.isEmpty &&
+            notificationsContent.updatedRoutes.isEmpty &&
+            notificationsContent.deletedRoutes.isEmpty {
+            return
+        }
+        
         // When the first WayPoint in added, we display a message
         if !notificationsContent.insertedWayPoints.isEmpty,
-            let theRouteDatasource = routeDatasource , theRouteDatasource.wayPoints.count == 1 {
+            let theRouteDatasource = routeDatasource, theRouteDatasource.wayPoints.count == 1 {
             PKHUD.sharedHUD.dimsBackground = false
-            HUD.flash(.label("Route start added"), delay:1.0, completion: nil)
+            HUD.flash(.label(NSLocalizedString("MapNotificationRouteStartAdded", comment: "")), delay:1.0, completion: nil)
             if let startPoi = theRouteDatasource.theRoute.startWayPoint?.wayPointPoi {
                 // The starting point must be refreshed in the map with the right color
                 refreshPoiAnnotation(startPoi, withType: .routeStart)
