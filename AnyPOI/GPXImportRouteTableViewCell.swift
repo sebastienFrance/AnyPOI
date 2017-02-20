@@ -21,8 +21,8 @@ class GPXImportRouteTableViewCell: UITableViewCell {
         let actionString = isRouteNew ? NSLocalizedString("GPXImportNewItem", comment: "") : NSLocalizedString("GPXImportUpdateItem", comment: "")
         
         routeName.attributedText = NSMutableAttributedString(string: route.routeName)
-        routeFromTo.text = route.routeFromToDescription
-        routeDistanceAndDuration.text = route.routeDistanceAndDuration
+        routeFromTo.text = route.localizedFromTo
+        routeDistanceAndDuration.text = route.localizedDistanceAndDuration
         routeImportMode.attributedText = NSAttributedString(string: actionString,
                                                            attributes:[NSForegroundColorAttributeName : actionColor,
                                                                        NSFontAttributeName : UIFont.boldSystemFont(ofSize: routeFromTo.font.pointSize)])

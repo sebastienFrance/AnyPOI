@@ -31,7 +31,7 @@ class GPXRoute {
         get {
             if let theRouteAttributes = routeAttributes,
                 let totalDistanceString = theRouteAttributes[XSD.routeTotalDistanceAttr],
-                let totalDistance = Double(totalDistanceString){
+                let totalDistance = Double(totalDistanceString) {
                 return totalDistance
             } else {
                 return nil
@@ -39,7 +39,7 @@ class GPXRoute {
         }
     }
     
-    var routeFromToDescription:String {
+    var localizedFromTo:String {
         get {
             if let wayPoints = routeWayPoints {
                 if let fromWayPoint = wayPoints.first,
@@ -51,7 +51,7 @@ class GPXRoute {
         }
     }
     
-    var routeDistanceAndDuration:String {
+    var localizedDistanceAndDuration:String {
         get {
             if let duration = totalDuration,
                 let distance = totalDistance,
@@ -60,7 +60,8 @@ class GPXRoute {
                 let distanceFormatter = LengthFormatter()
                 distanceFormatter.unitStyle = .short
                 let expectedTravelTime = Utilities.shortStringFromTimeInterval(duration) as String
-                return "\(distanceFormatter.string(fromMeters: distance)) in \(expectedTravelTime) with \(wayPoints.count - 1) steps"
+                
+                return String(format:"\(NSLocalizedString("Route Distance %@ in %@ with %d steps", comment: ""))", distanceFormatter.string(fromMeters: distance), expectedTravelTime, wayPoints.count)
             } else {
                 return NSLocalizedString("GPXRouteNoInfos", comment: "")
             }
