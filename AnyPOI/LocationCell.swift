@@ -96,9 +96,9 @@ class LocationCell: UITableViewCell {
     fileprivate func configurePhone(_ contact:CNContact) {
         if contact.phoneNumbers.count > 0 {
             if contact.phoneNumbers.count > 1 {
-                phoneNumberButton.setImage(UIImage(named: "PhoneSeverals Filled-40"), for: UIControlState())
+                phoneNumberButton.setImage(UIImage(named: Utilities.IconName.severalsPhoneNumbers), for: UIControlState())
             } else {
-                phoneNumberButton.setImage(UIImage(named: "Phone Filled-40"), for: UIControlState())
+                phoneNumberButton.setImage(UIImage(named: Utilities.IconName.phoneNumber), for: UIControlState())
             }
             
             phoneNumberButton.isEnabled = true
@@ -115,9 +115,9 @@ class LocationCell: UITableViewCell {
             mailButton.isHidden = true
         } else {
             if contact.emailAddresses.count > 1 {
-                mailButton.setImage(UIImage(named: "MessageSeverals-40"), for: UIControlState())
+                mailButton.setImage(UIImage(named: Utilities.IconName.severalseMailsAddress), for: UIControlState())
             } else {
-                mailButton.setImage(UIImage(named: "Message-40"), for: UIControlState())
+                mailButton.setImage(UIImage(named: Utilities.IconName.eMailAddress), for: UIControlState())
             }
             
             mailButton.isEnabled = true

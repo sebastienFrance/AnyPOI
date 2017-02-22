@@ -18,22 +18,25 @@ class CustomCalloutAccessoryView: UIView {
     @IBOutlet weak var categoryImageWidthConstraint: NSLayoutConstraint!
     @IBOutlet weak var addressLabel: UILabel!
     @IBOutlet weak var flyoverButton: UIButton!
+    @IBOutlet weak var navigationRowHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var routeButton: UIButton!
     @IBOutlet weak var startStopMonitoring: UIButton!
     @IBOutlet weak var webSiteButton: UIButton!
     @IBOutlet weak var phoneButton: UIButton!
     @IBOutlet weak var emailButton: UIButton!
+    
     @IBOutlet weak var navigationStackView: UIStackView!
 
     @IBOutlet weak var actionsStackView: UIStackView!
     
+    @IBOutlet weak var routeStackView: UIStackView!
+    @IBOutlet weak var addWayPointButton: UIButton!
+    @IBOutlet weak var removeWayPointButton: UIButton!
+    @IBOutlet weak var routeFromCurrentLocationButton: UIButton!
+    
     fileprivate(set) var URL:String?
     fileprivate(set) var phoneNumber:String?
     
-    fileprivate struct ImageName {
-        static let monitoringEnabled = "Circled Dot Minus-40"
-        static let monitoringDisabled = "Circled Dot Plus-40"
-    }
     
     func initWith(_ poi:PointOfInterest, delegate:PoiCalloutDelegate) {
         
@@ -53,7 +56,7 @@ class CustomCalloutAccessoryView: UIView {
             addressLabel.text = subtitle
         }
         
-        let monitoringStateImageName = poi.isMonitored ? ImageName.monitoringEnabled : ImageName.monitoringDisabled
+        let monitoringStateImageName = poi.isMonitored ? Utilities.IconName.monitoringEnabled : Utilities.IconName.monitoringDisabled
         startStopMonitoring.setImage(UIImage(named: monitoringStateImageName), for: UIControlState())
         startStopMonitoring.tintColor = poi.isMonitored ? UIColor.red : self.tintColor
         
@@ -63,6 +66,12 @@ class CustomCalloutAccessoryView: UIView {
         poi.poiIsContact ? configureForContact(poi) : configureForSimplePoi(poi)
     }
     
+    func update(isFlyover:Bool) {
+        navigationStackView.isHidden = isFlyover
+        actionsStackView.isHidden = isFlyover
+        routeStackView.isHidden = isFlyover
+    }
+    
     fileprivate func configureForSimplePoi(_ poi:PointOfInterest) {
         configureCategory(poi)
         
@@ -70,7 +79,14 @@ class CustomCalloutAccessoryView: UIView {
         configurePhoneNumber(poi.poiPhoneNumber)
         
         emailButton.isHidden = true
-        navigationStackView.isHidden = phoneButton.isHidden && webSiteButton.isHidden && emailButton.isHidden
+        if phoneButton.isHidden && webSiteButton.isHidden && emailButton.isHidden {
+            navigationStackView.isHidden = true
+            navigationRowHeightConstraint.constant = 0.0
+        } else {
+            navigationStackView.isHidden = false
+            navigationRowHeightConstraint.constant = 40.0
+        }
+        
    }
     
     fileprivate func configureCategory(_ poi:PointOfInterest) {
@@ -108,7 +124,14 @@ class CustomCalloutAccessoryView: UIView {
             emailButton.isHidden = true
             categoryImage.isHidden = true
         }
-        navigationStackView.isHidden = phoneButton.isHidden && webSiteButton.isHidden && emailButton.isHidden
+        
+        if phoneButton.isHidden && webSiteButton.isHidden && emailButton.isHidden {
+            navigationStackView.isHidden = true
+            navigationRowHeightConstraint.constant = 0.0
+        } else {
+            navigationStackView.isHidden = false
+            navigationRowHeightConstraint.constant = 40.0
+        }
    }
     
     fileprivate func configureMail(_ contact:CNContact) {
@@ -116,9 +139,9 @@ class CustomCalloutAccessoryView: UIView {
             emailButton.isHidden = true
         } else {
             if contact.emailAddresses.count > 1 {
-                emailButton.setImage(UIImage(named: "MessageSeverals-40"), for: UIControlState())
+                emailButton.setImage(UIImage(named: Utilities.IconName.severalseMailsAddress), for: UIControlState())
             } else {
-                emailButton.setImage(UIImage(named: "Message-40"), for: UIControlState())
+                emailButton.setImage(UIImage(named: Utilities.IconName.eMailAddress), for: UIControlState())
             }
             emailButton.isHidden = false
         }
@@ -128,9 +151,9 @@ class CustomCalloutAccessoryView: UIView {
         if contact.phoneNumbers.count > 0 {
             phoneButton.isHidden = false
             if contact.phoneNumbers.count > 1 {
-                phoneButton.setImage(UIImage(named: "PhoneSeverals Filled-40"), for: UIControlState())
+                phoneButton.setImage(UIImage(named: Utilities.IconName.severalsPhoneNumbers), for: UIControlState())
             } else {
-                phoneButton.setImage(UIImage(named: "Phone Filled-40"), for: UIControlState())
+                phoneButton.setImage(UIImage(named: Utilities.IconName.phoneNumber), for: UIControlState())
             }
         } else {
             phoneButton.isHidden = true
@@ -157,4 +180,82 @@ class CustomCalloutAccessoryView: UIView {
             webSiteButton.isHidden = true
         }
     }
+    
+    // From LeftCalloutAccessory
+    
+    func configureRouteButtons(_ delegate:PoiCalloutDelegate, type:MapUtils.PinAnnotationType) {
+        
+        switch type {
+        case .normal:
+            disableRemoveWayPoint()
+            enableAddWayPoint(delegate)
+            disableRouteFromCurrentLocation()
+            break
+        case .routeEnd:
+            enableRemoveWayPoint(delegate)
+            disableAddWayPoint()
+            enableRouteFromCurrentLocation(delegate)
+        case .routeStart:
+            // Do not authorize to add the route start as a new WayPoint when the route contains only the start
+            if let wayPoints = MapViewController.instance?.routeDatasource?.wayPoints, wayPoints.count > 1 {
+                enableAddWayPoint(delegate)
+            } else {
+                disableAddWayPoint()
+            }
+            enableRemoveWayPoint(delegate)
+            enableRouteFromCurrentLocation(delegate)
+        case .waypoint:
+            enableAddWayPoint(delegate)
+            enableRemoveWayPoint(delegate)
+            disableRouteFromCurrentLocation()
+        }
+    }
+    
+    fileprivate func enableAddWayPoint(_ delegate:PoiCalloutDelegate) {
+        addWayPointButton.isHidden = false
+        addWayPointButton.removeTarget(nil, action: #selector(PoiCalloutDelegate.addWayPoint(_:)), for: .touchUpInside)
+        addWayPointButton.addTarget(delegate, action: #selector(PoiCalloutDelegate.addWayPoint(_:)), for: .touchUpInside)
+    }
+    
+    func disableAddWayPoint() {
+        addWayPointButton.isHidden = true
+        addWayPointButton.removeTarget(nil, action: #selector(PoiCalloutDelegate.addWayPoint(_:)), for: .touchUpInside)
+    }
+    
+    fileprivate func enableRemoveWayPoint(_ delegate:PoiCalloutDelegate) {
+        removeWayPointButton.isHidden = false
+        removeWayPointButton.removeTarget(nil, action: #selector(PoiCalloutDelegate.trashWayPoint(_:)), for: .touchUpInside)
+        removeWayPointButton.addTarget(delegate, action: #selector(PoiCalloutDelegate.trashWayPoint(_:)), for: .touchUpInside)
+    }
+    
+    fileprivate func disableRemoveWayPoint() {
+        removeWayPointButton.isHidden = true
+        removeWayPointButton.removeTarget(nil, action: #selector(PoiCalloutDelegate.trashWayPoint(_:)), for: .touchUpInside)
+    }
+    
+    fileprivate func enableRouteFromCurrentLocation(_ delegate:PoiCalloutDelegate) {
+        if let fullRouteMode = MapViewController.instance?.routeDatasource?.isFullRouteMode, !fullRouteMode {
+            
+            if let routeManager = MapViewController.instance?.routeManager {
+                if let _ = routeManager.fromCurrentLocation {
+                    routeFromCurrentLocationButton.tintColor = UIColor.red
+                } else {
+                    routeFromCurrentLocationButton.tintColor = MapViewController.instance!.view.tintColor
+                }
+            }
+            
+            routeFromCurrentLocationButton.isHidden = false
+            routeFromCurrentLocationButton.removeTarget(nil, action: #selector(PoiCalloutDelegate.showRouteFromCurrentLocation(_:)), for: .touchUpInside)
+            routeFromCurrentLocationButton.addTarget(delegate, action: #selector(PoiCalloutDelegate.showRouteFromCurrentLocation(_:)), for: .touchUpInside)
+        } else {
+            disableRouteFromCurrentLocation()
+        }
+    }
+    
+    fileprivate func disableRouteFromCurrentLocation() {
+        routeFromCurrentLocationButton.isHidden = true
+        routeFromCurrentLocationButton.removeTarget(nil, action: #selector(PoiCalloutDelegate.showRouteFromCurrentLocation(_:)), for: .touchUpInside)
+    }
+    
+
 }

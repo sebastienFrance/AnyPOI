@@ -15,7 +15,15 @@ import PKHUD
 
 class Utilities {
 
-    
+    struct IconName {
+        static let monitoringEnabled = "Circled Dot Minus-26"
+        static let monitoringDisabled = "Circled Dot Plus-26"
+        static let severalseMailsAddress = "New Message-26"
+        static let eMailAddress = "Message-26"
+        static let severalsPhoneNumbers = "Phone severals-26"
+        static let phoneNumber = "Phone-26"
+    }
+
     static func getCurrentViewController() -> UIViewController? {
         let app = UIApplication.shared.delegate as! AppDelegate
         guard let rvc = app.window?.rootViewController else {

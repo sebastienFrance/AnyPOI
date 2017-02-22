@@ -14,7 +14,6 @@
 		BE0CF2FF1D8B209A00344F8A /* ContactTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF29E1D8B209A00344F8A /* ContactTableViewCell.swift */; };
 		BE0CF3001D8B209A00344F8A /* ContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF29F1D8B209A00344F8A /* ContainerViewController.swift */; };
 		BE0CF3011D8B209A00344F8A /* CustomCalloutAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2A01D8B209A00344F8A /* CustomCalloutAccessoryView.swift */; };
-		BE0CF3021D8B209A00344F8A /* CustomCalloutLeftAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2A11D8B209A00344F8A /* CustomCalloutLeftAccessoryView.swift */; };
 		BE0CF3031D8B209A00344F8A /* LeftMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2A21D8B209A00344F8A /* LeftMenuViewController.swift */; };
 		BE0CF3041D8B209A00344F8A /* MapUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2A31D8B209A00344F8A /* MapUtils.swift */; };
 		BE0CF3051D8B209A00344F8A /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2A41D8B209A00344F8A /* MapViewController.swift */; };
@@ -105,7 +104,6 @@
 		BE2A80281E13C48A003B1BE5 /* GPXRouteWayPointAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2A80271E13C48A003B1BE5 /* GPXRouteWayPointAttributes.swift */; };
 		BE2FF2C21D8B267D00C0395A /* SearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2FF2C11D8B267D00C0395A /* SearchController.swift */; };
 		BE2FF2C91D8B280B00C0395A /* CallOutAccessoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE2FF2C41D8B280B00C0395A /* CallOutAccessoryView.xib */; };
-		BE2FF2CA1D8B280B00C0395A /* CallOutLeftAccessoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE2FF2C51D8B280B00C0395A /* CallOutLeftAccessoryView.xib */; };
 		BE2FF2CC1D8B280B00C0395A /* PickerCategoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE2FF2C71D8B280B00C0395A /* PickerCategoryView.xib */; };
 		BE2FF2CD1D8B280B00C0395A /* PickerGroupView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE2FF2C81D8B280B00C0395A /* PickerGroupView.xib */; };
 		BE44B58B1DE1DF3700D08EC0 /* MapFilterGroupTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE44B58A1DE1DF3700D08EC0 /* MapFilterGroupTableViewCell.swift */; };
@@ -223,7 +221,6 @@
 		BE0CF29E1D8B209A00344F8A /* ContactTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactTableViewCell.swift; sourceTree = "<group>"; };
 		BE0CF29F1D8B209A00344F8A /* ContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContainerViewController.swift; sourceTree = "<group>"; };
 		BE0CF2A01D8B209A00344F8A /* CustomCalloutAccessoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomCalloutAccessoryView.swift; sourceTree = "<group>"; };
-		BE0CF2A11D8B209A00344F8A /* CustomCalloutLeftAccessoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomCalloutLeftAccessoryView.swift; sourceTree = "<group>"; };
 		BE0CF2A21D8B209A00344F8A /* LeftMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftMenuViewController.swift; sourceTree = "<group>"; };
 		BE0CF2A31D8B209A00344F8A /* MapUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapUtils.swift; sourceTree = "<group>"; };
 		BE0CF2A41D8B209A00344F8A /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
@@ -316,7 +313,6 @@
 		BE2FF2C11D8B267D00C0395A /* SearchController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchController.swift; sourceTree = "<group>"; };
 		BE2FF2C31D8B274C00C0395A /* AnyPOI.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = AnyPOI.entitlements; sourceTree = "<group>"; };
 		BE2FF2C41D8B280B00C0395A /* CallOutAccessoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CallOutAccessoryView.xib; sourceTree = "<group>"; };
-		BE2FF2C51D8B280B00C0395A /* CallOutLeftAccessoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CallOutLeftAccessoryView.xib; sourceTree = "<group>"; };
 		BE2FF2C71D8B280B00C0395A /* PickerCategoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PickerCategoryView.xib; sourceTree = "<group>"; };
 		BE2FF2C81D8B280B00C0395A /* PickerGroupView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PickerGroupView.xib; sourceTree = "<group>"; };
 		BE44B58A1DE1DF3700D08EC0 /* MapFilterGroupTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapFilterGroupTableViewCell.swift; sourceTree = "<group>"; };
@@ -479,7 +475,6 @@
 			isa = PBXGroup;
 			children = (
 				BE2FF2C41D8B280B00C0395A /* CallOutAccessoryView.xib */,
-				BE2FF2C51D8B280B00C0395A /* CallOutLeftAccessoryView.xib */,
 				BE2FF2C71D8B280B00C0395A /* PickerCategoryView.xib */,
 				BE2FF2C81D8B280B00C0395A /* PickerGroupView.xib */,
 				BEA7BAA21D8B01E5005D2D21 /* Main.storyboard */,
@@ -841,7 +836,6 @@
 				BE2FF2D11D8B2AE400C0395A /* ContactsVC */,
 				BE2FF2E11D8B2FFC00C0395A /* RouteProviderVC */,
 				BE0CF2A01D8B209A00344F8A /* CustomCalloutAccessoryView.swift */,
-				BE0CF2A11D8B209A00344F8A /* CustomCalloutLeftAccessoryView.swift */,
 				BE0CF2A91D8B209A00344F8A /* WayPointPinAnnotationView.swift */,
 			);
 			name = "Callout AnnotationView";
@@ -1121,7 +1115,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BE2FF2CA1D8B280B00C0395A /* CallOutLeftAccessoryView.xib in Resources */,
 				BE957E5C1DA8FBBA006CF455 /* Options.storyboard in Resources */,
 				BE2FF2CD1D8B280B00C0395A /* PickerGroupView.xib in Resources */,
 				BE2FF2CC1D8B280B00C0395A /* PickerCategoryView.xib in Resources */,
@@ -1360,7 +1353,6 @@
 				BE0CF32E1D8B209A00344F8A /* OptionsViewController.swift in Sources */,
 				BE0CF33D1D8B209A00344F8A /* UserAuthentication.swift in Sources */,
 				BE0CF34F1D8B209A00344F8A /* TextFieldViewCell.swift in Sources */,
-				BE0CF3021D8B209A00344F8A /* CustomCalloutLeftAccessoryView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -25,19 +25,22 @@ class WayPointPinAnnotationView : MKPinAnnotationView {
     
     func configureWith(_ poi:PointOfInterest, delegate:PoiCalloutDelegate, type:MapUtils.PinAnnotationType) {
         enablePoiDetailsAccessory()
-        updateDetailCalloutAccessory(poi, delegate: delegate)
-        configureWayPointLeftAccessory(delegate, type: type)
+        let theDetailsAccessoryView = configureDetailCalloutAccessory(poi: poi, delegate: delegate)
+        
+        theDetailsAccessoryView.configureRouteButtons(delegate, type:type)
+        theDetailsAccessoryView.update(isFlyover:false)
     }
     
     func configureForFlyover(_ poi:PointOfInterest, delegate:PoiCalloutDelegate) {
         disablePoiDetailsAccessory()
-        disableWayPointAccessory()
         
-        updateDetailCalloutAccessory(poi, delegate: delegate, isFlyover: true)
-    }
+        let theDetailsAccessoryView = configureDetailCalloutAccessory(poi: poi, delegate: delegate, isFlyover: true)
+        
+        theDetailsAccessoryView.update(isFlyover:true)
+   }
     
     // If the view for the detailedAccessoryView already exists it's refreshed else it's allocated
-    fileprivate func updateDetailCalloutAccessory(_ poi:PointOfInterest, delegate:PoiCalloutDelegate, isFlyover:Bool = false) {
+    fileprivate func configureDetailCalloutAccessory(poi:PointOfInterest, delegate:PoiCalloutDelegate, isFlyover:Bool = false) -> CustomCalloutAccessoryView {
         var theDetailsAccessoryView:CustomCalloutAccessoryView
         if let accessoryView = detailCalloutAccessoryView as? CustomCalloutAccessoryView {
             accessoryView.refreshWith(poi, delegate:delegate)
@@ -49,24 +52,10 @@ class WayPointPinAnnotationView : MKPinAnnotationView {
             detailCalloutAccessoryView = theDetailsAccessoryView
         }
         
-        theDetailsAccessoryView.navigationStackView.isHidden = isFlyover
-        theDetailsAccessoryView.actionsStackView.isHidden = isFlyover
+        return theDetailsAccessoryView
     }
 
-    fileprivate func configureWayPointLeftAccessory(_ delegate:PoiCalloutDelegate, type:MapUtils.PinAnnotationType) {
-        if let leftAccessoryView = leftCalloutAccessoryView {
-            if leftAccessoryView.subviews.count == 1 {
-                let leftCustomCallout = leftAccessoryView as! CustomCalloutLeftAccessoryView
-                leftCustomCallout.configureWith(delegate, type:type)
-            }
-        } else {
-            let nib = UINib(nibName: "CallOutLeftAccessoryView", bundle: nil)
-            let view = nib.instantiate(withOwner: nil, options: nil)[0] as! CustomCalloutLeftAccessoryView
-            view.configureWith(delegate, type:type)
-            leftCalloutAccessoryView = view
-        }
-    }
-        
+    
     func enablePoiDetailsAccessory() {
         let rightButton = UIButton(type: .detailDisclosure)
         // SEB: Swift3 don't understand this command?
@@ -78,16 +67,14 @@ class WayPointPinAnnotationView : MKPinAnnotationView {
         rightCalloutAccessoryView = nil
     }
     
-    func disableWayPointAccessory() {
-        leftCalloutAccessoryView = nil
-    }
+    
     
     func disableAddWayPointAccessory() {
-        if let leftCustomCallout = leftCalloutAccessoryView as? CustomCalloutLeftAccessoryView {
-            leftCustomCallout.disableAddWayPoint()
+        if let customCallout = rightCalloutAccessoryView as? CustomCalloutAccessoryView {
+            customCallout.disableAddWayPoint()
         }
     }
-    
+
 
     // This constructor is never used because this view is not created
     // by a storyboard
