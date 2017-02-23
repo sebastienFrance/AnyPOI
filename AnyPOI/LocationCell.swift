@@ -20,11 +20,15 @@ class LocationCell: UITableViewCell {
     @IBOutlet weak var groupImage: UIImageView!
     
     @IBOutlet weak var mailButton: UIButton!
+    @IBOutlet weak var mailWidth: NSLayoutConstraint!
     @IBOutlet weak var phoneNumberButton: UIButton!
+    @IBOutlet weak var phoneWidth: NSLayoutConstraint!
     @IBOutlet weak var urlButton: UIButton!
+    @IBOutlet weak var urlWidth: NSLayoutConstraint!
 
     @IBOutlet weak var categoryImage: UIImageView!
     @IBOutlet weak var showContactDetailsButton: UIButton!
+    @IBOutlet weak var showContactWidth: NSLayoutConstraint!
     
     func buildWith(_ poi:PointOfInterest) {
         configureGeneralInfo(poi)
@@ -33,16 +37,20 @@ class LocationCell: UITableViewCell {
 
         
         showContactDetailsButton.isHidden = true
+        showContactWidth.constant = 0
         
         mailButton.isEnabled = false
         mailButton.isHidden = true
+        mailWidth.constant = 0
 
         if poi.poiPhoneNumber != nil {
             phoneNumberButton.isEnabled = true
             phoneNumberButton.isHidden = false
+            phoneWidth.constant = 40.0
         } else {
             phoneNumberButton.isEnabled = false
             phoneNumberButton.isHidden = true
+            phoneWidth.constant = 0
         }
         
         configureURL(poi.poiURL)
@@ -58,6 +66,7 @@ class LocationCell: UITableViewCell {
         configureThumbail(poi:poi, contact:contact)
         configureEmail(contact)
         showContactDetailsButton.isHidden = false
+        showContactWidth.constant = 40.0
         configureCategory(poi:poi)
     }
     
@@ -103,9 +112,11 @@ class LocationCell: UITableViewCell {
             
             phoneNumberButton.isEnabled = true
             phoneNumberButton.isHidden = false
+            phoneWidth.constant = 40.0
         } else {
             phoneNumberButton.isEnabled = false
             phoneNumberButton.isHidden = true
+            phoneWidth.constant = 0
         }
     }
     
@@ -113,6 +124,7 @@ class LocationCell: UITableViewCell {
         if contact.emailAddresses.count == 0 {
             mailButton.isEnabled = false
             mailButton.isHidden = true
+            mailWidth.constant = 0
         } else {
             if contact.emailAddresses.count > 1 {
                 mailButton.setImage(UIImage(named: Utilities.IconName.severalseMailsAddress), for: UIControlState())
@@ -122,6 +134,7 @@ class LocationCell: UITableViewCell {
             
             mailButton.isEnabled = true
             mailButton.isHidden = false
+            mailWidth.constant = 40.0
         }
     }
     
@@ -129,11 +142,11 @@ class LocationCell: UITableViewCell {
         if url != nil {
             urlButton.isEnabled = true
             urlButton.isHidden = false
+            urlWidth.constant = 40.0
         } else {
             urlButton.isEnabled = false
             urlButton.isHidden = true
+            urlWidth.constant = 0
         }
     }
-
-
 }

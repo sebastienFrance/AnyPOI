@@ -1,0 +1,8 @@
+/* 
+  Localizable.strings
+  AnyPOI
+
+  Created by Sébastien Brugalières on 23/02/2017.
+  Copyright © 2017 Sébastien Brugalières. All rights reserved.
+*/
+"No POI near position"="Aucun point d'interêt autour de vous";

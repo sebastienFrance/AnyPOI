@@ -25,7 +25,6 @@ class TodayViewCell: UITableViewCell {
     
     func initWith(_ poi:PointOfInterest) {
         
-        //TodayViewCell.customizePinForTableView(pinAnnotation, poi: poi)
         pinImage.image = TodayViewCell.createPinImageForGroup(poi)
         if let currentLocation = LocationManager.sharedInstance.locationManager?.location {
             let targetLocation = CLLocation(latitude: poi.poiLatitude , longitude: poi.poiLongitude)
@@ -42,6 +41,5 @@ class TodayViewCell: UITableViewCell {
         } else {
             poiDisplayName.textColor = UIColor.lightGray
         }
-        
     }
 }

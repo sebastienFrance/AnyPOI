@@ -25,14 +25,17 @@ class TodayViewController: UIViewController {
         }
     }
     
-    var matchingPOI = [PointOfInterest]()
+    fileprivate var matchingPOI = [PointOfInterest]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Start Location Manager and add delegate to get update
         LocationManager.sharedInstance.startLocationManager()
         _ = LocationManager.sharedInstance.isLocationAuthorized()
         LocationManager.sharedInstance.delegate = self
         
+        // get the list of POIs around the current position
         if let location = LocationManager.sharedInstance.locationManager?.location {
             matchingPOI = getPoisAround(location)
         }
@@ -42,18 +45,33 @@ class TodayViewController: UIViewController {
         } else {
             // Fallback on earlier versions
         }
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         resetTableViewSize()
-     
     }
     
     // Reload the tableView and update the Widget height
     fileprivate func resetTableViewSize() {
+        
+        if let extensionContext = self.extensionContext {
+            if #available(iOSApplicationExtension 10.0, *) {
+                switch extensionContext.widgetActiveDisplayMode {
+                case .compact:
+                    self.preferredContentSize = CGSize(width: 0.0, height: 200.0)
+                case .expanded:
+                    self.preferredContentSize = CGSize(width: 0.0, height: 250.0) //theTableView.contentSize
+                }
+            } else {
+                self.preferredContentSize = CGSize(width: 0.0, height: 200.0)
+            }
+        }
+
+        
         theTableView.reloadData()
+        /*
         if matchingPOI.count > 0 {
             //            preferredContentSize = CGSizeMake(0.0, CGFloat(matchingPOI.count) * 50.0)
             preferredContentSize = theTableView.contentSize
@@ -63,6 +81,7 @@ class TodayViewController: UIViewController {
            // preferredContentSize = CGSizeMake(0.0, 50.0)
             theTableView.separatorStyle = .none
         }
+ */
     }
     
     override func didReceiveMemoryWarning() {
@@ -73,7 +92,7 @@ class TodayViewController: UIViewController {
     // Returns True when the POI array is identical to the current Array
     fileprivate func isSamePOIs(_ pois:[PointOfInterest]) -> Bool {
         if matchingPOI.count == pois.count {
-            for i in 0...(matchingPOI.count - 1) {
+            for i in 0..<matchingPOI.count {
                 if matchingPOI[i].objectID != pois[i].objectID {
                     return false
                 }
@@ -119,17 +138,19 @@ extension TodayViewController: NCWidgetProviding {
     
     @available(iOSApplicationExtension 10.0, *)
     func widgetActiveDisplayModeDidChange(_ activeDisplayMode: NCWidgetDisplayMode, withMaximumSize maxSize: CGSize) {
-        if activeDisplayMode == NCWidgetDisplayMode.compact {
+        
+        switch activeDisplayMode {
+        case .compact:
             self.preferredContentSize = CGSize(width: 0.0, height: 200.0)
-        }
-        else if activeDisplayMode == NCWidgetDisplayMode.expanded {
-            self.preferredContentSize = theTableView.contentSize
+        case .expanded:
+            self.preferredContentSize = CGSize(width: 0.0, height: 300.0) //theTableView.contentSize
         }
         
+        theTableView.reloadData()
     }
 }
 
-extension TodayViewController: LocationUpdateDelegate{
+extension TodayViewController: LocationUpdateDelegate {
     
     // Update the list of POIs when the user location has changed
     func locationUpdated(_ locations: [CLLocation]) {
@@ -150,6 +171,15 @@ extension TodayViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if let extensionContext = self.extensionContext {
+            if #available(iOSApplicationExtension 10.0, *) {
+                if extensionContext.widgetActiveDisplayMode == .compact {
+                    return matchingPOI.count > 0 ? min(matchingPOI.count, 2) : 1
+                }
+            } else {
+                // Fallback on earlier versions
+            }
+        }
         return matchingPOI.count > 0 ? matchingPOI.count : 1
     }
     
@@ -165,7 +195,7 @@ extension TodayViewController: UITableViewDataSource, UITableViewDelegate {
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: CellIndentifier.CellEmptyCellId, for: indexPath)
-            cell.textLabel?.text = "No point of interest near your position"
+            cell.textLabel?.text = NSLocalizedString("No POI near position", comment: "")
             
             if #available(iOSApplicationExtension 10.0, *) {
                 cell.textLabel?.textColor = UIColor.black

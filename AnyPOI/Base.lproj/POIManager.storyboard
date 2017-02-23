@@ -6,7 +6,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
@@ -675,18 +674,18 @@
                                             <outlet property="collectionView" destination="2KW-t4-p7L" id="igw-ub-OGo"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="LocationCellId" rowHeight="170" id="nzl-0T-iDN" userLabel="LocationCell" customClass="LocationCell" customModule="AnyPOI" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="294" width="375" height="170"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="LocationCellId" rowHeight="187" id="nzl-0T-iDN" userLabel="LocationCell" customClass="LocationCell" customModule="AnyPOI" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="294" width="375" height="187"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nzl-0T-iDN" id="QJc-ia-eww">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="169"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="186"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="z3D-kf-gEK">
-                                                    <rect key="frame" x="8" y="8" width="359" height="153"/>
+                                                    <rect key="frame" x="8" y="8" width="359" height="170.5"/>
                                                     <subviews>
                                                         <stackView opaque="NO" contentMode="scaleToFill" alignment="top" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="eLr-Sz-Pd8">
-                                                            <rect key="frame" x="0.0" y="0.0" width="359" height="70"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="359" height="72.5"/>
                                                             <subviews>
                                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="999" image="Airport-40" translatesAutoresizingMaskIntoConstraints="NO" id="75w-gF-gau">
                                                                     <rect key="frame" x="0.0" y="0.0" width="70" height="70"/>
@@ -696,7 +695,7 @@
                                                                     </constraints>
                                                                 </imageView>
                                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalHuggingPriority="750" editable="NO" text="POI Address" translatesAutoresizingMaskIntoConstraints="NO" id="NxF-nI-LgV">
-                                                                    <rect key="frame" x="75" y="0.0" width="254" height="70"/>
+                                                                    <rect key="frame" x="75" y="0.0" width="239" height="70"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" priority="999" constant="70" id="5iM-QT-qKO"/>
                                                                     </constraints>
@@ -704,12 +703,12 @@
                                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                                 </textView>
                                                                 <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="999" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wds-yO-gNS">
-                                                                    <rect key="frame" x="334" y="0.0" width="25" height="25"/>
+                                                                    <rect key="frame" x="319" y="0.0" width="40" height="40"/>
                                                                     <constraints>
-                                                                        <constraint firstAttribute="height" constant="25" id="8Dh-bg-a4u"/>
-                                                                        <constraint firstAttribute="width" constant="25" id="VKs-zJ-flW"/>
+                                                                        <constraint firstAttribute="height" constant="40" id="8Dh-bg-a4u"/>
+                                                                        <constraint firstAttribute="width" constant="40" id="VKs-zJ-flW"/>
                                                                     </constraints>
-                                                                    <state key="normal" title="Edit" image="Create New-40"/>
+                                                                    <state key="normal" image="Create New-26"/>
                                                                     <connections>
                                                                         <segue destination="G17-kE-CaA" kind="presentation" identifier="showPoiEditor" id="ObY-AF-SxT"/>
                                                                     </connections>
@@ -717,82 +716,73 @@
                                                             </subviews>
                                                         </stackView>
                                                         <stackView opaque="NO" contentMode="scaleToFill" distribution="equalCentering" translatesAutoresizingMaskIntoConstraints="NO" id="eEx-zK-9vT" userLabel="PhoneAndWebSite">
-                                                            <rect key="frame" x="0.0" y="75" width="359" height="25"/>
+                                                            <rect key="frame" x="0.0" y="77.5" width="359" height="40"/>
                                                             <subviews>
                                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="cEG-3F-XAm">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="25" height="25"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
                                                                     <constraints>
-                                                                        <constraint firstAttribute="height" constant="25" id="psG-NZ-6xv"/>
-                                                                        <constraint firstAttribute="width" constant="25" id="zCt-9J-lhq"/>
+                                                                        <constraint firstAttribute="width" constant="40" id="zCt-9J-lhq"/>
                                                                     </constraints>
                                                                 </imageView>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="detailDisclosure" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5cG-gf-ef0">
-                                                                    <rect key="frame" x="68.5" y="0.0" width="22" height="25"/>
+                                                                    <rect key="frame" x="64" y="0.0" width="40" height="40"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="width" constant="40" id="5wH-GE-pwC"/>
+                                                                    </constraints>
                                                                     <connections>
                                                                         <action selector="showContactDetails:" destination="4R0-kF-9qZ" eventType="touchUpInside" id="pnB-1o-Ovr"/>
                                                                     </connections>
                                                                 </button>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i3p-Ed-Gar">
-                                                                    <rect key="frame" x="133.5" y="0.0" width="25" height="25"/>
+                                                                    <rect key="frame" x="127.5" y="0.0" width="40" height="40"/>
                                                                     <constraints>
-                                                                        <constraint firstAttribute="width" constant="25" id="3EL-Lb-JSf"/>
-                                                                        <constraint firstAttribute="height" constant="25" id="pqO-Ss-SKM"/>
+                                                                        <constraint firstAttribute="width" constant="40" id="c08-hz-qgh"/>
                                                                     </constraints>
-                                                                    <state key="normal" title="Calendar" image="Calendar-40"/>
+                                                                    <state key="normal" image="Calendar Plus-26"/>
                                                                     <connections>
                                                                         <action selector="AddToCalendarPushed:" destination="4R0-kF-9qZ" eventType="touchUpInside" id="pAj-cN-R2U"/>
                                                                     </connections>
                                                                 </button>
                                                                 <button opaque="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FYz-3W-Zm0">
-                                                                    <rect key="frame" x="200.5" y="0.0" width="25" height="25"/>
+                                                                    <rect key="frame" x="191.5" y="0.0" width="40" height="40"/>
                                                                     <constraints>
-                                                                        <constraint firstAttribute="width" secondItem="FYz-3W-Zm0" secondAttribute="height" multiplier="1:1" priority="999" id="aTR-ih-UIh"/>
+                                                                        <constraint firstAttribute="width" constant="40" id="wyv-y7-73D"/>
                                                                     </constraints>
-                                                                    <state key="normal" title="Website" image="Safari-26"/>
+                                                                    <state key="normal" image="Safari-26"/>
                                                                     <connections>
                                                                         <action selector="showURL:" destination="4R0-kF-9qZ" eventType="touchUpInside" id="Ztd-IO-4wF"/>
                                                                     </connections>
                                                                 </button>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KJS-Mp-55F">
-                                                                    <rect key="frame" x="267" y="0.0" width="25" height="25"/>
+                                                                    <rect key="frame" x="255" y="0.0" width="40" height="40"/>
                                                                     <constraints>
-                                                                        <constraint firstAttribute="width" secondItem="KJS-Mp-55F" secondAttribute="height" multiplier="1:1" priority="999" id="UdV-Tu-z4I"/>
+                                                                        <constraint firstAttribute="width" constant="40" id="t9X-MW-lcs"/>
                                                                     </constraints>
-                                                                    <state key="normal" title="Button" image="Message-26"/>
+                                                                    <state key="normal" image="Message-26"/>
                                                                     <connections>
                                                                         <action selector="startMail:" destination="4R0-kF-9qZ" eventType="touchUpInside" id="fTY-zf-jcm"/>
                                                                     </connections>
                                                                 </button>
-                                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="bottom" translatesAutoresizingMaskIntoConstraints="NO" id="tL1-h6-PB5" userLabel="Phone Group">
-                                                                    <rect key="frame" x="334" y="0.0" width="25" height="25"/>
-                                                                    <subviews>
-                                                                        <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="uiK-Sx-gHc" userLabel="Phone">
-                                                                            <rect key="frame" x="0.0" y="0.0" width="25" height="25"/>
-                                                                            <subviews>
-                                                                                <button opaque="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xuR-mw-r9O">
-                                                                                    <rect key="frame" x="0.0" y="0.0" width="25" height="25"/>
-                                                                                    <constraints>
-                                                                                        <constraint firstAttribute="width" secondItem="xuR-mw-r9O" secondAttribute="height" multiplier="1:1" id="OvD-LN-v0L"/>
-                                                                                    </constraints>
-                                                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
-                                                                                    <state key="normal" image="Phone-26">
-                                                                                        <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                                    </state>
-                                                                                    <connections>
-                                                                                        <action selector="startPhoneCall:" destination="4R0-kF-9qZ" eventType="touchUpInside" id="1cf-VJ-INJ"/>
-                                                                                    </connections>
-                                                                                </button>
-                                                                            </subviews>
-                                                                        </stackView>
-                                                                    </subviews>
-                                                                </stackView>
+                                                                <button opaque="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xuR-mw-r9O">
+                                                                    <rect key="frame" x="319" y="0.0" width="40" height="40"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="width" constant="40" id="8eg-eq-ugg"/>
+                                                                    </constraints>
+                                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                                                    <state key="normal" image="Phone-26">
+                                                                        <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                    </state>
+                                                                    <connections>
+                                                                        <action selector="startPhoneCall:" destination="4R0-kF-9qZ" eventType="touchUpInside" id="1cf-VJ-INJ"/>
+                                                                    </connections>
+                                                                </button>
                                                             </subviews>
                                                             <constraints>
-                                                                <constraint firstAttribute="height" constant="25" id="G9o-IZ-N3x"/>
+                                                                <constraint firstAttribute="height" constant="40" id="rr0-Wn-nFT"/>
                                                             </constraints>
                                                         </stackView>
                                                         <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="bhu-ka-bs5">
-                                                            <rect key="frame" x="0.0" y="105" width="359" height="25"/>
+                                                            <rect key="frame" x="0.0" y="122.5" width="359" height="25"/>
                                                             <subviews>
                                                                 <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Huj-Lm-Ghw">
                                                                     <rect key="frame" x="0.0" y="0.0" width="25" height="25"/>
@@ -815,7 +805,7 @@
                                                             </subviews>
                                                         </stackView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="750" text="Description" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3zs-it-rnE">
-                                                            <rect key="frame" x="0.0" y="135" width="359" height="18"/>
+                                                            <rect key="frame" x="0.0" y="152.5" width="359" height="18"/>
                                                             <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
@@ -836,15 +826,19 @@
                                             <outlet property="groupImage" destination="iIy-k5-GPc" id="Yns-lm-WS6"/>
                                             <outlet property="groupName" destination="P0N-Sb-Vhe" id="SLX-MM-lJT"/>
                                             <outlet property="mailButton" destination="KJS-Mp-55F" id="fAa-Ja-XF6"/>
+                                            <outlet property="mailWidth" destination="t9X-MW-lcs" id="5Ja-C2-p4Z"/>
                                             <outlet property="phoneNumberButton" destination="xuR-mw-r9O" id="uc3-Nm-Rnh"/>
+                                            <outlet property="phoneWidth" destination="8eg-eq-ugg" id="08u-ta-RSn"/>
                                             <outlet property="poiCategoryImage" destination="75w-gF-gau" id="h5Y-ym-gcG"/>
                                             <outlet property="poiDescription" destination="3zs-it-rnE" id="wCI-bl-VCQ"/>
                                             <outlet property="showContactDetailsButton" destination="5cG-gf-ef0" id="DAU-TB-skd"/>
+                                            <outlet property="showContactWidth" destination="5wH-GE-pwC" id="5tb-G4-Gea"/>
                                             <outlet property="urlButton" destination="FYz-3W-Zm0" id="Iu1-L6-Gpr"/>
+                                            <outlet property="urlWidth" destination="wyv-y7-73D" id="WT9-xy-yo1"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="WikipediaCellId" rowHeight="106" id="GFl-F1-bzO" customClass="WikipediaCell" customModule="AnyPOI" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="464" width="375" height="106"/>
+                                        <rect key="frame" x="0.0" y="481" width="375" height="106"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="GFl-F1-bzO" id="Z6F-SI-ne2">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="105"/>
@@ -932,7 +926,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="08s-XZ-nAA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1846" y="1473"/>
+            <point key="canvasLocation" x="1845.5999999999999" y="1472.1139430284859"/>
         </scene>
         <!--Poi Image Collection View Controller-->
         <scene sceneID="9Nk-pv-bda">
@@ -1466,8 +1460,8 @@
     </scenes>
     <resources>
         <image name="Airport-40" width="40" height="40"/>
-        <image name="Calendar-40" width="40" height="40"/>
-        <image name="Create New-40" width="40" height="40"/>
+        <image name="Calendar Plus-26" width="26" height="26"/>
+        <image name="Create New-26" width="26" height="26"/>
         <image name="Cup-40" width="40" height="40"/>
         <image name="Message-26" width="26" height="26"/>
         <image name="Phone-26" width="26" height="26"/>

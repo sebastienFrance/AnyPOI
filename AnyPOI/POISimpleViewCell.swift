@@ -27,20 +27,14 @@ class POISimpleViewCell: UITableViewCell {
         POIDescription.text = poi.poiDescription
         POIAddress.text = poi.address
         groupImage.image = poi.parentGroup!.iconImage
-        if poi.poiIsContact {
-            POICategoryImage.isHidden = true
-//            let contact = ContactsUtilities.getContactForDetailedDescription(poi.poiContactIdentifier!)
-//            initImageWithContact(contact)
+        if let image = poi.categoryIcon {
+            POICategoryImage.image = image
+            POICategoryImageWidth.constant = 25.0
+            POICategoryImageHeight.constant = 25.0
+            POICategoryImage.tintColor = UIColor.black
+            POICategoryImage.isHidden = false
         } else {
-            if let image = poi.categoryIcon {
-                POICategoryImage.image = image
-                POICategoryImageWidth.constant = 25.0
-                POICategoryImageHeight.constant = 25.0
-                POICategoryImage.tintColor = UIColor.black
-                POICategoryImage.isHidden = false
-            } else {
-                POICategoryImage.isHidden = true
-            }
+            POICategoryImage.isHidden = true
         }
     }
     
