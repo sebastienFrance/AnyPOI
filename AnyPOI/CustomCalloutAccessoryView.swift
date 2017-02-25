@@ -15,6 +15,7 @@ class CustomCalloutAccessoryView: UIView {
     @IBOutlet weak var categoryImage: UIImageView!
     @IBOutlet weak var categoryImageHeightConstraint: NSLayoutConstraint!
 
+    @IBOutlet weak var detailsInfoButton: UIButton!
     @IBOutlet weak var categoryImageWidthConstraint: NSLayoutConstraint!
     @IBOutlet weak var addressLabel: UILabel!
     @IBOutlet weak var flyoverButton: UIButton!
@@ -41,6 +42,8 @@ class CustomCalloutAccessoryView: UIView {
     func initWith(_ poi:PointOfInterest, delegate:PoiCalloutDelegate) {
         
         // Delegate will never change, it can be initialized once for all
+        detailsInfoButton.addTarget(delegate, action: #selector(PoiCalloutDelegate.showDetails(_:)), for: .touchUpInside)
+        
         flyoverButton.addTarget(delegate, action: #selector(PoiCalloutDelegate.zoomOnPoi(_:)), for: .touchUpInside)
         routeButton.addTarget(delegate, action: #selector(PoiCalloutDelegate.startRoute(_:)), for: .touchUpInside)
         startStopMonitoring.addTarget(delegate, action: #selector(PoiCalloutDelegate.startOrStopMonitoring(_:)), for: .touchUpInside)
@@ -70,6 +73,8 @@ class CustomCalloutAccessoryView: UIView {
         navigationStackView.isHidden = isFlyover
         actionsStackView.isHidden = isFlyover
         routeStackView.isHidden = isFlyover
+        
+        detailsInfoButton.isHidden = isFlyover
     }
     
     fileprivate func configureForSimplePoi(_ poi:PointOfInterest) {

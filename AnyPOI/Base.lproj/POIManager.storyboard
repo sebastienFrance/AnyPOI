@@ -216,7 +216,7 @@
                             <constraint firstItem="wvO-ns-bfk" firstAttribute="top" secondItem="TTD-Vh-xNy" secondAttribute="top" id="iDq-UH-6QB"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="POI Groups " id="YJU-DB-MLL">
+                    <navigationItem key="navigationItem" title="Groups " id="YJU-DB-MLL">
                         <rightBarButtonItems>
                             <barButtonItem systemItem="add" id="uK9-S1-30Y">
                                 <connections>

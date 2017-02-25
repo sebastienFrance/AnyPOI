@@ -21,12 +21,13 @@
 "CiU-3s-hUF.headerTitle" = "Route";
 
 /* Class = "UITableViewSection"; headerTitle = "Map Mode"; ObjectID = "ERV-pZ-gX5"; */
-"ERV-pZ-gX5.headerTitle" = "Map Mode";
+"ERV-pZ-gX5.headerTitle" = "Carte";
 
 /* Class = "UITableViewSection"; headerTitle = "Map"; ObjectID = "IYb-8L-JEj"; */
-"IYb-8L-JEj.headerTitle" = "Map";
+"IYb-8L-JEj.headerTitle" = "Information sur la carte";
 
 /* Class = "UILabel"; text = "Hybrid Flyover"; ObjectID = "Loz-2d-0fo"; */
+"3I3-Qg-6R4.text" = "Carte standard";
 "Loz-2d-0fo.text" = "Satellite";
 "h02-SY-o7q.text" = "Flyover avec 360°";
 

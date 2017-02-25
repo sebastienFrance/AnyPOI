@@ -1436,14 +1436,6 @@ extension MapViewController : MKMapViewDelegate {
         return annotationView
     }
     
-    
-    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-        let poi = view.annotation as! PointOfInterest
-        if view.rightCalloutAccessoryView === control {
-            self.performSegue(withIdentifier: storyboard.showPOIDetails, sender: poi)
-        }
-    }
-    
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         if overlay is MKPolyline {
             return MapUtils.customizePolyLine(overlay as! MKPolyline)

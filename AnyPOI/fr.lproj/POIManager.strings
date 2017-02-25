@@ -72,7 +72,7 @@
 "Wds-yO-gNS.normalTitle" = "Editer";
 
 /* Class = "UINavigationItem"; title = "POI Groups "; ObjectID = "YJU-DB-MLL"; */
-"YJU-DB-MLL.title" = "Groupe de POIs";
+"YJU-DB-MLL.title" = "Groupes";
 
 /* Class = "UILabel"; text = "Group Title"; ObjectID = "ZQ6-OV-CHb"; */
 "ZQ6-OV-CHb.text" = "Titre du groupe";

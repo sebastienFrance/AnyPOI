@@ -24,7 +24,6 @@ class WayPointPinAnnotationView : MKPinAnnotationView {
     }
     
     func configureWith(_ poi:PointOfInterest, delegate:PoiCalloutDelegate, type:MapUtils.PinAnnotationType) {
-        enablePoiDetailsAccessory()
         let theDetailsAccessoryView = configureDetailCalloutAccessory(poi: poi, delegate: delegate)
         
         theDetailsAccessoryView.configureRouteButtons(delegate, type:type)
@@ -32,8 +31,6 @@ class WayPointPinAnnotationView : MKPinAnnotationView {
     }
     
     func configureForFlyover(_ poi:PointOfInterest, delegate:PoiCalloutDelegate) {
-        disablePoiDetailsAccessory()
-        
         let theDetailsAccessoryView = configureDetailCalloutAccessory(poi: poi, delegate: delegate, isFlyover: true)
         
         theDetailsAccessoryView.update(isFlyover:true)
@@ -55,20 +52,6 @@ class WayPointPinAnnotationView : MKPinAnnotationView {
         return theDetailsAccessoryView
     }
 
-    
-    func enablePoiDetailsAccessory() {
-        let rightButton = UIButton(type: .detailDisclosure)
-        // SEB: Swift3 don't understand this command?
-        //rightButton.addTarget(nil, action: nil, for: .touchUpInside)
-        rightCalloutAccessoryView = rightButton
-    }
-    
-    func disablePoiDetailsAccessory() {
-        rightCalloutAccessoryView = nil
-    }
-    
-    
-    
     func disableAddWayPointAccessory() {
         if let customCallout = rightCalloutAccessoryView as? CustomCalloutAccessoryView {
             customCallout.disableAddWayPoint()

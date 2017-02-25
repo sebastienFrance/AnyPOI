@@ -225,7 +225,7 @@
 "a2S-GS-L1L.text" = "Sélectionner une couleur";
 
 /* Class = "UIBarButtonItem"; title = "Exit"; ObjectID = "aQS-LN-PCb"; */
-"aQS-LN-PCb.title" = "Sortir";
+"aQS-LN-PCb.title" = "Quitter";
 
 /* Class = "UILabel"; text = "Group description"; ObjectID = "ark-gt-hpQ"; */
 "ark-gt-hpQ.text" = "Description du groupe";
@@ -374,3 +374,24 @@
 
 "Hev-hZ-xe6.title" = "Réinitialiser";
 "j6n-Xu-RIW.title" = "Filtre";
+
+/* GPX Import options I18N */
+"7pQ-gM-vt5.title" = "Annuler";
+
+"2lW-7b-JW9.headerTitle" = "Voyages";
+"51X-Q2-OHI.text" = "Importer comme nouveaux";
+"3lw-Lr-ggy.text" = "Tous les voyages importés seront créés comme de nouveaux voyages sinon ils seront fusionnés avec les voyages déjà existant";
+"b4N-xz-EMU.text" = "Options de fusion";
+"gVn-Er-2Xy.text" = "Importer les nouveaux voyages";
+"Vfp-k6-vcO.text" = "Mettre à jour les voyages existants";
+"HuS-rh-8QP.text" = "Uniquement lorsque les voyages sont fusionnés";
+
+"lax-OD-Rop.headerTitle" = "Points d'interêts";
+"7qs-c1-rUx.text" = "Filtre";
+"JIg-ni-MAR.placeholder" = "Filtre pour sélectionner les points d'interêts";
+"MCH-bC-y1O.text" = "Importer comme nouveaux";
+"PcO-63-oPa.text" = "Tous les points d'interêts seront créés comme de nouveaux points d'interêts sinon ils seront fusionnées avec les points d'interêts existant";
+"EWO-P4-oM6.text" = "Options de fusion";
+"rxK-YA-Ri4.text" = "Importer les nouveaux points d'interêts";
+"OOK-OE-2q1.text" = "Mettre à jour les points d'interêts existants";
+"YNz-Mb-dmw.text" = "Uniquement lorsque les points d'interêts sont fusionnés";

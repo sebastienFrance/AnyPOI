@@ -30,6 +30,14 @@ extension PoiCalloutDelegateImpl : PoiCalloutDelegate {
         static let startTableRouteId = "startTableRouteId"
         static let openPhonesId = "openPhones"
         static let openEmailsId = "openEmails"
+        static let showPOIDetails = "ShowPOIDetailsId"
+    }
+    
+    func showDetails(_ sender: UIButton) {
+        let selectedAnnotations = theMapView.selectedAnnotations
+        if selectedAnnotations.count > 0 {
+            viewController.performSegue(withIdentifier: storyboard.showPOIDetails, sender: selectedAnnotations[0])
+        }
     }
 
     func zoomOnPoi(_ sender: UIButton) {

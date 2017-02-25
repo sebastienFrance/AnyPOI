@@ -12,6 +12,8 @@ import MapKit
 @objc
 protocol PoiCalloutDelegate: class {
     
+    func showDetails(_ sender:UIButton)
+    
     func zoomOnPoi(_ sender: UIButton)
     func showURL(_ sender: UIButton)
     func startPhoneCall(_ sender:UIButton)

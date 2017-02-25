@@ -83,11 +83,11 @@ extension LeftMenuViewController : UITableViewDataSource, UITableViewDelegate {
                 
                 switch indexPath.row {
                 case Row.Map:
-                    theCell.imageMenu.image = UIImage(named: "Geography-40")
+                    theCell.imageMenu.image = UIImage(named: "Geography-30")
                 case Row.Route:
-                    theCell.imageMenu.image = UIImage(named: "Waypoint Map-40")
+                    theCell.imageMenu.image = UIImage(named: "Waypoint Map-30")
                 case Row.Options:
-                    theCell.imageMenu.image = UIImage(named: "Settings-40")
+                    theCell.imageMenu.image = UIImage(named: "Settings-30")
                 default:
                     break
                 }
