@@ -93,7 +93,7 @@ class RouteDataSource {
     var routeName:String! {
         get {
             if isFullRouteMode {
-                return allRouteName
+                return  "\(NSLocalizedString("FullDirectionRouteDatasource", comment: ""))"
             } else {
                 if let fromDisplayName = fromPOI?.poiDisplayName,
                     let toDisplayName = toPOI?.poiDisplayName {

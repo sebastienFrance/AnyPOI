@@ -60,7 +60,7 @@
 "RouteNoDestination"="Pas de destination configurée";
 "Route Distance %@ in %@"="%@ en %@";
 "Route Distance %@ in %@ with %d steps"="%@ en %@ (%d étapes)";
-"RouteDisplayInfosRouteIsEmpty"="Ajoutez un points d'interêt pour démarrer votre itinéraire";
+"RouteDisplayInfosRouteIsEmpty"="Ajoutez un point d'interêt pour démarrer votre itinéraire";
 "SpotlightKeywordTravel"="voyage";
 "SpotlightKeywordRoute"="itineraire";
 "SpotlightKeywordHolidays"="vacances";

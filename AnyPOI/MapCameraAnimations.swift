@@ -249,26 +249,43 @@ class MapCameraAnimations  {
     // At the start of the animation we update the overlays to display the route starting at this WayPoint and the callout of its annotation is displayed
     // For all other animations the callout is not displayed
     fileprivate func add360RotationAround(_ annotation:MKAnnotation, fromDistance: CLLocationDistance, pitch: CGFloat, startDuration:Double, routePolyline:MKPolyline? = nil) {
-        let theCoordinate = annotation.coordinate
         
-        var newCameraPath = CameraPath(camera:MKMapCamera(lookingAtCenter: theCoordinate, fromDistance: fromDistance, pitch: pitch, heading: 0), annotation:annotation, animationDuration:startDuration)
-        newCameraPath.isSelectedAnnotation = true
-        newCameraPath.animationDelay = 2
-        if let theRoutePolyline = routePolyline {
-            newCameraPath.updateOverlays = true
-            newCameraPath.routePolyline = theRoutePolyline
+        if UserPreferences.sharedInstance.flyover360Enabled {
+            let theCoordinate = annotation.coordinate
+            
+            var newCameraPath = CameraPath(camera:MKMapCamera(lookingAtCenter: theCoordinate, fromDistance: fromDistance, pitch: pitch, heading: 0), annotation:annotation, animationDuration:startDuration)
+            newCameraPath.isSelectedAnnotation = true
+            newCameraPath.animationDelay = 2
+            if let theRoutePolyline = routePolyline {
+                newCameraPath.updateOverlays = true
+                newCameraPath.routePolyline = theRoutePolyline
+            } else {
+                newCameraPath.updateOverlays = false //true
+            }
+            theCameraPath.append(newCameraPath)
+            
+            newCameraPath = CameraPath(camera: MKMapCamera(lookingAtCenter: theCoordinate, fromDistance: fromDistance, pitch: pitch, heading: 135), annotation:annotation, animationDuration: 2.5)
+            theCameraPath.append(newCameraPath)
+            newCameraPath = CameraPath(camera: MKMapCamera(lookingAtCenter: theCoordinate, fromDistance: fromDistance, pitch: pitch, heading: 270), annotation:annotation, animationDuration: 2.5)
+            theCameraPath.append(newCameraPath)
+            newCameraPath = CameraPath(camera: MKMapCamera(lookingAtCenter: theCoordinate, fromDistance: fromDistance, pitch: pitch, heading: 360), annotation:annotation, animationDuration: 2.5)
+            newCameraPath.animationDelay = 2
+            theCameraPath.append(newCameraPath)
         } else {
-            newCameraPath.updateOverlays = false //true
+            let theCoordinate = annotation.coordinate
+            
+            var newCameraPath = CameraPath(camera:MKMapCamera(lookingAtCenter: theCoordinate, fromDistance: fromDistance, pitch: pitch, heading: 0), annotation:annotation, animationDuration: 1.0)
+            newCameraPath.isSelectedAnnotation = true
+            newCameraPath.animationDelay = 5
+            if let theRoutePolyline = routePolyline {
+                newCameraPath.updateOverlays = true
+                newCameraPath.routePolyline = theRoutePolyline
+            } else {
+                newCameraPath.updateOverlays = false //true
+            }
+            theCameraPath.append(newCameraPath)
+
         }
-        theCameraPath.append(newCameraPath)
-        
-        newCameraPath = CameraPath(camera: MKMapCamera(lookingAtCenter: theCoordinate, fromDistance: fromDistance, pitch: pitch, heading: 135), annotation:annotation, animationDuration: 2.5)
-        theCameraPath.append(newCameraPath)
-        newCameraPath = CameraPath(camera: MKMapCamera(lookingAtCenter: theCoordinate, fromDistance: fromDistance, pitch: pitch, heading: 270), annotation:annotation, animationDuration: 2.5)
-        theCameraPath.append(newCameraPath)
-        newCameraPath = CameraPath(camera: MKMapCamera(lookingAtCenter: theCoordinate, fromDistance: fromDistance, pitch: pitch, heading: 360), annotation:annotation, animationDuration: 2.5)
-        newCameraPath.animationDelay = 2
-        theCameraPath.append(newCameraPath)
     }
 
     

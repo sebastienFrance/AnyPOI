@@ -9,7 +9,7 @@
 "2iZ-K2-671.normalTitle" = "Synchroniser les contacts";
 
 /* Class = "UILabel"; text = "Standard"; ObjectID = "3I3-Qg-6R4"; */
-"3I3-Qg-6R4.text" = "Standard";
+"3I3-Qg-6R4.text" = "Carte";
 
 /* Class = "UITableViewSection"; headerTitle = "Authentication"; ObjectID = "77O-X0-Rhj"; */
 "77O-X0-Rhj.headerTitle" = "Authentification";
@@ -27,7 +27,8 @@
 "IYb-8L-JEj.headerTitle" = "Map";
 
 /* Class = "UILabel"; text = "Hybrid Flyover"; ObjectID = "Loz-2d-0fo"; */
-"Loz-2d-0fo.text" = "Hybrid Flyover";
+"Loz-2d-0fo.text" = "Satellite";
+"h02-SY-o7q.text" = "Flyover avec 360°";
 
 /* Class = "UILabel"; text = "Near Location"; ObjectID = "Lt3-BU-kyN"; */
 "Lt3-BU-kyN.text" = "Lieux proches";

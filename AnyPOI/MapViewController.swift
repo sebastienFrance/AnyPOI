@@ -314,38 +314,20 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
         performSegue(withIdentifier: storyboard.routeDetailsEditorId, sender: nil)
     }
 
-    // Display actions buttons
-    // Buttons always displayed:
-    // - Flyover and Navigation are always displayed
-    //
-    // Buttons displayed only when a route section is shown:
-    // - Show/Hide route from current location
-    // - Delete To/From WayPoint
-    @IBAction func actionsButtonPushed(_ sender: UIButton) {
-        if let routeDatasource = routeManager?.routeDatasource {
-            
-            var source = routeDatasource.fromPOI!.poiDisplayName!
-            var destination = routeDatasource.toPOI!.poiDisplayName!
-            if let fromCurrentLocation = routeManager?.fromCurrentLocation?.toPOI.poiDisplayName {
-                source = NSLocalizedString("FlyoverFromCurrentLocation", comment: "")
-                destination = fromCurrentLocation
-            }
-            let alertActionSheet = UIAlertController(title: "\(source) ➔ \(destination)", message: "", preferredStyle: .actionSheet)
-            alertActionSheet.addAction(UIAlertAction(title:  NSLocalizedString("Flyover", comment: ""), style: .default) { alertAction in
-                self.flyover = FlyoverWayPoints(mapView: self.theMapView, delegate: self)
-                self.flyover!.doFlyover(routeDatasource, routeFromCurrentLocation:self.routeManager?.fromCurrentLocation?.route)
-            })
-            
-            alertActionSheet.addAction(UIAlertAction(title: NSLocalizedString("Navigation", comment: ""), style: .default) { alertAction in
-                self.performNavigation(routeDatasource:routeDatasource)
-            })
-            
-            
-            alertActionSheet.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: nil))
-            present(alertActionSheet, animated: true, completion: nil)
+    @IBAction func flyoverButtonPushed(_ sender: UIButton) {
+
+        if let routeDatasource = routeManager?.routeDatasource, routeDatasource.wayPoints.count > 0 {
+            self.flyover = FlyoverWayPoints(mapView: self.theMapView, delegate: self)
+            self.flyover!.doFlyover(routeDatasource, routeFromCurrentLocation:self.routeManager?.fromCurrentLocation?.route)
         }
-        
     }
+    
+    @IBAction func navigationButtonPushed(_ sender: UIButton) {
+        if let routeDatasource = routeManager?.routeDatasource {
+            self.performNavigation(routeDatasource:routeDatasource)
+        }
+    }
+  
     
     fileprivate func performNavigation(routeDatasource:RouteDataSource) {
         if routeDatasource.isFullRouteMode {
@@ -1104,14 +1086,16 @@ extension MapViewController : RouteDisplayInfos {
 
     fileprivate func showEmptyRoute() {
         fromToLabel.text = NSLocalizedString("RouteDisplayInfosRouteIsEmpty", comment: "")
-        distanceLabel.text = ""
+        fromToLabel.textColor = UIColor.red
+        fromToLabel.sizeToFit()
+        distanceLabel.text = " "
         thirdActionBarStackView.isHidden = true
     }
     
     // Show the summary infos when we are displaying the full route
     fileprivate func showRouteSummary(datasource:RouteDataSource) {
         fromToLabel.text = datasource.routeName
-        fromToLabel.textColor = UIColor.magenta
+        fromToLabel.textColor = UIColor.red
         distanceLabel.text = datasource.routeDistanceAndTime
         fromToLabel.sizeToFit()
         thirdActionBarStackView.isHidden = true
@@ -1125,7 +1109,7 @@ extension MapViewController : RouteDisplayInfos {
         if let fromCurrentLocation = routeManager?.fromCurrentLocation {
             // Show information between the current location and the To
             fromToLabel.text = NSLocalizedString("FromCurrentLocationRouteManager", comment: "")
-            fromToLabel.textColor = UIColor.magenta
+            fromToLabel.textColor = UIColor.red
             let expectedTravelTime = Utilities.shortStringFromTimeInterval(fromCurrentLocation.route.expectedTravelTime) as String
             distanceLabel.text = String(format: "\(NSLocalizedString("RouteDisplayInfos %@ in %@", comment:""))",
                 distanceFormatter.string(fromMeters: fromCurrentLocation.route.distance),
@@ -1137,7 +1121,7 @@ extension MapViewController : RouteDisplayInfos {
             selectedTransportType.selectedSegmentIndex = MapUtils.transportTypeToSegmentIndex(fromCurrentLocation.transportType)
         } else {
             // Show information between the 2 wayPoints
-            fromToLabel.textColor = UIColor.white
+            fromToLabel.textColor = UIColor.black
             fromToLabel.text = datasource.routeName
             distanceLabel.text = datasource.routeDistanceAndTime
             selectedTransportType.selectedSegmentIndex = MapUtils.transportTypeToSegmentIndex(datasource.fromWayPoint!.transportType!)

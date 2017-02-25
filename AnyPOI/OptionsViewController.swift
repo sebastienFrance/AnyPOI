@@ -22,6 +22,7 @@ class OptionsViewController: UITableViewController, PasswordConfigurationDelegat
     
     @IBOutlet weak var cellStandard: UITableViewCell!
     @IBOutlet weak var cellHybridFlyover: UITableViewCell!
+    @IBOutlet weak var cellFlyoverWith360: UITableViewCell!
     
     @IBOutlet weak var switchDefaultTransportType: UISegmentedControl! {
         didSet {
@@ -173,6 +174,8 @@ class OptionsViewController: UITableViewController, PasswordConfigurationDelegat
         default:
             cellStandard.accessoryType = .checkmark
         }
+        
+        cellFlyoverWith360.accessoryType = UserPreferences.sharedInstance.flyover360Enabled ? .checkmark : .none
     }
 
     @IBAction func switchMapOptionsChanged(_ sender: UISwitch) {
@@ -292,8 +295,10 @@ class OptionsViewController: UITableViewController, PasswordConfigurationDelegat
         if indexPath.section == 0 {
             if indexPath.row == 0 {
                 theMapView.mapType = .standard
-            } else {
+            } else if indexPath.row == 1 {
                 theMapView.mapType = .hybridFlyover
+            } else if indexPath.row == 2 {
+                 UserPreferences.sharedInstance.flyover360Enabled = cellFlyoverWith360.accessoryType == .checkmark ? false : true
             }
             UserPreferences.sharedInstance.mapMode = theMapView.mapType
             updateCellMapMode()

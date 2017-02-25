@@ -111,29 +111,30 @@ class FlyoverWayPoints: NSObject{
     }
 
     func doFlyover(_ routeDatasource:RouteDataSource, routeFromCurrentLocation:MKRoute?) {
-        mapAnimation = MapCameraAnimations(mapView: theMapView, mapCameraDelegate: self)
-        
-        // Initialize the TapGesture to stop Flyover on user request
-        singleTapGesture = UITapGestureRecognizer(target: self, action: #selector(FlyoverWayPoints.singleTapGestureToStopFlyoverAnimation(_:)))
-        singleTapGesture!.numberOfTapsRequired = 1
-        singleTapGesture!.numberOfTouchesRequired = 1
-        theMapView.addGestureRecognizer(singleTapGesture!)
-
-        // remove from the map all accessories
-        theMapView.showsCompass = false
-        theMapView.showsPointsOfInterest = false
-        theMapView.showsScale = false
-        theMapView.showsTraffic = false
-        
-        // Start an animation to hide graphical element before to perform the animation with Flyover
-        UIView.animate(withDuration: 0.5, animations: {
+        if routeDatasource.wayPoints.count > 0 {
+            mapAnimation = MapCameraAnimations(mapView: theMapView, mapCameraDelegate: self)
             
-            if self.theMapView.selectedAnnotations.count > 0 {
-                self.theMapView.deselectAnnotation(self.theMapView.selectedAnnotations[0], animated: true)
-            }
+            // Initialize the TapGesture to stop Flyover on user request
+            singleTapGesture = UITapGestureRecognizer(target: self, action: #selector(FlyoverWayPoints.singleTapGestureToStopFlyoverAnimation(_:)))
+            singleTapGesture!.numberOfTapsRequired = 1
+            singleTapGesture!.numberOfTouchesRequired = 1
+            theMapView.addGestureRecognizer(singleTapGesture!)
             
-            self.flyoverDelegate.flyoverWillStartAnimation()
+            // remove from the map all accessories
+            theMapView.showsCompass = false
+            theMapView.showsPointsOfInterest = false
+            theMapView.showsScale = false
+            theMapView.showsTraffic = false
             
+            // Start an animation to hide graphical element before to perform the animation with Flyover
+            UIView.animate(withDuration: 0.5, animations: {
+                
+                if self.theMapView.selectedAnnotations.count > 0 {
+                    self.theMapView.deselectAnnotation(self.theMapView.selectedAnnotations[0], animated: true)
+                }
+                
+                self.flyoverDelegate.flyoverWillStartAnimation()
+                
             }, completion: { result in
                 // set the Map to satellite for Flyover / Remove all useless annotation & overlays from the map and start Flyover animation
                 self.theMapView.mapType = .satelliteFlyover
@@ -147,8 +148,8 @@ class FlyoverWayPoints: NSObject{
                         self.mapAnimation!.flyover([routeDatasource.fromWayPoint!, routeDatasource.toWayPoint!])
                     }
                 }
-        })
-        
+            })
+        }
     }
     
     // Keep all overlays and annotations changed / removed during the Flyover

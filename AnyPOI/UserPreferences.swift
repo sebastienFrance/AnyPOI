@@ -24,6 +24,7 @@ class UserPreferences {
         static let MapMode = "MapMode"
         static let MapShowTraffic = "MapShowTraffic"
         static let MapShowPointsOfInterest = "MapShowPointsOfInterest"
+        static let Flyover360Enabled = "Flyover360Enabled"
     
     
         static let MapLatestLatitude = "MapLatestLatitude"
@@ -55,6 +56,7 @@ class UserPreferences {
             userDefaults.setValue("test", forKey: keys.TestParameter)
             mapMode = .standard
             mapShowTraffic = true
+            flyover360Enabled = true
             mapShowPointsOfInterest = false
             
             mapLatestMapRegion = defaultRegion
@@ -87,6 +89,15 @@ class UserPreferences {
         }
         set {
             UserDefaults.standard.set(Int(newValue.rawValue), forKey: keys.MapMode)
+        }
+    }
+    
+    var flyover360Enabled:Bool {
+        get {
+            return UserDefaults.standard.bool(forKey: keys.Flyover360Enabled)
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: keys.Flyover360Enabled)
         }
     }
     
