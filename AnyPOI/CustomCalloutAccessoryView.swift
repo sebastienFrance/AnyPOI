@@ -169,6 +169,7 @@ class CustomCalloutAccessoryView: UIView {
         if let thePhoneNumber = phoneNumber {
             self.phoneNumber = thePhoneNumber
             phoneButton.isHidden = false
+            phoneButton.setImage(UIImage(named: Utilities.IconName.phoneNumber), for: UIControlState())
         } else {
             phoneButton.isHidden = true
         }

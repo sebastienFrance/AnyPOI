@@ -211,8 +211,8 @@
 "CategoryLabelPharmacy"="Pharmacy";
 "CategoryLabelChurch"="Church";
 "CategoryLabelStadium"="Stadium";
-"CategoryLabelGasStation"="Gas station";
-"CategoryLabelCourtHouse"="Court house";
+"CategoryLabelGasStation"="Gas";
+"CategoryLabelCourtHouse"="Court";
 "CategoryLabelAirport"="Airport";
 "CategoryLabelTheater"="Theater";
 "CategoryLabelPark"="Park";

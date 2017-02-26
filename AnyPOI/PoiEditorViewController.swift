@@ -176,7 +176,14 @@ extension PoiEditorViewController: UITextFieldDelegate {
         textField.text = "" // Force the text field to empty in case the Keyboard has selected it for auto correction
         return true
     }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+
 }
+
 
 extension PoiEditorViewController: UITableViewDataSource, UITableViewDelegate {
     fileprivate struct Sections {
@@ -249,6 +256,7 @@ extension PoiEditorViewController: UITableViewDataSource, UITableViewDelegate {
     
     fileprivate struct cellIdentifier {
         static let textFieldCellId = "textFieldCellId"
+        static let textFieldDescriptionCellId = "textFieldDescriptionCellId"
         static let cellCategoryId = "cellCategoryId"
         static let cellPickerId = "cellPickerId"
         static let cellGroupPickerId = "cellGroupPickerId"
@@ -393,11 +401,11 @@ extension PoiEditorViewController: UITableViewDataSource, UITableViewDelegate {
             theCell.theTextField.tag = Cste.poiDisplayNameTextField
             return theCell
         case .poiDescription:
-            let theCell = theTableView.dequeueReusableCell(withIdentifier: cellIdentifier.textFieldCellId, for: indexPath) as! TextFieldViewCell
-            theCell.theTextField.text = thePoi.poiDescription
-            theCell.theTextField.delegate = self
-            theCell.theTextField.placeholder = NSLocalizedString("PoiEditorPOIDescriptionPlaceholder", comment: "")
-            theCell.theTextField.tag = Cste.poiDescriptionTextField
+            let theCell = theTableView.dequeueReusableCell(withIdentifier: cellIdentifier.textFieldDescriptionCellId, for: indexPath) as! POIDescriptionTableViewCell
+            theCell.poiDescriptionTextField.text = thePoi.poiDescription
+            theCell.poiDescriptionTextField.delegate = self
+            theCell.poiDescriptionTextField.placeholder = NSLocalizedString("PoiEditorPOIDescriptionPlaceholder", comment: "")
+            theCell.poiDescriptionTextField.tag = Cste.poiDescriptionTextField
             return theCell
         case .poiCategory:
             let theCell = theTableView.dequeueReusableCell(withIdentifier: cellIdentifier.cellCategoryId, for: indexPath) as! CategoryTableViewCell

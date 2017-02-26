@@ -33,7 +33,7 @@ class RouteProviderWithTransportTypeTableViewCell: UITableViewCell {
         navigationButton.tag = id
         transportTypeSegment.isHidden = false
         if transportTypeSegment.numberOfSegments == 3 {
-            transportTypeSegment.insertSegment(with: UIImage(named: "Bicycle-40"), at: 4, animated: false)
+            transportTypeSegment.insertSegment(with: UIImage(named: "Bicycle-30"), at: 4, animated: false)
         }
   }
     

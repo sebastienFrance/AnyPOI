@@ -265,6 +265,10 @@ class RouteManager: NSObject {
     }
 
     func showWayPointIndex(_ index:Int) {
+        if routeDatasource.isFullRouteMode {
+            removeRouteOverlays()
+        }
+        
         routeDatasource.setFromWayPoint(wayPointIndex:index)
         moveTo(direction:.forward)
     }

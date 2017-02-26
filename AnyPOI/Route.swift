@@ -265,7 +265,7 @@ class Route: NSManagedObject {
         
         
         // It Seems SupportsNavigation & supportsPhoneCall are mutually exclusives!
-        if let icon = UIImage(named:"Waypoint Map-40.png")  {
+        if let icon = UIImage(named:"Waypoint Map-30.png")  {
             attributeSet.thumbnailData = UIImagePNGRepresentation(icon)
         }
         

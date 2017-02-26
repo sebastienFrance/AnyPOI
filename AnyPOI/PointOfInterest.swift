@@ -42,9 +42,9 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
     var imageForType:UIImage {
         get {
             if poiIsContact {
-                return #imageLiteral(resourceName: "Contacts-70")
+                return #imageLiteral(resourceName: "Contact-70")
             } else if poiWikipediaPageId != constants.invalidWikipediaPage {
-                return #imageLiteral(resourceName: "Wikipedia-70")
+                return #imageLiteral(resourceName: "WikipediaBig-70")
             } else {
                 return #imageLiteral(resourceName: "Pin-70")
             }
@@ -54,11 +54,11 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
     var smallImageForType:UIImage {
         get {
             if poiIsContact {
-                return #imageLiteral(resourceName: "Contacts-40")
+                return #imageLiteral(resourceName: "Contacts-30")
             } else if poiWikipediaPageId != constants.invalidWikipediaPage {
-                return #imageLiteral(resourceName: "Wikipedia-40")
+                return #imageLiteral(resourceName: "Wikipedia-30")
             } else {
-                return #imageLiteral(resourceName: "Pin-40")
+                return #imageLiteral(resourceName: "Pin-30")
             }
         }
     }
@@ -271,6 +271,7 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
         if let url = mapItem.url {
             poiURL = url.absoluteString
         }
+        
         
         initializeWith(placemark:mapItem.placemark)
         

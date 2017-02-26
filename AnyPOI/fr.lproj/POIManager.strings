@@ -81,7 +81,7 @@
 "a01-WS-5gJ.normalTitle" = "Editer";
 
 /* Class = "UILabel"; text = "Scroll to pick a color"; ObjectID = "a2S-GS-L1L"; */
-"a2S-GS-L1L.text" = "Scroller pour choisir une couleur";
+"a2S-GS-L1L.text" = "Selectionnez une couleur";
 
 /* Class = "UILabel"; text = "Group description"; ObjectID = "ark-gt-hpQ"; */
 "ark-gt-hpQ.text" = "Description du groupe";
@@ -123,7 +123,7 @@
 "r8m-gi-4lw.text" = "Point d'intérêt qui sont surveillés";
 
 /* Class = "UILabel"; text = "Select a new group for POIs"; ObjectID = "rGL-UX-2fU"; */
-"rGL-UX-2fU.text" = "Sélectionnez un nouveau groupe pour les POIs";
+"rGL-UX-2fU.text" = "Sélectionnez un nouveau groupe pour les points d'interêts";
 
 /* Class = "UIViewController"; title = "Group List"; ObjectID = "rf3-AK-XI1"; */
 "rf3-AK-XI1.title" = "Liste de groupe";

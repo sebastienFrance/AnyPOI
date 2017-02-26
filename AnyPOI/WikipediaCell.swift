@@ -25,7 +25,7 @@ class WikipediaCell: UITableViewCell {
         let poiOfWiki = POIDataManager.sharedInstance.findPOIWith(wikipedia)
         let isWikipediaPOI = poiOfWiki === poi ? true : false
         
-        title.textColor = isWikipediaPOI ? UIColor.green : UIColor.black
+        title.textColor = isWikipediaPOI ? UIColor.red : UIColor.black
         extract.text = wikipedia.extract
     }
     
