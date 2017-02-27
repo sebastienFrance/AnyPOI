@@ -107,10 +107,12 @@
 "NoDescriptionWikipedia"="Pas de description";
 "LocationServicesOffLocationManager"="Les services de localisation sont désactivées";
 "BackgroundLocationDisabledLocationManager"="La localisation en arrière plan est désactivée";
-"BackgroundMessageLocationManager"="Pour utiliser la localisation en arrière plan il faut activer 'Toujours' dans Service de localisation dans Réglages";
+"BackgroundMessageLocationManager"="Activez 'Toujours' dans Service de localisation dans Réglages. Cette option est necessaire pour determiner si vous êtes à proximité d'un point d'interêt";
 "SettingsLocationManager"="Règlages";
 "EnteringRegionLocationManager"="Entrée";
 "ExitingRegionLocationManager"="Sortie";
+"POI less than %d meters" = "A moins de %d mètres";
+"POI more than %d meters" = "A plus de %d mètres";
 "RouteFromCurrentLocationRouteManager"="Itinéraire depuis vôtre position";
 "HideRouteFromCurrentLocationRouteManager"="Supprimer l'itinéraire depuis vôtre position";
 "LoadingDirectionRouteManager"="Calcul de l'itinéraire";

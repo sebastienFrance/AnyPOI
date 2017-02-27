@@ -8,7 +8,6 @@
 
 import UIKit
 import CoreLocation
-import AudioToolbox
 
 /// This class manage the user location
 /// By default we just request the location when the user is using the App, not in Background. This location
@@ -21,7 +20,7 @@ import AudioToolbox
 ///
 /// Notifications:
 /// - AuthorizationHasChanged is sent each time the location authorization has been changed. Currently it's not used by the App
-class LocationManager : NSObject, CLLocationManagerDelegate {
+class LocationManager : NSObject {
     
     struct LocationNotifications {
         static let AuthorizationHasChanged = "AuthorizationHasChanged"
@@ -97,7 +96,9 @@ class LocationManager : NSObject, CLLocationManagerDelegate {
         requestAlwaysAuthorization()
         
         if CLLocationManager.isMonitoringAvailable(for: CLCircularRegion.self) {
-            locationManager?.startMonitoring(for: CLCircularRegion(center: poi.coordinate, radius: poi.poiRegionRadius, identifier: poi.poiRegionId!))
+            locationManager?.startMonitoring(for: CLCircularRegion(center: poi.coordinate,
+                                                                   radius: poi.poiRegionRadius,
+                                                                   identifier: poi.poiRegionId!))
             return .noError
          } else {
             return .deviceNotSupported
@@ -166,9 +167,45 @@ class LocationManager : NSObject, CLLocationManagerDelegate {
         }
     }
     
+  
+    /// Translate the status code to a human readable string
+    ///
+    /// - parameter status: status code to analyze
+    ///
+    /// - returns: String description of the status
+    fileprivate static func getStatus(status: CLAuthorizationStatus) -> String {
+        var authorizationStatus = "Always"
+        switch status {
+        case .authorizedAlways:
+            authorizationStatus = "Always"
+        case .authorizedWhenInUse:
+            authorizationStatus = "When in use"
+        case .denied:
+            authorizationStatus = "Denied"
+        case .notDetermined:
+            authorizationStatus = "Not determined"
+        case .restricted:
+            authorizationStatus = "Restricted"
+        }
+        return authorizationStatus
+    }
+    
+    fileprivate func dumpMonitoredRegions() {
+        for region in locationManager!.monitoredRegions {
+            print("RegionId from CLLocationManager: \(region.identifier)")
+        }
+        
+        for currentPOI in POIDataManager.sharedInstance.getAllMonitoredPOI() {
+            print("Monitored Poi: \(currentPOI.poiDisplayName!) with RegionId \(currentPOI.poiRegionId!) ")
+        }
+    }
+
+}
+
+extension LocationManager: CLLocationManagerDelegate {
     //MARK: CLLocationManagerDelegate
     
-   // Called when a SignificantLocationChanges has occured
+    // Called when a SignificantLocationChanges has occured
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         print("\(#function): Location Manager didUpdateLocations")
     }
@@ -182,7 +219,7 @@ class LocationManager : NSObject, CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
         if let poi = POIDataManager.sharedInstance.findPOIWithRegiondId(region.identifier) {
             if poi.poiRegionNotifyEnter {
-                LocationManager.notifyRegionUpdate(poi: poi, message:"\(NSLocalizedString("EnteringRegionLocationManager", comment: "")) \(poi.poiDisplayName!)")
+                AppDelegate.notifyRegionUpdate(poi: poi, isEntering:true)
             }
         } else {
             print("\(#function): Error, POI not found! This CLRegion \(region.identifier) will be removed!")
@@ -195,7 +232,7 @@ class LocationManager : NSObject, CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
         if let poi = POIDataManager.sharedInstance.findPOIWithRegiondId(region.identifier) {
             if poi.poiRegionNotifyExit {
-                LocationManager.notifyRegionUpdate(poi: poi, message:"\(NSLocalizedString("ExitingRegionLocationManager", comment: "")) \(poi.poiDisplayName!)")
+                AppDelegate.notifyRegionUpdate(poi: poi, isEntering:false)
             }
         } else {
             print("\(#function): Error, POI not found! This CLRegion \(region.identifier) will be removed!")
@@ -238,63 +275,6 @@ class LocationManager : NSObject, CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         print("\(#function): Warning the authorization status of Location Manager has changed to \(LocationManager.getStatus(status: status))")
         NotificationCenter.default.post(name: Notification.Name(rawValue: LocationNotifications.AuthorizationHasChanged), object: manager)
-    }
-    
-    //MARK: Utilities
-
-    /// To notify user when he's entering or exiting the region around a POI
-    ///  1- Send a notification to the Notification Center
-    ///  2- Update the Badge with Notification Number -> Always 1 !!!!
-    ///  3- Vibrate the device
-    ///
-    /// - parameter poi:     POI near the current location
-    /// - parameter message: Message to be displayed
-    fileprivate static func notifyRegionUpdate(poi:PointOfInterest, message:String) {
-        let notification = UILocalNotification()
-        notification.fireDate = Date()
-        // SEB: Swift3
-        //notification.timeZone = TimeZone()
-        notification.alertBody = message
-        //notification.repeatCalendar = .Day
-        notification.soundName = UILocalNotificationDefaultSoundName
-        notification.applicationIconBadgeNumber = 1
-        UIApplication.shared.presentLocalNotificationNow(notification)
-        
-        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
-    }
-    
-    
-  
-    /// Translate the status code to a human readable string
-    ///
-    /// - parameter status: status code to analyze
-    ///
-    /// - returns: String description of the status
-    fileprivate static func getStatus(status: CLAuthorizationStatus) -> String {
-        var authorizationStatus = "Always"
-        switch status {
-        case .authorizedAlways:
-            authorizationStatus = "Always"
-        case .authorizedWhenInUse:
-            authorizationStatus = "When in use"
-        case .denied:
-            authorizationStatus = "Denied"
-        case .notDetermined:
-            authorizationStatus = "Not determined"
-        case .restricted:
-            authorizationStatus = "Restricted"
-        }
-        return authorizationStatus
-    }
-    
-    fileprivate func dumpMonitoredRegions() {
-        for region in locationManager!.monitoredRegions {
-            print("RegionId from CLLocationManager: \(region.identifier)")
-        }
-        
-        for currentPOI in POIDataManager.sharedInstance.getAllMonitoredPOI() {
-            print("Monitored Poi: \(currentPOI.poiDisplayName!) with RegionId \(currentPOI.poiRegionId!) ")
-        }
     }
 
 }

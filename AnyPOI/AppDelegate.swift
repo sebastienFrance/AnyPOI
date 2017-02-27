@@ -12,10 +12,13 @@ import CoreLocation
 import LocalAuthentication
 import CoreSpotlight
 import PKHUD
+import UserNotifications
+import AudioToolbox
+
 //import UberRides
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, UserAuthenticationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     
@@ -33,6 +36,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UserAuthenticationDelegat
         static let markCurrentLocation = "com.sebastien.AnyPOI.POICurrentLocation"
         static let searchPOIs = "com.sebastien.AnyPOI.SearchPOI"
     }
+    
+    struct LocalNotificationId {
+        static let monitoringRegionId = "MonitoringRegion"
+        static let monitoringRegionPOI = "POI"
+    }
 
     // This method is called only when the App start from scratch. 
     // We must:
@@ -45,10 +53,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UserAuthenticationDelegat
             userAuthentication = UserAuthentication(delegate: self)
         }
         
-        LocationManager.sharedInstance.startLocationManager()
         
         if (UIApplication.instancesRespond(to: #selector(UIApplication.registerUserNotificationSettings(_:)))) {
-            application.registerUserNotificationSettings(UIUserNotificationSettings(types: [.alert, .sound] , categories: nil))
+            if #available(iOS 10.0, *) {
+                UNUserNotificationCenter.current().delegate = self
+                UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound], completionHandler: { (granted, error) in
+                    if let theError = error {
+                       print("\(#function) error when request localNotification \(theError.localizedDescription)")
+                    } else {
+                        if !granted {
+                            print("\(#function) Warning local notification not granted")
+                        }
+                    }
+                    LocationManager.sharedInstance.startLocationManager()
+                })
+            } else {
+                // Fallback on earlier versions
+                application.registerUserNotificationSettings(UIUserNotificationSettings(types: [.alert, .sound] , categories: nil))
+            }
         }
         
         NotificationCenter.default.addObserver(self,
@@ -209,18 +231,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UserAuthenticationDelegat
         DatabaseAccess.sharedInstance.saveContext()
     }
     
-    //MARK: UserAuthenticationDelegate
-    func authenticationDone() {
-        performNavigation()
+    func application(_ application: UIApplication, didRegister notificationSettings: UIUserNotificationSettings) {
+        print("\(#function) called with \(notificationSettings.types)")
+        LocationManager.sharedInstance.startLocationManager()
     }
     
-    func authenticationFailure() {
-        print("\(#function) Warning, we should never enter in this code")
-    }
-
-    func performActionOnStartup() {
-        performNavigation()
-    }
     
     //MARK: Utilities
     fileprivate func handleActionShortcut(_ shortcutItem: UIApplicationShortcutItem) {
@@ -241,8 +256,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UserAuthenticationDelegat
         }
 
     }
-    
-
     
     fileprivate func performNavigation() {
         // Perform navigation to the Poi or Route if needed
@@ -297,4 +310,104 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UserAuthenticationDelegat
         }
     }
  }
+
+extension AppDelegate : UserAuthenticationDelegate {
+    //MARK: UserAuthenticationDelegate
+    func authenticationDone() {
+        performNavigation()
+    }
+    
+    func authenticationFailure() {
+        print("\(#function) Warning, we should never enter in this code")
+    }
+    
+    func performActionOnStartup() {
+        performNavigation()
+    }
+}
+
+extension AppDelegate {
+    //MARK: Utilities
+    
+    /// To notify user when he's entering or exiting the region around a POI
+    ///  1- Send a notification to the Notification Center
+    ///  2- Update the Badge with Notification Number -> Always 1 !!!!
+    ///  3- Vibrate the device
+    ///
+    /// - parameter poi:     POI near the current location
+    /// - parameter message: Message to be displayed
+    static func notifyRegionUpdate(poi:PointOfInterest, isEntering:Bool) {
+        if #available(iOS 10.0, *) {
+            let content = UNMutableNotificationContent()
+            content.title = poi.poiDisplayName ?? "Error"
+            content.subtitle = poi.address.replacingOccurrences(of: "\n", with: " ")
+            
+            var message:String
+            if isEntering {
+                message = String(format: NSLocalizedString("POI less than %d meters", comment: ""), Int(poi.poiRegionRadius))
+            } else {
+                message = String(format: NSLocalizedString("POI more than %d meters", comment: ""), Int(poi.poiRegionRadius))
+            }
+            
+            content.body = message
+            content.badge = 1
+            content.sound = UNNotificationSound.default()
+            content.userInfo[AppDelegate.LocalNotificationId.monitoringRegionPOI] = poi.objectID.uriRepresentation().absoluteString
+            let request = UNNotificationRequest(identifier: AppDelegate.LocalNotificationId.monitoringRegionId, content:content, trigger: nil)
+            UNUserNotificationCenter.current().add(request, withCompletionHandler: { error in
+                if let theError = error {
+                    print("Error with notification add \(theError.localizedDescription)")
+                }
+            })
+        } else {
+            // Fallback on earlier versions
+            
+            var message:String
+            if isEntering {
+                message = "\(NSLocalizedString("EnteringRegionLocationManager", comment: "")) \(poi.poiDisplayName!)"
+            } else {
+                message = "\(NSLocalizedString("ExitingRegionLocationManager", comment: "")) \(poi.poiDisplayName!)"
+            }
+            let notification = UILocalNotification()
+            notification.fireDate = nil
+            // SEB: Swift3
+            //notification.timeZone = TimeZone()
+            notification.alertBody = message
+            //notification.repeatCalendar = .Day
+            notification.soundName = UILocalNotificationDefaultSoundName
+            notification.applicationIconBadgeNumber = 1
+            UIApplication.shared.presentLocalNotificationNow(notification)
+        }
+        
+        
+        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+    }
+
+}
+
+extension AppDelegate: UNUserNotificationCenterDelegate {
+    @available(iOS 10.0, *)
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler(UNNotificationPresentationOptions.alert)
+    }
+    
+    @available(iOS 10.0, *)
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        
+        if response.actionIdentifier == UNNotificationDefaultActionIdentifier {
+            if response.notification.request.identifier == LocalNotificationId.monitoringRegionId,
+                let poiAbsoluteString = response.notification.request.content.userInfo[LocalNotificationId.monitoringRegionPOI] as? String,
+                let urlPOI = URL(string: poiAbsoluteString) {
+                if let poi = POIDataManager.sharedInstance.getPOIWithURI(urlPOI) {
+                    poiToShowOnMap = poi
+                    if UserAuthentication.isUserAuthenticated {
+                        DispatchQueue.main.async {
+                            self.performNavigation()
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
 
