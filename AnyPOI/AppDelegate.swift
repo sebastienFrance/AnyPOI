@@ -54,21 +54,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         
-        if (UIApplication.instancesRespond(to: #selector(UIApplication.registerUserNotificationSettings(_:)))) {
-            if #available(iOS 10.0, *) {
-                UNUserNotificationCenter.current().delegate = self
-                UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound], completionHandler: { (granted, error) in
-                    if let theError = error {
-                       print("\(#function) error when request localNotification \(theError.localizedDescription)")
+        if #available(iOS 10.0, *) {
+            
+            UNUserNotificationCenter.current().delegate = self
+            UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound], completionHandler: { (granted, error) in
+                if let theError = error {
+                    print("\(#function) error when request localNotification \(theError.localizedDescription)")
+                } else {
+                    if !granted {
+                        print("\(#function) Warning local notification not granted")
                     } else {
-                        if !granted {
-                            print("\(#function) Warning local notification not granted")
-                        }
+                        print ("\(#function) local notification granted")
                     }
+                }
+                DispatchQueue.main.async {
                     LocationManager.sharedInstance.startLocationManager()
-                })
-            } else {
-                // Fallback on earlier versions
+                }
+            })
+        } else {
+            // Fallback on earlier versions
+            if (UIApplication.instancesRespond(to: #selector(UIApplication.registerUserNotificationSettings(_:)))) {
                 application.registerUserNotificationSettings(UIUserNotificationSettings(types: [.alert, .sound] , categories: nil))
             }
         }
