@@ -25,7 +25,7 @@ protocol CenterViewControllerDelegate : class {
 class ContainerViewController: UIViewController {
 
     enum CenterViewOptions {
-        case map, poiManager, travels, options, about
+        case map, poiManager, travels, options, purchase, about
     }
     
     fileprivate struct Cste {
@@ -121,7 +121,7 @@ class ContainerViewController: UIViewController {
         case .map:
             removeCurrentCenterViewController()
             currentApplicationViewController = mapViewNavigationController
-        case .options, .poiManager, .travels, .about:
+        case .options, .poiManager, .travels, .about, .purchase:
             displayCenterView(viewType)
         }
         toggleLeftPanel()
@@ -145,6 +145,8 @@ class ContainerViewController: UIViewController {
                 viewController = optionsViewController
             case .travels:
                 viewController = mainStoryboard.instantiateViewController(withIdentifier: "Routes")
+            case .purchase:
+                viewController = mainStoryboard.instantiateViewController(withIdentifier: "PurchaseViewControllerId")
             default:
                 print("\(#function) Error, default case called, it should never happen!!!!")
                 viewController = nil

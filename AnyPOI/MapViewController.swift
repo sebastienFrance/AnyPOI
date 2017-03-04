@@ -152,7 +152,11 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
     }
     
     func importFile(gpx:URL) {
-        performSegue(withIdentifier: storyboard.showGPXImportId, sender: gpx)
+        if UserPreferences.sharedInstance.isAnyPoiUnlimited {
+            performSegue(withIdentifier: storyboard.showGPXImportId, sender: gpx)
+        } else {
+            Utilities.showAlertMessage(self, title: NSLocalizedString("GPXImport", comment: ""), message: NSLocalizedString("NeedInAppPurchaseToUseFeature", comment: ""))
+        }
     }
     
     func flyoverAround(_ poi:PointOfInterest) {
@@ -289,8 +293,11 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
     @IBAction func routeActionButtonPushed(_ sender: UIBarButtonItem) {
         if let routeDatasource = routeManager?.routeDatasource {
             let mailActivity = RouteMailActivityItemSource(datasource:routeDatasource)
-            let GPXactivity = GPXActivityItemSource(route: [routeDatasource.theRoute])
-            var activityItems:[UIActivityItemSource] = [mailActivity, GPXactivity]
+            var activityItems:[UIActivityItemSource] = [mailActivity]
+
+            if UserPreferences.sharedInstance.isAnyPoiUnlimited {
+                activityItems.append(GPXActivityItemSource(route: [routeDatasource.theRoute]))
+            }
             
             if let image = mapImage() {
                 let imageActivity = ImageAcvitityItemSource(image: image)
@@ -918,26 +925,37 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
             }
         }
     }
+    
+    static let MAX_POI_WITHOUT_LICENSE = 2
+    
+    static func isAddPoiAuthorized() -> Bool {
+        return UserPreferences.sharedInstance.isAnyPoiUnlimited || POIDataManager.sharedInstance.getAllPOI().count < MapViewController.MAX_POI_WITHOUT_LICENSE
+    }
 
     // MARK: Map Gestures 
     @IBAction func handleLongPressGesture(_ sender: UILongPressGestureRecognizer) {
         switch (sender.state) {
         case .ended:
-            if #available(iOS 10.0, *) {
-                let feedbackGenerator = UIImpactFeedbackGenerator.init(style: .medium)
-                feedbackGenerator.impactOccurred()
+            if MapViewController.isAddPoiAuthorized() {
+                
+                if #available(iOS 10.0, *) {
+                    let feedbackGenerator = UIImpactFeedbackGenerator.init(style: .medium)
+                    feedbackGenerator.impactOccurred()
+                } else {
+                    // Fallback on earlier versions
+                }
+                
+                // Add the new POI in database
+                // The Poi will be added on the Map thanks to DB notifications
+                let coordinates = theMapView.convert(sender.location(in: theMapView), toCoordinateFrom: theMapView)
+                let addedPoi = POIDataManager.sharedInstance.addPOI(coordinates: coordinates)
+                
+                if isRouteMode {
+                    // Add the POI as a new WayPoint in the route
+                    routeManager?.add(poi:addedPoi)
+                }
             } else {
-                // Fallback on earlier versions
-            }
-            
-            // Add the new POI in database
-            // The Poi will be added on the Map thanks to DB notifications
-            let coordinates = theMapView.convert(sender.location(in: theMapView), toCoordinateFrom: theMapView)
-            let addedPoi = POIDataManager.sharedInstance.addPOI(coordinates: coordinates)
-            
-            if isRouteMode {
-                // Add the POI as a new WayPoint in the route
-                routeManager?.add(poi:addedPoi)
+                Utilities.showAlertMaxPOI(viewController:self)
             }
         default:
             break

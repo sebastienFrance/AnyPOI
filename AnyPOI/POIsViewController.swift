@@ -274,8 +274,10 @@ class POIsViewController: UIViewController  {
         var activityItems = [UIActivityItemSource]()
         let mailActivity = PoisMailActivityItemSource(pois:getPois(withFilter:true), mailTitle:POIGroup.groupDisplayName!)
         activityItems.append(mailActivity)
-        let gpxActivity = GPXActivityItemSource(pois: getPois(withFilter:true))
-        activityItems.append(gpxActivity)
+        
+        if UserPreferences.sharedInstance.isAnyPoiUnlimited {
+            activityItems.append(GPXActivityItemSource(pois: getPois(withFilter:true)))
+        }
         
         if let snapshot = snapshotter, !snapshot.isLoading {
             let imageActivity = ImageAcvitityItemSource(image: snapshotImage!)

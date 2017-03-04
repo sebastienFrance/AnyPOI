@@ -7,9 +7,16 @@
 
 /* Class = "UIButton"; normalTitle = "Synchronize contacts"; ObjectID = "2iZ-K2-671"; */
 "2iZ-K2-671.normalTitle" = "Synchroniser les contacts";
+"wCw-kb-LrG.text"="Importer vos contacts depuis l'App Contacts d'Apple";
+"OM8-IP-CBB.text"="Nécessite un achat intégré";
 
 /* Class = "UILabel"; text = "Standard"; ObjectID = "3I3-Qg-6R4"; */
 "3I3-Qg-6R4.text" = "Carte";
+
+/* Export all */
+"eRn-me-nV9.normalTitle" = "Tout exporter";
+"DOp-bc-coI.text" = "Exporter tous vos points d'interêts ainsi que vos voyages";
+"Ptv-Pz-rXb.text" = "Nécessite un achat intégré";
 
 /* Class = "UITableViewSection"; headerTitle = "Authentication"; ObjectID = "77O-X0-Rhj"; */
 "77O-X0-Rhj.headerTitle" = "Authentification";

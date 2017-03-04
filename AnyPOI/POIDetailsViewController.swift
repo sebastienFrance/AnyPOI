@@ -268,8 +268,9 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
             activityItems.append(imageActivity)
         }
         
-        let gpxActivity = GPXActivityItemSource(pois: [poi])
-        activityItems.append(gpxActivity)
+        if UserPreferences.sharedInstance.isAnyPoiUnlimited {
+            activityItems.append(GPXActivityItemSource(pois: [poi]))
+        }
         
         
         let activityController = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
@@ -280,6 +281,8 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
         
         present(activityController, animated: true, completion: nil)
     }
+    
+    
     @IBAction func startMail(_ sender: UIButton) {
         if poi.poiIsContact, let contactId = poi.poiContactIdentifier, let contact = ContactsUtilities.getContactForDetailedDescription(contactId) {
             if contact.emailAddresses.count > 1 {
@@ -515,19 +518,23 @@ extension POIDetailsViewController : UITableViewDataSource, UITableViewDelegate 
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == Sections.wikipedia {
-            
-            let wikipedia = poi.wikipedias[indexPath.row]
-            
-            
-            let poiOfWiki = POIDataManager.sharedInstance.findPOIWith(wikipedia)
-            if poiOfWiki == nil {
-                _ = POIDataManager.sharedInstance.addPOI(wikipedia, group:poi.parentGroup!)
+            if MapViewController.isAddPoiAuthorized() {
+                let wikipedia = poi.wikipedias[indexPath.row]
+                
+                
+                let poiOfWiki = POIDataManager.sharedInstance.findPOIWith(wikipedia)
+                if poiOfWiki == nil {
+                    _ = POIDataManager.sharedInstance.addPOI(wikipedia, group:poi.parentGroup!)
+                }
+                
+                NotificationCenter.default.post(name: Notification.Name(rawValue: MapViewController.MapNotifications.showWikipedia),
+                                                object: wikipedia,
+                                                userInfo: [MapViewController.MapNotifications.showPOI_Parameter_Wikipedia: wikipedia])
+                ContainerViewController.sharedInstance.goToMap()
+            } else {
+                Utilities.showAlertMaxPOI(viewController: self)
             }
-            
-            NotificationCenter.default.post(name: Notification.Name(rawValue: MapViewController.MapNotifications.showWikipedia),
-                                                                      object: wikipedia,
-                                                                      userInfo: [MapViewController.MapNotifications.showPOI_Parameter_Wikipedia: wikipedia])
-            ContainerViewController.sharedInstance.goToMap()
+
         } else if indexPath.section == Sections.mapViewAndPhotos && indexPath.row == 0 {
             NotificationCenter.default.post(name: Notification.Name(rawValue: MapViewController.MapNotifications.showPOI),
                                                                       object: nil,

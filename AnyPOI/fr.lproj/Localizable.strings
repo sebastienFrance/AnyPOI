@@ -12,6 +12,10 @@
 "PointOfInterestMenuTitle"="Points d'intérêts";
 "TravelsMenuTitle"="Voyages";
 "OptionsMenuTitle"="Options";
+"PurchaseMenuTitle"="Achats intégrés";
+"LoadingProducts"="Chargement des achats intégrés...";
+"ProductPurchased"="Acheté";
+"PurchaseRestored"="Vos achats intégrés ont été restaurés";
 "NearBy"="Distance de";
 "MaxResults"="Résultats max";
 "Geocoding"="Géocodage";
@@ -60,7 +64,7 @@
 "RouteNoDestination"="Pas de destination configurée";
 "Route Distance %@ in %@"="%@ en %@";
 "Route Distance %@ in %@ with %d steps"="%@ en %@ (%d étapes)";
-"RouteDisplayInfosRouteIsEmpty"="Ajoutez un point d'interêt pour démarrer votre itinéraire";
+"RouteDisplayInfosRouteIsEmpty"="Ajoutez un point d'intérêt pour démarrer votre itinéraire";
 "SpotlightKeywordTravel"="voyage";
 "SpotlightKeywordRoute"="itineraire";
 "SpotlightKeywordHolidays"="vacances";
@@ -88,7 +92,7 @@
 "RouteDatasource %@ in %@"="%@ en %@";
 "RouteDisplayInfos %@ in %@"="%@ en %@";
 "RouteDataSourceNoInfos"="Aucune information sur le voyage";
-"RouteSummaryTableRouteIsEmpty"="Le voyage est vide, ajoutez des points d'interêts";
+"RouteSummaryTableRouteIsEmpty"="Le voyage est vide, ajoutez des points d'intérêts";
 "WayPointNoInfos"="Pas d'information sur cet itinéraire";
 "NoRouteInfoRouteDatasource"="Pas d'infos sur l'itinéraire";
 "UpdateRouteRouteEditorController"="Modification du voyage";
@@ -107,7 +111,7 @@
 "NoDescriptionWikipedia"="Pas de description";
 "LocationServicesOffLocationManager"="Les services de localisation sont désactivées";
 "BackgroundLocationDisabledLocationManager"="La localisation en arrière plan est désactivée";
-"BackgroundMessageLocationManager"="Activez 'Toujours' dans Service de localisation dans Réglages. Cette option est necessaire pour determiner si vous êtes à proximité d'un point d'interêt";
+"BackgroundMessageLocationManager"="Activez 'Toujours' dans Service de localisation dans Réglages. Cette option est necessaire pour determiner si vous êtes à proximité d'un point d'intérêt";
 "SettingsLocationManager"="Règlages";
 "EnteringRegionLocationManager"="Entrée";
 "ExitingRegionLocationManager"="Sortie";
@@ -162,17 +166,17 @@
 "MapFilterIsOn"="Filtré";
 "MapFilterIsOff"="Aucun filtre";
 "ShowPOIsNotUsedMapFilterVC"="Afficher les POIs non utilisés par l'itinéraire";
-"MapFilterShowAllPoisTitle"="Affichez tous les points d'interêts";
+"MapFilterShowAllPoisTitle"="Affichez tous les points d'intérêts";
 "MapFilterShowAllPoisDescription"="Si cette option n'est pas cochée, seuls les points d'intérêt utilisés dans l'itinéraire sont affichés";
 "RouteSectionMapFilterVC"="POIs sur l'itinéraire";
 "GroupsSectionMapFilterVC"="Groupes";
 "ImportLoadingGPXFile"="Chargement du fichier GPX";
-"ImportMsgAllPOIsAsNew"="Tous les points d'interêts seront importés comme nouveau";
-"ImportMsgMergeAndCreate" = "Les points d'interêts existant seront fusionnés et les nouveaux seront créés";
+"ImportMsgAllPOIsAsNew"="Tous les points d'intérêts seront importés comme nouveau";
+"ImportMsgMergeAndCreate" = "Les points d'intérêts existant seront fusionnés et les nouveaux seront créés";
 "ImportMsgOnlyNewPOIs" = "Seul les nouveaux points d'interets seront importés";
-"ImportMsgOnlyUpdate"="Seul les points d'interêts existant seront importés et fusionnés";
-"ImportMsgNoImport"="Attention, aucun point d'interêt ne sera importés";
-"ImportMsgFilter"="\nUniquement les points d'interêts contenant";
+"ImportMsgOnlyUpdate"="Seul les points d'intérêts existant seront importés et fusionnés";
+"ImportMsgNoImport"="Attention, aucun point d'intérêt ne sera importés";
+"ImportMsgFilter"="\nUniquement les points d'intérêts contenant";
 "ImportMsgRoutesAllAsNew"="Toutes les voyages seront importés comme nouveau";
 "ImportMsgRoutesMergeAndCreate"="Les voyages existants seront fusionnés et les nouveaux seront créés";
 "ImportMsgRoutesOnlyNew"="Seul les nouveaux voyages seront importées";
@@ -181,13 +185,17 @@
 "ImportAction"="Importer";
 "GPXImportUpdateItem"=" (mise à jour)";
 "GPXImportNewItem"=" (nouveau)";
-"GPXImport %d POIs and %d route"="Voulez vous importer les %d points d'interêts et les %d voyages ?";
+"GPXImport %d POIs and %d route"="Voulez vous importer les %d points d'intérêts et les %d voyages ?";
 "GPXImport %d route"="Voulez vous importer les %d voyages ?";
-"GPXImport %d POIs"="Voulez vous importer les %d points d'interêts ?";
+"GPXImport %d POIs"="Voulez vous importer les %d points d'intérêts ?";
 "GPXRouteUnknownFromTo"="Départ et destination inconnues";
 "GPXRouteNoInfos"="Pas de données";
-"ExportAllMsgDescription"="Le fichier .gpx joint contient tous vos points d'interêts et voyages. Vous pouvez l'importer plus tard avec AnyPOI.";
+"ExportAllMsgDescription"="Le fichier .gpx joint contient tous vos points d'intérêts et voyages. Vous pouvez l'importer plus tard avec AnyPOI.";
 "MailGeneratedBy"="Créé par";
+"GPXImport"="Import";
+"NeedInAppPurchaseToUseFeature"="Vous devez faire un achat intégré pour utiliser cette fonction";
+"To create more than %d Point of Interest you need to purchase an In-App"="Vous devez faire un achat intégré pour créér plus de %d point d'intérêts";
+
 // Mail Route
 "RouteTableHeaderFrom"="Départ";
 "RouteTableHeaderTo"="Destination";

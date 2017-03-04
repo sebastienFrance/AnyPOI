@@ -11,7 +11,11 @@ import SafariServices
 
 class LeftMenuViewController: UIViewController {
     
-    let menuTitles = [NSLocalizedString("MapMenuTitle",comment:""), NSLocalizedString("PointOfInterestMenuTitle",comment:""), NSLocalizedString("TravelsMenuTitle",comment:""), NSLocalizedString("OptionsMenuTitle",comment:"")]
+    let menuTitles = [NSLocalizedString("MapMenuTitle",comment:""),
+                      NSLocalizedString("PointOfInterestMenuTitle",comment:""),
+                      NSLocalizedString("TravelsMenuTitle",comment:""),
+                      NSLocalizedString("OptionsMenuTitle",comment:""),
+                      NSLocalizedString("PurchaseMenuTitle", comment:"")]
 
     @IBOutlet weak var theTableView: UITableView! {
         didSet {
@@ -53,6 +57,7 @@ extension LeftMenuViewController : UITableViewDataSource, UITableViewDelegate {
         static let POIs = 1
         static let Route = 2
         static let Options = 3
+        static let Purchase = 4
     }
     
     
@@ -64,6 +69,7 @@ extension LeftMenuViewController : UITableViewDataSource, UITableViewDelegate {
         static let LeftMenuPOIsTableViewCellId = "LeftMenuPOIsTableViewCellId"
         static let LeftMenuCellId = "LeftMenuCellId"
         static let MenuAboutCellId = "MenuAboutCellId"
+        static let LeftMenuPurchaseTableViewCellId = "LeftMenuPurchaseTableViewCellId"
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -83,11 +89,13 @@ extension LeftMenuViewController : UITableViewDataSource, UITableViewDelegate {
                 
                 switch indexPath.row {
                 case Row.Map:
-                    theCell.imageMenu.image = UIImage(named: "Geography-30")
+                    theCell.imageMenu.image = #imageLiteral(resourceName: "Geography-30")
                 case Row.Route:
-                    theCell.imageMenu.image = UIImage(named: "Waypoint Map-30")
+                    theCell.imageMenu.image = #imageLiteral(resourceName: "Waypoint Map-30")
                 case Row.Options:
-                    theCell.imageMenu.image = UIImage(named: "Settings-30")
+                    theCell.imageMenu.image = #imageLiteral(resourceName: "Settings-30")
+                case Row.Purchase:
+                    theCell.imageMenu.image = #imageLiteral(resourceName: "Apple App Store-30")
                 default:
                     break
                 }
@@ -114,6 +122,8 @@ extension LeftMenuViewController : UITableViewDataSource, UITableViewDelegate {
             container.showCenterView(.travels)
         } else if indexPath.row == 3 {
             container.showCenterView(.options)
+        } else if indexPath.row == 4 {
+            container.showCenterView(.purchase)
         }
     }
     

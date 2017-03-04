@@ -46,9 +46,13 @@ class OptionsViewController: UITableViewController, PasswordConfigurationDelegat
     @IBOutlet weak var switchEnableTouchId: UISwitch!
     @IBOutlet weak var changePasswordButton: UIButton!
     
+  
+    @IBOutlet weak var synchronizeContactsPurchaseLabel: UILabel!
     @IBOutlet weak var synchronizeContactsButton: UIButton!
     @IBOutlet weak var synchronizationContactsProgressLabel: UILabel!
     @IBOutlet weak var synchronizationContactsActivity: UIActivityIndicatorView!
+    @IBOutlet weak var exportAllData: UIButton!
+    @IBOutlet weak var exportAllDataPurchaseLabel: UILabel!
     var userAuthentication:UserAuthentication!
     
     var isStartedByLeftMenu = false
@@ -64,8 +68,15 @@ class OptionsViewController: UITableViewController, PasswordConfigurationDelegat
         }
     }
     
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 96
         
         if isStartedByLeftMenu {
             let menuButton =  UIBarButtonItem(image: UIImage(named: "Menu-30"), style: .plain, target: self, action: #selector(OptionsViewController.menuButtonPushed(_:)))
@@ -86,13 +97,30 @@ class OptionsViewController: UITableViewController, PasswordConfigurationDelegat
         
         NotificationCenter.default.addObserver(self, selector: #selector(OptionsViewController.contactsSynchronizationDone(_:)), name:  Notification.Name(rawValue: ContactsSynchronization.Notifications.synchronizationDone), object: ContactsSynchronization.sharedInstance)
         NotificationCenter.default.addObserver(self, selector: #selector(OptionsViewController.contactsSynchronizationUpdate(_:)), name:  Notification.Name(rawValue: ContactsSynchronization.Notifications.sycnhronizationUpdate), object: ContactsSynchronization.sharedInstance)
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(OptionsViewController.productPurchased(_:)), name:  Notification.Name(rawValue: AppDelegate.Notifications.purchasedProduct), object: UIApplication.shared.delegate)
+
         synchronizationContactsProgressLabel.text = ""
-        if ContactsSynchronization.sharedInstance.isSynchronizing {
+        
+        if UserPreferences.sharedInstance.isAnyPoiUnlimited {
+            synchronizeContactsPurchaseLabel.isHidden = true
+            exportAllDataPurchaseLabel.isHidden = true
+            if ContactsSynchronization.sharedInstance.isSynchronizing {
+                synchronizeContactsButton.isEnabled = false
+                synchronizationContactsActivity.startAnimating()
+            }
+        } else {
             synchronizeContactsButton.isEnabled = false
-            synchronizationContactsActivity.startAnimating()
+            exportAllData.isEnabled = false
         }
     }
+    
+    func productPurchased(_ notification:Notification) {
+        synchronizeContactsButton.isEnabled = true
+        synchronizeContactsPurchaseLabel.isHidden = true
+        exportAllData.isEnabled = true
+        exportAllDataPurchaseLabel.isHidden = true
+    }
+
     
     func contactsSynchronizationDone(_ notification:Notification) {
         synchronizeContactsButton.isEnabled = true

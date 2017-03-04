@@ -12,6 +12,10 @@
 "PointOfInterestMenuTitle"="Point of Interests";
 "TravelsMenuTitle"="Travels";
 "OptionsMenuTitle"="Options";
+"PurchaseMenuTitle"="In-App purchase";
+"LoadingProducts"="Loading In-App...";
+"ProductPurchased"="Bought";
+"PurchaseRestored"="Your In-App have been restored";
 "NearBy"="Near by";
 "MaxResults"="Max results";
 "Geocoding"="Geocoding";
@@ -188,6 +192,10 @@
 "ExportAllMsgDescription"="The attached .gpx file contains all your points of interests and routes. It can be imported later with AnyPOI.";
 "ExportAllTitle"="AnyPOI export";
 "MailGeneratedBy"="Created by";
+"GPXImport"="Import";
+"NeedInAppPurchaseToUseFeature"="You need to purchase an In-App to enable this feature";
+"To create more than %d Point of Interest you need to purchase an In-App"="To create more than %d Point of Interest you need to purchase an In-App";
+
 // Mail Route
 "RouteTableHeaderFrom"="From";
 "RouteTableHeaderTo"="To";

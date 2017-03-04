@@ -173,6 +173,9 @@
 		BEE8707F1E0D7A6400196000 /* GPXImportOptionsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE8707E1E0D7A6400196000 /* GPXImportOptionsTableViewController.swift */; };
 		BEEACE0C1E09CD9900E7D202 /* GPXImportRouteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEEACE0B1E09CD9900E7D202 /* GPXImportRouteTableViewCell.swift */; };
 		BEF580AB1DD8777D00306597 /* MapCategoryFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF580AA1DD8777D00306597 /* MapCategoryFilter.swift */; };
+		BEF5D3581E6473C600941BAF /* ProductIds.plist in Resources */ = {isa = PBXBuildFile; fileRef = BEF5D3571E6473C600941BAF /* ProductIds.plist */; };
+		BEF5D35D1E64908F00941BAF /* PurchaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF5D35C1E64908F00941BAF /* PurchaseViewController.swift */; };
+		BEF5D35F1E6493F600941BAF /* PurchaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF5D35E1E6493F600941BAF /* PurchaseTableViewCell.swift */; };
 		BEFDA7DB1DE9C9A200D3104D /* GPXParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEFDA7DA1DE9C9A200D3104D /* GPXParser.swift */; };
 		BEFE00AC1DDE4E7B009AA1BF /* SearchLoadingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEFE00AB1DDE4E7B009AA1BF /* SearchLoadingTableViewCell.swift */; };
 /* End PBXBuildFile section */
@@ -392,6 +395,9 @@
 		BEE8707E1E0D7A6400196000 /* GPXImportOptionsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPXImportOptionsTableViewController.swift; sourceTree = "<group>"; };
 		BEEACE0B1E09CD9900E7D202 /* GPXImportRouteTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPXImportRouteTableViewCell.swift; sourceTree = "<group>"; };
 		BEF580AA1DD8777D00306597 /* MapCategoryFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapCategoryFilter.swift; sourceTree = "<group>"; };
+		BEF5D3571E6473C600941BAF /* ProductIds.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = ProductIds.plist; sourceTree = "<group>"; };
+		BEF5D35C1E64908F00941BAF /* PurchaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PurchaseViewController.swift; sourceTree = "<group>"; };
+		BEF5D35E1E6493F600941BAF /* PurchaseTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PurchaseTableViewCell.swift; sourceTree = "<group>"; };
 		BEFDA7DA1DE9C9A200D3104D /* GPXParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPXParser.swift; sourceTree = "<group>"; };
 		BEFE00AB1DDE4E7B009AA1BF /* SearchLoadingTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchLoadingTableViewCell.swift; sourceTree = "<group>"; };
 		C69B0EFCEBF29F5E7437465D /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
@@ -713,6 +719,7 @@
 				BE2FF2D61D8B2CCF00C0395A /* GroupListVC */,
 				BE2FF2D71D8B2D0C00C0395A /* RoutesVC */,
 				BE2FF2DE1D8B2F8600C0395A /* OptionsVC */,
+				BEF5D35B1E64905600941BAF /* PurchaseVC */,
 				BE0CF29F1D8B209A00344F8A /* ContainerViewController.swift */,
 			);
 			name = ContainerVC;
@@ -726,6 +733,7 @@
 				BEA7BAAD1D8B01E5005D2D21 /* Info.plist */,
 				BEDC10561D97D4D1000C6A0D /* InfoPlist.strings */,
 				BE4A880E1D93137900A0DE2F /* Localizable.strings */,
+				BEF5D3571E6473C600941BAF /* ProductIds.plist */,
 			);
 			name = Rsc;
 			sourceTree = "<group>";
@@ -953,6 +961,15 @@
 			path = AnyPOIUITests;
 			sourceTree = "<group>";
 		};
+		BEF5D35B1E64905600941BAF /* PurchaseVC */ = {
+			isa = PBXGroup;
+			children = (
+				BEF5D35C1E64908F00941BAF /* PurchaseViewController.swift */,
+				BEF5D35E1E6493F600941BAF /* PurchaseTableViewCell.swift */,
+			);
+			name = PurchaseVC;
+			sourceTree = "<group>";
+		};
 		BEFDA7D91DE9C98D00D3104D /* GPX */ = {
 			isa = PBXGroup;
 			children = (
@@ -1123,6 +1140,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BEF5D3581E6473C600941BAF /* ProductIds.plist in Resources */,
 				BE957E5C1DA8FBBA006CF455 /* Options.storyboard in Resources */,
 				BE2FF2CD1D8B280B00C0395A /* PickerGroupView.xib in Resources */,
 				BE2FF2CC1D8B280B00C0395A /* PickerCategoryView.xib in Resources */,
@@ -1248,6 +1266,7 @@
 				BE0CF33A1D8B209A00344F8A /* PoiDetailsImagesTableViewCell.swift in Sources */,
 				BE0CF3151D8B209A00344F8A /* MonitoredPoisGroupCell.swift in Sources */,
 				BE90C7B61DA166A800033DC9 /* RouteProviderWithTransportTypeTableViewCell.swift in Sources */,
+				BEF5D35D1E64908F00941BAF /* PurchaseViewController.swift in Sources */,
 				BE2A80281E13C48A003B1BE5 /* GPXRouteWayPointAttributes.swift in Sources */,
 				BE0CF2FF1D8B209A00344F8A /* ContactTableViewCell.swift in Sources */,
 				BE0CF33E1D8B209A00344F8A /* Utilities.swift in Sources */,
@@ -1283,6 +1302,7 @@
 				BE0CF3031D8B209A00344F8A /* LeftMenuViewController.swift in Sources */,
 				BE0CF3501D8B209A00344F8A /* CategoryCollectionViewCell.swift in Sources */,
 				BE0CF32A1D8B209A00344F8A /* WikipediaRequest.swift in Sources */,
+				BEF5D35F1E6493F600941BAF /* PurchaseTableViewCell.swift in Sources */,
 				BE0CF3131D8B209A00344F8A /* LocalSearchTableViewCell.swift in Sources */,
 				BE0CF3041D8B209A00344F8A /* MapUtils.swift in Sources */,
 				BE957E611DA90147006CF455 /* WikipediaSliderTableViewCell.swift in Sources */,
