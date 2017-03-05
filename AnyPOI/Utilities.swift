@@ -12,6 +12,7 @@ import MapKit
 import AddressBookUI
 import SafariServices
 import PKHUD
+import Contacts
 
 class Utilities {
 
@@ -106,10 +107,22 @@ class Utilities {
     
     static func getAddressFrom(_ placemark:CLPlacemark) -> String {
         if let addressDictionary = placemark.addressDictionary {
-            return ABCreateStringWithAddressDictionary(addressDictionary, false)
+            let postalAddress = Utilities.postalAddressFromDictionary(dict:addressDictionary)
+            return CNPostalAddressFormatter.string(from: postalAddress, style:.mailingAddress)
         } else {
             return NSLocalizedString("NoAddressUtilities", comment: "")
         }
+    }
+    
+    static func postalAddressFromDictionary(dict:Dictionary<AnyHashable,Any>) -> CNPostalAddress {
+        let address = CNMutablePostalAddress()
+        address.street = dict["Street"] as? String ?? ""
+        address.state = dict["State"] as? String ?? ""
+        address.city = dict["City"] as? String ?? ""
+        address.country = dict["Country"] as? String ?? ""
+        address.postalCode = dict["ZIP"] as? String ?? ""
+        
+        return address
     }
     
     static func startPhoneCall(_ phoneNumber:String?) {
