@@ -86,7 +86,6 @@ class RouteManager: NSObject {
 
     deinit {
         NotificationCenter.default.removeObserver(self)
-        print("Deinit for RouteManager")
     }
     
     //MARK: Route notifications

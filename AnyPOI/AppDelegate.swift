@@ -53,7 +53,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // 1- Initialize the User Authentication
     // 2- Start user location
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        print("\(#function)")
        
         if userAuthentication == nil {
             userAuthentication = UserAuthentication(delegate: self)
@@ -66,12 +65,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UNUserNotificationCenter.current().delegate = self
             UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound], completionHandler: { (granted, error) in
                 if let theError = error {
-                    print("\(#function) error when request localNotification \(theError.localizedDescription)")
+                    NSLog("\(#function) error when request localNotification \(theError.localizedDescription)")
                 } else {
                     if !granted {
-                        print("\(#function) Warning local notification not granted")
-                    } else {
-                        print ("\(#function) local notification granted")
+                        NSLog("\(#function) Warning local notification not granted")
                     }
                 }
                 DispatchQueue.main.async {
@@ -142,8 +139,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     //
     // When TouchId is enabled, we have one more applicationWillResignActive() + applicationDidBecomeActive() due to request authentication
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any]) -> Bool {
-        print("\(#function) URL:\(url.absoluteString)")
-       
+        
         if let poiId = NavigationURL(openURL: url).getPoi(), let poi = POIDataManager.sharedInstance.getPOIWithURI(URL(string: poiId)!) {
             poiToShowOnMap = poi
             return true
@@ -175,7 +171,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     //
     // When TouchId is enabled, we have one more applicationWillResignActive() + applicationDidBecomeActive() due to request authentication
     func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
-        print("\(#function)")
         poiToShowOnMap = nil
         routeToShowOnMap = nil
 
@@ -225,7 +220,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
     func applicationWillEnterForeground(_ application: UIApplication) {
-        print("\(#function)")
     }
 
     // When the App becomes active and if we need authentication then we request it
@@ -247,7 +241,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ application: UIApplication, didRegister notificationSettings: UIUserNotificationSettings) {
-        print("\(#function) called with \(notificationSettings.types)")
         LocationManager.sharedInstance.startLocationManager()
     }
     
@@ -303,13 +296,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 navigateToMapViewControllerFromAnywhere(UIApplication.shared)
                 mapController.showSearchController()
             } else if let importGPXFile = importURL {
-                print("\(#function) import \(importGPXFile.absoluteString)")
                 navigateToMapViewControllerFromAnywhere(UIApplication.shared)
                 importURL = nil
                 mapController.disableRouteMode()
                 mapController.importFile(gpx:importGPXFile)
             } else {
-                print("\(#function) unknown action")
+                NSLog("\(#function) unknown action")
             }
         }
     }
@@ -338,7 +330,7 @@ extension AppDelegate : UserAuthenticationDelegate {
     }
     
     func authenticationFailure() {
-        print("\(#function) Warning, we should never enter in this code")
+        NSLog("\(#function) Warning, we should never enter in this code")
     }
     
     func performActionOnStartup() {
@@ -376,7 +368,7 @@ extension AppDelegate {
             let request = UNNotificationRequest(identifier: AppDelegate.LocalNotificationId.monitoringRegionId, content:content, trigger: nil)
             UNUserNotificationCenter.current().add(request, withCompletionHandler: { error in
                 if let theError = error {
-                    print("Error with notification add \(theError.localizedDescription)")
+                    NSLog("\(#function) Error with notification add \(theError.localizedDescription)")
                 }
             })
         } else {

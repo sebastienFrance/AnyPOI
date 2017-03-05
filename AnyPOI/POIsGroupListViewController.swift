@@ -215,7 +215,7 @@ class POIsGroupListViewController: UIViewController, DismissModalViewController,
             let viewController = segue.destination as! GroupConfiguratorViewController
             viewController.delegate = self
         default:
-            print("\(#function) Error, unknown identifier")
+            NSLog("\(#function) Error, unknown identifier")
         }
     }
     
@@ -227,7 +227,7 @@ class POIsGroupListViewController: UIViewController, DismissModalViewController,
                 viewController.showCityPoi(getCityNameFrom(country: country, row: indexPath.row))
             }
         } else {
-            print("\(#function) Warning, invalid index to look for a Country \(indexPath.row)")
+            NSLog("\(#function) Warning, invalid index to look for a Country \(indexPath.row)")
         }
     }
     
@@ -305,7 +305,7 @@ extension POIsGroupListViewController : UITableViewDataSource, UITableViewDelega
                 let citiesForSection = countries[sectionIndex].getAllCities(filter: searchFilter)
                 return searchFilter.isEmpty ? citiesForSection.count + 1  : citiesForSection.count
             } else {
-                print("\(#function) Warning, cannot find cities for index \(section)")
+                NSLog("\(#function) Warning, cannot find cities for index \(section)")
                 return 0
             }
         }
@@ -517,12 +517,12 @@ extension POIsGroupListViewController : UITableViewDataSource, UITableViewDelega
                             deletedRows.append(index)
                         }
                     } else {
-                        print("\(#function) Warning, invalid index to look for a City : \(index.row - 1)")
+                        NSLog("\(#function) Warning, invalid index to look for a City : \(index.row - 1)")
                         return
                     }
                 }
             } else {
-                print("\(#function) Warning, invalid index to look for a Country \(index.section)")
+                NSLog("\(#function) Warning, invalid index to look for a Country \(index.section)")
                 return
             }
         }

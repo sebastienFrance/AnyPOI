@@ -254,7 +254,6 @@ class Route: NSManagedObject {
         for currentString in subStringFromDisplayName {
             if currentString.count > 1 {
                 keywords.append(String(currentString))
-                print("\(#function) keyword added: \(String(currentString))")
             }
         }
 
@@ -282,7 +281,7 @@ class Route: NSManagedObject {
         // Add the item to the on-device index.
         CSSearchableIndex.default().indexSearchableItems([item]) { error in
             if let theError = error {
-                print("\(#function) error with \(theError.localizedDescription)")
+                NSLog("\(#function) error with \(theError.localizedDescription)")
             }
         }
     }
@@ -291,7 +290,7 @@ class Route: NSManagedObject {
         let URI = objectID.uriRepresentation().absoluteString
         CSSearchableIndex.default().deleteSearchableItems(withIdentifiers: [URI]) { error in
             if let theError = error {
-                print("\(#function) Error Route \(self.routeName!) cannot be removed from Spotlightn, error: \(theError.localizedDescription)")
+                NSLog("\(#function) Error Route \(self.routeName!) cannot be removed from Spotlightn, error: \(theError.localizedDescription)")
             }
         }
     }
@@ -345,7 +344,6 @@ class Route: NSManagedObject {
     func reloadDirections() {
         
         if isDirectionLoading {
-            print("route \(routeName) is already loading direction, we don't resquest it twice")
             return
         }
         
@@ -368,7 +366,6 @@ class Route: NSManagedObject {
         
         
         if foundWayPoint {
-            print("\(#function) Request direction from index: \(startIndex)")
             NotificationCenter.default.post(name: Notification.Name(rawValue: Notifications.directionStarting),
                                                                       object: self,
                                                                       userInfo:[DirectionStartingParameters.startingWayPoint : wayPoints[startIndex]])
@@ -394,23 +391,21 @@ class Route: NSManagedObject {
         }
         
         if currentIndex >= (wayPoints.count - 1) {
-            print("\(#function) Error, cannot request a route starting with the latest wayPoint")
+            NSLog("\(#function) Error, cannot request a route starting with the latest wayPoint")
             isDirectionLoading = false
             return
         }
         if wayPoints[currentIndex].routeInfos == nil || (wayPoints[currentIndex].routeInfos != nil && forceToReload) {
             if let directions = RouteUtilities.getDirectionRequestFor(wayPoints[currentIndex], destination: wayPoints[currentIndex + 1]) {
-                print("\(#function) requestRouteDirectionFrom to Server with currentIndex : \(currentIndex)")
                 isDirectionLoading = true
                 directions.calculate { routeResponse, routeError in
-                    print("\(#function) calculateDirectionsWithCompletionHandler with currentIndex : \(currentIndex)")
                     
                     self.routeToReloadCounter -= 1
                     
                     let theWayPoint = self.wayPoints[currentIndex]
                     if let error = routeError {
                         //theWayPoint.routeInfos = nil
-                        print("Error calculating direction \(error.localizedDescription)")
+                        NSLog("\(#function) Error calculating direction \(error.localizedDescription)")
                     } else {
                         // Get the first route direction from the response
                         if let routeDirection = routeResponse,
@@ -444,7 +439,7 @@ class Route: NSManagedObject {
                     }
                 }
             } else {
-                print("\(#function) Direction cannot be allocated from \(wayPoints[currentIndex].wayPointPoi?.poiDisplayName) to \(wayPoints[currentIndex + 1].wayPointPoi?.poiDisplayName)")
+                NSLog("\(#function) Direction cannot be allocated from \(wayPoints[currentIndex].wayPointPoi?.poiDisplayName) to \(wayPoints[currentIndex + 1].wayPointPoi?.poiDisplayName)")
                 isDirectionLoading = false
             }
         } else {
@@ -480,17 +475,17 @@ class Route: NSManagedObject {
     func moveWayPoint(fromIndex: Int, toIndex:Int) {
         // Make sure indexes are valids
         if fromIndex == toIndex {
-            print("Invalid indexes from \(fromIndex) is less than to \(toIndex)")
+            NSLog("\(#function) indexes from \(fromIndex) is less than to \(toIndex)")
             return
         }
         
         if fromIndex >= routeWayPoints!.count || fromIndex < 0 {
-            print("swapRoute invalid value for fromIndex: \(fromIndex)")
+            NSLog("\(#function) invalid value for fromIndex: \(fromIndex)")
             return
         }
         
         if toIndex >= routeWayPoints!.count || toIndex < 0 {
-            print("swapRoute invalid value for toIndex: \(toIndex)")
+            NSLog("\(#function) invalid value for toIndex: \(toIndex)")
             return
         }
         

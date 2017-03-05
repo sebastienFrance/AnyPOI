@@ -104,7 +104,7 @@ class GPXRoute {
 
     func importIt(options:GPXImportOptions, importedPOIs:[PointOfInterest]) {
         guard let _ = routeAttributes else {
-            print("\(#function) \(routeName) has no attribute, it cannot be imported...")
+            NSLog("\(#function) \(routeName) has no attribute, it cannot be imported...")
             return
         }
 
@@ -148,7 +148,7 @@ class GPXRoute {
             POIDataManager.sharedInstance.commitDatabase()
             return theRoute
         } else {
-            print("\(#function) WARNING: route is nil, it should never appear!")
+            NSLog("\(#function) WARNING: route is nil, it should never appear!")
             return nil
         }
     }

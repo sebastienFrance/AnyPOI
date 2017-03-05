@@ -96,42 +96,40 @@ class WikipediaUtils {
             ])
     }
 
-    static func getGeoSearchPageSummary(_ coordinate:CLLocationCoordinate2D, radius:Int, maxResults:Int) {
-        getGeoSearchPageSummary(coordinate, radius: radius, maxResults: maxResults, continueValue: "")
-    }
-    
-    
-    static func getGeoSearchPageSummary(_ coordinate:CLLocationCoordinate2D, radius:Int, maxResults:Int, continueValue: String) {
-        let mainRequest = getGeoSearchPageSummaryRequest(coordinate, radius: radius, maxResults: maxResults, continueValue:  continueValue)
-        mainRequest.responseJSON { response in
-      //      debugPrint(response)
-            if let JSON = response.result.value {
-                let response = JSON as! NSDictionary
-                let query = response["query"] as! NSDictionary
-                let pages = query["pages"] as! NSDictionary
-                for currentPage in pages.allValues {
-                    if let currentBlock = currentPage as? NSDictionary {
-                        //print("currentBlock : \(currentBlock)")
-                        if let extractValue = currentBlock["extract"] {
-                            print("Found block with Extract with \(extractValue)")
-                        }
-                    }
-                }
-                let continueBlock = response["continue"] as? NSDictionary
-                if let foundContinueBlock = continueBlock {
-                    let continueValueNumber = foundContinueBlock["excontinue"] as! NSNumber
-                    print("Continue value is: \(continueValueNumber)")
-                    getGeoSearchPageSummary(coordinate, radius: radius, maxResults: maxResults, continueValue: "\(continueValueNumber)")
-                } else {
-                    return
-                }
-                //let values = pages.allValues[0] as! NSDictionary
-                
-            } else {
-                return
-            }
-        }
-    }
+//    static func getGeoSearchPageSummary(_ coordinate:CLLocationCoordinate2D, radius:Int, maxResults:Int) {
+//        getGeoSearchPageSummary(coordinate, radius: radius, maxResults: maxResults, continueValue: "")
+//    }
+//    
+//    // SEB TBC
+//    static func getGeoSearchPageSummary(_ coordinate:CLLocationCoordinate2D, radius:Int, maxResults:Int, continueValue: String) {
+//        let mainRequest = getGeoSearchPageSummaryRequest(coordinate, radius: radius, maxResults: maxResults, continueValue:  continueValue)
+//        mainRequest.responseJSON { response in
+//            if let JSON = response.result.value {
+//                let response = JSON as! NSDictionary
+//                let query = response["query"] as! NSDictionary
+//                let pages = query["pages"] as! NSDictionary
+//                for currentPage in pages.allValues {
+//                    if let currentBlock = currentPage as? NSDictionary {
+//                        if let extractValue = currentBlock["extract"] {
+//                            print("Found block with Extract with \(extractValue)")
+//                        }
+//                    }
+//                }
+//                let continueBlock = response["continue"] as? NSDictionary
+//                if let foundContinueBlock = continueBlock {
+//                    let continueValueNumber = foundContinueBlock["excontinue"] as! NSNumber
+//                    print("Continue value is: \(continueValueNumber)")
+//                    getGeoSearchPageSummary(coordinate, radius: radius, maxResults: maxResults, continueValue: "\(continueValueNumber)")
+//                } else {
+//                    return
+//                }
+//                //let values = pages.allValues[0] as! NSDictionary
+//                
+//            } else {
+//                return
+//            }
+//        }
+//    }
     
     
 }

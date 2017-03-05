@@ -130,7 +130,7 @@ class GPXParser: NSObject, XMLParserDelegate {
                 case XSD.GPX.Elements.RTE.Elements.rtept.Elements.WPT.Elements.customExtension.Elements.wayPoint.name:
                     isParsing = .RTE_WPT_WAYPOINT
                     guard (currentRouteWayPointAttribute != nil) else {
-                        print("Warning, found WayPoint element without WPT!")
+                        NSLog("\(#function) Warning, found WayPoint element without WPT!")
                         return
                     }
                     currentRouteWayPointAttribute!.wayPointAttributes = attributeDict
@@ -194,7 +194,7 @@ class GPXParser: NSObject, XMLParserDelegate {
                         currentRouteWayPointAttribute?.poiName = wayPointName.trimmingCharacters(in: CharacterSet(charactersIn: "\n "))
                         wayPointName = ""
                     } else {
-                        print("\(#function) cannot find wayPoint to initialize its name!")
+                        NSLog("\(#function) cannot find wayPoint to initialize its name!")
                     }
                 }
             } else if elementName == XSD.GPX.Elements.RTE.name {

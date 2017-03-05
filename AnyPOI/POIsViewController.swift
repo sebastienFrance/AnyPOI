@@ -135,7 +135,6 @@ class POIsViewController: UIViewController  {
     
     func contextDidSaveNotification(_ notification : Notification) {
         
-        PoiNotificationUserInfo.dumpUserInfo("POIsViewController", userInfo: (notification as NSNotification).userInfo)
         if ContactsSynchronization.sharedInstance.isSynchronizing {
             return // ignore the notification while Contacts are synchronizing
         }
@@ -256,7 +255,7 @@ class POIsViewController: UIViewController  {
         snapshotter = MKMapSnapshotter(options: snapshotOptions)
         snapshotter!.start(completionHandler: { mapSnapshot, error in
             if let error = error {
-                print("\(#function) Error when loading Map image with Snapshotter \(error.localizedDescription)")
+                NSLog("\(#function) Error when loading Map image with Snapshotter \(error.localizedDescription)")
             } else {
                 if let theMapSnapshot = mapSnapshot {
                     self.snapshotImage = MapUtils.configureMapImageFor(pois:self.getPois(withFilter:false),

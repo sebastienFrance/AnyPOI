@@ -68,10 +68,10 @@ class RouteUtilities {
             if let googleURL = URL(string:"\(GoogleURL)?\(googleParameters)"){
                 UIApplication.shared.openURL(googleURL)
             } else {
-                print("\(#function) Can't configure the URL");
+                NSLog("\(#function) Can't configure the URL");
             }
         } else {
-            print("\(#function) Can't use \(GoogleURL)");
+            NSLog("\(#function) Can't use \(GoogleURL)");
         }
     }
     
@@ -85,10 +85,10 @@ class RouteUtilities {
             if let wazeURL = URL(string:"\(WazeURL)?\(wazeParameters)"){
                 UIApplication.shared.openURL(wazeURL)
             } else {
-                print("\(#function) Can't configure the URL");
+                NSLog("\(#function) Can't configure the URL");
             }
         } else {
-            print("\(#function) Can't use \(WazeURL)");
+            NSLog("\(#function) Can't use \(WazeURL)");
         }
     }
     
@@ -102,10 +102,10 @@ class RouteUtilities {
             if let cityMapperURL = URL(string: "\(CityMapperURL)directions?\(cityMapperParameters)") {
                 UIApplication.shared.openURL(cityMapperURL)
             } else {
-                print("\(#function) Can't configure the URL");
+                NSLog("\(#function) Can't configure the URL");
             }
         } else {
-            print("\(#function) Can't use \(CityMapperURL)");
+            NSLog("\(#function) Can't use \(CityMapperURL)");
         }
         
     }

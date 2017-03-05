@@ -22,7 +22,6 @@ class ContactsUtilities {
             return true
         }
         catch{
-            print("\(#function) Contacts: \(contactIdentifier). doesn't exist in the database")
             return false
         }
         
@@ -45,7 +44,7 @@ class ContactsUtilities {
             }
         }
         catch{
-            print("\(#function) Error when retrieving the contacts.")
+            NSLog("\(#function) Error when retrieving the contacts.")
         }
         return contactsWithAddress
     }
@@ -60,7 +59,7 @@ class ContactsUtilities {
             }
         }
         catch{
-            print("\(#function) Error when retrieving thumbail image for the contacts: \(contactIdentifier).")
+            NSLog("\(#function) Error when retrieving thumbail image for the contacts: \(contactIdentifier).")
         }
         
         return nil
@@ -73,7 +72,7 @@ class ContactsUtilities {
             return try store.unifiedContact(withIdentifier: contactIdentifier, keysToFetch: keysToFectch as [CNKeyDescriptor])
         }
         catch{
-            print("\(#function) Error when retrieving data for the contacts: \(contactIdentifier).")
+            NSLog("\(#function) Error when retrieving data for the contacts: \(contactIdentifier).")
         }
         
         return nil
@@ -86,7 +85,7 @@ class ContactsUtilities {
             return try contactStore.unifiedContact(withIdentifier: contactIdentifier, keysToFetch: [CNContactViewController.descriptorForRequiredKeys()])
         }
         catch{
-            print("\(#function) Error when retrieving data for the contacts: \(contactIdentifier).")
+            NSLog("\(#function) Error when retrieving data for the contacts: \(contactIdentifier).")
         }
         
         return nil

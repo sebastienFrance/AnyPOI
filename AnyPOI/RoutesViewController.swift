@@ -58,8 +58,6 @@ class RoutesViewController: UIViewController, ContainerViewControllerDelegate {
 
 
     func ManagedObjectContextObjectsDidChangeNotification(_ notification : Notification) {
-        print("==========> DidChangeNotification")
-        PoiNotificationUserInfo.dumpUserInfo("RouteViewController", userInfo:(notification as NSNotification).userInfo)
         let notifContent = PoiNotificationUserInfo(userInfo: (notification as NSNotification).userInfo as [NSObject : AnyObject]?)
         
         if !notifContent.insertedRoutes.isEmpty || !notifContent.updatedRoutes.isEmpty {

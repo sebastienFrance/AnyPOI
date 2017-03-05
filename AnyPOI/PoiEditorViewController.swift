@@ -280,7 +280,7 @@ extension PoiEditorViewController: UITableViewDataSource, UITableViewDelegate {
                 return theCell
             }
         default:
-            print("\(#function) unknown section \(indexPath.section)")
+            NSLog("\(#function) unknown section \(indexPath.section)")
             return UITableViewCell()
         }
     }
@@ -335,7 +335,7 @@ extension PoiEditorViewController: UITableViewDataSource, UITableViewDelegate {
         snapshotter = MKMapSnapshotter(options: snapshotOptions)
         snapshotter!.start(completionHandler: { mapSnapshot, error in
             if let error = error {
-                print("\(#function) Error when loading Map image with Snapshotter \(error.localizedDescription)")
+                NSLog("\(#function) Error when loading Map image with Snapshotter \(error.localizedDescription)")
             } else {
                 self.mapSnapshot = mapSnapshot
                 self.refreshMapImageForMonitoring()

@@ -82,7 +82,6 @@ class RouteDataSource {
     }
     
     deinit {
-        print("RouteDatasource: \(theRoute.routeName) deallocated")
     }
     
     func setFromWayPoint(wayPointIndex:Int) {
@@ -382,7 +381,7 @@ class RouteDataSource {
             POIDataManager.sharedInstance.updateWayPoint(from)
             POIDataManager.sharedInstance.commitDatabase()
         } else {
-            print("Warning: \(#function) called with non existing from wayPoint")
+            NSLog("Warning: \(#function) called with non existing from wayPoint")
         }
     }
 

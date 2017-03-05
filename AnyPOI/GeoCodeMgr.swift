@@ -30,32 +30,22 @@ class GeoCodeMgr {
         geoCoder.reverseGeocodeLocation(location, completionHandler: {(placemarks, error) -> Void in
             
             if let errorReverseGeocode = error {
-                print("Reverse geocoder failed with error" + errorReverseGeocode.localizedDescription)
-                switch errorReverseGeocode {
-                case CLError.network:
-                    print("Warning error because too many requests! (network error)")
-
-                default:
-                    break
-                }
-                
-                
+                NSLog("\(#function) Reverse geocoder failed with error \(errorReverseGeocode.localizedDescription)")
                 return
             }
             
             if let placemarksResults = placemarks {
                 if placemarksResults.count > 0 {
-                    print("Resolved")
                     poi.initializeWith(placemark:placemarksResults[0])
                     POIDataManager.sharedInstance.updatePOI(poi)
                     POIDataManager.sharedInstance.commitDatabase()
                     
                 } else {
-                    print("Empty data received")
+                    NSLog("\(#function) Empty data received")
                 }
                 
             } else {
-                print("No received data")
+                NSLog("\(#function) No received data")
             }
         })
     }

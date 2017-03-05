@@ -42,7 +42,7 @@ class PoiBoundingBox {
             }
             
         } catch let error as NSError {
-            print("\(#function) error with \(error.localizedDescription)")
+            NSLog("\(#function) error with \(error.localizedDescription)")
             return [PointOfInterest]()
         }
         
@@ -59,7 +59,7 @@ class PoiBoundingBox {
         do {
             return try DatabaseAccess.sharedInstance.managedObjectContext.fetch(fetchRequest) 
         } catch let error as NSError {
-            print("\(#function) could not be fetched \(error), \(error.userInfo)")
+            NSLog("\(#function) could not be fetched \(error), \(error.userInfo)")
             return []
         }
     }

@@ -36,7 +36,7 @@ class WikipediaRequest {
 
         request.responseJSON { response in
             if let error = response.result.error {
-                print("\(#function) - \(error.localizedDescription)")
+                NSLog("\(#function) - \(error.localizedDescription)")
                 self.delegate?.wikipediaLoadingDidFailed()
             }
             
@@ -77,7 +77,6 @@ class WikipediaRequest {
                                         return true
                                     }
                                 }
-                                print("\(#function) wikipedia found!!!")
                                 self.delegate?.wikipediaLoadingDidFinished(wikipedias)
                             }
                         }
@@ -85,7 +84,7 @@ class WikipediaRequest {
                 } else {
                     // No page found -> Stop the loading and warn with a notification
                     self.isWikipediaLoading = false
-                    print("\(#function) wikipedia not found!!!")
+                    NSLog("\(#function) wikipedia not found!!!")
                     self.delegate?.wikipediaLoadingDidFinished(wikipedias)
                 }
             }

@@ -52,22 +52,22 @@ class LocationManager : NSObject {
         let authorizationStatus  = CLLocationManager.authorizationStatus()
         switch (authorizationStatus) {
         case .denied, .restricted:
-            print("\(#function): No authorization granted for CLLocationManager")
+            NSLog("\(#function): No authorization granted for CLLocationManager")
         case .notDetermined:
             locationManager = CLLocationManager()
             if let locationMgr = locationManager {
                 locationMgr.delegate = self
                 locationMgr.requestWhenInUseAuthorization()
                 if !CLLocationManager.significantLocationChangeMonitoringAvailable() {
-                    print("\(#function): Warning significantLocationChangeMonitoringAvailable is not available on this device")
+                    NSLog("\(#function): Warning significantLocationChangeMonitoringAvailable is not available on this device")
                 }
             } else {
-                print("\(#function): error CLLocationManager cannot be created!")
+                NSLog("\(#function): error CLLocationManager cannot be created!")
             }
         case .authorizedWhenInUse, .authorizedAlways:
             locationManager = CLLocationManager()
             locationManager?.delegate = self
-            print("\(#function): Authorization is: \(LocationManager.getStatus(status: authorizationStatus))")
+            NSLog("\(#function): Authorization is: \(LocationManager.getStatus(status: authorizationStatus))")
         }
     }
 
@@ -89,7 +89,7 @@ class LocationManager : NSObject {
     /// - returns: noError if the POI can be monitored otherwise an error is returned
     func startMonitoringRegion(poi:PointOfInterest) -> MonitoringStatus {
         if isMaxMonitoredRegionReached() {
-            print("\(#function): Error, max numnber of monitored POI is already reached")
+            NSLog("\(#function): Error, max numnber of monitored POI is already reached")
             return .maxMonitoredRegionAlreadyReached
         }
         
@@ -192,11 +192,11 @@ class LocationManager : NSObject {
     
     fileprivate func dumpMonitoredRegions() {
         for region in locationManager!.monitoredRegions {
-            print("RegionId from CLLocationManager: \(region.identifier)")
+            NSLog("RegionId from CLLocationManager: \(region.identifier)")
         }
         
         for currentPOI in POIDataManager.sharedInstance.getAllMonitoredPOI() {
-            print("Monitored Poi: \(currentPOI.poiDisplayName!) with RegionId \(currentPOI.poiRegionId!) ")
+            NSLog("Monitored Poi: \(currentPOI.poiDisplayName!) with RegionId \(currentPOI.poiRegionId!) ")
         }
     }
 
@@ -207,11 +207,10 @@ extension LocationManager: CLLocationManagerDelegate {
     
     // Called when a SignificantLocationChanges has occured
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        print("\(#function): Location Manager didUpdateLocations")
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print("\(#function): Location Manager didFailWithError: \(error.localizedDescription)")
+        NSLog("\(#function): Location Manager didFailWithError: \(error.localizedDescription)")
     }
     
     // IMPORTANT: didEnterRegion and didExitRegion require .AuthorizedAlways. If it's not .AuthorizedAlways
@@ -222,7 +221,7 @@ extension LocationManager: CLLocationManagerDelegate {
                 AppDelegate.notifyRegionUpdate(poi: poi, isEntering:true)
             }
         } else {
-            print("\(#function): Error, POI not found! This CLRegion \(region.identifier) will be removed!")
+            NSLog("\(#function): Error, POI not found! This CLRegion \(region.identifier) will be removed!")
             dumpMonitoredRegions()
             
             locationManager?.stopMonitoring(for: region)
@@ -235,7 +234,7 @@ extension LocationManager: CLLocationManagerDelegate {
                 AppDelegate.notifyRegionUpdate(poi: poi, isEntering:false)
             }
         } else {
-            print("\(#function): Error, POI not found! This CLRegion \(region.identifier) will be removed!")
+            NSLog("\(#function): Error, POI not found! This CLRegion \(region.identifier) will be removed!")
             dumpMonitoredRegions()
             
             locationManager?.stopMonitoring(for: region)
@@ -243,7 +242,7 @@ extension LocationManager: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, monitoringDidFailFor region: CLRegion?, withError error: Error) {
-        print("\(#function) has failed to start monitoring for \(region.debugDescription) with error \(error.localizedDescription)")
+        NSLog("\(#function) has failed to start monitoring for \(region.debugDescription) with error \(error.localizedDescription)")
         dumpMonitoredRegions()
         
         // If we have a POI related to this region we force it to stop the monitoring
@@ -255,25 +254,22 @@ extension LocationManager: CLLocationManagerDelegate {
                 POIDataManager.sharedInstance.commitDatabase()
             }
             
-            print("\(#function): Error, POI not found! This CLRegion \(failedRegion.identifier) will be removed!")
+            NSLog("\(#function): Error, POI not found! This CLRegion \(failedRegion.identifier) will be removed!")
             dumpMonitoredRegions()
             locationManager?.stopMonitoring(for: failedRegion)
         }
     }
     
     func locationManager(_ manager: CLLocationManager, didFinishDeferredUpdatesWithError error: Error?) {
-        print("Location Manager didFinishDeferredUpdatesWithError")
     }
     func locationManagerDidPauseLocationUpdates(_ manager: CLLocationManager) {
-        print("Location Manager locationManagerDidPauseLocationUpdates")
     }
     func locationManagerDidResumeLocationUpdates(_ manager: CLLocationManager) {
-        print("Location Manager locationManagerDidResumeLocationUpdates")
     }
     
     // Post an internal notification when the Authorization status has been changed
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        print("\(#function): Warning the authorization status of Location Manager has changed to \(LocationManager.getStatus(status: status))")
+        NSLog("\(#function): Warning the authorization status of Location Manager has changed to \(LocationManager.getStatus(status: status))")
         NotificationCenter.default.post(name: Notification.Name(rawValue: LocationNotifications.AuthorizationHasChanged), object: manager)
     }
 

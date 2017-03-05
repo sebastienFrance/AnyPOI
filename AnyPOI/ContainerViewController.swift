@@ -148,7 +148,6 @@ class ContainerViewController: UIViewController {
             case .purchase:
                 viewController = mainStoryboard.instantiateViewController(withIdentifier: "PurchaseViewControllerId")
             default:
-                print("\(#function) Error, default case called, it should never happen!!!!")
                 viewController = nil
             }
 

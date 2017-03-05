@@ -214,7 +214,7 @@ class OptionsViewController: UITableViewController, PasswordConfigurationDelegat
             UserPreferences.sharedInstance.mapShowTraffic = sender.isOn
             theMapView.showsTraffic = sender.isOn
        } else {
-            print("\(#function) Error unknown sender")
+            NSLog("\(#function) Error unknown sender")
         }
     }
     

@@ -109,7 +109,7 @@ class POIDataManager {
             let filteredGroupCount = try managedContext.count(for: fetchRequest)
             return filteredGroupCount > 0 ? true : false
         } catch let error as NSError {
-            print("\(#function) error \(error), \(error.userInfo)")
+            NSLog("\(#function) error \(error), \(error.userInfo)")
             return false
         }
     }
@@ -130,7 +130,7 @@ class POIDataManager {
         do {
             return try managedContext.fetch(fetchRequest)
         } catch let error as NSError {
-            print("\(#function) GroupOfInterests could not be extracted from DB \(error), \(error.userInfo)")
+            NSLog("\(#function) GroupOfInterests could not be extracted from DB \(error), \(error.userInfo)")
             return [GroupOfInterest]()
         }
     }
@@ -150,7 +150,7 @@ class POIDataManager {
             }
             
         } catch let error as NSError {
-            print("\(#function) GroupOfInterest could not be searched in DB \(error), \(error.userInfo)")
+            NSLog("\(#function) GroupOfInterest could not be searched in DB \(error), \(error.userInfo)")
             return nil
         }
     }
@@ -166,7 +166,7 @@ class POIDataManager {
         do {
             return try managedContext.fetch(fetchRequest)
         } catch let error as NSError {
-            print("\(#function) DisplayableGroups could not be fetch \(error), \(error.userInfo)")
+            NSLog("\(#function) DisplayableGroups could not be fetch \(error), \(error.userInfo)")
             return [GroupOfInterest]()
         }
     }
@@ -186,7 +186,7 @@ class POIDataManager {
         do {
             return try managedContext.fetch(fetchRequest)
         } catch let error as NSError {
-            print("\(#function) could not be fetch \(error), \(error.userInfo)")
+            NSLog("\(#function) could not be fetch \(error), \(error.userInfo)")
             return []
         }
     }
@@ -305,7 +305,7 @@ class POIDataManager {
             }
             return properties
         } catch let error as NSError {
-            print("\(#function) could not be fetch \(error), \(error.userInfo) for property \(propertyName)")
+            NSLog("\(#function) could not be fetch \(error), \(error.userInfo) for property \(propertyName)")
             return []
         }
     }
@@ -343,7 +343,7 @@ class POIDataManager {
         do {
             return try managedContext.fetch(fetchRequest)
         } catch let error as NSError {
-            print("\(#function) could not be fetch \(error), \(error.userInfo)")
+            NSLog("\(#function) could not be fetch \(error), \(error.userInfo)")
             return []
         }
      
@@ -359,7 +359,7 @@ class POIDataManager {
         do {
             return try managedContext.fetch(fetchRequest)
         } catch let error as NSError {
-            print("\(#function) could not be fetch \(error), \(error.userInfo)")
+            NSLog("\(#function) could not be fetch \(error), \(error.userInfo)")
             return []
         }
     }
@@ -383,7 +383,7 @@ class POIDataManager {
         do {
             return try managedContext.fetch(fetchRequest)
         } catch let error as NSError {
-            print("\(#function) could not be fetch \(error), \(error.userInfo)")
+            NSLog("\(#function) could not be fetch \(error), \(error.userInfo)")
             return []
         }
     }
@@ -407,7 +407,7 @@ class POIDataManager {
         do {
             return try managedContext.fetch(fetchRequest)
         } catch let error as NSError {
-            print("\(#function) could not be fetch \(error), \(error.userInfo)")
+            NSLog("\(#function) could not be fetch \(error), \(error.userInfo)")
             return []
         }
     }
@@ -433,7 +433,7 @@ class POIDataManager {
         do {
             return try managedContext.fetch(fetchRequest)
         } catch let error as NSError {
-            print("\(#function) could not be fetch \(error), \(error.userInfo)")
+            NSLog("\(#function) could not be fetch \(error), \(error.userInfo)")
             return []
         }
 
@@ -458,7 +458,7 @@ class POIDataManager {
         do {
             return try managedContext.fetch(fetchRequest)
         } catch let error as NSError {
-            print("\(#function) could not be fetch \(error), \(error.userInfo)")
+            NSLog("\(#function) could not be fetch \(error), \(error.userInfo)")
             return []
         }
     }
@@ -557,7 +557,7 @@ class POIDataManager {
         do {
             return try managedContext.fetch(fetchRequest)
         } catch let error as NSError {
-            print("\(#function) could not be fetch \(error), \(error.userInfo)")
+            NSLog("\(#function) could not be fetch \(error), \(error.userInfo)")
             return []
         }
     }
@@ -569,7 +569,7 @@ class POIDataManager {
         do {
             return try managedContext.fetch(fetchRequest)
         } catch let error as NSError {
-            print("\(#function) could not be fetch \(error), \(error.userInfo)")
+            NSLog("\(#function) could not be fetch \(error), \(error.userInfo)")
             return []
         }
     }
@@ -582,7 +582,7 @@ class POIDataManager {
         do {
             return try managedContext.fetch(fetchRequest)
         } catch let error as NSError {
-            print("\(#function) could not be fetch \(error), \(error.userInfo)")
+            NSLog("\(#function) could not be fetch \(error), \(error.userInfo)")
             return []
         }
     }
@@ -594,11 +594,11 @@ class POIDataManager {
         do {
             let matchingPOI = try managedContext.fetch(fetchRequest)
             if matchingPOI.count > 1 {
-                print("\(#function): Error, found more than one POI")
+                NSLog("\(#function): Error, found more than one POI")
             }
             return matchingPOI.first
         } catch let error as NSError {
-            print("\(#function) could not be fetch \(error), \(error.userInfo)")
+            NSLog("\(#function) could not be fetch \(error), \(error.userInfo)")
             return nil
         }
     }
@@ -617,7 +617,7 @@ class POIDataManager {
                 return nil
             }
         } catch let error as NSError {
-            print("\(#function) could not be fetch \(error), \(error.userInfo)")
+            NSLog("\(#function) could not be fetch \(error), \(error.userInfo)")
             return nil
         }
     }
@@ -708,7 +708,7 @@ class POIDataManager {
         for currentContactId in contactsToBeDeleted {
             let pois = findContact(currentContactId)
             if pois.count > 1 {
-                print("\(#function) Warning, found \(pois.count) with the same contactIdentifier!")
+                NSLog("\(#function) Warning, found \(pois.count) with the same contactIdentifier!")
             }
             for currentPoi in pois {
                 deletePOI(POI: currentPoi)
@@ -732,7 +732,7 @@ class POIDataManager {
         do {
             return try managedContext.fetch(fetchRequest)
         } catch let error as NSError {
-            print("getAllRoutes could not be fetch \(error), \(error.userInfo)")
+            NSLog("getAllRoutes could not be fetch \(error), \(error.userInfo)")
             return []
         }
     }
@@ -748,7 +748,7 @@ class POIDataManager {
         do {
             return try managedContext.fetch(fetchRequest)
         } catch let error as NSError {
-            print("findRoute could not be fetch: \(error), \(error.userInfo)")
+            NSLog("findRoute could not be fetch: \(error), \(error.userInfo)")
             return []
         }
     }
@@ -764,7 +764,7 @@ class POIDataManager {
         do {
             return try managedContext.fetch(fetchRequest)
         } catch let error as NSError {
-            print("findRoute could not be fetch: \(error), \(error.userInfo)")
+            NSLog("findRoute could not be fetch: \(error), \(error.userInfo)")
             return []
         }
     }

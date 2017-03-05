@@ -638,7 +638,7 @@ extension PointOfInterest {
         // Add the item to the on-device index.
         CSSearchableIndex.default().indexSearchableItems([item]) { error in
             if let theError = error {
-                print("\(#function) error with \(theError.localizedDescription)")
+                NSLog("\(#function) error with \(theError.localizedDescription)")
             }
         }
     }
@@ -647,7 +647,7 @@ extension PointOfInterest {
         let URI = objectID.uriRepresentation().absoluteString
         CSSearchableIndex.default().deleteSearchableItems(withIdentifiers: [URI]) { error in
             if let theError = error {
-                print("\(#function) Error Poi \(self.poiDisplayName!) cannot be removed from Spotlightn, error: \(theError.localizedDescription)")
+                NSLog("\(#function) Error Poi \(self.poiDisplayName!) cannot be removed from Spotlightn, error: \(theError.localizedDescription)")
             }
         }
     }

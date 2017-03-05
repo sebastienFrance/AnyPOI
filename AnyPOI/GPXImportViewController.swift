@@ -72,7 +72,7 @@ class GPXImportViewController: UIViewController {
                 do {
                    try FileManager.default.removeItem(at: self.gpxURL)
                 } catch {
-                    print("\(#function) warning file \(self.gpxURL.absoluteString) cannot be deleted")
+                    NSLog("\(#function) warning file \(self.gpxURL.absoluteString) cannot be deleted")
                 }
                 
                 self.allParsedGPXPois = parser.GPXPois

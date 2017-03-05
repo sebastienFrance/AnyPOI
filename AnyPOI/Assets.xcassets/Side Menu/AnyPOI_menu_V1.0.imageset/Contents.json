@@ -2,15 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "MuseeOrsay01.png",
+      "filename" : "AnyPOI_menu_V1.0_375px.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
+      "filename" : "AnyPOI_menu_V1.0_750px.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
+      "filename" : "AnyPOI_menu_V1.0_1125px.png",
       "scale" : "3x"
     }
   ],

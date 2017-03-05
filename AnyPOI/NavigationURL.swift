@@ -59,7 +59,6 @@ class NavigationURL {
         let params = urlParameters([Parameters.action : Actions.showPoiOnMap,
                                     Parameters.poiId  : poiURI])
         
-        print("URL: \(params)")
         return URL(string: "\(baseURL)://?\(params)")
     }
     

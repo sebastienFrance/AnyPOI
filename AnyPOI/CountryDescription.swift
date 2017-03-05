@@ -28,9 +28,7 @@ struct CountryDescription : Equatable {
             if let countryName = (Locale.current as NSLocale).displayName(forKey: NSLocale.Key.countryCode, value: currentISOCountry) {
                 let newCountryNameToISO = CountryDescription(countryName: countryName, ISOCountryCode: currentISOCountry)
                 countries.append(newCountryNameToISO)
-            } else {
-                print("\(#function) cannot find translation for ISOCountry \(currentISOCountry), it's ignored")
-            }
+            } 
         }
         countries = countries.sorted() {
             $0.countryName < $1.countryName

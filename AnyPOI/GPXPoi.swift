@@ -216,7 +216,7 @@ class GPXPoi {
             
             return restorePoi
         } else {
-            print("\(#function) Poi is ignored because some mandatory data are missing")
+            NSLog("\(#function) Poi is ignored because some mandatory data are missing")
             return nil
         }
     }
@@ -251,13 +251,13 @@ class GPXPoi {
                 let result = poi.startMonitoring(radius: poi.poiRegionRadius, notifyEnterRegion: notifyEnter, notifyExitRegion: notifyExit)
                 switch result {
                 case .deviceNotSupported:
-                    print("\(#function) Device doesn't suppport region monitoring")
+                    NSLog("\(#function) Device doesn't suppport region monitoring")
                 case .internalError:
-                    print("\(#function) internal error")
+                    NSLog("\(#function) internal error")
                 case .maxMonitoredRegionAlreadyReached:
-                    print("\(#function) max monitored region already reached")
+                    NSLog("\(#function) max monitored region already reached")
                 case .noError:
-                    print("\(#function) poi monitoring started for \(poi.poiDisplayName!)")
+                    break
                 }
             }
         }
@@ -351,7 +351,7 @@ class GPXPoi {
                 return importPoi
             }
         }
-        print("\(#function) Poi is ignored because some mandatory data are missing")
+        NSLog("\(#function) Poi is ignored because some mandatory data are missing")
         return nil
     }
 }

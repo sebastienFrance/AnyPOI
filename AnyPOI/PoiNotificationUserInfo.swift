@@ -85,7 +85,7 @@ class PoiNotificationUserInfo {
     }
 
     static func dumpUserInfo(_ title:String, userInfo: [AnyHashable: Any]?) {
-        print("============> \(title)")
+        NSLog("============> \(title)")
         if let theUserInfo = userInfo {
             if let insertedValues = theUserInfo[NSInsertedObjectsKey] as? NSSet  {
                 dumpObjects(insertedValues, title: "Inserted")
@@ -101,9 +101,9 @@ class PoiNotificationUserInfo {
     
     fileprivate static func dumpObjects(_ objects: NSSet, title:String) {
         if objects.count > 0 {
-            print("\(title) has count(\(objects.count)) objects")
+            NSLog("\(title) has count(\(objects.count)) objects")
             for currentObject in objects {
-                print("\(title): \(getObjectClass(currentObject as AnyObject))")
+                NSLog("\(title): \(getObjectClass(currentObject as AnyObject))")
             }
         }
     }

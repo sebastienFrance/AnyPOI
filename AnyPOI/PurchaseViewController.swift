@@ -70,16 +70,13 @@ class PurchaseViewController: UIViewController, ContainerViewControllerDelegate 
         
         if let url = Bundle.main.url(forResource: "ProductIds", withExtension: "plist"), let productsIds = NSArray(contentsOf: url) {
             
-            print("\(#function) \(productsIds[0])")
-            
             if SKPaymentQueue.canMakePayments() {
-                print("\(#function) user can make payement")
                 let newProductRequest = SKProductsRequest(productIdentifiers: [productsIds[0] as! String])
                 productRequest = newProductRequest
                 productRequest?.delegate = self
                 productRequest?.start()
             } else {
-                print("\(#function) user cannot make payement")
+                NSLog("\(#function) user cannot make payement")
                 isLoadingProducts = false
                 theTableView.reloadData()
             }

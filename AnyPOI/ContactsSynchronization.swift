@@ -161,10 +161,10 @@ class ContactsSynchronization {
         // geocodeAddressString is async and the response is called on the Main thread
         CLGeocoder().geocodeAddressString(address) { placemarks, error in
             if let errorReverseGeocode = error  {
-                print("\(#function) geocode has failed for address \(address) with error \(errorReverseGeocode.localizedDescription)")
+                NSLog("\(#function) geocode has failed for address \(address) with error \(errorReverseGeocode.localizedDescription)")
                 switch errorReverseGeocode {
                 case CLError.network:
-                    print("\(#function) Warning error because too many requests! (network error)")
+                    NSLog("\(#function) Warning error because too many requests! (network error)")
                     
                     // Remove from the contactToBeDeleted contacts that still exists in Contact and in database
                     for i in index...(self.contacts.count - 1) {
@@ -189,10 +189,10 @@ class ContactsSynchronization {
                         self.addressToPlacemark[address.lowercased()] = thePlacemark[0]
                         self.synchronizeContactWithDatabase(contact:contactToBeAdded, withPlacemark:thePlacemark[0])
                     } else {
-                        print("\(#function) Warning, no placemark for address \(address)")
+                        NSLog("\(#function) Warning, no placemark for address \(address)")
                     }
                 } else {
-                    print("\(#function) Warning geocode has no results for address \(address)")
+                    NSLog("\(#function) Warning geocode has no results for address \(address)")
                 }
             }
             
@@ -216,7 +216,7 @@ class ContactsSynchronization {
             _ = POIDataManager.sharedInstance.addPOI(contact, placemark: withPlacemark)
         } else {
             if contacts.count > 1 {
-                print("\(#function) Warning, more than one contact found with identifier \(contact.identifier)")
+                NSLog("\(#function) Warning, more than one contact found with identifier \(contact.identifier)")
             }
             contacts[0].updateWith(contact, placemark:withPlacemark)
             POIDataManager.sharedInstance.commitDatabase()

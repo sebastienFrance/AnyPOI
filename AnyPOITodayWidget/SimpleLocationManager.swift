@@ -52,22 +52,22 @@ class LocationManager : NSObject, CLLocationManagerDelegate {
         let authorizationStatus  = CLLocationManager.authorizationStatus()
         switch (authorizationStatus) {
         case .denied, .restricted:
-            print("\(#function): No authorization granted for CLLocationManager")
+            NSLog("\(#function): No authorization granted for CLLocationManager")
         case .notDetermined:
             locationManager = CLLocationManager()
             if let locationMgr = locationManager {
                 locationMgr.delegate = self
                 locationMgr.requestWhenInUseAuthorization()
                 if !CLLocationManager.significantLocationChangeMonitoringAvailable() {
-                    print("\(#function): Warning significantLocationChangeMonitoringAvailable is not available on this device")
+                    NSLog("\(#function): Warning significantLocationChangeMonitoringAvailable is not available on this device")
                 }
             } else {
-                print("\(#function): error CLLocationManager cannot be created!")
+                NSLog("\(#function): error CLLocationManager cannot be created!")
             }
         case .authorizedWhenInUse, .authorizedAlways:
             locationManager = CLLocationManager()
             locationManager?.delegate = self
-            print("\(#function): Authorization is: \(authorizationStatus.rawValue)")
+            NSLog("\(#function): Authorization is: \(authorizationStatus.rawValue)")
         }
     }
     
@@ -86,37 +86,31 @@ class LocationManager : NSObject, CLLocationManagerDelegate {
     // Called when a SignificantLocationChanges has occured
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         
-        print("\(#function): Location Manager didUpdateLocations")
         delegate?.locationUpdated(locations)
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print("\(#function): Location Manager didFailWithError: \(error.localizedDescription)")
+        NSLog("\(#function): Location Manager didFailWithError: \(error.localizedDescription)")
     }
     
     //MARK: Enter/Exit region not used
     func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
-        print("\(#function) Location Manager ")
     }
     
     func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
-        print("\(#function) Location Manager")
     }
     
     //MARK: Not yet used
     func locationManager(_ manager: CLLocationManager, didFinishDeferredUpdatesWithError error: Error?) {
-        print("\(#function) Location Manager")
     }
     func locationManagerDidPauseLocationUpdates(_ manager: CLLocationManager) {
-        print("\(#function) Location Manager")
     }
     func locationManagerDidResumeLocationUpdates(_ manager: CLLocationManager) {
-        print("\(#function) Location Manager")
     }
     
     // Post an internal notification when the Authorization status has been changed
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        print("\(#function): Warning the authorization status of Location Manager has changed to \(status.rawValue)")
+        NSLog("\(#function): Warning the authorization status of Location Manager has changed to \(status.rawValue)")
         NotificationCenter.default.post(name: Notification.Name(rawValue: LocationNotifications.AuthorizationHasChanged), object: manager)
     }
 }

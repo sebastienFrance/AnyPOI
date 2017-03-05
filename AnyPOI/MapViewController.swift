@@ -18,7 +18,8 @@ import Contacts
 
 class MapViewController: UIViewController, SearchControllerDelegate, ContainerViewControllerDelegate {
 
-    
+    static let MAX_POI_WITHOUT_LICENSE = 15
+
     //MARK: var Information view
     @IBOutlet weak var thirdActionBarStackView: UIStackView!
     @IBOutlet weak var fromToLabel: UILabel!
@@ -737,8 +738,6 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
 
     //MARK: Database Notifications
     func ManagedObjectContextObjectsDidChangeNotification(_ notification : Notification) {
-        PoiNotificationUserInfo.dumpUserInfo("MapViewController", userInfo:(notification as NSNotification).userInfo)
-        
         let notifContent = PoiNotificationUserInfo(userInfo: (notification as NSNotification).userInfo as [NSObject : AnyObject]?)
         
         processNotificationsForGroupOfInterest(notificationsContent:notifContent)
@@ -926,7 +925,6 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
         }
     }
     
-    static let MAX_POI_WITHOUT_LICENSE = 2
     
     static func isAddPoiAuthorized() -> Bool {
         return UserPreferences.sharedInstance.isAnyPoiUnlimited || POIDataManager.sharedInstance.getAllPOI().count < MapViewController.MAX_POI_WITHOUT_LICENSE
@@ -1423,7 +1421,7 @@ extension MapViewController : MKMapViewDelegate {
     }
     
     func mapView(_ mapView: MKMapView, didFailToLocateUserWithError error: Error) {
-        print("\(#function): didFailToLocateUserWithError")
+        NSLog("\(#function): didFailToLocateUserWithError")
         
         if(CLLocationManager.locationServicesEnabled() == false ||
             !(CLLocationManager.authorizationStatus() == CLAuthorizationStatus.authorizedWhenInUse ||

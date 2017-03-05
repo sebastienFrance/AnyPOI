@@ -173,7 +173,7 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
  
         snapshotter.start(completionHandler: { mapSnapshot, error in
             if let error = error {
-                print("\(#function) Error when loading Map image with Snapshotter \(error.localizedDescription)")
+                NSLog("\(#function) Error when loading Map image with Snapshotter \(error.localizedDescription)")
             } else {
                 self.mapSnapshot = mapSnapshot
                 self.refreshMapImage()
@@ -195,7 +195,6 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
     // MARK: Notifications
     func contextDidSaveNotification(_ notification : Notification) {
         let notifContent = PoiNotificationUserInfo(userInfo: (notification as NSNotification).userInfo as [NSObject : AnyObject]?)
-        PoiNotificationUserInfo.dumpUserInfo("POIDetailsViewController", userInfo: (notification as NSNotification).userInfo)
         
         for updatedPoi in notifContent.updatedPois {
             if updatedPoi === poi {
@@ -226,7 +225,7 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
         let eventStore = EKEventStore()
         eventStore.requestAccess(to: .event) { result, error in
             if let theError = error {
-                print("\(#function) error has occured \(theError.localizedDescription)")
+                NSLog("\(#function) error has occured \(theError.localizedDescription)")
             } else {
                 if result {
                     let addEvent = EKEvent(eventStore: eventStore)
@@ -249,7 +248,7 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
                     
                     self.present(eventEditor, animated: true, completion: nil)
               } else {
-                    print("\(#function) NOK")
+                    NSLog("\(#function) error with result")
                 }
             }
        }
