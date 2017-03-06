@@ -771,7 +771,8 @@ class RouteManager: NSObject {
         PKHUD.sharedHUD.dimsBackground = false
         
         HUD.flash(.label(routeDatasource.routeName), delay:1.0) { _ in
-            self.theMapView.selectAnnotation(self.routeDatasource.fromPOI!, animated: true)
+            // Don't select the annotation because the callout may move the Map region, which is not nice
+            //    self.theMapView.selectAnnotation(self.routeDatasource.fromPOI!, animated: true)
         }
     }
 }

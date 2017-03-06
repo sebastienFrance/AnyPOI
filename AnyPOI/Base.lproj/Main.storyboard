@@ -99,14 +99,8 @@
                                                     <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="GuO-3P-4KJ">
                                                         <rect key="frame" x="0.0" y="0.0" width="330" height="40"/>
                                                         <subviews>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" text="Paris to New-York city" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="5Zb-Oe-5wh">
-                                                                <rect key="frame" x="0.0" y="0.0" width="285" height="40"/>
-                                                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
-                                                                <nil key="textColor"/>
-                                                                <nil key="highlightedColor"/>
-                                                            </label>
                                                             <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="999" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xTm-go-fwR">
-                                                                <rect key="frame" x="290" y="0.0" width="40" height="40"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="width" constant="40" id="Opo-Io-iwc"/>
                                                                 </constraints>
@@ -118,22 +112,22 @@
                                                                     <segue destination="rNC-Dm-6XL" kind="presentation" identifier="routeDetailsEditorId" id="5Ps-Vn-sun"/>
                                                                 </connections>
                                                             </button>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" text="Paris to New-York city" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="5Zb-Oe-5wh">
+                                                                <rect key="frame" x="45" y="0.0" width="285" height="40"/>
+                                                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
+                                                                <nil key="textColor"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
                                                         </subviews>
                                                         <constraints>
                                                             <constraint firstAttribute="height" priority="999" constant="40" id="qaW-Oa-KMC"/>
                                                         </constraints>
                                                     </stackView>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="ATj-5x-tH3">
+                                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="ATj-5x-tH3" userLabel="Distance and Buttons">
                                                         <rect key="frame" x="0.0" y="40" width="330" height="40"/>
                                                         <subviews>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="6300,02 km in 23:30" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Yr-if-ntb">
-                                                                <rect key="frame" x="0.0" y="0.0" width="240" height="40"/>
-                                                                <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
-                                                                <nil key="textColor"/>
-                                                                <nil key="highlightedColor"/>
-                                                            </label>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BbV-Ji-eBm">
-                                                                <rect key="frame" x="245" y="0.0" width="40" height="40"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="width" constant="40" id="78e-nL-LBX"/>
                                                                 </constraints>
@@ -143,15 +137,21 @@
                                                                 </connections>
                                                             </button>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Ub-3m-huU">
-                                                                <rect key="frame" x="290" y="0.0" width="40" height="40"/>
+                                                                <rect key="frame" x="45" y="0.0" width="40" height="40"/>
                                                                 <constraints>
-                                                                    <constraint firstAttribute="width" constant="40" id="reU-pE-Vus"/>
+                                                                    <constraint firstAttribute="width" priority="999" constant="40" id="reU-pE-Vus"/>
                                                                 </constraints>
                                                                 <state key="normal" image="Navigation-26"/>
                                                                 <connections>
                                                                     <action selector="navigationButtonPushed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="6wk-Yc-chP"/>
                                                                 </connections>
                                                             </button>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="6300,02 km in 23:30" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="1Yr-if-ntb">
+                                                                <rect key="frame" x="90" y="0.0" width="240" height="40"/>
+                                                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                                                <nil key="textColor"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
                                                         </subviews>
                                                         <constraints>
                                                             <constraint firstAttribute="height" priority="999" constant="40" id="F6n-O6-SIf"/>
@@ -230,6 +230,7 @@
                         <outlet property="exitRouteModeButton" destination="0f3-J6-fS3" id="FWX-Ih-5dp"/>
                         <outlet property="fromToLabel" destination="5Zb-Oe-5wh" id="7nM-lv-Rtl"/>
                         <outlet property="mapFilterButton" destination="tkV-Hc-4mn" id="7MM-jK-fjJ"/>
+                        <outlet property="navigationButton" destination="1Ub-3m-huU" id="Wp1-DV-lAv"/>
                         <outlet property="routeStackView" destination="BvY-6y-yMt" id="eeR-k3-yY6"/>
                         <outlet property="selectedTransportType" destination="ld6-1T-i1Q" id="V8U-yp-tCb"/>
                         <outlet property="stackViewFromTo" destination="GuO-3P-4KJ" id="FJL-c8-fkH"/>
@@ -943,7 +944,7 @@
                                 <rect key="frame" x="0.0" y="603" width="375" height="91"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="vLa-Cm-8CT" id="LJ7-tA-a7H">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="90.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="91"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="koE-XE-CrC">
@@ -1006,7 +1007,7 @@
                                 <rect key="frame" x="0.0" y="694" width="375" height="91"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="VNX-el-3Uh" id="r8j-gN-Msn">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="90.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="91"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="UD4-rq-Cia">

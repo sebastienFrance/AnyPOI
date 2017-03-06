@@ -25,12 +25,16 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
     @IBOutlet weak var fromToLabel: UILabel!
     @IBOutlet weak var stackViewFromTo: UIStackView!
     @IBOutlet weak var distanceLabel: UILabel!
+    @IBOutlet weak var navigationButton: UIButton!
     @IBOutlet weak var selectedTransportType: UISegmentedControl!
     @IBOutlet weak var userLocationButton: UIButton!
     
     @IBOutlet weak var mapFilterButton: UIButton!
     
     @IBOutlet weak var exitRouteModeButton: UIButton!
+    
+    
+    
     // Route
     fileprivate var isRouteMode:Bool {
         get {
@@ -586,9 +590,12 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
         disableRouteMode()
         // Reset this flag before we display a route
         filterPOIsNotInRoute = false
+        
         routeManager = RouteManager(route:routeToDisplay, routeDisplay: self)
         routeManager?.loadAndDisplayOnMap()
+        
     }
+    
 
     func disableRouteMode() {
         if isRouteMode {
@@ -1067,6 +1074,7 @@ extension MapViewController: MapCameraAnimationsDelegate, RouteProviderDelegate,
     }
 }
 
+// MARK: RouteEditorDelegate
 extension MapViewController: RouteEditorDelegate {
     //MARK: RouteEditorDelegate
     func routeCreated(_ route:Route) {
@@ -1082,6 +1090,7 @@ extension MapViewController: RouteEditorDelegate {
     }
 }
 
+// MARK: RouteDisplayInfos
 extension MapViewController : RouteDisplayInfos {
     
     func hideRouteDisplay() {
@@ -1106,6 +1115,7 @@ extension MapViewController : RouteDisplayInfos {
         fromToLabel.sizeToFit()
         distanceLabel.text = " "
         thirdActionBarStackView.isHidden = true
+        navigationButton.isHidden = true
     }
     
     // Show the summary infos when we are displaying the full route
@@ -1115,13 +1125,15 @@ extension MapViewController : RouteDisplayInfos {
         distanceLabel.text = datasource.routeDistanceAndTime
         fromToLabel.sizeToFit()
         thirdActionBarStackView.isHidden = true
-    }
+        navigationButton.isHidden = true
+   }
     
     // Show the infos about the route between the 2 wayPoints or between the current location and the To
     fileprivate func showRouteWayPoints(datasource:RouteDataSource) {
         let distanceFormatter = LengthFormatter()
         distanceFormatter.unitStyle = .short
         
+        navigationButton.isHidden = false
         if let fromCurrentLocation = routeManager?.fromCurrentLocation {
             // Show information between the current location and the To
             fromToLabel.text = NSLocalizedString("FromCurrentLocationRouteManager", comment: "")

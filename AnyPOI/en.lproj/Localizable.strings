@@ -7,10 +7,10 @@
 */
 
 "Points of interests"="Points of interests";
-"Routes"="Travels";
+"Routes"="Trips";
 "MapMenuTitle"="Map";
 "PointOfInterestMenuTitle"="Point of Interests";
-"TravelsMenuTitle"="Travels";
+"TravelsMenuTitle"="Trips";
 "OptionsMenuTitle"="Options";
 "PurchaseMenuTitle"="In-App purchase";
 "LoadingProducts"="Loading In-App...";
@@ -88,12 +88,12 @@
 "PhoneLabelOtherFax"="Other fax";
 "PhoneLabelOther"="Other";
 "UnknownFromToRouteDatasource"="Unknown From/To";
-"FullDirectionRouteDatasource"="Full direction";
+"FullDirectionRouteDatasource"="Full itinary";
 "RouteDatasource %@ in %@"="%@ in %@";
 "RouteDisplayInfos %@ in %@"="%@ in %@";
 "RouteDataSourceNoInfos"="No route information";
 "RouteSummaryTableRouteIsEmpty"="The route is not defined, add Points of interests";
-"WayPointNoInfos"="No data on this travel";
+"WayPointNoInfos"="No data on this trip";
 "NoRouteInfoRouteDatasource"="No route info";
 "UpdateRouteRouteEditorController"="Update route";
 "GetNewRouteNameRouteEditorController"="Enter route name";
