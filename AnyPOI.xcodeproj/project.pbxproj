@@ -154,6 +154,8 @@
 		BE9834101D8D598400B174A7 /* NavigationURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2D61D8B209A00344F8A /* NavigationURL.swift */; };
 		BE9834151D8D654400B174A7 /* AnyPOITodayWidget.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = BE9834141D8D654400B174A7 /* AnyPOITodayWidget.entitlements */; };
 		BEA6FB7E1DFF3594004974B9 /* CountryDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA6FB7D1DFF3594004974B9 /* CountryDescription.swift */; };
+		BEA74FA31E70939000574E7D /* HelperViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA74FA21E70939000574E7D /* HelperViewController.swift */; };
+		BEA74FA51E70977A00574E7D /* HelperCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA74FA41E70977A00574E7D /* HelperCollectionViewCell.swift */; };
 		BEA7BA9F1D8B01E5005D2D21 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA7BA9E1D8B01E5005D2D21 /* AppDelegate.swift */; };
 		BEA7BAA41D8B01E5005D2D21 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BEA7BAA21D8B01E5005D2D21 /* Main.storyboard */; };
 		BEA7BAA71D8B01E5005D2D21 /* AnyPOI.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BEA7BAA51D8B01E5005D2D21 /* AnyPOI.xcdatamodeld */; };
@@ -368,6 +370,8 @@
 		BE9834081D8D583B00B174A7 /* SimpleLocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleLocationManager.swift; sourceTree = "<group>"; };
 		BE9834141D8D654400B174A7 /* AnyPOITodayWidget.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = AnyPOITodayWidget.entitlements; sourceTree = "<group>"; };
 		BEA6FB7D1DFF3594004974B9 /* CountryDescription.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountryDescription.swift; sourceTree = "<group>"; };
+		BEA74FA21E70939000574E7D /* HelperViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelperViewController.swift; sourceTree = "<group>"; };
+		BEA74FA41E70977A00574E7D /* HelperCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelperCollectionViewCell.swift; sourceTree = "<group>"; };
 		BEA7BA9B1D8B01E5005D2D21 /* AnyPOI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AnyPOI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BEA7BA9E1D8B01E5005D2D21 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BEA7BAA31D8B01E5005D2D21 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -535,6 +539,7 @@
 		BE2FF2D21D8B2AF800C0395A /* MapVC */ = {
 			isa = PBXGroup;
 			children = (
+				BEA74F9F1E70905000574E7D /* HelpVC */,
 				BE2FF2D31D8B2B2000C0395A /* RouteDetailsVC */,
 				BE2FF2D41D8B2B6A00C0395A /* SearchController */,
 				BE4628D71DEF5BBC00FB4C52 /* GPXImportVC */,
@@ -910,6 +915,15 @@
 			name = Shared;
 			sourceTree = "<group>";
 		};
+		BEA74F9F1E70905000574E7D /* HelpVC */ = {
+			isa = PBXGroup;
+			children = (
+				BEA74FA21E70939000574E7D /* HelperViewController.swift */,
+				BEA74FA41E70977A00574E7D /* HelperCollectionViewCell.swift */,
+			);
+			name = HelpVC;
+			sourceTree = "<group>";
+		};
 		BEA7BA921D8B01E5005D2D21 = {
 			isa = PBXGroup;
 			children = (
@@ -1247,6 +1261,7 @@
 				BEA6FB7E1DFF3594004974B9 /* CountryDescription.swift in Sources */,
 				BE4628D91DEF5BEE00FB4C52 /* GPXImportViewController.swift in Sources */,
 				BE0CF3431D8B209A00344F8A /* RouteSummaryTableViewCell.swift in Sources */,
+				BEA74FA31E70939000574E7D /* HelperViewController.swift in Sources */,
 				BE0CF3281D8B209A00344F8A /* Wikipedia.swift in Sources */,
 				BE0CF3181D8B209A00344F8A /* POIDetailsViewController.swift in Sources */,
 				BE0CF3271D8B209A00344F8A /* searchPoiViewCell.swift in Sources */,
@@ -1261,6 +1276,7 @@
 				BE0CF3291D8B209A00344F8A /* WikipediaCell.swift in Sources */,
 				BE0CF3461D8B209A00344F8A /* ColorCollectionViewCell.swift in Sources */,
 				BE0CF30C1D8B209A00344F8A /* CategoriesTableViewCell.swift in Sources */,
+				BEA74FA51E70977A00574E7D /* HelperCollectionViewCell.swift in Sources */,
 				BE0CF3061D8B209A00344F8A /* PoiCalloutDelegateImpl.swift in Sources */,
 				BED83BDC1DC8DBFF0025349E /* ImageCollectionViewCell.swift in Sources */,
 				BE0CF33A1D8B209A00344F8A /* PoiDetailsImagesTableViewCell.swift in Sources */,

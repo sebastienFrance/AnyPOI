@@ -12,6 +12,7 @@
 "PointOfInterestMenuTitle"="Points d'intérêts";
 "TravelsMenuTitle"="Voyages";
 "OptionsMenuTitle"="Options";
+"HelpMenuTitle"="Aide";
 "PurchaseMenuTitle"="Achats intégrés";
 "LoadingProducts"="Chargement des achats intégrés...";
 "ProductPurchased"="Acheté";
@@ -60,8 +61,8 @@
 "PoiEditorPOINamePlaceholder"="Nom du POI";
 "PoiEditorPOIDescriptionPlaceholder"="Description du POI";
 "Radius"="Rayon";
-"RouteNotDefined"="Pas de route configurée";
-"RouteNoDestination"="Pas de destination configurée";
+"RouteNotDefined"="Ajoutez un départ et une destination";
+"RouteNoDestination"="Ajoutez une destination pour calculer un itinéraire";
 "Route Distance %@ in %@"="%@ en %@";
 "Route Distance %@ in %@ with %d steps"="%@ en %@ (%d étapes)";
 "RouteDisplayInfosRouteIsEmpty"="Ajoutez un point d'intérêt pour démarrer votre itinéraire";
@@ -234,4 +235,19 @@
 "CategoryLabelBank"="Banque";
 "CategoryLabelShopping"="Shopping";
 "CategoryLabelHotel"="Hotel";
+
+// Help
+"HelpAddPOITitle"="Ajouter un Point d'interêt";
+"HelpAddPOIDescription"="• Appui long sur la carte\n• Sélectionner un POI dans la barre de recherche\n• Importer vos contacts\n• Importer des POIs partagé par un ami avec AnyPOI";
+"HelpPOIDetailsTitle"="Détails d'un POI";
+"HelpPOIDetailsDescription"="• Afficher les détails d'un contact\n• Ajouter un rendez-vous sur ce lieu\n• Ouvrir le site WEB\n• Envoyer un mail \n• Passer un appel\n• Afficher vos photos prises sur ce lieu\n\nUniquement lorsque les données sont disponibles";
+"HelpTripTitle"="Editeur de Voyage";
+"HelpTripDescription"="• Création d'un voyage / Ajouter un POI à un voyage\n• Supprimer un POI d'un voyage \n• Calculer l'itinéraire vers le POI depuis vôtre position";
+"HelpSocialTitle"="Social";
+"HelpSocialDescription"="• Ouvrir le site WEB\n• Envoyer un mail \n• Passer un appel\n\nUniquement lorsque les données sont disponibles";
+"HelpUtilitiesTitle"="Outils";
+"HelpUtilitiesDescription"="• FlyOver au dessus du POI\n• Démarrer une navigation vers le POI \n• Démarrer/Arrêter la surveillance de la zone autour du POI";
+"HelpTripNavigationTitle"="Visualiser un voyage";
+"HelpTripNavigationDescription"="• Allez à l'étape précedente\n• Afficher le voyage complet\n• Allez à l'étape suivante\n\nDisponible uniquement en mode voyage";
+
 

@@ -38,7 +38,8 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
         static let photosCellHeight = CGFloat(120.0)
         static let mapLatitudeDelta = CLLocationDegrees(0.01)
         static let mapLongitudeDelta = CLLocationDegrees(0.01)
-        static let radiusSearchImage = CLLocationDistance(100)
+        static let radiusSearchImage = CLLocationDistance(500)
+        static let maxImagesToDisplay = 30
         static let imageHeight = 100.0
         static let imageWidth = 100.0
     }
@@ -51,6 +52,7 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
     fileprivate struct LocalImage {
         let image:UIImage
         let asset:PHAsset
+        let distanceFrom:CLLocationDistance
     }
     
     fileprivate var localImages = [LocalImage]()
@@ -121,15 +123,47 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
         
         let poiLocation = CLLocation(latitude: poi.coordinate.latitude, longitude: poi.coordinate.longitude)
         
+        var filteredImages = [LocalImage]()
         for i in 0..<photosFetchResult.count {
             let currentObject = photosFetchResult.object(at: i) 
             if let imageLocation = currentObject.location {
-                if poiLocation.distance(from: imageLocation) <= Cste.radiusSearchImage {
-                    localImages.append(LocalImage(image: getAssetThumbnail(asset:currentObject), asset: currentObject))
+                let distanceFromPoi = poiLocation.distance(from: imageLocation)
+                if distanceFromPoi <= Cste.radiusSearchImage {
+                    filteredImages.append(LocalImage(image: getAssetThumbnail(asset:currentObject), asset: currentObject, distanceFrom:distanceFromPoi))
                 }
             }
         }
+        // Filter the image to display only maxImagesToDisplay
+        if filteredImages.count > Cste.maxImagesToDisplay {
+            // Keep the nearest images and if two images are on the same location we keep the most recent
+            filteredImages.sort() {
+                if $0.distanceFrom < $1.distanceFrom {
+                    return true
+                } else if $0.distanceFrom == $1.distanceFrom {
+                    if let firstDate = $0.asset.creationDate, let secondDate = $1.asset.creationDate {
+                        switch firstDate.compare(secondDate) {
+                        case .orderedAscending:
+                            return false
+                        case .orderedDescending:
+                            return true
+                        case .orderedSame:
+                            return true
+                        }
+                    } else {
+                        return false
+                    }
+
+                } else {
+                    return false
+                }
+            }
+            
+            localImages = Array(filteredImages[0..<Cste.maxImagesToDisplay])
+        } else {
+            localImages = filteredImages
+        }
         
+        // Reorder by date to display first the most recent photos & videos
         localImages.sort() {
             if let firstDate = $0.asset.creationDate, let secondDate = $1.asset.creationDate {
                 switch firstDate.compare(secondDate) {

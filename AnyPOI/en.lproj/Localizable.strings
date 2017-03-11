@@ -12,6 +12,7 @@
 "PointOfInterestMenuTitle"="Point of Interests";
 "TravelsMenuTitle"="Trips";
 "OptionsMenuTitle"="Options";
+"HelpMenuTitle"="Help";
 "PurchaseMenuTitle"="In-App purchase";
 "LoadingProducts"="Loading In-App...";
 "ProductPurchased"="Bought";
@@ -23,7 +24,7 @@
 "DisablePasswordAuthentication"="Disable Password authentication";
 "TouchIdError"="TouchId error";
 "DisableTouchIdAuthentication"="Disable TouchId authentication";
-"MapSearchPlaceHolder"="Place, POI, addresse...";
+"MapSearchPlaceHolder"="Place, POI, address...";
 "UserGroupSectionHeader"="Your groups";
 "OthersSectionHeader"="Others";
 "GroupNamePlaceHolderSearchBar"="Group name";
@@ -60,8 +61,8 @@
 "PoiEditorPOINamePlaceholder"="POI name";
 "PoiEditorPOIDescriptionPlaceholder"="POI description";
 "Radius"="Radius";
-"RouteNotDefined"="Route is not yet defined";
-"RouteNoDestination"="Destination not defined";
+"RouteNotDefined"="Add a start and destination";
+"RouteNoDestination"="Add a destination to build the route";
 "Route Distance %@ in %@"="%@ in %@";
 "Route Distance %@ in %@ with %d steps"="%@ in %@ (%d steps)";
 "RouteDisplayInfosRouteIsEmpty"="add a Point of Interest to start your route";
@@ -232,6 +233,21 @@
 "CategoryLabelBank"="Bank";
 "CategoryLabelShopping"="Shopping";
 "CategoryLabelHotel"="Hotel";
+
+// Help
+"HelpAddPOITitle"="Add a Point of Interest";
+"HelpAddPOIDescription"="• Long press on the Map\n• Select a POI from the search bar\n• Import your contacts\n• Import AnyPOI data shared by a friend";
+"HelpPOIDetailsTitle"="POI details";
+"HelpPOIDetailsDescription"="• Show contact details\n• Add a meeting at this location\n• Open website\n• Send an email\n• Give a call\n• Show your photos shot at this location\n\nWhen data are available only";
+"HelpTripTitle"="Trip editor";
+"HelpTripDescription"="• Create a new trip / add a POI in a trip\n• Remove a POI from a trip \n• Compute the route from current position to the displayed POI";
+"HelpSocialTitle"="Social";
+"HelpSocialDescription"="• Open website\n• Send an email \n• Give a call\n\nWhen data are available only";
+"HelpUtilitiesTitle"="Utilities";
+"HelpUtilitiesDescription"="• FlyOver the POI\n• Start a navigation to this POI \n• Start/Stop region monitoring around the POI";
+"HelpTripNavigationTitle"="Trip display";
+"HelpTripNavigationDescription"="• Go to previous waypoint\n• Display the whole trip\n• Display the next wayPoint\n\nAvailable only in travel mode";
+
 
 
 

@@ -15,6 +15,7 @@ class LeftMenuViewController: UIViewController {
                       NSLocalizedString("PointOfInterestMenuTitle",comment:""),
                       NSLocalizedString("TravelsMenuTitle",comment:""),
                       NSLocalizedString("OptionsMenuTitle",comment:""),
+                      NSLocalizedString("HelpMenuTitle",comment:""),
                       NSLocalizedString("PurchaseMenuTitle", comment:"")]
 
     @IBOutlet weak var theTableView: UITableView! {
@@ -37,6 +38,13 @@ class LeftMenuViewController: UIViewController {
     @IBAction func icons8ButtonPushed(_ sender: UIButton) {
         Utilities.openSafariFrom(self, url: "https://icons8.com", delegate: self)
     }
+    @IBAction func alamoFireButtonPushed(_ sender: UIButton) {
+        Utilities.openSafariFrom(self, url: "https://github.com/Alamofire/Alamofire", delegate: self)
+   }
+    @IBAction func pkhudButtonPushed(_ sender: UIButton) {
+        Utilities.openSafariFrom(self, url: "https://github.com/pkluz/PKHUD", delegate: self)
+    }
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -57,7 +65,8 @@ extension LeftMenuViewController : UITableViewDataSource, UITableViewDelegate {
         static let POIs = 1
         static let Route = 2
         static let Options = 3
-        static let Purchase = 4
+        static let Help = 4
+        static let Purchase = 5
     }
     
     
@@ -94,6 +103,8 @@ extension LeftMenuViewController : UITableViewDataSource, UITableViewDelegate {
                     theCell.imageMenu.image = #imageLiteral(resourceName: "Waypoint Map-30")
                 case Row.Options:
                     theCell.imageMenu.image = #imageLiteral(resourceName: "Settings-30")
+                case Row.Help:
+                    theCell.imageMenu.image = #imageLiteral(resourceName: "Help-30")
                 case Row.Purchase:
                     theCell.imageMenu.image = #imageLiteral(resourceName: "Apple App Store-30")
                 default:
@@ -114,15 +125,17 @@ extension LeftMenuViewController : UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.row == 0 {
+        if indexPath.row == Row.Map {
             container.showCenterView(.map)
-        } else if indexPath.row == 1 {
+        } else if indexPath.row == Row.POIs {
             container.showCenterView(.poiManager)
-        } else if indexPath.row == 2 {
+        } else if indexPath.row == Row.Route {
             container.showCenterView(.travels)
-        } else if indexPath.row == 3 {
+        } else if indexPath.row == Row.Options {
             container.showCenterView(.options)
-        } else if indexPath.row == 4 {
+        } else if indexPath.row == Row.Help {
+            performSegue(withIdentifier: "showHelpId", sender: nil)
+        } else if indexPath.row == Row.Purchase {
             container.showCenterView(.purchase)
         }
     }

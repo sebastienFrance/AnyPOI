@@ -133,3 +133,6 @@
 
 "z2I-uC-G37.text" = "Points d'interêts GPX sans adresse";
 
+/* Class = "UILabel";  Description Region Monitoring */
+"HPM-BK-8jG.text" = "La surveillance d'une région permet de recevoir des notifications lorsque vous approchez et/ou quittez un point d'interêt. Vous pouvez activer au maximum la surveillance de 20 régions simultanément.";
+

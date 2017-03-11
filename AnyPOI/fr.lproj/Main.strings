@@ -309,7 +309,7 @@
 "nRR-pB-nVp.normalTitle" = "Ajouter";
 
 /* Class = "UILabel"; text = "Code & Design: Sébastien Brugalières"; ObjectID = "o6A-yK-qkE"; */
-"o6A-yK-qkE.text" = "Code & Conception: Sébastien Brugalières";
+"o6A-yK-qkE.text" = "Code & Design: Sébastien Brugalières";
 
 /* Class = "UILabel"; text = "Description"; ObjectID = "oTi-ge-yS5"; */
 "oTi-ge-yS5.text" = "Description";
@@ -398,3 +398,6 @@
 "rxK-YA-Ri4.text" = "Importer les nouveaux points d'interêts";
 "OOK-OE-2q1.text" = "Mettre à jour les points d'interêts existants";
 "YNz-Mb-dmw.text" = "Uniquement lorsque les points d'interêts sont fusionnés";
+
+/* Helper */
+"o8R-u2-g8X.normalTitle" = "Quitter l'aide et aller à l'application";

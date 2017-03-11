@@ -43,6 +43,7 @@ class UserPreferences {
         static let AuthenticationPassword = "AuthenticationPassword"
         
         static let AnyPoiUnlimited = "AnyPoiUnlimited"
+        static let firstStartup = "firstStartup"
         
         static let TestParameter = "Test"
     }
@@ -57,6 +58,7 @@ class UserPreferences {
             
             userDefaults.setValue("test", forKey: keys.TestParameter)
             
+            isFirstStartup = true
             isAnyPoiUnlimited = false
             
             mapMode = .standard
@@ -113,8 +115,17 @@ class UserPreferences {
         set {
             UserDefaults.standard.set(newValue, forKey: keys.AnyPoiUnlimited)
         }
-       
     }
+    
+    var isFirstStartup:Bool {
+        get {
+            return UserDefaults.standard.bool(forKey: keys.firstStartup)
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: keys.firstStartup)
+        }
+    }
+
     
 
     var mapShowPointsOfInterest: Bool {

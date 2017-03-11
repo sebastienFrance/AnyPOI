@@ -145,7 +145,6 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
         MapViewController.instance = self
         
         
-        
         // Subscribe all notifications to update the MapView
         subscribeNotifications()
         
@@ -154,6 +153,13 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
  
         mapAnimation = MapCameraAnimations(mapView: theMapView, mapCameraDelegate: self)
 
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        if UserPreferences.sharedInstance.isFirstStartup {
+            UserPreferences.sharedInstance.isFirstStartup = false
+            performSegue(withIdentifier: storyboard.showHelperId, sender: nil)
+        }
     }
     
     func importFile(gpx:URL) {
@@ -979,6 +985,7 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
         static let openEmailsId = "openEmails"
         static let openMapFilterId = "openMapFilterId"
         static let showGPXImportId = "showGPXImportId"
+        static let showHelperId = "showHelperId"
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -1028,6 +1035,8 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
             let viewController = navController.topViewController as! GPXImportViewController
             //let viewController = segue.destination as! GPXImportViewController
             viewController.gpxURL = sender as! URL
+        } else if segue.identifier == storyboard.showHelperId {
+            
         }
        
     }
