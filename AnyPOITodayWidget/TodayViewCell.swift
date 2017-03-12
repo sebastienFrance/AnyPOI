@@ -11,7 +11,6 @@ import MapKit
 
 class TodayViewCell: UITableViewCell {
     
-    @IBOutlet weak var pinAnnotation: MKPinAnnotationView!
     @IBOutlet weak var poiDisplayName: UILabel!
     
     @IBOutlet weak var pinImage: UIImageView!
@@ -31,7 +30,7 @@ class TodayViewCell: UITableViewCell {
             let distance = currentLocation.distance(from: targetLocation)
             let distanceFormater = MKDistanceFormatter()
             
-            poiDisplayName.text = "\(poi.poiDisplayName!) ➔ \(distanceFormater.string(fromDistance: distance))"
+            poiDisplayName.text = "\(poi.poiDisplayName!) (\(distanceFormater.string(fromDistance: distance)))"
         } else {
             poiDisplayName.text = "\(poi.poiDisplayName!)"
         }

@@ -18,6 +18,10 @@ class HelperViewController: UIViewController {
     }
     @IBOutlet weak var thePageControl: UIPageControl!
     
+
+    @IBOutlet weak var bottomPageStackView: UIStackView!
+    var isStartedFomMap = false
+    
     struct HelpData {
         let backgroundScreenshot:UIImage
         let title:String
@@ -49,12 +53,15 @@ class HelperViewController: UIViewController {
     
     @IBAction func closeButtonPushed(_ sender: UIButton) {
         dismiss(animated: true, completion: nil)
+        if isStartedFomMap {
+            MapViewController.instance?.showUserLocation()
+        }
     }
 }
 
 
 
-extension HelperViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+extension HelperViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
 
     
@@ -62,6 +69,12 @@ extension HelperViewController: UICollectionViewDelegate, UICollectionViewDataSo
         if let indexPath = theCollectionView.indexPathsForVisibleItems.first {
             thePageControl.currentPage = indexPath.row
         }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        // Compute the height of the cell which is:
+        // Size of the screen - height of the status bar - height of the bottom page (button + paging controller)
+        return CGSize(width: view.frame.width, height: view.frame.height - bottomPageStackView.frame.height - UIApplication.shared.statusBarFrame.height)
     }
     
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

@@ -89,7 +89,7 @@
 "PhoneLabelOtherFax"="Other fax";
 "PhoneLabelOther"="Other";
 "UnknownFromToRouteDatasource"="Unknown From/To";
-"FullDirectionRouteDatasource"="Full itinary";
+"FullDirectionRouteDatasource"="Full itinerary";
 "RouteDatasource %@ in %@"="%@ in %@";
 "RouteDisplayInfos %@ in %@"="%@ in %@";
 "RouteDataSourceNoInfos"="No route information";

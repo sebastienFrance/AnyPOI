@@ -276,7 +276,10 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
     }
     
     @IBAction func userLocationButton(_ sender: UIButton) {
-      //  theMapView.setCenterCoordinate((LocationManager.sharedInstance.locationManager?.location?.coordinate)! , animated: true)
+        showUserLocation()
+    }
+    
+    func showUserLocation() {
         if let userCoordinate = LocationManager.sharedInstance.locationManager?.location?.coordinate {
             mapAnimation.fromCurrentMapLocationTo(userCoordinate)
         }
@@ -1036,7 +1039,8 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
             //let viewController = segue.destination as! GPXImportViewController
             viewController.gpxURL = sender as! URL
         } else if segue.identifier == storyboard.showHelperId {
-            
+            let helpViewController = segue.destination as! HelperViewController
+            helpViewController.isStartedFomMap = true
         }
        
     }
