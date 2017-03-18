@@ -110,6 +110,7 @@ class UserPreferences {
     
     var isAnyPoiUnlimited:Bool {
         get {
+            //return true
             return UserDefaults.standard.bool(forKey: keys.AnyPoiUnlimited)
         }
         set {

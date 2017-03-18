@@ -97,6 +97,8 @@ class POIsViewController: UIViewController  {
      override func viewDidLoad() {
         super.viewDidLoad()
         
+        registerForPreviewing(with: self, sourceView: theTableView)
+        
         getMapSnapshot()
         resetStateOfEditButtons()
         
@@ -373,6 +375,26 @@ class POIsViewController: UIViewController  {
             }
         }
     }
+}
+
+extension POIsViewController : UIViewControllerPreviewingDelegate {
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
+        navigationController?.show(viewControllerToCommit, sender: nil)
+    }
+    
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+        
+        if let indexPath = theTableView.indexPathForRow(at: location) {
+            previewingContext.sourceRect = theTableView.rectForRow(at: indexPath)
+            let viewController = UIStoryboard.init(name: "POIManager", bundle: nil).instantiateViewController(withIdentifier: "POIDetails") as! POIDetailsViewController
+            viewController.poi = getPoiForIndexPath(indexPath)
+            return viewController
+            
+        } else {
+            return nil
+        }
+    }
+    
 }
 
 extension POIsViewController : UISearchResultsUpdating, UISearchControllerDelegate, UISearchBarDelegate {

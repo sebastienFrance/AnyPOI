@@ -68,6 +68,7 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
         // FIXEDME: Reload placemark because imported POIs have no Placemark! 
         if !poi.hasPlacemark {
             GeoCodeMgr.sharedInstance.getPlacemark(poi: poi)

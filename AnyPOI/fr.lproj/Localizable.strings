@@ -166,6 +166,7 @@
 "MapPOIMail"="Carte";
 "MapFilterIsOn"="Filtré";
 "MapFilterIsOff"="Aucun filtre";
+"ClearFilterMapFilterVC"="Annuler le filtre";
 "ShowPOIsNotUsedMapFilterVC"="Afficher les POIs non utilisés par l'itinéraire";
 "MapFilterShowAllPoisTitle"="Affichez tous les points d'intérêts";
 "MapFilterShowAllPoisDescription"="Si cette option n'est pas cochée, seuls les points d'intérêt utilisés dans l'itinéraire sont affichés";

@@ -33,10 +33,27 @@ class MapFilterViewController: UIViewController {
     }
     
     @IBOutlet weak var resetButton: UIBarButtonItem!
+    
     var isRouteModeOn = false
     var showPOIsNotInRoute = false
     var filter:MapCategoryFilter!
     let groups = POIDataManager.sharedInstance.getGroups()
+
+    // Actions displayed when 3D Touch is used to navigate to Map Filter
+    // Button is only add when something is filtered
+    override var previewActionItems: [UIPreviewActionItem] {
+        get {
+            if resetButton.isEnabled {
+                let actionClearFitler = UIPreviewAction(title: NSLocalizedString("ClearFilterMapFilterVC", comment: ""), style: .destructive) { (action, viewController) in
+                    self.resetFilter()
+                }
+                return [actionClearFitler]
+            } else {
+                return []
+            }
+            
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -63,6 +80,10 @@ class MapFilterViewController: UIViewController {
     }
     
     @IBAction func resetButtonPushed(_ sender: UIBarButtonItem) {
+        resetFilter()
+    }
+    
+    fileprivate func resetFilter() {
         let sectionToUpdate = NSMutableIndexSet()
         
         if !showPOIsNotInRoute {

@@ -134,6 +134,8 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
         
         super.viewDidLoad()
         
+        registerForPreviewing(with: self, sourceView: mapFilterButton)
+        
         updateFilterStatus()
 
         
@@ -161,6 +163,7 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
             performSegue(withIdentifier: storyboard.showHelperId, sender: nil)
         }
     }
+    
     
     func importFile(gpx:URL) {
         if UserPreferences.sharedInstance.isAnyPoiUnlimited {
@@ -1063,6 +1066,22 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
     }
     
 
+}
+
+
+extension MapViewController: UIViewControllerPreviewingDelegate {
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+        previewingContext.sourceRect = mapFilterButton.frame
+        
+        let viewController = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MapFilterId") as! MapFilterViewController
+        let mapFilter = MapCategoryFilter(initialFilter:categoryFilter)
+        viewController.filter = mapFilter
+        return viewController
+    }
+    
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
+        navigationController?.show(viewControllerToCommit, sender: nil)
+    }
 }
 
 extension MapViewController: MapCameraAnimationsDelegate, RouteProviderDelegate, DismissModalViewController, ContactsDelegate {
