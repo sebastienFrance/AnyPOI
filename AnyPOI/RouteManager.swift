@@ -162,6 +162,24 @@ class RouteManager: NSObject {
         addRouteOverlays()
         
         refreshRouteInfosOverview()
+        
+        if let directionFailures = notification.userInfo?[Route.DirectionDoneParameters.directionFailures] as? [Route.RouteSegment],
+            directionFailures.count > 0 {
+            
+            var errorMsg:String
+            if directionFailures.count == 1 {
+                let currentSegment = directionFailures.first
+                errorMsg = String(format:NSLocalizedString("RouteDirectionFailure From %@ To %@", comment: ""),currentSegment!.fromWayPoint.wayPointPoi!.poiDisplayName!, currentSegment!.toWayPoint.wayPointPoi!.poiDisplayName!)
+            } else {
+                errorMsg = NSLocalizedString("RouteDirectionFailurePart1", comment: "")
+                for currentSegment in directionFailures {
+                    errorMsg += String(format:NSLocalizedString("RouteDirectionFailurePart2 From %@ To %@", comment: ""), currentSegment.fromWayPoint.wayPointPoi!.poiDisplayName!, currentSegment.toWayPoint.wayPointPoi!.poiDisplayName!)
+                }
+                errorMsg += NSLocalizedString("RouteDirectionFailurePart3", comment: "")
+            }
+            Utilities.showAlertMessage(MapViewController.instance!, title: NSLocalizedString("Warning", comment: ""), message:errorMsg)
+        }
+        
         displayRouteMapRegion()
     }
 

@@ -24,7 +24,10 @@ class Route: NSManagedObject {
     
     struct DirectionStartingParameters {
         static let startingWayPoint = "startingWayPoint"
-
+    }
+    
+    struct DirectionDoneParameters {
+        static let directionFailures = "directionFailures"
     }
     
     
@@ -199,7 +202,11 @@ class Route: NSManagedObject {
                 let expectedTravelTime = Utilities.shortStringFromTimeInterval(theLatestTotalDuration) as String
                 return String(format:"\(NSLocalizedString("Route Distance %@ in %@ with %d steps", comment: ""))", distanceFormatter.string(fromMeters: theLatestTotalDistance), expectedTravelTime, wayPoints.count)
             } else {
-                return NSLocalizedString("RouteNotDefined", comment: "")
+                if routeWayPoints!.count < 2 {
+                    return NSLocalizedString("RouteNotDefined", comment: "")
+                } else {
+                    return NSLocalizedString("RouteIsInvaliad", comment: "")
+                }
             }
         }
     }
@@ -339,14 +346,21 @@ class Route: NSManagedObject {
     //  - directionsDone: it's always sent, only one time, at the end of the route computation. This notification is sent even when there's no route update
     //  - directionForWayPointUpdated : it's sent for each WayPoint for which a route has been computed. The notification contains the WayPoint which is the source of the route
 
+    struct RouteSegment {
+        let fromWayPoint:WayPoint
+        let toWayPoint:WayPoint
+    }
+    
     var routeToReloadCounter = 0
+    var wayPointsDirectionFailure = [RouteSegment]()
     
     func reloadDirections() {
         
         if isDirectionLoading {
             return
         }
-        
+        wayPointsDirectionFailure = [RouteSegment]()
+       
         // look for the first wayPoint without calculatedRoute and request an update
         var foundWayPoint = false
         var startIndex = 0
@@ -369,10 +383,13 @@ class Route: NSManagedObject {
             NotificationCenter.default.post(name: Notification.Name(rawValue: Notifications.directionStarting),
                                                                       object: self,
                                                                       userInfo:[DirectionStartingParameters.startingWayPoint : wayPoints[startIndex]])
+            
             requestRouteDirectionFrom(currentIndex:startIndex, untilEnd: true, forceToReload: false)
         } else {
             // Notify the route has been updated even when nothing has changed
-            NotificationCenter.default.post(name: Notification.Name(rawValue: Notifications.directionsDone), object: self)
+            NotificationCenter.default.post(name: Notification.Name(rawValue: Notifications.directionsDone),
+                                            object: self,
+                                            userInfo:[DirectionDoneParameters.directionFailures : wayPointsDirectionFailure])
         }
     }
 
@@ -387,7 +404,9 @@ class Route: NSManagedObject {
         // We need at least 2 wayPoint to do something
         if wayPoints.count < 2 {
             isDirectionLoading = false
-            NotificationCenter.default.post(name: Notification.Name(rawValue: Notifications.directionsDone), object: self)
+            NotificationCenter.default.post(name: Notification.Name(rawValue: Notifications.directionsDone),
+                                            object: self,
+                                            userInfo:[DirectionDoneParameters.directionFailures : wayPointsDirectionFailure])
         }
         
         if currentIndex >= (wayPoints.count - 1) {
@@ -404,6 +423,7 @@ class Route: NSManagedObject {
                     
                     let theWayPoint = self.wayPoints[currentIndex]
                     if let error = routeError {
+                        self.wayPointsDirectionFailure.append(RouteSegment(fromWayPoint: theWayPoint, toWayPoint: self.wayPoints[currentIndex+1]))
                         //theWayPoint.routeInfos = nil
                         NSLog("\(#function) Error calculating direction \(error.localizedDescription)")
                     } else {
@@ -431,7 +451,9 @@ class Route: NSManagedObject {
                     if untilEnd && (currentIndex + 1 < self.wayPoints.count - 1) {
                         self.requestRouteFrom(currentIndex:currentIndex + 1, untilEnd:true, forceToReload: forceToReload)
                     } else {
-                        NotificationCenter.default.post(name: Notification.Name(rawValue: Notifications.directionsDone), object: self)
+                        NotificationCenter.default.post(name: Notification.Name(rawValue: Notifications.directionsDone),
+                                                        object: self,
+                                                        userInfo:[DirectionDoneParameters.directionFailures : self.wayPointsDirectionFailure])
                         // It must be done after the post of directionDone
                         // If not then the MapView will detect the route has been changed and then triggers a new route synchronization
                         // which will be useless
@@ -448,7 +470,9 @@ class Route: NSManagedObject {
                 self.requestRouteFrom(currentIndex:currentIndex + 1, untilEnd:true, forceToReload: forceToReload)
             } else {
                 self.isDirectionLoading = false
-                NotificationCenter.default.post(name: Notification.Name(rawValue: Notifications.directionsDone), object: self)
+                NotificationCenter.default.post(name: Notification.Name(rawValue: Notifications.directionsDone),
+                                                object: self,
+                                                userInfo:[DirectionDoneParameters.directionFailures : wayPointsDirectionFailure])
             }
         }
     }

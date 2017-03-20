@@ -63,6 +63,7 @@
 "Radius"="Rayon";
 "RouteNotDefined"="Ajoutez un départ et une destination";
 "RouteNoDestination"="Ajoutez une destination pour calculer un itinéraire";
+"RouteIsInvaliad"="Itinéraire invalide";
 "Route Distance %@ in %@"="%@ en %@";
 "Route Distance %@ in %@ with %d steps"="%@ en %@ (%d étapes)";
 "RouteDisplayInfosRouteIsEmpty"="Ajoutez un point d'intérêt pour démarrer votre itinéraire";
@@ -197,6 +198,11 @@
 "GPXImport"="Import";
 "NeedInAppPurchaseToUseFeature"="Vous devez faire un achat intégré pour utiliser cette fonction";
 "To create more than %d Point of Interest you need to purchase an In-App"="Vous devez faire un achat intégré pour créér plus de %d point d'intérêts";
+"RouteDetailsRouteNotAvailable"="⚠️ Itinéraire non disponible";
+"RouteDirectionFailurePart1"="Ces itinéraires ne peuvent pas être calculé:\n";
+"RouteDirectionFailurePart3"="\n\nVous devriez les remplacer par des POI avec une adresse plus précise.";
+"RouteDirectionFailurePart2 From %@ To %@"="\n⚠️ %@ à %@";
+"RouteDirectionFailure From %@ To %@"="⚠️ L'itinéraire entre %@ et %@ ne peut pas être calculé";
 
 // Mail Route
 "RouteTableHeaderFrom"="Départ";

@@ -61,7 +61,11 @@ class RouteDetailsViewCell: UITableViewCell {
     // Initialize transportType, distance... from the WayPoint
     func initializeWayPoint(_ fromWayPoint:WayPoint, index:Int) {
         if let route = fromWayPoint.routeInfos {
+            routeDistance.textColor = UIColor.black
             routeDistance.text = "\(route.distanceFormatted) in \(route.expectedTravelTimeFormatted)"
+        } else {
+            routeDistance.textColor = UIColor.red
+            routeDistance.text = NSLocalizedString("RouteDetailsRouteNotAvailable", comment: "")
         }
 
         transportType.selectedSegmentIndex = MapUtils.transportTypeToSegmentIndex(fromWayPoint.transportType!)

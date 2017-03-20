@@ -1145,6 +1145,7 @@ extension MapViewController : RouteDisplayInfos {
         fromToLabel.text = NSLocalizedString("RouteDisplayInfosRouteIsEmpty", comment: "")
         fromToLabel.textColor = UIColor.red
         fromToLabel.sizeToFit()
+        distanceLabel.textColor = UIColor.black
         distanceLabel.text = " "
         thirdActionBarStackView.isHidden = true
         navigationButton.isHidden = true
@@ -1154,6 +1155,7 @@ extension MapViewController : RouteDisplayInfos {
     fileprivate func showRouteSummary(datasource:RouteDataSource) {
         fromToLabel.text = datasource.routeName
         fromToLabel.textColor = UIColor.red
+        distanceLabel.textColor = UIColor.black
         distanceLabel.text = datasource.routeDistanceAndTime
         fromToLabel.sizeToFit()
         thirdActionBarStackView.isHidden = true
@@ -1171,6 +1173,7 @@ extension MapViewController : RouteDisplayInfos {
             fromToLabel.text = NSLocalizedString("FromCurrentLocationRouteManager", comment: "")
             fromToLabel.textColor = UIColor.red
             let expectedTravelTime = Utilities.shortStringFromTimeInterval(fromCurrentLocation.route.expectedTravelTime) as String
+            distanceLabel.textColor = UIColor.black
             distanceLabel.text = String(format: "\(NSLocalizedString("RouteDisplayInfos %@ in %@", comment:""))",
                 distanceFormatter.string(fromMeters: fromCurrentLocation.route.distance),
                 expectedTravelTime)
@@ -1183,6 +1186,7 @@ extension MapViewController : RouteDisplayInfos {
             // Show information between the 2 wayPoints
             fromToLabel.textColor = UIColor.black
             fromToLabel.text = datasource.routeName
+            distanceLabel.textColor = datasource.fromWayPoint!.routeInfos == nil ? UIColor.red : UIColor.black
             distanceLabel.text = datasource.routeDistanceAndTime
             selectedTransportType.selectedSegmentIndex = MapUtils.transportTypeToSegmentIndex(datasource.fromWayPoint!.transportType!)
         }

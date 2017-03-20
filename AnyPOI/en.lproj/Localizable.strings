@@ -62,6 +62,7 @@
 "PoiEditorPOIDescriptionPlaceholder"="POI description";
 "Radius"="Radius";
 "RouteNotDefined"="Add a start and destination";
+"RouteIsInvaliad"="Invalid route";
 "RouteNoDestination"="Add a destination to build the trip";
 "Route Distance %@ in %@"="%@ in %@";
 "Route Distance %@ in %@ with %d steps"="%@ in %@ (%d steps)";
@@ -197,7 +198,11 @@
 "GPXImport"="Import";
 "NeedInAppPurchaseToUseFeature"="You need to purchase an In-App to enable this feature";
 "To create more than %d Point of Interest you need to purchase an In-App"="To create more than %d Point of Interest you need to purchase an In-App";
-
+"RouteDetailsRouteNotAvailable"="⚠️ direction not available";
+"RouteDirectionFailurePart1"="These route cannot be calulated:\n";
+"RouteDirectionFailurePart3"="\n\nYou should remove them and put new POI with a more detailed address.";
+"RouteDirectionFailurePart2 From %@ To %@"="\n⚠️ %@ to %@";
+"RouteDirectionFailure From %@ To %@"="⚠️ Cannot calculate route from %@ to %@";
 // Mail Route
 "RouteTableHeaderFrom"="From";
 "RouteTableHeaderTo"="To";

@@ -90,15 +90,19 @@ class WayPoint: NSManagedObject {
     // Gives the distance & time of the full route or of the WayPoint currently displayed
     var distanceAndTime:String {
         get {
-            if !wayPointDistance.isNaN && !wayPointDistance.isInfinite {
-                let distanceFormatter = LengthFormatter()
-                distanceFormatter.unitStyle = .short
-                let expectedTravelTime = Utilities.shortStringFromTimeInterval(wayPointDuration) as String
-                return String(format:("\(NSLocalizedString("RouteDatasource %@ in %@", comment: ""))"),
-                              distanceFormatter.string(fromMeters: wayPointDistance),
-                              expectedTravelTime)
+            if routeInfos != nil {
+                if !wayPointDistance.isNaN && !wayPointDistance.isInfinite {
+                    let distanceFormatter = LengthFormatter()
+                    distanceFormatter.unitStyle = .short
+                    let expectedTravelTime = Utilities.shortStringFromTimeInterval(wayPointDuration) as String
+                    return String(format:("\(NSLocalizedString("RouteDatasource %@ in %@", comment: ""))"),
+                                  distanceFormatter.string(fromMeters: wayPointDistance),
+                                  expectedTravelTime)
+                } else {
+                    return NSLocalizedString("WayPointNoInfos", comment:"")
+                }
             } else {
-                return NSLocalizedString("WayPointNoInfos", comment:"")
+                return NSLocalizedString("RouteDetailsRouteNotAvailable", comment: "")
             }
         }
     }
