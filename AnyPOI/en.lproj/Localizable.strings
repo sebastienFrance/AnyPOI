@@ -17,7 +17,7 @@
 "LoadingProducts"="Loading In-App...";
 "ProductPurchased"="Bought";
 "PurchaseRestored"="Your In-App have been restored";
-"NearBy"="Near by";
+"NearBy"="Distance";
 "MaxResults"="Max results";
 "Geocoding"="Geocoding";
 "Addresses"="addresses";
@@ -137,10 +137,10 @@
 "AccessPrivateDataUserAuthentication"="Access to private data";
 "YourPasswordUserAuthentication"="Your password";
 "BuildLeftMenuViewController"="Build";
-"NearByWikipediaOptions"="Near by";
+"NearByWikipediaOptions"="Distance";
 "MaxResultsWikipediaOptions"="Max results";
 "LanguageWikipediaOptionVC"="Language";
-"RangeWikipediaOptionVC"="Near by ";
+"RangeWikipediaOptionVC"="Distance ";
 "MaxResultWikipediaOptionVC"="with Max results ";
 "Wikipedia Language: %@"="Language %@";
 "LoadingWikipediaPOIDetailsVC"="Loading wikipedia articles...";

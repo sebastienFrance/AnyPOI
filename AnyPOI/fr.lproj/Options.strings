@@ -34,9 +34,9 @@
 "IYb-8L-JEj.headerTitle" = "Information sur la carte";
 
 /* Class = "UILabel"; text = "Hybrid Flyover"; ObjectID = "Loz-2d-0fo"; */
-"3I3-Qg-6R4.text" = "Carte standard";
-"Loz-2d-0fo.text" = "Satellite";
-"h02-SY-o7q.text" = "Flyover avec 360°";
+"n8S-Od-i8z.text" = "Carte standard";
+"2MJ-yC-3OW.text" = "Satellite";
+"ALA-Id-37n.text" = "Flyover avec 360°";
 
 /* Class = "UILabel"; text = "Near Location"; ObjectID = "Lt3-BU-kyN"; */
 "Lt3-BU-kyN.text" = "Lieux proches";

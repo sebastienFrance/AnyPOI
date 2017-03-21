@@ -12,7 +12,6 @@ import LocalAuthentication
 import Contacts
 import PKHUD
 
-//, EnterCredentialsDelegate
 class OptionsViewController: UITableViewController, PasswordConfigurationDelegate, UserAuthenticationDelegate, ContainerViewControllerDelegate {
 
     weak var theMapView: MKMapView!
@@ -22,7 +21,7 @@ class OptionsViewController: UITableViewController, PasswordConfigurationDelegat
     
     @IBOutlet weak var cellStandard: UITableViewCell!
     @IBOutlet weak var cellHybridFlyover: UITableViewCell!
-    @IBOutlet weak var cellFlyoverWith360: UITableViewCell!
+    @IBOutlet weak var switchEnable360Flyover: UISwitch!
     
     @IBOutlet weak var switchDefaultTransportType: UISegmentedControl! {
         didSet {
@@ -203,9 +202,12 @@ class OptionsViewController: UITableViewController, PasswordConfigurationDelegat
             cellStandard.accessoryType = .checkmark
         }
         
-        cellFlyoverWith360.accessoryType = UserPreferences.sharedInstance.flyover360Enabled ? .checkmark : .none
+        switchEnable360Flyover.isOn = UserPreferences.sharedInstance.flyover360Enabled
     }
 
+    @IBAction func switchEnableFlyoverWith360(_ sender: UISwitch) {
+        UserPreferences.sharedInstance.flyover360Enabled = sender.isOn
+    }
     @IBAction func switchMapOptionsChanged(_ sender: UISwitch) {
         if sender == switchApplePOIs {
             UserPreferences.sharedInstance.mapShowPointsOfInterest = sender.isOn
@@ -325,9 +327,7 @@ class OptionsViewController: UITableViewController, PasswordConfigurationDelegat
                 theMapView.mapType = .standard
             } else if indexPath.row == 1 {
                 theMapView.mapType = .hybridFlyover
-            } else if indexPath.row == 2 {
-                 UserPreferences.sharedInstance.flyover360Enabled = cellFlyoverWith360.accessoryType == .checkmark ? false : true
-            }
+            } 
             UserPreferences.sharedInstance.mapMode = theMapView.mapType
             updateCellMapMode()
         }

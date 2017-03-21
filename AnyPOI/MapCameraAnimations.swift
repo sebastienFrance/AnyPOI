@@ -274,15 +274,20 @@ class MapCameraAnimations  {
         } else {
             let theCoordinate = annotation.coordinate
             
+            // During this animation we zoom on the POI and we display its callout
             var newCameraPath = CameraPath(camera:MKMapCamera(lookingAtCenter: theCoordinate, fromDistance: fromDistance, pitch: pitch, heading: 0), annotation:annotation, animationDuration: 1.0)
             newCameraPath.isSelectedAnnotation = true
-            newCameraPath.animationDelay = 5
+            newCameraPath.animationDelay = 2
             if let theRoutePolyline = routePolyline {
                 newCameraPath.updateOverlays = true
                 newCameraPath.routePolyline = theRoutePolyline
             } else {
                 newCameraPath.updateOverlays = false //true
             }
+            theCameraPath.append(newCameraPath)
+            
+            // Add a second animation, it will remove the POI callout during this animation
+            newCameraPath = CameraPath(camera:MKMapCamera(lookingAtCenter: theCoordinate, fromDistance: fromDistance, pitch: pitch, heading: 0), annotation:annotation, animationDuration: 2.0)
             theCameraPath.append(newCameraPath)
 
         }
@@ -343,7 +348,7 @@ class MapCameraAnimations  {
     
 
     // It Performs the animation of MkMapCamera starting with the given index
-    // The animation stops only when all animations have beend done or when the user
+    // The animation stops only when all animations have been done or when the user
     // has interrupted it
     fileprivate func executeCameraPathFromIndex(_ index:Int = 0) {
         
