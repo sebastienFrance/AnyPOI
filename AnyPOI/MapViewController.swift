@@ -606,6 +606,7 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
         routeManager = RouteManager(route:routeToDisplay, routeDisplay: self)
         routeManager?.loadAndDisplayOnMap()
         
+        routeManager?.displayRouteMapRegion()
     }
     
 
@@ -1030,12 +1031,7 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
             viewController.mode = .email 
         } else if segue.identifier == storyboard.openMapFilterId {
             let viewController = segue.destination as! MapFilterViewController
-            let mapFilter = MapCategoryFilter(initialFilter:categoryFilter)
-            viewController.filter = mapFilter
-            if isRouteMode {
-                viewController.isRouteModeOn = true
-                viewController.showPOIsNotInRoute = !filterPOIsNotInRoute
-            }
+            show(mapFilterVC: viewController)
         } else if segue.identifier == storyboard.showGPXImportId {
             let navController = segue.destination as! UINavigationController
             let viewController = navController.topViewController as! GPXImportViewController
@@ -1065,7 +1061,14 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
         }
     }
     
-
+    fileprivate func show(mapFilterVC:MapFilterViewController) {
+        let mapFilter = MapCategoryFilter(initialFilter:categoryFilter)
+        mapFilterVC.filter = mapFilter
+        if isRouteMode {
+            mapFilterVC.isRouteModeOn = true
+            mapFilterVC.showPOIsNotInRoute = !filterPOIsNotInRoute
+        }
+    }
 }
 
 
@@ -1074,8 +1077,8 @@ extension MapViewController: UIViewControllerPreviewingDelegate {
         previewingContext.sourceRect = mapFilterButton.frame
         
         let viewController = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MapFilterId") as! MapFilterViewController
-        let mapFilter = MapCategoryFilter(initialFilter:categoryFilter)
-        viewController.filter = mapFilter
+        show(mapFilterVC: viewController)
+
         return viewController
     }
     

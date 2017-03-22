@@ -143,7 +143,10 @@ class RouteManager: NSObject {
         // FIXEDME: Maybe we should not add the overlays in this method? or we should find a better
         // way to see the progress when a new one is added
         addRouteOverlays()
-        displayRouteMapRegion()
+        
+        if !routeDatasource.isFullRouteMode {
+            displayRouteMapRegion()
+        }
         
         refreshRouteInfosOverview()
     }
@@ -180,7 +183,9 @@ class RouteManager: NSObject {
             Utilities.showAlertMessage(MapViewController.instance!, title: NSLocalizedString("Warning", comment: ""), message:errorMsg)
         }
         
-        displayRouteMapRegion()
+        if !routeDatasource.isFullRouteMode {
+            displayRouteMapRegion()
+        }
     }
 
     //MARK: public interface
