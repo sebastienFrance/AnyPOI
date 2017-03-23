@@ -221,12 +221,14 @@
 "CategoryLabelUnknown"="Inconnue";
 "CategoryLabelCoffee"="Café";
 "CategoryLabelRestaurant"="Restaurant";
+"CategoryLabelFastfood"="Fast food";
 "CategoryLabelWineBar"="Bar à vin";
 "CategoryLabelBar"="Bar";
 "CategoryLabelMuseum"="Musée";
 "CategoryLabelNightClub"="Night club";
 "CategoryLabelStation"="Gare";
 "CategoryLabelOpera"="Théatre";
+"CategoryLabelConcertHall"="Concert";
 "CategoryLabelHospital"="Hopital";
 "CategoryLabelPharmacy"="Pharmacie";
 "CategoryLabelChurch"="Eglise";

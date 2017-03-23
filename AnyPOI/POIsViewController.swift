@@ -273,7 +273,7 @@ class POIsViewController: UIViewController  {
     // MARK: Action buttons
     @IBAction func actionButtonPushed(_ sender: UIBarButtonItem) {
         var activityItems = [UIActivityItemSource]()
-        let mailActivity = PoisMailActivityItemSource(pois:getPois(withFilter:true), mailTitle:POIGroup.groupDisplayName!)
+        let mailActivity = PoisMailActivityItemSource(pois:getPois(withFilter:true), mailTitle:areaName)
         activityItems.append(mailActivity)
         
         if UserPreferences.sharedInstance.isAnyPoiUnlimited {

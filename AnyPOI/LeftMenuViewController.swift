@@ -34,6 +34,9 @@ class LeftMenuViewController: UIViewController {
         super.viewDidLoad()
     }
 
+    @IBAction func anyPOIButtonPushed(_ sender: UIButton) {
+        Utilities.openSafariFrom(self, url: "http://sebbrugalieres.fr/anypoi/AnyPOI/Presentation.html", delegate: self)
+    }
 
     @IBAction func icons8ButtonPushed(_ sender: UIButton) {
         Utilities.openSafariFrom(self, url: "https://icons8.com", delegate: self)

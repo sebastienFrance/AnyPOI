@@ -220,10 +220,12 @@
 "CategoryLabelRestaurant"="Restaurant";
 "CategoryLabelWineBar"="Wine bar";
 "CategoryLabelBar"="Bar";
+"CategoryLabelFastfood"="fast food";
 "CategoryLabelMuseum"="Museum";
 "CategoryLabelNightClub"="Night club";
 "CategoryLabelStation"="Station";
 "CategoryLabelOpera"="Opera";
+"CategoryLabelConcertHall"="Concert";
 "CategoryLabelHospital"="Hospital";
 "CategoryLabelPharmacy"="Pharmacy";
 "CategoryLabelChurch"="Church";

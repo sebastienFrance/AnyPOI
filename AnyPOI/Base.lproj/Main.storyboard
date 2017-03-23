@@ -159,7 +159,7 @@
                                                                 <rect key="frame" x="90" y="0.0" width="245" height="40"/>
                                                                 <subviews>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="6300,02 km in 23:30" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="1Yr-if-ntb">
-                                                                        <rect key="frame" x="0.0" y="10" width="245" height="20.5"/>
+                                                                        <rect key="frame" x="0.0" y="10" width="245" height="21"/>
                                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                                         <nil key="textColor"/>
                                                                         <nil key="highlightedColor"/>
@@ -453,15 +453,15 @@
                                 <rect key="frame" x="0.0" y="128" width="375" height="539"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="MenuAboutCellId" rowHeight="163" id="8tk-j5-Upz" customClass="LeftMenuAboutTableViewCell" customModule="AnyPOI" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="163"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="MenuAboutCellId" rowHeight="200" id="8tk-j5-Upz" customClass="LeftMenuAboutTableViewCell" customModule="AnyPOI" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="200"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="8tk-j5-Upz" id="5HM-zP-jqU">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="163"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="199"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="W8D-2D-Bgp">
-                                                    <rect key="frame" x="8" y="8" width="299" height="146.5"/>
+                                                    <rect key="frame" x="8" y="8" width="299" height="183.5"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Code &amp; design: Sébastien Brugalières" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o6A-yK-qkE">
                                                             <rect key="frame" x="20.5" y="0.0" width="258" height="18"/>
@@ -469,16 +469,24 @@
                                                             <color key="textColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7l5-20-yPe">
-                                                            <rect key="frame" x="88" y="23" width="123" height="30.5"/>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7l5-20-yPe">
+                                                            <rect key="frame" x="124" y="23" width="51" height="30"/>
+                                                            <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                                                            <state key="normal" title="AnyPOI"/>
+                                                            <connections>
+                                                                <action selector="anyPOIButtonPushed:" destination="zNV-t4-3Ag" eventType="touchUpInside" id="KXM-K0-x8h"/>
+                                                            </connections>
+                                                        </button>
+                                                        <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nG8-vL-PeZ">
+                                                            <rect key="frame" x="88" y="58" width="123" height="32.5"/>
                                                             <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                                             <state key="normal" title="Icons from Icons8"/>
                                                             <connections>
-                                                                <action selector="icons8ButtonPushed:" destination="zNV-t4-3Ag" eventType="touchUpInside" id="ACM-YC-trK"/>
+                                                                <action selector="icons8ButtonPushed:" destination="zNV-t4-3Ag" eventType="touchUpInside" id="0ay-2T-kGL"/>
                                                             </connections>
                                                         </button>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sw4-ee-neG">
-                                                            <rect key="frame" x="116.5" y="58.5" width="66" height="30"/>
+                                                            <rect key="frame" x="116.5" y="95.5" width="66" height="30"/>
                                                             <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                                             <state key="normal" title="Alamofire"/>
                                                             <connections>
@@ -486,7 +494,7 @@
                                                             </connections>
                                                         </button>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u1k-09-WRr">
-                                                            <rect key="frame" x="123.5" y="93.5" width="52" height="30"/>
+                                                            <rect key="frame" x="123.5" y="130.5" width="52" height="30"/>
                                                             <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                                             <state key="normal" title="PKHUD"/>
                                                             <connections>
@@ -494,7 +502,7 @@
                                                             </connections>
                                                         </button>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="build version" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ue8-lo-Wug">
-                                                            <rect key="frame" x="106" y="128.5" width="87" height="18"/>
+                                                            <rect key="frame" x="106" y="165.5" width="87" height="18"/>
                                                             <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                             <nil key="highlightedColor"/>
@@ -514,7 +522,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="LeftMenuCellId" rowHeight="79" id="GWj-1j-tZC" customClass="LeftMenuTableViewCell" customModule="AnyPOI" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="191" width="375" height="79"/>
+                                        <rect key="frame" x="0.0" y="228" width="375" height="79"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="GWj-1j-tZC" id="d5V-Oh-WY3">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="79"/>
@@ -552,7 +560,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="LeftMenuPOIsTableViewCellId" id="4sL-Cr-CeX" customClass="LeftMenuPOIsTableViewCell" customModule="AnyPOI" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="270" width="375" height="69"/>
+                                        <rect key="frame" x="0.0" y="307" width="375" height="69"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="4sL-Cr-CeX" id="hNl-sF-Ztv">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="69"/>
@@ -1508,16 +1516,16 @@ Compute the route from current position to the displayed POI</string>
                                                             <rect key="frame" x="0.0" y="118" width="359" height="28"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Distance" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tvg-1z-YGf">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="70.5" height="28"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="71" height="28"/>
                                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <stackView opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="999" axis="vertical" alignment="bottom" translatesAutoresizingMaskIntoConstraints="NO" id="KRQ-CF-GAO">
-                                                                    <rect key="frame" x="75.5" y="0.0" width="283.5" height="28"/>
+                                                                    <rect key="frame" x="76" y="0.0" width="283" height="28"/>
                                                                     <subviews>
                                                                         <segmentedControl opaque="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="750" verticalHuggingPriority="750" horizontalCompressionResistancePriority="999" contentHorizontalAlignment="left" contentVerticalAlignment="top" apportionsSegmentWidthsByContent="YES" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="G8N-Ag-jVN">
-                                                                            <rect key="frame" x="194.5" y="0.0" width="89" height="29"/>
+                                                                            <rect key="frame" x="194" y="0.0" width="89" height="29"/>
                                                                             <segments>
                                                                                 <segment title="" image="Sedan-30"/>
                                                                                 <segment title="" image="Walking-30"/>
@@ -2101,19 +2109,19 @@ Compute the route from current position to the displayed POI</string>
                                                     <rect key="frame" x="8" y="8" width="320" height="99"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="750" text="Route vers Reims" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="squ-6p-CQT">
-                                                            <rect key="frame" x="0.0" y="0.0" width="320" height="20.5"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="320" height="21"/>
                                                             <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Versailles -&gt; Reims" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rBm-A5-0dM">
-                                                            <rect key="frame" x="0.0" y="25.5" width="320" height="18"/>
+                                                            <rect key="frame" x="0.0" y="26" width="320" height="18"/>
                                                             <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="249" text="127,4km in 02:40 with 4 steps" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4x2-gG-xIR">
-                                                            <rect key="frame" x="0.0" y="48.5" width="320" height="27.5"/>
+                                                            <rect key="frame" x="0.0" y="49" width="320" height="27"/>
                                                             <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                             <nil key="highlightedColor"/>
@@ -2404,16 +2412,16 @@ Compute the route from current position to the displayed POI</string>
                                                     <rect key="frame" x="8" y="8" width="359" height="69"/>
                                                     <subviews>
                                                         <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="fia-z2-hA6">
-                                                            <rect key="frame" x="0.0" y="0.0" width="359" height="33.5"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="359" height="33"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Import all as new" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MCH-bC-y1O">
-                                                                    <rect key="frame" x="0.0" y="6.5" width="310" height="20.5"/>
+                                                                    <rect key="frame" x="0.0" y="6" width="310" height="21"/>
                                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="89j-As-PS7">
-                                                                    <rect key="frame" x="310" y="1.5" width="51" height="31"/>
+                                                                    <rect key="frame" x="310" y="1" width="51" height="31"/>
                                                                     <connections>
                                                                         <action selector="switchPOIImportAsNew:" destination="ipi-Hr-rau" eventType="valueChanged" id="LXa-Z7-1qh"/>
                                                                     </connections>
@@ -2421,7 +2429,7 @@ Compute the route from current position to the displayed POI</string>
                                                             </subviews>
                                                         </stackView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Imported points of interests are created as new else they will be merged with existing" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PcO-63-oPa">
-                                                            <rect key="frame" x="0.0" y="38.5" width="359" height="30.5"/>
+                                                            <rect key="frame" x="0.0" y="38" width="359" height="31"/>
                                                             <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
                                                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                             <nil key="highlightedColor"/>
@@ -2448,22 +2456,22 @@ Compute the route from current position to the displayed POI</string>
                                                     <rect key="frame" x="8" y="8" width="359" height="102"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Merge options" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EWO-P4-oM6">
-                                                            <rect key="frame" x="0.0" y="0.0" width="359" height="18.5"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="359" height="19"/>
                                                             <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Bgc-cz-sIv">
-                                                            <rect key="frame" x="0.0" y="23.5" width="359" height="28.5"/>
+                                                            <rect key="frame" x="0.0" y="24" width="359" height="28"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Import new" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rxK-YA-Ri4">
-                                                                    <rect key="frame" x="0.0" y="5.5" width="310" height="18"/>
+                                                                    <rect key="frame" x="0.0" y="5" width="310" height="18"/>
                                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6Ba-Y2-FZf">
-                                                                    <rect key="frame" x="310" y="0.0" width="51" height="28.5"/>
+                                                                    <rect key="frame" x="310" y="0.0" width="51" height="28"/>
                                                                     <connections>
                                                                         <action selector="switchPOIMergeImportNew:" destination="ipi-Hr-rau" eventType="valueChanged" id="yFG-i5-WMV"/>
                                                                     </connections>
@@ -2590,8 +2598,8 @@ Compute the route from current position to the displayed POI</string>
         <image name="Walking-30" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="FJh-UX-8xy"/>
-        <segue reference="JCH-gZ-ywN"/>
         <segue reference="5Ps-Vn-sun"/>
+        <segue reference="FJh-UX-8xy"/>
+        <segue reference="TOc-JS-7Xw"/>
     </inferredMetricsTieBreakers>
 </document>
