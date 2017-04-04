@@ -173,7 +173,7 @@ class Route: NSManagedObject {
     
     // Get a WayPoint from the route
     func wayPointAtIndex(_ index:Int) -> WayPoint? {
-        if index > routeWayPoints!.count {
+        if index >= routeWayPoints!.count {
             return nil
         } else {
             return routeWayPoints!.object(at: index) as? WayPoint
@@ -461,7 +461,7 @@ class Route: NSManagedObject {
                     }
                 }
             } else {
-                NSLog("\(#function) Direction cannot be allocated from \(wayPoints[currentIndex].wayPointPoi?.poiDisplayName) to \(wayPoints[currentIndex + 1].wayPointPoi?.poiDisplayName)")
+                NSLog("\(#function) Direction cannot be allocated from \(String(describing: wayPoints[currentIndex].wayPointPoi?.poiDisplayName)) to \(String(describing: wayPoints[currentIndex + 1].wayPointPoi?.poiDisplayName))")
                 isDirectionLoading = false
             }
         } else {

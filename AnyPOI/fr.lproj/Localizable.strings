@@ -123,7 +123,7 @@
 "HideRouteFromCurrentLocationRouteManager"="Supprimer l'itinéraire depuis vôtre position";
 "LoadingDirectionRouteManager"="Calcul de l'itinéraire";
 "FromCurrentLocationRouteManager"="De vôtre position";
-"POIUsedSeveralTimesDoWeDeleteItRouteManager"="est utilisé à plusieurs reprises, voulez-vous pour le supprimer?";
+"POIUsedSeveralTimesDoWeDeleteItRouteManager"="est utilisé plusieurs fois dans l'itinéraire, voulez-vous le supprimer?";
 "AsEndPointRouteManager"="Comme arrivée";
 "AsStartPointRouteManager"="Comme départ";
 "AsEndPoint"="Comme arrivée";

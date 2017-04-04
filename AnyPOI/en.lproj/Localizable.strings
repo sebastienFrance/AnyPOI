@@ -123,7 +123,7 @@
 "HideRouteFromCurrentLocationRouteManager"="Hide trip from current location";
 "LoadingDirectionRouteManager"="Loading directions";
 "FromCurrentLocationRouteManager"="from current location";
-"POIUsedSeveralTimesDoWeDeleteItRouteManager"="is used several times, do you want to remove it?";
+"POIUsedSeveralTimesDoWeDeleteItRouteManager"="is used several times in the trip, do you want to remove it?";
 "AsEndPointRouteManager"="As end point";
 "AsStartPointRouteManager"="As starting point";
 "WhereRouteManager"="Where ?";

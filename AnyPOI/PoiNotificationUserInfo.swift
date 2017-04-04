@@ -110,13 +110,13 @@ class PoiNotificationUserInfo {
     
     fileprivate static func getObjectClass(_ theObject:AnyObject) -> String {
         if theObject is PointOfInterest {
-            return "PoinfOfInterest \((theObject as! PointOfInterest).poiDisplayName)"
+            return "PoinfOfInterest \(String(describing: (theObject as! PointOfInterest).poiDisplayName))"
         } else if theObject is WayPoint {
-            return "WayPoint \((theObject as! WayPoint).wayPointPoi?.poiDisplayName) from route \((theObject as! WayPoint).wayPointParent?.routeName) "
+            return "WayPoint \(String(describing: (theObject as! WayPoint).wayPointPoi?.poiDisplayName)) from route \(String(describing: (theObject as! WayPoint).wayPointParent?.routeName)) "
         } else if theObject is GroupOfInterest {
-            return "GroupOfInterest \((theObject as! GroupOfInterest).groupDisplayName)"
+            return "GroupOfInterest \(String(describing: (theObject as! GroupOfInterest).groupDisplayName))"
         } else if theObject is Route {
-            return "Route \((theObject as! Route).routeName)"
+            return "Route \(String(describing: (theObject as! Route).routeName))"
         } else {
             return "unknown object"
         }

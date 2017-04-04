@@ -150,26 +150,27 @@ class RouteDataSource {
     
     // Delete all WayPoints using the given POI
     fileprivate func deleteAllWayPointsUsing(poi:PointOfInterest) {
-        var wayPointsToDelete = [WayPoint]()
         for currentWayPoint in wayPoints {
             if currentWayPoint.wayPointPoi === poi {
-                wayPointsToDelete.append(currentWayPoint)
+                removeAndUpdateIndex(wayPoint: currentWayPoint)
+                POIDataManager.sharedInstance.deleteWayPoint(currentWayPoint)
             }
         }
         
-        // delete all WayPoints where this Poi is used
-        for currentWayPoint in wayPointsToDelete {
-            POIDataManager.sharedInstance.deleteWayPoint(currentWayPoint)
-        }
         POIDataManager.sharedInstance.commitDatabase()
     }
     
-    func delete(wayPoint:WayPoint) {
+    
+    /// Update the fromIndex. Must be used when a WayPoint must be removed from the route
+    ///
+    /// - Parameter wayPoint: WayPoint that will be removed from the route
+    fileprivate func removeAndUpdateIndex(wayPoint:WayPoint) {
+        
         if fromWayPointIndex != 0 {
             // === The WayPoint to remove is currently displayed
             if wayPoint == fromPOI {
                 // If it's the head of the route we just need to update the index when
-                // there's no more WayPoint to display a section, then we go back to the 
+                // there's no more WayPoint to display a section, then we go back to the
                 // beginning
                 if fromWayPointIndex == 1 {
                     if theRoute.routeWayPoints!.count <= 2 {
@@ -191,7 +192,7 @@ class RouteDataSource {
                 // The wayPoint to remove is not displayed
                 // If it's after the currently displayed wayPoint there's nothing to change.
                 // If we delete a WayPoint that is before the currently displayed WayPoint we need to
-                // decrement the index 
+                // decrement the index
                 if let indexOfWayPointToDelete = indexOf(wayPoint:wayPoint) , indexOfWayPointToDelete <= fromWayPointIndex - 1 {
                     fromWayPointIndex = fromWayPointIndex - 1
                 }
@@ -199,10 +200,12 @@ class RouteDataSource {
         } else {
             // === Full route is displayed, nothing special has to be done
         }
-        
+    }
+    
+    func delete(wayPoint:WayPoint) {
+        removeAndUpdateIndex(wayPoint: wayPoint);
         POIDataManager.sharedInstance.deleteWayPoint(wayPoint)
         POIDataManager.sharedInstance.commitDatabase()
-
     }
     
     fileprivate func indexOf(wayPoint:WayPoint) -> Int? {
