@@ -236,7 +236,6 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
                 let changedValues = updatedPoi.changedValues()
                 
                 if changedValues.count > 0 {
-                    refreshMapImage()
                     title = poi.poiDisplayName
                 }
                 
@@ -579,6 +578,10 @@ extension POIDetailsViewController : UITableViewDataSource, UITableViewDelegate 
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if indexPath.section == Sections.mapViewAndPhotos  && indexPath.row == 0 {
+            if snapshotter.isLoading {
+                snapshotter.cancel()
+            }
+            
             POIDataManager.sharedInstance.deletePOI(POI: self.poi)
             POIDataManager.sharedInstance.commitDatabase()
             _ = self.navigationController?.popViewController(animated: true)
