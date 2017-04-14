@@ -61,6 +61,11 @@ class MapFilterViewController: UIViewController {
         updateResetButtonState()
     }
     
+    
+    /// Enable the Reset button only when at least something is filtered
+    /// - a Category
+    /// - Hide POIs not in Route when Route mode is on
+    /// - at least one group is not displayed
     func updateResetButtonState() {
         resetButton.isEnabled = false
        if !filter.filter.isEmpty {
@@ -83,6 +88,34 @@ class MapFilterViewController: UIViewController {
         resetFilter()
     }
     
+    
+    /// Filter all Categories from the map
+    /// - All categories are added in the Filter and for each of them a notification is send to update the Map
+    /// - Update the Tableview to show all Categories are filtered
+    /// - Update the Reset button, which must be enabled
+    ///
+    /// - Parameter sender: button
+    @IBAction func hideAllCategoriesButtonPushed(_ sender: UIBarButtonItem) {
+        for category in CategoryUtils.localSearchCategories {
+            filter.add(category: category)
+            NotificationCenter.default.post(name: Notification.Name(rawValue: Notifications.addCategoryToFilter),
+                                            object: self,
+                                            userInfo:[Notifications.categoryParameter.categoryName: category])
+        }
+        
+        let sectionToUpdate = NSMutableIndexSet()
+        sectionToUpdate.add(Sections.categories)
+        theTableView.reloadSections(sectionToUpdate as IndexSet, with: .none)
+        updateResetButtonState()
+    }
+    
+    
+    /// Reset the filter configured by the user, it means:
+    /// - Show POIs not in Route when the route mode is on
+    /// - Show all categories that were filtered
+    /// - Show all groups that were filetered
+    /// For each changes a notification is sent to update the Map with the new filter
+    /// Each impacted sections in the tableview is reloaded
     fileprivate func resetFilter() {
         let sectionToUpdate = NSMutableIndexSet()
         
@@ -188,12 +221,14 @@ extension MapFilterViewController : UITableViewDelegate, UITableViewDataSource {
             
             let category = CategoryUtils.localSearchCategories[indexPath.row]
             if filter.isFiletered(category: category) {
+                // when the Category is already filtered we remove it from the filter and we send a notification to update the map
                 filter.remove(category: category)
                 cell.isFiltered = false
                 NotificationCenter.default.post(name: Notification.Name(rawValue: Notifications.removeCategoryFromFilter),
                                                 object: self,
                                                 userInfo:[Notifications.categoryParameter.categoryName: category])
             } else {
+                // When the Category is not yet filtered we add it in the filter and we send a notification to update the map
                 filter.add(category: category)
                 cell.isFiltered = true
                 NotificationCenter.default.post(name: Notification.Name(rawValue: Notifications.addCategoryToFilter),
@@ -213,6 +248,7 @@ extension MapFilterViewController : UITableViewDelegate, UITableViewDataSource {
                 // It will add/remove annotations from the Map, it can takes some times... so to no block
                 // user we do it asynchronously
                 DispatchQueue.main.async {
+                    // Map will be automatically updated when the database will send a notification about the changes
                     POIDataManager.sharedInstance.updatePOIGroup(POIGroup)
                     POIDataManager.sharedInstance.commitDatabase()
                 }
@@ -222,6 +258,8 @@ extension MapFilterViewController : UITableViewDelegate, UITableViewDataSource {
             let cell = theTableView.cellForRow(at: indexPath) as! MapFilterShowAllPoisTableViewCell
             cell.initWith(showPOIsNotInRoute: showPOIsNotInRoute)
             let notificationType = showPOIsNotInRoute ? Notifications.showPOIsNotInRoute : Notifications.hidePOIsNotInRoute
+            
+            // Send a notification to hide or show POIs not in route in the map
             NotificationCenter.default.post(name: Notification.Name(rawValue: notificationType), object: self)
 
         default:
