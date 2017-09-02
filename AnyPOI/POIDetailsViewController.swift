@@ -263,7 +263,7 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
     /// Update the cell displaying the POI details when something has been changed (Category, Group, Title...)
     ///
     /// - Parameter notification: notification from the database
-    func contextDidSaveNotification(_ notification : Notification) {
+    @objc func contextDidSaveNotification(_ notification : Notification) {
         let notifContent = PoiNotificationUserInfo(userInfo: (notification as NSNotification).userInfo as [NSObject : AnyObject]?)
         
         for updatedPoi in notifContent.updatedPois {
@@ -285,7 +285,7 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
     /// Update the section that displays Wikipedia articles. It's called when we get a notif that wikipedia articles are ready
     ///
     /// - Parameter notification: Notification
-    func wikipediaReady(_ notification : Notification) {
+    @objc func wikipediaReady(_ notification : Notification) {
         theTableView.reloadSections(IndexSet(integer: Sections.wikipedia), with: .fade)
     }
     

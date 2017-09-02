@@ -61,7 +61,7 @@ class FlyoverWayPoints: NSObject{
         }
     }
 
-    func singleTapGestureToStopFlyoverAnimation(_ gestureRecognizer:UIGestureRecognizer) {
+    @objc func singleTapGestureToStopFlyoverAnimation(_ gestureRecognizer:UIGestureRecognizer) {
         mapAnimation!.stopAnimation()
     }
 

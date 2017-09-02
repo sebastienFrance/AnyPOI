@@ -78,14 +78,14 @@ class RouteDetailsViewController: UIViewController {
     
     // Nothing to do because HUD will be displayed by the
     // WayPointDetailsViewController when it will get the same notification
-    func directionStarting(_ notification : Notification) {
+    @objc func directionStarting(_ notification : Notification) {
     }
 
-    func directionForWayPointUpdated(_ notification : Notification) {
+    @objc func directionForWayPointUpdated(_ notification : Notification) {
        // nothing to do because directionDone is always called at the end
     }
 
-    func directionDone(_ notification : Notification) {
+    @objc func directionDone(_ notification : Notification) {
         theTableView.reloadData()
         enableView()
     }

@@ -16,14 +16,14 @@ class ImportTextualDescriptionTableViewCell: UITableViewCell {
         let descriptionString = NSMutableAttributedString()
         
         if isRouteEnabled {
-            descriptionString.append(NSAttributedString(string: NSLocalizedString("Routes", comment: ""), attributes: [NSForegroundColorAttributeName : UIColor.blue]))
-            descriptionString.append(NSAttributedString(string:": ", attributes: [NSForegroundColorAttributeName : UIColor.blue]))
+            descriptionString.append(NSAttributedString(string: NSLocalizedString("Routes", comment: ""), attributes: [NSAttributedStringKey.foregroundColor : UIColor.blue]))
+            descriptionString.append(NSAttributedString(string:": ", attributes: [NSAttributedStringKey.foregroundColor : UIColor.blue]))
             descriptionString.append(importOptions.routeTextualDescription)
             descriptionString.append(NSAttributedString(string:"\n"))
         }
         
-        descriptionString.append(NSAttributedString(string: NSLocalizedString("Points of interests", comment: ""), attributes: [NSForegroundColorAttributeName : UIColor.blue]))
-        descriptionString.append(NSAttributedString(string:": ", attributes: [NSForegroundColorAttributeName : UIColor.blue]))
+        descriptionString.append(NSAttributedString(string: NSLocalizedString("Points of interests", comment: ""), attributes: [NSAttributedStringKey.foregroundColor : UIColor.blue]))
+        descriptionString.append(NSAttributedString(string:": ", attributes: [NSAttributedStringKey.foregroundColor : UIColor.blue]))
         descriptionString.append(importOptions.poiTextualDescription)
         
         texttualDescriptionLabel?.attributedText = descriptionString

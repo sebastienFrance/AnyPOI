@@ -113,7 +113,7 @@ class RouteManager: NSObject {
     /// and it displays a hud with the number of direction that must be resolved
     ///
     /// - Parameter notification: notification that has triggered the direction
-    func directionStarting(_ notification : Notification) {
+    @objc func directionStarting(_ notification : Notification) {
         PKHUD.sharedHUD.dimsBackground = true
         HUD.show(.progress)
         let hudBaseView = PKHUD.sharedHUD.contentView as! PKHUDSquareBaseView
@@ -136,7 +136,7 @@ class RouteManager: NSObject {
     /// It refreshes also the counter in the HUD (number of direction that must still be computed)
     ///
     /// - Parameter notification: notification that has triggered the direction update
-    func directionForWayPointUpdated(_ notification : Notification) {
+    @objc func directionForWayPointUpdated(_ notification : Notification) {
         let hudBaseView = PKHUD.sharedHUD.contentView as! PKHUDSquareBaseView
         hudBaseView.subtitleLabel.text = "\(NSLocalizedString("FromRouteManager", comment: "")) \(routeDatasource.fromPOI!.poiDisplayName!) \(routeDirectionCounter - routeDatasource.theRoute.routeToReloadCounter)/\(routeDirectionCounter)"
         
@@ -157,7 +157,7 @@ class RouteManager: NSObject {
     /// to make sure displayed overlays reflect the position in the route
     ///
     /// - Parameter notification: notification that has triggered the direction update
-    func directionsDone(_ notification : Notification) {
+    @objc func directionsDone(_ notification : Notification) {
         HUD.hide()
         // Even if the route is empty we need to refresh it if it's requested
         // because we could still have old overlays from a previous route...

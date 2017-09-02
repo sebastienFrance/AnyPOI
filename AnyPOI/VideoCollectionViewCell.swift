@@ -21,7 +21,7 @@ class VideoCollectionViewCell: UICollectionViewCell {
         super.init(coder: aDecoder)
         backgroundColor = UIColor.black
         addSubview(playerViewController.view)
-        playerViewController.videoGravity = AVLayerVideoGravityResizeAspect
+        playerViewController.videoGravity = AVLayerVideoGravity.resizeAspect.rawValue
         playerViewController.view.frame = CGRect(x:0, y:0, width:frame.size.width, height:frame.size.height)
     }
     

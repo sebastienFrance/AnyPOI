@@ -728,14 +728,14 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
     }
 
     //MARK: handling notifications
-    func showPOIFromNotification(_ notification : Notification) {
+    @objc func showPOIFromNotification(_ notification : Notification) {
         let poi = (notification as NSNotification).userInfo![MapNotifications.showPOI_Parameter_POI] as? PointOfInterest
         if let thePoi = poi {
             showPOIOnMap(thePoi)
         }
      }
 
-    func showPOIsFromNotification(_ notification : Notification) {
+    @objc func showPOIsFromNotification(_ notification : Notification) {
         let pois = (notification as NSNotification).userInfo![MapNotifications.showPOIs_Parameter_POIs] as? [PointOfInterest]
         if let thePois = pois {
             forceToShowPOIsOnMap(thePois)
@@ -743,43 +743,43 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
     }
 
 
-    func showWikipediaFromNotification(_ notification : Notification) {
+    @objc func showWikipediaFromNotification(_ notification : Notification) {
         // Position the MapView and the camera to display the area around the Wikipedia
         if let wikipedia = (notification as NSNotification).userInfo![MapNotifications.showPOI_Parameter_Wikipedia] as? Wikipedia {
             showWikipediaOnMap(wikipedia)
         }
     }
 
-    func showGroupFromNotification(_ notification : Notification) {
+    @objc func showGroupFromNotification(_ notification : Notification) {
         if let group = notification.object as? GroupOfInterest {
             showGroupOnMap(group)
         }
     }
     
-    func showMapLocationFromNotification(_ notification : Notification) {
+    @objc func showMapLocationFromNotification(_ notification : Notification) {
         if let mapItem = notification.object as? MKMapItem {
             showMapLocation(mapItem)
         }
     }
     
-     func addCategoryToFilter(_ notification:Notification) {
+     @objc func addCategoryToFilter(_ notification:Notification) {
         if let userInfo = notification.userInfo, let category = userInfo[MapFilterViewController.Notifications.categoryParameter.categoryName] as? CategoryUtils.Category {
             addToFilter(category: category)
         }
     }
     
-     func removeCategoryFromFilter(_ notification:Notification) {
+     @objc func removeCategoryFromFilter(_ notification:Notification) {
         if let userInfo = notification.userInfo, let category = userInfo[MapFilterViewController.Notifications.categoryParameter.categoryName] as? CategoryUtils.Category {
             removeFromFilter(category:category)
         }
     }
     
-    func showPOIsNotInRoute(_ notification:Notification) {
+    @objc func showPOIsNotInRoute(_ notification:Notification) {
         showPOIsNotInRoute()
     }
     
     
-    func hidePOIsNotInRoute(_ notification:Notification) {
+    @objc func hidePOIsNotInRoute(_ notification:Notification) {
         hidePOIsNotInRoute()
     }
     
@@ -843,7 +843,7 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
     }
 
     //MARK: Database Notifications
-    func ManagedObjectContextObjectsDidChangeNotification(_ notification : Notification) {
+    @objc func ManagedObjectContextObjectsDidChangeNotification(_ notification : Notification) {
         let notifContent = PoiNotificationUserInfo(userInfo: (notification as NSNotification).userInfo as [NSObject : AnyObject]?)
         
         processNotificationsForGroupOfInterest(notificationsContent:notifContent)
@@ -1532,20 +1532,20 @@ extension MapViewController {
         if categoryFilter.isEmpty && !filterPOIsNotInRoute {
             if POIDataManager.sharedInstance.hasFilteredGroups() {
                 mapFilterButton.setAttributedTitle(NSAttributedString(string: NSLocalizedString("MapFilterIsOn", comment: ""),
-                                                                      attributes: [NSForegroundColorAttributeName : UIColor.white,
-                                                                                   NSBackgroundColorAttributeName : UIColor.red]),
+                                                                      attributes: [NSAttributedStringKey.foregroundColor : UIColor.white,
+                                                                                   NSAttributedStringKey.backgroundColor : UIColor.red]),
                                                    for: .normal)
             } else {
                 mapFilterButton.setAttributedTitle(NSAttributedString(string: NSLocalizedString("MapFilterIsOff", comment: ""),
-                                                                      attributes: [NSForegroundColorAttributeName : UIColor.white,
-                                                                                   NSBackgroundColorAttributeName : UIColor.blue]),
+                                                                      attributes: [NSAttributedStringKey.foregroundColor : UIColor.white,
+                                                                                   NSAttributedStringKey.backgroundColor : UIColor.blue]),
                                                    for: .normal)
                 
             }
         } else {
             mapFilterButton.setAttributedTitle(NSAttributedString(string: NSLocalizedString("MapFilterIsOn", comment: ""),
-                                                                  attributes: [NSForegroundColorAttributeName : UIColor.white,
-                                                                               NSBackgroundColorAttributeName : UIColor.red]),
+                                                                  attributes: [NSAttributedStringKey.foregroundColor : UIColor.white,
+                                                                               NSAttributedStringKey.backgroundColor : UIColor.red]),
                                                for: .normal)
         }
     }

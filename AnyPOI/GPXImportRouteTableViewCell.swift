@@ -24,7 +24,7 @@ class GPXImportRouteTableViewCell: UITableViewCell {
         routeFromTo.text = route.localizedFromTo
         routeDistanceAndDuration.text = route.localizedDistanceAndDuration
         routeImportMode.attributedText = NSAttributedString(string: actionString,
-                                                           attributes:[NSForegroundColorAttributeName : actionColor,
-                                                                       NSFontAttributeName : UIFont.boldSystemFont(ofSize: routeFromTo.font.pointSize)])
+                                                           attributes:[NSAttributedStringKey.foregroundColor : actionColor,
+                                                                       NSAttributedStringKey.font : UIFont.boldSystemFont(ofSize: routeFromTo.font.pointSize)])
     }
 }

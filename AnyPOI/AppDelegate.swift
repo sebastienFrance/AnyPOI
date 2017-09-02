@@ -89,7 +89,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     
-    func notifyContactsSynchronizationDone(_ notification:NSNotification) {
+    @objc func notifyContactsSynchronizationDone(_ notification:NSNotification) {
         if let vc = Utilities.getCurrentViewController() {
             
             var theMessage:String

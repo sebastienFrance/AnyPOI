@@ -47,7 +47,7 @@ class Wikipedia {
         let pageId = initialValues[ArticleCste.pageId] as! NSNumber
         let distance = initialValues[ArticleCste.distance] as! NSNumber
         
-        self.init(title:title, latitude:Double(latitudeString), longitude: Double(longitudeString), pageId:Int(pageId), distance:Float(distance))
+        self.init(title:title, latitude:latitudeString.doubleValue, longitude: longitudeString.doubleValue, pageId:pageId.intValue, distance:distance.floatValue)
     }
 
     

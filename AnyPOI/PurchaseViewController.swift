@@ -60,7 +60,7 @@ class PurchaseViewController: UIViewController, ContainerViewControllerDelegate 
         NotificationCenter.default.removeObserver(self)
     }
     
-    func productPurchased(_ notification:Notification) {
+    @objc func productPurchased(_ notification:Notification) {
         restorePurchaseButton.isEnabled = false
         theTableView.reloadData()
     }

@@ -22,7 +22,7 @@ class GPXImportTableViewCell: UITableViewCell {
         poiDisplayName.attributedText = NSMutableAttributedString(string: "\(poi.poiName) ")
         poiDescription.text = poi.poiDescription
         poiImageCategory.image = poi.poiCategory.icon
-        poiImportMode.attributedText = NSAttributedString(string: actionString, attributes: [NSForegroundColorAttributeName : actionColor,
-                                                                                             NSFontAttributeName : UIFont.boldSystemFont(ofSize: poiDisplayName.font.pointSize)])
+        poiImportMode.attributedText = NSAttributedString(string: actionString, attributes: [NSAttributedStringKey.foregroundColor : actionColor,
+                                                                                             NSAttributedStringKey.font : UIFont.boldSystemFont(ofSize: poiDisplayName.font.pointSize)])
     }
 }

@@ -45,7 +45,7 @@ struct GPXImportOptions {
                         descriptionString.append(NSAttributedString(string: NSLocalizedString("ImportMsgOnlyUpdate", comment: "")))
                     } else {
                         descriptionString.append(NSAttributedString(string: NSLocalizedString("ImportMsgNoImport", comment: ""),
-                                                                    attributes: [NSForegroundColorAttributeName : UIColor.red]))
+                                                                    attributes: [NSAttributedStringKey.foregroundColor : UIColor.red]))
                     }
                 }
             }
@@ -53,7 +53,7 @@ struct GPXImportOptions {
             if !poiOptions.textFilter.isEmpty {
                 descriptionString.append(NSAttributedString(string: NSLocalizedString("ImportMsgFilter", comment: "")))
                 descriptionString.append(NSAttributedString(string: " \"\(poiOptions.textFilter)\"",
-                    attributes: [NSForegroundColorAttributeName : UIColor.purple]))
+                    attributes: [NSAttributedStringKey.foregroundColor : UIColor.purple]))
             }
             
             return descriptionString
@@ -77,7 +77,7 @@ struct GPXImportOptions {
                         descriptionString.append(NSAttributedString(string: NSLocalizedString("ImportMsgRoutesOnlyUpdate", comment: "")))
                     } else {
                         descriptionString.append(NSAttributedString(string: NSLocalizedString("ImportMsgRoutesNoImport", comment: ""),
-                                                                    attributes: [NSForegroundColorAttributeName : UIColor.red]))
+                                                                    attributes: [NSAttributedStringKey.foregroundColor : UIColor.red]))
                     }
                 }
             }

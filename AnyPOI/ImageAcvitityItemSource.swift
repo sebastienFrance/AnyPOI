@@ -22,8 +22,8 @@ class ImageAcvitityItemSource: NSObject, UIActivityItemSource {
         return imageContent
     }
     
-    func activityViewController(_ activityViewController: UIActivityViewController, itemForActivityType activityType: UIActivityType) -> Any? {
-        if activityType == UIActivityType.mail {
+    func activityViewController(_ activityViewController: UIActivityViewController, itemForActivityType activityType: UIActivityType?) -> Any? {
+        if let theActivityType = activityType, theActivityType == UIActivityType.mail {
             return imageContent
         } else {
             return nil

@@ -19,11 +19,15 @@ class ExportAllMailActivityItemSource: NSObject, UIActivityItemSource {
         return ""
     }
     
-    func activityViewController(_ activityViewController: UIActivityViewController, itemForActivityType activityType: UIActivityType) -> Any? {
-        if activityType == UIActivityType.mail {
-            return HTMLAnyPoi.appendCSSAndSignature(html: "<p>\(NSLocalizedString("ExportAllMsgDescription", comment: ""))</p>")
-        } else if activityType.rawValue == HTMLAnyPoi.readdleSparkActivity  {
-            return HTMLAnyPoi.appendCSSAndSignatureForReaddleSpark(html: "<p>\(NSLocalizedString("ExportAllMsgDescription", comment: ""))</p>")
+    func activityViewController(_ activityViewController: UIActivityViewController, itemForActivityType activityType: UIActivityType?) -> Any? {
+        if let theActivityType = activityType {
+            if theActivityType == UIActivityType.mail {
+                return HTMLAnyPoi.appendCSSAndSignature(html: "<p>\(NSLocalizedString("ExportAllMsgDescription", comment: ""))</p>")
+            } else if theActivityType.rawValue == HTMLAnyPoi.readdleSparkActivity  {
+                return HTMLAnyPoi.appendCSSAndSignatureForReaddleSpark(html: "<p>\(NSLocalizedString("ExportAllMsgDescription", comment: ""))</p>")
+            } else {
+                return nil
+            }
         } else {
             return nil
         }

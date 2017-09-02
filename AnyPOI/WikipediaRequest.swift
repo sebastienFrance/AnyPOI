@@ -54,7 +54,7 @@ class WikipediaRequest {
                             
                             let pageId = currentSearch[Wikipedia.ArticleCste.pageId] as! NSNumber
                             
-                            WikipediaUtils.getPageSummary(Int(pageId)).responseJSON { response in
+                            WikipediaUtils.getPageSummary(pageId.intValue).responseJSON { response in
                                 summaryCounter -= 1
                                 if let JSON = response.result.value {
                                     let wikipedia = Wikipedia(initialValues:currentSearch)

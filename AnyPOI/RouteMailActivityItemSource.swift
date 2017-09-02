@@ -30,21 +30,29 @@ class RouteMailActivityItemSource: NSObject, UIActivityItemSource {
         return ""
     }
     
-    func activityViewController(_ activityViewController: UIActivityViewController, itemForActivityType activityType: UIActivityType) -> Any? {
+    func activityViewController(_ activityViewController: UIActivityViewController, itemForActivityType activityType: UIActivityType?) -> Any? {
         if routeDatasource.isFullRouteMode {
-            if activityType == UIActivityType.mail  {
-                return HTMLAnyPoi.appendCSSAndSignature(html: routeToHTML())
-            } else if activityType.rawValue == HTMLAnyPoi.readdleSparkActivity  {
-                return HTMLAnyPoi.appendCSSAndSignatureForReaddleSpark(html:routeToHTML())
+            if let theActivityType = activityType {
+                if theActivityType == UIActivityType.mail  {
+                    return HTMLAnyPoi.appendCSSAndSignature(html: routeToHTML())
+                } else if theActivityType.rawValue == HTMLAnyPoi.readdleSparkActivity  {
+                    return HTMLAnyPoi.appendCSSAndSignatureForReaddleSpark(html:routeToHTML())
+                } else {
+                    return nil
+                }
             } else {
                 return nil
             }
         } else {
             if let sourceWayPoint = routeDatasource.fromWayPoint, let targetWayPoint = routeDatasource.toWayPoint {
-                if activityType == UIActivityType.mail  {
-                    return HTMLAnyPoi.appendCSSAndSignature(html:routeStepToHTML(sourceWayPoint: sourceWayPoint, targetWayPoint: targetWayPoint))
-                } else if activityType.rawValue == HTMLAnyPoi.readdleSparkActivity  {
-                    return HTMLAnyPoi.appendCSSAndSignatureForReaddleSpark(html:routeStepToHTML(sourceWayPoint: sourceWayPoint, targetWayPoint: targetWayPoint))
+                if let theActivityType = activityType {
+                    if theActivityType == UIActivityType.mail  {
+                        return HTMLAnyPoi.appendCSSAndSignature(html:routeStepToHTML(sourceWayPoint: sourceWayPoint, targetWayPoint: targetWayPoint))
+                    } else if theActivityType.rawValue == HTMLAnyPoi.readdleSparkActivity  {
+                        return HTMLAnyPoi.appendCSSAndSignatureForReaddleSpark(html:routeStepToHTML(sourceWayPoint: sourceWayPoint, targetWayPoint: targetWayPoint))
+                    } else {
+                        return nil
+                    }
                 } else {
                     return nil
                 }

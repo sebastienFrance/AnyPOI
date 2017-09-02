@@ -128,14 +128,14 @@ class POIsViewController: UIViewController  {
     }
     
     //MARK: notification
-    func synchronizationContactsDone(_ notification : Notification) {
+    @objc func synchronizationContactsDone(_ notification : Notification) {
         pois = nil // Reset the data
         poisWithFilters = nil
         theTableView.reloadData()
         resetStateOfEditButtons()
     }
     
-    func contextDidSaveNotification(_ notification : Notification) {
+    @objc func contextDidSaveNotification(_ notification : Notification) {
         
         if ContactsSynchronization.sharedInstance.isSynchronizing {
             return // ignore the notification while Contacts are synchronizing
@@ -323,7 +323,7 @@ class POIsViewController: UIViewController  {
     //MARK: Keyboard Mgt
     var contentInsetBeforeDisplayedKeyboard = UIEdgeInsets.zero
     
-    func keyboardWillShow(_ notification:Notification) {
+    @objc func keyboardWillShow(_ notification:Notification) {
         if let keyboardSize = ((notification as NSNotification).userInfo![UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             
             var contentInsets:UIEdgeInsets
@@ -340,7 +340,7 @@ class POIsViewController: UIViewController  {
     }
     
     
-    func keyboardWillHide(_ notification:Notification) {
+    @objc func keyboardWillHide(_ notification:Notification) {
         theTableView.contentInset = contentInsetBeforeDisplayedKeyboard
         theTableView.scrollIndicatorInsets = contentInsetBeforeDisplayedKeyboard
     }

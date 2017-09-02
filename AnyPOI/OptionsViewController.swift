@@ -113,7 +113,7 @@ class OptionsViewController: UITableViewController, PasswordConfigurationDelegat
         }
     }
     
-    func productPurchased(_ notification:Notification) {
+    @objc func productPurchased(_ notification:Notification) {
         synchronizeContactsButton.isEnabled = true
         synchronizeContactsPurchaseLabel.isHidden = true
         exportAllData.isEnabled = true
@@ -121,13 +121,13 @@ class OptionsViewController: UITableViewController, PasswordConfigurationDelegat
     }
 
     
-    func contactsSynchronizationDone(_ notification:Notification) {
+    @objc func contactsSynchronizationDone(_ notification:Notification) {
         synchronizeContactsButton.isEnabled = true
         synchronizationContactsActivity.stopAnimating()
         synchronizationContactsProgressLabel.text = ""
     }
     
-    func contactsSynchronizationUpdate(_ notification:Notification) {
+    @objc func contactsSynchronizationUpdate(_ notification:Notification) {
         if let userInfo = notification.userInfo,
             let synchronizedContacts = userInfo[ContactsSynchronization.Notifications.Parameter.synchronizedContactsNumber] as? Int,
             let totalContacts = userInfo[ContactsSynchronization.Notifications.Parameter.totalContactsNumber] as? Int {
@@ -150,13 +150,13 @@ class OptionsViewController: UITableViewController, PasswordConfigurationDelegat
 
         let attributedText = NSMutableAttributedString(string: "\(NSLocalizedString("LanguageWikipediaOptionVC", comment: "")) ")
         let language = WikipediaLanguages.LanguageForISOcode(userPrefs.wikipediaLanguageISOcode)
-        attributedText.append(NSAttributedString(string: language, attributes:[NSForegroundColorAttributeName : UIColor.blue]))
+        attributedText.append(NSAttributedString(string: language, attributes:[NSAttributedStringKey.foregroundColor : UIColor.blue]))
         wikiLanguage.attributedText = attributedText
 
         let rangeAndResults = NSMutableAttributedString(string:NSLocalizedString("RangeWikipediaOptionVC", comment: ""))
-        rangeAndResults.append(NSAttributedString(string: "\(distance) ", attributes:[NSForegroundColorAttributeName : UIColor.blue]))
+        rangeAndResults.append(NSAttributedString(string: "\(distance) ", attributes:[NSAttributedStringKey.foregroundColor : UIColor.blue]))
         rangeAndResults.append(NSAttributedString(string: NSLocalizedString("MaxResultWikipediaOptionVC", comment: "")))
-        rangeAndResults.append(NSAttributedString(string: "\(userPrefs.wikipediaMaxResults)", attributes:[NSForegroundColorAttributeName : UIColor.blue]))
+        rangeAndResults.append(NSAttributedString(string: "\(userPrefs.wikipediaMaxResults)", attributes:[NSAttributedStringKey.foregroundColor : UIColor.blue]))
         wikiDistanceAndResults.attributedText = rangeAndResults
     }
     

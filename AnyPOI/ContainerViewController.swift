@@ -288,7 +288,7 @@ extension ContainerViewController: UIGestureRecognizerDelegate {
     
     
     // When the right ViewController has been moved from more than 50% then it automatically replaces the left menu
-    func handlePanGesture(_ recognizer: UIPanGestureRecognizer) {
+    @objc func handlePanGesture(_ recognizer: UIPanGestureRecognizer) {
         
         switch(recognizer.state) {
         case .began:

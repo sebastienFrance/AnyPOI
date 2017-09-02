@@ -21,8 +21,8 @@ class MessageActivityItemSource: NSObject, UIActivityItemSource {
         return textMessageContent
     }
     
-    func activityViewController(_ activityViewController: UIActivityViewController, itemForActivityType activityType: UIActivityType) -> Any? {
-        if activityType == UIActivityType.message {
+    func activityViewController(_ activityViewController: UIActivityViewController, itemForActivityType activityType: UIActivityType?) -> Any? {
+        if let theActivityType = activityType, theActivityType == UIActivityType.message {
             return textMessageContent
         } else {
             return nil

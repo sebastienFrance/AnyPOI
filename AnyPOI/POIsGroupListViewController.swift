@@ -119,7 +119,7 @@ class POIsGroupListViewController: UIViewController, DismissModalViewController,
     }
     
     //MARK: Notifications
-    func contextDidSaveNotification(_ notification : Notification) {
+    @objc func contextDidSaveNotification(_ notification : Notification) {
         let notifContent = PoiNotificationUserInfo(userInfo: (notification as NSNotification).userInfo as [NSObject : AnyObject]?)
         
         // A Group has been added or changed, we must reload the table content
@@ -140,7 +140,7 @@ class POIsGroupListViewController: UIViewController, DismissModalViewController,
 
     // when the keyboard is displayed, we change the insets values of the tableView to take into account the size of 
     // the keyboard (width or height depending on orientation)
-    func keyboardWillShow(_ notification:Notification) {
+    @objc func keyboardWillShow(_ notification:Notification) {
         if let keyboardSize = ((notification as NSNotification).userInfo![UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             
             var contentInsets:UIEdgeInsets
@@ -157,7 +157,7 @@ class POIsGroupListViewController: UIViewController, DismissModalViewController,
     }
     
     
-    func keyboardWillHide(_ notification:Notification) {
+    @objc func keyboardWillHide(_ notification:Notification) {
         theTableView.contentInset = contentInsetBeforeDisplayedKeyboard
         theTableView.scrollIndicatorInsets = contentInsetBeforeDisplayedKeyboard
     }

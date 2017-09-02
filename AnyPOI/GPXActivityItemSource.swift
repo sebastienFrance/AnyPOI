@@ -33,8 +33,8 @@ class GPXActivityItemSource: NSObject, UIActivityItemSource {
         return Data()
     }
     
-    func activityViewController(_ activityViewController: UIActivityViewController, itemForActivityType activityType: UIActivityType) -> Any? {
-        if activityType == UIActivityType.mail || activityType.rawValue == HTMLAnyPoi.readdleSparkActivity  {
+    func activityViewController(_ activityViewController: UIActivityViewController, itemForActivityType activityType: UIActivityType?) -> Any? {
+        if let theActivityType = activityType, theActivityType == UIActivityType.mail || theActivityType.rawValue == HTMLAnyPoi.readdleSparkActivity  {
             return gpxExportData.data(using: .utf8)
         } else {
             return nil
