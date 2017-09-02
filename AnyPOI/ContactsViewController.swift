@@ -73,7 +73,7 @@ class ContactsViewController: UIViewController   {
             let phoneNumber = (currentLabeledValue.value as CNPhoneNumber).stringValue
             if let facetimeURL = URL(string: "facetime://\(phoneNumber)") {
                 if UIApplication.shared.canOpenURL(facetimeURL) {
-                    UIApplication.shared.openURL(facetimeURL)
+                    UIApplication.shared.open(facetimeURL, options:[UIApplicationOpenURLOptionUniversalLinksOnly : true], completionHandler: nil)
                     dismiss(animated: true, completion: nil)
                     delegate.endContacts()
                 }

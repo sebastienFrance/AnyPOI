@@ -34,7 +34,7 @@ class PoiImageCollectionViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.black
-        automaticallyAdjustsScrollViewInsets = false
+
         theCollectionView.reloadData()
     }
     

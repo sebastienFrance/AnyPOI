@@ -60,27 +60,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         SKPaymentQueue.default().add(self)
         
-        if #available(iOS 10.0, *) {
-            
-            UNUserNotificationCenter.current().delegate = self
-            UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound], completionHandler: { (granted, error) in
-                if let theError = error {
-                    NSLog("\(#function) error when request localNotification \(theError.localizedDescription)")
-                } else {
-                    if !granted {
-                        NSLog("\(#function) Warning local notification not granted")
-                    }
+        UNUserNotificationCenter.current().delegate = self
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound], completionHandler: { (granted, error) in
+            if let theError = error {
+                NSLog("\(#function) error when request localNotification \(theError.localizedDescription)")
+            } else {
+                if !granted {
+                    NSLog("\(#function) Warning local notification not granted")
                 }
-                DispatchQueue.main.async {
-                    LocationManager.sharedInstance.startLocationManager()
-                }
-            })
-        } else {
-            // Fallback on earlier versions
-            if (UIApplication.instancesRespond(to: #selector(UIApplication.registerUserNotificationSettings(_:)))) {
-                application.registerUserNotificationSettings(UIUserNotificationSettings(types: [.alert, .sound] , categories: nil))
             }
-        }
+            DispatchQueue.main.async {
+                LocationManager.sharedInstance.startLocationManager()
+            }
+        })
         
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(notifyContactsSynchronizationDone(_:)),
@@ -240,9 +232,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         SKPaymentQueue.default().remove(self)
     }
     
-    func application(_ application: UIApplication, didRegister notificationSettings: UIUserNotificationSettings) {
-        LocationManager.sharedInstance.startLocationManager()
-    }
+    
+    
     
     
     //MARK: Utilities

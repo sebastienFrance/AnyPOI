@@ -66,7 +66,7 @@ class RouteUtilities {
         if RouteUtilities.hasGoogleMap() {
             let googleParameters = "saddr=\(sourceCoordinate.latitude),\(sourceCoordinate.longitude)&daddr=\(destinationCoordinate.latitude),\(destinationCoordinate.longitude)&directionsmode=\(transportType)"
             if let googleURL = URL(string:"\(GoogleURL)?\(googleParameters)"){
-                UIApplication.shared.openURL(googleURL)
+                UIApplication.shared.open(googleURL, options:[UIApplicationOpenURLOptionUniversalLinksOnly : true], completionHandler: nil)
             } else {
                 NSLog("\(#function) Can't configure the URL");
             }
@@ -83,7 +83,7 @@ class RouteUtilities {
         if RouteUtilities.hasWaze() {
             let wazeParameters = "ll=\(destinationCoordinate.latitude),\(destinationCoordinate.longitude)&navigate=yes"
             if let wazeURL = URL(string:"\(WazeURL)?\(wazeParameters)"){
-                UIApplication.shared.openURL(wazeURL)
+                UIApplication.shared.open(wazeURL, options:[UIApplicationOpenURLOptionUniversalLinksOnly : true], completionHandler: nil)
             } else {
                 NSLog("\(#function) Can't configure the URL");
             }
@@ -100,7 +100,7 @@ class RouteUtilities {
         if RouteUtilities.hasCityMapper() {
             let cityMapperParameters = "startcoord=\(sourceCoordinate.latitude),\(sourceCoordinate.longitude)&endcoord=\(destinationCoordinate.latitude),\(destinationCoordinate.longitude)"
             if let cityMapperURL = URL(string: "\(CityMapperURL)directions?\(cityMapperParameters)") {
-                UIApplication.shared.openURL(cityMapperURL)
+                UIApplication.shared.open(cityMapperURL, options:[UIApplicationOpenURLOptionUniversalLinksOnly : true], completionHandler: nil)
             } else {
                 NSLog("\(#function) Can't configure the URL");
             }

@@ -105,10 +105,10 @@ class Utilities {
         }
     }
     
+    
     static func getAddressFrom(_ placemark:CLPlacemark) -> String {
-        if let addressDictionary = placemark.addressDictionary {
-            let postalAddress = Utilities.postalAddressFromDictionary(dict:addressDictionary)
-            return CNPostalAddressFormatter.string(from: postalAddress, style:.mailingAddress)
+        if let addressDictionary = placemark.postalAddress {
+            return CNPostalAddressFormatter.string(from: addressDictionary, style:.mailingAddress)
         } else {
             return NSLocalizedString("NoAddressUtilities", comment: "")
         }
@@ -129,7 +129,7 @@ class Utilities {
         if let thePhoneNumber = phoneNumber {
             if let formatedURL = "tel://\(thePhoneNumber)".addingPercentEncoding(withAllowedCharacters: CharacterSet.urlFragmentAllowed) {
                 if let myURL = URL(string: formatedURL) {
-                    UIApplication.shared.openURL(myURL)
+                    UIApplication.shared.open(myURL, options:[UIApplicationOpenURLOptionUniversalLinksOnly : true], completionHandler: nil)
                 }
             }
         }
