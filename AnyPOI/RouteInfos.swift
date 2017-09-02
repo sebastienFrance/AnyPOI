@@ -147,8 +147,10 @@ class RouteInfos : NSObject, NSCoding {
             coords.append(coord)
         }
 
-        if let titleValue =  polyline.title {
-            coords.append([PolylineKeys.title : titleValue as AnyObject])
+        coordsPointer.deallocate(capacity: polyline.pointCount)
+        
+        if let titleValue =  polyline.title as NSString? {
+            coords.append([PolylineKeys.title : titleValue ])
         }
         return coords
     }

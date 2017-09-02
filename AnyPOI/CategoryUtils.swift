@@ -10,9 +10,20 @@ import UIKit
 
 class CategoryUtils {
     
-     static let defaultGroupCategory = Category(groupCategory: GroupId.defaultGroupId, categoryId: CategoryId.defaultGroup.questionMarkId, icon: #imageLiteral(resourceName: "Question Mark-30"), localizedString: NSLocalizedString("CategoryLabelUnknown", comment: ""))
-     static let contactCategory = Category(groupCategory: GroupId.defaultGroupId, categoryId: CategoryId.defaultGroup.contactId, icon: #imageLiteral(resourceName: "Contacts-30"), localizedString: "Contact")
-     static let wikipediaCategory = Category(groupCategory: GroupId.defaultGroupId, categoryId: CategoryId.defaultGroup.wikipediaId, icon: #imageLiteral(resourceName: "Wikipedia-30"), localizedString: "Wikipedia")
+     static let defaultGroupCategory = Category(groupCategory: GroupId.defaultGroupId,
+                                                categoryId: CategoryId.defaultGroup.questionMarkId,
+                                                icon: #imageLiteral(resourceName: "Question Mark-30"),
+                                                localizedString: NSLocalizedString("CategoryLabelUnknown", comment: ""))
+    
+     static let contactCategory = Category(groupCategory: GroupId.defaultGroupId,
+                                           categoryId: CategoryId.defaultGroup.contactId,
+                                           icon: #imageLiteral(resourceName: "Contacts-30"),
+                                           localizedString: "Contact")
+    
+     static let wikipediaCategory = Category(groupCategory: GroupId.defaultGroupId,
+                                             categoryId: CategoryId.defaultGroup.wikipediaId,
+                                             icon: #imageLiteral(resourceName: "Wikipedia-30"),
+                                             localizedString: "Wikipedia")
     
     static func isWikipediaCategory(category:Category) -> Bool {
         return category.groupCategory == GroupId.defaultGroupId && category.categoryId == CategoryId.defaultGroup.wikipediaId

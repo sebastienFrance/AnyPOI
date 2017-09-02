@@ -22,7 +22,7 @@ class NavigationURL {
         static let showPoiOnMap = "showPoiOnMap"
     }
     
-    fileprivate var isValidURL = false
+    private(set) var isValidURL = false
     
     fileprivate var parameters = [String:String]()
     
@@ -33,7 +33,7 @@ class NavigationURL {
             for currentParameter in parameters {
                 let paramNameValue = currentParameter.components(separatedBy: "=")
                 if paramNameValue.count != 2 {
-                    break
+                    return
                 } else {
                     self.parameters[paramNameValue[0]] = paramNameValue[1]
                 }

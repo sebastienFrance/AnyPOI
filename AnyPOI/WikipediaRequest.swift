@@ -19,8 +19,6 @@ class WikipediaRequest {
     
     fileprivate(set) var isWikipediaLoading = false
     
-    //private(set) var wikipedias = [Wikipedia]()
-    
     fileprivate weak var delegate:WikipediaRequestDelegate?
     
     init(delegate:WikipediaRequestDelegate) {
@@ -44,48 +42,54 @@ class WikipediaRequest {
             
             if let JSON = response.result.value {
                 let response = JSON as! NSDictionary
-                let query = response["query"] as! NSDictionary
-                let geosearch = query["geosearch"] as! Array<Dictionary<String, AnyObject>>
                 
-                if geosearch.count > 0 {
-                    var summaryCounter = geosearch.count
+                if response["query"] != nil {
+                    let query = response["query"] as! NSDictionary
+                    let geosearch = query["geosearch"] as! Array<Dictionary<String, AnyObject>>
                     
-                    for currentSearch in geosearch {
+                    if geosearch.count > 0 {
+                        var summaryCounter = geosearch.count
                         
-                        let pageId = currentSearch[Wikipedia.ArticleCste.pageId] as! NSNumber
-                        
-                        WikipediaUtils.getPageSummary(Int(pageId)).responseJSON { response in
-                            summaryCounter -= 1
-                            if let JSON = response.result.value {
-                                let wikipedia = Wikipedia(initialValues:currentSearch)
-                                wikipedias.append(wikipedia)
-                                wikipedia.extract = WikipediaUtils.getExtractFromJSONResponse(JSON)
-                            }
+                        for currentSearch in geosearch {
                             
-                            if summaryCounter == 0 {
-                                self.isWikipediaLoading = false
-                                
-                                // Sort by distance
-                                let locationPoi = CLLocation(latitude: center.latitude, longitude: center.longitude)
-                                wikipedias.sort() { first, second in
-                                    let locationFirst = CLLocation(latitude: first.coordinates.latitude, longitude: first.coordinates.longitude)
-                                    let locationSecond = CLLocation(latitude: second.coordinates.latitude, longitude: second.coordinates.longitude)
-                                    
-                                    if locationPoi.distance(from: locationFirst) > locationPoi.distance(from: locationSecond) {
-                                        return false
-                                    } else {
-                                        return true
-                                    }
+                            let pageId = currentSearch[Wikipedia.ArticleCste.pageId] as! NSNumber
+                            
+                            WikipediaUtils.getPageSummary(Int(pageId)).responseJSON { response in
+                                summaryCounter -= 1
+                                if let JSON = response.result.value {
+                                    let wikipedia = Wikipedia(initialValues:currentSearch)
+                                    wikipedias.append(wikipedia)
+                                    wikipedia.extract = WikipediaUtils.getExtractFromJSONResponse(JSON)
                                 }
-                                self.delegate?.wikipediaLoadingDidFinished(wikipedias)
+                                
+                                if summaryCounter == 0 {
+                                    self.isWikipediaLoading = false
+                                    
+                                    // Sort by distance
+                                    let locationPoi = CLLocation(latitude: center.latitude, longitude: center.longitude)
+                                    wikipedias.sort() { first, second in
+                                        let locationFirst = CLLocation(latitude: first.coordinates.latitude, longitude: first.coordinates.longitude)
+                                        let locationSecond = CLLocation(latitude: second.coordinates.latitude, longitude: second.coordinates.longitude)
+                                        
+                                        if locationPoi.distance(from: locationFirst) > locationPoi.distance(from: locationSecond) {
+                                            return false
+                                        } else {
+                                            return true
+                                        }
+                                    }
+                                    self.delegate?.wikipediaLoadingDidFinished(wikipedias)
+                                }
                             }
                         }
+                    } else {
+                        // No page found -> Stop the loading and warn with a notification
+                        self.isWikipediaLoading = false
+                        NSLog("\(#function) wikipedia not found!!!")
+                        self.delegate?.wikipediaLoadingDidFinished(wikipedias)
                     }
                 } else {
-                    // No page found -> Stop the loading and warn with a notification
-                    self.isWikipediaLoading = false
-                    NSLog("\(#function) wikipedia not found!!!")
-                    self.delegate?.wikipediaLoadingDidFinished(wikipedias)
+                    NSLog("\(#function) - error query is missing in the response")
+                    self.delegate?.wikipediaLoadingDidFailed()
                 }
             }
         }

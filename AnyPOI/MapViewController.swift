@@ -165,6 +165,10 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
     }
     
     
+    /// The App has been opened with a GPX file to be imported.
+    /// We open a dedicated viewController to manage the import of the GPX file.
+    ///
+    /// - Parameter gpx: URL of the GPX file
     func importFile(gpx:URL) {
         if UserPreferences.sharedInstance.isAnyPoiUnlimited {
             performSegue(withIdentifier: storyboard.showGPXImportId, sender: gpx)
@@ -173,12 +177,20 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
         }
     }
     
+    
+    /// Start a flyover to go to the given POI
+    ///
+    /// - Parameter poi: target POI
     func flyoverAround(_ poi:PointOfInterest) {
         isFlyoverAroundPoi = true
         flyover = FlyoverWayPoints(mapView: theMapView, delegate: self)
         flyover!.doFlyover(poi)
     }
     
+    
+    /// Build an UIImage from the current mapView
+    ///
+    /// - Returns: UIImage of the current content of the MapView
     func mapImage() -> UIImage? {
         UIGraphicsBeginImageContext(theMapView.frame.size)
         if let ctx = UIGraphicsGetCurrentContext() {
@@ -190,12 +202,20 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
         return nil
     }
     
+    
+    /// Display all POIs from a list of groups on the MapView
+    ///
+    /// - Parameters:
+    ///   - groups: List of groups to be displayed on the map
+    ///   - withMonitoredOverlays: true when the Monitored overlay must be displayed
     func displayGroupsOnMap(_ groups:[GroupOfInterest], withMonitoredOverlays:Bool) {
         for currentGroup in groups {
             addOnMap(pois:currentGroup.pois, withMonitoredOverlays:withMonitoredOverlays)
         }
     }
     
+    
+    /// Subscribe all notifications to update the mapView content
     fileprivate func subscribeNotifications() {
         subscribeMapNotifications()
         subscribeMapNotificationsFilter()
@@ -229,6 +249,7 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
                                                selector: #selector(MapViewController.showMapLocationFromNotification(_:)),
                                                name: NSNotification.Name(rawValue: MapNotifications.showMapLocation),
                                                object: nil)
+        
     }
     
     fileprivate func subscribeMapNotificationsFilter() {
@@ -250,11 +271,9 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
                                                object: nil)
    }
 
-    // Called only once?
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        // Restore latest position only when the app is started
         if isFirstInitialization {
             isFirstInitialization = false
             theMapView.setRegion(UserPreferences.sharedInstance.mapLatestMapRegion, animated: false)
@@ -293,7 +312,6 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
     }
     
      //MARK: Route navigation buttons
-    // Go to the next WayPoint
     @IBAction func showNextWayPoint(_ sender: UIBarButtonItem) {
         routeManager?.moveTo(direction:.forward)
     }
@@ -307,15 +325,21 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
         routeManager?.moveTo(direction:.all)
     }
 
+    
+    /// Start an activity controller to share the content of a Route by email
+    ///
+    /// - Parameter sender: <#sender description#>
     @IBAction func routeActionButtonPushed(_ sender: UIBarButtonItem) {
         if let routeDatasource = routeManager?.routeDatasource {
             let mailActivity = RouteMailActivityItemSource(datasource:routeDatasource)
             var activityItems:[UIActivityItemSource] = [mailActivity]
 
+            // Append a GPX file with the content of the route
             if UserPreferences.sharedInstance.isAnyPoiUnlimited {
                 activityItems.append(GPXActivityItemSource(route: [routeDatasource.theRoute]))
             }
             
+            // Append an image with the map
             if let image = mapImage() {
                 let imageActivity = ImageAcvitityItemSource(image: image)
                 activityItems.append(imageActivity)
@@ -338,6 +362,10 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
         performSegue(withIdentifier: storyboard.routeDetailsEditorId, sender: nil)
     }
 
+    
+    /// Start a Flyover for the route (based on current location and current waypoint)
+    ///
+    /// - Parameter sender: the button
     @IBAction func flyoverButtonPushed(_ sender: UIButton) {
 
         if let routeDatasource = routeManager?.routeDatasource, routeDatasource.wayPoints.count > 0 {
@@ -353,6 +381,12 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
     }
   
     
+    /// Start a navigation for the route. When the full route is displayed we just open
+    /// the Apple Maps to display all waypoints.
+    /// When only a part of the route is displayed then we open a new modal view 
+    /// to propose to start a navigation using Apple Maps / Google Maps / City Mapper...
+    ///
+    /// - Parameter routeDatasource: <#routeDatasource description#>
     fileprivate func performNavigation(routeDatasource:RouteDataSource) {
         if routeDatasource.isFullRouteMode {
             var items = [MKMapItem]()
@@ -373,6 +407,8 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
         routeManager?.set(transportType:MapUtils.segmentIndexToTransportType(sender))
     }
 
+    
+    /// Add overlayson map for monitored POIs
     fileprivate func addMonitoredRegionOverlays() {
         // Add MonitoredRegion overlays for annotations displayed on the Map
         for currentAnnotation in theMapView.annotations {
@@ -396,6 +432,8 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
         routeManager?.deleteWayPointAt(index:index)
     }
     
+    
+    /// Remove the selected POI (on the map) from the current route
     func removeSelectedPoiFromRoute() {
         if theMapView.selectedAnnotations.count > 0,
             let selectedPoi = theMapView.selectedAnnotations[0] as? PointOfInterest {            
@@ -403,6 +441,8 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
         }
     }
     
+    
+    /// Add the selected POI (on the map) as a waypoint in the current route
     func addSelectedPoiInRoute() {
         if theMapView.selectedAnnotations.count > 0 {
             let poi = theMapView.selectedAnnotations[0] as! PointOfInterest
@@ -423,6 +463,12 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
         routeManager?.removeRouteFromCurrentLocation()
     }
     
+    
+    /// Used to refresh an Annotation and its callout when a POI has been changed (like name, group color, ...)
+    ///
+    /// - Parameters:
+    ///   - poi: POI that must be refreshed on the MapView
+    ///   - withType: type (RouteStart, RouteEnd, WayPoint or Normal)
     fileprivate func refreshPoiAnnotation(_ poi:PointOfInterest, withType:MapUtils.PinAnnotationType) {
         if let annotationView = theMapView.view(for: poi) as? WayPointPinAnnotationView {
             MapUtils.refreshPin(annotationView, poi: poi, delegate: poiCalloutDelegate, type: withType)
@@ -430,6 +476,11 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
     }
     
     // MARK: Route toolbar
+    
+    
+    /// Used to display or hide to view to control a route
+    ///
+    /// - Parameter show: True to show the controls and False to hide the controls
     fileprivate func displayRouteInterfaces(_ show:Bool) {
         routeStackView.isHidden = !show
         exitRouteModeButton.isHidden = !show
@@ -453,6 +504,8 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
         showSearchController()
     }
     
+    
+    /// Display the search controller used to look for a POI, address, ...
     func showSearchController() {
         let mySearchController = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SearchControllerId") as! SearchController
         
@@ -461,8 +514,6 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
         mySearchController.theSearchController = theSearchController
         mySearchController.delegate = self
         
-        //FIXEDME: 😡😡⚡️⚡️
-       // mySearchController.displayRoutes = true
         
         // Configure the UISearchController
         theSearchController!.searchResultsUpdater = self
@@ -492,6 +543,13 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
     }
     
     //MARK: SearchControllerDelegate
+    
+    
+    /// Display a POI on the map
+    ///
+    /// - Parameters:
+    ///   - poi: POI to be displayed on the MapView
+    ///   - isSelected: True when the POI annotation must be displayed as selected
     func showPOIOnMap(_ poi : PointOfInterest, isSelected:Bool = true) {
         // Mandatory to hide the UISearchController
         theSearchController?.isActive = false
@@ -509,7 +567,7 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
     }
 
     
-    /// Force to how a POI on the Map. If filter configuration hide the given POI
+    /// Force to show a POI on the Map. If filter configuration hide the given POI
     /// the filter is automatically reconfigured to display the POI
     ///
     /// - Parameter poi: POI that must be displayed on the Map
@@ -550,15 +608,21 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
     }
 
 
+    
+    /// Display a Group of POI on the MapView. The MapView boundingbox is updated to display all POIs from the group
+    ///
+    /// - Parameter group: <#group description#>
     func showGroupOnMap(_ group : GroupOfInterest) {
         theSearchController?.isActive = false
         
+        // Update the displayed flag of the Group in the database
         if !group.isGroupDisplayed {
             group.isGroupDisplayed = true
             POIDataManager.sharedInstance.updatePOIGroup(group)
             POIDataManager.sharedInstance.commitDatabase()
         }
         
+        // Compute the new bounding box and update the MapView
         let region = MapUtils.boundingBoxForAnnotations(group.pois)
         theMapView.setRegion(region, animated: true)
     }
@@ -589,6 +653,10 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
     @IBAction func backToMapView(_ segue:UIStoryboardSegue) {
     }
     
+    
+    /// Called by the RoutesViewController to display the route on the MapView
+    ///
+    /// - Parameter segue: contains the RouteViewControllers originator
     @IBAction func showRoute(_ segue:UIStoryboardSegue) {
         let routeViewController = segue.source as! RoutesViewController
         if let routeToDisplay = routeViewController.getSelectedRoute() {
@@ -597,6 +665,12 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
         }
     }
     
+    
+    /// Enable the route mode in the MapView and then display it
+    /// If a route was already displayed, it's first removed and the new one
+    /// is replacing it
+    ///
+    /// - Parameter routeToDisplay: Route to be displayed on the MapView
     func enableRouteModeWith(_ routeToDisplay:Route) {
         // Remove the old displayed route (if any)
         disableRouteMode()
@@ -610,6 +684,8 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
     }
     
 
+    
+    /// Disable the display of the Route (and its control) from the MapView
     func disableRouteMode() {
         if isRouteMode {
             let poisToBeUpdated = routeDatasource?.pois
@@ -634,6 +710,10 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
         }
     }
     
+    
+    /// Used by the RouteDetailsViewController to show a specific Waypoint on the MapView
+    ///
+    /// - Parameter unwindSegue: it contains the RouteDetailsViewController
     @IBAction func backToMapWayPoint(_ unwindSegue:UIStoryboardSegue) {
         if let routeDetailsVC = unwindSegue.source as? RouteDetailsViewController {
             // Get the index of the selected WayPoint and go to the next one to display the appropriate
@@ -730,6 +810,8 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
         }
     }
     
+    
+    /// It removes all POIs from the MapView
     func removeAllPOIsFromMap() {
         var poiToRemove = [PointOfInterest]()
         // We can have other MKAnnotation like MKUserLocation
@@ -741,6 +823,10 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
         removeFromMap(pois: poiToRemove)
     }
     
+    
+    /// Remove a list of POIs from the MapView. When a POIs is monitored it removes also its overlay
+    ///
+    /// - Parameter pois: Array of POIs to remove from the map
     func removeFromMap(pois:[PointOfInterest]) {
         filteredPOIs = filteredPOIs.subtracting(pois)
         theMapView.removeAnnotations(pois)
@@ -765,8 +851,9 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
         processNotificationsForRouteAndWayPoint(notificationsContent:notifContent)
     }
     
-    // Process notifications on GroupOfInterest
-    // - Only update notification is process on Group and only for properties: colors & isDisplayed
+    /// Process notifications on GroupOfInterest. Only update notification is process on Group and only for properties: colors & isDisplayed
+    ///
+    /// - Parameter notificationsContent: the notification
     fileprivate func processNotificationsForGroupOfInterest(notificationsContent:PoiNotificationUserInfo) {
         for updatedGroup in notificationsContent.updatedGroupOfInterest {
             let changedValues = updatedGroup.changedValues()
@@ -786,10 +873,13 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
         }
     }
     
-    // Process notification on POI
-    // - Add POI notification to put a new POI on the Map
-    // - Deleted POI, to remove the POI and its overlay from the Map
-    // - Updated POI, to update its callout and position, color and overlay
+    
+    /// Process notification on POI
+    /// - Add POI notification to put a new POI on the Map
+    /// - Deleted POI, to remove the POI and its overlay from the Map
+    /// - Updated POI, to update its callout and position, color and overlay
+    ///
+    /// - Parameter notificationsContent: the notification
     fileprivate func processNotificationsForPointOfInterest(notificationsContent:PoiNotificationUserInfo) {
         // Make sure added POIs will be displayed on the MAP even if its categor was filetered
         for addedPoi in notificationsContent.insertedPois {
@@ -801,6 +891,7 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
         for updatedPoi in notificationsContent.updatedPois {
             let changedValues = updatedPoi.changedValues()
             
+            // Check if we need to refresh the callout
             if changedValues[PointOfInterest.properties.poiRegionNotifyEnter] != nil ||
                 changedValues[PointOfInterest.properties.poiRegionNotifyExit] != nil  ||
                 changedValues[PointOfInterest.properties.poiCategory] != nil ||
@@ -840,11 +931,14 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
         }
     }
     
-    // Process notifications for Route and WayPoints
-    // - When a new route is created (its number of WayPoints == 1), the POI is refreshed to be displayed with the right color
-    // - route deletion are ignored because everything is done when the user click Remove in the RoutesViewController
-    // - when the current route is updated, the routeMode is updated with the latest data
-    // - A reload of the route is triggered when the route mode is on
+    
+    /// Process notifications for Route and WayPoints
+    /// - When a new route is created (its number of WayPoints == 1), the POI is refreshed to be displayed with the right color
+    /// - route deletion are ignored because everything is done when the user click Remove in the RoutesViewController
+    /// - when the current route is updated, the routeMode is updated with the latest data
+    /// - A reload of the route is triggered when the route mode is on
+    ///
+    /// - Parameter notificationsContent: the notification
     fileprivate func processNotificationsForRouteAndWayPoint(notificationsContent:PoiNotificationUserInfo) {
         
         // If nothing has been changed, we just return
@@ -883,11 +977,16 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
     }
     
  
-    // Check if the MonitoredRegion overlay for a POI must be removed, added or updated when its properties have
-    // changed (notifyEnter, notifyExit and radius)
-    // Warning: changedValues contains the list of changed properties with their NEW VALUE
-    // Warning: The updatedPoi contains also the new properties values
-    // Warning: To get the old values we must get the changedValuesForCurrentEvent()
+    
+    /// Check if the MonitoredRegion overlay for a POI must be removed, added or updated when its properties have
+    /// changed (notifyEnter, notifyExit and radius)
+    /// Warning: changedValues contains the list of changed properties with their NEW VALUE
+    /// Warning: The updatedPoi contains also the new properties values
+    /// Warning: To get the old values we must get the changedValuesForCurrentEvent()
+    ///
+    /// - Parameters:
+    ///   - updatedPoi: POI that has been changed
+    ///   - changedValues: list of changed values
     fileprivate func updateMonitoredRegionOverlayForPoi(_ updatedPoi:PointOfInterest, changedValues:[String:AnyObject]) {
         if !updatedPoi.isMonitored {
             // when the POI is not monitored we just need to remove the overlay from the map (if displayed)
@@ -951,6 +1050,11 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
     }
 
     // MARK: Map Gestures 
+    
+    
+    /// Handle long gesture to add a new POI on the MapView
+    ///
+    /// - Parameter sender: Long gesture
     @IBAction func handleLongPressGesture(_ sender: UILongPressGestureRecognizer) {
         switch (sender.state) {
         case .ended:
@@ -1072,6 +1176,7 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
 }
 
 
+// Managing 3D Touch on filter button
 extension MapViewController: UIViewControllerPreviewingDelegate {
     func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
         previewingContext.sourceRect = mapFilterButton.frame
@@ -1132,6 +1237,10 @@ extension MapViewController : RouteDisplayInfos {
         displayRouteInterfaces(false)
     }
     
+    
+    /// Update route information in the view
+    ///
+    /// - Parameter datasource: Route from which information must be displayed
     func refresh(datasource:RouteDataSource) {
         displayRouteInterfaces(true)
        if datasource.wayPoints.isEmpty {
@@ -1254,13 +1363,14 @@ extension MapViewController : UISearchResultsUpdating, UISearchControllerDelegat
     
     //MARK: UISearchBarDelegate
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        // Perform Geocoding to find places using the text provided by the user
     }
 }
 
 extension MapViewController : FlyoverWayPointsDelegate {
     
     //MARK: FlyoverWayPointsDelegate
+    
+    /// Prepare the MapView for the Flyover
     func flyoverWillStartAnimation() {
         isFlyoverRunning = true
         
@@ -1286,6 +1396,10 @@ extension MapViewController : FlyoverWayPointsDelegate {
         navigationController?.isNavigationBarHidden = true
     }
     
+    
+    /// Restore the MapView at the end of the Flyover
+    ///
+    /// - Parameter urgentStop: True when the use has interrupted the Flyover
     func flyoverWillEndAnimation(_ urgentStop:Bool) {
         isFlyoverRunning = false
         
@@ -1313,6 +1427,11 @@ extension MapViewController : FlyoverWayPointsDelegate {
         view.layoutIfNeeded() // Make sure the status bar will be displayed smoothly
     }
     
+    /// Update the content of the MapView when the Flyover is finished
+    ///
+    /// - Parameters:
+    ///   - flyoverUpdatedPois: List of POIs that must be refreshed (because they have been changed by the Flyover)
+    ///   - urgentStop: True when the user has stopped the flyover before the end
     func flyoverDidEnd(_ flyoverUpdatedPois:[PointOfInterest], urgentStop:Bool) {
         if isRouteMode  {
             if routeDatasource!.isFullRouteMode {
@@ -1350,6 +1469,11 @@ extension MapViewController : FlyoverWayPointsDelegate {
 // MARK: Map Filtering
 extension MapViewController {
     
+    
+    /// Check if a POI is filtered
+    ///
+    /// - Parameter poi: POI to be checked against the filter
+    /// - Returns: True when the POI is filtered otherwise it returns false
     func isFiltered(poi:PointOfInterest) -> Bool {
         if poi.parentGroup!.isGroupDisplayed && !categoryFilter.contains(poi.category) {
             if isRouteMode && filterPOIsNotInRoute {
@@ -1366,6 +1490,8 @@ extension MapViewController {
         }
     }
     
+    
+    /// Add on the MapView all POIs that were not displayed due to the route
     func showPOIsNotInRoute() {
         if filterPOIsNotInRoute {
             filterPOIsNotInRoute = false
@@ -1374,6 +1500,8 @@ extension MapViewController {
         }
     }
     
+    
+    /// Remove from the MapView all POIs that are not used by the current displayed route
     fileprivate func hidePOIsNotInRoute() {
         filterPOIsNotInRoute = true
         
@@ -1398,6 +1526,8 @@ extension MapViewController {
         
     }
     
+    
+    /// Update the title of the Filter button
     fileprivate func updateFilterStatus() {
         if categoryFilter.isEmpty && !filterPOIsNotInRoute {
             if POIDataManager.sharedInstance.hasFilteredGroups() {
@@ -1421,6 +1551,9 @@ extension MapViewController {
     }
     
     
+    /// Add a category to the Map filter
+    ///
+    /// - Parameter category: Category to be added in the filter
     fileprivate func addToFilter(category:CategoryUtils.Category) {
         categoryFilter.insert(category)
         var poiToRemove = [PointOfInterest]()
@@ -1443,6 +1576,10 @@ extension MapViewController {
         updateFilterStatus()
     }
     
+    
+    /// Remove a category from the Map filter
+    ///
+    /// - Parameter category: category to be removed from the filter
     fileprivate func removeFromFilter(category:CategoryUtils.Category) {
         categoryFilter.remove(category)
         
@@ -1486,6 +1623,13 @@ extension MapViewController : MKMapViewDelegate {
         }
     }
     
+    
+    /// Return the annotationView to be displayed for a POI
+    ///
+    /// - Parameters:
+    ///   - mapView: the mapView
+    ///   - annotation: the annotation for which we need an AnnotationView
+    /// - Returns: AnnotationView to be displayed for the POI
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         if annotation is MKUserLocation {
             return nil
@@ -1503,6 +1647,14 @@ extension MapViewController : MKMapViewDelegate {
         return annotationView
     }
     
+    
+    /// Make the rendering for overlays
+    /// Polyline for the route and circle for the Monitored POIs
+    ///
+    /// - Parameters:
+    ///   - mapView: the mapView
+    ///   - overlay: the overlay to render
+    /// - Returns: Overlay renderer
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         if overlay is MKPolyline {
             return MapUtils.customizePolyLine(overlay as! MKPolyline)

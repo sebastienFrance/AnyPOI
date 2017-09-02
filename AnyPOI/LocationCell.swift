@@ -1,6 +1,6 @@
 //
 //  LocationCell.swift
-//  SimplePOI
+//  AnyPOI
 //
 //  Created by Sébastien Brugalières on 08/12/2015.
 //  Copyright © 2015 Sébastien Brugalières. All rights reserved.
@@ -35,7 +35,7 @@ class LocationCell: UITableViewCell {
         
         poiCategoryImage.image = poi.imageForType
 
-        
+        // Hide all buttons not used when the POI is not related to a contact
         showContactDetailsButton.isHidden = true
         showContactWidth.constant = 0
         

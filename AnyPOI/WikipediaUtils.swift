@@ -39,7 +39,6 @@ class WikipediaUtils {
         return "https://" + WikipediaLanguages.endPoint() + ".wikipedia.org/?curid=\(pageId)"
     }
 
-    //        Alamofire.request(.GET, "https://" + languageCode + ".wikipedia.org/w/api.php", parameters: ["action": "query", "list" : "geosearch", "gscoord" : "\(poi.coordinate.latitude)|\(poi.coordinate.longitude)", "gsradius" : "10000", "gslimit" : "10", "format" : "json"])
     static func getGeoSearchRequest(_ coordinate:CLLocationCoordinate2D,
         radius:Int = UserPreferences.sharedInstance.wikipediaNearByDistance,
         maxResults:Int = UserPreferences.sharedInstance.wikipediaMaxResults) -> DataRequest {
@@ -63,73 +62,6 @@ class WikipediaUtils {
 
     }
     
-    // /w/api.php?action=query&prop=extracts&format=json&exintro=&explaintext=&generator=geosearch&ggscoord=37.786971%7C-122.399677&ggsradius=10000&ggslimit=10
-    // followings by adding excontinue: /w/api.php?action=query&prop=extracts&format=json&exintro=&explaintext=&excontinue=1&generator=geosearch&ggscoord=37.786971%7C-122.399677&ggsradius=10000&ggslimit=10
-    
-    
-    static func getGeoSearchPageSummaryRequest(_ coordinate:CLLocationCoordinate2D, radius:Int, maxResults:Int) -> DataRequest {
-        return Alamofire.request(getWikipediaAPI(), parameters: [
-            "action": "query",
-            "prop" : "extracts",
-            "format" : "json",
-            "exintro" : "",
-            "explaintext" : "",
-            "generator" : "geosearch",
-            "ggscoord" : "\(coordinate.latitude)|\(coordinate.longitude)",
-            "ggsradius": "\(radius)",
-            "ggslimit" : "\(maxResults)"
-            ])
-    }
- 
-    static func getGeoSearchPageSummaryRequest(_ coordinate:CLLocationCoordinate2D, radius:Int, maxResults:Int, continueValue:String) -> DataRequest {
-        return Alamofire.request(getWikipediaAPI(), parameters: [
-            "action": "query",
-            "prop" : "extracts",
-            "format" : "json",
-            "exintro" : "",
-            "explaintext" : "",
-            "excontinue" : continueValue,
-            "generator" : "geosearch",
-            "ggscoord" : "\(coordinate.latitude)|\(coordinate.longitude)",
-            "ggsradius": "\(radius)",
-            "ggslimit" : "\(maxResults)"
-            ])
-    }
-
-//    static func getGeoSearchPageSummary(_ coordinate:CLLocationCoordinate2D, radius:Int, maxResults:Int) {
-//        getGeoSearchPageSummary(coordinate, radius: radius, maxResults: maxResults, continueValue: "")
-//    }
-//    
-//    // SEB TBC
-//    static func getGeoSearchPageSummary(_ coordinate:CLLocationCoordinate2D, radius:Int, maxResults:Int, continueValue: String) {
-//        let mainRequest = getGeoSearchPageSummaryRequest(coordinate, radius: radius, maxResults: maxResults, continueValue:  continueValue)
-//        mainRequest.responseJSON { response in
-//            if let JSON = response.result.value {
-//                let response = JSON as! NSDictionary
-//                let query = response["query"] as! NSDictionary
-//                let pages = query["pages"] as! NSDictionary
-//                for currentPage in pages.allValues {
-//                    if let currentBlock = currentPage as? NSDictionary {
-//                        if let extractValue = currentBlock["extract"] {
-//                            print("Found block with Extract with \(extractValue)")
-//                        }
-//                    }
-//                }
-//                let continueBlock = response["continue"] as? NSDictionary
-//                if let foundContinueBlock = continueBlock {
-//                    let continueValueNumber = foundContinueBlock["excontinue"] as! NSNumber
-//                    print("Continue value is: \(continueValueNumber)")
-//                    getGeoSearchPageSummary(coordinate, radius: radius, maxResults: maxResults, continueValue: "\(continueValueNumber)")
-//                } else {
-//                    return
-//                }
-//                //let values = pages.allValues[0] as! NSDictionary
-//                
-//            } else {
-//                return
-//            }
-//        }
-//    }
     
     
 }

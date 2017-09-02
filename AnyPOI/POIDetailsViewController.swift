@@ -1,6 +1,6 @@
 //
 //  POIDetailsViewController.swift
-//  SimplePOI
+//  AnyPOI
 //
 //  Created by Sébastien Brugalières on 07/12/2015.
 //  Copyright © 2015 Sébastien Brugalières. All rights reserved.
@@ -44,19 +44,25 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
         static let imageWidth = 100.0
     }
 
+    // POI displayed in this view controller
     var poi: PointOfInterest!
+    
+    // Contact information related to the POI if it exists
     fileprivate var contact:CNContact?
 
     fileprivate var storedOffsets = CGFloat(0.0)
     
+    // Image/Videos information
     fileprivate struct LocalImage {
         let image:UIImage
         let asset:PHAsset
         let distanceFrom:CLLocationDistance
     }
     
+    // Images to be displayed in the collection view
     fileprivate var localImages = [LocalImage]()
     
+    // Used to take a snapshot of the map to be displayed as a background of the cell displaying the POI information
     fileprivate var snapshotter:MKMapSnapshotter!
     fileprivate var snapshotMapImageView:UIImageView?
     fileprivate var snapshotAlreadyDisplayed = false
@@ -68,37 +74,50 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        // FIXEDME: Reload placemark because imported POIs have no Placemark! 
+        // If the POI has not yet an Address, then we launch a revere geocoding
+        // It should happen only on POI that have been imported from a file
         if !poi.hasPlacemark {
             GeoCodeMgr.sharedInstance.getPlacemark(poi: poi)
         }
         
+        // Subscribe a notification to update the table view displaying the Wikipedia article around the POI
+        // We get this notification when the Wikipedia articles have been successfully downloaded (using the wiki REST API)
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(POIDetailsViewController.wikipediaReady(_:)),
                                                name: NSNotification.Name(rawValue: PointOfInterest.Notifications.WikipediaReady),
                                                object: poi )
         
+        // Subscribe notification to update the viewController when something related to the POI has been changed in database (like POI name,
+        // color, description...)
         let managedContext = DatabaseAccess.sharedInstance.managedObjectContext
-        // FIXEDME: ⚡️😡 Check why this notifs doesn't report any changes in NSUpdateObjectKeys? What is the difference with NSManagedObjectContextObjectsDidChangeNotification?
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(POIDetailsViewController.contextDidSaveNotification(_:)),
                                                name: NSNotification.Name.NSManagedObjectContextObjectsDidChange,
-                                               // name: NSManagedObjectContextDidSaveNotification,
-            object: managedContext)
+                                               object: managedContext)
         
         
         title = poi.poiDisplayName
+        
+        // If the POI is attached to a contact then get the details
         if poi.poiIsContact, let contactId = poi.poiContactIdentifier {
             contact = ContactsUtilities.getContactForDetailedDescription(contactId)
         }
         
         poi.refreshIfNeeded()
+        
+        // Register changes and retreives all assets
         PHPhotoLibrary.shared().register(self)
         photosFetchResult = PHAsset.fetchAssets(with: nil)
+        
         findSortedImagesAroundPoi()
         initializeMapSnapshot()
     }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+        PHPhotoLibrary.shared().unregisterChangeObserver(self)
+    }
+
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -106,6 +125,10 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
     }
     
     // MARK: utils
+    
+    /// Recompute list of images when photolibrary has changed
+    ///
+    /// - Parameter changeInstance: Changes from PhotoLibrary
     func photoLibraryDidChange(_ changeInstance: PHChange) {
         if let changeDetails = changeInstance.changeDetails(for: photosFetchResult) {
             photosFetchResult = changeDetails.fetchResultAfterChanges
@@ -119,18 +142,21 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
     }
     
     
-    // extract images and videos from Photos and ordered them by date (most recent first)
+    /// extract images and videos from Photos and ordered them by date (most recent first) / distance
     fileprivate func findSortedImagesAroundPoi() {
         
         let poiLocation = CLLocation(latitude: poi.coordinate.latitude, longitude: poi.coordinate.longitude)
         
+        // find all images located near the POI
         var filteredImages = [LocalImage]()
         for i in 0..<photosFetchResult.count {
             let currentObject = photosFetchResult.object(at: i) 
             if let imageLocation = currentObject.location {
                 let distanceFromPoi = poiLocation.distance(from: imageLocation)
                 if distanceFromPoi <= Cste.radiusSearchImage {
-                    filteredImages.append(LocalImage(image: getAssetThumbnail(asset:currentObject), asset: currentObject, distanceFrom:distanceFromPoi))
+                    filteredImages.append(LocalImage(image: getAssetThumbnail(asset:currentObject),
+                                                     asset: currentObject,
+                                                     distanceFrom: distanceFromPoi))
                 }
             }
         }
@@ -181,6 +207,7 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
         }
     }
     
+    /// Get a thumbnail from an Image. It will be displayed in the UICollectionView
     fileprivate func getAssetThumbnail(asset: PHAsset) -> UIImage {
         let option = PHImageRequestOptions()
         var thumbnail = UIImage()
@@ -195,6 +222,7 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
         return thumbnail
     }
     
+    /// Request a snapshot of the map around the POI (async)
     fileprivate func initializeMapSnapshot() {
         
         let snapshotOptions = MKMapSnapshotOptions()
@@ -216,6 +244,8 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
         })
     }
     
+    
+    /// Display the Map snapshot as the background of the cell displaying POI information
     func refreshMapImage() {
         if let theMapSnapshot = mapSnapshot, let snapshotImage = MapUtils.configureMapImageFor(poi: poi, mapSnapshot: theMapSnapshot) {
             // Build the UIImageView only once for the tableView
@@ -228,6 +258,11 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
     }
 
     // MARK: Notifications
+    
+    
+    /// Update the cell displaying the POI details when something has been changed (Category, Group, Title...)
+    ///
+    /// - Parameter notification: notification from the database
     func contextDidSaveNotification(_ notification : Notification) {
         let notifContent = PoiNotificationUserInfo(userInfo: (notification as NSNotification).userInfo as [NSObject : AnyObject]?)
         
@@ -235,8 +270,10 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
             if updatedPoi === poi {
                 let changedValues = updatedPoi.changedValues()
                 
+                // when something has changed we update the title and the content of the cell displaying the details
                 if changedValues.count > 0 {
                     title = poi.poiDisplayName
+                    theTableView.reloadRows(at: [IndexPath(row: 0, section: Sections.mapViewAndPhotos)], with: .none)
                 }
                 
                 break
@@ -244,6 +281,10 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
         }
     }
 
+    
+    /// Update the section that displays Wikipedia articles. It's called when we get a notif that wikipedia articles are ready
+    ///
+    /// - Parameter notification: Notification
     func wikipediaReady(_ notification : Notification) {
         theTableView.reloadSections(IndexSet(integer: Sections.wikipedia), with: .fade)
     }
@@ -255,6 +296,11 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
 
     // MARK: Buttons
 
+    
+    /// Display an EKEventEditViewController to add an Event in the calendar
+    /// The event is configured with the POI name, address, contact (if any) and url (if any)
+    ///
+    /// - Parameter sender: Button pushed by the user
     @IBAction func AddToCalendarPushed(_ sender: UIButton) {
         let eventStore = EKEventStore()
         eventStore.requestAccess(to: .event) { result, error in
@@ -288,12 +334,17 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
        }
     }
     
+    
+    /// Launch a UIActivity to share a POI using email or SMS
+    ///
+    /// - Parameter sender: Bar button
     @IBAction func actionButtonPushed(_ sender: UIBarButtonItem) {
         let mailActivity = PoiMailActivityItemSource(poi:poi)
         let messageActivity = MessageActivityItemSource(messageContent: poi.toMessage())
         
         var activityItems = [mailActivity, messageActivity]
         
+        // Get the Map image and attach it (useful for the email)
         if !snapshotter.isLoading,
             let theMapSnapshot = mapSnapshot,
             let snapshotImage = MapUtils.configureMapImageFor(poi: poi, mapSnapshot: theMapSnapshot)  {
@@ -301,6 +352,7 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
             activityItems.append(imageActivity)
         }
         
+        // Attach a GPX file containing the description of the POI
         if UserPreferences.sharedInstance.isAnyPoiUnlimited {
             activityItems.append(GPXActivityItemSource(pois: [poi]))
         }
@@ -316,13 +368,16 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
     }
     
     
+    /// Open a Mail composer when there's only one email related to the POI. When several emails are available
+    /// it opens a modal view and the user can select which one should be used to send an email.
+    
+    /// - Parameter sender: the Button
     @IBAction func startMail(_ sender: UIButton) {
         if poi.poiIsContact, let contactId = poi.poiContactIdentifier, let contact = ContactsUtilities.getContactForDetailedDescription(contactId) {
             if contact.emailAddresses.count > 1 {
                 performSegue(withIdentifier: storyboard.openEmailsId, sender: poi)
             } else {
-                // To be completed, start a mail !
-                if MFMailComposeViewController.canSendMail() {
+                 if MFMailComposeViewController.canSendMail() {
                     let currentLabeledValue = contact.emailAddresses[0]
                     let mailComposer = MFMailComposeViewController()
                     mailComposer.setToRecipients([currentLabeledValue.value as String])
@@ -333,6 +388,11 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
         }
     }
 
+    
+    /// Start a phone call when there's only one phone number related to the POI. When there're several phone numbers
+    /// available, it opens a modal view and the user can select which one should be used to start the phone call
+    ///
+    /// - Parameter sender: the Button
     @IBAction func startPhoneCall(_ sender: UIButton) {
         
         if let contact = ContactsUtilities.getContactForDetailedDescription(poi.poiContactIdentifier!) {
@@ -349,6 +409,10 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
 
     }
 
+    
+    /// Open a Safari view with the URL related to the POI.
+    ///
+    /// - Parameter sender: the Button
     @IBAction func showURL(_ sender: UIButton) {
         if let theContact = contact {
             Utilities.openSafariFrom(self, url: ContactsUtilities.extractURL(theContact), delegate: self)
@@ -357,6 +421,10 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
         }
     }
     
+    
+    /// When a POI is related to a contact, it displays it details.
+    ///
+    /// - Parameter sender: the Button
     @IBAction func showContactDetails(_ sender: UIButton) {
         if let theContact = contact, let theFullContact = ContactsUtilities.getContactForCNContactViewController(theContact.identifier) {
             let viewController = CNContactViewController(for: theFullContact)
@@ -365,18 +433,30 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
     }
 
 
+    
+    /// Open a Safari view with the URL of the wikipedia article related to the POI
+    ///
+    /// - Parameter sender: the button
     @IBAction func showWikipediaURL(_ sender: UIButton) {
         let wikipedia = poi.wikipedias[sender.tag]
         let wikiURL = WikipediaUtils.getMobileURLForPageId(wikipedia.pageId)
         Utilities.openSafariFrom(self, url: wikiURL, delegate: self)
     }
     
+    
+    /// When a Wikipedia article is selected we want to:
+    ///  - Center the map on the Wikipedia location 
+    ///  - Close this viewController to show the MapViewController
+    ///
+    /// - Parameter sender: <#sender description#>
     @IBAction func goToWikipedia(_ sender: UIButton) {
         let wikipedia = poi.wikipedias[sender.tag]
         
+        // Sends the notification to update the mapView location
         NotificationCenter.default.post(name: Notification.Name(rawValue: MapViewController.MapNotifications.showWikipedia),
                                                                   object: wikipedia,
                                                                   userInfo: [MapViewController.MapNotifications.showPOI_Parameter_Wikipedia: wikipedia])
+        // Hide this view and display the mapViewController
         ContainerViewController.sharedInstance.goToMap()
     }
 
@@ -399,9 +479,11 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == storyboard.showPoiEditor {
+            // Display the POI editor
             let poiController = segue.destination as! PoiEditorViewController
             poiController.thePoi = poi
         } else if segue.identifier == storyboard.showImageCollectionId {
+            // Display the image / video details
             let viewController = segue.destination as! PoiImageCollectionViewController
             var assets = [PHAsset]()
             for currentLocalImages in localImages {
@@ -410,12 +492,14 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
             viewController.assets = assets
             viewController.startAssetIndex = sender as! Int
         } else if segue.identifier == storyboard.openPhonesId {
+            // Display the list of Phones number related to the POI
             let viewController = segue.destination as! ContactsViewController
             viewController.delegate = self
             viewController.poi = poi
             viewController.mode = .phone
             startDim()
         } else if segue.identifier == storyboard.openEmailsId {
+            // Display the list of emails related to the POI
             let viewController = segue.destination as! ContactsViewController
             viewController.delegate = self
             viewController.poi = poi
@@ -455,6 +539,7 @@ extension POIDetailsViewController : UITableViewDataSource, UITableViewDelegate 
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == Sections.mapViewAndPhotos && indexPath.row == 1 {
+            // We want fixed height for the collectionView to display the list of images
             return Cste.photosCellHeight
         } else {
             return UITableViewAutomaticDimension
@@ -506,12 +591,15 @@ extension POIDetailsViewController : UITableViewDataSource, UITableViewDelegate 
     }
     
     fileprivate func refreshMapBackground(_ cell:LocationCell) {
+        
+        // Initialize the cell content with the POI and contact (if any)
         if let theContact = contact {
             cell.buildWith(poi, contact:theContact)
         } else {
             cell.buildWith(poi)
         }
 
+        // When the map snapshot is available then we update the cell background with the map image
         if !snapshotter.isLoading  {
             // If it's the first time we display the map, we fade in
             if !snapshotAlreadyDisplayed {
@@ -549,6 +637,13 @@ extension POIDetailsViewController : UITableViewDataSource, UITableViewDelegate 
     }
     
     
+    /// When a Wikipedia article is selected in the table view it automatically create a new POI for it (if it doesn't already
+    /// exist) and then we display the mapView centered on this new POI.
+    /// When it's the POI's details row that has been selected we just display the mapView centered on it
+    ///
+    /// - Parameters:
+    ///   - tableView: the tableView
+    ///   - indexPath: index of the selected row
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == Sections.wikipedia {
             if MapViewController.isAddPoiAuthorized() {
@@ -576,12 +671,22 @@ extension POIDetailsViewController : UITableViewDataSource, UITableViewDelegate 
         }
     }
     
+    
+    /// Manage the deletion of the POI (only on the cell displaying the POI's details)
+    ///
+    /// - Parameters:
+    ///   - tableView: the tableView
+    ///   - editingStyle: editing style
+    ///   - indexPath: index path of the row
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if indexPath.section == Sections.mapViewAndPhotos  && indexPath.row == 0 {
+            
+            // Cancel the async snapshotter request if not yet finished
             if snapshotter.isLoading {
                 snapshotter.cancel()
             }
             
+            // Delete the POI from the database
             POIDataManager.sharedInstance.deletePOI(POI: self.poi)
             POIDataManager.sharedInstance.commitDatabase()
             _ = self.navigationController?.popViewController(animated: true)
@@ -610,7 +715,7 @@ extension POIDetailsViewController: MFMailComposeViewControllerDelegate {
     }
 }
 
-
+// UICollectionView is used only in the 1st section of the tableView to display the list of images / videos located near the POI
 extension POIDetailsViewController : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     //MARK: UICollectionViewDataSource
     func numberOfSections(in collectionView: UICollectionView) -> Int {

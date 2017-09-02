@@ -49,10 +49,17 @@ class ColorsUtils {
         }
         
         let divisor = CGFloat(255)
-        let red     = CGFloat((hexValue & 0xFF000000) >> 24) / divisor
-        let green   = CGFloat((hexValue & 0x00FF0000) >> 16) / divisor
-        let blue    = CGFloat((hexValue & 0x0000FF00) >>  8) / divisor
-        let alpha   = CGFloat( hexValue & 0x000000FF       ) / divisor
+        var red     = CGFloat((hexValue & 0xFF000000) >> 24) / divisor
+        var green   = CGFloat((hexValue & 0x00FF0000) >> 16) / divisor
+        var blue    = CGFloat((hexValue & 0x0000FF00) >>  8) / divisor
+        var alpha   = CGFloat( hexValue & 0x000000FF       ) / divisor
+        
+        // Get the values on 2 digits
+        red = CGFloat(round(100 * Double(red)) / 100)
+        green = CGFloat(round(100 * Double(green)) / 100)
+        blue = CGFloat(round(100 * Double(blue)) / 100)
+        alpha = CGFloat(round(100 * Double(alpha)) / 100)
+       
         return UIColor(red: red, green: green, blue: blue, alpha: alpha)
     }
 
