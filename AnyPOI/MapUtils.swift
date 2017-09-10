@@ -281,9 +281,11 @@ class MapUtils {
 
     // MARK: Pin customization
     static func customizePinForTableView(_ thePinAnnotation: MKPinAnnotationView, poi:PointOfInterest) {
+        //thePinAnnotation.animatesWhenAdded = false
         thePinAnnotation.animatesDrop = false
         thePinAnnotation.canShowCallout = false
-        thePinAnnotation.pinTintColor = poi.parentGroup?.color
+        //thePinAnnotation.markerTintColor = poi.parentGroup?.color
+        thePinAnnotation.tintColor = poi.parentGroup?.color
     }
     
     
@@ -297,7 +299,8 @@ class MapUtils {
     }
 
     static func refreshPin(_ annotationView:WayPointPinAnnotationView, poi:PointOfInterest, delegate:PoiCalloutDelegate, type:PinAnnotationType, isFlyover:Bool = false) {
-        annotationView.pinTintColor = getPinRouteColor(type, poi: poi)
+        //annotationView.markerTintColor = getPinRouteColor(type, poi: poi)
+        annotationView.tintColor = getPinRouteColor(type, poi: poi)
         
         if isFlyover {
             annotationView.configureForFlyover(poi, delegate: delegate)
@@ -326,9 +329,11 @@ class MapUtils {
     
     static func createPin(_ poi:PointOfInterest) -> WayPointPinAnnotationView {
         let thePinAnnotation = WayPointPinAnnotationView(poi: poi)
-        thePinAnnotation.animatesDrop = false
+      //  thePinAnnotation.animatesWhenAdded = false
         thePinAnnotation.canShowCallout = true
+        thePinAnnotation.animatesDrop = true
         
+
         return thePinAnnotation
     }
     
@@ -481,8 +486,8 @@ class MapUtils {
     }
     
     static fileprivate func addAnnotationIn(mapSnapshot:MKMapSnapshot, annotation:MKAnnotation, tintColor:UIColor) {
-        let pinAnnotation = MKPinAnnotationView(annotation: annotation, reuseIdentifier: "")
-        pinAnnotation.pinTintColor = tintColor
+        let pinAnnotation = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: "")
+        pinAnnotation.markerTintColor = tintColor
         if let pinImage = pinAnnotation.image {
             // Convert the Geo Coordinates of the POI into point coordinate in the Map
             var pinImagePoint = mapSnapshot.point(for: annotation.coordinate)

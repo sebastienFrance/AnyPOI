@@ -687,6 +687,7 @@ extension POIDetailsViewController : UITableViewDataSource, UITableViewDelegate 
             }
             
             // Delete the POI from the database
+            MapViewController.instance?.theMapView.removeAnnotation(self.poi)
             POIDataManager.sharedInstance.deletePOI(POI: self.poi)
             POIDataManager.sharedInstance.commitDatabase()
             _ = self.navigationController?.popViewController(animated: true)
