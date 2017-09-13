@@ -68,6 +68,16 @@ class PoiEditorViewController: UIViewController {
         super.viewDidLoad()
         loadMapSnapshot()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+ 
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+    }
 
     func pickerViewUpdated(_ picker:PickerViewCell, selectedCategory:CategoryUtils.Category) {
         let theCell = theTableView.cellForRow(at: IndexPath(row: pickerIndex - 1, section: 0)) as! CategoryTableViewCell

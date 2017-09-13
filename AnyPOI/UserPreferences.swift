@@ -59,7 +59,7 @@ class UserPreferences {
             userDefaults.setValue("test", forKey: keys.TestParameter)
             
             isFirstStartup = true
-            isAnyPoiUnlimited = false
+            isAnyPoiUnlimited = true
             
             mapMode = .standard
             mapShowTraffic = true

@@ -84,14 +84,21 @@ extension LeftMenuViewController : UITableViewDataSource, UITableViewDelegate {
         static let LeftMenuPurchaseTableViewCellId = "LeftMenuPurchaseTableViewCellId"
     }
     
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.row == Row.POIs {
+            let theCell = cell as! LeftMenuPOIsTableViewCell
+            theCell.pinView.animatesWhenAdded = false
+            theCell.pinView.canShowCallout = false
+            theCell.pinView.glyphTintColor = ColorsUtils.defaultGroupColor()
+        }
+    }
+    
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         if indexPath.row < menuTitles.count {
             if indexPath.row == Row.POIs {
                 let theCell = theTableView.dequeueReusableCell(withIdentifier: storyboard.LeftMenuPOIsTableViewCellId, for: indexPath) as! LeftMenuPOIsTableViewCell
-                theCell.pinView.animatesDrop = false
-                theCell.pinView.canShowCallout = false
-                theCell.pinView.pinTintColor = ColorsUtils.defaultGroupColor()
                 theCell.menuTitle.text = menuTitles[indexPath.row]
                 return theCell
             } else {

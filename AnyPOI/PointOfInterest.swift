@@ -106,6 +106,10 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
         }
     }
     
+    var glyphImage:UIImage {
+        return category.icon
+    }
+    
     // Wikipedia articles are not stored in database
     // only the reference article is stored in database when the POI has
     // been created from a Wikipedia article

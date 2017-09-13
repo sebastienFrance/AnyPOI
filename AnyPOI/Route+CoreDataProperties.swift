@@ -2,8 +2,9 @@
 //  Route+CoreDataProperties.swift
 //  AnyPOI
 //
-//  Created by Sébastien Brugalières on 05/02/2017.
+//  Created by Sébastien Brugalières on 10/09/2017.
 //  Copyright © 2017 Sébastien Brugalières. All rights reserved.
+//
 //
 
 import Foundation
@@ -13,7 +14,7 @@ import CoreData
 extension Route {
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Route> {
-        return NSFetchRequest<Route>(entityName: "Route");
+        return NSFetchRequest<Route>(entityName: "Route")
     }
 
     @NSManaged public var routeName: String?

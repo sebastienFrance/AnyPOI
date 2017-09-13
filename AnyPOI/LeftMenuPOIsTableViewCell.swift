@@ -12,6 +12,6 @@ import MapKit
 class LeftMenuPOIsTableViewCell: UITableViewCell {
     
     @IBOutlet weak var menuTitle: UILabel!
-    @IBOutlet weak var pinView: MKPinAnnotationView!
+    @IBOutlet weak var pinView: MKMarkerAnnotationView!
     
 }

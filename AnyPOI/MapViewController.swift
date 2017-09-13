@@ -1102,7 +1102,9 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == storyboard.showPOIDetails {
             let poiController = segue.destination as! POIDetailsViewController
-            poiController.poi = sender as? PointOfInterest
+         //   let poiController = segue.destination as! TestViewController
+            let thePoi = sender as! PointOfInterest
+            poiController.poi = thePoi
         } else if segue.identifier == storyboard.showMapOptions {
             let viewController = segue.destination as! OptionsViewController
             viewController.theMapView = theMapView

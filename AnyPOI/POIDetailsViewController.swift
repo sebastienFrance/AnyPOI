@@ -23,12 +23,12 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
 
     @IBOutlet weak var theTableView: UITableView! {
         didSet {
-            if let theTableView = theTableView {
-                theTableView.dataSource = self
-                theTableView.delegate = self
-                theTableView.estimatedRowHeight = 150
-                theTableView.rowHeight = UITableViewAutomaticDimension
-                theTableView.tableFooterView = UIView(frame: CGRect.zero) // remove separator for empty lines
+            if let tableView = theTableView {
+                tableView.dataSource = self
+                tableView.delegate = self
+                tableView.estimatedRowHeight = 150
+                tableView.rowHeight = UITableViewAutomaticDimension
+                tableView.tableFooterView = UIView(frame: CGRect.zero) // remove separator for empty lines
             }
         }
     }
@@ -63,7 +63,7 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
     fileprivate var localImages = [LocalImage]()
     
     // Used to take a snapshot of the map to be displayed as a background of the cell displaying the POI information
-    fileprivate var snapshotter:MKMapSnapshotter!
+    fileprivate var snapshotter:MKMapSnapshotter?
     fileprivate var snapshotMapImageView:UIImageView?
     fileprivate var snapshotAlreadyDisplayed = false
     fileprivate var mapSnapshot:MKMapSnapshot?
@@ -73,7 +73,8 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
     //MARK: Initialization
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
+
         // If the POI has not yet an Address, then we launch a revere geocoding
         // It should happen only on POI that have been imported from a file
         if !poi.hasPlacemark {
@@ -110,7 +111,6 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
         photosFetchResult = PHAsset.fetchAssets(with: nil)
         
         findSortedImagesAroundPoi()
-        initializeMapSnapshot()
     }
     
     deinit {
@@ -122,8 +122,13 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.isToolbarHidden = true
+        
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        initializeMapSnapshot()
+    }
     // MARK: utils
     
     /// Recompute list of images when photolibrary has changed
@@ -234,7 +239,7 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
         snapshotOptions.scale = 2.0
         snapshotter = MKMapSnapshotter(options: snapshotOptions)
  
-        snapshotter.start(completionHandler: { mapSnapshot, error in
+        snapshotter!.start(completionHandler: { mapSnapshot, error in
             if let error = error {
                 NSLog("\(#function) Error when loading Map image with Snapshotter \(error.localizedDescription)")
             } else {
@@ -345,7 +350,7 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
         var activityItems = [mailActivity, messageActivity]
         
         // Get the Map image and attach it (useful for the email)
-        if !snapshotter.isLoading,
+        if let theSnapshotter = snapshotter, !theSnapshotter.isLoading,
             let theMapSnapshot = mapSnapshot,
             let snapshotImage = MapUtils.configureMapImageFor(poi: poi, mapSnapshot: theMapSnapshot)  {
             let imageActivity = ImageAcvitityItemSource(image: snapshotImage)
@@ -480,8 +485,12 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == storyboard.showPoiEditor {
             // Display the POI editor
+            
+
+            
             let poiController = segue.destination as! PoiEditorViewController
             poiController.thePoi = poi
+
         } else if segue.identifier == storyboard.showImageCollectionId {
             // Display the image / video details
             let viewController = segue.destination as! PoiImageCollectionViewController
@@ -600,25 +609,27 @@ extension POIDetailsViewController : UITableViewDataSource, UITableViewDelegate 
         }
 
         // When the map snapshot is available then we update the cell background with the map image
-        if !snapshotter.isLoading  {
-            // If it's the first time we display the map, we fade in
-            if !snapshotAlreadyDisplayed {
-                snapshotAlreadyDisplayed = true
-                snapshotMapImageView!.alpha = 0.0
-                cell.backgroundView = snapshotMapImageView
-                UIView.animate(withDuration: 0.5, animations: {
-                    self.snapshotMapImageView!.alpha = UserPreferences.sharedInstance.mapMode == .standard ? 0.3 : 0.4
-                })
+        if let theSnapshotter = snapshotter {
+            if !theSnapshotter.isLoading  {
+                // If it's the first time we display the map, we fade in
+                if !snapshotAlreadyDisplayed {
+                    snapshotAlreadyDisplayed = true
+                    snapshotMapImageView!.alpha = 0.0
+                    cell.backgroundView = snapshotMapImageView
+                    UIView.animate(withDuration: 0.5, animations: {
+                        self.snapshotMapImageView!.alpha = UserPreferences.sharedInstance.mapMode == .standard ? 0.3 : 0.4
+                    })
+                } else {
+                    // The map has been already display, we change it directly without animations
+                    snapshotMapImageView!.alpha = UserPreferences.sharedInstance.mapMode == .standard ? 0.3 : 0.4
+                    cell.backgroundView = snapshotMapImageView
+                }
             } else {
-                // The map has been already display, we change it directly without animations
-                snapshotMapImageView!.alpha = UserPreferences.sharedInstance.mapMode == .standard ? 0.3 : 0.4
-                cell.backgroundView = snapshotMapImageView
-            }
-        } else {
-            // If a new image is loading but we still have one in memory, we display it
-            if let imageView = snapshotMapImageView {
-                imageView.alpha = UserPreferences.sharedInstance.mapMode == .standard ? 0.3 : 0.4
-                cell.backgroundView = imageView
+                // If a new image is loading but we still have one in memory, we display it
+                if let imageView = snapshotMapImageView {
+                    imageView.alpha = UserPreferences.sharedInstance.mapMode == .standard ? 0.3 : 0.4
+                    cell.backgroundView = imageView
+                }
             }
         }
    
@@ -682,15 +693,16 @@ extension POIDetailsViewController : UITableViewDataSource, UITableViewDelegate 
         if indexPath.section == Sections.mapViewAndPhotos  && indexPath.row == 0 {
             
             // Cancel the async snapshotter request if not yet finished
-            if snapshotter.isLoading {
-                snapshotter.cancel()
+            if let theSnapshotter = snapshotter, theSnapshotter.isLoading {
+                theSnapshotter.cancel()
             }
             
             // Delete the POI from the database
-            MapViewController.instance?.theMapView.removeAnnotation(self.poi)
+            
             POIDataManager.sharedInstance.deletePOI(POI: self.poi)
             POIDataManager.sharedInstance.commitDatabase()
             _ = self.navigationController?.popViewController(animated: true)
+
         }
     }
     

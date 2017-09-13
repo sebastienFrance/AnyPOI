@@ -2,8 +2,9 @@
 //  PointOfInterest+CoreDataProperties.swift
 //  AnyPOI
 //
-//  Created by Sébastien Brugalières on 04/12/2016.
-//  Copyright © 2016 Sébastien Brugalières. All rights reserved.
+//  Created by Sébastien Brugalières on 10/09/2017.
+//  Copyright © 2017 Sébastien Brugalières. All rights reserved.
+//
 //
 
 import Foundation
@@ -13,13 +14,13 @@ import CoreData
 extension PointOfInterest {
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<PointOfInterest> {
-        return NSFetchRequest<PointOfInterest>(entityName: "PointOfInterest");
+        return NSFetchRequest<PointOfInterest>(entityName: "PointOfInterest")
     }
 
+    @NSManaged public var poiAddress: String?
     @NSManaged public var poiCategory: Int16
     @NSManaged public var poiCity: String?
     @NSManaged public var poiContactIdentifier: String?
-    @NSManaged public var poiAddress: String?
     @NSManaged public var poiDescription: String?
     @NSManaged public var poiDisplayName: String?
     @NSManaged public var poiGroupCategory: Int16

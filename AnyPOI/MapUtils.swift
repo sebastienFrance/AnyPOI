@@ -27,6 +27,17 @@ protocol PoiCalloutDelegate: class {
     func startOrStopMonitoring(_ sender:UIButton)
 }
 
+class SimpleAnnotation : NSObject, MKAnnotation {
+    var coordinate: CLLocationCoordinate2D
+    var title: String?
+    var subtitle: String?
+
+    init(sourceCoordinate:CLLocationCoordinate2D, sourceTitle:String?, sourceSubtitle:String?) {
+        coordinate = sourceCoordinate
+        title = sourceTitle
+        subtitle = sourceSubtitle
+    }
+}
 
 class MapUtils {
     
@@ -280,12 +291,11 @@ class MapUtils {
     }
 
     // MARK: Pin customization
-    static func customizePinForTableView(_ thePinAnnotation: MKPinAnnotationView, poi:PointOfInterest) {
-        //thePinAnnotation.animatesWhenAdded = false
-        thePinAnnotation.animatesDrop = false
+    static func customizePinForTableView(_ thePinAnnotation: MKMarkerAnnotationView, poi:PointOfInterest) {
+        thePinAnnotation.animatesWhenAdded = false
         thePinAnnotation.canShowCallout = false
-        //thePinAnnotation.markerTintColor = poi.parentGroup?.color
-        thePinAnnotation.tintColor = poi.parentGroup?.color
+        thePinAnnotation.markerTintColor = poi.parentGroup?.color
+        thePinAnnotation.glyphImage = poi.glyphImage
     }
     
     
@@ -299,8 +309,8 @@ class MapUtils {
     }
 
     static func refreshPin(_ annotationView:WayPointPinAnnotationView, poi:PointOfInterest, delegate:PoiCalloutDelegate, type:PinAnnotationType, isFlyover:Bool = false) {
-        //annotationView.markerTintColor = getPinRouteColor(type, poi: poi)
-        annotationView.tintColor = getPinRouteColor(type, poi: poi)
+        annotationView.markerTintColor = getAnnotationColor(type, poi: poi)
+        annotationView.glyphImage = poi.glyphImage
         
         if isFlyover {
             annotationView.configureForFlyover(poi, delegate: delegate)
@@ -313,7 +323,7 @@ class MapUtils {
         case routeStart, routeEnd, waypoint, normal
     }
     
-    fileprivate static func getPinRouteColor(_ type:PinAnnotationType, poi:PointOfInterest) -> UIColor {
+    fileprivate static func getAnnotationColor(_ type:PinAnnotationType, poi:PointOfInterest) -> UIColor {
         switch type {
         case .routeStart:
             return MapColors.pinColorForRouteStart
@@ -328,13 +338,11 @@ class MapUtils {
     }
     
     static func createPin(_ poi:PointOfInterest) -> WayPointPinAnnotationView {
-        let thePinAnnotation = WayPointPinAnnotationView(poi: poi)
-      //  thePinAnnotation.animatesWhenAdded = false
-        thePinAnnotation.canShowCallout = true
-        thePinAnnotation.animatesDrop = true
-        
+        let annotation = WayPointPinAnnotationView(poi: poi)
+        annotation.animatesWhenAdded = false
+        annotation.canShowCallout = true
 
-        return thePinAnnotation
+        return annotation
     }
     
     
@@ -415,7 +423,7 @@ class MapUtils {
         if withMonitoringCircle {
             MapUtils.addCircleIn(mapSnapshot: mapSnapshot, centerCoordinate:poi.coordinate, radius: radius)
         }
-        MapUtils.addAnnotationIn(mapSnapshot: mapSnapshot, annotation:poi, tintColor: withColor)
+        MapUtils.addAnnotationIn(mapSnapshot: mapSnapshot, poi:poi, tintColor: withColor)
         
         // Get the final image from the Grapic context
         let snapshotImage  = UIGraphicsGetImageFromCurrentImageContext()
@@ -485,18 +493,48 @@ class MapUtils {
         background.render(in: UIGraphicsGetCurrentContext()!)
     }
     
-    static fileprivate func addAnnotationIn(mapSnapshot:MKMapSnapshot, annotation:MKAnnotation, tintColor:UIColor) {
-        let pinAnnotation = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: "")
-        pinAnnotation.markerTintColor = tintColor
-        if let pinImage = pinAnnotation.image {
-            // Convert the Geo Coordinates of the POI into point coordinate in the Map
-            var pinImagePoint = mapSnapshot.point(for: annotation.coordinate)
+    static func pinImageFor(poi:PointOfInterest, tintColor:UIColor? = nil, size:Int = 40) -> UIImage? {
+        let annotation = MKMarkerAnnotationView()
+        
+        if let markerColor = tintColor {
+            annotation.markerTintColor = markerColor
+        } else {
+            annotation.markerTintColor = poi.parentGroup!.color
+        }
+        
+        annotation.glyphImage = poi.glyphImage
+        
+        annotation.animatesWhenAdded = false
+        annotation.glyphTintColor = UIColor.white
+        annotation.titleVisibility = .hidden
+        annotation.subtitleVisibility = .hidden
+        
+        // Force to fit the annotation in the 40x40 pixels
+        annotation.contentMode = .scaleAspectFit
+        annotation.bounds = CGRect(x: 0, y: 0, width: size, height: size)
+        
+        UIGraphicsBeginImageContextWithOptions(annotation.bounds.size, false, 0.0)
+        annotation.drawHierarchy(in: CGRect(x:0,
+                                            y:0,
+                                            width:annotation.bounds.width,
+                                            height:annotation.bounds.height),
+                                 afterScreenUpdates: true)
+        let snapshotImageFromMyView = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+
+        return snapshotImageFromMyView
+    }
+    
+    static fileprivate func addAnnotationIn(mapSnapshot:MKMapSnapshot, poi:PointOfInterest, tintColor:UIColor) {
+        if let snapshotImageFromMyView = MapUtils.pinImageFor(poi: poi, tintColor: tintColor, size: 40) {
+            var pinImagePoint = mapSnapshot.point(for: poi.coordinate)
             
             // We want to have the bottom point of the Pin to show the POI position
             // then we need to substract the height of the Pin
-            pinImagePoint.y = pinImagePoint.y - pinAnnotation.frame.size.height
+            pinImagePoint.y = pinImagePoint.y - snapshotImageFromMyView.size.height
             // Draw the Pin image in the graphic context
-            pinImage.draw(at: pinImagePoint)
+            snapshotImageFromMyView.draw(at: pinImagePoint)
+
         }
     }
 }

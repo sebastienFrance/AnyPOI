@@ -2,8 +2,9 @@
 //  GroupOfInterest+CoreDataProperties.swift
 //  AnyPOI
 //
-//  Created by Sébastien Brugalières on 05/12/2016.
-//  Copyright © 2016 Sébastien Brugalières. All rights reserved.
+//  Created by Sébastien Brugalières on 10/09/2017.
+//  Copyright © 2017 Sébastien Brugalières. All rights reserved.
+//
 //
 
 import Foundation
@@ -13,7 +14,7 @@ import CoreData
 extension GroupOfInterest {
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<GroupOfInterest> {
-        return NSFetchRequest<GroupOfInterest>(entityName: "GroupOfInterest");
+        return NSFetchRequest<GroupOfInterest>(entityName: "GroupOfInterest")
     }
 
     @NSManaged public var groupColor: NSObject?

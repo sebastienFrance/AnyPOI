@@ -15,9 +15,8 @@ class RouteDetailsViewCell: UITableViewCell {
     @IBOutlet weak var poiDescription: UILabel!
     @IBOutlet weak var poiAddress: UILabel!
     @IBOutlet weak var routeDistance: UILabel!
-    @IBOutlet weak var poiPinView: MKPinAnnotationView!
+    @IBOutlet weak var poiPinView: MKMarkerAnnotationView!
     @IBOutlet weak var transportType: UISegmentedControl!
-    @IBOutlet weak var poiCategoryImage: UIImageView!
     @IBOutlet weak var transportTypeStackView: UIStackView!
 
     override func setEditing(_ editing: Bool, animated: Bool) {
@@ -42,20 +41,17 @@ class RouteDetailsViewCell: UITableViewCell {
         poiDescription.text = poi.poiDescription
         poiAddress.text = poi.address
         
-        MapUtils.customizePinForTableView(poiPinView, poi: poi)
+        
         
         routeDistance.text = ""
         transportType.isEnabled = false
         
-        if let image = poi.categoryIcon {
-            poiCategoryImage.image = image
-            poiCategoryImage.tintColor = UIColor.black
-            poiCategoryImage.isHidden = false
-        } else {
-            poiCategoryImage.isHidden = true
-        }
 
         transportTypeStackView.isHidden = true
+    }
+    
+    func configureMarker(poi:PointOfInterest) {
+        MapUtils.customizePinForTableView(poiPinView, poi: poi)
     }
 
     // Initialize transportType, distance... from the WayPoint

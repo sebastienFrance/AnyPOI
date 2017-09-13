@@ -9,7 +9,7 @@
 import Foundation
 import MapKit
 
-class WayPointPinAnnotationView : MKPinAnnotationView {
+class WayPointPinAnnotationView : MKMarkerAnnotationView {
     
     fileprivate struct NibIdentifier {
         static let calloutAccessoryView = "CallOutAccessoryView"

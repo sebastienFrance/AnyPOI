@@ -145,6 +145,16 @@ extension RouteDetailsViewController: UITableViewDataSource, UITableViewDelegate
         static let routeSummaryId = "routeSummaryId"
     }
     
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        switch Sections(rawValue: indexPath.section)! {
+        case .wayPoints:
+            let theCell = cell as! RouteDetailsViewCell
+            theCell.configureMarker(poi: wayPointsDelegate.routeDatasource!.wayPoints[indexPath.row].wayPointPoi!)
+        default:
+            break
+        }
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch Sections(rawValue: indexPath.section)! {
         case .summary:
