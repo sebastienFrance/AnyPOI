@@ -514,11 +514,14 @@ class MapUtils {
         annotation.bounds = CGRect(x: 0, y: 0, width: size, height: size)
         
         UIGraphicsBeginImageContextWithOptions(annotation.bounds.size, false, 0.0)
-        annotation.drawHierarchy(in: CGRect(x:0,
-                                            y:0,
-                                            width:annotation.bounds.width,
-                                            height:annotation.bounds.height),
-                                 afterScreenUpdates: true)
+        let result = annotation.drawHierarchy(in: CGRect(x:0,
+                                                         y:0,
+                                                         width:annotation.bounds.width,
+                                                         height:annotation.bounds.height),
+                                              afterScreenUpdates: true)
+        if !result {
+            NSLog("\(#function) warning, drawHierarchy has not completed")
+        }
         let snapshotImageFromMyView = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
 

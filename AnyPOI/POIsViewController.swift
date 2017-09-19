@@ -29,26 +29,10 @@ class POIsViewController: UIViewController  {
     @IBOutlet weak var selectButton: UIBarButtonItem!
     @IBOutlet weak var searchButton: UIBarButtonItem!
     
-    enum DisplayMode {
-        case simpleGroup, monitoredPois, cityPois, countryPois, poisWithoutAddress
-    }
-    
-    fileprivate var displayMode = DisplayMode.simpleGroup
-    fileprivate var displayModeFilter = ""
-    fileprivate var areaName = ""
-    fileprivate var POIGroup:GroupOfInterest!
-    
-    // Cache for images
-    fileprivate var images = [Int:UIImage]()
-    
+    fileprivate let datasource = POIsDataSource()
     
     // Search
     fileprivate var searchController:UISearchController!
-    fileprivate var searchFilter = "" // Use to perform filtering on list of groups
-    
-    // Datasource
-    fileprivate var pois:[PointOfInterest]? = nil
-    fileprivate var poisWithFilters:[PointOfInterest]? = nil
 
     // Map image
     fileprivate var snapshotter:MKMapSnapshotter?
@@ -61,35 +45,27 @@ class POIsViewController: UIViewController  {
 
     //MARK: VC Initialization
     func showCityPoi(_ cityName: String) {
-        displayMode = .cityPois
-        displayModeFilter = cityName
-        areaName = cityName
+        datasource.showCityPoi(cityName)
     }
     
     func showCountryPoi(country:CountryDescription) {
-        displayMode = .countryPois
-        displayModeFilter = country.ISOCountryCode
-        areaName = "\(country.countryFlag) \(country.countryName)"
+        datasource.showCountryPoi(country: country)
     }
     
     func showMonitoredPois() {
-        displayMode = .monitoredPois
-        areaName = NSLocalizedString("MonitoredPOIs", comment: "")
+        datasource.showMonitoredPois()
     }
     
     func showPoisWithoutAddress() {
-        displayMode = .poisWithoutAddress
-        areaName = "POIs without address"
+        datasource.showPoisWithoutAddress()
     }
     
     func showGroup(_ group:GroupOfInterest) {
-        POIGroup = group
-        displayMode = .simpleGroup
-        areaName = group.groupDisplayName!
+        datasource.showGroup(group)
     }
     
     fileprivate func getPoiForIndexPath(_ indexPath:IndexPath) -> PointOfInterest {
-        return getPois(withFilter: true)[indexPath.row]
+        return datasource.getPois(withFilter: true)[indexPath.row]
     }
     
     
@@ -122,6 +98,7 @@ class POIsViewController: UIViewController  {
         super.viewWillDisappear(animated)
         
     }
+    
 
     deinit {
         NotificationCenter.default.removeObserver(self)
@@ -129,8 +106,9 @@ class POIsViewController: UIViewController  {
     
     //MARK: notification
     @objc func synchronizationContactsDone(_ notification : Notification) {
-        pois = nil // Reset the data
-        poisWithFilters = nil
+       // pois = nil // Reset the data
+       // poisWithFilters = nil
+        datasource.resetPOIs()
         theTableView.reloadData()
         resetStateOfEditButtons()
     }
@@ -141,8 +119,7 @@ class POIsViewController: UIViewController  {
             return // ignore the notification while Contacts are synchronizing
         }
 
-        pois = nil // Reset the data
-        poisWithFilters = nil
+        datasource.resetPOIs()
         // If the table is editing it means we are deleting the Poi directly from
         // this controller
         // If it's not editing it means the PoiGroup has been changed from another controller
@@ -157,36 +134,6 @@ class POIsViewController: UIViewController  {
 
     
     //MARK: Utils
-    fileprivate func getPois(withFilter:Bool) -> [PointOfInterest] {
-        if !withFilter {
-            if pois == nil {
-                pois = extractPOIsFromDatabase(withFilter:false)
-            }
-            return pois!
-        } else {
-            if poisWithFilters == nil {
-                poisWithFilters = extractPOIsFromDatabase(withFilter:true)
-            }
-            return poisWithFilters!
-        }
-    }
-    
-    fileprivate func extractPOIsFromDatabase(withFilter:Bool) -> [PointOfInterest] {
-        let filter = withFilter ? searchFilter : ""
-        switch displayMode {
-        case .monitoredPois:
-            return POIDataManager.sharedInstance.getAllMonitoredPOI(filter)
-        case .simpleGroup:
-            return POIDataManager.sharedInstance.getPOIsFromGroup(POIGroup, searchFilter: filter)
-        case .cityPois:
-            return POIDataManager.sharedInstance.getAllPOIFromCity(displayModeFilter, searchFilter: filter)
-        case .countryPois:
-            return POIDataManager.sharedInstance.getAllPOIFromCountry(displayModeFilter, searchFilter: filter)
-        case .poisWithoutAddress:
-            return POIDataManager.sharedInstance.getPoisWithoutPlacemark(searchFilter: filter)
-        }
-    }
-    
     
     /// Enable or disable buttons from toolbars based on list of POIs
     fileprivate func resetStateOfEditButtons() {
@@ -204,14 +151,14 @@ class POIsViewController: UIViewController  {
         searchButton.isEnabled = true
 
         // disable all except the search if there're POI when the filter is empty
-        if getPois(withFilter:true).count == 0 {
+        if datasource.getPois(withFilter:true).count == 0 {
             actionButton.isEnabled = false
             selectButton.isEnabled = false
             moveButton.isEnabled = false
             
             // search button must be disabled only if there's nothing even
             // when the filter is not set
-            if getPois(withFilter:false).count == 0 {
+            if datasource.getPois(withFilter:false).count == 0 {
                 searchButton.isEnabled = false
             }
         } else {
@@ -248,7 +195,7 @@ class POIsViewController: UIViewController  {
     // Display all POIs without any filter in the Map
     fileprivate func getMapSnapshot() {
         let snapshotOptions = MKMapSnapshotOptions()
-        snapshotOptions.region = MapUtils.boundingBoxForAnnotations(getPois(withFilter:false))
+        snapshotOptions.region = MapUtils.boundingBoxForAnnotations(datasource.getPois(withFilter:false))
         snapshotOptions.mapType = UserPreferences.sharedInstance.mapMode == .standard ? .standard : .satellite
         snapshotOptions.showsBuildings = false
         snapshotOptions.showsPointsOfInterest = false
@@ -260,7 +207,7 @@ class POIsViewController: UIViewController  {
                 NSLog("\(#function) Error when loading Map image with Snapshotter \(error.localizedDescription)")
             } else {
                 if let theMapSnapshot = mapSnapshot {
-                    self.snapshotImage = MapUtils.configureMapImageFor(pois:self.getPois(withFilter:false),
+                    self.snapshotImage = MapUtils.configureMapImageFor(pois:self.datasource.getPois(withFilter:false),
                                                                        mapSnapshot:theMapSnapshot,
                                                                        poiSizeInMap:Cste.POISizeInMapView)
                     self.theTableView.reloadSections(IndexSet(integer: 0), with: .automatic)
@@ -273,11 +220,11 @@ class POIsViewController: UIViewController  {
     // MARK: Action buttons
     @IBAction func actionButtonPushed(_ sender: UIBarButtonItem) {
         var activityItems = [UIActivityItemSource]()
-        let mailActivity = PoisMailActivityItemSource(pois:getPois(withFilter:true), mailTitle:areaName)
+        let mailActivity = PoisMailActivityItemSource(pois:datasource.getPois(withFilter:true), mailTitle:datasource.areaName)
         activityItems.append(mailActivity)
         
         if UserPreferences.sharedInstance.isAnyPoiUnlimited {
-            activityItems.append(GPXActivityItemSource(pois: getPois(withFilter:true)))
+            activityItems.append(GPXActivityItemSource(pois: datasource.getPois(withFilter:true)))
         }
         
         if let snapshot = snapshotter, !snapshot.isLoading {
@@ -371,7 +318,7 @@ class POIsViewController: UIViewController  {
                 movePOIsController.pois = selectedPois
                 stopEditingMode()
             } else {
-                movePOIsController.pois = getPois(withFilter:true)
+                movePOIsController.pois = datasource.getPois(withFilter:true)
             }
         }
     }
@@ -430,14 +377,13 @@ extension POIsViewController : UISearchResultsUpdating, UISearchControllerDelega
     
     //MARK: UISearchBarDelegate
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        searchFilter = searchText
-        poisWithFilters = nil
+        datasource.resetPOisWithFilter(filter:searchText)
         resetStateOfEditButtons()
         theTableView.reloadData()
     }
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        searchBar.text = searchFilter
+        searchBar.text = datasource.searchFilter
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
@@ -451,9 +397,8 @@ extension POIsViewController : UISearchResultsUpdating, UISearchControllerDelega
 
     fileprivate func clearFilter() {
         searchButton.tintColor = actionButton.tintColor
-        if !searchFilter.isEmpty {
-            searchFilter = ""
-            poisWithFilters = nil
+        if !datasource.searchFilter.isEmpty {
+            datasource.resetPOisWithFilter(filter:"")
             searchController.searchBar.text = ""
             resetStateOfEditButtons()
             theTableView.reloadData()
@@ -471,7 +416,7 @@ extension POIsViewController : UITableViewDataSource, UITableViewDelegate {
     //MARK: UITableViewDataSource
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == Sections.POIs {
-            let poisCount = getPois(withFilter:true).count
+            let poisCount = datasource.getPois(withFilter:true).count
             return poisCount == 0 ? 1 : poisCount
         } else {
             return 1
@@ -488,6 +433,14 @@ extension POIsViewController : UITableViewDataSource, UITableViewDelegate {
         static let cellPoisMapAreaId = "cellPoisMapAreaId"
     }
     
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.section == Sections.POIs {
+            let theCell = cell as! POISimpleViewCell
+            theCell.configureMarker(poi:getPoiForIndexPath(indexPath))
+        }
+    }
+    
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == Sections.MapView {
             let theCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier.cellPoisMapAreaId, for: indexPath) as! PoisMapAreaTableViewCell
@@ -499,23 +452,18 @@ extension POIsViewController : UITableViewDataSource, UITableViewDelegate {
                 theCell.backgroundView = imageView
             }
             
-            theCell.groupLabel?.text = areaName
+            theCell.groupLabel?.text = datasource.areaName
             return theCell
         } else {
-            if getPois(withFilter:true).count > 0 {
+            if datasource.getPois(withFilter:true).count > 0 {
                 let theCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier.descriptionCellId, for: indexPath) as! POISimpleViewCell
                 let currentPOI = getPoiForIndexPath(indexPath)
-                
-                if let image = images[indexPath.row] {
-                    theCell.initializeWith(currentPOI, index:indexPath.row, image:image)
-                } else {
-                    theCell.initializeWith(currentPOI, index:indexPath.row)
-                }
-                return theCell
+                theCell.initializeWith(currentPOI, index:indexPath.row)
+                 return theCell
             } else {
                 let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier.cellForEmptyGroupId, for: indexPath)
-                if getPois(withFilter:false).count > 0 {
-                    cell.textLabel?.text = "\(NSLocalizedString("POIsNoPOIsMatchingSearch", comment: "")) \(searchFilter)"
+                if datasource.getPois(withFilter:false).count > 0 {
+                    cell.textLabel?.text = "\(NSLocalizedString("POIsNoPOIsMatchingSearch", comment: "")) \(datasource.searchFilter)"
                     cell.textLabel?.textColor = UIColor.green
                 } else {
                     cell.textLabel?.text = NSLocalizedString("POIsNoPOIsInGoup", comment: "")
@@ -525,6 +473,7 @@ extension POIsViewController : UITableViewDataSource, UITableViewDelegate {
             }
         }
     }
+    
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == Sections.MapView {
@@ -556,7 +505,7 @@ extension POIsViewController : UITableViewDataSource, UITableViewDelegate {
                 POIDataManager.sharedInstance.deletePOI(POI: thePoiToDelete)
                 POIDataManager.sharedInstance.commitDatabase()
                 theTableView.deleteRows(at: [indexPath], with: .automatic)
-                if getPois(withFilter:true).count == 0 {
+                if datasource.getPois(withFilter:true).count == 0 {
                     theTableView.insertRows(at: [indexPath], with: .automatic)
                 }
                 theTableView.endUpdates()
@@ -574,7 +523,7 @@ extension POIsViewController : UITableViewDataSource, UITableViewDelegate {
 
         if indexPath.section == Sections.MapView {
             return false
-        } else if indexPath.section == Sections.POIs && getPois(withFilter:true).count == 0 {
+        } else if indexPath.section == Sections.POIs && datasource.getPois(withFilter:true).count == 0 {
             return false
         } else {
             return true
@@ -583,13 +532,13 @@ extension POIsViewController : UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == Sections.POIs {
-            if getPois(withFilter:true).count > 0 && !theTableView.isEditing {
+            if datasource.getPois(withFilter:true).count > 0 && !theTableView.isEditing {
                 performSegue(withIdentifier: storyboard.showPOIDetails, sender: indexPath)
             } else if theTableView.isEditing {
                 moveButton.isEnabled = true
             }
         } else if indexPath.section == Sections.MapView {
-            let pois = getPois(withFilter:false)
+            let pois = datasource.getPois(withFilter:false)
             NotificationCenter.default.post(name: Notification.Name(rawValue: MapViewController.MapNotifications.showPOIs), object: nil, userInfo: [MapViewController.MapNotifications.showPOIs_Parameter_POIs: pois])
             
             ContainerViewController.sharedInstance.goToMap()

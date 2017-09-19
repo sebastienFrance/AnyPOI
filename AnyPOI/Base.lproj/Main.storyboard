@@ -268,7 +268,6 @@
                         <segue destination="lXl-lE-T7V" kind="presentation" identifier="startTableRouteId" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="mfN-cc-OwX"/>
                         <segue destination="6Nv-07-S2T" kind="presentation" identifier="showGPXImportId" id="I6s-sB-kPZ"/>
                         <segue destination="9Hi-Vi-uNu" kind="presentation" identifier="showHelperId" id="JCH-gZ-ywN"/>
-                        <segue destination="9LH-xH-koe" kind="show" identifier="ShowPOIDetailsId2" id="gS6-oM-RX6"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -1207,7 +1206,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BsG-sK-nd4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2524" y="549"/>
+            <point key="canvasLocation" x="1736" y="682"/>
         </scene>
         <!--Helper View Controller-->
         <scene sceneID="lc6-Yh-WoN">
@@ -1789,24 +1788,6 @@ Compute the route from current position to the displayed POI</string>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZgP-pK-WCK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-331" y="1021"/>
-        </scene>
-        <!--Test View Controller-->
-        <scene sceneID="4Jj-Aj-Fwy">
-            <objects>
-                <viewController id="9LH-xH-koe" customClass="TestViewController" customModule="AnyPOI" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="AkU-CG-ljS"/>
-                        <viewControllerLayoutGuide type="bottom" id="obQ-oH-pcv"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="bg5-T9-pvN">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="MnH-cQ-Eqo" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1655" y="911"/>
         </scene>
         <!--POIDetails-->
         <scene sceneID="Xzk-2c-Hhc">
