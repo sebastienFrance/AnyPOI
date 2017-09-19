@@ -186,20 +186,20 @@ class POIsGroupListViewController: UIViewController, DismissModalViewController,
         static let showCityPois = "showCityPois"
         static let openGroupConfiguratorId = "openGroupConfiguratorId"
     }
-    
+  
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         searchController.isActive = false
         switch segue.identifier! {
         case storyboard.showPOIList:
             let poiController = segue.destination as! POIsViewController
             let group = filteredGroups[theTableView.indexPathForSelectedRow!.row]
-            poiController.showGroup(group)
+            poiController.datasource = POIsGroupDataSource(group: group)
         case storyboard.showMonitoredPois:
             let poiController = segue.destination as! POIsViewController
-            poiController.showMonitoredPois()
+            poiController.datasource = POIsMonitoredDataSource()
         case storyboard.showPOIsWithoutAddress:
             let poiController = segue.destination as! POIsViewController
-            poiController.showPoisWithoutAddress()
+            poiController.datasource = POIsNoAddressDataSource()
         case storyboard.showCityPois:
             if let indexPath = theTableView.indexPathForSelectedRow {
                 let poiController = segue.destination as! POIsViewController
@@ -219,12 +219,13 @@ class POIsGroupListViewController: UIViewController, DismissModalViewController,
         }
     }
     
+
     fileprivate func showCountriesOrCitiesFor(indexPath:IndexPath, viewController: POIsViewController) {
         if let country = getCountryFrom(section: indexPath.section) {
             if indexPath.row == 0 && searchFilter.isEmpty {
-                viewController.showCountryPoi(country:country)
+                viewController.datasource = POIsCountryDataSource(country: country)
             } else {
-                viewController.showCityPoi(getCityNameFrom(country: country, row: indexPath.row))
+                viewController.datasource = POIsCityDataSource(cityName: getCityNameFrom(country: country, row: indexPath.row))
             }
         } else {
             NSLog("\(#function) Warning, invalid index to look for a Country \(indexPath.row)")

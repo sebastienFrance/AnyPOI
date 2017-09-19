@@ -29,7 +29,7 @@ class POIsViewController: UIViewController  {
     @IBOutlet weak var selectButton: UIBarButtonItem!
     @IBOutlet weak var searchButton: UIBarButtonItem!
     
-    fileprivate let datasource = POIsDataSource()
+     var datasource:POIsDataSource!
     
     // Search
     fileprivate var searchController:UISearchController!
@@ -44,25 +44,6 @@ class POIsViewController: UIViewController  {
     }
 
     //MARK: VC Initialization
-    func showCityPoi(_ cityName: String) {
-        datasource.showCityPoi(cityName)
-    }
-    
-    func showCountryPoi(country:CountryDescription) {
-        datasource.showCountryPoi(country: country)
-    }
-    
-    func showMonitoredPois() {
-        datasource.showMonitoredPois()
-    }
-    
-    func showPoisWithoutAddress() {
-        datasource.showPoisWithoutAddress()
-    }
-    
-    func showGroup(_ group:GroupOfInterest) {
-        datasource.showGroup(group)
-    }
     
     fileprivate func getPoiForIndexPath(_ indexPath:IndexPath) -> PointOfInterest {
         return datasource.getPois(withFilter: true)[indexPath.row]
@@ -96,7 +77,6 @@ class POIsViewController: UIViewController  {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        
     }
     
 
@@ -108,7 +88,7 @@ class POIsViewController: UIViewController  {
     @objc func synchronizationContactsDone(_ notification : Notification) {
        // pois = nil // Reset the data
        // poisWithFilters = nil
-        datasource.resetPOIs()
+        datasource.reset()
         theTableView.reloadData()
         resetStateOfEditButtons()
     }
@@ -119,7 +99,7 @@ class POIsViewController: UIViewController  {
             return // ignore the notification while Contacts are synchronizing
         }
 
-        datasource.resetPOIs()
+        datasource.reset()
         // If the table is editing it means we are deleting the Poi directly from
         // this controller
         // If it's not editing it means the PoiGroup has been changed from another controller
@@ -220,7 +200,7 @@ class POIsViewController: UIViewController  {
     // MARK: Action buttons
     @IBAction func actionButtonPushed(_ sender: UIBarButtonItem) {
         var activityItems = [UIActivityItemSource]()
-        let mailActivity = PoisMailActivityItemSource(pois:datasource.getPois(withFilter:true), mailTitle:datasource.areaName)
+        let mailActivity = PoisMailActivityItemSource(pois:datasource.getPois(withFilter:true), mailTitle:datasource.poisDescription)
         activityItems.append(mailActivity)
         
         if UserPreferences.sharedInstance.isAnyPoiUnlimited {
@@ -377,7 +357,7 @@ extension POIsViewController : UISearchResultsUpdating, UISearchControllerDelega
     
     //MARK: UISearchBarDelegate
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        datasource.resetPOisWithFilter(filter:searchText)
+        datasource.update(filter:searchText)
         resetStateOfEditButtons()
         theTableView.reloadData()
     }
@@ -398,7 +378,7 @@ extension POIsViewController : UISearchResultsUpdating, UISearchControllerDelega
     fileprivate func clearFilter() {
         searchButton.tintColor = actionButton.tintColor
         if !datasource.searchFilter.isEmpty {
-            datasource.resetPOisWithFilter(filter:"")
+            datasource.update(filter:"")
             searchController.searchBar.text = ""
             resetStateOfEditButtons()
             theTableView.reloadData()
@@ -452,7 +432,7 @@ extension POIsViewController : UITableViewDataSource, UITableViewDelegate {
                 theCell.backgroundView = imageView
             }
             
-            theCell.groupLabel?.text = datasource.areaName
+            theCell.groupLabel?.text = datasource.poisDescription
             return theCell
         } else {
             if datasource.getPois(withFilter:true).count > 0 {

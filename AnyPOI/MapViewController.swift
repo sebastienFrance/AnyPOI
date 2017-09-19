@@ -1098,6 +1098,7 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
         static let showGPXImportId = "showGPXImportId"
         static let showHelperId = "showHelperId"
     }
+    
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == storyboard.showPOIDetails {
@@ -1111,7 +1112,7 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
         } else if segue.identifier == storyboard.showGroupContent {
             let viewController = segue.destination as! POIsViewController
             let group = sender as! GroupOfInterest
-            viewController.showGroup(group)
+            viewController.datasource = POIsGroupDataSource(group: group)
         } else if segue.identifier == storyboard.editGroup {
             startDim()
             let viewController = segue.destination as! GroupConfiguratorViewController

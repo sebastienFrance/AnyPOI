@@ -10,58 +10,23 @@ import Foundation
 
 class POIsDataSource {
     
-    private enum DisplayMode {
-        case simpleGroup, monitoredPois, cityPois, countryPois, poisWithoutAddress
-    }
-    
-    private var displayMode = DisplayMode.simpleGroup
-    private var displayModeFilter = ""
-    var areaName = ""
-    private var POIGroup:GroupOfInterest!
 
-    // Datasource
-     var pois:[PointOfInterest]? = nil
-     var poisWithFilters:[PointOfInterest]? = nil
+    // Datasource cache
+    private var pois:[PointOfInterest]? = nil
+    private var poisWithFilters:[PointOfInterest]? = nil
 
-     var searchFilter = "" // Use to perform filtering on list of groups
+    fileprivate(set) var poisDescription = ""
+    private(set) var searchFilter = "" // Use to perform filtering on list of groups
     
     init() {
     }
     
-    func showCityPoi(_ cityName: String) {
-        displayMode = .cityPois
-        displayModeFilter = cityName
-        areaName = cityName
-    }
-    
-    func showCountryPoi(country:CountryDescription) {
-        displayMode = .countryPois
-        displayModeFilter = country.ISOCountryCode
-        areaName = "\(country.countryFlag) \(country.countryName)"
-    }
-    
-    func showMonitoredPois() {
-        displayMode = .monitoredPois
-        areaName = NSLocalizedString("MonitoredPOIs", comment: "")
-    }
-    
-    func showPoisWithoutAddress() {
-        displayMode = .poisWithoutAddress
-        areaName = "POIs without address"
-    }
-    
-    func showGroup(_ group:GroupOfInterest) {
-        POIGroup = group
-        displayMode = .simpleGroup
-        areaName = group.groupDisplayName!
-    }
-    
-    func resetPOIs() {
+    func reset() {
         pois = nil // Reset the data
         poisWithFilters = nil
     }
     
-    func resetPOisWithFilter(filter:String) {
+    func update(filter:String) {
         poisWithFilters = nil
         searchFilter = filter
     }
@@ -70,31 +35,93 @@ class POIsDataSource {
      func getPois(withFilter:Bool) -> [PointOfInterest] {
         if !withFilter {
             if pois == nil {
-                pois = extractPOIsFromDatabase(withFilter:false)
+                pois = extractPOIsFromDatabase(withFilter:"")
             }
             return pois!
         } else {
             if poisWithFilters == nil {
-                poisWithFilters = extractPOIsFromDatabase(withFilter:true)
+                poisWithFilters = extractPOIsFromDatabase(withFilter:searchFilter)
             }
             return poisWithFilters!
         }
     }
     
-     private func extractPOIsFromDatabase(withFilter:Bool) -> [PointOfInterest] {
-        let filter = withFilter ? searchFilter : ""
-        switch displayMode {
-        case .monitoredPois:
-            return POIDataManager.sharedInstance.getAllMonitoredPOI(filter)
-        case .simpleGroup:
-            return POIDataManager.sharedInstance.getPOIsFromGroup(POIGroup, searchFilter: filter)
-        case .cityPois:
-            return POIDataManager.sharedInstance.getAllPOIFromCity(displayModeFilter, searchFilter: filter)
-        case .countryPois:
-            return POIDataManager.sharedInstance.getAllPOIFromCountry(displayModeFilter, searchFilter: filter)
-        case .poisWithoutAddress:
-            return POIDataManager.sharedInstance.getPoisWithoutPlacemark(searchFilter: filter)
-        }
+     fileprivate func extractPOIsFromDatabase(withFilter:String) -> [PointOfInterest] {
+        return []
     }
 
 }
+
+class POIsCityDataSource: POIsDataSource {
+    
+    private var city = ""
+    
+    init(cityName:String) {
+        city = cityName
+        super.init()
+        poisDescription = cityName
+    }
+    
+    override func extractPOIsFromDatabase(withFilter:String) -> [PointOfInterest] {
+        return POIDataManager.sharedInstance.getAllPOIFromCity(city, searchFilter: withFilter)
+     }
+}
+
+class POIsCountryDataSource: POIsDataSource {
+    
+    private var ISOCountryCode = ""
+
+    init(country:CountryDescription) {
+        ISOCountryCode = country.ISOCountryCode
+        super.init()
+        poisDescription = "\(country.countryFlag) \(country.countryName)"
+    }
+    
+    
+    override func extractPOIsFromDatabase(withFilter:String) -> [PointOfInterest] {
+        return POIDataManager.sharedInstance.getAllPOIFromCountry(ISOCountryCode, searchFilter: withFilter)
+    }
+}
+
+class POIsMonitoredDataSource: POIsDataSource {
+    
+    override init() {
+        super.init()
+        poisDescription = NSLocalizedString("MonitoredPOIs", comment: "")
+    }
+    
+    
+    override func extractPOIsFromDatabase(withFilter:String) -> [PointOfInterest] {
+        return POIDataManager.sharedInstance.getAllMonitoredPOI(withFilter)
+    }
+}
+
+class POIsNoAddressDataSource: POIsDataSource {
+    
+    override init() {
+        super.init()
+        poisDescription = "POIs without address"
+    }
+    
+    
+    override func extractPOIsFromDatabase(withFilter:String) -> [PointOfInterest] {
+        return POIDataManager.sharedInstance.getPoisWithoutPlacemark(searchFilter: withFilter)
+    }
+}
+
+class POIsGroupDataSource: POIsDataSource {
+    
+    fileprivate var POIGroup:GroupOfInterest
+
+    init(group:GroupOfInterest) {
+        POIGroup = group
+        super.init()
+        poisDescription = group.groupDisplayName!
+    }
+    
+    
+    override func extractPOIsFromDatabase(withFilter:String) -> [PointOfInterest] {
+        return POIDataManager.sharedInstance.getPOIsFromGroup(POIGroup, searchFilter: withFilter)
+    }
+}
+
