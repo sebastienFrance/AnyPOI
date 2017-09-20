@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MovePOIsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class MovePOIsViewController: UIViewController  {
 
     @IBOutlet weak var theTableView: UITableView! {
         didSet {
@@ -28,14 +28,12 @@ class MovePOIsViewController: UIViewController, UITableViewDelegate, UITableView
         super.viewDidLoad()
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
     @IBAction func cancelButtonPushed(_ sender: UIBarButtonItem) {
         dismiss(animated: true, completion: nil)
     }
+}
+
+extension MovePOIsViewController : UITableViewDelegate, UITableViewDataSource {
     
     //MARK: UITableViewDataSource
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -49,11 +47,9 @@ class MovePOIsViewController: UIViewController, UITableViewDelegate, UITableView
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row == 0 {
-            let cell = theTableView.dequeueReusableCell(withIdentifier: storyboard.moveCellHeaderId, for: indexPath)
-            return cell
+            return theTableView.dequeueReusableCell(withIdentifier: storyboard.moveCellHeaderId, for: indexPath)
         } else {
-            let cell = theTableView.dequeueReusableCell(withIdentifier: storyboard.moveToGroupCellId, for: indexPath) as! MovePOIsTableViewCell
-            
+            let cell = theTableView.dequeueReusableCell(withIdentifier: storyboard.moveToGroupCellId, for: indexPath) as! MovePOIsTableViewCell            
             cell.initWithGroup(POIDataManager.sharedInstance.getGroups()[indexPath.row - 1])
             
             return cell

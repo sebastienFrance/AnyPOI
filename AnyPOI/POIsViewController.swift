@@ -43,11 +43,6 @@ class POIsViewController: UIViewController  {
         static let POISizeInMapView = CGFloat(10.0)
     }
 
-    //MARK: VC Initialization
-    
-    fileprivate func getPoiForIndexPath(_ indexPath:IndexPath) -> PointOfInterest {
-        return datasource.getPois(withFilter: true)[indexPath.row]
-    }
     
     
     //MARK: Initialization
@@ -61,13 +56,40 @@ class POIsViewController: UIViewController  {
         
         initSearchController()
         
-        let managedContext = DatabaseAccess.sharedInstance.managedObjectContext
-        NotificationCenter.default.addObserver(self, selector: #selector(POIsViewController.contextDidSaveNotification(_:)), name: NSNotification.Name.NSManagedObjectContextDidSave, object: managedContext)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(POIsViewController.refreshDisplay(_:)),
+                                               name: NSNotification.Name.NSManagedObjectContextDidSave,
+                                               object: DatabaseAccess.sharedInstance.managedObjectContext)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(POIsViewController.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(POIsViewController.keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(POIsViewController.synchronizationContactsDone(_:)), name: Notification.Name(rawValue: ContactsSynchronization.Notifications.synchronizationDone), object: ContactsSynchronization.sharedInstance)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(POIsViewController.refreshDisplay(_:)),
+                                               name: Notification.Name(rawValue: ContactsSynchronization.Notifications.synchronizationDone),
+                                               object: ContactsSynchronization.sharedInstance)
+
+        registerKeyboardNotifications()
+        
    }
+    
+    func registerKeyboardNotifications() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(POIsViewController.keyboardWillShow(_:)),
+                                               name: NSNotification.Name.UIKeyboardWillShow,
+                                               object: nil)
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(POIsViewController.keyboardWillHide(_:)),
+                                               name: NSNotification.Name.UIKeyboardWillHide,
+                                               object: nil)
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        if let theSnapshotter = snapshotter, theSnapshotter.isLoading {
+            theSnapshotter.cancel()
+        }
+        
+        snapshotter = nil
+    }
     
     
     override func viewWillAppear(_ animated: Bool) {
@@ -79,26 +101,38 @@ class POIsViewController: UIViewController  {
         super.viewWillDisappear(animated)
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        // When this view controller has disappear we must be sure the
+        // searchController is no more displayed (for example when Navigating to the Map and the SearchController is displayed
+        // or when selecting a POIs to distplay its details and the SearchController is also displayed
+        searchController.isActive = false
+    }
+    
 
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
     
     //MARK: notification
-    @objc func synchronizationContactsDone(_ notification : Notification) {
-       // pois = nil // Reset the data
-       // poisWithFilters = nil
-        datasource.reset()
-        theTableView.reloadData()
-        resetStateOfEditButtons()
-    }
+
     
-    @objc func contextDidSaveNotification(_ notification : Notification) {
-        
+    /// Refresh the content of the view when the contacts synchronization is completed or when
+    /// something has been changed in the database
+    ///
+    /// It refreshes:
+    ///  - content of the table view
+    ///  - reset the datasource (to update it with the new content of the database)
+    ///  - status of the toolbar buttons
+    ///  - update the map snapshot to reflect the new content of the database
+    ///
+    /// - Parameter notification: notification
+    @objc private func refreshDisplay(_ notification : Notification) {
         if ContactsSynchronization.sharedInstance.isSynchronizing {
             return // ignore the notification while Contacts are synchronizing
         }
-
+        
         datasource.reset()
         // If the table is editing it means we are deleting the Poi directly from
         // this controller
@@ -108,14 +142,24 @@ class POIsViewController: UIViewController  {
         }
         
         resetStateOfEditButtons()
-        
         getMapSnapshot()
     }
 
     
     //MARK: Utils
     
-    /// Enable or disable buttons from toolbars based on list of POIs
+    
+    /// Get a Filtered POI at the given indexPath
+    ///
+    /// - Parameter indexPath: index of the POI
+    /// - Returns: PointOfInterest at the given index
+    fileprivate func getFilteredPOI(_ indexPath:IndexPath) -> PointOfInterest {
+        return datasource.filteredPOIs[indexPath.row]
+    }
+
+    /// Reconfigure the status of all buttons from the ViewController
+    /// - When the Contacts are synchronizing, all buttons (search, filter...) are disabled
+    
     fileprivate func resetStateOfEditButtons() {
         if ContactsSynchronization.sharedInstance.isSynchronizing {
             actionButton.isEnabled = false
@@ -131,14 +175,14 @@ class POIsViewController: UIViewController  {
         searchButton.isEnabled = true
 
         // disable all except the search if there're POI when the filter is empty
-        if datasource.getPois(withFilter:true).count == 0 {
+        if datasource.filteredPOIsCount == 0 {
             actionButton.isEnabled = false
             selectButton.isEnabled = false
             moveButton.isEnabled = false
             
             // search button must be disabled only if there's nothing even
             // when the filter is not set
-            if datasource.getPois(withFilter:false).count == 0 {
+            if datasource.allPOIsCount == 0 {
                 searchButton.isEnabled = false
             }
         } else {
@@ -155,6 +199,8 @@ class POIsViewController: UIViewController  {
         }
     }
     
+    
+    /// Set the TableView in editing mode
     fileprivate func startEditingMode() {
         theTableView.allowsMultipleSelectionDuringEditing = true
         theTableView.setEditing(true, animated: true)
@@ -164,6 +210,8 @@ class POIsViewController: UIViewController  {
         resetStateOfEditButtons()
     }
     
+    
+    /// Stop the TableView editing mode
     fileprivate func stopEditingMode() {
         theTableView.allowsMultipleSelectionDuringEditing = false
         theTableView.setEditing(false, animated: true)
@@ -172,10 +220,14 @@ class POIsViewController: UIViewController  {
         resetStateOfEditButtons()
     }
 
-    // Display all POIs without any filter in the Map
+    /// Show all POIs without filter in the Map
     fileprivate func getMapSnapshot() {
+        if let theSnapshotter = snapshotter, theSnapshotter.isLoading {
+            theSnapshotter.cancel()
+        }
+        
         let snapshotOptions = MKMapSnapshotOptions()
-        snapshotOptions.region = MapUtils.boundingBoxForAnnotations(datasource.getPois(withFilter:false))
+        snapshotOptions.region = MapUtils.boundingBoxForAnnotations(datasource.allPOIs)
         snapshotOptions.mapType = UserPreferences.sharedInstance.mapMode == .standard ? .standard : .satellite
         snapshotOptions.showsBuildings = false
         snapshotOptions.showsPointsOfInterest = false
@@ -186,8 +238,9 @@ class POIsViewController: UIViewController  {
             if let error = error {
                 NSLog("\(#function) Error when loading Map image with Snapshotter \(error.localizedDescription)")
             } else {
+                // Get the image and update the cell displaying the map
                 if let theMapSnapshot = mapSnapshot {
-                    self.snapshotImage = MapUtils.configureMapImageFor(pois:self.datasource.getPois(withFilter:false),
+                    self.snapshotImage = MapUtils.configureMapImageFor(pois:self.datasource.allPOIs,
                                                                        mapSnapshot:theMapSnapshot,
                                                                        poiSizeInMap:Cste.POISizeInMapView)
                     self.theTableView.reloadSections(IndexSet(integer: 0), with: .automatic)
@@ -200,11 +253,11 @@ class POIsViewController: UIViewController  {
     // MARK: Action buttons
     @IBAction func actionButtonPushed(_ sender: UIBarButtonItem) {
         var activityItems = [UIActivityItemSource]()
-        let mailActivity = PoisMailActivityItemSource(pois:datasource.getPois(withFilter:true), mailTitle:datasource.poisDescription)
+        let mailActivity = PoisMailActivityItemSource(pois:datasource.filteredPOIs, mailTitle:datasource.poisDescription)
         activityItems.append(mailActivity)
         
         if UserPreferences.sharedInstance.isAnyPoiUnlimited {
-            activityItems.append(GPXActivityItemSource(pois: datasource.getPois(withFilter:true)))
+            activityItems.append(GPXActivityItemSource(pois: datasource.filteredPOIs))
         }
         
         if let snapshot = snapshotter, !snapshot.isLoading {
@@ -223,6 +276,11 @@ class POIsViewController: UIViewController  {
 
     @IBAction func searchButtonPushed(_ sender: UIBarButtonItem) {
         if searchController.isActive {
+            // It happens when the searchController was already opened and the user has
+            // clicked on the "Search" button of the Keyboard.
+            // The searchController in that case is still displayed but just hidden
+            // so we must just update the searchBar to display and to show the keyboard again
+            // when the user has touched again on the search button
             searchController.searchBar.isHidden = false
             searchController.searchBar.becomeFirstResponder()
         } else {
@@ -230,13 +288,11 @@ class POIsViewController: UIViewController  {
         }
     }
 
-    @IBAction func showPOIOnMap(_ sender: UIButton) {
-        let selectedPoi = getPoiForIndexPath(IndexPath(row: sender.tag, section: 0))
-        NotificationCenter.default.post(name: Notification.Name(rawValue: MapViewController.MapNotifications.showPOI), object: nil, userInfo: [MapViewController.MapNotifications.showPOI_Parameter_POI: selectedPoi])
-        
-        ContainerViewController.sharedInstance.goToMap()
-    }
     
+    /// Button used to enter/exit the mode to select POIs that must be moved
+    /// to another Group
+    ///
+    /// - Parameter sender: bar button
     @IBAction func selectButtonPushed(_ sender: UIBarButtonItem) {
         // Start or end the editing mode
         theTableView.isEditing ? stopEditingMode() : startEditingMode()
@@ -248,29 +304,24 @@ class POIsViewController: UIViewController  {
     }
 
     //MARK: Keyboard Mgt
-    var contentInsetBeforeDisplayedKeyboard = UIEdgeInsets.zero
     
     @objc func keyboardWillShow(_ notification:Notification) {
-        if let keyboardSize = ((notification as NSNotification).userInfo![UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            
-            var contentInsets:UIEdgeInsets
-            if UIInterfaceOrientationIsPortrait(UIApplication.shared.statusBarOrientation) {
-                contentInsets = UIEdgeInsetsMake(theTableView.contentInset.top, 0.0, keyboardSize.height, 0.0)
-            } else {
-                contentInsets = UIEdgeInsetsMake(theTableView.contentInset.top, 0.0, keyboardSize.width, 0.0)
-            }
-            
-            contentInsetBeforeDisplayedKeyboard = theTableView.contentInset
-            theTableView.contentInset = contentInsets
-            theTableView.scrollIndicatorInsets = contentInsets
-        }
+        // Extract the Keyboard size
+        
+        let info = notification.userInfo! as NSDictionary
+        let valueHeight = info.value(forKey: UIKeyboardFrameEndUserInfoKey) as! NSValue
+        let keyboardForHeight = valueHeight.cgRectValue.size
+        
+        let contentInsets = UIEdgeInsetsMake(0.0, 0.0, keyboardForHeight.height, 0.0)
+        theTableView.contentInset = contentInsets
+        theTableView.scrollIndicatorInsets = contentInsets
     }
     
     
     @objc func keyboardWillHide(_ notification:Notification) {
-        theTableView.contentInset = contentInsetBeforeDisplayedKeyboard
-        theTableView.scrollIndicatorInsets = contentInsetBeforeDisplayedKeyboard
-    }
+        theTableView.contentInset = .zero
+        theTableView.scrollIndicatorInsets = .zero
+   }
     
     
     // MARK: Segue
@@ -281,29 +332,29 @@ class POIsViewController: UIViewController  {
     
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // remove the search controller when moving to another view controller
-        searchController.isActive = false
-
-        if segue.identifier == storyboard.showPOIDetails {
-            let poiController = segue.destination as! POIDetailsViewController
-            let currentPOI = getPoiForIndexPath(sender as! IndexPath)
-            poiController.poi = currentPOI
-        } else if segue.identifier == storyboard.showMovePOISId {
-            let movePOIsController = segue.destination as! MovePOIsViewController
-            if theTableView.isEditing, let indexPaths = theTableView.indexPathsForSelectedRows {
-                var selectedPois = [PointOfInterest]()
-                for currentIndex in indexPaths {
-                    selectedPois.append(getPoiForIndexPath(currentIndex))
+        if let segueId = segue.identifier {
+            switch segueId {
+            case storyboard.showPOIDetails:
+                let poiController = segue.destination as! POIDetailsViewController
+                poiController.poi = getFilteredPOI(sender as! IndexPath)
+            case storyboard.showMovePOISId :
+                let movePOIsController = segue.destination as! MovePOIsViewController
+                if theTableView.isEditing, let indexPaths = theTableView.indexPathsForSelectedRows {
+                    movePOIsController.pois = indexPaths.map() {
+                        return getFilteredPOI($0)
+                    }
+                    stopEditingMode()
+                } else {
+                    movePOIsController.pois = datasource.filteredPOIs
                 }
-                movePOIsController.pois = selectedPois
-                stopEditingMode()
-            } else {
-                movePOIsController.pois = datasource.getPois(withFilter:true)
+            default:
+                break
             }
         }
     }
 }
 
+// Add preview of POI details on 3D Touch
 extension POIsViewController : UIViewControllerPreviewingDelegate {
     func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
         navigationController?.show(viewControllerToCommit, sender: nil)
@@ -314,7 +365,7 @@ extension POIsViewController : UIViewControllerPreviewingDelegate {
         if let indexPath = theTableView.indexPathForRow(at: location) {
             previewingContext.sourceRect = theTableView.rectForRow(at: indexPath)
             let viewController = UIStoryboard.init(name: "POIManager", bundle: nil).instantiateViewController(withIdentifier: "POIDetails") as! POIDetailsViewController
-            viewController.poi = getPoiForIndexPath(indexPath)
+            viewController.poi = getFilteredPOI(indexPath)
             return viewController
             
         } else {
@@ -370,6 +421,11 @@ extension POIsViewController : UISearchResultsUpdating, UISearchControllerDelega
         clearFilter()
     }
     
+    
+    /// When the user has touched the "Search" button of the Keyboard
+    /// we just hide the searchController but it's not closed !
+    ///
+    /// - Parameter searchBar: search bar
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchButton.tintColor = UIColor.red
         searchBar.isHidden = true
@@ -396,7 +452,7 @@ extension POIsViewController : UITableViewDataSource, UITableViewDelegate {
     //MARK: UITableViewDataSource
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == Sections.POIs {
-            let poisCount = datasource.getPois(withFilter:true).count
+            let poisCount = datasource.filteredPOIsCount
             return poisCount == 0 ? 1 : poisCount
         } else {
             return 1
@@ -414,15 +470,16 @@ extension POIsViewController : UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if indexPath.section == Sections.POIs {
+        if indexPath.section == Sections.POIs, datasource.filteredPOIsCount > 0 {
             let theCell = cell as! POISimpleViewCell
-            theCell.configureMarker(poi:getPoiForIndexPath(indexPath))
+            theCell.configureMarker(poi:getFilteredPOI(indexPath))
         }
     }
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.section == Sections.MapView {
+        switch indexPath.section {
+        case Sections.MapView:
             let theCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier.cellPoisMapAreaId, for: indexPath) as! PoisMapAreaTableViewCell
             if let theSnapshotter = snapshotter , !theSnapshotter.isLoading {
                 let imageView = UIImageView(image: snapshotImage)
@@ -434,15 +491,15 @@ extension POIsViewController : UITableViewDataSource, UITableViewDelegate {
             
             theCell.groupLabel?.text = datasource.poisDescription
             return theCell
-        } else {
-            if datasource.getPois(withFilter:true).count > 0 {
+        case Sections.POIs:
+            if datasource.filteredPOIsCount > 0 {
                 let theCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier.descriptionCellId, for: indexPath) as! POISimpleViewCell
-                let currentPOI = getPoiForIndexPath(indexPath)
+                let currentPOI = getFilteredPOI(indexPath)
                 theCell.initializeWith(currentPOI, index:indexPath.row)
-                 return theCell
+                return theCell
             } else {
                 let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier.cellForEmptyGroupId, for: indexPath)
-                if datasource.getPois(withFilter:false).count > 0 {
+                if datasource.allPOIsCount > 0 {
                     cell.textLabel?.text = "\(NSLocalizedString("POIsNoPOIsMatchingSearch", comment: "")) \(datasource.searchFilter)"
                     cell.textLabel?.textColor = UIColor.green
                 } else {
@@ -451,6 +508,8 @@ extension POIsViewController : UITableViewDataSource, UITableViewDelegate {
                 }
                 return cell
             }
+        default:
+            return UITableViewCell()
         }
     }
     
@@ -481,11 +540,11 @@ extension POIsViewController : UITableViewDataSource, UITableViewDelegate {
             case .delete:
                 
                 theTableView.beginUpdates()
-                let thePoiToDelete = getPoiForIndexPath(indexPath)
+                let thePoiToDelete = getFilteredPOI(indexPath)
                 POIDataManager.sharedInstance.deletePOI(POI: thePoiToDelete)
                 POIDataManager.sharedInstance.commitDatabase()
                 theTableView.deleteRows(at: [indexPath], with: .automatic)
-                if datasource.getPois(withFilter:true).count == 0 {
+                if datasource.filteredPOIsCount == 0 {
                     theTableView.insertRows(at: [indexPath], with: .automatic)
                 }
                 theTableView.endUpdates()
@@ -496,6 +555,25 @@ extension POIsViewController : UITableViewDataSource, UITableViewDelegate {
         }
     }
     
+    
+    /// When the editing mode end we must make sure all buttons are refreshed correctly
+    ///
+    /// - Parameters:
+    ///   - tableView: table view
+    ///   - indexPath: index of row
+    func tableView(_ tableView: UITableView, didEndEditingRowAt indexPath: IndexPath?) {
+        if indexPath?.section == Sections.POIs {
+            resetStateOfEditButtons()
+        }
+    }
+    
+    
+    /// Rows cannot be deleted while the Contact synchronization in on going
+    ///
+    /// - Parameters:
+    ///   - tableView: table view
+    ///   - indexPath: index of the row
+    /// - Returns: true when the row can be deleted
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         if ContactsSynchronization.sharedInstance.isSynchronizing {
             return false
@@ -503,28 +581,45 @@ extension POIsViewController : UITableViewDataSource, UITableViewDelegate {
 
         if indexPath.section == Sections.MapView {
             return false
-        } else if indexPath.section == Sections.POIs && datasource.getPois(withFilter:true).count == 0 {
+        } else if indexPath.section == Sections.POIs && datasource.filteredPOIsCount == 0 {
             return false
         } else {
             return true
         }
     }
     
+    
+    /// When the Map has been selected we display the MapView with the list of POIs
+    /// When a POIs has been selected we show the ViewController to display the POI details
+    /// When we are in editing mode and a POI has been selected the Move Button is enabled
+    ///
+    /// - Parameters:
+    ///   - tableView: table view
+    ///   - indexPath: index path
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == Sections.POIs {
-            if datasource.getPois(withFilter:true).count > 0 && !theTableView.isEditing {
+            if datasource.filteredPOIsCount > 0 && !theTableView.isEditing {
                 performSegue(withIdentifier: storyboard.showPOIDetails, sender: indexPath)
             } else if theTableView.isEditing {
                 moveButton.isEnabled = true
             }
         } else if indexPath.section == Sections.MapView {
-            let pois = datasource.getPois(withFilter:false)
-            NotificationCenter.default.post(name: Notification.Name(rawValue: MapViewController.MapNotifications.showPOIs), object: nil, userInfo: [MapViewController.MapNotifications.showPOIs_Parameter_POIs: pois])
+            let pois = datasource.allPOIs
+            NotificationCenter.default.post(name: Notification.Name(rawValue: MapViewController.MapNotifications.showPOIs),
+                                            object: nil,
+                                            userInfo: [MapViewController.MapNotifications.showPOIs_Parameter_POIs: pois])
             
             ContainerViewController.sharedInstance.goToMap()
         }
     }
     
+    
+    /// When a row is deselected and we are in editing mode and there're no more selected rows
+    /// then we disabled the Move button
+    ///
+    /// - Parameters:
+    ///   - tableView: table view
+    ///   - indexPath: index path
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         if indexPath.section == Sections.POIs {
             if theTableView.isEditing && theTableView.indexPathsForSelectedRows == nil {

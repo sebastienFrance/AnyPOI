@@ -8,17 +8,33 @@
 
 import Foundation
 
-class POIsDataSource {
-    
 
+/// Base class for POIs datasource. It should never be instantiated
+class POIsDataSource {
     // Datasource cache
     private var pois:[PointOfInterest]? = nil
     private var poisWithFilters:[PointOfInterest]? = nil
 
+    var allPOIs:[PointOfInterest] {
+        return getPois(withFilter: false)
+    }
+
+    var allPOIsCount:Int {
+        return allPOIs.count
+    }
+    
+    var filteredPOIs:[PointOfInterest] {
+        return getPois(withFilter: true)
+    }
+
+    var filteredPOIsCount:Int {
+        return filteredPOIs.count
+    }
+    
     fileprivate(set) var poisDescription = ""
     private(set) var searchFilter = "" // Use to perform filtering on list of groups
     
-    init() {
+    fileprivate init() {
     }
     
     func reset() {
@@ -32,7 +48,7 @@ class POIsDataSource {
     }
     
     //MARK: Utils
-     func getPois(withFilter:Bool) -> [PointOfInterest] {
+    private func getPois(withFilter:Bool) -> [PointOfInterest] {
         if !withFilter {
             if pois == nil {
                 pois = extractPOIsFromDatabase(withFilter:"")
