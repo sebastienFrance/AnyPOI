@@ -9,6 +9,4 @@
 import UIKit
 
 class MonitoredPoisGroupCell: UITableViewCell {
-
-
 }

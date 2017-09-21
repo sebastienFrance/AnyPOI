@@ -65,22 +65,8 @@ class POIsViewController: UIViewController  {
                                                selector: #selector(POIsViewController.refreshDisplay(_:)),
                                                name: Notification.Name(rawValue: ContactsSynchronization.Notifications.synchronizationDone),
                                                object: ContactsSynchronization.sharedInstance)
-
-        registerKeyboardNotifications()
-        
    }
     
-    func registerKeyboardNotifications() {
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(POIsViewController.keyboardWillShow(_:)),
-                                               name: NSNotification.Name.UIKeyboardWillShow,
-                                               object: nil)
-        
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(POIsViewController.keyboardWillHide(_:)),
-                                               name: NSNotification.Name.UIKeyboardWillHide,
-                                               object: nil)
-    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -95,6 +81,7 @@ class POIsViewController: UIViewController  {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.isToolbarHidden = true
+        registerKeyboardNotifications()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -108,6 +95,7 @@ class POIsViewController: UIViewController  {
         // searchController is no more displayed (for example when Navigating to the Map and the SearchController is displayed
         // or when selecting a POIs to distplay its details and the SearchController is also displayed
         searchController.isActive = false
+        unregisterKeyboardNotifications()
     }
     
 
@@ -304,7 +292,23 @@ class POIsViewController: UIViewController  {
     }
 
     //MARK: Keyboard Mgt
+    func unregisterKeyboardNotifications() {
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+    }
     
+    func registerKeyboardNotifications() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(POIsViewController.keyboardWillShow(_:)),
+                                               name: NSNotification.Name.UIKeyboardWillShow,
+                                               object: nil)
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(POIsViewController.keyboardWillHide(_:)),
+                                               name: NSNotification.Name.UIKeyboardWillHide,
+                                               object: nil)
+    }
+
     @objc func keyboardWillShow(_ notification:Notification) {
         // Extract the Keyboard size
         

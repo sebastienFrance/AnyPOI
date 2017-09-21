@@ -13,7 +13,7 @@ protocol DismissModalViewController: class {
 }
 
 
-class GroupConfiguratorViewController: UIViewController, UITextFieldDelegate, UICollectionViewDelegate, UICollectionViewDataSource {
+class GroupConfiguratorViewController: UIViewController {
 
     @IBOutlet fileprivate weak var groupNameTextField: UITextField!
     @IBOutlet fileprivate weak var groupDescriptionTextField: UITextField!
@@ -22,8 +22,8 @@ class GroupConfiguratorViewController: UIViewController, UITextFieldDelegate, UI
     @IBOutlet fileprivate weak var saveButton: UIButton!
     @IBOutlet fileprivate weak var backgroundView: UIView!
     
-    fileprivate var colors = [UIColor]()
-    fileprivate var selectedColorIndex = 0
+    private var colors = [UIColor]()
+    private var selectedColorIndex = 0
    
     var group:GroupOfInterest?
     weak var delegate:DismissModalViewController?
@@ -50,7 +50,6 @@ class GroupConfiguratorViewController: UIViewController, UITextFieldDelegate, UI
             
             groupNameTextField.text = theGroup.groupDisplayName
             groupDescriptionTextField.text = theGroup.groupDescription
-
         }
         
         groupNameTextField.delegate = self
@@ -67,7 +66,7 @@ class GroupConfiguratorViewController: UIViewController, UITextFieldDelegate, UI
     }
 
     // A Group cannot be saved when its name is empty
-    fileprivate func enableSaveButton() {
+    private func enableSaveButton() {
         if let groupName = groupNameTextField.text , !groupName.isEmpty {
             saveButton.isEnabled = true
         } else {
@@ -99,34 +98,10 @@ class GroupConfiguratorViewController: UIViewController, UITextFieldDelegate, UI
         dismiss(animated: true, completion:  nil)
         delegate?.didDismiss()
     }
+}
 
+extension GroupConfiguratorViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
-    //MARK: UITextFieldDelegate
-
-    // When the group name becomes empty we set the save button to disabled otherwise it's enabled
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if textField === groupNameTextField {
-            let length = textField.text!.characters.count - range.length + string.characters.count
-            saveButton.isEnabled = length > 0 ? true : false
-        }
-        return true
-    }
-    
-    func textFieldShouldClear(_ textField: UITextField) -> Bool {
-        if textField === groupNameTextField {
-            saveButton.isEnabled = false
-            textField.text = "" // Force the text field to empty in case the Keyboard has selected it for auto correction
-        }
-        return true
-    }
-
-    // Return key goes to description field, only when the groupName is not empty
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if textField === groupNameTextField && !groupNameTextField.text!.isEmpty {
-            groupDescriptionTextField.becomeFirstResponder()
-        }
-        return true
-    }
 
     //MARK: UICollectionViewDataSource
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -137,7 +112,7 @@ class GroupConfiguratorViewController: UIViewController, UITextFieldDelegate, UI
         return colors.count
     }
     
-    fileprivate struct CollectionViewCell {
+    private struct CollectionViewCell {
         static let colorCellId = "ColorSelectorCellId"
     }
     
@@ -159,4 +134,34 @@ class GroupConfiguratorViewController: UIViewController, UITextFieldDelegate, UI
             colorsCollectionView.reloadItems(at: [indexPath, oldSelectedColorIndexPath])
         }
     }
+}
+
+extension GroupConfiguratorViewController: UITextFieldDelegate {
+    //MARK: UITextFieldDelegate
+    
+    // When the group name becomes empty we set the save button to disabled otherwise it's enabled
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if textField === groupNameTextField {
+            let length = textField.text!.characters.count - range.length + string.characters.count
+            saveButton.isEnabled = length > 0 ? true : false
+        }
+        return true
+    }
+    
+    func textFieldShouldClear(_ textField: UITextField) -> Bool {
+        if textField === groupNameTextField {
+            saveButton.isEnabled = false
+            textField.text = "" // Force the text field to empty in case the Keyboard has selected it for auto correction
+        }
+        return true
+    }
+    
+    // Return key goes to description field, only when the groupName is not empty
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField === groupNameTextField && !groupNameTextField.text!.isEmpty {
+            groupDescriptionTextField.becomeFirstResponder()
+        }
+        return true
+    }
+
 }

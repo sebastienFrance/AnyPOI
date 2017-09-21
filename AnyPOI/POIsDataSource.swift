@@ -72,10 +72,10 @@ class POIsCityDataSource: POIsDataSource {
     
     private var city = ""
     
-    init(cityName:String) {
+    init(cityName:String, country:CountryDescription) {
         city = cityName
         super.init()
-        poisDescription = cityName
+        poisDescription = "\(country.countryFlag) \(cityName)"
     }
     
     override func extractPOIsFromDatabase(withFilter:String) -> [PointOfInterest] {
@@ -103,7 +103,7 @@ class POIsMonitoredDataSource: POIsDataSource {
     
     override init() {
         super.init()
-        poisDescription = NSLocalizedString("MonitoredPOIs", comment: "")
+        poisDescription = "🔍 \(NSLocalizedString("MonitoredPOIs", comment: ""))"
     }
     
     
@@ -116,7 +116,7 @@ class POIsNoAddressDataSource: POIsDataSource {
     
     override init() {
         super.init()
-        poisDescription = "POIs without address"
+        poisDescription = "🛠 POIs without address"
     }
     
     
@@ -132,7 +132,14 @@ class POIsGroupDataSource: POIsDataSource {
     init(group:GroupOfInterest) {
         POIGroup = group
         super.init()
-        poisDescription = group.groupDisplayName!
+        
+        if POIDataManager.sharedInstance.isDefaultContactGroup(group) {
+            poisDescription = "👤 \(group.groupDisplayName!)"
+        } else if POIDataManager.sharedInstance.isDefaultGroup(group) {
+            poisDescription = "📍 \(group.groupDisplayName!)"
+        } else {
+            poisDescription = "📌 \(group.groupDisplayName!)"
+        }
     }
     
     
