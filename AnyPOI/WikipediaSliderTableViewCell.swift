@@ -14,10 +14,4 @@ class WikipediaSliderTableViewCell: UITableViewCell {
     @IBOutlet weak var theLabel: UILabel!
     @IBOutlet weak var theSlider: UISlider!
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-
-
 }

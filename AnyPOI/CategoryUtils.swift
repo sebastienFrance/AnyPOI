@@ -13,16 +13,19 @@ class CategoryUtils {
      static let defaultGroupCategory = Category(groupCategory: GroupId.defaultGroupId,
                                                 categoryId: CategoryId.defaultGroup.questionMarkId,
                                                 icon: #imageLiteral(resourceName: "Question Mark-30"),
+                                                glyph: #imageLiteral(resourceName: "Question Mark Filled-80"),
                                                 localizedString: NSLocalizedString("CategoryLabelUnknown", comment: ""))
     
      static let contactCategory = Category(groupCategory: GroupId.defaultGroupId,
                                            categoryId: CategoryId.defaultGroup.contactId,
                                            icon: #imageLiteral(resourceName: "Contacts-30"),
+                                           glyph: #imageLiteral(resourceName: "Contacts Filled-80"),
                                            localizedString: "Contact")
     
      static let wikipediaCategory = Category(groupCategory: GroupId.defaultGroupId,
                                              categoryId: CategoryId.defaultGroup.wikipediaId,
                                              icon: #imageLiteral(resourceName: "Wikipedia-30"),
+                                             glyph: #imageLiteral(resourceName: "Wikipedia Filled-80"),
                                              localizedString: "Wikipedia")
     
     static func isWikipediaCategory(category:Category) -> Bool {
@@ -102,6 +105,7 @@ class CategoryUtils {
         let groupCategory:Int16
         let categoryId:Int16
         let icon:UIImage
+        let glyph:UIImage
         let localizedString:String
         
         var hashValue: Int {
@@ -119,31 +123,30 @@ class CategoryUtils {
         contactCategory,
         defaultGroupCategory,
         wikipediaCategory,
-        Category(groupCategory: GroupId.cultureId, categoryId: CategoryId.culture.movieId, icon: #imageLiteral(resourceName: "Movie-30"), localizedString:  NSLocalizedString("CategoryLabelTheater", comment: "")),
-        Category(groupCategory: GroupId.cultureId, categoryId: CategoryId.culture.museumId, icon: #imageLiteral(resourceName: "Museum-30"), localizedString:  NSLocalizedString("CategoryLabelMuseum", comment: "")),
-        Category(groupCategory: GroupId.cultureId, categoryId: CategoryId.culture.opera, icon: #imageLiteral(resourceName: "Music Conductor-30"), localizedString:  NSLocalizedString("CategoryLabelOpera", comment: "")),
-        Category(groupCategory: GroupId.cultureId, categoryId: CategoryId.culture.concertHallId, icon: #imageLiteral(resourceName: "Rock Music-30"), localizedString:  NSLocalizedString("CategoryLabelConcertHall", comment: "")),
-        Category(groupCategory: GroupId.othersId, categoryId: CategoryId.others.stadiumId, icon: #imageLiteral(resourceName: "Stadium-30"), localizedString:  NSLocalizedString("CategoryLabelStadium", comment: "")),
-        Category(groupCategory: GroupId.dailyLifeId, categoryId: CategoryId.dailyLife.coffeeId, icon: #imageLiteral(resourceName: "Cup-30"), localizedString:  NSLocalizedString("CategoryLabelCoffee", comment: "")),
-        Category(groupCategory: GroupId.dailyLifeId, categoryId: CategoryId.dailyLife.restaurantId, icon: #imageLiteral(resourceName: "Restaurant-30"), localizedString:  NSLocalizedString("CategoryLabelRestaurant", comment: "")),
-        Category(groupCategory: GroupId.dailyLifeId, categoryId: CategoryId.dailyLife.pizzaId, icon: #imageLiteral(resourceName: "Pizza-30"), localizedString:  NSLocalizedString("CategoryLabelPizzeria", comment: "")),
-        Category(groupCategory: GroupId.dailyLifeId, categoryId: CategoryId.dailyLife.fastfood, icon: #imageLiteral(resourceName: "Hamburger-30"), localizedString:  NSLocalizedString("CategoryLabelFastfood", comment: "")),
-        Category(groupCategory: GroupId.dailyLifeId, categoryId: CategoryId.dailyLife.wineBarId, icon: #imageLiteral(resourceName: "Bar-30"), localizedString:  NSLocalizedString("CategoryLabelWineBar", comment: "")),
-        Category(groupCategory: GroupId.dailyLifeId, categoryId: CategoryId.dailyLife.pubId, icon: #imageLiteral(resourceName: "Bavarian Beer Mug-30"), localizedString:  NSLocalizedString("CategoryLabelBar", comment: "")),
-        Category(groupCategory: GroupId.nightLifeId, categoryId: CategoryId.nightLife.dancingId, icon: #imageLiteral(resourceName: "Dancing-30"), localizedString:  NSLocalizedString("CategoryLabelNightClub", comment: "")),
-        Category(groupCategory: GroupId.othersId, categoryId: CategoryId.others.hotelId, icon: #imageLiteral(resourceName: "Bed-30"), localizedString:  NSLocalizedString("CategoryLabelHotel", comment: "")),
-        Category(groupCategory: GroupId.othersId, categoryId: CategoryId.others.parkBenchId, icon: #imageLiteral(resourceName: "Park Bench-30"), localizedString:  NSLocalizedString("CategoryLabelPark", comment: "")),
-        Category(groupCategory: GroupId.transportationId, categoryId: CategoryId.transportation.airportId, icon: #imageLiteral(resourceName: "Airport-30"), localizedString:  NSLocalizedString("CategoryLabelAirport", comment: "")),
-        Category(groupCategory: GroupId.transportationId, categoryId: CategoryId.transportation.railwayStationId, icon: #imageLiteral(resourceName: "City Railway Station-30"), localizedString:  NSLocalizedString("CategoryLabelStation", comment: "")),
-        Category(groupCategory: GroupId.transportationId, categoryId: CategoryId.transportation.gasStationId, icon: #imageLiteral(resourceName: "Gas Station-30"), localizedString:  NSLocalizedString("CategoryLabelGasStation", comment: "")),
-        Category(groupCategory: GroupId.transportationId, categoryId: CategoryId.transportation.parkingId, icon: #imageLiteral(resourceName: "Parking-30"), localizedString:  NSLocalizedString("CategoryLabelParking", comment: "")),
-        Category(groupCategory: GroupId.shoppingId, categoryId: CategoryId.shopping.aTMId, icon: #imageLiteral(resourceName: "ATM-30"), localizedString:  NSLocalizedString("CategoryLabelATM", comment: "")),
-        Category(groupCategory: GroupId.shoppingId, categoryId: CategoryId.shopping.bankId, icon: #imageLiteral(resourceName: "Bank-30"), localizedString:  NSLocalizedString("CategoryLabelBank", comment: "")),
-        Category(groupCategory: GroupId.shoppingId, categoryId: CategoryId.shopping.shoppingCenterId, icon: #imageLiteral(resourceName: "Shopping Bag-30"), localizedString:  NSLocalizedString("CategoryLabelShopping", comment: "")),
-        Category(groupCategory: GroupId.othersId, categoryId: CategoryId.others.caduceusId, icon: #imageLiteral(resourceName: "Caduceus-30"), localizedString:  NSLocalizedString("CategoryLabelPharmacy", comment: "")),
-        Category(groupCategory: GroupId.othersId, categoryId: CategoryId.others.hospitalId, icon: #imageLiteral(resourceName: "Hospital 3-30"), localizedString:  NSLocalizedString("CategoryLabelHospital", comment: "")),
- //       Category(groupCategory: GroupId.othersId, categoryId: CategoryId.others.cathedralId, icon: #imageLiteral(resourceName: "Cathedral-30"), localizedString:  NSLocalizedString("CategoryLabelChurch", comment: "")),
-        Category(groupCategory: GroupId.othersId, categoryId: CategoryId.others.courtHouseId, icon: #imageLiteral(resourceName: "Courthouse-30"), localizedString:  NSLocalizedString("CategoryLabelCourtHouse", comment: "")),
+        Category(groupCategory: GroupId.cultureId, categoryId: CategoryId.culture.movieId, icon: #imageLiteral(resourceName: "Movie-30"), glyph: #imageLiteral(resourceName: "Movie Filled-80"), localizedString:  NSLocalizedString("CategoryLabelTheater", comment: "")),
+        Category(groupCategory: GroupId.cultureId, categoryId: CategoryId.culture.museumId, icon: #imageLiteral(resourceName: "Museum-30"),  glyph: #imageLiteral(resourceName: "Museum Filled-80"),localizedString:  NSLocalizedString("CategoryLabelMuseum", comment: "")),
+        Category(groupCategory: GroupId.cultureId, categoryId: CategoryId.culture.opera, icon: #imageLiteral(resourceName: "Music Conductor-30"), glyph: #imageLiteral(resourceName: "Music Conductor Filled-80"), localizedString:  NSLocalizedString("CategoryLabelOpera", comment: "")),
+        Category(groupCategory: GroupId.cultureId, categoryId: CategoryId.culture.concertHallId, icon: #imageLiteral(resourceName: "Rock Music-30"), glyph: #imageLiteral(resourceName: "Rock Music Filled-80"), localizedString:  NSLocalizedString("CategoryLabelConcertHall", comment: "")),
+        Category(groupCategory: GroupId.othersId, categoryId: CategoryId.others.stadiumId, icon: #imageLiteral(resourceName: "Stadium-30"),  glyph: #imageLiteral(resourceName: "Stadium Filled-80") ,localizedString:  NSLocalizedString("CategoryLabelStadium", comment: "")),
+        Category(groupCategory: GroupId.dailyLifeId, categoryId: CategoryId.dailyLife.coffeeId, icon: #imageLiteral(resourceName: "Cup-30"),  glyph: #imageLiteral(resourceName: "Cup Filled-80"), localizedString:  NSLocalizedString("CategoryLabelCoffee", comment: "")),
+        Category(groupCategory: GroupId.dailyLifeId, categoryId: CategoryId.dailyLife.restaurantId, icon: #imageLiteral(resourceName: "Restaurant-30"),  glyph: #imageLiteral(resourceName: "Restaurant Filled-80"), localizedString:  NSLocalizedString("CategoryLabelRestaurant", comment: "")),
+        Category(groupCategory: GroupId.dailyLifeId, categoryId: CategoryId.dailyLife.pizzaId, icon: #imageLiteral(resourceName: "Pizza-30"),  glyph: #imageLiteral(resourceName: "Pizza Filled-80"), localizedString:  NSLocalizedString("CategoryLabelPizzeria", comment: "")),
+        Category(groupCategory: GroupId.dailyLifeId, categoryId: CategoryId.dailyLife.fastfood, icon: #imageLiteral(resourceName: "Hamburger-30"),  glyph: #imageLiteral(resourceName: "Hamburger Filled-80"), localizedString:  NSLocalizedString("CategoryLabelFastfood", comment: "")),
+        Category(groupCategory: GroupId.dailyLifeId, categoryId: CategoryId.dailyLife.wineBarId, icon: #imageLiteral(resourceName: "Bar-30"),  glyph: #imageLiteral(resourceName: "Bar Filled-80"), localizedString:  NSLocalizedString("CategoryLabelWineBar", comment: "")),
+        Category(groupCategory: GroupId.dailyLifeId, categoryId: CategoryId.dailyLife.pubId, icon: #imageLiteral(resourceName: "Bavarian Beer Mug-30"),  glyph: #imageLiteral(resourceName: "Bavarian Beer Mug Filled-80"), localizedString:  NSLocalizedString("CategoryLabelBar", comment: "")),
+        Category(groupCategory: GroupId.nightLifeId, categoryId: CategoryId.nightLife.dancingId, icon: #imageLiteral(resourceName: "Dancing-30"),  glyph: #imageLiteral(resourceName: "Dancing Filled-80"), localizedString:  NSLocalizedString("CategoryLabelNightClub", comment: "")),
+        Category(groupCategory: GroupId.othersId, categoryId: CategoryId.others.hotelId, icon: #imageLiteral(resourceName: "Bed-30"),  glyph: #imageLiteral(resourceName: "Bed Filled-80"), localizedString:  NSLocalizedString("CategoryLabelHotel", comment: "")),
+        Category(groupCategory: GroupId.othersId, categoryId: CategoryId.others.parkBenchId, icon: #imageLiteral(resourceName: "Park Bench-30"),  glyph: #imageLiteral(resourceName: "Park Bench Filled-80"), localizedString:  NSLocalizedString("CategoryLabelPark", comment: "")),
+        Category(groupCategory: GroupId.transportationId, categoryId: CategoryId.transportation.airportId, icon: #imageLiteral(resourceName: "Airport-30"),  glyph: #imageLiteral(resourceName: "Airport Filled-80"), localizedString:  NSLocalizedString("CategoryLabelAirport", comment: "")),
+        Category(groupCategory: GroupId.transportationId, categoryId: CategoryId.transportation.railwayStationId, icon: #imageLiteral(resourceName: "City Railway Station-30"),  glyph: #imageLiteral(resourceName: "City Railway Station Filled-80"), localizedString:  NSLocalizedString("CategoryLabelStation", comment: "")),
+        Category(groupCategory: GroupId.transportationId, categoryId: CategoryId.transportation.gasStationId, icon: #imageLiteral(resourceName: "Gas Station-30"), glyph: #imageLiteral(resourceName: "Gas Station Filled-80"), localizedString:  NSLocalizedString("CategoryLabelGasStation", comment: "")),
+        Category(groupCategory: GroupId.transportationId, categoryId: CategoryId.transportation.parkingId, icon: #imageLiteral(resourceName: "Parking-30"),  glyph: #imageLiteral(resourceName: "Parking Filled-80"), localizedString:  NSLocalizedString("CategoryLabelParking", comment: "")),
+        Category(groupCategory: GroupId.shoppingId, categoryId: CategoryId.shopping.aTMId, icon: #imageLiteral(resourceName: "ATM-30"),  glyph: #imageLiteral(resourceName: "ATM Filled-80"), localizedString:  NSLocalizedString("CategoryLabelATM", comment: "")),
+        Category(groupCategory: GroupId.shoppingId, categoryId: CategoryId.shopping.bankId, icon: #imageLiteral(resourceName: "Bank-30"),  glyph: #imageLiteral(resourceName: "Bank Filled-80"), localizedString:  NSLocalizedString("CategoryLabelBank", comment: "")),
+        Category(groupCategory: GroupId.shoppingId, categoryId: CategoryId.shopping.shoppingCenterId, icon: #imageLiteral(resourceName: "Shopping Bag-30"),  glyph: #imageLiteral(resourceName: "Shopping Bag Filled-80"), localizedString:  NSLocalizedString("CategoryLabelShopping", comment: "")),
+        Category(groupCategory: GroupId.othersId, categoryId: CategoryId.others.caduceusId, icon: #imageLiteral(resourceName: "Caduceus-30"),  glyph: #imageLiteral(resourceName: "Caduceus Filled-80"), localizedString:  NSLocalizedString("CategoryLabelPharmacy", comment: "")),
+        Category(groupCategory: GroupId.othersId, categoryId: CategoryId.others.hospitalId, icon: #imageLiteral(resourceName: "Hospital 3-30"),  glyph: #imageLiteral(resourceName: "Hospital 3 Filled-80"), localizedString:  NSLocalizedString("CategoryLabelHospital", comment: "")),
+        Category(groupCategory: GroupId.othersId, categoryId: CategoryId.others.courtHouseId, icon: #imageLiteral(resourceName: "Courthouse-30"),  glyph: #imageLiteral(resourceName: "Courthouse Filled-80"), localizedString:  NSLocalizedString("CategoryLabelCourtHouse", comment: "")),
    ]
     
     fileprivate static let groups = [GroupCategory(groupId: GroupId.defaultGroupId, localizedString: "Default"),

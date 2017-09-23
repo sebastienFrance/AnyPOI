@@ -12,12 +12,7 @@ class RouteSummaryTableViewCell: UITableViewCell {
 
     @IBOutlet weak var fromLabel: UILabel!
     @IBOutlet weak var totalDistanceAndDurationLabel: UILabel!
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-    
+        
     func initWith(route:Route) {
         if route.wayPoints.count <= 1 {
             fromLabel.text = NSLocalizedString("RouteSummaryTableRouteIsEmpty", comment: "")

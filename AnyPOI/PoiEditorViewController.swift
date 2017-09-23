@@ -152,7 +152,7 @@ class PoiEditorViewController: UIViewController {
 
     @IBAction func sliderRadiusChanged(_ sender: UISlider) {
         newRadius = Double(sender.value)
-        DispatchQueue.main.async {self.refreshMapImageForMonitoring() }
+        refreshMapImageForMonitoring()
         if let cell = theTableView.cellForRow(at: IndexPath(row: Rows.monitoringControls, section: Sections.regionMonitoring)) as? PoiRegionConfigurationViewCell {
             cell.initWith(newRegionEnter, exitRegion:newRegionExit, radius:newRadius)
         }
@@ -367,8 +367,9 @@ extension PoiEditorViewController: UITableViewDataSource, UITableViewDelegate {
             snapshotMapImageView!.contentMode = .scaleAspectFill
             snapshotMapImageView!.clipsToBounds = true
             
-            // Update the row in the table
-            theTableView.reloadRows(at: [IndexPath(row: Rows.monitoringMap, section: Sections.regionMonitoring)], with: .none)
+            if let theCell = theTableView.cellForRow(at: IndexPath(row: Rows.monitoringMap, section: Sections.regionMonitoring)) {
+                refreshMapCell(theCell)
+            }
         }
     }
 

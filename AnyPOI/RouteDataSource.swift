@@ -140,12 +140,7 @@ class RouteDataSource {
     
     // Return true when the given Poi is used by the Route, otherwise it returns false
     func contains(poi:PointOfInterest) -> Bool {
-        for currentPoi in theRoute.pois {
-            if currentPoi === poi {
-                return true
-            }
-        }
-        return false
+        return theRoute.pois.contains(poi)
     }
     
     // Delete all WayPoints using the given POI

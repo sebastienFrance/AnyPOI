@@ -15,7 +15,6 @@ class LocalSearchTableViewCell: UITableViewCell {
     @IBOutlet weak var distanceLabel: UILabel!
     @IBOutlet weak var name: UILabel!
     @IBOutlet weak var address: UILabel!
-
     @IBOutlet weak var webSiteButton: UIButton!
     
     func initWith(_ mapItem:MKMapItem, index:Int, region:MKCoordinateRegion) {

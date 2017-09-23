@@ -130,15 +130,6 @@ class UserAuthentication {
                         default:
                             self.loopOnPasswordAuthentication()
                         }
-
-//                        switch (theError!.code) {
-//                        case Int(kLAErrorUserFallback):
-//                            self.loopOnPasswordAuthentication()
-//                        case Int(kLAErrorUserCancel):
-//                            self.loopOnPasswordAuthentication()
-//                        default:
-//                            self.loopOnPasswordAuthentication()
-//                        }
                     }
                 }
             }
@@ -213,16 +204,6 @@ class UserAuthentication {
                                 self.oneShotAuthenticationWithPassword(reason:reason)
                                 break
                             }
-//                            switch (error!.code) {
-//                            case Int(kLAErrorUserFallback):
-//                                self.oneShotAuthenticationWithPassword(authenticationReason)
-//                            case Int(kLAErrorUserCancel):
-//                                self.delegate.authenticationFailure()
-//                                break
-//                            default:
-//                                self.oneShotAuthenticationWithPassword(authenticationReason)
-//                                break
-//                            }
 
                         }
                     }

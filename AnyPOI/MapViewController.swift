@@ -507,14 +507,14 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
     
     /// Display the search controller used to look for a POI, address, ...
     func showSearchController() {
-        let mySearchController = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SearchControllerId") as! SearchController
+        let mySearchController = UIStoryboard.init(name: "Search", bundle: nil).instantiateViewController(withIdentifier: "SearchControllerId") as! SearchController
         
         theSearchController = UISearchController(searchResultsController: mySearchController)
         
         mySearchController.theSearchController = theSearchController
         mySearchController.delegate = self
         
-        
+   
         // Configure the UISearchController
         theSearchController!.searchResultsUpdater = self
         theSearchController!.delegate = self
@@ -524,6 +524,7 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
         theSearchController!.searchBar.placeholder = NSLocalizedString("MapSearchPlaceHolder", comment: "")
         theSearchController!.hidesNavigationBarDuringPresentation = true
         theSearchController!.dimsBackgroundDuringPresentation = true
+
         
         present(theSearchController!, animated: true, completion: nil)
 

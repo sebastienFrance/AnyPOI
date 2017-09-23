@@ -39,16 +39,19 @@ class RoutesViewController: UIViewController, ContainerViewControllerDelegate {
         super.viewDidLoad()
         
         if isStartedByLeftMenu {
-            let menuButton =  UIBarButtonItem(image: UIImage(named: "Menu-30"), style: .plain, target: self, action: #selector(RoutesViewController.menuButtonPushed(_:)))
+            let menuButton =  UIBarButtonItem(image: UIImage(named: "Menu-30"),
+                                              style: .plain,
+                                              target: self,
+                                              action: #selector(RoutesViewController.menuButtonPushed(_:)))
             navigationItem.leftBarButtonItem = menuButton
         }
         
         
         let managedContext = DatabaseAccess.sharedInstance.managedObjectContext
         NotificationCenter.default.addObserver(self,
-                                                         selector: #selector(RoutesViewController.ManagedObjectContextObjectsDidChangeNotification(_:)),
-                                                         name: NSNotification.Name.NSManagedObjectContextObjectsDidChange,
-                                                         object: managedContext)
+                                               selector: #selector(RoutesViewController.ManagedObjectContextObjectsDidChangeNotification(_:)),
+                                               name: NSNotification.Name.NSManagedObjectContextObjectsDidChange,
+                                               object: managedContext)
    }
     
     override func viewWillAppear(_ animated: Bool) {

@@ -17,18 +17,16 @@ class HelperViewController: UIViewController {
         }
     }
     @IBOutlet weak var thePageControl: UIPageControl!
-    
-
     @IBOutlet weak var bottomPageStackView: UIStackView!
     var isStartedFomMap = false
     
-    struct HelpData {
+    private struct HelpData {
         let backgroundScreenshot:UIImage
         let title:String
         let description:String
     }
     
-    let helpPages = [
+    private let helpPages = [
         HelpData(backgroundScreenshot: #imageLiteral(resourceName: "AddPOI1x"), title: NSLocalizedString("HelpAddPOITitle", comment: ""), description: NSLocalizedString("HelpAddPOIDescription", comment: "")),
         HelpData(backgroundScreenshot: #imageLiteral(resourceName: "POIDetails1x"), title: NSLocalizedString("HelpPOIDetailsTitle", comment: ""), description: NSLocalizedString("HelpPOIDetailsDescription", comment: "")),
         HelpData(backgroundScreenshot: #imageLiteral(resourceName: "CalloutTrip1x"), title: NSLocalizedString("HelpTripTitle", comment: ""), description: NSLocalizedString("HelpTripDescription", comment: "")),
@@ -62,8 +60,6 @@ class HelperViewController: UIViewController {
 
 
 extension HelperViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    
-
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         if let indexPath = theCollectionView.indexPathsForVisibleItems.first {

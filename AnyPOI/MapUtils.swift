@@ -310,7 +310,7 @@ class MapUtils {
 
     static func refreshPin(_ annotationView:WayPointPinAnnotationView, poi:PointOfInterest, delegate:PoiCalloutDelegate, type:PinAnnotationType, isFlyover:Bool = false) {
         annotationView.markerTintColor = getAnnotationColor(type, poi: poi)
-        annotationView.glyphImage = poi.glyphImage
+        annotationView.glyphImage =  poi.glyphImage
         
         if isFlyover {
             annotationView.configureForFlyover(poi, delegate: delegate)
@@ -535,6 +535,7 @@ class MapUtils {
             // We want to have the bottom point of the Pin to show the POI position
             // then we need to substract the height of the Pin
             pinImagePoint.y = pinImagePoint.y - snapshotImageFromMyView.size.height
+            pinImagePoint.x = pinImagePoint.x - (snapshotImageFromMyView.size.width / 2.0)
             // Draw the Pin image in the graphic context
             snapshotImageFromMyView.draw(at: pinImagePoint)
 

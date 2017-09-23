@@ -14,12 +14,9 @@ class searchPoiViewCell: UITableViewCell {
     @IBOutlet weak var poiTitle: UILabel!
     @IBOutlet weak var poiDescription: UILabel!
     @IBOutlet weak var poiAddress: UILabel!
-
-    
     @IBOutlet weak var poiDistance: UILabel!
-
     @IBOutlet weak var editButton: UIButton!
-    @IBOutlet weak var pinImage: UIImageView!
+    @IBOutlet weak var poiPinView: MKMarkerAnnotationView!
     
     func initWith(_ poi:PointOfInterest, index:Int, region:MKCoordinateRegion) {
 
@@ -27,7 +24,6 @@ class searchPoiViewCell: UITableViewCell {
         poiDescription.text = poi.poiDescription
         poiAddress.text = poi.address
         
-        pinImage.image = MapUtils.pinImageFor(poi:poi)
         editButton.tag = index
 
         
@@ -36,4 +32,9 @@ class searchPoiViewCell: UITableViewCell {
         poiTitle.text = "\(poi.poiDisplayName!)"
         poiDistance.text = "\(distanceFormater.string(fromDistance: distance))"
     }
+    
+    func configureMarker(poi:PointOfInterest) {
+        MapUtils.customizePinForTableView(poiPinView, poi: poi)
+    }
+
 }

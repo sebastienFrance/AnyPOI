@@ -91,6 +91,7 @@ class Utilities {
         
         return NSString(format: "%0.2d:%0.2d:%0.2d.%0.3d",hours,minutes,seconds,ms)
     }
+    
     static func shortStringFromTimeInterval(_ interval:TimeInterval) -> NSString {
         if !interval.isNaN && !interval.isInfinite {
             
@@ -104,7 +105,6 @@ class Utilities {
             return ""
         }
     }
-    
     
     static func getAddressFrom(_ placemark:CLPlacemark) -> String {
         if let addressDictionary = placemark.postalAddress {
@@ -147,19 +147,10 @@ class Utilities {
     
     static func openSafariFrom(_ viewController:UIViewController, url:URL?, delegate:SFSafariViewControllerDelegate) {
         if let myURL = url {
-
-            
             let safari = SFSafariViewController(url: myURL)
             safari.delegate = delegate
             viewController.navigationController?.isToolbarHidden = true
             viewController.show(safari, sender: nil)
-            
-//            PKHUD.sharedHUD.userInteractionOnUnderlyingViewsEnabled = true
-//            PKHUD.sharedHUD.dimsBackground = true
-//            HUD.show(.Progress)
-//            let hudBaseView = PKHUD.sharedHUD.contentView as! PKHUDSquareBaseView
-//            hudBaseView.titleLabel.text = "Page loading"
-
         }
     }
 

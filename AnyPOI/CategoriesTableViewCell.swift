@@ -11,7 +11,6 @@ import UIKit
 class CategoriesTableViewCell: UITableViewCell {
 
     @IBOutlet weak var collectionView: UICollectionView!
-    
     @IBOutlet weak var scopeFilterSegmentedControl: UISegmentedControl!
     
     func initWith(_ selectedFilter:SearchController.ScopeFilter) {

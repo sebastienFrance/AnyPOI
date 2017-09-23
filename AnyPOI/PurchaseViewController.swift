@@ -45,11 +45,17 @@ class PurchaseViewController: UIViewController, ContainerViewControllerDelegate 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(PurchaseViewController.productPurchased(_:)), name:  Notification.Name(rawValue: AppDelegate.Notifications.purchasedProduct), object: UIApplication.shared.delegate)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(PurchaseViewController.productPurchased(_:)),
+                                               name:  Notification.Name(rawValue: AppDelegate.Notifications.purchasedProduct),
+                                               object: UIApplication.shared.delegate)
 
         
         if isStartedByLeftMenu {
-            let menuButton =  UIBarButtonItem(image: #imageLiteral(resourceName: "Menu-30"), style: .plain, target: self, action: #selector(PurchaseViewController.menuButtonPushed(_:)))
+            let menuButton =  UIBarButtonItem(image: #imageLiteral(resourceName: "Menu-30"),
+                                              style: .plain,
+                                              target: self,
+                                              action: #selector(PurchaseViewController.menuButtonPushed(_:)))
             navigationItem.leftBarButtonItem = menuButton
         }
         

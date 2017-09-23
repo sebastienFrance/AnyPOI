@@ -63,7 +63,7 @@ extension LeftMenuViewController : SFSafariViewControllerDelegate {
 
 extension LeftMenuViewController : UITableViewDataSource, UITableViewDelegate {
     //MARK: UITableViewDataSource
-    struct Row {
+    private struct Row {
         static let Map = 0
         static let POIs = 1
         static let Route = 2
@@ -77,7 +77,7 @@ extension LeftMenuViewController : UITableViewDataSource, UITableViewDelegate {
         return menuTitles.count + 1
     }
     
-    struct storyboard {
+    private struct storyboard {
         static let LeftMenuPOIsTableViewCellId = "LeftMenuPOIsTableViewCellId"
         static let LeftMenuCellId = "LeftMenuCellId"
         static let MenuAboutCellId = "MenuAboutCellId"

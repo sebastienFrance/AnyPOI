@@ -11,6 +11,5 @@ import UIKit
 class SearchLoadingTableViewCell: UITableViewCell {
 
     @IBOutlet weak var loadingLabel: UILabel!
-
     @IBOutlet weak var activiyIndicator: UIActivityIndicatorView!
 }

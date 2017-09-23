@@ -12,7 +12,6 @@ class WikipediaLocalSearchTableViewCell: UITableViewCell {
 
     @IBOutlet weak var distance: UILabel!
     @IBOutlet weak var title: UILabel!
-    
     @IBOutlet weak var goToWikipedia: UIButton!
     @IBOutlet weak var extract: UILabel!
 

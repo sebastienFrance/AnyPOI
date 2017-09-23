@@ -107,7 +107,7 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
     }
     
     var glyphImage:UIImage {
-        return category.icon
+        return category.glyph
     }
     
     // Wikipedia articles are not stored in database
