@@ -7,9 +7,14 @@
 //
 
 import Foundation
+import UIKit
 
 import CoreData
 @objc(GroupOfInterest)
 class GroupOfInterest : NSManagedObject {
     
+    var color: UIColor {
+        return NSKeyedUnarchiver.unarchiveObject(with: groupColor as! Data) as! UIColor
+    }
+
 }

@@ -8,8 +8,25 @@
 
 import Foundation
 import CoreData
+import UIKit
 
 @objc(PointOfInterest)
 class PointOfInterest : NSManagedObject {
     
+    
+    var category:CategoryUtils.Category! {
+        get {
+            return CategoryUtils.getCategory(poi: self)
+        }
+        set {
+            poiGroupCategory = newValue.groupCategory
+            poiCategory = newValue.categoryId
+        }
+    }
+    
+    
+    var glyphImage:UIImage {
+        return category.glyph
+    }
+
 }

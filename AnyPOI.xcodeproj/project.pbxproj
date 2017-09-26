@@ -174,6 +174,9 @@
 		BED83BDA1DC8D2DA0025349E /* PoiImageCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED83BD91DC8D2DA0025349E /* PoiImageCollectionViewController.swift */; };
 		BED83BDC1DC8DBFF0025349E /* ImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED83BDB1DC8DBFF0025349E /* ImageCollectionViewCell.swift */; };
 		BED83BDE1DC8DC140025349E /* VideoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED83BDD1DC8DC140025349E /* VideoCollectionViewCell.swift */; };
+		BEDB991E1F7AE66700F2F44B /* CategoryUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2AD1D8B209A00344F8A /* CategoryUtils.swift */; };
+		BEDB99201F7AE74200F2F44B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEDB991F1F7AE74200F2F44B /* UIKit.framework */; };
+		BEDB99221F7AE82B00F2F44B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BEA7BAA81D8B01E5005D2D21 /* Assets.xcassets */; };
 		BEDC10541D97D4D1000C6A0D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BEDC10561D97D4D1000C6A0D /* InfoPlist.strings */; };
 		BEE8707F1E0D7A6400196000 /* GPXImportOptionsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE8707E1E0D7A6400196000 /* GPXImportOptionsTableViewController.swift */; };
 		BEEACE0C1E09CD9900E7D202 /* GPXImportRouteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEEACE0B1E09CD9900E7D202 /* GPXImportRouteTableViewCell.swift */; };
@@ -401,6 +404,7 @@
 		BED83BD91DC8D2DA0025349E /* PoiImageCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PoiImageCollectionViewController.swift; sourceTree = "<group>"; };
 		BED83BDB1DC8DBFF0025349E /* ImageCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		BED83BDD1DC8DC140025349E /* VideoCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoCollectionViewCell.swift; sourceTree = "<group>"; };
+		BEDB991F1F7AE74200F2F44B /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		BEDC10551D97D4D1000C6A0D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		BEDC10571D97D4D7000C6A0D /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		BEE8707E1E0D7A6400196000 /* GPXImportOptionsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPXImportOptionsTableViewController.swift; sourceTree = "<group>"; };
@@ -424,6 +428,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BEDB99201F7AE74200F2F44B /* UIKit.framework in Frameworks */,
 				BE9833F11D8D55C600B174A7 /* NotificationCenter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -456,6 +461,7 @@
 		15C8D98F43281F7E3E758DB1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				BEDB991F1F7AE74200F2F44B /* UIKit.framework */,
 				BE16A0CA19DE97FD2626AC38 /* Pods.framework */,
 				BE9833F01D8D55C600B174A7 /* NotificationCenter.framework */,
 				D59B652B845160828B9C22AB /* Pods_AnyPOI.framework */,
@@ -811,7 +817,6 @@
 			children = (
 				BE0CF2E31D8B209A00344F8A /* UserPreferences.swift */,
 				BE0CF2DC1D8B209A00344F8A /* UserAuthentication.swift */,
-				BE0CF2AD1D8B209A00344F8A /* CategoryUtils.swift */,
 				BE0CF2AF1D8B209A00344F8A /* DrawingUtils.swift */,
 				BE0CF2E61D8B209A00344F8A /* ColorsUtils.swift */,
 				BE0CF2F01D8B209A00344F8A /* ChangePassword.swift */,
@@ -917,6 +922,7 @@
 				BE0CF2D71D8B209A00344F8A /* PoiBoundingBox.swift */,
 				BE0CF35E1D8B21C800344F8A /* DatabaseAccess.swift */,
 				BE0CF2D61D8B209A00344F8A /* NavigationURL.swift */,
+				BE0CF2AD1D8B209A00344F8A /* CategoryUtils.swift */,
 			);
 			name = Shared;
 			sourceTree = "<group>";
@@ -1157,6 +1163,7 @@
 			files = (
 				BE9833F71D8D55C600B174A7 /* MainInterface.storyboard in Resources */,
 				BE1D1B791E5F7F4700EE986F /* Localizable.strings in Resources */,
+				BEDB99221F7AE82B00F2F44B /* Assets.xcassets in Resources */,
 				BE9834151D8D654400B174A7 /* AnyPOITodayWidget.entitlements in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1258,6 +1265,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BE98340F1D8D598400B174A7 /* DatabaseAccess.swift in Sources */,
+				BEDB991E1F7AE66700F2F44B /* CategoryUtils.swift in Sources */,
 				BE93D5241DB26E7F00104872 /* WayPoint.swift in Sources */,
 				BE9834061D8D580600B174A7 /* GroupOfInterest.swift in Sources */,
 				BE9834011D8D578A00B174A7 /* TodayViewCell.swift in Sources */,

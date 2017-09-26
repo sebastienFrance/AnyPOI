@@ -13,18 +13,22 @@ class TodayViewCell: UITableViewCell {
     
     @IBOutlet weak var poiDisplayName: UILabel!
     
-    @IBOutlet weak var pinImage: UIImageView!
+    @IBOutlet weak var markerAnnotation: MKMarkerAnnotationView!
     
-    fileprivate static func createPinImageForGroup(_ poi:PointOfInterest, imageSize:CGFloat = 25.0) -> UIImage? {
-        let annotationView = MKPinAnnotationView(frame: CGRect(x: 0, y: 0, width: imageSize, height: imageSize))
-        annotationView.pinTintColor = NSKeyedUnarchiver.unarchiveObject(with: poi.parentGroup?.groupColor as! Data) as! UIColor
-        return annotationView.image
+    
+    static func customizePinForTableView(_ thePinAnnotation: MKMarkerAnnotationView, poi:PointOfInterest) {
+        thePinAnnotation.animatesWhenAdded = false
+        thePinAnnotation.canShowCallout = false
+        thePinAnnotation.markerTintColor = poi.parentGroup?.color
+        thePinAnnotation.glyphImage = poi.glyphImage
+    }
+
+    func initMarker(poi:PointOfInterest) {
+        TodayViewCell.customizePinForTableView(markerAnnotation, poi: poi)
     }
 
     
     func initWith(_ poi:PointOfInterest) {
-        
-        pinImage.image = TodayViewCell.createPinImageForGroup(poi)
         if let currentLocation = LocationManager.sharedInstance.locationManager?.location {
             let targetLocation = CLLocation(latitude: poi.poiLatitude , longitude: poi.poiLongitude)
             let distance = currentLocation.distance(from: targetLocation)

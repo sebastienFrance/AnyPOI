@@ -15,8 +15,9 @@ class LeftMenuViewController: UIViewController {
                       NSLocalizedString("PointOfInterestMenuTitle",comment:""),
                       NSLocalizedString("TravelsMenuTitle",comment:""),
                       NSLocalizedString("OptionsMenuTitle",comment:""),
-                      NSLocalizedString("HelpMenuTitle",comment:""),
-                      NSLocalizedString("PurchaseMenuTitle", comment:"")]
+                      NSLocalizedString("HelpMenuTitle",comment:"")
+              //        NSLocalizedString("PurchaseMenuTitle", comment:"")
+    ]
 
     @IBOutlet weak var theTableView: UITableView! {
         didSet {

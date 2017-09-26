@@ -71,17 +71,6 @@ class TodayViewController: UIViewController {
 
         
         theTableView.reloadData()
-        /*
-        if matchingPOI.count > 0 {
-            //            preferredContentSize = CGSizeMake(0.0, CGFloat(matchingPOI.count) * 50.0)
-            preferredContentSize = theTableView.contentSize
-            theTableView.separatorStyle = .singleLine
-        } else {
-            preferredContentSize = theTableView.contentSize
-           // preferredContentSize = CGSizeMake(0.0, 50.0)
-            theTableView.separatorStyle = .none
-        }
- */
     }
     
     override func didReceiveMemoryWarning() {
@@ -187,6 +176,13 @@ extension TodayViewController: UITableViewDataSource, UITableViewDelegate {
         static let CellPoiAroundPositionId = "TodayViewCellId"
         static let CellEmptyCellId = "TodayViewEmptyCellId"
     }
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if matchingPOI.count > 0 {
+            let theCell = cell as! TodayViewCell
+            theCell.initMarker(poi: matchingPOI[indexPath.row])
+        }
+    }
+    
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if matchingPOI.count > 0 {
