@@ -41,7 +41,7 @@ class ColorsUtils {
             return nil
         }
         
-        let hexString: String = rgba.substring(from: rgba.characters.index(rgba.startIndex, offsetBy: 1))
+        let hexString: String = String(rgba[rgba.characters.index(rgba.startIndex, offsetBy: 1)...])
         var hexValue:  UInt32 = 0
         
         guard Scanner(string: hexString).scanHexInt32(&hexValue) else {

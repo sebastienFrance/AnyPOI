@@ -68,7 +68,6 @@ class TodayViewController: UIViewController {
                 self.preferredContentSize = CGSize(width: 0.0, height: 200.0)
             }
         }
-
         
         theTableView.reloadData()
     }
@@ -80,16 +79,7 @@ class TodayViewController: UIViewController {
     
     // Returns True when the POI array is identical to the current Array
     fileprivate func isSamePOIs(_ pois:[PointOfInterest]) -> Bool {
-        if matchingPOI.count == pois.count {
-            for i in 0..<matchingPOI.count {
-                if matchingPOI[i].objectID != pois[i].objectID {
-                    return false
-                }
-            }
-            return true
-        } else {
-            return false
-        }
+        return matchingPOI.elementsEqual(pois) { return $0.objectID == $1.objectID }
     }
     
     fileprivate struct Cste {
@@ -172,10 +162,11 @@ extension TodayViewController: UITableViewDataSource, UITableViewDelegate {
         return matchingPOI.count > 0 ? matchingPOI.count : 1
     }
     
-    fileprivate struct CellIndentifier {
+    private struct CellIndentifier {
         static let CellPoiAroundPositionId = "TodayViewCellId"
         static let CellEmptyCellId = "TodayViewEmptyCellId"
     }
+    
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if matchingPOI.count > 0 {
             let theCell = cell as! TodayViewCell

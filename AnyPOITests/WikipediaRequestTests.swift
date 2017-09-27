@@ -34,17 +34,17 @@ class WikipediaRequestTests: XCTestCase {
     let testDelegate = WikiTestDelegate()
     var request:WikipediaRequest!
     
-    override func setUp() {
+    @objc override func setUp() {
         super.setUp()
         request = WikipediaRequest(delegate: testDelegate)
     }
     
-    override func tearDown() {
+    @objc override func tearDown() {
         request = nil
         super.tearDown()
     }
     
-    func testWikiSuccess() {
+    @objc func testWikiSuccess() {
         testDelegate.promise = expectation(description: "Completion handler invoked")
         
         // Search wiki around Paris location
@@ -58,7 +58,7 @@ class WikipediaRequestTests: XCTestCase {
         
     }
     
-    func testWikiFailure() {
+    @objc func testWikiFailure() {
         testDelegate.promise = expectation(description: "Completion handler invoked")
         request.searchAround(CLLocationCoordinate2D(latitude:500, longitude:500))
 
@@ -68,7 +68,7 @@ class WikipediaRequestTests: XCTestCase {
         XCTAssertTrue(testDelegate.wikipediaArticles.count == 0, "Wikipedia article is not empty")
     }
     
-    func testPerformanceExample() {
+    @objc func testPerformanceExample() {
         // This is an example of a performance test case.
         self.measure {
             // Put the code you want to measure the time of here.

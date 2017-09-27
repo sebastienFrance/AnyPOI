@@ -215,7 +215,7 @@ class GPXParser: NSObject, XMLParserDelegate {
         }
         
         if let range = elementHierarchy.range(of: ".", options: .backwards) {
-            elementHierarchy = elementHierarchy.substring(to: range.lowerBound)
+            elementHierarchy = String(elementHierarchy[..<range.lowerBound])
         } else {
             elementHierarchy = ""
         }

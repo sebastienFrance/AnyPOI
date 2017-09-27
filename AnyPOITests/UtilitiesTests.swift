@@ -11,17 +11,17 @@ import XCTest
 
 class UtilitiesTests: XCTestCase {
     
-    override func setUp() {
+    @objc override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
     
-    override func tearDown() {
+    @objc override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
     }
     
-    func testTimeInterval() {
+    @objc func testTimeInterval() {
         let oneHourAndHalfAndTenSecondsInterval = Utilities.stringFromTimeInterval(5410)
         XCTAssertEqual(oneHourAndHalfAndTenSecondsInterval, "01:30:10.000", "Interval is wrong it should be 01:30:10.000")
         

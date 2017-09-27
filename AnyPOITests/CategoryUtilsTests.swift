@@ -12,17 +12,17 @@ import XCTest
 
 class CategoryUtilsTests: XCTestCase {
     
-    override func setUp() {
+    @objc override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
     
-    override func tearDown() {
+    @objc override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
     }
     
-    func testCategoryIndex() {
+    @objc func testCategoryIndex() {
         
         let indexDefaultGroup = CategoryUtils.getIndex(category: CategoryUtils.defaultGroupCategory, inCategories: CategoryUtils.localSearchCategories)
         XCTAssertNotNil(indexDefaultGroup, "Cannot find index of default category")
@@ -32,13 +32,13 @@ class CategoryUtilsTests: XCTestCase {
 
         XCTAssertNotEqual(indexDefaultGroup!, indexContact!, "Error index of contact and default group must not be equals")
         
-        let unknownCategory = CategoryUtils.Category(groupCategory: 9999, categoryId: 9999, icon: #imageLiteral(resourceName: "Bank-30"), localizedString: "unknown category")
+        let unknownCategory = CategoryUtils.Category(groupCategory: 9999, categoryId: 9999, icon: #imageLiteral(resourceName: "Bank-30"), glyph: #imageLiteral(resourceName: "Bank Filled-80"), localizedString: "unknown category")
         let indexUnknownCategory = CategoryUtils.getIndex(category: unknownCategory, inCategories: CategoryUtils.localSearchCategories)
         XCTAssertNil(indexUnknownCategory, "Warning found an unknown category in localSearchCategory")
         
     }
     
-    func testCategoryFind() {
+    @objc func testCategoryFind() {
         let defaultCategory = CategoryUtils.findCategory(groupCategory: CategoryUtils.defaultGroupCategory.groupCategory,
                                                          categoryId: CategoryUtils.defaultGroupCategory.categoryId,
                                                          inCategories: CategoryUtils.localSearchCategories)
@@ -51,7 +51,7 @@ class CategoryUtilsTests: XCTestCase {
         XCTAssertNil(unknownCategory, "Found an unknown category")
     }
     
-    func testPerformanceExample() {
+    @objc func testPerformanceExample() {
         // This is an example of a performance test case.
         self.measure {
             // Put the code you want to measure the time of here.
