@@ -400,18 +400,12 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
     /// - Parameter sender: the Button
     @IBAction func startPhoneCall(_ sender: UIButton) {
         
-        if let contact = ContactsUtilities.getContactForDetailedDescription(poi.poiContactIdentifier!) {
-            if contact.phoneNumbers.count > 1 {
-                performSegue(withIdentifier: storyboard.openPhonesId, sender: nil)
-            } else {
-                if let phoneNumber = ContactsUtilities.extractPhoneNumber(contact) {
-                    Utilities.startPhoneCall(phoneNumber.stringValue)
-                }
-            }
+        let phoneNumbers = poi.phoneNumbers
+        if phoneNumbers.count > 1 {
+            performSegue(withIdentifier: storyboard.openPhonesId, sender: nil)
         } else {
-            Utilities.startPhoneCall(poi.poiPhoneNumber)
+            Utilities.startPhoneCall(phoneNumbers[0].stringValue)
         }
-
     }
 
     

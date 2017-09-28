@@ -143,7 +143,7 @@ class LocationManager : NSObject {
             let cancelButton = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .default, handler: nil)
             let settingsButton = UIAlertAction(title: NSLocalizedString("SettingsLocationManager", comment: ""), style: UIAlertActionStyle.default) { action in
                 let settingURL = URL(string: UIApplicationOpenSettingsURLString)
-                UIApplication.shared.open(settingURL!, options:[UIApplicationOpenURLOptionUniversalLinksOnly : true], completionHandler: nil)
+                UIApplication.shared.open(settingURL!, options:[ : ], completionHandler: nil)
             }
             
             alertController.addAction(cancelButton)

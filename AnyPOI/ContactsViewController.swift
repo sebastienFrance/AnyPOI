@@ -66,18 +66,13 @@ class ContactsViewController: UIViewController   {
         dismiss(animated: true, completion: nil)
         delegate.endContacts()
     }
-    
     @IBAction func faceTimeButtonPushed(_ sender: UIButton) {
         if let theContact =  contact {
             let currentLabeledValue = theContact.phoneNumbers[sender.tag]
             let phoneNumber = (currentLabeledValue.value as CNPhoneNumber).stringValue
-            if let facetimeURL = URL(string: "facetime://\(phoneNumber)") {
-                if UIApplication.shared.canOpenURL(facetimeURL) {
-                    UIApplication.shared.open(facetimeURL, options:[UIApplicationOpenURLOptionUniversalLinksOnly : true], completionHandler: nil)
-                    dismiss(animated: true, completion: nil)
-                    delegate.endContacts()
-                }
-            }
+            Utilities.startFaceTimeCall(phoneNumber: phoneNumber)
+                        dismiss(animated: true, completion: nil)
+                        delegate.endContacts()
         }
     }
     

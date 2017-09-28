@@ -79,6 +79,20 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
             return address
         }
     }
+    
+    var phoneNumbers:[CNPhoneNumber] {
+        if poiIsContact, let contactId = poiContactIdentifier, let contact = ContactsUtilities.getContactForDetailedDescription(contactId) {
+            return contact.phoneNumbers.map() {
+                return $0.value
+            }
+        } else {
+            if let phone = poiPhoneNumber {
+                return [CNPhoneNumber(stringValue:phone)]
+            } else {
+                return []
+            }
+        }
+    }
 
     var coordinate:CLLocationCoordinate2D {
         get {

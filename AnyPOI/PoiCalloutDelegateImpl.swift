@@ -83,19 +83,12 @@ extension PoiCalloutDelegateImpl : PoiCalloutDelegate {
         let selectedAnnotations = theMapView.selectedAnnotations
         if selectedAnnotations.count > 0 {
             let poi = selectedAnnotations[0] as! PointOfInterest
-            let viewAnnotation = theMapView.view(for: poi)
-            let calloutAccessoryView = viewAnnotation?.detailCalloutAccessoryView as? CustomCalloutAccessoryView
 
-            if poi.poiIsContact, let contectId = poi.poiContactIdentifier, let contact = ContactsUtilities.getContactForDetailedDescription(contectId) {
-                if contact.phoneNumbers.count > 1 {
-                    viewController.performSegue(withIdentifier: storyboard.openPhonesId, sender: poi)
-                } else {
-                    if let phoneNumber = ContactsUtilities.extractPhoneNumber(contact) {
-                        Utilities.startPhoneCall(phoneNumber.stringValue)
-                    }
-                }
+            let phoneNumbers = poi.phoneNumbers
+            if phoneNumbers.count > 1 {
+                viewController.performSegue(withIdentifier: storyboard.openPhonesId, sender: poi)
             } else {
-                Utilities.startPhoneCall(calloutAccessoryView?.phoneNumber)
+                Utilities.startPhoneCall(phoneNumbers[0].stringValue)
             }
         }
     }

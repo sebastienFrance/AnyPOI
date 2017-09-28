@@ -13,6 +13,7 @@ import AddressBookUI
 import SafariServices
 import PKHUD
 import Contacts
+import MessageUI
 
 class Utilities {
 
@@ -125,15 +126,36 @@ class Utilities {
         return address
     }
     
-    static func startPhoneCall(_ phoneNumber:String?) {
-        if let thePhoneNumber = phoneNumber {
-            if let formatedURL = "tel://\(thePhoneNumber)".addingPercentEncoding(withAllowedCharacters: CharacterSet.urlFragmentAllowed) {
-                if let myURL = URL(string: formatedURL) {
-                    UIApplication.shared.open(myURL, options:[UIApplicationOpenURLOptionUniversalLinksOnly : true], completionHandler: nil)
+    static func startPhoneCall(_ phoneNumber:String) {
+        if let formatedURL = "tel://\(phoneNumber)".addingPercentEncoding(withAllowedCharacters: CharacterSet.urlFragmentAllowed) {
+            if let telURL = URL(string:formatedURL) {
+                if UIApplication.shared.canOpenURL(telURL) { 
+                    UIApplication.shared.open(telURL, options:[ : ]) { callResult in
+                        if !callResult {
+                            NSLog("\(#function) cannot make a call with \(telURL.absoluteString)")
+                        }
+                    }
+                } else {
+                    NSLog("\(#function) cannot open this url: \(telURL.absoluteString)")
                 }
             }
         }
     }
+    
+    static func startFaceTimeCall(phoneNumber:String) {
+        if let formatedURL = "tel://\(phoneNumber)".addingPercentEncoding(withAllowedCharacters: CharacterSet.urlFragmentAllowed) {
+            if let facetimeURL = URL(string: formatedURL) {
+                if UIApplication.shared.canOpenURL(facetimeURL) {
+                    UIApplication.shared.open(facetimeURL, options:[ : ]) { callResult in
+                        if !callResult {
+                            NSLog("\(#function) cannot make a Facetime call with \(facetimeURL.absoluteString)")
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
     
     static func openSafariFrom(_ viewController:UIViewController, url:String?, delegate:SFSafariViewControllerDelegate) {
         if let URL = url {
@@ -148,6 +170,7 @@ class Utilities {
     static func openSafariFrom(_ viewController:UIViewController, url:URL?, delegate:SFSafariViewControllerDelegate) {
         if let myURL = url {
             let safari = SFSafariViewController(url: myURL)
+            safari.dismissButtonStyle = .close
             safari.delegate = delegate
             viewController.navigationController?.isToolbarHidden = true
             viewController.show(safari, sender: nil)
