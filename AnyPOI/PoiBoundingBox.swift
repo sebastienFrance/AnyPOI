@@ -51,10 +51,10 @@ class PoiBoundingBox {
     fileprivate static func getPOIInBoundingBox(_ southWest:CLLocationCoordinate2D, northEast:CLLocationCoordinate2D) -> [PointOfInterest] {
         let fetchRequest = NSFetchRequest<PointOfInterest>(entityName: "PointOfInterest")
         
-        fetchRequest.predicate = NSPredicate(format: "poiLatitude >= %f AND poiLongitude >= %f AND poiLatitude <= %f AND poiLongitude <= %f", southWest.latitude, southWest.longitude, northEast.latitude, northEast.longitude)
-
-        let sortDescriptor = NSSortDescriptor(key: "poiDisplayName", ascending: true, selector: #selector(NSString.caseInsensitiveCompare(_:)))
-        fetchRequest.sortDescriptors = [sortDescriptor]
+//        fetchRequest.predicate = NSPredicate(format: "poiLatitude >= %f AND poiLongitude >= %f AND poiLatitude <= %f AND poiLongitude <= %f", southWest.latitude, southWest.longitude, northEast.latitude, northEast.longitude)
+//
+//        let sortDescriptor = NSSortDescriptor(key: "poiDisplayName", ascending: true, selector: #selector(NSString.caseInsensitiveCompare(_:)))
+//        fetchRequest.sortDescriptors = [sortDescriptor]
         
         do {
             return try DatabaseAccess.sharedInstance.managedObjectContext.fetch(fetchRequest) 

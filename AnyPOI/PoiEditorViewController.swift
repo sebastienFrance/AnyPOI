@@ -66,7 +66,16 @@ class PoiEditorViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(PoiEditorViewController.locationAuthorizationHasChanged(_:)),
+                                               name: NSNotification.Name(rawValue: LocationManager.LocationNotifications.AuthorizationHasChanged),
+                                               object: LocationManager.sharedInstance.locationManager)
+
         loadMapSnapshot()
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -77,6 +86,11 @@ class PoiEditorViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
+    }
+    
+    @objc func locationAuthorizationHasChanged(_ notification : Notification) {
+        let index = IndexPath(row: Rows.monitoringControls, section: Sections.regionMonitoring)
+        theTableView.reloadRows(at: [index], with: .automatic)
     }
 
     func pickerViewUpdated(_ picker:PickerViewCell, selectedCategory:CategoryUtils.Category) {

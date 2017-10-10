@@ -142,6 +142,22 @@
 		BE957E611DA90147006CF455 /* WikipediaSliderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE957E601DA90147006CF455 /* WikipediaSliderTableViewCell.swift */; };
 		BE957E631DA943D6006CF455 /* WikiLanguagePickerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE957E621DA943D6006CF455 /* WikiLanguagePickerTableViewCell.swift */; };
 		BE957E651DA94A03006CF455 /* WikiSelectedLanguageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE957E641DA94A03006CF455 /* WikiSelectedLanguageTableViewCell.swift */; };
+		BE96C3CC1F7FA1C700D9ABDB /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE96C3CA1F7FA1C700D9ABDB /* Interface.storyboard */; };
+		BE96C3CE1F7FA1C700D9ABDB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BE96C3CD1F7FA1C700D9ABDB /* Assets.xcassets */; };
+		BE96C3D51F7FA1C700D9ABDB /* AnyPOIWatch Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = BE96C3D41F7FA1C700D9ABDB /* AnyPOIWatch Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		BE96C3DA1F7FA1C700D9ABDB /* InterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE96C3D91F7FA1C700D9ABDB /* InterfaceController.swift */; };
+		BE96C3DC1F7FA1C700D9ABDB /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE96C3DB1F7FA1C700D9ABDB /* ExtensionDelegate.swift */; };
+		BE96C3DE1F7FA1C700D9ABDB /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE96C3DD1F7FA1C700D9ABDB /* NotificationController.swift */; };
+		BE96C3E01F7FA1C700D9ABDB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BE96C3DF1F7FA1C700D9ABDB /* Assets.xcassets */; };
+		BE96C3E51F7FA1C700D9ABDB /* AnyPOIWatch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = BE96C3C81F7FA1C700D9ABDB /* AnyPOIWatch.app */; };
+		BE96C3EF1F7FA3CE00D9ABDB /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE96C3EE1F7FA3CE00D9ABDB /* LocationManager.swift */; };
+		BE96C3F11F7FA67800D9ABDB /* GroupOfInterest+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1BA9AE1F6571C6001B6512 /* GroupOfInterest+CoreDataProperties.swift */; };
+		BE96C3F21F7FA68200D9ABDB /* PointOfInterest+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1BA9B41F6571C6001B6512 /* PointOfInterest+CoreDataProperties.swift */; };
+		BE96C3F31F7FA69800D9ABDB /* PointOfInterest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE9834031D8D57CE00B174A7 /* PointOfInterest.swift */; };
+		BE96C3F41F7FA69C00D9ABDB /* GroupOfInterest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE9834051D8D580600B174A7 /* GroupOfInterest.swift */; };
+		BE96C3F51F7FA6A000D9ABDB /* WayPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE93D5231DB26E7F00104872 /* WayPoint.swift */; };
+		BE96C3F61F7FA72D00D9ABDB /* CategoryUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2AD1D8B209A00344F8A /* CategoryUtils.swift */; };
+		BE96C3F81F7FA74000D9ABDB /* GeoLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF35F1D8B21C800344F8A /* GeoLocation.swift */; };
 		BE982D0E1DD233E500C7941A /* PoisMailActivityItemSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE982D0D1DD233E500C7941A /* PoisMailActivityItemSource.swift */; };
 		BE9833F11D8D55C600B174A7 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE9833F01D8D55C600B174A7 /* NotificationCenter.framework */; };
 		BE9833F41D8D55C600B174A7 /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE9833F31D8D55C600B174A7 /* TodayViewController.swift */; };
@@ -192,6 +208,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		BE96C3D61F7FA1C700D9ABDB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BEA7BA931D8B01E5005D2D21 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BE96C3D31F7FA1C700D9ABDB;
+			remoteInfo = "AnyPOIWatch Extension";
+		};
+		BE96C3E31F7FA1C700D9ABDB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BEA7BA931D8B01E5005D2D21 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BE96C3C71F7FA1C700D9ABDB;
+			remoteInfo = AnyPOIWatch;
+		};
 		BE9833F91D8D55C600B174A7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BEA7BA931D8B01E5005D2D21 /* Project object */;
@@ -216,6 +246,28 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		BE96C3EB1F7FA1C700D9ABDB /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				BE96C3D51F7FA1C700D9ABDB /* AnyPOIWatch Extension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BE96C3ED1F7FA1C700D9ABDB /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				BE96C3E51F7FA1C700D9ABDB /* AnyPOIWatch.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		BE9833FF1D8D55C600B174A7 /* Embed App Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -351,6 +403,8 @@
 		BE4BF3BD1DEB55E00043891B /* ExportGPX.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExportGPX.swift; sourceTree = "<group>"; };
 		BE4BF3BF1DEB57ED0043891B /* GPXActivityItemSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPXActivityItemSource.swift; sourceTree = "<group>"; };
 		BE5FE28F1E81B849007128DF /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		BE6D103A1F7FAD8F007A35FA /* AnyPOIWatch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AnyPOIWatch.entitlements; sourceTree = "<group>"; };
+		BE6D103B1F7FAF6F007A35FA /* AnyPOIWatch Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "AnyPOIWatch Extension.entitlements"; sourceTree = "<group>"; };
 		BE71ADF31DFC76F5008FB6CD /* ImportTextualDescriptionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImportTextualDescriptionTableViewCell.swift; sourceTree = "<group>"; };
 		BE71ADF51DFC98A4008FB6CD /* GPXImportOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPXImportOptions.swift; sourceTree = "<group>"; };
 		BE77AACB1E1A947F00DACC73 /* GPXXSD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPXXSD.swift; sourceTree = "<group>"; };
@@ -368,6 +422,18 @@
 		BE957E601DA90147006CF455 /* WikipediaSliderTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WikipediaSliderTableViewCell.swift; sourceTree = "<group>"; };
 		BE957E621DA943D6006CF455 /* WikiLanguagePickerTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WikiLanguagePickerTableViewCell.swift; sourceTree = "<group>"; };
 		BE957E641DA94A03006CF455 /* WikiSelectedLanguageTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WikiSelectedLanguageTableViewCell.swift; sourceTree = "<group>"; };
+		BE96C3C81F7FA1C700D9ABDB /* AnyPOIWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AnyPOIWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BE96C3CB1F7FA1C700D9ABDB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
+		BE96C3CD1F7FA1C700D9ABDB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		BE96C3CF1F7FA1C700D9ABDB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BE96C3D41F7FA1C700D9ABDB /* AnyPOIWatch Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "AnyPOIWatch Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BE96C3D91F7FA1C700D9ABDB /* InterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceController.swift; sourceTree = "<group>"; };
+		BE96C3DB1F7FA1C700D9ABDB /* ExtensionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDelegate.swift; sourceTree = "<group>"; };
+		BE96C3DD1F7FA1C700D9ABDB /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
+		BE96C3DF1F7FA1C700D9ABDB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		BE96C3E11F7FA1C700D9ABDB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BE96C3E21F7FA1C700D9ABDB /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
+		BE96C3EE1F7FA3CE00D9ABDB /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		BE982D0D1DD233E500C7941A /* PoisMailActivityItemSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PoisMailActivityItemSource.swift; sourceTree = "<group>"; };
 		BE9833EF1D8D55C600B174A7 /* AnyPOITodayWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = AnyPOITodayWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE9833F01D8D55C600B174A7 /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
@@ -424,6 +490,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		BE96C3D11F7FA1C700D9ABDB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		BE9833EC1D8D55C600B174A7 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -882,6 +955,32 @@
 			name = WikipediaOptions;
 			sourceTree = "<group>";
 		};
+		BE96C3C91F7FA1C700D9ABDB /* AnyPOIWatch */ = {
+			isa = PBXGroup;
+			children = (
+				BE6D103A1F7FAD8F007A35FA /* AnyPOIWatch.entitlements */,
+				BE96C3CA1F7FA1C700D9ABDB /* Interface.storyboard */,
+				BE96C3CD1F7FA1C700D9ABDB /* Assets.xcassets */,
+				BE96C3CF1F7FA1C700D9ABDB /* Info.plist */,
+			);
+			path = AnyPOIWatch;
+			sourceTree = "<group>";
+		};
+		BE96C3D81F7FA1C700D9ABDB /* AnyPOIWatch Extension */ = {
+			isa = PBXGroup;
+			children = (
+				BE6D103B1F7FAF6F007A35FA /* AnyPOIWatch Extension.entitlements */,
+				BE96C3D91F7FA1C700D9ABDB /* InterfaceController.swift */,
+				BE96C3EE1F7FA3CE00D9ABDB /* LocationManager.swift */,
+				BE96C3DB1F7FA1C700D9ABDB /* ExtensionDelegate.swift */,
+				BE96C3DD1F7FA1C700D9ABDB /* NotificationController.swift */,
+				BE96C3DF1F7FA1C700D9ABDB /* Assets.xcassets */,
+				BE96C3E11F7FA1C700D9ABDB /* Info.plist */,
+				BE96C3E21F7FA1C700D9ABDB /* PushNotificationPayload.apns */,
+			);
+			path = "AnyPOIWatch Extension";
+			sourceTree = "<group>";
+		};
 		BE9833F21D8D55C600B174A7 /* AnyPOITodayWidget */ = {
 			isa = PBXGroup;
 			children = (
@@ -943,6 +1042,8 @@
 				BEA7BAB51D8B01E5005D2D21 /* AnyPOITests */,
 				BEA7BAC01D8B01E5005D2D21 /* AnyPOIUITests */,
 				BE9833F21D8D55C600B174A7 /* AnyPOITodayWidget */,
+				BE96C3C91F7FA1C700D9ABDB /* AnyPOIWatch */,
+				BE96C3D81F7FA1C700D9ABDB /* AnyPOIWatch Extension */,
 				BEA7BA9C1D8B01E5005D2D21 /* Products */,
 				15C8D98F43281F7E3E758DB1 /* Frameworks */,
 				4FD8D0582A58D465B001BB92 /* Pods */,
@@ -956,6 +1057,8 @@
 				BEA7BAB21D8B01E5005D2D21 /* AnyPOITests.xctest */,
 				BEA7BABD1D8B01E5005D2D21 /* AnyPOIUITests.xctest */,
 				BE9833EF1D8D55C600B174A7 /* AnyPOITodayWidget.appex */,
+				BE96C3C81F7FA1C700D9ABDB /* AnyPOIWatch.app */,
+				BE96C3D41F7FA1C700D9ABDB /* AnyPOIWatch Extension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1019,6 +1122,40 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		BE96C3C71F7FA1C700D9ABDB /* AnyPOIWatch */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BE96C3EC1F7FA1C700D9ABDB /* Build configuration list for PBXNativeTarget "AnyPOIWatch" */;
+			buildPhases = (
+				BE96C3C61F7FA1C700D9ABDB /* Resources */,
+				BE96C3EB1F7FA1C700D9ABDB /* Embed App Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BE96C3D71F7FA1C700D9ABDB /* PBXTargetDependency */,
+			);
+			name = AnyPOIWatch;
+			productName = AnyPOIWatch;
+			productReference = BE96C3C81F7FA1C700D9ABDB /* AnyPOIWatch.app */;
+			productType = "com.apple.product-type.application.watchapp2";
+		};
+		BE96C3D31F7FA1C700D9ABDB /* AnyPOIWatch Extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BE96C3EA1F7FA1C700D9ABDB /* Build configuration list for PBXNativeTarget "AnyPOIWatch Extension" */;
+			buildPhases = (
+				BE96C3D01F7FA1C700D9ABDB /* Sources */,
+				BE96C3D11F7FA1C700D9ABDB /* Frameworks */,
+				BE96C3D21F7FA1C700D9ABDB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "AnyPOIWatch Extension";
+			productName = "AnyPOIWatch Extension";
+			productReference = BE96C3D41F7FA1C700D9ABDB /* AnyPOIWatch Extension.appex */;
+			productType = "com.apple.product-type.watchkit2-extension";
+		};
 		BE9833EE1D8D55C600B174A7 /* AnyPOITodayWidget */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = BE9833FC1D8D55C600B174A7 /* Build configuration list for PBXNativeTarget "AnyPOITodayWidget" */;
@@ -1047,11 +1184,13 @@
 				BE9833FF1D8D55C600B174A7 /* Embed App Extensions */,
 				6D5AFBBBAB3C2682E6C52E91 /* [CP] Embed Pods Frameworks */,
 				1C689AD73FFE95CEE26A792F /* [CP] Copy Pods Resources */,
+				BE96C3ED1F7FA1C700D9ABDB /* Embed Watch Content */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				BE9833FA1D8D55C600B174A7 /* PBXTargetDependency */,
+				BE96C3E41F7FA1C700D9ABDB /* PBXTargetDependency */,
 			);
 			name = AnyPOI;
 			productName = AnyPOI;
@@ -1100,10 +1239,30 @@
 		BEA7BA931D8B01E5005D2D21 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0730;
+				LastSwiftUpdateCheck = 0900;
 				LastUpgradeCheck = 0900;
 				ORGANIZATIONNAME = "Sébastien Brugalières";
 				TargetAttributes = {
+					BE96C3C71F7FA1C700D9ABDB = {
+						CreatedOnToolsVersion = 9.0;
+						DevelopmentTeam = 7VVU8FW2ME;
+						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 0;
+							};
+						};
+					};
+					BE96C3D31F7FA1C700D9ABDB = {
+						CreatedOnToolsVersion = 9.0;
+						DevelopmentTeam = 7VVU8FW2ME;
+						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 0;
+							};
+						};
+					};
 					BE9833EE1D8D55C600B174A7 = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = 7VVU8FW2ME;
@@ -1152,11 +1311,30 @@
 				BEA7BAB11D8B01E5005D2D21 /* AnyPOITests */,
 				BEA7BABC1D8B01E5005D2D21 /* AnyPOIUITests */,
 				BE9833EE1D8D55C600B174A7 /* AnyPOITodayWidget */,
+				BE96C3C71F7FA1C700D9ABDB /* AnyPOIWatch */,
+				BE96C3D31F7FA1C700D9ABDB /* AnyPOIWatch Extension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		BE96C3C61F7FA1C700D9ABDB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BE96C3CE1F7FA1C700D9ABDB /* Assets.xcassets in Resources */,
+				BE96C3CC1F7FA1C700D9ABDB /* Interface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BE96C3D21F7FA1C700D9ABDB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BE96C3E01F7FA1C700D9ABDB /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		BE9833ED1D8D55C600B174A7 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1260,6 +1438,24 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		BE96C3D01F7FA1C700D9ABDB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BE96C3F11F7FA67800D9ABDB /* GroupOfInterest+CoreDataProperties.swift in Sources */,
+				BE96C3F41F7FA69C00D9ABDB /* GroupOfInterest.swift in Sources */,
+				BE96C3EF1F7FA3CE00D9ABDB /* LocationManager.swift in Sources */,
+				BE96C3F21F7FA68200D9ABDB /* PointOfInterest+CoreDataProperties.swift in Sources */,
+				BE96C3DE1F7FA1C700D9ABDB /* NotificationController.swift in Sources */,
+				BE96C3F51F7FA6A000D9ABDB /* WayPoint.swift in Sources */,
+				BE96C3F81F7FA74000D9ABDB /* GeoLocation.swift in Sources */,
+				BE96C3F31F7FA69800D9ABDB /* PointOfInterest.swift in Sources */,
+				BE96C3DC1F7FA1C700D9ABDB /* ExtensionDelegate.swift in Sources */,
+				BE96C3DA1F7FA1C700D9ABDB /* InterfaceController.swift in Sources */,
+				BE96C3F61F7FA72D00D9ABDB /* CategoryUtils.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		BE9833EB1D8D55C600B174A7 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1453,6 +1649,16 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		BE96C3D71F7FA1C700D9ABDB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BE96C3D31F7FA1C700D9ABDB /* AnyPOIWatch Extension */;
+			targetProxy = BE96C3D61F7FA1C700D9ABDB /* PBXContainerItemProxy */;
+		};
+		BE96C3E41F7FA1C700D9ABDB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BE96C3C71F7FA1C700D9ABDB /* AnyPOIWatch */;
+			targetProxy = BE96C3E31F7FA1C700D9ABDB /* PBXContainerItemProxy */;
+		};
 		BE9833FA1D8D55C600B174A7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = BE9833EE1D8D55C600B174A7 /* AnyPOITodayWidget */;
@@ -1507,6 +1713,14 @@
 			name = Options.storyboard;
 			sourceTree = "<group>";
 		};
+		BE96C3CA1F7FA1C700D9ABDB /* Interface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BE96C3CB1F7FA1C700D9ABDB /* Base */,
+			);
+			name = Interface.storyboard;
+			sourceTree = "<group>";
+		};
 		BE9833F51D8D55C600B174A7 /* MainInterface.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1537,6 +1751,106 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		BE96C3E61F7FA1C700D9ABDB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 7VVU8FW2ME;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				IBSC_MODULE = AnyPOIWatch_Extension;
+				INFOPLIST_FILE = AnyPOIWatch/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sebastien.AnyPOI.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 4.0;
+			};
+			name = Debug;
+		};
+		BE96C3E71F7FA1C700D9ABDB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 7VVU8FW2ME;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				IBSC_MODULE = AnyPOIWatch_Extension;
+				INFOPLIST_FILE = AnyPOIWatch/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sebastien.AnyPOI.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 4.0;
+			};
+			name = Release;
+		};
+		BE96C3E81F7FA1C700D9ABDB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 7VVU8FW2ME;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = "AnyPOIWatch Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.sebastien.AnyPOI.watchkitapp.watchkitextension;
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 4.0;
+			};
+			name = Debug;
+		};
+		BE96C3E91F7FA1C700D9ABDB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 7VVU8FW2ME;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = "AnyPOIWatch Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.sebastien.AnyPOI.watchkitapp.watchkitextension;
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 4.0;
+			};
+			name = Release;
+		};
 		BE9833FD1D8D55C600B174A7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1772,6 +2086,24 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		BE96C3EA1F7FA1C700D9ABDB /* Build configuration list for PBXNativeTarget "AnyPOIWatch Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BE96C3E81F7FA1C700D9ABDB /* Debug */,
+				BE96C3E91F7FA1C700D9ABDB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BE96C3EC1F7FA1C700D9ABDB /* Build configuration list for PBXNativeTarget "AnyPOIWatch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BE96C3E61F7FA1C700D9ABDB /* Debug */,
+				BE96C3E71F7FA1C700D9ABDB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		BE9833FC1D8D55C600B174A7 /* Build configuration list for PBXNativeTarget "AnyPOITodayWidget" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

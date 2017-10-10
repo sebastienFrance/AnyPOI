@@ -134,7 +134,7 @@ class LocationManager : NSObject {
     /// Ask the user to enable the "Always Authorization"
     fileprivate func requestAlwaysAuthorization() {
         let authorizationStatus  = CLLocationManager.authorizationStatus()
-        if authorizationStatus == .authorizedWhenInUse || authorizationStatus == .denied {
+        if  authorizationStatus == .denied {
             let title = authorizationStatus == .denied ? NSLocalizedString("LocationServicesOffLocationManager", comment: "") : NSLocalizedString("BackgroundLocationDisabledLocationManager", comment: "")
 
             // Create the AlertController to display the request
@@ -149,7 +149,7 @@ class LocationManager : NSObject {
             alertController.addAction(cancelButton)
             alertController.addAction(settingsButton)
             alertController.show()
-        } else if authorizationStatus == .notDetermined {
+        } else if authorizationStatus == .notDetermined || authorizationStatus == .authorizedWhenInUse  {
             locationManager?.requestAlwaysAuthorization()
         }
     }
@@ -165,6 +165,11 @@ class LocationManager : NSObject {
         } else {
             return false
         }
+    }
+    
+    func isRegionMonitoringAuthorized() -> Bool {
+        let authorizationStatus  = CLLocationManager.authorizationStatus()
+        return authorizationStatus == .authorizedAlways ? true : false
     }
     
   

@@ -15,6 +15,7 @@ import PKHUD
 import UserNotifications
 import AudioToolbox
 import StoreKit
+import WatchConnectivity
 
 //import UberRides
 
@@ -80,6 +81,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                                                object: ContactsSynchronization.sharedInstance)
         
         
+        if WCSession.isSupported() {
+            let session = WCSession.default
+            session.delegate = self
+            session.activate()
+        }
+
         //SEB: Swift3 put in comment UBER
         // If true, all requests will hit the sandbox, useful for testing
 //        Configuration.setSandboxEnabled(true)
@@ -467,6 +474,60 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
             }
         }
     }
+}
+
+extension AppDelegate : WCSessionDelegate {
+    func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
+        NSLog("\(#function)")
+        if let theError = error {
+            NSLog("\(#function) an error has oocured: \(theError.localizedDescription)")
+        } else {
+            NSLog("\(#function) activation is completed with : \(activationState)")
+        }
+    }
+    
+    func sessionDidBecomeInactive(_ session: WCSession) {
+        NSLog("\(#function)")
+    }
+    
+    func sessionDidDeactivate(_ session: WCSession) {
+        NSLog("\(#function)")
+    }
+    
+    func session(_ session: WCSession, didReceiveMessage message: [String : Any], replyHandler: @escaping ([String : Any]) -> Void) {
+        NSLog("\(#function) get a message")
+        NSLog("\(#function) message content is \(message["value"]!)")
+        
+        if let data = message["latitude"] {
+            let latitude = data as! CLLocationDegrees
+            replyHandler(["response" : "welcome back with \(latitude) "])
+        } else {
+            replyHandler(["response" : "cannot extract coordinate"])
+        }
+        
+    }
+    
+    func session(_ session: WCSession, didReceiveMessageData messageData: Data, replyHandler: @escaping (Data) -> Void) {
+        NSLog("\(#function) get a message")
+        
+        if messageData.count == MemoryLayout<CLLocationCoordinate2D>.size {
+            let ptr = UnsafeMutablePointer<CLLocationCoordinate2D>.allocate(capacity:1)
+            let buffer = UnsafeMutableBufferPointer<CLLocationCoordinate2D>.init(start: ptr, count: 1)
+            let _ = messageData.copyBytes(to: buffer)
+            if let coordinates = buffer.first {
+                NSLog("\(#function) message content is \(coordinates.latitude) \(coordinates.longitude)")
+            } else {
+                NSLog("\(#function) cannot extract coordinates from messageData ! ")
+            }
+            replyHandler(messageData)
+        } else {
+            NSLog("\(#function) message is not readable ! ")
+        }
+
+    }
+    
+    //func session(_ session: WCSession, didReceiveMessage message: [String : Any], replyHandler: @escaping ([String : Any]) -> Void)
+    
 }
 
 

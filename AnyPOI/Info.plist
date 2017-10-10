@@ -64,7 +64,7 @@
 	<string>AnyPOI allows to create geo-localized events to your calendar.</string>
 	<key>NSContactsUsageDescription</key>
 	<string>AnyPOI will create Point Of Interests for your contacts.</string>
-	<key>NSLocationAlwaysUsageDescription</key>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>AnyPOI will detect when you enter/exit from a region.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>AnyPOI will show your position on Map and for route.</string>

@@ -203,6 +203,7 @@
 "RouteDirectionFailurePart3"="\n\nVous devriez les remplacer par des POI avec une adresse plus précise.";
 "RouteDirectionFailurePart2 From %@ To %@"="\n⚠️ %@ à %@";
 "RouteDirectionFailure From %@ To %@"="⚠️ L'itinéraire entre %@ et %@ ne peut pas être calculé";
+"POISettingEnableAlways"="⚠️ Vous devez activer 'Toujours' dans les paramètres des services de localisation pour utiliser cette fonctionnalité.";
 
 // Mail Route
 "RouteTableHeaderFrom"="Départ";

@@ -203,6 +203,7 @@
 "RouteDirectionFailurePart3"="\n\nYou should remove them and put new POI with a more detailed address.";
 "RouteDirectionFailurePart2 From %@ To %@"="\n⚠️ %@ to %@";
 "RouteDirectionFailure From %@ To %@"="⚠️ Cannot calculate route from %@ to %@";
+"POISettingEnableAlways"="⚠️ You need to turn on 'Always' in the Location Services Settings to use this feature.";
 // Mail Route
 "RouteTableHeaderFrom"="From";
 "RouteTableHeaderTo"="To";
