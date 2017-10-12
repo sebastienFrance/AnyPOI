@@ -63,6 +63,14 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
         }
     }
 
+    var props:[String:String]? {
+        var theProps = [String:String]()
+        
+        theProps["title"] = title
+        theProps["address"] = address
+        theProps["category"] = category.localizedString
+        return theProps
+    }
     
     // Title is always equals to poiDisplayName stored in Database
     dynamic var title: String? {

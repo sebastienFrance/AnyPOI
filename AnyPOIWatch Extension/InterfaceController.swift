@@ -14,9 +14,15 @@ import WatchConnectivity
 class InterfaceController: WKInterfaceController {
     
 
+    fileprivate(set) static var sharedInstance:InterfaceController?
+    
+    @IBOutlet var anyPOITable: WKInterfaceTable!
+    
     override func awake(withContext context: Any?) {
         super.awake(withContext: context)
 
+        InterfaceController.sharedInstance = self
+        
         if WCSession.isSupported() {
             let session = WCSession.default
             session.delegate = self
@@ -30,15 +36,26 @@ class InterfaceController: WKInterfaceController {
         _ = LocationManager.sharedInstance.isLocationAuthorized()
         LocationManager.sharedInstance.delegate = self
 
-        // get the list of POIs around the current position
-//        if let location = LocationManager.sharedInstance.locationManager?.location {
-//            let pois = getPoisAround(location)
-//            for currentPoi in pois {
-//                NSLog("\(#function) poi: \(currentPoi.poiDisplayName!)")
-//            }
-//        }
+    }
+    
+    override func didAppear() {
+        super.didAppear()
+        
+        if WCSession.isSupported() {
+            let session = WCSession.default
+            session.delegate = self
+            session.activate()
+        }
 
-        // Configure interface objects here.
+        
+    }
+    
+    func refresh() {
+        if WCSession.isSupported() {
+            let session = WCSession.default
+            session.delegate = self
+            session.activate()
+        }
     }
     
     override func willActivate() {
@@ -74,10 +91,29 @@ extension InterfaceController: WCSessionDelegate {
                 
                 if let location = LocationManager.sharedInstance.locationManager?.location {
                     
-                    session.sendMessage([ "value" : "hello", "latitude" : location.coordinate.latitude],
+                    session.sendMessage([ "latitude" : location.coordinate.latitude, "longitude" : location.coordinate.longitude],
                                         replyHandler: { result in
                                             NSLog("\(#function) get a result!")
-                                            NSLog("Result contains \(result["response"]!)")
+                                          
+                                            
+                                            self.anyPOITable.setNumberOfRows(result.count, withRowType: "AnyPOIRow")
+                                            var i = 0
+                                            for currentResult in result {
+                                                if let props = currentResult.value as? [String:String] {
+                                                    for currentProps in props {
+                                                        NSLog("contains: \(currentProps.key) with \(currentProps.value)")
+                                                        if currentProps.key == "title" {
+                                                            if let controller = self.anyPOITable.rowController(at: i) as? AnyPOIRowController {
+                                                                controller.titleLabel.setText(currentProps.value)
+                                                            }
+                                                        }
+
+                                                    }
+                                                }
+                                                i += 1
+                                            }
+  
+                                            
                                             
                     }) { error in
                         NSLog("\(#function) an error has oocured: \(error.localizedDescription)")

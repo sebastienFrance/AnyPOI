@@ -172,6 +172,7 @@
 		BE98340F1D8D598400B174A7 /* DatabaseAccess.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF35E1D8B21C800344F8A /* DatabaseAccess.swift */; };
 		BE9834101D8D598400B174A7 /* NavigationURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2D61D8B209A00344F8A /* NavigationURL.swift */; };
 		BE9834151D8D654400B174A7 /* AnyPOITodayWidget.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = BE9834141D8D654400B174A7 /* AnyPOITodayWidget.entitlements */; };
+		BEA5A4A71F8FFBDD008F59E3 /* AnyPOIRowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA5A4A61F8FFBDD008F59E3 /* AnyPOIRowController.swift */; };
 		BEA6FB7E1DFF3594004974B9 /* CountryDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA6FB7D1DFF3594004974B9 /* CountryDescription.swift */; };
 		BEA74FA31E70939000574E7D /* HelperViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA74FA21E70939000574E7D /* HelperViewController.swift */; };
 		BEA74FA51E70977A00574E7D /* HelperCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA74FA41E70977A00574E7D /* HelperCollectionViewCell.swift */; };
@@ -445,6 +446,7 @@
 		BE9834051D8D580600B174A7 /* GroupOfInterest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupOfInterest.swift; sourceTree = "<group>"; };
 		BE9834081D8D583B00B174A7 /* SimpleLocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleLocationManager.swift; sourceTree = "<group>"; };
 		BE9834141D8D654400B174A7 /* AnyPOITodayWidget.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = AnyPOITodayWidget.entitlements; sourceTree = "<group>"; };
+		BEA5A4A61F8FFBDD008F59E3 /* AnyPOIRowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyPOIRowController.swift; sourceTree = "<group>"; };
 		BEA6FB7D1DFF3594004974B9 /* CountryDescription.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountryDescription.swift; sourceTree = "<group>"; };
 		BEA74FA21E70939000574E7D /* HelperViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelperViewController.swift; sourceTree = "<group>"; };
 		BEA74FA41E70977A00574E7D /* HelperCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelperCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -971,6 +973,7 @@
 			children = (
 				BE6D103B1F7FAF6F007A35FA /* AnyPOIWatch Extension.entitlements */,
 				BE96C3D91F7FA1C700D9ABDB /* InterfaceController.swift */,
+				BEA5A4A61F8FFBDD008F59E3 /* AnyPOIRowController.swift */,
 				BE96C3EE1F7FA3CE00D9ABDB /* LocationManager.swift */,
 				BE96C3DB1F7FA1C700D9ABDB /* ExtensionDelegate.swift */,
 				BE96C3DD1F7FA1C700D9ABDB /* NotificationController.swift */,
@@ -1442,6 +1445,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BEA5A4A71F8FFBDD008F59E3 /* AnyPOIRowController.swift in Sources */,
 				BE96C3F11F7FA67800D9ABDB /* GroupOfInterest+CoreDataProperties.swift in Sources */,
 				BE96C3F41F7FA69C00D9ABDB /* GroupOfInterest.swift in Sources */,
 				BE96C3EF1F7FA3CE00D9ABDB /* LocationManager.swift in Sources */,

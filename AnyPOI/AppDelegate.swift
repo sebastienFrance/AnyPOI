@@ -496,11 +496,19 @@ extension AppDelegate : WCSessionDelegate {
     
     func session(_ session: WCSession, didReceiveMessage message: [String : Any], replyHandler: @escaping ([String : Any]) -> Void) {
         NSLog("\(#function) get a message")
-        NSLog("\(#function) message content is \(message["value"]!)")
+ 
         
-        if let data = message["latitude"] {
-            let latitude = data as! CLLocationDegrees
-            replyHandler(["response" : "welcome back with \(latitude) "])
+        if let latitude = message["latitude"] as? CLLocationDegrees, let longitude = message["longitude"] as? CLLocationDegrees {
+            
+            let pois = POIDataManager.sharedInstance.getAllPOI()
+            var result = [String:Any]()
+            for currentPoi in pois {
+                let poisInProps = currentPoi.props
+                result["\(currentPoi.poiDisplayName!)"] = poisInProps
+            }
+            
+            replyHandler(result)
+            
         } else {
             replyHandler(["response" : "cannot extract coordinate"])
         }
