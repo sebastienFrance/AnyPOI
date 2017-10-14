@@ -66,9 +66,13 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
     var props:[String:String]? {
         var theProps = [String:String]()
         
-        theProps["title"] = title
-        theProps["address"] = address
-        theProps["category"] = category.localizedString
+        theProps[CommonProps.POI.title] = title
+        theProps[CommonProps.POI.address] = address
+        theProps[CommonProps.POI.categoryId] = String(category.categoryId)
+        theProps[CommonProps.POI.groupCategory] = String(category.groupCategory)
+        theProps[CommonProps.POI.color] = ColorsUtils.getColor(color: parentGroup!.color)
+        theProps[CommonProps.POI.latitude] = String(coordinate.latitude)
+        theProps[CommonProps.POI.longitude] = String(coordinate.longitude)
         return theProps
     }
     

@@ -12,5 +12,8 @@ import WatchKit
 class AnyPOIRowController : NSObject {
 
     @IBOutlet var titleLabel: WKInterfaceLabel!
+    @IBOutlet var theCategory: WKInterfaceImage!
+    @IBOutlet var theGroupOfCategoryImage: WKInterfaceGroup!
+    @IBOutlet var theGroupRow: WKInterfaceGroup!
     
 }

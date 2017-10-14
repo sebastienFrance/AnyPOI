@@ -23,7 +23,7 @@ class PoiBoundingBox {
             
             var pois = PoiBoundingBox.getPOIInBoundingBox(southWest, northEast: northEast)
             
-            // Extract from the result the 3 POIs that are neareast from the current position
+            // Extract from the result POIs that are neareast from the current position
             pois = pois.sorted() { firstPoi, secondPoi in
                 let firstPoiLocation = CLLocation(latitude: firstPoi.poiLatitude, longitude: firstPoi.poiLongitude)
                 let secondPoiLocation = CLLocation(latitude: secondPoi.poiLatitude, longitude: secondPoi.poiLongitude)

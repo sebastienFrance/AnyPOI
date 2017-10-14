@@ -94,8 +94,14 @@
 		BE0CF35B1D8B209A00344F8A /* DescriptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2FA1D8B209A00344F8A /* DescriptionCell.swift */; };
 		BE0CF3611D8B21C800344F8A /* DatabaseAccess.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF35E1D8B21C800344F8A /* DatabaseAccess.swift */; };
 		BE0CF3621D8B21C800344F8A /* GeoLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF35F1D8B21C800344F8A /* GeoLocation.swift */; };
+		BE0F0DAD1F929DB8008C1EFA /* CommonProps.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0F0DAC1F929DB8008C1EFA /* CommonProps.swift */; };
+		BE0F0DAE1F929E5F008C1EFA /* CommonProps.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0F0DAC1F929DB8008C1EFA /* CommonProps.swift */; };
+		BE0F0DB11F92A8EA008C1EFA /* WatchPointOfInterest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0F0DB01F92A8EA008C1EFA /* WatchPointOfInterest.swift */; };
+		BE0F0DB31F92B510008C1EFA /* POIDetailsInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0F0DB21F92B510008C1EFA /* POIDetailsInterfaceController.swift */; };
 		BE107D8F1DD72898008B09A1 /* MapFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE107D8E1DD72898008B09A1 /* MapFilterViewController.swift */; };
 		BE107D911DD728C0008B09A1 /* MapFilterCategoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE107D901DD728C0008B09A1 /* MapFilterCategoryTableViewCell.swift */; };
+		BE11F0291F92043800818A69 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BEA7BAA81D8B01E5005D2D21 /* Assets.xcassets */; };
+		BE11F02A1F92135A00818A69 /* ColorsUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2E61D8B209A00344F8A /* ColorsUtils.swift */; };
 		BE16DF461E2C1A8B0004A491 /* GPXPoisTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE16DF451E2C1A8B0004A491 /* GPXPoisTableViewCell.swift */; };
 		BE187CF11DAA58C6007737B4 /* WikipediaLanguages.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE187CF01DAA58C6007737B4 /* WikipediaLanguages.swift */; };
 		BE187CF31DAA746D007737B4 /* LoadingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE187CF21DAA746D007737B4 /* LoadingTableViewCell.swift */; };
@@ -369,6 +375,9 @@
 		BE0CF2FA1D8B209A00344F8A /* DescriptionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DescriptionCell.swift; sourceTree = "<group>"; };
 		BE0CF35E1D8B21C800344F8A /* DatabaseAccess.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseAccess.swift; sourceTree = "<group>"; };
 		BE0CF35F1D8B21C800344F8A /* GeoLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeoLocation.swift; sourceTree = "<group>"; };
+		BE0F0DAC1F929DB8008C1EFA /* CommonProps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonProps.swift; sourceTree = "<group>"; };
+		BE0F0DB01F92A8EA008C1EFA /* WatchPointOfInterest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchPointOfInterest.swift; sourceTree = "<group>"; };
+		BE0F0DB21F92B510008C1EFA /* POIDetailsInterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = POIDetailsInterfaceController.swift; sourceTree = "<group>"; };
 		BE107D8E1DD72898008B09A1 /* MapFilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapFilterViewController.swift; sourceTree = "<group>"; };
 		BE107D901DD728C0008B09A1 /* MapFilterCategoryTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapFilterCategoryTableViewCell.swift; sourceTree = "<group>"; };
 		BE16A0CA19DE97FD2626AC38 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -566,6 +575,14 @@
 				BE2FF2E41D8B317F00C0395A /* Rsc */,
 			);
 			name = src;
+			sourceTree = "<group>";
+		};
+		BE0F0DAF1F92A8CA008C1EFA /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				BE0F0DB01F92A8EA008C1EFA /* WatchPointOfInterest.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		BE107D8D1DD7286C008B09A1 /* MapFilterVC */ = {
@@ -971,8 +988,10 @@
 		BE96C3D81F7FA1C700D9ABDB /* AnyPOIWatch Extension */ = {
 			isa = PBXGroup;
 			children = (
+				BE0F0DAF1F92A8CA008C1EFA /* Model */,
 				BE6D103B1F7FAF6F007A35FA /* AnyPOIWatch Extension.entitlements */,
 				BE96C3D91F7FA1C700D9ABDB /* InterfaceController.swift */,
+				BE0F0DB21F92B510008C1EFA /* POIDetailsInterfaceController.swift */,
 				BEA5A4A61F8FFBDD008F59E3 /* AnyPOIRowController.swift */,
 				BE96C3EE1F7FA3CE00D9ABDB /* LocationManager.swift */,
 				BE96C3DB1F7FA1C700D9ABDB /* ExtensionDelegate.swift */,
@@ -1025,6 +1044,7 @@
 				BE0CF35E1D8B21C800344F8A /* DatabaseAccess.swift */,
 				BE0CF2D61D8B209A00344F8A /* NavigationURL.swift */,
 				BE0CF2AD1D8B209A00344F8A /* CategoryUtils.swift */,
+				BE0F0DAC1F929DB8008C1EFA /* CommonProps.swift */,
 			);
 			name = Shared;
 			sourceTree = "<group>";
@@ -1334,6 +1354,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BE11F0291F92043800818A69 /* Assets.xcassets in Resources */,
 				BE96C3E01F7FA1C700D9ABDB /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1446,13 +1467,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				BEA5A4A71F8FFBDD008F59E3 /* AnyPOIRowController.swift in Sources */,
+				BE0F0DAE1F929E5F008C1EFA /* CommonProps.swift in Sources */,
 				BE96C3F11F7FA67800D9ABDB /* GroupOfInterest+CoreDataProperties.swift in Sources */,
 				BE96C3F41F7FA69C00D9ABDB /* GroupOfInterest.swift in Sources */,
+				BE0F0DB11F92A8EA008C1EFA /* WatchPointOfInterest.swift in Sources */,
 				BE96C3EF1F7FA3CE00D9ABDB /* LocationManager.swift in Sources */,
 				BE96C3F21F7FA68200D9ABDB /* PointOfInterest+CoreDataProperties.swift in Sources */,
 				BE96C3DE1F7FA1C700D9ABDB /* NotificationController.swift in Sources */,
 				BE96C3F51F7FA6A000D9ABDB /* WayPoint.swift in Sources */,
+				BE0F0DB31F92B510008C1EFA /* POIDetailsInterfaceController.swift in Sources */,
 				BE96C3F81F7FA74000D9ABDB /* GeoLocation.swift in Sources */,
+				BE11F02A1F92135A00818A69 /* ColorsUtils.swift in Sources */,
 				BE96C3F31F7FA69800D9ABDB /* PointOfInterest.swift in Sources */,
 				BE96C3DC1F7FA1C700D9ABDB /* ExtensionDelegate.swift in Sources */,
 				BE96C3DA1F7FA1C700D9ABDB /* InterfaceController.swift in Sources */,
@@ -1486,6 +1511,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BE0CF3571D8B209A00344F8A /* LocationManager.swift in Sources */,
+				BE0F0DAD1F929DB8008C1EFA /* CommonProps.swift in Sources */,
 				BEA6FB7E1DFF3594004974B9 /* CountryDescription.swift in Sources */,
 				BE4628D91DEF5BEE00FB4C52 /* GPXImportViewController.swift in Sources */,
 				BE0CF3431D8B209A00344F8A /* RouteSummaryTableViewCell.swift in Sources */,

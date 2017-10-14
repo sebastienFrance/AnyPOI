@@ -498,15 +498,32 @@ extension AppDelegate : WCSessionDelegate {
         NSLog("\(#function) get a message")
  
         
-        if let latitude = message["latitude"] as? CLLocationDegrees, let longitude = message["longitude"] as? CLLocationDegrees {
+        if let latitude = message[CommonProps.userLocation.latitude] as? CLLocationDegrees,
+            let longitude = message[CommonProps.userLocation.longitude] as? CLLocationDegrees,
+            let maxRadius = message[CommonProps.maxRadius] as? Double,
+            let maxPOIResults = message[CommonProps.maxResults] as? Int {
             
-            let pois = POIDataManager.sharedInstance.getAllPOI()
-            var result = [String:Any]()
+            let centerLocation = CLLocation(latitude: latitude, longitude: longitude)
+            
+            let pois = PoiBoundingBox.getPoiAroundCurrentLocation(centerLocation, radius: maxRadius, maxResult: maxPOIResults)
+            
+            var poiArray = [[String:String]]()
             for currentPoi in pois {
-                let poisInProps = currentPoi.props
-                result["\(currentPoi.poiDisplayName!)"] = poisInProps
+                var poiProps = currentPoi.props
+                if poiProps != nil {
+                    let targetLocation = CLLocation(latitude: currentPoi.poiLatitude , longitude: currentPoi.poiLongitude)
+                    let distance = centerLocation.distance(from: targetLocation)
+                    
+                    poiProps![CommonProps.POI.distance] = String(distance)
+                    
+                    poiArray.append(poiProps!)
+                    
+                    
+                }
             }
             
+            var result = [String:Any]()
+            result[CommonProps.listOfPOIs] = poiArray
             replyHandler(result)
             
         } else {

@@ -17,16 +17,31 @@
                         <table alignment="left" id="Vtg-us-6hN">
                             <items>
                                 <tableRow identifier="AnyPOIRow" id="xqA-a9-XKL" customClass="AnyPOIRowController" customModule="AnyPOIWatch_Extension">
-                                    <group key="rootItem" width="1" height="0.0" alignment="left" id="gTr-qg-SHV">
+                                    <group key="rootItem" width="1" height="0.0" alignment="left" spacing="1" id="gTr-qg-SHV">
                                         <items>
-                                            <group alignment="left" layout="vertical" spacing="0.0" id="icN-Oi-MlG">
+                                            <group alignment="left" spacing="0.0" id="icN-Oi-MlG">
                                                 <items>
-                                                    <label alignment="left" text="Title" id="fpD-fh-hKc"/>
+                                                    <group width="1" alignment="left" layout="vertical" id="efp-nr-wCe">
+                                                        <items>
+                                                            <imageView width="30" height="30" alignment="left" id="Rca-xZ-Xhb">
+                                                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                            </imageView>
+                                                        </items>
+                                                    </group>
+                                                    <label alignment="left" text="Title" numberOfLines="0" id="fpD-fh-hKc">
+                                                        <fontDescription key="font" style="UICTFontTextStyleSubhead"/>
+                                                    </label>
                                                 </items>
                                             </group>
                                         </items>
+                                        <connections>
+                                            <segue destination="kIY-Sa-bxc" kind="push" id="acJ-yg-6NT"/>
+                                        </connections>
                                     </group>
                                     <connections>
+                                        <outlet property="theCategory" destination="Rca-xZ-Xhb" id="Ul5-vB-kvz"/>
+                                        <outlet property="theGroupOfCategoryImage" destination="efp-nr-wCe" id="TwD-t4-55a"/>
+                                        <outlet property="theGroupRow" destination="gTr-qg-SHV" id="oTe-tU-u53"/>
                                         <outlet property="titleLabel" destination="fpD-fh-hKc" id="iqw-DX-yYK"/>
                                     </connections>
                                 </tableRow>
@@ -55,6 +70,20 @@
                 </notificationController>
             </objects>
             <point key="canvasLocation" x="220" y="643"/>
+        </scene>
+        <!--Details Interface Controller-->
+        <scene sceneID="Vkr-Rl-N5K">
+            <objects>
+                <controller id="kIY-Sa-bxc" customClass="POIDetailsInterfaceController" customModule="AnyPOIWatch_Extension">
+                    <items>
+                        <map height="100" alignment="left" id="B5m-DE-VhP"/>
+                    </items>
+                    <connections>
+                        <outlet property="theMap" destination="B5m-DE-VhP" id="MaQ-8K-fGQ"/>
+                    </connections>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="491" y="345"/>
         </scene>
         <!--Notification Controller-->
         <scene sceneID="ZPc-GJ-vnh">
