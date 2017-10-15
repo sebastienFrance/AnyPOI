@@ -96,7 +96,15 @@ class InterfaceController: WKInterfaceController {
         static let poiRowId = "AnyPOIRow"
     }
     
-    var watchPOIs = [WatchPointOfInterest]()
+    private var watchPOIs = [WatchPointOfInterest]()
+    
+    func nearestPOI() -> WatchPointOfInterest? {
+        if watchPOIs.count > 0 {
+            return watchPOIs[0]
+        } else {
+            return nil
+        }
+    }
     
     func getPOIsAround(session: WCSession) {
         if let location = LocationManager.sharedInstance.locationManager?.location {

@@ -54,5 +54,9 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
             }
         }
     }
+    
+    func nearestPOI() -> WatchPointOfInterest? {
+       return InterfaceController.sharedInstance?.nearestPOI()
+    }
 
 }

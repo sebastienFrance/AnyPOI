@@ -22,14 +22,18 @@ class WatchPointOfInterest {
     var title:String? {
         var title = "unknown"
         if let poiTitle = theProps[CommonProps.POI.title] {
-            title = poiTitle
-            
-            if let distanceString = theProps[CommonProps.POI.distance], let distance = CLLocationDistance(distanceString) {
-                title += "\n(\(MKDistanceFormatter().string(fromDistance: distance)))"
-            }
+            title = "\(poiTitle)\n(\(distance!))"
         }
         
         return title
+    }
+    
+    var distance:String? {
+        if let distanceString = theProps[CommonProps.POI.distance], let distance = CLLocationDistance(distanceString) {
+            return "\(MKDistanceFormatter().string(fromDistance: distance))"
+        } else {
+            return "?"
+        }
     }
     
     var category: CategoryUtils.Category? {

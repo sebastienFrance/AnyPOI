@@ -201,6 +201,8 @@
 		BEDB99201F7AE74200F2F44B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEDB991F1F7AE74200F2F44B /* UIKit.framework */; };
 		BEDB99221F7AE82B00F2F44B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BEA7BAA81D8B01E5005D2D21 /* Assets.xcassets */; };
 		BEDC10541D97D4D1000C6A0D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BEDC10561D97D4D1000C6A0D /* InfoPlist.strings */; };
+		BEE7B8611F93B237007545F9 /* AnyPOIComplicationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE7B8601F93B237007545F9 /* AnyPOIComplicationController.swift */; };
+		BEE7B8621F93CD13007545F9 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BE4A880E1D93137900A0DE2F /* Localizable.strings */; };
 		BEE8707F1E0D7A6400196000 /* GPXImportOptionsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE8707E1E0D7A6400196000 /* GPXImportOptionsTableViewController.swift */; };
 		BEEACE0C1E09CD9900E7D202 /* GPXImportRouteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEEACE0B1E09CD9900E7D202 /* GPXImportRouteTableViewCell.swift */; };
 		BEF580AB1DD8777D00306597 /* MapCategoryFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF580AA1DD8777D00306597 /* MapCategoryFilter.swift */; };
@@ -484,6 +486,7 @@
 		BEDB991F1F7AE74200F2F44B /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		BEDC10551D97D4D1000C6A0D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		BEDC10571D97D4D7000C6A0D /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		BEE7B8601F93B237007545F9 /* AnyPOIComplicationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyPOIComplicationController.swift; sourceTree = "<group>"; };
 		BEE8707E1E0D7A6400196000 /* GPXImportOptionsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPXImportOptionsTableViewController.swift; sourceTree = "<group>"; };
 		BEEACE0B1E09CD9900E7D202 /* GPXImportRouteTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPXImportRouteTableViewCell.swift; sourceTree = "<group>"; };
 		BEF580AA1DD8777D00306597 /* MapCategoryFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapCategoryFilter.swift; sourceTree = "<group>"; };
@@ -999,6 +1002,7 @@
 				BE96C3DF1F7FA1C700D9ABDB /* Assets.xcassets */,
 				BE96C3E11F7FA1C700D9ABDB /* Info.plist */,
 				BE96C3E21F7FA1C700D9ABDB /* PushNotificationPayload.apns */,
+				BEE7B8601F93B237007545F9 /* AnyPOIComplicationController.swift */,
 			);
 			path = "AnyPOIWatch Extension";
 			sourceTree = "<group>";
@@ -1355,6 +1359,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BE11F0291F92043800818A69 /* Assets.xcassets in Resources */,
+				BEE7B8621F93CD13007545F9 /* Localizable.strings in Resources */,
 				BE96C3E01F7FA1C700D9ABDB /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1469,6 +1474,7 @@
 				BEA5A4A71F8FFBDD008F59E3 /* AnyPOIRowController.swift in Sources */,
 				BE0F0DAE1F929E5F008C1EFA /* CommonProps.swift in Sources */,
 				BE96C3F11F7FA67800D9ABDB /* GroupOfInterest+CoreDataProperties.swift in Sources */,
+				BEE7B8611F93B237007545F9 /* AnyPOIComplicationController.swift in Sources */,
 				BE96C3F41F7FA69C00D9ABDB /* GroupOfInterest.swift in Sources */,
 				BE0F0DB11F92A8EA008C1EFA /* WatchPointOfInterest.swift in Sources */,
 				BE96C3EF1F7FA3CE00D9ABDB /* LocationManager.swift in Sources */,
