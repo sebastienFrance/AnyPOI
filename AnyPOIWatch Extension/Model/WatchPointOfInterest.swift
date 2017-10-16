@@ -11,7 +11,15 @@ import CoreLocation
 import MapKit
 import UIKit
 
-class WatchPointOfInterest {
+class WatchPointOfInterest : Equatable {
+    static func ==(lhs: WatchPointOfInterest, rhs: WatchPointOfInterest) -> Bool {
+        if lhs.title == rhs.title && lhs.distance == rhs.distance{
+            return true
+        } else {
+            return false
+        }
+    }
+    
     
     private let theProps:[String:String]
     
@@ -20,12 +28,7 @@ class WatchPointOfInterest {
     }
     
     var title:String? {
-        var title = "unknown"
-        if let poiTitle = theProps[CommonProps.POI.title] {
-            title = "\(poiTitle)\n(\(distance!))"
-        }
-        
-        return title
+        return  theProps[CommonProps.POI.title]  ?? "unknown"
     }
     
     var distance:String? {

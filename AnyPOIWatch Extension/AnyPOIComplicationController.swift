@@ -36,8 +36,8 @@ class AnyPOIComplicationController: NSObject, CLKComplicationDataSource {
                 template.body2TextProvider = CLKTextProvider.localizableTextProvider(withStringsFileTextKey: poi.distance!)
 
              } else {
-                template.headerTextProvider = CLKTextProvider.localizableTextProvider(withStringsFileTextKey: "No POI")
-                template.body1TextProvider = CLKTextProvider.localizableTextProvider(withStringsFileTextKey: "")
+                template.headerTextProvider = CLKTextProvider.localizableTextProvider(withStringsFileTextKey: "No Point of interest")
+                template.body1TextProvider = CLKTextProvider.localizableTextProvider(withStringsFileTextKey: "around your location")
                 template.body2TextProvider = CLKTextProvider.localizableTextProvider(withStringsFileTextKey: "")
              }
             
@@ -54,6 +54,31 @@ class AnyPOIComplicationController: NSObject, CLKComplicationDataSource {
             break
         }
 
+    }
+    
+    func getLocalizableSampleTemplate(for complication: CLKComplication, withHandler handler: @escaping (CLKComplicationTemplate?) -> Void) {
+        switch complication.family {
+        case .circularSmall:
+            break
+        case .extraLarge:
+            break
+        case .modularLarge:
+            let template = CLKComplicationTemplateModularLargeStandardBody()
+            template.headerImageProvider = CLKImageProvider(onePieceImage: #imageLiteral(resourceName: "Museum Filled-80"))
+            template.headerTextProvider = CLKTextProvider.localizableTextProvider(withStringsFileTextKey: "Musée du Louvre")
+            template.body1TextProvider = CLKTextProvider.localizableTextProvider(withStringsFileTextKey: "Rue de Rivoli, Paris")
+            template.body2TextProvider = CLKTextProvider.localizableTextProvider(withStringsFileTextKey: "800m")
+            handler(template)
+            break
+        case .modularSmall:
+            break
+        case .utilitarianLarge:
+            break
+        case .utilitarianSmall:
+            break
+        case .utilitarianSmallFlat:
+            break
+        }
     }
     
 

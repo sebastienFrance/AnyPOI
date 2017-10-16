@@ -231,7 +231,7 @@ class POIsViewController: UIViewController  {
                     self.snapshotImage = MapUtils.configureMapImageFor(pois:self.datasource.allPOIs,
                                                                        mapSnapshot:theMapSnapshot,
                                                                        poiSizeInMap:Cste.POISizeInMapView)
-                    self.theTableView.reloadSections(IndexSet(integer: 0), with: .automatic)
+                    self.theTableView.reloadSections(IndexSet(integer: 0), with: .fade)
                 }
             }
         })
@@ -528,11 +528,7 @@ extension POIsViewController : UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == Sections.MapView {
-            if let theSnapshotter = snapshotter , !theSnapshotter.isLoading {
-                return Cste.MapViewHeight
-            } else {
-                return 0
-            }
+            return Cste.MapViewHeight
         } else {
             return  UITableViewAutomaticDimension
         }

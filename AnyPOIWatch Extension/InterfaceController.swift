@@ -121,25 +121,139 @@ class InterfaceController: WKInterfaceController {
                                     
                                     if let pois = result[CommonProps.listOfPOIs] as? [[String:String]] {
                                         
-                                        self.anyPOITable.setNumberOfRows(pois.count, withRowType: Storyboard.poiRowId)
-                                        var i = 0
-                                        self.watchPOIs.removeAll()
+                                        // Extract all new WatchPointOfInterests from the result
+                                        var newestWatchPOIs = [WatchPointOfInterest]()
                                         for props in pois {
-                                            if let controller = self.anyPOITable.rowController(at: i) as? AnyPOIRowController {
-                                                let watchPOI = WatchPointOfInterest(properties:props)
-                                                self.watchPOIs.append(watchPOI)
-                                                InterfaceController.updateRowWith(row: controller, watchPOI: watchPOI)
-                                            }
-                                            i += 1
+                                            let watchPOI = WatchPointOfInterest(properties:props)
+                                            newestWatchPOIs.append(watchPOI)
                                         }
+                                        
+                                        self.refreshWatchPointOfInterest(newWatchPOIs: newestWatchPOIs)
                                     }
-             }) { error in
+            }) { error in
                 NSLog("\(#function) an error has oocured: \(error.localizedDescription)")
             }
         } else {
             NSLog("\(#function) userlocation not available")
         }
     }
+
+    func refreshWatchPointOfInterest(newWatchPOIs:[WatchPointOfInterest]) {
+        
+        // When the watchPOIs contains nothing we just need to put all our new content
+        if watchPOIs.count == 0 {
+            self.anyPOITable.setNumberOfRows(newWatchPOIs.count, withRowType: Storyboard.poiRowId)
+            var i = 0
+            for watchPOI in newWatchPOIs {
+                if let controller = self.anyPOITable.rowController(at: i) as? AnyPOIRowController {
+                    InterfaceController.updateRowWith(row: controller, watchPOI: watchPOI)
+                }
+                i += 1
+            }
+            
+            watchPOIs = newWatchPOIs
+            refreshComplication()
+        } else {
+            
+            // Add missing rows
+            if newWatchPOIs.count > watchPOIs.count {
+                var indexes = IndexSet()
+                for i in watchPOIs.count..<newWatchPOIs.count {
+                    indexes.insert(i)
+                }
+                
+                anyPOITable.insertRows(at: indexes, withRowType: Storyboard.poiRowId)
+            } else if newWatchPOIs.count < watchPOIs.count {
+                // Remove useless rows
+                var indexes = IndexSet()
+                for i in newWatchPOIs.count..<watchPOIs.count {
+                    indexes.insert(i)
+                }
+                
+                anyPOITable.removeRows(at: indexes)
+            }
+            
+            
+            // There was at least one POIs display, let's update the screen
+            for i in 0..<newWatchPOIs.count {
+                let watchPOI = newWatchPOIs[i]
+                if i < watchPOIs.count {
+                    // Update the row only if it contains something different
+                    if watchPOI != watchPOIs[i], let controller = self.anyPOITable.rowController(at: i) as? AnyPOIRowController {
+                        InterfaceController.updateRowWith(row: controller, watchPOI: watchPOI)
+                    }
+                } else {
+                    // It's a new row that need to be configured
+                    if let controller = self.anyPOITable.rowController(at: i) as? AnyPOIRowController {
+                        InterfaceController.updateRowWith(row: controller, watchPOI: watchPOI)
+                    }
+                }
+            }
+            
+            // Check if the nearest POI has changed, if it has changed then we refresh the complication
+            var hasToRefreshComplication = false
+            if newWatchPOIs.count > 0 {
+                if newWatchPOIs[0] != watchPOIs[0] {
+                    hasToRefreshComplication = true
+                }
+            } else {
+                hasToRefreshComplication = true
+            }
+            
+            watchPOIs = newWatchPOIs
+            if hasToRefreshComplication {
+                refreshComplication()
+            }
+        }
+    }
+    
+    private func refreshComplication() {
+        let server = CLKComplicationServer.sharedInstance()
+        if let complications = server.activeComplications {
+            for complication in complications {
+                server.reloadTimeline(for: complication)
+            }
+        }
+    }
+    
+    
+    /*
+     // Extract all new WatchPointOfInterests from the result
+     var newestWatchPOIs = [WatchPointOfInterest]()
+     for props in pois {
+     let watchPOI = WatchPointOfInterest(properties:props)
+     newestWatchPOIs.append(watchPOI)
+     }
+     
+     // If something has changed then we refresh the table
+     if newestWatchPOIs != self.watchPOIs {
+     self.anyPOITable.setNumberOfRows(newestWatchPOIs.count, withRowType: Storyboard.poiRowId)
+     
+     var i = 0
+     for watchPOI in newestWatchPOIs {
+     if let controller = self.anyPOITable.rowController(at: i) as? AnyPOIRowController {
+     InterfaceController.updateRowWith(row: controller, watchPOI: watchPOI)
+     }
+     i += 1
+     }
+     
+     // Check if the nearest POI has changed, if it has changed then we refresh the complication
+     let newNearestPOI = newestWatchPOIs[0]
+     let oldNearestPOI = self.watchPOIs.count > 0 ? self.watchPOIs[0] : nil
+     
+     self.watchPOIs = newestWatchPOIs
+     if newNearestPOI != oldNearestPOI {
+     // Update all the complication if the new nearest POI has been changed
+     let server = CLKComplicationServer.sharedInstance()
+     if let complications = server.activeComplications {
+     for complication in complications {
+     server.reloadTimeline(for: complication)
+     }
+     }
+     }
+     
+
+ */
     
     /* Example of sendMessage with Data
      
@@ -155,7 +269,7 @@ class InterfaceController: WKInterfaceController {
     
     
     static func updateRowWith(row:AnyPOIRowController, watchPOI:WatchPointOfInterest) {
-        row.titleLabel.setText(watchPOI.title)
+        row.titleLabel.setText("\(watchPOI.title!)\n\(watchPOI.distance!)")
         row.theCategory.setImage(watchPOI.category?.glyph)
         row.theCategory.setTintColor(UIColor.white)
         row.theGroupOfCategoryImage.setBackgroundColor(watchPOI.color)

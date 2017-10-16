@@ -20,7 +20,7 @@ class POIDetailsInterfaceController: WKInterfaceController {
         if let watchPOI = context as? WatchPointOfInterest {
             NSLog("\(#function) get a WatchPOI")
             theMap.addAnnotation(watchPOI.coordinate!, with: WKInterfaceMapPinColor.green)
-            theMap.setRegion(MKCoordinateRegionMakeWithDistance(watchPOI.coordinate!, 1000, 1000))
+            theMap.setRegion(MKCoordinateRegionMakeWithDistance(watchPOI.coordinate!, 200, 200))
         }
         // Configure interface objects here.
     }
