@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreLocation
+import WatchConnectivity
 
 /// This class manage the user location
 /// By default we just request the location when the user is using the App, not in Background. This location
@@ -38,7 +39,6 @@ class LocationManager : NSObject {
     fileprivate(set) var locationManager:CLLocationManager?
 
 
-
     // Initialize the Singleton
     class var sharedInstance: LocationManager {
         struct Singleton {
@@ -55,18 +55,13 @@ class LocationManager : NSObject {
             NSLog("\(#function): No authorization granted for CLLocationManager")
         case .notDetermined:
             locationManager = CLLocationManager()
-            if let locationMgr = locationManager {
-                locationMgr.delegate = self
-                locationMgr.requestWhenInUseAuthorization()
-                if !CLLocationManager.significantLocationChangeMonitoringAvailable() {
-                    NSLog("\(#function): Warning significantLocationChangeMonitoringAvailable is not available on this device")
-                }
-            } else {
-                NSLog("\(#function): error CLLocationManager cannot be created!")
-            }
+            locationManager?.delegate = self
+            locationManager?.showsBackgroundLocationIndicator = true
+            locationManager?.requestWhenInUseAuthorization()
         case .authorizedWhenInUse, .authorizedAlways:
             locationManager = CLLocationManager()
             locationManager?.delegate = self
+            locationManager?.showsBackgroundLocationIndicator = true
             NSLog("\(#function): Authorization is: \(LocationManager.getStatus(status: authorizationStatus))")
         }
     }
@@ -88,12 +83,13 @@ class LocationManager : NSObject {
     ///
     /// - returns: noError if the POI can be monitored otherwise an error is returned
     func startMonitoringRegion(poi:PointOfInterest) -> MonitoringStatus {
+        requestAlwaysAuthorization()
+
         if isMaxMonitoredRegionReached() {
-            NSLog("\(#function): Error, max numnber of monitored POI is already reached")
+            NSLog("\(#function): Error, max number of monitored POI is already reached. Cannot start monitoring for \(poi.poiDisplayName!)")
             return .maxMonitoredRegionAlreadyReached
         }
         
-        requestAlwaysAuthorization()
         
         if CLLocationManager.isMonitoringAvailable(for: CLCircularRegion.self) {
             locationManager?.startMonitoring(for: CLCircularRegion(center: poi.coordinate,
@@ -101,9 +97,11 @@ class LocationManager : NSObject {
                                                                    identifier: poi.poiRegionId!))
             return .noError
          } else {
+            NSLog("\(#function): Error, device not supporting region monitoring")
             return .deviceNotSupported
         }
     }
+    
     
     
 
@@ -118,6 +116,24 @@ class LocationManager : NSObject {
             return .noError
         } else {
             return .deviceNotSupported
+        }
+    }
+    
+    func stopMonitoringRegions() {
+        NSLog("\(#function)")
+        if let regions = locationManager?.monitoredRegions {
+            NSLog("\(#function) number of monitored regions: \(regions.count)")
+            for region in regions {
+                locationManager?.stopMonitoring(for: region)
+            }
+            NSLog("\(#function) number of monitored regions after the stop: \(locationManager?.monitoredRegions.count ?? -1)")
+        }
+    }
+    
+    func startMonitoringRegions() {
+        NSLog("\(#function) will start monitoring of \(POIDataManager.sharedInstance.getAllMonitoredPOI().count)")
+        for poi in POIDataManager.sharedInstance.getAllMonitoredPOI() {
+            _ = startMonitoringRegion(poi: poi)
         }
     }
 
@@ -135,6 +151,7 @@ class LocationManager : NSObject {
     fileprivate func requestAlwaysAuthorization() {
         let authorizationStatus  = CLLocationManager.authorizationStatus()
         if  authorizationStatus == .denied {
+            // Open an Alert to request the user to enable the location services
             let title = authorizationStatus == .denied ? NSLocalizedString("LocationServicesOffLocationManager", comment: "") : NSLocalizedString("BackgroundLocationDisabledLocationManager", comment: "")
 
             // Create the AlertController to display the request
@@ -152,6 +169,55 @@ class LocationManager : NSObject {
         } else if authorizationStatus == .notDetermined || authorizationStatus == .authorizedWhenInUse  {
             locationManager?.requestAlwaysAuthorization()
         }
+    }
+    
+    func startLocationUpdateForWatchApp() {
+        if CLLocationManager.authorizationStatus() == .authorizedAlways {
+            startSignificantLocationChanges()
+        }
+    }
+    
+    func stopLocationUpdateForWatchApp() {
+        stopSignificantLocationChanges()
+    }
+    
+    private func startSignificantLocationChanges() {
+        NSLog("\(#function) called")
+        if isWatchAppReadyForSignificantLocationUpdate() {
+            NSLog("\(#function) WatchApp is installed then we can enable significantLocationChange")
+            if CLLocationManager.significantLocationChangeMonitoringAvailable() {
+                locationManager?.startMonitoringSignificantLocationChanges()
+                locationManager?.pausesLocationUpdatesAutomatically = true
+                locationManager?.activityType = .other
+                NSLog("\(#function) enabled")
+            }
+        }
+    }
+    
+    // We want to enable Significant Location Changes only when a Watch is paired when our WatchApp is installed
+    // otherwise we do not enable it
+    // TBC: Maybe we should enable it only when the Complication is installed???
+    func isWatchAppReadyForSignificantLocationUpdate() -> Bool {
+        if WCSession.isSupported() {
+            let session = WCSession.default
+            return session.activationState == .activated && session.isPaired && session.isWatchAppInstalled
+        } else {
+            return false
+        }
+    }
+    
+    func isWatchAppComplicationReady() -> Bool {
+        if WCSession.isSupported() {
+            let session = WCSession.default
+            return session.activationState == .activated && session.isPaired && session.isWatchAppInstalled && session.isComplicationEnabled
+        } else {
+            return false
+        }
+    }
+
+    private func stopSignificantLocationChanges() {
+        NSLog("\(#function) called")
+        locationManager?.stopMonitoringSignificantLocationChanges()
     }
     
     
@@ -212,10 +278,40 @@ extension LocationManager: CLLocationManagerDelegate {
     
     // Called when a SignificantLocationChanges has occured
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        NSLog("\(#function) with latest location \(locations.last?.coordinate.latitude ?? -1) / \(locations.last?.coordinate.longitude ?? -1)")
+        if isWatchAppComplicationReady() {
+            
+            if let newestLocation = locations.last {
+                let pois = PoiBoundingBox.getPoiAroundCurrentLocation(newestLocation, radius: 10, maxResult: 1)
+                if pois.count == 1 {
+                    var poiArray = [[String:String]]()
+                    for currentPoi in pois {
+                        var poiProps = currentPoi.props
+                        if poiProps != nil {
+                            let targetLocation = CLLocation(latitude: currentPoi.poiLatitude , longitude: currentPoi.poiLongitude)
+                            let distance = newestLocation.distance(from: targetLocation)
+                            
+                            poiProps![CommonProps.POI.distance] = String(distance)
+                            
+                            poiArray.append(poiProps!)
+                        }
+                    }
+                    var result = [String:Any]()
+                    result[CommonProps.listOfPOIs] = poiArray
+                    if poiArray.count > 0 {
+                        WCSession.default.transferCurrentComplicationUserInfo(result)
+                    }
+                }
+            }
+        }
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         NSLog("\(#function): Location Manager didFailWithError: \(error.localizedDescription)")
+        if let error = error as? CLError, error.code == .denied {
+            stopSignificantLocationChanges()
+            stopMonitoringRegions()
+        }
     }
     
     // IMPORTANT: didEnterRegion and didExitRegion require .AuthorizedAlways. If it's not .AuthorizedAlways
@@ -268,13 +364,26 @@ extension LocationManager: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didFinishDeferredUpdatesWithError error: Error?) {
     }
     func locationManagerDidPauseLocationUpdates(_ manager: CLLocationManager) {
+        NSLog("\(#function)")
     }
     func locationManagerDidResumeLocationUpdates(_ manager: CLLocationManager) {
+        NSLog("\(#function)")
     }
     
     // Post an internal notification when the Authorization status has been changed
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         NSLog("\(#function): Warning the authorization status of Location Manager has changed to \(LocationManager.getStatus(status: status))")
+        NSLog("\(#function) background location update: \(locationManager?.allowsBackgroundLocationUpdates ?? false)")
+        if status == .authorizedAlways {
+            manager.allowsBackgroundLocationUpdates = true
+            startMonitoringRegions()
+            startSignificantLocationChanges()
+        } else {
+            stopMonitoringRegions()
+            stopSignificantLocationChanges()
+        }
+        
+        
         NotificationCenter.default.post(name: Notification.Name(rawValue: LocationNotifications.AuthorizationHasChanged), object: manager)
     }
 

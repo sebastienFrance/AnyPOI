@@ -55,6 +55,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // 2- Start user location
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
        
+        if let theLaunchOptions = launchOptions, let _ = theLaunchOptions[UIApplicationLaunchOptionsKey.location] {
+            NSLog("\(#function) Application started due to location update")
+        } else {
+            NSLog("\(#function) Normal launch app")
+        }
+        
+        
         if userAuthentication == nil {
             userAuthentication = UserAuthentication(delegate: self)
         }
@@ -71,8 +78,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
             }
             DispatchQueue.main.async {
-                LocationManager.sharedInstance.startLocationManager()
+                if !UserPreferences.sharedInstance.isFirstStartup {
+                    LocationManager.sharedInstance.startLocationManager()
+                }
             }
+
         })
         
         NotificationCenter.default.addObserver(self,
@@ -482,50 +492,79 @@ extension AppDelegate : WCSessionDelegate {
         if let theError = error {
             NSLog("\(#function) an error has oocured: \(theError.localizedDescription)")
         } else {
-            NSLog("\(#function) activation is completed with : \(activationState)")
+            if activationState == .activated {
+                LocationManager.sharedInstance.startLocationUpdateForWatchApp()
+            }
         }
     }
     
     func sessionDidBecomeInactive(_ session: WCSession) {
+        // Nothing to do here
         NSLog("\(#function)")
     }
     
     func sessionDidDeactivate(_ session: WCSession) {
+        // Called when a new Watch has been paired
         NSLog("\(#function)")
+        WCSession.default.activate()
     }
+    
+    // Update the LocationManager when the WatchApp is installed/uninstalled, when the AppleWatch is paired/not paired...
+    func sessionWatchStateDidChange(_ session: WCSession) {
+        if LocationManager.sharedInstance.isWatchAppReadyForSignificantLocationUpdate() {
+            LocationManager.sharedInstance.startLocationUpdateForWatchApp()
+        } else {
+            LocationManager.sharedInstance.stopLocationUpdateForWatchApp()
+        }
+    }
+    
+    //var pendingReply:([String : Any]) -> Void
+ 
     
     func session(_ session: WCSession, didReceiveMessage message: [String : Any], replyHandler: @escaping ([String : Any]) -> Void) {
         NSLog("\(#function) get a message")
  
         
-        if let latitude = message[CommonProps.userLocation.latitude] as? CLLocationDegrees,
-            let longitude = message[CommonProps.userLocation.longitude] as? CLLocationDegrees,
+        if //let latitude = message[CommonProps.userLocation.latitude] as? CLLocationDegrees,
+           // let longitude = message[CommonProps.userLocation.longitude] as? CLLocationDegrees,
             let maxRadius = message[CommonProps.maxRadius] as? Double,
             let maxPOIResults = message[CommonProps.maxResults] as? Int {
             
-            let centerLocation = CLLocation(latitude: latitude, longitude: longitude)
-            
-            let pois = PoiBoundingBox.getPoiAroundCurrentLocation(centerLocation, radius: maxRadius, maxResult: maxPOIResults)
-            
-            var poiArray = [[String:String]]()
-            for currentPoi in pois {
-                var poiProps = currentPoi.props
-                if poiProps != nil {
-                    let targetLocation = CLLocation(latitude: currentPoi.poiLatitude , longitude: currentPoi.poiLongitude)
-                    let distance = centerLocation.distance(from: targetLocation)
-                    
-                    poiProps![CommonProps.POI.distance] = String(distance)
-                    
-                    poiArray.append(poiProps!)
-                    
-                    
-                }
+            if !LocationManager.sharedInstance.isLocationAuthorized() {
+                NSLog("\(#function) Cannot get user location")
+                replyHandler(["response" : "cannot get user location"])
+                return
             }
             
-            var result = [String:Any]()
-            result[CommonProps.listOfPOIs] = poiArray
-            replyHandler(result)
-            
+            if let centerLocation = LocationManager.sharedInstance.locationManager?.location {
+                
+                //let centerLocation = CLLocation(latitude: latitude, longitude: longitude)
+                
+                let pois = PoiBoundingBox.getPoiAroundCurrentLocation(centerLocation, radius: maxRadius, maxResult: maxPOIResults)
+                
+                var poiArray = [[String:String]]()
+                for currentPoi in pois {
+                    var poiProps = currentPoi.props
+                    if poiProps != nil {
+                        let targetLocation = CLLocation(latitude: currentPoi.poiLatitude , longitude: currentPoi.poiLongitude)
+                        let distance = centerLocation.distance(from: targetLocation)
+                        
+                        poiProps![CommonProps.POI.distance] = String(distance)
+                        
+                        poiArray.append(poiProps!)
+                        
+                        
+                    }
+                }
+                var result = [String:Any]()
+                result[CommonProps.listOfPOIs] = poiArray
+                replyHandler(result)
+            } else {
+                NSLog("\(#function) Cannot get CLLocation")
+                replyHandler(["response" : "cannot get user location"])
+                return
+
+            }
         } else {
             replyHandler(["response" : "cannot extract coordinate"])
         }

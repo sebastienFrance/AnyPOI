@@ -51,8 +51,11 @@ class HelperViewController: UIViewController {
     
     @IBAction func closeButtonPushed(_ sender: UIButton) {
         dismiss(animated: true, completion: nil)
+        
+        // It's called only the first time the app is launched
         if isStartedFomMap {
-            MapViewController.instance?.showUserLocation()
+            LocationManager.sharedInstance.startLocationManager()
+            
         }
     }
 }

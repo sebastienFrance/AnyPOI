@@ -13,7 +13,7 @@ import UIKit
 
 class WatchPointOfInterest : Equatable {
     static func ==(lhs: WatchPointOfInterest, rhs: WatchPointOfInterest) -> Bool {
-        if lhs.title == rhs.title && lhs.distance == rhs.distance{
+        if lhs.title == rhs.title && lhs.distance == rhs.distance {
             return true
         } else {
             return false

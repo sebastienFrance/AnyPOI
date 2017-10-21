@@ -45,6 +45,16 @@
                                         <outlet property="titleLabel" destination="fpD-fh-hKc" id="iqw-DX-yYK"/>
                                     </connections>
                                 </tableRow>
+                                <tableRow identifier="EmptyPOITable" id="Lbr-mF-DzK" customClass="EmptyRowController" customModule="AnyPOIWatch_Extension">
+                                    <group key="rootItem" width="1" alignment="left" id="gJl-6T-RV3">
+                                        <items>
+                                            <label alignment="center" text="No data available" textAlignment="center" numberOfLines="0" id="WDm-vR-vIH"/>
+                                        </items>
+                                    </group>
+                                    <connections>
+                                        <outlet property="titleLabel" destination="WDm-vR-vIH" id="MfX-kK-SsM"/>
+                                    </connections>
+                                </tableRow>
                             </items>
                         </table>
                     </items>

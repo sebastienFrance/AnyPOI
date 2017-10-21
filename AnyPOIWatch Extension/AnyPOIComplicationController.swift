@@ -21,6 +21,7 @@ class AnyPOIComplicationController: NSObject, CLKComplicationDataSource {
     }
     
     func getCurrentTimelineEntry(for complication: CLKComplication, withHandler handler: @escaping (CLKComplicationTimelineEntry?) -> Void) {
+        NSLog("\(#function)")
         switch complication.family {
         case .circularSmall:
             break

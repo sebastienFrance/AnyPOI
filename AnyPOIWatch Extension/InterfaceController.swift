@@ -16,6 +16,11 @@ class InterfaceController: WKInterfaceController {
 
     fileprivate(set) static var sharedInstance:InterfaceController?
     
+    private var watchPOIs = [WatchPointOfInterest]()
+    
+    var nearestPOI:WatchPointOfInterest? = nil
+
+    
     @IBOutlet var anyPOITable: WKInterfaceTable!
     
     override init() {
@@ -38,16 +43,17 @@ class InterfaceController: WKInterfaceController {
 
         
         
-        // Start Location Manager and add delegate to get update
-        LocationManager.sharedInstance.startLocationManager()
-        _ = LocationManager.sharedInstance.isLocationAuthorized()
-        LocationManager.sharedInstance.delegate = self
+//        // Start Location Manager and add delegate to get update
+//        LocationManager.sharedInstance.startLocationManager()
+//        _ = LocationManager.sharedInstance.isLocationAuthorized()
+//        LocationManager.sharedInstance.delegate = self
 
     }
     
     override func didAppear() {
         super.didAppear()
-        
+        NSLog("\(#function) called")
+
         if WCSession.isSupported() {
             let session = WCSession.default
             session.delegate = self
@@ -67,7 +73,8 @@ class InterfaceController: WKInterfaceController {
             if session.activationState == .activated {
                 getPOIsAround(session:session)
             } else {
-                
+                NSLog("\(#function) Warning: not activated")
+
                 session.delegate = self
                 session.activate()
             }
@@ -94,28 +101,26 @@ class InterfaceController: WKInterfaceController {
 
     private struct Storyboard {
         static let poiRowId = "AnyPOIRow"
+        static let emptyTableId = "EmptyPOITable"
     }
     
-    private var watchPOIs = [WatchPointOfInterest]()
-    
-    func nearestPOI() -> WatchPointOfInterest? {
-        if watchPOIs.count > 0 {
-            return watchPOIs[0]
-        } else {
-            return nil
-        }
-    }
     
     func getPOIsAround(session: WCSession) {
-        if let location = LocationManager.sharedInstance.locationManager?.location {
+       // if let location = LocationManager.sharedInstance.locationManager?.location {
             
             // Must cast all value to Any else it raises an error because CLLLocationDegree and Int would create
             // an hetereogenous dictionary
-            let messageContent = [ CommonProps.userLocation.latitude : location.coordinate.latitude as Any,
-                                   CommonProps.userLocation.longitude : location.coordinate.longitude as Any,
+            let messageContent = [ //CommonProps.userLocation.latitude : location.coordinate.latitude as Any,
+                                   //CommonProps.userLocation.longitude : location.coordinate.longitude as Any,
                                    CommonProps.maxRadius : Cste.radiusInKm as Any,
                                    CommonProps.maxResults : Cste.maxRequestedResults as Any]
-            
+        
+        if session.isReachable {
+            NSLog("\(#function) Session is reachable")
+        } else {
+            NSLog("\(#function) Warning: Session is not reachable")
+        }
+        
             session.sendMessage(messageContent,
                                 replyHandler: { result in
                                     
@@ -129,16 +134,39 @@ class InterfaceController: WKInterfaceController {
                                         }
                                         
                                         self.refreshWatchPointOfInterest(newWatchPOIs: newestWatchPOIs)
+                                    } else {
+                                        self.refreshWatchPointOfInterest(newWatchPOIs: [])
                                     }
             }) { error in
                 NSLog("\(#function) an error has oocured: \(error.localizedDescription)")
             }
-        } else {
-            NSLog("\(#function) userlocation not available")
-        }
+//        } else {
+//            NSLog("\(#function) userlocation not available")
+//            self.anyPOITable.setNumberOfRows(1, withRowType: Storyboard.emptyTableId)
+//            if let controller = self.anyPOITable.rowController(at: 0) as? EmptyRowController {
+//                controller.titleLabel.setText("Please, enable user location")
+//            }
+//
+//        }
     }
 
     func refreshWatchPointOfInterest(newWatchPOIs:[WatchPointOfInterest]) {
+        
+        // When there's no POI around the user, we just display a table with a message displaying there's no POI
+        if newWatchPOIs.count == 0 {
+            self.anyPOITable.setNumberOfRows(1, withRowType: Storyboard.emptyTableId)
+            if let controller = self.anyPOITable.rowController(at: 0) as? EmptyRowController {
+                controller.titleLabel.setText("No data available")
+            }
+            let hasToRefreshComplication = watchPOIs.count > 0
+            watchPOIs = newWatchPOIs
+            if hasToRefreshComplication {
+                nearestPOI = watchPOIs[0]
+                refreshComplication()
+            }
+            return
+        }
+        
         
         // When the watchPOIs contains nothing we just need to put all our new content
         if watchPOIs.count == 0 {
@@ -152,6 +180,7 @@ class InterfaceController: WKInterfaceController {
             }
             
             watchPOIs = newWatchPOIs
+            nearestPOI = watchPOIs[0]
             refreshComplication()
         } else {
             
@@ -202,6 +231,7 @@ class InterfaceController: WKInterfaceController {
             
             watchPOIs = newWatchPOIs
             if hasToRefreshComplication {
+                nearestPOI = watchPOIs[0]
                 refreshComplication()
             }
         }
@@ -217,43 +247,7 @@ class InterfaceController: WKInterfaceController {
     }
     
     
-    /*
-     // Extract all new WatchPointOfInterests from the result
-     var newestWatchPOIs = [WatchPointOfInterest]()
-     for props in pois {
-     let watchPOI = WatchPointOfInterest(properties:props)
-     newestWatchPOIs.append(watchPOI)
-     }
-     
-     // If something has changed then we refresh the table
-     if newestWatchPOIs != self.watchPOIs {
-     self.anyPOITable.setNumberOfRows(newestWatchPOIs.count, withRowType: Storyboard.poiRowId)
-     
-     var i = 0
-     for watchPOI in newestWatchPOIs {
-     if let controller = self.anyPOITable.rowController(at: i) as? AnyPOIRowController {
-     InterfaceController.updateRowWith(row: controller, watchPOI: watchPOI)
-     }
-     i += 1
-     }
-     
-     // Check if the nearest POI has changed, if it has changed then we refresh the complication
-     let newNearestPOI = newestWatchPOIs[0]
-     let oldNearestPOI = self.watchPOIs.count > 0 ? self.watchPOIs[0] : nil
-     
-     self.watchPOIs = newestWatchPOIs
-     if newNearestPOI != oldNearestPOI {
-     // Update all the complication if the new nearest POI has been changed
-     let server = CLKComplicationServer.sharedInstance()
-     if let complications = server.activeComplications {
-     for complication in complications {
-     server.reloadTimeline(for: complication)
-     }
-     }
-     }
-     
 
- */
     
     /* Example of sendMessage with Data
      
@@ -299,14 +293,35 @@ extension InterfaceController: WCSessionDelegate {
             }
         }
     }
+    
+    func session(_ session: WCSession, didReceiveUserInfo userInfo: [String : Any] = [:]) {
+        NSLog("\(#function) received user info")
+        
+        if let pois = userInfo[CommonProps.listOfPOIs] as? [[String:String]] {
+            
+            // Extract all new WatchPointOfInterests from the result
+            var newestWatchPOIs = [WatchPointOfInterest]()
+            for props in pois {
+                let watchPOI = WatchPointOfInterest(properties:props)
+                newestWatchPOIs.append(watchPOI)
+            }
+            
+            if newestWatchPOIs.count > 0 {
+                nearestPOI = newestWatchPOIs[0]
+                NSLog("\(#function) nearest POI is \(nearestPOI?.title! ?? "no POI")")
+                refreshComplication()
+            }
+        }
+    }
 }
         
         
 
-extension InterfaceController: LocationUpdateDelegate {
-    
-    // Update the list of POIs when the user location has changed
-    func locationUpdated(_ locations: [CLLocation]) {
-        NSLog("\(#function) userlocation has changed")
-    }
-}
+//extension InterfaceController: LocationUpdateDelegate {
+//
+//    // Update the list of POIs when the user location has changed
+//    func locationUpdated(_ locations: [CLLocation]) {
+//        NSLog("\(#function) userlocation has changed")
+//    }
+//}
+
