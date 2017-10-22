@@ -111,6 +111,7 @@
 		BE1BA9BC1F6571C6001B6512 /* PointOfInterest+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1BA9B41F6571C6001B6512 /* PointOfInterest+CoreDataProperties.swift */; };
 		BE1BA9BD1F65725E001B6512 /* GroupOfInterest+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1BA9AE1F6571C6001B6512 /* GroupOfInterest+CoreDataProperties.swift */; };
 		BE1BA9C01F657271001B6512 /* PointOfInterest+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1BA9B41F6571C6001B6512 /* PointOfInterest+CoreDataProperties.swift */; };
+		BE1BC7FE1F9CFAFB005C3D3F /* AnyPoiWatchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1BC7FD1F9CFAFB005C3D3F /* AnyPoiWatchManager.swift */; };
 		BE1D1B791E5F7F4700EE986F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BE1D1B771E5F7F4700EE986F /* Localizable.strings */; };
 		BE2A80281E13C48A003B1BE5 /* GPXRouteWayPointAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2A80271E13C48A003B1BE5 /* GPXRouteWayPointAttributes.swift */; };
 		BE2E4A2F1F2C79B3001C22C0 /* NavigationUrlTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2E4A2E1F2C79B3001C22C0 /* NavigationUrlTests.swift */; };
@@ -394,6 +395,7 @@
 		BE1BA9B01F6571C6001B6512 /* Route+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Route+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		BE1BA9B21F6571C6001B6512 /* WayPoint+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WayPoint+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		BE1BA9B41F6571C6001B6512 /* PointOfInterest+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PointOfInterest+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		BE1BC7FD1F9CFAFB005C3D3F /* AnyPoiWatchManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyPoiWatchManager.swift; sourceTree = "<group>"; };
 		BE1D1B781E5F7F4700EE986F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BE1D1B7A1E5F7F5800EE986F /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BE2A80271E13C48A003B1BE5 /* GPXRouteWayPointAttributes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPXRouteWayPointAttributes.swift; sourceTree = "<group>"; };
@@ -866,6 +868,7 @@
 				BE0CF2F61D8B209A00344F8A /* LocationManager.swift */,
 				BE0CF2DE1D8B209A00344F8A /* MapCameraAnimations.swift */,
 				BE4BF3BB1DEB36E10043891B /* GeoCodeMgr.swift */,
+				BE1BC7FD1F9CFAFB005C3D3F /* AnyPoiWatchManager.swift */,
 			);
 			name = Map;
 			sourceTree = "<group>";
@@ -1644,6 +1647,7 @@
 				BE0CF3351D8B209A00344F8A /* PoiMailActivityItemSource.swift in Sources */,
 				BE0CF3251D8B209A00344F8A /* RouteUtilties.swift in Sources */,
 				BE187CF51DAA7739007737B4 /* NoWikipediaTableViewCell.swift in Sources */,
+				BE1BC7FE1F9CFAFB005C3D3F /* AnyPoiWatchManager.swift in Sources */,
 				BE0CF3381D8B209A00344F8A /* PoiBoundingBox.swift in Sources */,
 				BEFE00AC1DDE4E7B009AA1BF /* SearchLoadingTableViewCell.swift in Sources */,
 				BEFDA7DB1DE9C9A200D3104D /* GPXParser.swift in Sources */,

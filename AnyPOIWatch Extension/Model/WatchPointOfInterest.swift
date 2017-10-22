@@ -28,7 +28,11 @@ class WatchPointOfInterest : Equatable {
     }
     
     var title:String? {
-        return  theProps[CommonProps.POI.title]  ?? "unknown"
+        if let remaining = theProps[CommonProps.debugRemainingComplicationTransferInfo] {
+            return  "(\(remaining))\(theProps[CommonProps.POI.title]!)"
+        } else {
+            return  theProps[CommonProps.POI.title]  ?? "unknown"
+        }
     }
     
     var distance:String? {

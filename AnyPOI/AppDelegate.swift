@@ -511,7 +511,7 @@ extension AppDelegate : WCSessionDelegate {
     
     // Update the LocationManager when the WatchApp is installed/uninstalled, when the AppleWatch is paired/not paired...
     func sessionWatchStateDidChange(_ session: WCSession) {
-        if LocationManager.sharedInstance.isWatchAppReadyForSignificantLocationUpdate() {
+        if AnyPoiWatchManager.sharedInstance.isWatchAppReadyForSignificantLocationUpdate() {
             LocationManager.sharedInstance.startLocationUpdateForWatchApp()
         } else {
             LocationManager.sharedInstance.stopLocationUpdateForWatchApp()

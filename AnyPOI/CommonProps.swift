@@ -17,8 +17,10 @@ struct CommonProps {
     }
     
     static let listOfPOIs = "pois"
+    static let singlePOI = "poi"
     static let maxRadius = "maxRadius"
     static let maxResults = "maxRes"
+    static let debugRemainingComplicationTransferInfo = "dCompRemain"
     
     struct POI {
         static let title = "title"
@@ -48,5 +50,6 @@ struct CommonProps {
         }
         return nil
     }
+    
 
 }

@@ -297,31 +297,18 @@ extension InterfaceController: WCSessionDelegate {
     func session(_ session: WCSession, didReceiveUserInfo userInfo: [String : Any] = [:]) {
         NSLog("\(#function) received user info")
         
-        if let pois = userInfo[CommonProps.listOfPOIs] as? [[String:String]] {
-            
-            // Extract all new WatchPointOfInterests from the result
-            var newestWatchPOIs = [WatchPointOfInterest]()
-            for props in pois {
-                let watchPOI = WatchPointOfInterest(properties:props)
-                newestWatchPOIs.append(watchPOI)
-            }
-            
-            if newestWatchPOIs.count > 0 {
-                nearestPOI = newestWatchPOIs[0]
-                NSLog("\(#function) nearest POI is \(nearestPOI?.title! ?? "no POI")")
-                refreshComplication()
-            }
+        if let pois = userInfo[CommonProps.singlePOI] as? [String:String] {
+            nearestPOI = WatchPointOfInterest(properties:pois)
+            NSLog("\(#function) nearest POI is \(nearestPOI?.title! ?? "no POI")")
+            refreshComplication()
+        } else {
+            NSLog("\(#function) probably no POI around, still need to refresh the complication")
+            nearestPOI = nil
+            refreshComplication()
         }
     }
 }
         
         
 
-//extension InterfaceController: LocationUpdateDelegate {
-//
-//    // Update the list of POIs when the user location has changed
-//    func locationUpdated(_ locations: [CLLocation]) {
-//        NSLog("\(#function) userlocation has changed")
-//    }
-//}
 

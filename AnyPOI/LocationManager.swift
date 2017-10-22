@@ -38,7 +38,8 @@ class LocationManager : NSObject {
     
     fileprivate(set) var locationManager:CLLocationManager?
 
-
+    
+    
     // Initialize the Singleton
     class var sharedInstance: LocationManager {
         struct Singleton {
@@ -183,7 +184,7 @@ class LocationManager : NSObject {
     
     private func startSignificantLocationChanges() {
         NSLog("\(#function) called")
-        if isWatchAppReadyForSignificantLocationUpdate() {
+        if AnyPoiWatchManager.sharedInstance.isWatchAppReadyForSignificantLocationUpdate() {
             NSLog("\(#function) WatchApp is installed then we can enable significantLocationChange")
             if CLLocationManager.significantLocationChangeMonitoringAvailable() {
                 locationManager?.startMonitoringSignificantLocationChanges()
@@ -191,27 +192,6 @@ class LocationManager : NSObject {
                 locationManager?.activityType = .other
                 NSLog("\(#function) enabled")
             }
-        }
-    }
-    
-    // We want to enable Significant Location Changes only when a Watch is paired when our WatchApp is installed
-    // otherwise we do not enable it
-    // TBC: Maybe we should enable it only when the Complication is installed???
-    func isWatchAppReadyForSignificantLocationUpdate() -> Bool {
-        if WCSession.isSupported() {
-            let session = WCSession.default
-            return session.activationState == .activated && session.isPaired && session.isWatchAppInstalled
-        } else {
-            return false
-        }
-    }
-    
-    func isWatchAppComplicationReady() -> Bool {
-        if WCSession.isSupported() {
-            let session = WCSession.default
-            return session.activationState == .activated && session.isPaired && session.isWatchAppInstalled && session.isComplicationEnabled
-        } else {
-            return false
         }
     }
 
@@ -279,40 +259,11 @@ extension LocationManager: CLLocationManagerDelegate {
     // Called when a SignificantLocationChanges has occured
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         NSLog("\(#function) with latest location \(locations.last?.coordinate.latitude ?? -1) / \(locations.last?.coordinate.longitude ?? -1)")
-        if isWatchAppComplicationReady() {
-            
-            if let newestLocation = locations.last {
-                let pois = PoiBoundingBox.getPoiAroundCurrentLocation(newestLocation, radius: 10, maxResult: 1)
-                if pois.count == 1 {
-                    var poiArray = [[String:String]]()
-                    for currentPoi in pois {
-                        var poiProps = currentPoi.props
-                        if poiProps != nil {
-                            let targetLocation = CLLocation(latitude: currentPoi.poiLatitude , longitude: currentPoi.poiLongitude)
-                            let distance = newestLocation.distance(from: targetLocation)
-                            
-                            poiProps![CommonProps.POI.distance] = String(distance)
-                            
-                            poiArray.append(poiProps!)
-                        }
-                    }
-                    var result = [String:Any]()
-                    result[CommonProps.listOfPOIs] = poiArray
-                    if poiArray.count > 0 {
-                        WCSession.default.transferCurrentComplicationUserInfo(result)
-                    }
-                }
-            }
-        }
+        guard let newestLocation = locations.last else { return }
+       // updateWatchComplicationWith(newestLocation: newestLocation)
+        AnyPoiWatchManager.sharedInstance.updateWatchComplicationWith(newestLocation: newestLocation)
     }
     
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        NSLog("\(#function): Location Manager didFailWithError: \(error.localizedDescription)")
-        if let error = error as? CLError, error.code == .denied {
-            stopSignificantLocationChanges()
-            stopMonitoringRegions()
-        }
-    }
     
     // IMPORTANT: didEnterRegion and didExitRegion require .AuthorizedAlways. If it's not .AuthorizedAlways
     // it will not detect enter & exit region
@@ -320,6 +271,10 @@ extension LocationManager: CLLocationManagerDelegate {
         if let poi = POIDataManager.sharedInstance.findPOIWithRegiondId(region.identifier) {
             if poi.poiRegionNotifyEnter {
                 AppDelegate.notifyRegionUpdate(poi: poi, isEntering:true)
+            }
+            if let currentLocation = locationManager?.location {
+                AnyPoiWatchManager.sharedInstance.updateWatchComplicationWith(newestLocation: currentLocation)
+                
             }
         } else {
             NSLog("\(#function): Error, POI not found! This CLRegion \(region.identifier) will be removed!")
@@ -334,6 +289,9 @@ extension LocationManager: CLLocationManagerDelegate {
             if poi.poiRegionNotifyExit {
                 AppDelegate.notifyRegionUpdate(poi: poi, isEntering:false)
             }
+            if let currentLocation = locationManager?.location {
+                AnyPoiWatchManager.sharedInstance.updateWatchComplicationWith(newestLocation: currentLocation)
+           }
         } else {
             NSLog("\(#function): Error, POI not found! This CLRegion \(region.identifier) will be removed!")
             dumpMonitoredRegions()
