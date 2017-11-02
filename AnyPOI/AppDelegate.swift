@@ -52,7 +52,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // This method is called only when the App start from scratch. 
     // We must:
     // 1- Initialize the User Authentication
-    // 2- Start user location
+    // 2- Start the payment queue
+    // 3- Register for local notifications
+    // 4- Register notification for end of contact synchronization
+    // 5- Start user location
+    // 6- Start Watch Connectivity session
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
        
         if let theLaunchOptions = launchOptions, let _ = theLaunchOptions[UIApplicationLaunchOptionsKey.location] {
@@ -68,6 +72,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         SKPaymentQueue.default().add(self)
         
+        // Register local notification (alert & sound)
+        // They are used to notify the user when entering/exiting a monitored region
         UNUserNotificationCenter.current().delegate = self
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound], completionHandler: { (granted, error) in
             if let theError = error {
@@ -77,24 +83,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     NSLog("\(#function) Warning local notification not granted")
                 }
             }
-            DispatchQueue.main.async {
-                if !UserPreferences.sharedInstance.isFirstStartup {
-                    LocationManager.sharedInstance.startLocationManager()
-                }
-            }
-
         })
         
+        // Register notification to raise an alert when all contacts have been synchronized
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(notifyContactsSynchronizationDone(_:)),
                                                name: NSNotification.Name(rawValue:ContactsSynchronization.Notifications.synchronizationDone),
                                                object: ContactsSynchronization.sharedInstance)
         
-        
+ 
+        // Start the location Manager only if it's not the first startup
+        // On the first startup the location manager is started only when the map is displayed (to ask user to authorize the App to monitor user location)
+        if !UserPreferences.sharedInstance.isFirstStartup {
+            LocationManager.sharedInstance.startLocationManager()
+        }
+
+    
+        // Start the Watch Connectivity session (if supported)
         if WCSession.isSupported() {
             let session = WCSession.default
-            session.delegate = self
-            session.activate()
+            if session.activationState != .activated {
+                session.delegate = self
+                session.activate()
+            }
         }
 
         //SEB: Swift3 put in comment UBER
@@ -490,7 +501,7 @@ extension AppDelegate : WCSessionDelegate {
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
         NSLog("\(#function)")
         if let theError = error {
-            NSLog("\(#function) an error has oocured: \(theError.localizedDescription)")
+            NSLog("\(#function) an error has occured: \(theError.localizedDescription)")
         } else {
             if activationState == .activated {
                 LocationManager.sharedInstance.startLocationUpdateForWatchApp()
@@ -504,41 +515,35 @@ extension AppDelegate : WCSessionDelegate {
     }
     
     func sessionDidDeactivate(_ session: WCSession) {
-        // Called when a new Watch has been paired
+        // When a new Watch has been paired we must activate the session again
         NSLog("\(#function)")
         WCSession.default.activate()
     }
     
     // Update the LocationManager when the WatchApp is installed/uninstalled, when the AppleWatch is paired/not paired...
     func sessionWatchStateDidChange(_ session: WCSession) {
-        if AnyPoiWatchManager.sharedInstance.isWatchAppReadyForSignificantLocationUpdate() {
+        if AnyPoiWatchManager.sharedInstance.isReadyForSignificantLocationUpdate() {
             LocationManager.sharedInstance.startLocationUpdateForWatchApp()
         } else {
             LocationManager.sharedInstance.stopLocationUpdateForWatchApp()
         }
     }
     
-    //var pendingReply:([String : Any]) -> Void
- 
     
     func session(_ session: WCSession, didReceiveMessage message: [String : Any], replyHandler: @escaping ([String : Any]) -> Void) {
         NSLog("\(#function) get a message")
- 
         
-        if //let latitude = message[CommonProps.userLocation.latitude] as? CLLocationDegrees,
-           // let longitude = message[CommonProps.userLocation.longitude] as? CLLocationDegrees,
-            let maxRadius = message[CommonProps.maxRadius] as? Double,
+        if  let maxRadius = message[CommonProps.maxRadius] as? Double,
             let maxPOIResults = message[CommonProps.maxResults] as? Int {
             
             if !LocationManager.sharedInstance.isLocationAuthorized() {
                 NSLog("\(#function) Cannot get user location")
-                replyHandler(["response" : "cannot get user location"])
+                replyHandler([CommonProps.messageStatus : CommonProps.MessageStatusCode.erroriPhoneLocationNotAuthorized.rawValue])
                 return
             }
             
             if let centerLocation = LocationManager.sharedInstance.locationManager?.location {
-                
-                //let centerLocation = CLLocation(latitude: latitude, longitude: longitude)
+                NSLog("\(#function) found location \(centerLocation.coordinate.latitude) / \(centerLocation.coordinate.longitude)")
                 
                 let pois = PoiBoundingBox.getPoiAroundCurrentLocation(centerLocation, radius: maxRadius, maxResult: maxPOIResults)
                 
@@ -557,41 +562,23 @@ extension AppDelegate : WCSessionDelegate {
                     }
                 }
                 var result = [String:Any]()
+                result[CommonProps.messageStatus] = CommonProps.MessageStatusCode.ok.rawValue
                 result[CommonProps.listOfPOIs] = poiArray
+                NSLog("\(#function) send \(poiArray.count) POI")
                 replyHandler(result)
             } else {
                 NSLog("\(#function) Cannot get CLLocation")
-                replyHandler(["response" : "cannot get user location"])
+                replyHandler([CommonProps.messageStatus : CommonProps.MessageStatusCode.erroriPhoneLocationNotAvailable.rawValue])
                 return
 
             }
         } else {
-            replyHandler(["response" : "cannot extract coordinate"])
+            replyHandler([CommonProps.messageStatus : CommonProps.MessageStatusCode.erroriPhoneCannotExtractCoordinatesFromMessage.rawValue])
         }
         
     }
     
-    func session(_ session: WCSession, didReceiveMessageData messageData: Data, replyHandler: @escaping (Data) -> Void) {
-        NSLog("\(#function) get a message")
-        
-        if messageData.count == MemoryLayout<CLLocationCoordinate2D>.size {
-            let ptr = UnsafeMutablePointer<CLLocationCoordinate2D>.allocate(capacity:1)
-            let buffer = UnsafeMutableBufferPointer<CLLocationCoordinate2D>.init(start: ptr, count: 1)
-            let _ = messageData.copyBytes(to: buffer)
-            if let coordinates = buffer.first {
-                NSLog("\(#function) message content is \(coordinates.latitude) \(coordinates.longitude)")
-            } else {
-                NSLog("\(#function) cannot extract coordinates from messageData ! ")
-            }
-            replyHandler(messageData)
-        } else {
-            NSLog("\(#function) message is not readable ! ")
-        }
 
-    }
-    
-    //func session(_ session: WCSession, didReceiveMessage message: [String : Any], replyHandler: @escaping ([String : Any]) -> Void)
-    
 }
 
 

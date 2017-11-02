@@ -12,7 +12,7 @@ import MapKit
 import UIKit
 
 class WatchPointOfInterest : Equatable {
-    static func ==(lhs: WatchPointOfInterest, rhs: WatchPointOfInterest) -> Bool {
+    static func == (lhs: WatchPointOfInterest, rhs: WatchPointOfInterest) -> Bool {
         if lhs.title == rhs.title && lhs.distance == rhs.distance {
             return true
         } else {
@@ -28,8 +28,8 @@ class WatchPointOfInterest : Equatable {
     }
     
     var title:String? {
-        if let remaining = theProps[CommonProps.debugRemainingComplicationTransferInfo] {
-            return  "(\(remaining))\(theProps[CommonProps.POI.title]!)"
+        if let remaining = theProps[CommonProps.debugRemainingComplicationTransferInfo], let urgentCounter = theProps[CommonProps.debugNotUrgentComplicationTransferInfo] {
+            return  "(\(remaining)/\(urgentCounter)) \(theProps[CommonProps.POI.title]!)"
         } else {
             return  theProps[CommonProps.POI.title]  ?? "unknown"
         }

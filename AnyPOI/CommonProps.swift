@@ -21,6 +21,13 @@ struct CommonProps {
     static let maxRadius = "maxRadius"
     static let maxResults = "maxRes"
     static let debugRemainingComplicationTransferInfo = "dCompRemain"
+    static let debugNotUrgentComplicationTransferInfo = "dNotUrgent"
+    
+    static let messageStatus = "status"
+    
+    enum MessageStatusCode:Int {
+        case ok, erroriPhoneLocationNotAuthorized, erroriPhoneLocationNotAvailable, erroriPhoneCannotExtractCoordinatesFromMessage, errorWatchAppSendingMsgToiPhone, errorUnknown
+    }
     
     struct POI {
         static let title = "title"

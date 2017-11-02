@@ -184,7 +184,7 @@ class LocationManager : NSObject {
     
     private func startSignificantLocationChanges() {
         NSLog("\(#function) called")
-        if AnyPoiWatchManager.sharedInstance.isWatchAppReadyForSignificantLocationUpdate() {
+        if AnyPoiWatchManager.sharedInstance.isReadyForSignificantLocationUpdate() {
             NSLog("\(#function) WatchApp is installed then we can enable significantLocationChange")
             if CLLocationManager.significantLocationChangeMonitoringAvailable() {
                 locationManager?.startMonitoringSignificantLocationChanges()
@@ -261,7 +261,7 @@ extension LocationManager: CLLocationManagerDelegate {
         NSLog("\(#function) with latest location \(locations.last?.coordinate.latitude ?? -1) / \(locations.last?.coordinate.longitude ?? -1)")
         guard let newestLocation = locations.last else { return }
        // updateWatchComplicationWith(newestLocation: newestLocation)
-        AnyPoiWatchManager.sharedInstance.updateWatchComplicationWith(newestLocation: newestLocation)
+        AnyPoiWatchManager.sharedInstance.updateComplicationWith(newestLocation: newestLocation)
     }
     
     
@@ -273,7 +273,7 @@ extension LocationManager: CLLocationManagerDelegate {
                 AppDelegate.notifyRegionUpdate(poi: poi, isEntering:true)
             }
             if let currentLocation = locationManager?.location {
-                AnyPoiWatchManager.sharedInstance.updateWatchComplicationWith(newestLocation: currentLocation)
+                AnyPoiWatchManager.sharedInstance.updateComplicationWith(newestLocation: currentLocation)
                 
             }
         } else {
@@ -290,7 +290,7 @@ extension LocationManager: CLLocationManagerDelegate {
                 AppDelegate.notifyRegionUpdate(poi: poi, isEntering:false)
             }
             if let currentLocation = locationManager?.location {
-                AnyPoiWatchManager.sharedInstance.updateWatchComplicationWith(newestLocation: currentLocation)
+                AnyPoiWatchManager.sharedInstance.updateComplicationWith(newestLocation: currentLocation)
            }
         } else {
             NSLog("\(#function): Error, POI not found! This CLRegion \(region.identifier) will be removed!")

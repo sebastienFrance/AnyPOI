@@ -13,15 +13,28 @@ import WatchConnectivity
 
 class InterfaceController: WKInterfaceController {
     
-
     fileprivate(set) static var sharedInstance:InterfaceController?
     
-    private var watchPOIs = [WatchPointOfInterest]()
+    private var displayedWatchPOIs = [WatchPointOfInterest]()
     
     var nearestPOI:WatchPointOfInterest? = nil
 
     
     @IBOutlet var anyPOITable: WKInterfaceTable!
+    
+    
+    private var internalState = false
+    private let internalQueue = DispatchQueue(label:"protectSendMsg") // Serial or Concurrent?
+    
+    var msgInProgress: Bool {
+        get {
+            return internalQueue.sync { internalState }
+        }
+        
+        set (newState) {
+            internalQueue.sync { internalState = newState }
+        }
+    }
     
     override init() {
         super.init()
@@ -40,14 +53,6 @@ class InterfaceController: WKInterfaceController {
             session.activate()
             NSLog("\(#function) WCSession is supported")
         }
-
-        
-        
-//        // Start Location Manager and add delegate to get update
-//        LocationManager.sharedInstance.startLocationManager()
-//        _ = LocationManager.sharedInstance.isLocationAuthorized()
-//        LocationManager.sharedInstance.delegate = self
-
     }
     
     override func didAppear() {
@@ -59,9 +64,6 @@ class InterfaceController: WKInterfaceController {
             session.delegate = self
             session.activate()
         }
-
-        NSLog("\(#function) called")
-
     }
     
     func refresh() {
@@ -105,139 +107,216 @@ class InterfaceController: WKInterfaceController {
     }
     
     
+    /// Send a Message to the iPhone to get the list of POIs around the current user location
+    /// This method must be called only if the session is activated
+    ///
+    /// - Parameter session: active session used to send message to the iPhone
     func getPOIsAround(session: WCSession) {
-       // if let location = LocationManager.sharedInstance.locationManager?.location {
-            
-            // Must cast all value to Any else it raises an error because CLLLocationDegree and Int would create
-            // an hetereogenous dictionary
-            let messageContent = [ //CommonProps.userLocation.latitude : location.coordinate.latitude as Any,
-                                   //CommonProps.userLocation.longitude : location.coordinate.longitude as Any,
-                                   CommonProps.maxRadius : Cste.radiusInKm as Any,
-                                   CommonProps.maxResults : Cste.maxRequestedResults as Any]
         
-        if session.isReachable {
-            NSLog("\(#function) Session is reachable")
-        } else {
-            NSLog("\(#function) Warning: Session is not reachable")
+        
+        NSLog("\(#function) isMainThread: \(Thread.isMainThread)")
+       // Check again the session is activated and the session is reachable
+        guard session.activationState == .activated else {
+            NSLog("\(#function) Warning: Session is not activated")
+            return
         }
         
-            session.sendMessage(messageContent,
-                                replyHandler: { result in
-                                    
-                                    if let pois = result[CommonProps.listOfPOIs] as? [[String:String]] {
-                                        
-                                        // Extract all new WatchPointOfInterests from the result
-                                        var newestWatchPOIs = [WatchPointOfInterest]()
-                                        for props in pois {
-                                            let watchPOI = WatchPointOfInterest(properties:props)
-                                            newestWatchPOIs.append(watchPOI)
-                                        }
-                                        
-                                        self.refreshWatchPointOfInterest(newWatchPOIs: newestWatchPOIs)
-                                    } else {
-                                        self.refreshWatchPointOfInterest(newWatchPOIs: [])
-                                    }
-            }) { error in
-                NSLog("\(#function) an error has oocured: \(error.localizedDescription)")
-            }
-//        } else {
-//            NSLog("\(#function) userlocation not available")
-//            self.anyPOITable.setNumberOfRows(1, withRowType: Storyboard.emptyTableId)
-//            if let controller = self.anyPOITable.rowController(at: 0) as? EmptyRowController {
-//                controller.titleLabel.setText("Please, enable user location")
-//            }
-//
-//        }
-    }
-
-    func refreshWatchPointOfInterest(newWatchPOIs:[WatchPointOfInterest]) {
-        
-        // When there's no POI around the user, we just display a table with a message displaying there's no POI
-        if newWatchPOIs.count == 0 {
-            self.anyPOITable.setNumberOfRows(1, withRowType: Storyboard.emptyTableId)
-            if let controller = self.anyPOITable.rowController(at: 0) as? EmptyRowController {
-                controller.titleLabel.setText("No data available")
-            }
-            let hasToRefreshComplication = watchPOIs.count > 0
-            watchPOIs = newWatchPOIs
-            if hasToRefreshComplication {
-                nearestPOI = watchPOIs[0]
-                refreshComplication()
+        guard session.isReachable else {
+            NSLog("\(#function) Warning: cannot send a Message when the session is no more reachable")
+            DispatchQueue.main.async {
+                self.refreshTableWith(error: CommonProps.MessageStatusCode.errorWatchAppSendingMsgToiPhone)
             }
             return
         }
         
-        
-        // When the watchPOIs contains nothing we just need to put all our new content
-        if watchPOIs.count == 0 {
-            self.anyPOITable.setNumberOfRows(newWatchPOIs.count, withRowType: Storyboard.poiRowId)
-            var i = 0
-            for watchPOI in newWatchPOIs {
-                if let controller = self.anyPOITable.rowController(at: i) as? AnyPOIRowController {
-                    InterfaceController.updateRowWith(row: controller, watchPOI: watchPOI)
-                }
-                i += 1
-            }
-            
-            watchPOIs = newWatchPOIs
-            nearestPOI = watchPOIs[0]
-            refreshComplication()
-        } else {
-            
-            // Add missing rows
-            if newWatchPOIs.count > watchPOIs.count {
-                var indexes = IndexSet()
-                for i in watchPOIs.count..<newWatchPOIs.count {
-                    indexes.insert(i)
-                }
-                
-                anyPOITable.insertRows(at: indexes, withRowType: Storyboard.poiRowId)
-            } else if newWatchPOIs.count < watchPOIs.count {
-                // Remove useless rows
-                var indexes = IndexSet()
-                for i in newWatchPOIs.count..<watchPOIs.count {
-                    indexes.insert(i)
-                }
-                
-                anyPOITable.removeRows(at: indexes)
-            }
-            
-            
-            // There was at least one POIs display, let's update the screen
-            for i in 0..<newWatchPOIs.count {
-                let watchPOI = newWatchPOIs[i]
-                if i < watchPOIs.count {
-                    // Update the row only if it contains something different
-                    if watchPOI != watchPOIs[i], let controller = self.anyPOITable.rowController(at: i) as? AnyPOIRowController {
-                        InterfaceController.updateRowWith(row: controller, watchPOI: watchPOI)
-                    }
-                } else {
-                    // It's a new row that need to be configured
-                    if let controller = self.anyPOITable.rowController(at: i) as? AnyPOIRowController {
-                        InterfaceController.updateRowWith(row: controller, watchPOI: watchPOI)
-                    }
-                }
-            }
-            
-            // Check if the nearest POI has changed, if it has changed then we refresh the complication
-            var hasToRefreshComplication = false
-            if newWatchPOIs.count > 0 {
-                if newWatchPOIs[0] != watchPOIs[0] {
-                    hasToRefreshComplication = true
-                }
+        // Check if a message is already ongoing
+        // If not then we update the internal state and we continue to send the message
+        internalQueue.sync {
+            if internalState {
+                NSLog("A message is already in progress, do nothing")
             } else {
-                hasToRefreshComplication = true
-            }
-            
-            watchPOIs = newWatchPOIs
-            if hasToRefreshComplication {
-                nearestPOI = watchPOIs[0]
-                refreshComplication()
+                internalState = true
+                requestPOIsFromiPhone(session: session)
             }
         }
     }
     
-    private func refreshComplication() {
+    struct DebugInfos {
+        static var sendMsgError = 0
+        static var nothingToRefresh = 0
+    }
+    
+    
+    /// Send a Message to the iPhone to request POIs around the current location
+    ///
+    /// - Parameter session: reachable session with the iPhone
+    private func requestPOIsFromiPhone(session:WCSession) {
+        NSLog("\(#function) isMainThread: \(Thread.isMainThread)")
+        // Must cast all value to Any else it raises an error because CLLLocationDegree and Int would create
+        // an hetereogenous dictionary
+        let messageContent = [
+            CommonProps.maxRadius : Cste.radiusInKm as Any,
+            CommonProps.maxResults : Cste.maxRequestedResults as Any
+        ]
+        
+        session.sendMessage(messageContent,
+                            replyHandler: { result in
+                                self.msgInProgress = false
+                                if let status = result[CommonProps.messageStatus] as? Int, let resultStatus = CommonProps.MessageStatusCode(rawValue:status) {
+                                    switch resultStatus {
+                                    case .ok:
+                                        var newestWatchPOIs = [WatchPointOfInterest]()
+                                        if let pois = result[CommonProps.listOfPOIs] as? [[String:String]] {
+                                            // Extract all new WatchPointOfInterests from the result
+                                            newestWatchPOIs = pois.map() { WatchPointOfInterest(properties:$0) }
+                                        }
+                                        DispatchQueue.main.async {
+                                            self.refreshTableWith(newWatchPOIs: newestWatchPOIs)
+                                        }
+                                    default:
+                                        self.refreshTableWith(error: resultStatus)
+                                    }
+                                } else {
+                                    NSLog("\(#function) unknown error, message status is missing in the reply")
+                                    DispatchQueue.main.async {
+                                        self.refreshTableWith(error: CommonProps.MessageStatusCode.errorUnknown)
+                                    }
+                                }
+        }) { error in
+            self.msgInProgress = false
+            NSLog("\(#function) an error has occured: \(error.localizedDescription)")
+            DebugInfos.sendMsgError += 1
+            DispatchQueue.main.async {
+                self.refreshTableWith(error: CommonProps.MessageStatusCode.errorWatchAppSendingMsgToiPhone)
+            }
+        }
+    }
+    
+    private func refreshTableWith(error:CommonProps.MessageStatusCode) {
+        
+        // when an error has occured, we must reset the content of the displayed POIs
+        displayedWatchPOIs.removeAll()
+        
+        var message:String
+        
+        switch error {
+        case .ok:
+            NSLog("\(#function) Warning, this method should not be called when no error")
+            return
+        case .erroriPhoneLocationNotAuthorized:
+            NSLog("\(#function) iPhone not authorized to get user location")
+            message = "Please enable location on iPhone App"
+        case .erroriPhoneLocationNotAvailable:
+            NSLog("\(#function) user location not available on the iPhone")
+            message = "Check user location is enabled on iPhone"
+        case .erroriPhoneCannotExtractCoordinatesFromMessage:
+            NSLog("\(#function) iPhone cannot extract coordinates from Message")
+            message = "internal error"
+        case .errorWatchAppSendingMsgToiPhone:
+            NSLog("\(#function) error when sending message from Watch -> iPhone")
+            message = "Watch cannot send msg to iPhone"
+        case .errorUnknown:
+            NSLog("\(#function) unknown error")
+            message = "Unknown error"
+        }
+
+        
+        // When there's no POI around the user, we just display a table with a message displaying there's no POI
+        self.anyPOITable.setNumberOfRows(1, withRowType: Storyboard.emptyTableId)
+        
+        if let controller = self.anyPOITable.rowController(at: 0) as? EmptyRowController {
+            controller.titleLabel.setText("(\(String(DebugInfos.sendMsgError)))(\(String(DebugInfos.nothingToRefresh))) \(message)")
+        }
+    }
+    
+    /// Refresh the table with a new set of POIs
+    ///
+    /// - Parameter newWatchPOIs: List of POIs to be displayed in the table
+    private func refreshTableWith(newWatchPOIs:[WatchPointOfInterest]) {
+        
+        NSLog("\(#function)")
+        
+        if newWatchPOIs.count == 0 {
+            NSLog("\(#function) update with an empty list")
+
+            // When there's no POI around the user, we just display a table with a message displaying there's no POI
+            self.anyPOITable.setNumberOfRows(1, withRowType: Storyboard.emptyTableId)
+            
+            if let controller = self.anyPOITable.rowController(at: 0) as? EmptyRowController {
+                controller.titleLabel.setText("(\(String(DebugInfos.sendMsgError)))(\(String(DebugInfos.nothingToRefresh)))No data available")
+            }
+        } else {
+            // A list of POIs were already displayed and we need to display a new one
+            // We want to change only what is needed
+            
+            if displayedWatchPOIs.count == 0 && anyPOITable.numberOfRows == 1 {
+                // specific case when the previous content was empty (no POI) because we still have a row to show we have no POI around user location
+                // => Replace table content with the new data
+                anyPOITable.setNumberOfRows(newWatchPOIs.count, withRowType: Storyboard.poiRowId)
+            } else {
+                // Make the delta between two lists of POIs
+                // Add or Remove rows when the new list of rows is greater or lower than the previous list
+                if newWatchPOIs.count > displayedWatchPOIs.count {
+                    var indexes = IndexSet()
+                    for i in displayedWatchPOIs.count..<newWatchPOIs.count {
+                        indexes.insert(i)
+                    }
+                    
+                    anyPOITable.insertRows(at: indexes, withRowType: Storyboard.poiRowId)
+                } else if newWatchPOIs.count < displayedWatchPOIs.count {
+                    // Remove useless rows
+                    var indexes = IndexSet()
+                    for i in newWatchPOIs.count..<displayedWatchPOIs.count {
+                        indexes.insert(i)
+                    }
+                    
+                    anyPOITable.removeRows(at: indexes)
+                }
+            }
+            
+            
+            // There is at least one POI to display, let's update the screen
+            var hasUpdate = false
+            for i in 0..<newWatchPOIs.count {
+                if i < displayedWatchPOIs.count {
+                    // Update the row only if it contains something different
+                    if newWatchPOIs[i] != displayedWatchPOIs[i], let controller = self.anyPOITable.rowController(at: i) as? AnyPOIRowController {
+                        InterfaceController.updateRowWith(row: controller, watchPOI: newWatchPOIs[i])
+                        hasUpdate = true
+                    }
+                } else {
+                    // It's a new row that need to be configured
+                    if let controller = self.anyPOITable.rowController(at: i) as? AnyPOIRowController {
+                        InterfaceController.updateRowWith(row: controller, watchPOI: newWatchPOIs[i])
+                        hasUpdate = true
+                    }
+                }
+            }
+            
+            if !hasUpdate {
+                NSLog("\(#function) no update")
+                DebugInfos.nothingToRefresh += 1
+            } else {
+                NSLog("\(#function) has update")
+            }
+        }
+        
+        displayedWatchPOIs = newWatchPOIs
+
+        // If needed, update the complication
+        if displayedWatchPOIs.count > 0 && displayedWatchPOIs[0] != nearestPOI {
+            nearestPOI = displayedWatchPOIs[0]
+            refreshComplications()
+        } else {
+            if displayedWatchPOIs.count == 0 && nearestPOI != nil {
+                nearestPOI = nil
+                refreshComplications()
+            }
+        }
+    }
+    
+    private func refreshComplications() {
+        NSLog("\(#function)")
         let server = CLKComplicationServer.sharedInstance()
         if let complications = server.activeComplications {
             for complication in complications {
@@ -263,17 +342,14 @@ class InterfaceController: WKInterfaceController {
     
     
     static func updateRowWith(row:AnyPOIRowController, watchPOI:WatchPointOfInterest) {
-        row.titleLabel.setText("\(watchPOI.title!)\n\(watchPOI.distance!)")
+        row.titleLabel.setText("(\(String(DebugInfos.sendMsgError)))(\(String(DebugInfos.nothingToRefresh)))\(watchPOI.title!)\n\(watchPOI.distance!)")
         row.theCategory.setImage(watchPOI.category?.glyph)
         row.theCategory.setTintColor(UIColor.white)
         row.theGroupOfCategoryImage.setBackgroundColor(watchPOI.color)
     }
     
     override func contextForSegue(withIdentifier segueIdentifier: String, in table: WKInterfaceTable, rowIndex: Int) -> Any? {
-        
-        NSLog("\(#function) row selected  \(rowIndex)")
-        
-        return watchPOIs[rowIndex]
+        return displayedWatchPOIs[rowIndex]
     }
     
 }
@@ -282,31 +358,56 @@ extension InterfaceController: WCSessionDelegate {
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
         NSLog("\(#function)")
         if let theError = error {
-            NSLog("\(#function) an error has oocured: \(theError.localizedDescription)")
+            NSLog("\(#function) an error has occured: \(theError.localizedDescription)")
         } else {
-            NSLog("\(#function) activation is completed with : \(activationState)")
-            if session.isReachable, session.activationState == .activated {
-                NSLog("\(#function) session is activated, send a message")
+            switch activationState {
+            case .activated:
+                NSLog("\(#function) session is activated")
                 getPOIsAround(session:session)
-            } else {
-                NSLog("\(#function) session is not reachable or not activated")
+            case .inactive:
+                NSLog("\(#function) Warning, session is inactive")
+            case .notActivated:
+                NSLog("\(#function) Warning, session is not activated")
             }
+            
         }
     }
+    
     
     func session(_ session: WCSession, didReceiveUserInfo userInfo: [String : Any] = [:]) {
         NSLog("\(#function) received user info")
         
         if let pois = userInfo[CommonProps.singlePOI] as? [String:String] {
-            nearestPOI = WatchPointOfInterest(properties:pois)
-            NSLog("\(#function) nearest POI is \(nearestPOI?.title! ?? "no POI")")
-            refreshComplication()
+            let newNearestPOI = WatchPointOfInterest(properties:pois)
+            if newNearestPOI != nearestPOI {
+                NSLog("\(#function) nearest POI is \(nearestPOI?.title! ?? "no POI")")
+                DispatchQueue.main.async {
+                    self.refreshComplications()
+                }
+            } else {
+                NSLog("\(#function) nearest POI has not changed")
+            }
         } else {
             NSLog("\(#function) probably no POI around, still need to refresh the complication")
-            nearestPOI = nil
-            refreshComplication()
+            if nearestPOI != nil {
+                nearestPOI = nil
+                DispatchQueue.main.async {
+                    self.refreshComplications()
+                }
+            } else {
+                NSLog("\(#function) nearest POI was already nil")
+            }
         }
     }
+    
+    func sessionReachabilityDidChange(_ session: WCSession) {
+        NSLog("\(#function) has changed to \(session.isReachable ? "reachable" : "unreachable")")
+        if session.isReachable {
+            getPOIsAround(session:session)
+        }
+    }
+    
+    
 }
         
         
