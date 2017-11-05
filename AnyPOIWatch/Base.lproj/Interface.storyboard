@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="13196" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AgC-eL-Hgc">
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="13528" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AgC-eL-Hgc">
     <device id="watch38" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="watchOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="13051"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13526"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="13506"/>
     </dependencies>
     <scenes>
         <!--AnyPOI-->
@@ -46,9 +46,11 @@
                                     </connections>
                                 </tableRow>
                                 <tableRow identifier="EmptyPOITable" id="Lbr-mF-DzK" customClass="EmptyRowController" customModule="AnyPOIWatch_Extension">
-                                    <group key="rootItem" width="1" alignment="left" id="gJl-6T-RV3">
+                                    <group key="rootItem" width="1" height="0.0" alignment="left" id="gJl-6T-RV3">
                                         <items>
-                                            <label alignment="center" text="No data available" textAlignment="center" numberOfLines="0" id="WDm-vR-vIH"/>
+                                            <label alignment="left" text="No data available" textAlignment="left" numberOfLines="0" id="WDm-vR-vIH">
+                                                <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
+                                            </label>
                                         </items>
                                     </group>
                                     <connections>

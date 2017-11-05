@@ -98,15 +98,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             LocationManager.sharedInstance.startLocationManager()
         }
 
-    
         // Start the Watch Connectivity session (if supported)
-        if WCSession.isSupported() {
-            let session = WCSession.default
-            if session.activationState != .activated {
-                session.delegate = self
-                session.activate()
-            }
-        }
+        WatchSessionManager.sharedInstance.startSession()
 
         //SEB: Swift3 put in comment UBER
         // If true, all requests will hit the sandbox, useful for testing
@@ -497,88 +490,5 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     }
 }
 
-extension AppDelegate : WCSessionDelegate {
-    func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
-        NSLog("\(#function)")
-        if let theError = error {
-            NSLog("\(#function) an error has occured: \(theError.localizedDescription)")
-        } else {
-            if activationState == .activated {
-                LocationManager.sharedInstance.startLocationUpdateForWatchApp()
-            }
-        }
-    }
-    
-    func sessionDidBecomeInactive(_ session: WCSession) {
-        // Nothing to do here
-        NSLog("\(#function)")
-    }
-    
-    func sessionDidDeactivate(_ session: WCSession) {
-        // When a new Watch has been paired we must activate the session again
-        NSLog("\(#function)")
-        WCSession.default.activate()
-    }
-    
-    // Update the LocationManager when the WatchApp is installed/uninstalled, when the AppleWatch is paired/not paired...
-    func sessionWatchStateDidChange(_ session: WCSession) {
-        if AnyPoiWatchManager.sharedInstance.isReadyForSignificantLocationUpdate() {
-            LocationManager.sharedInstance.startLocationUpdateForWatchApp()
-        } else {
-            LocationManager.sharedInstance.stopLocationUpdateForWatchApp()
-        }
-    }
-    
-    
-    func session(_ session: WCSession, didReceiveMessage message: [String : Any], replyHandler: @escaping ([String : Any]) -> Void) {
-        NSLog("\(#function) get a message")
-        
-        if  let maxRadius = message[CommonProps.maxRadius] as? Double,
-            let maxPOIResults = message[CommonProps.maxResults] as? Int {
-            
-            if !LocationManager.sharedInstance.isLocationAuthorized() {
-                NSLog("\(#function) Cannot get user location")
-                replyHandler([CommonProps.messageStatus : CommonProps.MessageStatusCode.erroriPhoneLocationNotAuthorized.rawValue])
-                return
-            }
-            
-            if let centerLocation = LocationManager.sharedInstance.locationManager?.location {
-                NSLog("\(#function) found location \(centerLocation.coordinate.latitude) / \(centerLocation.coordinate.longitude)")
-                
-                let pois = PoiBoundingBox.getPoiAroundCurrentLocation(centerLocation, radius: maxRadius, maxResult: maxPOIResults)
-                
-                var poiArray = [[String:String]]()
-                for currentPoi in pois {
-                    var poiProps = currentPoi.props
-                    if poiProps != nil {
-                        let targetLocation = CLLocation(latitude: currentPoi.poiLatitude , longitude: currentPoi.poiLongitude)
-                        let distance = centerLocation.distance(from: targetLocation)
-                        
-                        poiProps![CommonProps.POI.distance] = String(distance)
-                        
-                        poiArray.append(poiProps!)
-                        
-                        
-                    }
-                }
-                var result = [String:Any]()
-                result[CommonProps.messageStatus] = CommonProps.MessageStatusCode.ok.rawValue
-                result[CommonProps.listOfPOIs] = poiArray
-                NSLog("\(#function) send \(poiArray.count) POI")
-                replyHandler(result)
-            } else {
-                NSLog("\(#function) Cannot get CLLocation")
-                replyHandler([CommonProps.messageStatus : CommonProps.MessageStatusCode.erroriPhoneLocationNotAvailable.rawValue])
-                return
-
-            }
-        } else {
-            replyHandler([CommonProps.messageStatus : CommonProps.MessageStatusCode.erroriPhoneCannotExtractCoordinatesFromMessage.rawValue])
-        }
-        
-    }
-    
-
-}
 
 

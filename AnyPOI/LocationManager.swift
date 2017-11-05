@@ -184,7 +184,7 @@ class LocationManager : NSObject {
     
     private func startSignificantLocationChanges() {
         NSLog("\(#function) called")
-        if AnyPoiWatchManager.sharedInstance.isReadyForSignificantLocationUpdate() {
+        if WatchSessionManager.sharedInstance.isWatchAppReady {
             NSLog("\(#function) WatchApp is installed then we can enable significantLocationChange")
             if CLLocationManager.significantLocationChangeMonitoringAvailable() {
                 locationManager?.startMonitoringSignificantLocationChanges()
@@ -259,9 +259,10 @@ extension LocationManager: CLLocationManagerDelegate {
     // Called when a SignificantLocationChanges has occured
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         NSLog("\(#function) with latest location \(locations.last?.coordinate.latitude ?? -1) / \(locations.last?.coordinate.longitude ?? -1)")
-        guard let newestLocation = locations.last else { return }
-       // updateWatchComplicationWith(newestLocation: newestLocation)
-        AnyPoiWatchManager.sharedInstance.updateComplicationWith(newestLocation: newestLocation)
+        WatchSessionManager.sharedInstance.refreshWatchApp()
+//        guard let newestLocation = locations.last else { return }
+//       // updateWatchComplicationWith(newestLocation: newestLocation)
+//        AnyPoiWatchManager.sharedInstance.updateComplicationWith(location: newestLocation)
     }
     
     
@@ -272,10 +273,12 @@ extension LocationManager: CLLocationManagerDelegate {
             if poi.poiRegionNotifyEnter {
                 AppDelegate.notifyRegionUpdate(poi: poi, isEntering:true)
             }
-            if let currentLocation = locationManager?.location {
-                AnyPoiWatchManager.sharedInstance.updateComplicationWith(newestLocation: currentLocation)
-                
-            }
+            
+            WatchSessionManager.sharedInstance.refreshWatchApp()
+//            if let currentLocation = locationManager?.location {
+//                AnyPoiWatchManager.sharedInstance.updateComplicationWith(location: currentLocation)
+//
+//            }
         } else {
             NSLog("\(#function): Error, POI not found! This CLRegion \(region.identifier) will be removed!")
             dumpMonitoredRegions()
@@ -289,9 +292,10 @@ extension LocationManager: CLLocationManagerDelegate {
             if poi.poiRegionNotifyExit {
                 AppDelegate.notifyRegionUpdate(poi: poi, isEntering:false)
             }
-            if let currentLocation = locationManager?.location {
-                AnyPoiWatchManager.sharedInstance.updateComplicationWith(newestLocation: currentLocation)
-           }
+            WatchSessionManager.sharedInstance.refreshWatchApp()
+//            if let currentLocation = locationManager?.location {
+//                AnyPoiWatchManager.sharedInstance.updateComplicationWith(location: currentLocation)
+//           }
         } else {
             NSLog("\(#function): Error, POI not found! This CLRegion \(region.identifier) will be removed!")
             dumpMonitoredRegions()

@@ -11,6 +11,11 @@ import UIKit
 
 struct CommonProps {
     
+    struct Cste {
+        static let radiusInKm = 10.0
+        static let maxRequestedResults = 10
+    }
+
     struct userLocation {
         static let latitude = "lat"
         static let longitude = "long"

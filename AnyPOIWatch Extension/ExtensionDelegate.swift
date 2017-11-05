@@ -12,7 +12,10 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
 
     func applicationDidFinishLaunching() {
         NSLog("\(#function)")
+        
+        
         // Perform any final initialization of your application.
+        WatchSessionManager.sharedInstance.startSession()
     }
 
     func applicationDidBecomeActive() {
@@ -38,9 +41,13 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
     func deviceOrientationDidChange() {
         NSLog("\(#function)")
     }
+    
 
     func handle(_ backgroundTasks: Set<WKRefreshBackgroundTask>) {
         // Sent when the system needs to launch the application in the background to process tasks. Tasks arrive in a set, so loop through and process each one.
+        
+        NSLog("\(#function) \(Debug.showAll())")
+        
         for task in backgroundTasks {
             // Use a switch statement to check the task type
             switch task {
@@ -51,6 +58,21 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
             case let snapshotTask as WKSnapshotRefreshBackgroundTask:
                 // Snapshot tasks have a unique completion call, make sure to set your expiration date
                 NSLog("\(#function) WKSnapshotRefreshBackgroundTask")
+                
+                switch snapshotTask.reasonForSnapshot {
+                case .appBackgrounded:
+                    NSLog("\(#function) appBackgrounded")
+                case .appScheduled:
+                    NSLog("\(#function) appScheduled")
+                case .complicationUpdate:
+                    NSLog("\(#function) complicationUpdate")
+                case .prelaunch:
+                    NSLog("\(#function) prelaunch")
+                case .returnToDefaultState:
+                    NSLog("\(#function) returnToDefaultState")
+                }
+                
+                
                 snapshotTask.setTaskCompleted(restoredDefaultState: true, estimatedSnapshotExpiration: Date.distantFuture, userInfo: nil)
             case let connectivityTask as WKWatchConnectivityRefreshBackgroundTask:
                 // Be sure to complete the connectivity task once you’re done.
@@ -68,8 +90,5 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
         }
     }
     
-    func nearestPOI() -> WatchPointOfInterest? {
-       return InterfaceController.sharedInstance?.nearestPOI
-    }
 
 }

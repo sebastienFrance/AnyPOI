@@ -63,7 +63,7 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
         }
     }
 
-    var props:[String:String]? {
+    var props:[String:String] {
         var theProps = [String:String]()
         
         theProps[CommonProps.POI.title] = title

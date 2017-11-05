@@ -29,12 +29,11 @@ class AnyPOIComplicationController: NSObject, CLKComplicationDataSource {
             break
         case .modularLarge:
             let template = CLKComplicationTemplateModularLargeStandardBody()
-            let myDelegate = WKExtension.shared().delegate as! ExtensionDelegate
-             if let poi = myDelegate.nearestPOI() {
+            if let poi = WatchDataSource.sharedInstance.nearestPOI {
                 template.headerImageProvider = CLKImageProvider(onePieceImage: poi.category!.glyph)
-                template.headerTextProvider = CLKTextProvider.localizableTextProvider(withStringsFileTextKey: poi.title!)
+                template.headerTextProvider = CLKTextProvider.localizableTextProvider(withStringsFileTextKey: poi.title)
                 template.body1TextProvider = CLKTextProvider.localizableTextProvider(withStringsFileTextKey: poi.category!.localizedString)
-                template.body2TextProvider = CLKTextProvider.localizableTextProvider(withStringsFileTextKey: poi.distance!)
+                template.body2TextProvider = CLKTextProvider.localizableTextProvider(withStringsFileTextKey: poi.distance)
 
              } else {
                 template.headerTextProvider = CLKTextProvider.localizableTextProvider(withStringsFileTextKey: "No Point of interest")

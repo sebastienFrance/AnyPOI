@@ -13,7 +13,7 @@ import UIKit
 
 class WatchPointOfInterest : Equatable {
     static func == (lhs: WatchPointOfInterest, rhs: WatchPointOfInterest) -> Bool {
-        if lhs.title == rhs.title && lhs.distance == rhs.distance {
+        if lhs.title == rhs.title && lhs.distance == rhs.distance && lhs.color == rhs.color && lhs.category == rhs.category {
             return true
         } else {
             return false
@@ -27,7 +27,7 @@ class WatchPointOfInterest : Equatable {
         theProps = properties
     }
     
-    var title:String? {
+    var title:String {
         if let remaining = theProps[CommonProps.debugRemainingComplicationTransferInfo], let urgentCounter = theProps[CommonProps.debugNotUrgentComplicationTransferInfo] {
             return  "(\(remaining)/\(urgentCounter)) \(theProps[CommonProps.POI.title]!)"
         } else {
@@ -35,7 +35,7 @@ class WatchPointOfInterest : Equatable {
         }
     }
     
-    var distance:String? {
+    var distance:String {
         if let distanceString = theProps[CommonProps.POI.distance], let distance = CLLocationDistance(distanceString) {
             return "\(MKDistanceFormatter().string(fromDistance: distance))"
         } else {
@@ -47,7 +47,7 @@ class WatchPointOfInterest : Equatable {
         return CommonProps.categoryFrom(props: theProps)
     }
     
-    var color: UIColor? {
+    var color: UIColor {
         if let color = CommonProps.poiColorFrom(props: theProps) {
             return color
         } else {
