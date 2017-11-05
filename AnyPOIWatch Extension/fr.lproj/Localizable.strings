@@ -1,0 +1,15 @@
+/* 
+  Localizable.strings
+  AnyPOI
+
+  Created by Sébastien Brugalières on 05/11/2017.
+  Copyright © 2017 Sébastien Brugalières. All rights reserved.
+*/
+"POIDetails_Call"="Appel";
+"POIDetails_SelectNumber"="Sélectionnez un numéro";
+
+"POIList_EnableLocation"="Veuillez activer la localisation d'AnyPOI sur votre iPhone";
+"POIList_LocationNotAvailable"="Verifiez que la localisation sur l'iPhone est activé";
+"POIList_internal error"="Erreur interne";
+"POIList_cannotSentMsgToiPhone"="Erreur de communication entre l'Apple Watch et l'iPhone";
+"POIList_UnknownError"="Erreur inconnue";

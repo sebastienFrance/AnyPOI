@@ -66,14 +66,6 @@ class WatchSessionManager: NSObject, WCSessionDelegate {
             return
         }
         
-//        guard session.isReachable else {
-//            NSLog("\(#function) Warning: cannot send a Message when the session is no more reachable")
-//            WatchDataSource.sharedInstance.updateWith(error:CommonProps.MessageStatusCode.errorWatchAppSendingMsgToiPhone)
-//            DispatchQueue.main.async {
-//                InterfaceController.sharedInstance?.refreshTable()
-//            }
-//            return
-//        }
         
         // Check if a message is already ongoing
         // If not then we update the internal state and we continue to send the message
@@ -109,12 +101,13 @@ class WatchSessionManager: NSObject, WCSessionDelegate {
                 }) { error in
                     self.msgInProgress = false
                     NSLog("\(#function) an error has occured: \(error.localizedDescription)")
-                    WatchDataSource.sharedInstance.updateWith(error:CommonProps.MessageStatusCode.errorWatchAppSendingMsgToiPhone, msg:error.localizedDescription)
+                    if CommonProps.isDebugEnabled {
+                        WatchDataSource.sharedInstance.updateWith(error:CommonProps.MessageStatusCode.errorWatchAppSendingMsgToiPhone, msg:error.localizedDescription)
+                    }
                 }
                 
             }
         }
-        
     }
 
     

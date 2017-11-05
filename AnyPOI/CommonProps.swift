@@ -15,6 +15,8 @@ struct CommonProps {
         static let radiusInKm = 10.0
         static let maxRequestedResults = 10
     }
+    
+    static let isDebugEnabled = false
 
     struct userLocation {
         static let latitude = "lat"
@@ -43,6 +45,7 @@ struct CommonProps {
         static let distance = "dist"
         static let latitude = "lat"
         static let longitude = "long"
+        static let phones = "phones"
     }
     
     static func categoryFrom(props:[String:String]) -> CategoryUtils.Category? {

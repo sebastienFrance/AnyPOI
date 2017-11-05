@@ -110,7 +110,6 @@ class WatchSessionManager: NSObject, WCSessionDelegate {
             NSLog("\(#function) an error has occured: \(theError.localizedDescription)")
         } else {
             if isWatchAppReady {
-                //refreshWatchAppUsingApplicationContext()
                 refreshWatchApp()
                 LocationManager.sharedInstance.startLocationUpdateForWatchApp()
             }
@@ -145,7 +144,7 @@ class WatchSessionManager: NSObject, WCSessionDelegate {
         if  let maxRadius = message[CommonProps.maxRadius] as? Double,
             let maxPOIResults = message[CommonProps.maxResults] as? Int {
             
-            let (propList, pois) = WatchUtilities.getPoisAround(maxRadius: maxRadius, maxPOIResults: maxPOIResults)
+            let (propList, _) = WatchUtilities.getPoisAround(maxRadius: maxRadius, maxPOIResults: maxPOIResults)
             replyHandler(propList)
         } else {
             replyHandler([CommonProps.messageStatus : CommonProps.MessageStatusCode.erroriPhoneCannotExtractCoordinatesFromMessage.rawValue])

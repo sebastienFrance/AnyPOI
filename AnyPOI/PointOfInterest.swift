@@ -73,6 +73,17 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
         theProps[CommonProps.POI.color] = ColorsUtils.getColor(color: parentGroup!.color)
         theProps[CommonProps.POI.latitude] = String(coordinate.latitude)
         theProps[CommonProps.POI.longitude] = String(coordinate.longitude)
+        
+        var phoneList = ""
+        for phoneNumber in phoneNumbers {
+            if phoneList.count > 0 {
+                phoneList += ","
+            }
+            phoneList += phoneNumber.stringValue
+        }
+        
+        theProps[CommonProps.POI.phones] = phoneList
+        
         return theProps
     }
     

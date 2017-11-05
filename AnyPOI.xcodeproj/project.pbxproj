@@ -130,6 +130,7 @@
 		BE4BF3BC1DEB36E10043891B /* GeoCodeMgr.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4BF3BB1DEB36E10043891B /* GeoCodeMgr.swift */; };
 		BE4BF3BE1DEB55E00043891B /* ExportGPX.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4BF3BD1DEB55E00043891B /* ExportGPX.swift */; };
 		BE4BF3C01DEB57ED0043891B /* GPXActivityItemSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4BF3BF1DEB57ED0043891B /* GPXActivityItemSource.swift */; };
+		BE5561191FAFBB3300C2E1AB /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BE55611B1FAFBB3300C2E1AB /* Localizable.strings */; };
 		BE5FE2901E81B849007128DF /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE5FE28F1E81B849007128DF /* Launch Screen.storyboard */; };
 		BE713DFF1FACF19800C7407A /* WatchSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE713DFE1FACF19800C7407A /* WatchSessionManager.swift */; };
 		BE713E021FADAC8E00C7407A /* WatchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE713E011FADAC8E00C7407A /* WatchDataSource.swift */; };
@@ -423,6 +424,9 @@
 		BE4BF3BB1DEB36E10043891B /* GeoCodeMgr.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeoCodeMgr.swift; sourceTree = "<group>"; };
 		BE4BF3BD1DEB55E00043891B /* ExportGPX.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExportGPX.swift; sourceTree = "<group>"; };
 		BE4BF3BF1DEB57ED0043891B /* GPXActivityItemSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPXActivityItemSource.swift; sourceTree = "<group>"; };
+		BE5561161FAFBA7C00C2E1AB /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Interface.strings; sourceTree = "<group>"; };
+		BE55611A1FAFBB3300C2E1AB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		BE55611C1FAFBB3D00C2E1AB /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BE5FE28F1E81B849007128DF /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		BE6D103A1F7FAD8F007A35FA /* AnyPOIWatch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AnyPOIWatch.entitlements; sourceTree = "<group>"; };
 		BE6D103B1F7FAF6F007A35FA /* AnyPOIWatch Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "AnyPOIWatch Extension.entitlements"; sourceTree = "<group>"; };
@@ -601,6 +605,8 @@
 			children = (
 				BE0F0DB01F92A8EA008C1EFA /* WatchPointOfInterest.swift */,
 				BE713E011FADAC8E00C7407A /* WatchDataSource.swift */,
+				BE713DFE1FACF19800C7407A /* WatchSessionManager.swift */,
+				BE96C3DB1F7FA1C700D9ABDB /* ExtensionDelegate.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1031,12 +1037,11 @@
 				BE0F0DAF1F92A8CA008C1EFA /* Model */,
 				BE6D103B1F7FAF6F007A35FA /* AnyPOIWatch Extension.entitlements */,
 				BE96C3D91F7FA1C700D9ABDB /* InterfaceController.swift */,
-				BE713DFE1FACF19800C7407A /* WatchSessionManager.swift */,
 				BE0F0DB21F92B510008C1EFA /* POIDetailsInterfaceController.swift */,
 				BE40FA3A1F968DE500CDC97E /* RowController */,
-				BE96C3DB1F7FA1C700D9ABDB /* ExtensionDelegate.swift */,
 				BE96C3DD1F7FA1C700D9ABDB /* NotificationController.swift */,
 				BEE7B8601F93B237007545F9 /* AnyPOIComplicationController.swift */,
+				BE55611B1FAFBB3300C2E1AB /* Localizable.strings */,
 				BE96C3DF1F7FA1C700D9ABDB /* Assets.xcassets */,
 				BE96C3E11F7FA1C700D9ABDB /* Info.plist */,
 				BE96C3E21F7FA1C700D9ABDB /* PushNotificationPayload.apns */,
@@ -1407,6 +1412,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BEE7B8621F93CD13007545F9 /* Localizable.strings in Resources */,
+				BE5561191FAFBB3300C2E1AB /* Localizable.strings in Resources */,
 				BEABBEF71F97D15700B39EA4 /* CommonAssets.xcassets in Resources */,
 				BE96C3E01F7FA1C700D9ABDB /* Assets.xcassets in Resources */,
 			);
@@ -1796,6 +1802,15 @@
 			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
+		BE55611B1FAFBB3300C2E1AB /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BE55611A1FAFBB3300C2E1AB /* en */,
+				BE55611C1FAFBB3D00C2E1AB /* fr */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		BE957E5A1DA8FBBA006CF455 /* Options.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1809,6 +1824,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				BE96C3CB1F7FA1C700D9ABDB /* Base */,
+				BE5561161FAFBA7C00C2E1AB /* fr */,
 			);
 			name = Interface.storyboard;
 			sourceTree = "<group>";

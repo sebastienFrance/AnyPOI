@@ -65,25 +65,7 @@ class InterfaceController: WKInterfaceController {
         static let emptyTableId = "EmptyPOITable"
     }
     
-    
-    static private func debugSessionActivationState(session:WCSession) -> String {
-        switch session.activationState {
-        case .activated: return "activated"
-        case .inactive: return "inactive"
-        case .notActivated: return "notActivated"
-        }
-    }
-    
-    static private func debugWCSession(session:WCSession) -> String {
-        var sessionInfo = "Activated: \(InterfaceController.debugSessionActivationState(session:session)) Reachable: \(session.isReachable)\n"
-        sessionInfo += "PendingContent: \(session.hasContentPending) NeedUnlock: \(session.iOSDeviceNeedsUnlockAfterRebootForReachability)"
-        return sessionInfo
-    }
-    
-    
     private func refreshTableWith(error:CommonProps.MessageStatusCode, msg:String = "") {
-        
-        
         // when an error has occured, we must reset the content of the displayed POIs
         displayedWatchPOIs.removeAll()
         
@@ -95,22 +77,22 @@ class InterfaceController: WKInterfaceController {
             return
         case .erroriPhoneLocationNotAuthorized:
             NSLog("\(#function) iPhone not authorized to get user location")
-            message = "Please enable location on iPhone App"
+            message = NSLocalizedString("POIList_EnableLocation", comment: "")
         case .erroriPhoneLocationNotAvailable:
             NSLog("\(#function) user location not available on the iPhone")
-            message = "Check user location is enabled on iPhone"
+            message = NSLocalizedString("POIList_LocationNotAvailable", comment: "")
         case .erroriPhoneCannotExtractCoordinatesFromMessage:
             NSLog("\(#function) iPhone cannot extract coordinates from Message")
-            message = "internal error"
+            message = NSLocalizedString("POIList_internal", comment: "")
         case .errorWatchAppSendingMsgToiPhone:
             NSLog("\(#function) error when sending message from Watch -> iPhone")
-            message = "Watch cannot send msg to iPhone"
+            message = NSLocalizedString("POIList_cannotSentMsgToiPhone", comment: "")
         case .errorUnknown:
             NSLog("\(#function) unknown error")
-            message = "Unknown error"
+            message = NSLocalizedString("POIList_UnknownError", comment: "")
         }
 
-        var debugInfo = "\(InterfaceController.debugWCSession(session:WCSession.default))\nMsgError: \(String(DebugInfos.sendMsgError)) NoUpd: \(String(DebugInfos.nothingToRefresh))"
+        var debugInfo = "\(Debug.showAll())\nMsgError: \(String(DebugInfos.sendMsgError)) NoUpd: \(String(DebugInfos.nothingToRefresh))"
         if msg != "" {
             debugInfo += "\nError cause: \(msg)"
         }
@@ -119,7 +101,11 @@ class InterfaceController: WKInterfaceController {
         self.anyPOITable.setNumberOfRows(1, withRowType: Storyboard.emptyTableId)
         
         if let controller = self.anyPOITable.rowController(at: 0) as? EmptyRowController {
-            controller.titleLabel.setText("\(debugInfo)\n\(message)")
+            if CommonProps.isDebugEnabled {
+                controller.titleLabel.setText("\(debugInfo)\n\(message)")
+            } else {
+                controller.titleLabel.setText("\(message)")
+            }
         }
     }
     
@@ -207,10 +193,17 @@ class InterfaceController: WKInterfaceController {
     }
     
     static func updateRowWith(row:AnyPOIRowController, watchPOI:WatchPointOfInterest) {
-        row.titleLabel.setText("(\(String(DebugInfos.sendMsgError)))(\(String(DebugInfos.nothingToRefresh)))\(watchPOI.title)\n\(watchPOI.distance)")
+        if CommonProps.isDebugEnabled {
+            row.titleLabel.setText("(\(String(DebugInfos.sendMsgError)))(\(String(DebugInfos.nothingToRefresh)))\(watchPOI.title)\n\(watchPOI.distance)")
+        } else {
+            row.titleLabel.setText("\(watchPOI.title)\n\(watchPOI.distance)")
+        }
+        
         row.theCategory.setImage(watchPOI.category?.glyph)
         row.theCategory.setTintColor(UIColor.white)
-        row.theGroupOfCategoryImage.setBackgroundColor(watchPOI.color)
+        row.theGroupOfCategoryImage.setBackgroundColor(UIColor.clear)
+        row.theSeparator.setColor(watchPOI.color)
+        row.theSeparator.setWidth(4.0)
     }
     
     override func contextForSegue(withIdentifier segueIdentifier: String, in table: WKInterfaceTable, rowIndex: Int) -> Any? {

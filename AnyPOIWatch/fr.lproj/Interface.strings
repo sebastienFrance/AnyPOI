@@ -1,0 +1,21 @@
+
+/* Class = "WKInterfaceController"; title = "AnyPOI"; ObjectID = "AgC-eL-Hgc"; */
+"AgC-eL-Hgc.title" = "AnyPOI";
+
+/* Class = "WKInterfaceLabel"; text = "Alert Label"; ObjectID = "IdU-wH-bcW"; */
+"IdU-wH-bcW.text" = "Alert Label";
+
+/* Class = "WKInterfaceLabel"; text = "Address"; ObjectID = "SjV-lT-59t"; */
+"SjV-lT-59t.text" = "Address";
+
+/* Class = "WKInterfaceLabel"; text = "No data available"; ObjectID = "WDm-vR-vIH"; */
+"WDm-vR-vIH.text" = "Aucun Point d'interêt";
+
+/* Class = "WKInterfaceLabel"; text = "Label"; ObjectID = "Z2r-3R-O7U"; */
+"Z2r-3R-O7U.text" = "Label";
+
+/* Class = "WKInterfaceLabel"; text = "Title"; ObjectID = "fpD-fh-hKc"; */
+"fpD-fh-hKc.text" = "Title";
+
+/* Class = "WKInterfaceButton"; title = "Call"; ObjectID = "xsE-7B-XiY"; */
+"xsE-7B-XiY.title" = "Appel";

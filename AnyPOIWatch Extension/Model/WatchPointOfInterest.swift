@@ -28,10 +28,35 @@ class WatchPointOfInterest : Equatable {
     }
     
     var title:String {
-        if let remaining = theProps[CommonProps.debugRemainingComplicationTransferInfo], let urgentCounter = theProps[CommonProps.debugNotUrgentComplicationTransferInfo] {
-            return  "(\(remaining)/\(urgentCounter)) \(theProps[CommonProps.POI.title]!)"
+        if CommonProps.isDebugEnabled {
+            if let remaining = theProps[CommonProps.debugRemainingComplicationTransferInfo], let urgentCounter = theProps[CommonProps.debugNotUrgentComplicationTransferInfo] {
+                return  "(\(remaining)/\(urgentCounter)) \(theProps[CommonProps.POI.title]!)"
+            } else {
+                return  theProps[CommonProps.POI.title]  ?? "unknown"
+            }
         } else {
-            return  theProps[CommonProps.POI.title]  ?? "unknown"
+            if let theTitle = theProps[CommonProps.POI.title] {
+                return theTitle
+            } else {
+                return "unknown"
+            }
+        }
+            
+    }
+    
+    var phones:[String] {
+        if let phones = theProps[CommonProps.POI.phones], phones.count > 0 {
+            return phones.components(separatedBy: ",")
+        } else {
+            return [String]()
+        }
+    }
+    
+    var address:String {
+        if let theAddress = theProps[CommonProps.POI.address] {
+            return theAddress
+        } else {
+            return "no Address available"
         }
     }
     

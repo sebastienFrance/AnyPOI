@@ -111,8 +111,11 @@ class WatchComplicationUpdate {
         var poiProps =  poi.props
         
         poiProps[CommonProps.POI.distance] = String(distanceFromUser)
-        poiProps[CommonProps.debugRemainingComplicationTransferInfo] = String(WatchSessionManager.sharedInstance.session.remainingComplicationUserInfoTransfers)
-        poiProps[CommonProps.debugNotUrgentComplicationTransferInfo] = String(debugNotUrgentMsgCounter)
+        
+        if CommonProps.isDebugEnabled {
+            poiProps[CommonProps.debugRemainingComplicationTransferInfo] = String(WatchSessionManager.sharedInstance.session.remainingComplicationUserInfoTransfers)
+            poiProps[CommonProps.debugNotUrgentComplicationTransferInfo] = String(debugNotUrgentMsgCounter)
+        }
         
         var result = [String:Any]()
         result[CommonProps.singlePOI] = poiProps
