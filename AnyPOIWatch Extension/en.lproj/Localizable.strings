@@ -15,3 +15,6 @@
 "POIList_UnknownError"="Unknown error";
 
 
+"Complication_NoPOI"="No Point of interest";
+"Complication_AroundYourLocation"="around your location";
+"Complication_NoPOILargeFlat"="No POI";

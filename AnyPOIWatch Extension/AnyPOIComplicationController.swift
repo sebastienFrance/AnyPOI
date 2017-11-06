@@ -24,34 +24,62 @@ class AnyPOIComplicationController: NSObject, CLKComplicationDataSource {
         NSLog("\(#function)")
         switch complication.family {
         case .circularSmall:
-            break
+            let template = CLKComplicationTemplateCircularSmallSimpleImage()
+            if let poi = WatchDataSource.sharedInstance.nearestPOI {
+                template.imageProvider = poi.complicationGlyph
+            }
+            let timeLine = CLKComplicationTimelineEntry(date: Date(), complicationTemplate: template)
+            handler(timeLine)
         case .extraLarge:
             break
         case .modularLarge:
             let template = CLKComplicationTemplateModularLargeStandardBody()
             if let poi = WatchDataSource.sharedInstance.nearestPOI {
-                template.headerImageProvider = CLKImageProvider(onePieceImage: poi.category!.glyph)
-                template.headerTextProvider = CLKTextProvider.localizableTextProvider(withStringsFileTextKey: poi.title)
-                template.body1TextProvider = CLKTextProvider.localizableTextProvider(withStringsFileTextKey: poi.category!.localizedString)
-                template.body2TextProvider = CLKTextProvider.localizableTextProvider(withStringsFileTextKey: poi.distance)
+                template.headerImageProvider = poi.complicationGlyph
+                template.headerTextProvider = poi.complicationCategory
+                template.body1TextProvider = poi.complicationTitle
+                template.body2TextProvider = poi.complicationDistance
 
              } else {
-                template.headerTextProvider = CLKTextProvider.localizableTextProvider(withStringsFileTextKey: "No Point of interest")
-                template.body1TextProvider = CLKTextProvider.localizableTextProvider(withStringsFileTextKey: "around your location")
+                template.headerTextProvider = CLKTextProvider.localizableTextProvider(withStringsFileTextKey: NSLocalizedString("Complication_NoPOI", comment: ""))
+                template.body1TextProvider = CLKTextProvider.localizableTextProvider(withStringsFileTextKey: NSLocalizedString("Complication_AroundYourLocation", comment: ""))
                 template.body2TextProvider = CLKTextProvider.localizableTextProvider(withStringsFileTextKey: "")
              }
             
             let timeLine = CLKComplicationTimelineEntry(date: Date(), complicationTemplate: template)
             handler(timeLine)
-            break
         case .modularSmall:
-            break
+            let template = CLKComplicationTemplateModularSmallSimpleImage()
+            if let poi = WatchDataSource.sharedInstance.nearestPOI {
+                template.imageProvider = poi.complicationGlyph
+            }
+            let timeLine = CLKComplicationTimelineEntry(date: Date(), complicationTemplate: template)
+            handler(timeLine)
         case .utilitarianLarge:
-            break
+            let template = CLKComplicationTemplateUtilitarianLargeFlat()
+            if let poi = WatchDataSource.sharedInstance.nearestPOI {
+                template.imageProvider = poi.complicationGlyph
+                template.textProvider = poi.complicationTitle
+            } else {
+                template.textProvider = CLKTextProvider.localizableTextProvider(withStringsFileTextKey: NSLocalizedString("Complication_NoPOILargeFlat", comment: ""))
+            }
+            let timeLine = CLKComplicationTimelineEntry(date: Date(), complicationTemplate: template)
+            handler(timeLine)
         case .utilitarianSmall:
-            break
+            let template = CLKComplicationTemplateUtilitarianSmallSquare()
+            if let poi = WatchDataSource.sharedInstance.nearestPOI {
+                template.imageProvider = poi.complicationGlyph
+            }
+            let timeLine = CLKComplicationTimelineEntry(date: Date(), complicationTemplate: template)
+            handler(timeLine)
         case .utilitarianSmallFlat:
-            break
+            let template = CLKComplicationTemplateUtilitarianSmallFlat()
+            if let poi = WatchDataSource.sharedInstance.nearestPOI {
+                template.imageProvider = poi.complicationGlyph
+                template.textProvider = CLKTextProvider.localizableTextProvider(withStringsFileTextKey: "")
+            }
+            let timeLine = CLKComplicationTimelineEntry(date: Date(), complicationTemplate: template)
+            handler(timeLine)
         }
 
     }
@@ -59,28 +87,36 @@ class AnyPOIComplicationController: NSObject, CLKComplicationDataSource {
     func getLocalizableSampleTemplate(for complication: CLKComplication, withHandler handler: @escaping (CLKComplicationTemplate?) -> Void) {
         switch complication.family {
         case .circularSmall:
-            break
+            let template = CLKComplicationTemplateCircularSmallSimpleImage()
+            template.imageProvider = CLKImageProvider(onePieceImage: #imageLiteral(resourceName: "Museum Filled-80"))
+            handler(template)
         case .extraLarge:
             break
         case .modularLarge:
             let template = CLKComplicationTemplateModularLargeStandardBody()
             template.headerImageProvider = CLKImageProvider(onePieceImage: #imageLiteral(resourceName: "Museum Filled-80"))
-            template.headerTextProvider = CLKTextProvider.localizableTextProvider(withStringsFileTextKey: "Musée du Louvre")
-            template.body1TextProvider = CLKTextProvider.localizableTextProvider(withStringsFileTextKey: "Rue de Rivoli, Paris")
+            template.headerTextProvider = CLKTextProvider.localizableTextProvider(withStringsFileTextKey: "Musée")
+            template.body1TextProvider = CLKTextProvider.localizableTextProvider(withStringsFileTextKey: "Le Louvre")
             template.body2TextProvider = CLKTextProvider.localizableTextProvider(withStringsFileTextKey: "800m")
             handler(template)
-            break
         case .modularSmall:
-            break
+            let template = CLKComplicationTemplateModularSmallSimpleImage()
+            template.imageProvider = CLKImageProvider(onePieceImage: #imageLiteral(resourceName: "Museum Filled-80"))
+            handler(template)
         case .utilitarianLarge:
-            break
+            let template = CLKComplicationTemplateUtilitarianLargeFlat()
+            template.imageProvider = CLKImageProvider(onePieceImage: #imageLiteral(resourceName: "Museum Filled-80"))
+            template.textProvider = CLKTextProvider.localizableTextProvider(withStringsFileTextKey: "Le Louvre")
+            handler(template)
         case .utilitarianSmall:
-            break
+            let template = CLKComplicationTemplateUtilitarianSmallSquare()
+            template.imageProvider = CLKImageProvider(onePieceImage: #imageLiteral(resourceName: "Museum Filled-80"))
+            handler(template)
         case .utilitarianSmallFlat:
-            break
+            let template = CLKComplicationTemplateUtilitarianSmallFlat()
+            template.imageProvider = CLKImageProvider(onePieceImage: #imageLiteral(resourceName: "Museum Filled-80"))
+            template.textProvider = CLKTextProvider.localizableTextProvider(withStringsFileTextKey: "")
+            handler(template)
         }
-    }
-    
-
-
+   }
 }

@@ -13,3 +13,8 @@
 "POIList_internal error"="Erreur interne";
 "POIList_cannotSentMsgToiPhone"="Erreur de communication entre l'Apple Watch et l'iPhone";
 "POIList_UnknownError"="Erreur inconnue";
+
+
+"Complication_NoPOI"="Aucun points d'intérêts";
+"Complication_AroundYourLocation"="autour de vous";
+"Complication_NoPOILargeFlat"="Aucun POI";

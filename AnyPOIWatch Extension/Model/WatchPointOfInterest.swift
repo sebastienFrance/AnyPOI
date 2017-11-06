@@ -10,6 +10,7 @@ import Foundation
 import CoreLocation
 import MapKit
 import UIKit
+import ClockKit
 
 class WatchPointOfInterest : Equatable {
     static func == (lhs: WatchPointOfInterest, rhs: WatchPointOfInterest) -> Bool {
@@ -27,6 +28,30 @@ class WatchPointOfInterest : Equatable {
         theProps = properties
     }
     
+    var complicationTitle:CLKTextProvider {
+        return CLKTextProvider.localizableTextProvider(withStringsFileTextKey: title)
+    }
+    
+    var complicationGlyph:CLKImageProvider {
+        if let theCatgory = category {
+            return CLKImageProvider(onePieceImage: theCatgory.glyph)
+        } else {
+            return CLKImageProvider(onePieceImage: CategoryUtils.defaultGroupCategory.glyph)
+        }
+    }
+    
+    var complicationCategory: CLKTextProvider {
+        if let theCatgory = category {
+            return CLKTextProvider.localizableTextProvider(withStringsFileTextKey: theCatgory.localizedString)
+        } else {
+            return CLKTextProvider.localizableTextProvider(withStringsFileTextKey: "?")
+        }
+    }
+    
+    var complicationDistance: CLKTextProvider {
+        return CLKTextProvider.localizableTextProvider(withStringsFileTextKey: distance)
+    }
+    
     var title:String {
         if CommonProps.isDebugEnabled {
             if let remaining = theProps[CommonProps.debugRemainingComplicationTransferInfo], let urgentCounter = theProps[CommonProps.debugNotUrgentComplicationTransferInfo] {
@@ -41,7 +66,6 @@ class WatchPointOfInterest : Equatable {
                 return "unknown"
             }
         }
-            
     }
     
     var phones:[String] {

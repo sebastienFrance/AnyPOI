@@ -203,7 +203,7 @@ class InterfaceController: WKInterfaceController {
         row.theCategory.setTintColor(UIColor.white)
         row.theGroupOfCategoryImage.setBackgroundColor(UIColor.clear)
         row.theSeparator.setColor(watchPOI.color)
-        row.theSeparator.setWidth(4.0)
+        row.theGroupRow.setBackgroundColor(watchPOI.color.withAlphaComponent(0.3))
     }
     
     override func contextForSegue(withIdentifier segueIdentifier: String, in table: WKInterfaceTable, rowIndex: Int) -> Any? {

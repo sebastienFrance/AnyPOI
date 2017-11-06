@@ -215,33 +215,7 @@
 "RouteFullNameWithDistanceAndTime %@ with %@"="%@ : %@";
 "RouteName %@ has not destination"="%@ has no destination";
 "RouteName %@ is empty"="%@ is empty";
-// Category
-"CategoryLabelUnknown"="Unknown";
-"CategoryLabelCoffee"="Cofee";
-"CategoryLabelRestaurant"="Restaurant";
-"CategoryLabelWineBar"="Wine bar";
-"CategoryLabelBar"="Bar";
-"CategoryLabelFastfood"="fast food";
-"CategoryLabelMuseum"="Museum";
-"CategoryLabelNightClub"="Night club";
-"CategoryLabelStation"="Station";
-"CategoryLabelOpera"="Opera";
-"CategoryLabelConcertHall"="Concert";
-"CategoryLabelHospital"="Hospital";
-"CategoryLabelPharmacy"="Pharmacy";
-"CategoryLabelChurch"="Church";
-"CategoryLabelStadium"="Stadium";
-"CategoryLabelGasStation"="Gas";
-"CategoryLabelCourtHouse"="Court";
-"CategoryLabelAirport"="Airport";
-"CategoryLabelTheater"="Theater";
-"CategoryLabelPark"="Park";
-"CategoryLabelParking"="Parking";
-"CategoryLabelPizzeria"="Pizzeria";
-"CategoryLabelATM"="ATM";
-"CategoryLabelBank"="Bank";
-"CategoryLabelShopping"="Shopping";
-"CategoryLabelHotel"="Hotel";
+
 
 // Help
 "HelpAddPOITitle"="Add a Point of Interest";

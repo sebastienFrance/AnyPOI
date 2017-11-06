@@ -1,0 +1,34 @@
+/* 
+  Categories.strings
+  AnyPOI
+
+  Created by Sébastien Brugalières on 06/11/2017.
+  Copyright © 2017 Sébastien Brugalières. All rights reserved.
+*/
+// Category
+"CategoryLabelUnknown"="Inconnue";
+"CategoryLabelCoffee"="Café";
+"CategoryLabelRestaurant"="Restaurant";
+"CategoryLabelFastfood"="Fast food";
+"CategoryLabelWineBar"="Bar à vin";
+"CategoryLabelBar"="Bar";
+"CategoryLabelMuseum"="Musée";
+"CategoryLabelNightClub"="Night club";
+"CategoryLabelStation"="Gare";
+"CategoryLabelOpera"="Théatre";
+"CategoryLabelConcertHall"="Concert";
+"CategoryLabelHospital"="Hopital";
+"CategoryLabelPharmacy"="Pharmacie";
+"CategoryLabelChurch"="Eglise";
+"CategoryLabelStadium"="Stade";
+"CategoryLabelGasStation"="Essence";
+"CategoryLabelCourtHouse"="Justice";
+"CategoryLabelAirport"="Aéroport";
+"CategoryLabelTheater"="Cinémas";
+"CategoryLabelPark"="Parc";
+"CategoryLabelParking"="Parking";
+"CategoryLabelPizzeria"="Pizzeria";
+"CategoryLabelATM"="Distributeur";
+"CategoryLabelBank"="Banque";
+"CategoryLabelShopping"="Shopping";
+"CategoryLabelHotel"="Hotel";

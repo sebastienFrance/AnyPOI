@@ -12,11 +12,14 @@ import Foundation
 
 class POIDetailsInterfaceController: WKInterfaceController {
 
+    @IBOutlet var theGroupDescription: WKInterfaceGroup!
     @IBOutlet var theMap: WKInterfaceMap!
     @IBOutlet var theImage: WKInterfaceImage!
     @IBOutlet var theLabel: WKInterfaceLabel!
     @IBOutlet var theAddress: WKInterfaceLabel!
     @IBOutlet var thePhoneButton: WKInterfaceButton!
+    @IBOutlet var theCategoryLabel: WKInterfaceLabel!
+    @IBOutlet var theSpacerGroup: WKInterfaceGroup!
     
     var poi:WatchPointOfInterest?
     
@@ -27,7 +30,13 @@ class POIDetailsInterfaceController: WKInterfaceController {
             poi = watchPOI
             theImage.setImage(watchPOI.category?.glyph)
             theImage.setTintColor(UIColor.white)
+          
             theLabel.setText(watchPOI.title)
+            if let category = watchPOI.category?.localizedString {
+                theCategoryLabel.setText(category)
+            } else {
+                theCategoryLabel.setHidden(true)
+            }
             theAddress.setText(watchPOI.address)
             theMap.addAnnotation(watchPOI.coordinate!, with: WKInterfaceMapPinColor.green)
             theMap.setRegion(MKCoordinateRegionMakeWithDistance(watchPOI.coordinate!, 200, 200))
@@ -35,8 +44,20 @@ class POIDetailsInterfaceController: WKInterfaceController {
             if watchPOI.phones.count == 0 {
                 thePhoneButton.setHidden(true)
             }
+            
+            theGroupDescription.setBackgroundColor(watchPOI.color.withAlphaComponent(0.0))
         }
         // Configure interface objects here.
+    }
+    
+    override func didAppear() {
+        super.didAppear()
+        guard poi != nil else { return }
+        
+        animate(withDuration: 0.3) {
+            self.theGroupDescription.setBackgroundColor(self.poi!.color.withAlphaComponent(0.3))
+            self.theSpacerGroup.setWidth(0.0)
+        }
     }
 
     @IBAction func phoneButtonPressed() {

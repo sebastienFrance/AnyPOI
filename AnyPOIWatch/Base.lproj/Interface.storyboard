@@ -95,10 +95,15 @@
                         <group width="1" alignment="left" id="wVO-Zj-qzR">
                             <items>
                                 <imageView width="30" height="30" alignment="left" id="g4i-Pr-Ygu"/>
+                                <group width="1" alignment="left" id="Snq-5p-DdC"/>
                                 <group width="1" alignment="left" layout="vertical" id="fQf-U5-nBJ">
                                     <items>
                                         <label alignment="left" text="Label" textAlignment="left" numberOfLines="0" id="Z2r-3R-O7U">
                                             <fontDescription key="font" style="UICTFontTextStyleBody"/>
+                                        </label>
+                                        <label alignment="left" text="Label" textAlignment="left" numberOfLines="0" id="LHy-xI-ZMO">
+                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <fontDescription key="font" style="UICTFontTextStyleSubhead"/>
                                         </label>
                                     </items>
                                 </group>
@@ -118,10 +123,13 @@
                     </items>
                     <connections>
                         <outlet property="theAddress" destination="SjV-lT-59t" id="jmH-d0-fSL"/>
+                        <outlet property="theCategoryLabel" destination="LHy-xI-ZMO" id="FzE-fl-AE7"/>
+                        <outlet property="theGroupDescription" destination="wVO-Zj-qzR" id="lZa-Cx-D5w"/>
                         <outlet property="theImage" destination="g4i-Pr-Ygu" id="AbJ-u3-pGl"/>
                         <outlet property="theLabel" destination="Z2r-3R-O7U" id="Goe-vM-HhQ"/>
                         <outlet property="theMap" destination="B5m-DE-VhP" id="MaQ-8K-fGQ"/>
                         <outlet property="thePhoneButton" destination="xsE-7B-XiY" id="O3W-GA-tii"/>
+                        <outlet property="theSpacerGroup" destination="Snq-5p-DdC" id="Jlg-Ua-mNs"/>
                     </connections>
                 </controller>
             </objects>

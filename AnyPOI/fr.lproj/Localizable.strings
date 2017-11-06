@@ -217,34 +217,7 @@
 "RouteName %@ has not destination"="%@ sans destination";
 "RouteName %@ is empty"="%@ est vide";
 "ExportAllTitle"="Export d'AnyPOI";
-// Category
-"CategoriesSectionMapFilterVC"="Categories";
-"CategoryLabelUnknown"="Inconnue";
-"CategoryLabelCoffee"="Café";
-"CategoryLabelRestaurant"="Restaurant";
-"CategoryLabelFastfood"="Fast food";
-"CategoryLabelWineBar"="Bar à vin";
-"CategoryLabelBar"="Bar";
-"CategoryLabelMuseum"="Musée";
-"CategoryLabelNightClub"="Night club";
-"CategoryLabelStation"="Gare";
-"CategoryLabelOpera"="Théatre";
-"CategoryLabelConcertHall"="Concert";
-"CategoryLabelHospital"="Hopital";
-"CategoryLabelPharmacy"="Pharmacie";
-"CategoryLabelChurch"="Eglise";
-"CategoryLabelStadium"="Stade";
-"CategoryLabelGasStation"="Essence";
-"CategoryLabelCourtHouse"="Justice";
-"CategoryLabelAirport"="Aéroport";
-"CategoryLabelTheater"="Cinémas";
-"CategoryLabelPark"="Parc";
-"CategoryLabelParking"="Parking";
-"CategoryLabelPizzeria"="Pizzeria";
-"CategoryLabelATM"="Distributeur";
-"CategoryLabelBank"="Banque";
-"CategoryLabelShopping"="Shopping";
-"CategoryLabelHotel"="Hotel";
+
 
 // Help
 "HelpAddPOITitle"="Ajouter un Point d'interêt";

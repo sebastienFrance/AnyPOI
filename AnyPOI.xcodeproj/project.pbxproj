@@ -111,6 +111,8 @@
 		BE1BA9BC1F6571C6001B6512 /* PointOfInterest+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1BA9B41F6571C6001B6512 /* PointOfInterest+CoreDataProperties.swift */; };
 		BE1BA9BD1F65725E001B6512 /* GroupOfInterest+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1BA9AE1F6571C6001B6512 /* GroupOfInterest+CoreDataProperties.swift */; };
 		BE1BA9C01F657271001B6512 /* PointOfInterest+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1BA9B41F6571C6001B6512 /* PointOfInterest+CoreDataProperties.swift */; };
+		BE1BAF061FB0E9A70077F78F /* Categories.strings in Resources */ = {isa = PBXBuildFile; fileRef = BE1BAF081FB0E9A70077F78F /* Categories.strings */; };
+		BE1BAF0B1FB0ECF90077F78F /* Categories.strings in Resources */ = {isa = PBXBuildFile; fileRef = BE1BAF081FB0E9A70077F78F /* Categories.strings */; };
 		BE1D1B791E5F7F4700EE986F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BE1D1B771E5F7F4700EE986F /* Localizable.strings */; };
 		BE2A80281E13C48A003B1BE5 /* GPXRouteWayPointAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2A80271E13C48A003B1BE5 /* GPXRouteWayPointAttributes.swift */; };
 		BE2E4A2F1F2C79B3001C22C0 /* NavigationUrlTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2E4A2E1F2C79B3001C22C0 /* NavigationUrlTests.swift */; };
@@ -400,6 +402,8 @@
 		BE1BA9B01F6571C6001B6512 /* Route+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Route+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		BE1BA9B21F6571C6001B6512 /* WayPoint+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WayPoint+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		BE1BA9B41F6571C6001B6512 /* PointOfInterest+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PointOfInterest+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		BE1BAF071FB0E9A70077F78F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Categories.strings; sourceTree = "<group>"; };
+		BE1BAF091FB0E9AE0077F78F /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Categories.strings; sourceTree = "<group>"; };
 		BE1D1B781E5F7F4700EE986F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BE1D1B7A1E5F7F5800EE986F /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BE2A80271E13C48A003B1BE5 /* GPXRouteWayPointAttributes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPXRouteWayPointAttributes.swift; sourceTree = "<group>"; };
@@ -1037,8 +1041,8 @@
 				BE0F0DAF1F92A8CA008C1EFA /* Model */,
 				BE6D103B1F7FAF6F007A35FA /* AnyPOIWatch Extension.entitlements */,
 				BE96C3D91F7FA1C700D9ABDB /* InterfaceController.swift */,
-				BE0F0DB21F92B510008C1EFA /* POIDetailsInterfaceController.swift */,
 				BE40FA3A1F968DE500CDC97E /* RowController */,
+				BE0F0DB21F92B510008C1EFA /* POIDetailsInterfaceController.swift */,
 				BE96C3DD1F7FA1C700D9ABDB /* NotificationController.swift */,
 				BEE7B8601F93B237007545F9 /* AnyPOIComplicationController.swift */,
 				BE55611B1FAFBB3300C2E1AB /* Localizable.strings */,
@@ -1091,6 +1095,7 @@
 				BE0CF2D61D8B209A00344F8A /* NavigationURL.swift */,
 				BE0CF2AD1D8B209A00344F8A /* CategoryUtils.swift */,
 				BE0F0DAC1F929DB8008C1EFA /* CommonProps.swift */,
+				BE1BAF081FB0E9A70077F78F /* Categories.strings */,
 			);
 			name = Shared;
 			sourceTree = "<group>";
@@ -1412,6 +1417,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BEE7B8621F93CD13007545F9 /* Localizable.strings in Resources */,
+				BE1BAF0B1FB0ECF90077F78F /* Categories.strings in Resources */,
 				BE5561191FAFBB3300C2E1AB /* Localizable.strings in Resources */,
 				BEABBEF71F97D15700B39EA4 /* CommonAssets.xcassets in Resources */,
 				BE96C3E01F7FA1C700D9ABDB /* Assets.xcassets in Resources */,
@@ -1443,6 +1449,7 @@
 				BE5FE2901E81B849007128DF /* Launch Screen.storyboard in Resources */,
 				BE4A880C1D93137900A0DE2F /* Localizable.strings in Resources */,
 				BEA7BAA91D8B01E5005D2D21 /* Assets.xcassets in Resources */,
+				BE1BAF061FB0E9A70077F78F /* Categories.strings in Resources */,
 				BEDC10541D97D4D1000C6A0D /* InfoPlist.strings in Resources */,
 				BEBB5ED91F767EF900191D75 /* Search.storyboard in Resources */,
 				BEA7BAA41D8B01E5005D2D21 /* Main.storyboard in Resources */,
@@ -1775,6 +1782,15 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		BE1BAF081FB0E9A70077F78F /* Categories.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BE1BAF071FB0E9A70077F78F /* en */,
+				BE1BAF091FB0E9AE0077F78F /* fr */,
+			);
+			name = Categories.strings;
+			sourceTree = "<group>";
+		};
 		BE1D1B771E5F7F4700EE986F /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
