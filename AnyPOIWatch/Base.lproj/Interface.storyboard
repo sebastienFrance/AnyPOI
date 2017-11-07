@@ -24,7 +24,7 @@
                                             </separator>
                                             <group alignment="left" id="icN-Oi-MlG">
                                                 <items>
-                                                    <group width="30" alignment="left" layout="vertical" id="efp-nr-wCe">
+                                                    <group width="30" alignment="left" verticalAlignment="center" layout="vertical" id="efp-nr-wCe">
                                                         <items>
                                                             <imageView width="30" height="30" alignment="left" id="Rca-xZ-Xhb">
                                                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -76,9 +76,11 @@
             <objects>
                 <notificationController id="YCC-NB-fut">
                     <items>
-                        <label alignment="left" text="Alert Label" id="IdU-wH-bcW"/>
+                        <label alignment="left" text="Monitored POI" id="IdU-wH-bcW"/>
                     </items>
-                    <notificationCategory key="notificationCategory" identifier="myCategory" id="JfB-70-Muf"/>
+                    <notificationCategory key="notificationCategory" identifier="myCategory" id="JfB-70-Muf">
+                        <color key="sashColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    </notificationCategory>
                     <connections>
                         <outlet property="notificationAlertLabel" destination="IdU-wH-bcW" id="JKC-fr-R95"/>
                         <segue destination="4sK-HA-Art" kind="relationship" relationship="dynamicNotificationInterface" id="kXh-Jw-8B1"/>
@@ -94,7 +96,11 @@
                     <items>
                         <group width="1" alignment="left" id="wVO-Zj-qzR">
                             <items>
-                                <imageView width="30" height="30" alignment="left" id="g4i-Pr-Ygu"/>
+                                <group width="30" alignment="left" verticalAlignment="center" id="9RI-7u-K8A" userLabel="VerticalCenterGroup">
+                                    <items>
+                                        <imageView width="30" height="30" alignment="left" id="g4i-Pr-Ygu"/>
+                                    </items>
+                                </group>
                                 <group width="1" alignment="left" id="Snq-5p-DdC"/>
                                 <group width="1" alignment="left" layout="vertical" id="fQf-U5-nBJ">
                                     <items>

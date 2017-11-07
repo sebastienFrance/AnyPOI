@@ -260,9 +260,6 @@ extension LocationManager: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         NSLog("\(#function) with latest location \(locations.last?.coordinate.latitude ?? -1) / \(locations.last?.coordinate.longitude ?? -1)")
         WatchSessionManager.sharedInstance.refreshWatchApp()
-//        guard let newestLocation = locations.last else { return }
-//       // updateWatchComplicationWith(newestLocation: newestLocation)
-//        AnyPoiWatchManager.sharedInstance.updateComplicationWith(location: newestLocation)
     }
     
     
@@ -275,10 +272,6 @@ extension LocationManager: CLLocationManagerDelegate {
             }
             
             WatchSessionManager.sharedInstance.refreshWatchApp()
-//            if let currentLocation = locationManager?.location {
-//                AnyPoiWatchManager.sharedInstance.updateComplicationWith(location: currentLocation)
-//
-//            }
         } else {
             NSLog("\(#function): Error, POI not found! This CLRegion \(region.identifier) will be removed!")
             dumpMonitoredRegions()
@@ -293,9 +286,6 @@ extension LocationManager: CLLocationManagerDelegate {
                 AppDelegate.notifyRegionUpdate(poi: poi, isEntering:false)
             }
             WatchSessionManager.sharedInstance.refreshWatchApp()
-//            if let currentLocation = locationManager?.location {
-//                AnyPoiWatchManager.sharedInstance.updateComplicationWith(location: currentLocation)
-//           }
         } else {
             NSLog("\(#function): Error, POI not found! This CLRegion \(region.identifier) will be removed!")
             dumpMonitoredRegions()

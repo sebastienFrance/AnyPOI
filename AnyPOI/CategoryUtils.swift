@@ -14,19 +14,19 @@ class CategoryUtils {
                                                 categoryId: CategoryId.defaultGroup.questionMarkId,
                                                 icon: #imageLiteral(resourceName: "Question Mark-30"),
                                                 glyph: #imageLiteral(resourceName: "Question Mark Filled-80"),
-                                                localizedString: NSLocalizedString("CategoryLabelUnknown", comment: ""))
+                                                localizedString: NSLocalizedString("CategoryLabelUnknown", tableName: "Categories", comment: ""))
     
      static let contactCategory = Category(groupCategory: GroupId.defaultGroupId,
                                            categoryId: CategoryId.defaultGroup.contactId,
                                            icon: #imageLiteral(resourceName: "Contacts-30"),
                                            glyph: #imageLiteral(resourceName: "Contacts Filled-80"),
-                                           localizedString: "Contact")
+                                           localizedString: NSLocalizedString("CategoryContacts", tableName: "Categories", comment: ""))
     
      static let wikipediaCategory = Category(groupCategory: GroupId.defaultGroupId,
                                              categoryId: CategoryId.defaultGroup.wikipediaId,
                                              icon: #imageLiteral(resourceName: "Wikipedia-30"),
                                              glyph: #imageLiteral(resourceName: "Wikipedia Filled-80"),
-                                             localizedString: "Wikipedia")
+                                             localizedString: NSLocalizedString("CategoryWikipedia", tableName: "Categories", comment: ""))
     
     static func isWikipediaCategory(category:Category) -> Bool {
         return category.groupCategory == GroupId.defaultGroupId && category.categoryId == CategoryId.defaultGroup.wikipediaId
