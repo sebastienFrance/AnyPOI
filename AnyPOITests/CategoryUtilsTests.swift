@@ -10,19 +10,20 @@ import XCTest
 
 @testable import AnyPOI
 
+@objcMembers
 class CategoryUtilsTests: XCTestCase {
     
-    @objc override func setUp() {
+    override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
     
-    @objc override func tearDown() {
+    override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
     }
     
-    @objc func testCategoryIndex() {
+    func testCategoryIndex() {
         
         let indexDefaultGroup = CategoryUtils.getIndex(category: CategoryUtils.defaultGroupCategory, inCategories: CategoryUtils.localSearchCategories)
         XCTAssertNotNil(indexDefaultGroup, "Cannot find index of default category")
@@ -38,7 +39,7 @@ class CategoryUtilsTests: XCTestCase {
         
     }
     
-    @objc func testCategoryFind() {
+    func testCategoryFind() {
         let defaultCategory = CategoryUtils.findCategory(groupCategory: CategoryUtils.defaultGroupCategory.groupCategory,
                                                          categoryId: CategoryUtils.defaultGroupCategory.categoryId,
                                                          inCategories: CategoryUtils.localSearchCategories)
@@ -51,7 +52,7 @@ class CategoryUtilsTests: XCTestCase {
         XCTAssertNil(unknownCategory, "Found an unknown category")
     }
     
-    @objc func testPerformanceExample() {
+    func testPerformanceExample() {
         // This is an example of a performance test case.
         self.measure {
             // Put the code you want to measure the time of here.

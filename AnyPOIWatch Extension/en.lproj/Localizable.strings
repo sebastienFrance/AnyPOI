@@ -10,7 +10,7 @@
 
 "POIList_EnableLocation"="Please, enable AnyPOI location on iPhone";
 "POIList_LocationNotAvailable"="Please, check user iPhone location is enabled";
-"POIList_internal error"="Internal error";
+"POIList_internal"="Internal error";
 "POIList_cannotSentMsgToiPhone"="Error, Watch cannot send msg to iPhone";
 "POIList_UnknownError"="Unknown error";
 

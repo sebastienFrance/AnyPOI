@@ -149,6 +149,7 @@
 		BE90C7B41DA1668900033DC9 /* RouteProviderTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE90C7B31DA1668900033DC9 /* RouteProviderTableViewController.swift */; };
 		BE90C7B61DA166A800033DC9 /* RouteProviderWithTransportTypeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE90C7B51DA166A800033DC9 /* RouteProviderWithTransportTypeTableViewCell.swift */; };
 		BE9195BD1E0691550039DE49 /* GPXRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE9195BC1E0691550039DE49 /* GPXRoute.swift */; };
+		BE936FD21FB7044F00303694 /* LetMenuDebugLocationUpdateTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE936FD11FB7044F00303694 /* LetMenuDebugLocationUpdateTableViewCell.swift */; };
 		BE93D5241DB26E7F00104872 /* WayPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE93D5231DB26E7F00104872 /* WayPoint.swift */; };
 		BE9440221F71A03500115BF3 /* POIsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE9440211F71A03500115BF3 /* POIsDataSource.swift */; };
 		BE957E5C1DA8FBBA006CF455 /* Options.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE957E5A1DA8FBBA006CF455 /* Options.storyboard */; };
@@ -449,6 +450,7 @@
 		BE90C7B31DA1668900033DC9 /* RouteProviderTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteProviderTableViewController.swift; sourceTree = "<group>"; };
 		BE90C7B51DA166A800033DC9 /* RouteProviderWithTransportTypeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteProviderWithTransportTypeTableViewCell.swift; sourceTree = "<group>"; };
 		BE9195BC1E0691550039DE49 /* GPXRoute.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPXRoute.swift; sourceTree = "<group>"; };
+		BE936FD11FB7044F00303694 /* LetMenuDebugLocationUpdateTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetMenuDebugLocationUpdateTableViewCell.swift; sourceTree = "<group>"; };
 		BE93D5231DB26E7F00104872 /* WayPoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WayPoint.swift; sourceTree = "<group>"; };
 		BE9440211F71A03500115BF3 /* POIsDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = POIsDataSource.swift; sourceTree = "<group>"; };
 		BE957E5B1DA8FBBA006CF455 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Options.storyboard; sourceTree = "<group>"; };
@@ -731,6 +733,7 @@
 				BEC3104D1DBA9F9400A923AF /* LeftMenuPOIsTableViewCell.swift */,
 				BE0CF2CB1D8B209A00344F8A /* LeftMenuAboutTableViewCell.swift */,
 				BE0CF2CC1D8B209A00344F8A /* LeftMenuTableViewCell.swift */,
+				BE936FD11FB7044F00303694 /* LetMenuDebugLocationUpdateTableViewCell.swift */,
 			);
 			name = LeftMenuVC;
 			sourceTree = "<group>";
@@ -1641,6 +1644,7 @@
 				BE0CF3191D8B209A00344F8A /* PoiEditorGroupViewCell.swift in Sources */,
 				BE187CF11DAA58C6007737B4 /* WikipediaLanguages.swift in Sources */,
 				BE0CF3031D8B209A00344F8A /* LeftMenuViewController.swift in Sources */,
+				BE936FD21FB7044F00303694 /* LetMenuDebugLocationUpdateTableViewCell.swift in Sources */,
 				BEF5D2771F9B93D300C8EE1D /* WatchSessionMgr.swift in Sources */,
 				BE1BA9B61F6571C6001B6512 /* GroupOfInterest+CoreDataProperties.swift in Sources */,
 				BE0CF3501D8B209A00344F8A /* CategoryCollectionViewCell.swift in Sources */,
@@ -2163,7 +2167,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sebastien.AnyPOITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AnyPOI.app/AnyPOI";
 			};
@@ -2177,7 +2181,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sebastien.AnyPOITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AnyPOI.app/AnyPOI";
 			};
@@ -2190,7 +2194,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sebastien.AnyPOIUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
 				TEST_TARGET_NAME = AnyPOI;
 			};
@@ -2203,7 +2207,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sebastien.AnyPOIUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
 				TEST_TARGET_NAME = AnyPOI;
 			};

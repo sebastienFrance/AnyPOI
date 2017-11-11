@@ -83,7 +83,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     NSLog("\(#function) Warning local notification not granted")
                 }
             }
-        })
+            
+         })
+        
+        var actions = [UNNotificationAction]()
+        actions.append(UNNotificationAction(identifier: "CallId", title: "Call", options:[] )) // UNNotificationActionOptions.authenticationRequired
+        actions.append(UNNotificationAction(identifier: "CallId2", title: "Go To", options:[UNNotificationActionOptions.authenticationRequired] ))
+
+        let notificationCategory = UNNotificationCategory(identifier: "MonitoringRegionCategory", actions: actions, intentIdentifiers: [],  options: [])
+        let categories: Set = [notificationCategory]
+        UNUserNotificationCenter.current().setNotificationCategories(categories)
+
         
         // Register notification to raise an alert when all contacts have been synchronized
         NotificationCenter.default.addObserver(self,
@@ -377,6 +387,8 @@ extension AppDelegate {
             content.badge = 1
             content.sound = UNNotificationSound.default()
             content.userInfo[AppDelegate.LocalNotificationId.monitoringRegionPOI] = poi.objectID.uriRepresentation().absoluteString
+            content.userInfo[CommonProps.singlePOI] = poi.props
+            content.categoryIdentifier = "MonitoringRegionCategory"
             let request = UNNotificationRequest(identifier: AppDelegate.LocalNotificationId.monitoringRegionId, content:content, trigger: nil)
             UNUserNotificationCenter.current().add(request, withCompletionHandler: { error in
                 if let theError = error {

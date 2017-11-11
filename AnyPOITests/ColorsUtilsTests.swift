@@ -9,19 +9,20 @@
 import XCTest
 @testable import AnyPOI
 
+@objcMembers
 class ColorsUtilsTests: XCTestCase {
     
-    @objc override func setUp() {
+    override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
     
-    @objc override func tearDown() {
+    override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
     }
     
-    @objc func testColors() {
+   func testColors() {
         let colors = ColorsUtils.initColors()
         
         XCTAssertTrue(colors.count > 0, "Error colors is empty")

@@ -9,19 +9,20 @@
 import XCTest
 @testable import AnyPOI
 
+@objcMembers
 class CountryDescriptionTests: XCTestCase {
     
-    @objc override func setUp() {
+    override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
     
-    @objc override func tearDown() {
+    override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
     }
     
-   @objc  func testISOCountryToCountryDescription() {
+   func testISOCountryToCountryDescription() {
         
         let countryNames = ["fr","us"]
         let countries = CountryDescription.isoCountryNamesToCountryDescription(isoCountryNames: countryNames)
@@ -54,7 +55,7 @@ class CountryDescriptionTests: XCTestCase {
         XCTAssertEqual(emptyCountries.count, 0, "Not an empty countries")
     }
     
-    @objc func testEmojiFlag() {
+    func testEmojiFlag() {
         let france = CountryDescription.emoji(countryCode: "fr")
         let germany = CountryDescription.emoji(countryCode: "de")
         let usa = CountryDescription.emoji(countryCode: "us")
@@ -64,7 +65,7 @@ class CountryDescriptionTests: XCTestCase {
         XCTAssertEqual(usa, "🇺🇸", "Flag from usa is wrong")
     }
     
-    @objc func testPerformanceExample() {
+    func testPerformanceExample() {
         // This is an example of a performance test case.
         
         var countryCodes = [String]()

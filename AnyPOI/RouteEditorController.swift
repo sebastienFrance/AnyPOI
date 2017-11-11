@@ -91,7 +91,7 @@ class RouteEditorController {
    
     @objc func checkRouteName(_ sender:AnyObject) {
         if let textfield = sender as? UITextField {
-            if !textfield.text!.characters.isEmpty {
+            if !textfield.text!.isEmpty {
                 createRouteController!.actions[0].isEnabled = true
             } else {
                 createRouteController!.actions[0].isEnabled = false

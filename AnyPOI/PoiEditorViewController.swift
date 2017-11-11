@@ -179,7 +179,7 @@ extension PoiEditorViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
         if textField.tag == Cste.poiDisplayNameTextField {
-            let length = textField.text!.characters.count - range.length + string.characters.count
+            let length = textField.text!.count - range.length + string.count
             saveButton.isEnabled = length > 0 ? true : false
             newDisplayName = (textField.text! as NSString).replacingCharacters(in: range, with: string)
         } else if textField.tag == Cste.poiDescriptionTextField {

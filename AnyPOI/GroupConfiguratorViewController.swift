@@ -142,7 +142,7 @@ extension GroupConfiguratorViewController: UITextFieldDelegate {
     // When the group name becomes empty we set the save button to disabled otherwise it's enabled
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if textField === groupNameTextField {
-            let length = textField.text!.characters.count - range.length + string.characters.count
+            let length = textField.text!.count - range.length + string.count
             saveButton.isEnabled = length > 0 ? true : false
         }
         return true

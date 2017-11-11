@@ -596,6 +596,50 @@
                                             <outlet property="pinView" destination="Z0g-Nc-OAe" id="RcC-XK-SbI"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="debugLocationUpdateCellId" rowHeight="84" id="bXc-Vs-mRa" customClass="LetMenuDebugLocationUpdateTableViewCell" customModule="AnyPOI" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="376" width="375" height="84"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="bXc-Vs-mRa" id="ciK-4H-RTf">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="83.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="OhA-Pe-3ZB">
+                                                    <rect key="frame" x="15" y="11" width="345" height="62"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tto-XQ-xyW">
+                                                            <rect key="frame" x="0.0" y="0.0" width="345" height="16"/>
+                                                            <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="source" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PTf-uL-wAf">
+                                                            <rect key="frame" x="0.0" y="16" width="345" height="16"/>
+                                                            <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="coordinates" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nKZ-id-Eky">
+                                                            <rect key="frame" x="0.0" y="32" width="345" height="30"/>
+                                                            <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                </stackView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="OhA-Pe-3ZB" firstAttribute="leading" secondItem="ciK-4H-RTf" secondAttribute="leadingMargin" id="LVS-33-djQ"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="OhA-Pe-3ZB" secondAttribute="bottom" id="Mvw-Wm-Rrx"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="OhA-Pe-3ZB" secondAttribute="trailing" id="Yge-CK-BeI"/>
+                                                <constraint firstItem="OhA-Pe-3ZB" firstAttribute="top" secondItem="ciK-4H-RTf" secondAttribute="topMargin" id="lux-oa-spD"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="theCoordinates" destination="nKZ-id-Eky" id="Olo-bN-fgq"/>
+                                            <outlet property="theDate" destination="Tto-XQ-xyW" id="9jj-LW-uwf"/>
+                                            <outlet property="theSource" destination="PTf-uL-wAf" id="2t1-i1-vye"/>
+                                        </connections>
+                                    </tableViewCell>
                                 </prototypes>
                             </tableView>
                         </subviews>
@@ -1442,13 +1486,13 @@ Compute the route from current position to the displayed POI</string>
                                                     <rect key="frame" x="15" y="11" width="313" height="64"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Show all Points of Interests" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zrU-3w-PRN">
-                                                            <rect key="frame" x="0.0" y="0.0" width="313" height="20.5"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="313" height="21"/>
                                                             <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" text="When unchecked it will display only the Points of interests used by the route" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xbn-3Y-dyn">
-                                                            <rect key="frame" x="0.0" y="25.5" width="313" height="38.5"/>
+                                                            <rect key="frame" x="0.0" y="26" width="313" height="38"/>
                                                             <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                             <nil key="highlightedColor"/>
@@ -2112,7 +2156,7 @@ Compute the route from current position to the displayed POI</string>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="5Ps-Vn-sun"/>
-        <segue reference="JCH-gZ-ywN"/>
+        <segue reference="TOc-JS-7Xw"/>
         <segue reference="FJh-UX-8xy"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -16,6 +16,9 @@ class WatchSessionManager: NSObject, WCSessionDelegate {
     let session = WCSession.default
     
     private let complicationUpdateManager = WatchComplicationUpdate()
+    var complicationNearestPOI:PointOfInterest? {
+        return complicationUpdateManager.nearestPOI
+    }
     
     private override init() {
         super.init()
@@ -81,6 +84,10 @@ class WatchSessionManager: NSObject, WCSessionDelegate {
         if isWatchAppReachable {
             NSLog("\(#function) WatchApp is reachable -> Send Message")
             session.sendMessage(propList, replyHandler: { resultValue in
+                if let location = LocationManager.sharedInstance.locationManager?.location {
+                    let nearestPOI = pois.count > 0 ? pois[0] : nil
+                    self.complicationUpdateManager.resetWith(poi: nearestPOI, currentLocation: location)
+                }
             }) { error in
                 NSLog("\(#function) error with sendMessage, error: \(error.localizedDescription) ")
             }
@@ -93,11 +100,7 @@ class WatchSessionManager: NSObject, WCSessionDelegate {
                 NSLog("\(#function) updateApplicationContext has failed \(error.localizedDescription)")
             }
             
-            if pois.count > 0 {
-                complicationUpdateManager.updateComplicationWith(poi: pois[0])
-            } else {
-                complicationUpdateManager.updateComplicationWith()
-            }
+            complicationUpdateManager.updateComplicationWith(poi: pois.count > 0 ? pois[0] : nil)
         } else {
             NSLog("\(#function) WatchApp cannot be refreshed!")
         }

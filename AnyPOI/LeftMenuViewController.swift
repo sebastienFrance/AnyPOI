@@ -73,9 +73,16 @@ extension LeftMenuViewController : UITableViewDataSource, UITableViewDelegate {
         static let Purchase = 5
     }
     
+    func numberOfSections(in tableView: UITableView) -> Int {
+       return LocationManager.sharedInstance.isDebugEnabled ? 2 : 1
+    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return menuTitles.count + 1
+        if section == 0 {
+            return menuTitles.count + 1
+        } else {
+            return LocationManager.sharedInstance.debugLocationUpdates.count
+        }
     }
     
     private struct storyboard {
@@ -83,19 +90,41 @@ extension LeftMenuViewController : UITableViewDataSource, UITableViewDelegate {
         static let LeftMenuCellId = "LeftMenuCellId"
         static let MenuAboutCellId = "MenuAboutCellId"
         static let LeftMenuPurchaseTableViewCellId = "LeftMenuPurchaseTableViewCellId"
+        static let debugLocationUpdateCellId = "debugLocationUpdateCellId"
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if indexPath.row == Row.POIs {
-            let theCell = cell as! LeftMenuPOIsTableViewCell
-            theCell.pinView.animatesWhenAdded = false
-            theCell.pinView.canShowCallout = false
-            theCell.pinView.glyphTintColor = ColorsUtils.defaultGroupColor()
+        if indexPath.section == 0 {
+            if indexPath.row == Row.POIs {
+                let theCell = cell as! LeftMenuPOIsTableViewCell
+                theCell.pinView.animatesWhenAdded = false
+                theCell.pinView.canShowCallout = false
+                theCell.pinView.glyphTintColor = ColorsUtils.defaultGroupColor()
+            }
         }
     }
     
+    func debugLocationUpdate(cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+         let theCell = theTableView.dequeueReusableCell(withIdentifier: storyboard.debugLocationUpdateCellId, for: indexPath) as! LetMenuDebugLocationUpdateTableViewCell
+        
+        let debugInfos = LocationManager.sharedInstance.debugLocationUpdates[indexPath.row]
+        
+        let dateLocation = DateFormatter.localizedString(from: debugInfos.locationInfos.timestamp, dateStyle: .medium, timeStyle: .medium)
+        theCell.theCoordinates.text = "\(dateLocation): \(debugInfos.locationInfos.coordinate.latitude)/\(debugInfos.locationInfos.coordinate.longitude)"
+
+        let dateEvent = DateFormatter.localizedString(from: debugInfos.dateInfos, dateStyle: .medium, timeStyle: .medium)
+        theCell.theDate.text = "\(dateEvent) \(debugInfos.nearestPOI)"
+        
+        theCell.theSource.text = "\(debugInfos.reason) \(debugInfos.distanceNearestPOI)"
+        
+        return theCell
+    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        if indexPath.section == 1 {
+            return debugLocationUpdate(cellForRowAt: indexPath)
+        }
         
         if indexPath.row < menuTitles.count {
             if indexPath.row == Row.POIs {

@@ -193,6 +193,16 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
     fileprivate var monitoredRegion:MKOverlay?
     
     
+    func distanceFrom(location:CLLocation) -> CLLocationDistance {
+        let poiLocation = CLLocation(latitude: poiLatitude , longitude: poiLongitude)
+        return location.distance(from: poiLocation)
+    }
+
+    func distanceFrom(location:CLLocationCoordinate2D) -> CLLocationDistance {
+        let poiLocation = CLLocation(latitude: poiLatitude , longitude: poiLongitude)
+        let sourceLocation = CLLocation(latitude: location.latitude, longitude: location.longitude)
+        return sourceLocation.distance(from: poiLocation)
+    }
 
     func getMonitordRegionOverlay() -> MKOverlay? {
         if monitoredRegion == nil {
@@ -612,7 +622,7 @@ extension PointOfInterest {
         
         // The contentDescription is set with the Poi description if configured
         // otherwise it's configured with the Poi Address
-        if let thePoiDescription = poiDescription , thePoiDescription.characters.count > 0 {
+        if let thePoiDescription = poiDescription , thePoiDescription.count > 0 {
             attributeSet.contentDescription = thePoiDescription
         } else {
             // Put the address
@@ -622,7 +632,7 @@ extension PointOfInterest {
         // Add keywords that will contains:
         // - All words from the display name
         // - The Category if not empty
-        let subStringFromDisplayName = poiDisplayName!.characters.split(separator: " ")
+        let subStringFromDisplayName = poiDisplayName!.split(separator: " ")
         var keywords = [String]()
         for currentString in subStringFromDisplayName {
             if currentString.count > 1 {

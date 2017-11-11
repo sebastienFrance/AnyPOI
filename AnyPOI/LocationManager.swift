@@ -38,7 +38,16 @@ class LocationManager : NSObject {
     
     fileprivate(set) var locationManager:CLLocationManager?
 
+    struct DebugLocationUpdateInfos {
+        let locationInfos:CLLocation
+        let dateInfos:Date
+        let reason:String
+        let nearestPOI:String
+        let distanceNearestPOI:CLLocationDistance
+    }
     
+    var debugLocationUpdates = [DebugLocationUpdateInfos]()
+    var isDebugEnabled = true
     
     // Initialize the Singleton
     class var sharedInstance: LocationManager {
@@ -260,6 +269,8 @@ extension LocationManager: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         NSLog("\(#function) with latest location \(locations.last?.coordinate.latitude ?? -1) / \(locations.last?.coordinate.longitude ?? -1)")
         WatchSessionManager.sharedInstance.refreshWatchApp()
+        
+        addDebugLocationUpdate(sourceUpdate: "Update Locations")
     }
     
     
@@ -272,6 +283,7 @@ extension LocationManager: CLLocationManagerDelegate {
             }
             
             WatchSessionManager.sharedInstance.refreshWatchApp()
+            addDebugLocationUpdate(sourceUpdate: "Enter Region")
         } else {
             NSLog("\(#function): Error, POI not found! This CLRegion \(region.identifier) will be removed!")
             dumpMonitoredRegions()
@@ -286,11 +298,32 @@ extension LocationManager: CLLocationManagerDelegate {
                 AppDelegate.notifyRegionUpdate(poi: poi, isEntering:false)
             }
             WatchSessionManager.sharedInstance.refreshWatchApp()
+            addDebugLocationUpdate(sourceUpdate: "Exit Region")
         } else {
             NSLog("\(#function): Error, POI not found! This CLRegion \(region.identifier) will be removed!")
             dumpMonitoredRegions()
             
             locationManager?.stopMonitoring(for: region)
+        }
+    }
+    
+    private func addDebugLocationUpdate(sourceUpdate:String) {
+        if isDebugEnabled, let location =  locationManager?.location {
+            
+            var poiName = "no POI"
+            var distanceFromPOI:CLLocationDistance = -1
+            if let poi = WatchSessionManager.sharedInstance.complicationNearestPOI {
+                poiName = poi.title!
+                let poiLocation = CLLocation(latitude: poi.coordinate.latitude, longitude: poi.coordinate.longitude)
+                distanceFromPOI = location.distance(from: poiLocation)
+            }
+            
+            let debugInfos = DebugLocationUpdateInfos(locationInfos: location,
+                                                      dateInfos: Date(),
+                                                      reason: sourceUpdate,
+                                                      nearestPOI: poiName,
+                                                      distanceNearestPOI: distanceFromPOI)
+            debugLocationUpdates.append(debugInfos)
         }
     }
     

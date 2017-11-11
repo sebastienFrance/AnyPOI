@@ -9,6 +9,7 @@
 import XCTest
 @testable import AnyPOI
 
+@objcMembers
 class NavigationUrlTests: XCTestCase {
     
     var navUrlWithoutPoiId: NavigationURL!
@@ -16,7 +17,7 @@ class NavigationUrlTests: XCTestCase {
     var invalidURL: NavigationURL!
     var emptyURL: NavigationURL!
     
-    @objc override func setUp() {
+    override func setUp() {
         super.setUp()
         
         navUrlWithoutPoiId = NavigationURL(openURL: URL(string: "https://apple.com?value1=1&value2=2&value3=3")!)
@@ -25,7 +26,7 @@ class NavigationUrlTests: XCTestCase {
         emptyURL = NavigationURL(openURL: URL(string: "https://apple.com")!)
     }
     
-    @objc override func tearDown() {
+    override func tearDown() {
         navUrlWithoutPoiId = nil
         navUrlWithPoiId = nil
         invalidURL = nil
@@ -33,7 +34,7 @@ class NavigationUrlTests: XCTestCase {
         super.tearDown()
     }
     
-    @objc func testExample() {
+    func testExample() {
         XCTAssertTrue(navUrlWithoutPoiId.isValidURL, "Error navUrlWithoutPoiId is not a valid URL")
         XCTAssertTrue(navUrlWithPoiId.isValidURL, "Error navUrlWithPoiId is not a valid URL")
         XCTAssertFalse(invalidURL.isValidURL, "Error invalidURL is a valid URL")

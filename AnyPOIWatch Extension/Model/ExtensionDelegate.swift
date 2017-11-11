@@ -7,14 +7,36 @@
 //
 
 import WatchKit
+import UserNotifications
 
-class ExtensionDelegate: NSObject, WKExtensionDelegate {
+class ExtensionDelegate: NSObject, WKExtensionDelegate, UNUserNotificationCenterDelegate {
 
     func applicationDidFinishLaunching() {
         NSLog("\(#function)")
         
         
         // Perform any final initialization of your application.
+        UNUserNotificationCenter.current().delegate = self
+//        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound], completionHandler: { (granted, error) in
+//            if let theError = error {
+//                NSLog("\(#function) error when request localNotification \(theError.localizedDescription)")
+//            } else {
+//                if !granted {
+//                    NSLog("\(#function) Warning local notification not granted")
+//                }
+//            }
+//
+//        })
+
+//        var actions = [UNNotificationAction]()
+//        actions.append(UNNotificationAction(identifier: "CallId", title: "Call", options:[UNNotificationActionOptions.authenticationRequired] ))
+//        actions.append(UNNotificationAction(identifier: "CallId2", title: "Go To", options:[UNNotificationActionOptions.authenticationRequired] ))
+//
+//        let notificationCategory = UNNotificationCategory(identifier: "MonitoringRegionCategory", actions: actions, intentIdentifiers: [],  options: [])
+//        let categories: Set = [notificationCategory]
+//        UNUserNotificationCenter.current().setNotificationCategories(categories)
+
+        
         WatchSessionManager.sharedInstance.startSession()
     }
 
@@ -90,5 +112,16 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
         }
     }
     
+    // MARK: UNUserNotificationCenterDelegate
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        NSLog("\(#function)")
+        
+        completionHandler()
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        NSLog("\(#function)")
+        completionHandler(.alert)
+    }
 
 }

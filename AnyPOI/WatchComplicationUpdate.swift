@@ -12,14 +12,22 @@ import CoreLocation
 class WatchComplicationUpdate {
     
     /// Cache
-    private var nearestPOI:PointOfInterest? = nil
-    private var nearestDistance:Int = -1
+    private(set) var nearestPOI:PointOfInterest? = nil
+    private var nearestDistance:CLLocationDistance = -1
     
     private var debugNotUrgentMsgCounter = 0
     
     private enum NeedUpdate { case urgent, notUrgent, none }
     
-    
+    func resetWith(poi:PointOfInterest?, currentLocation:CLLocation) {
+        nearestPOI = poi
+        
+        if let thePoi = poi {
+            nearestDistance = thePoi.distanceFrom(location: currentLocation)
+        } else {
+            nearestDistance = -1
+        }
+    }
     
     /// Request an update of the complication with a new location
     func updateComplicationWith(poi:PointOfInterest? = nil) {
@@ -60,31 +68,21 @@ class WatchComplicationUpdate {
     ///   - currentLocation: user current location, use to compute the distance between the POI and the user location
     private func sendComplicationUpdate(poi:PointOfInterest, currentLocation: CLLocation) {
         
-        // Compute distance between POI and user
-        let targetLocation = CLLocation(latitude: poi.poiLatitude , longitude: poi.poiLongitude)
-        let distance = currentLocation.distance(from: targetLocation)
-        
-        let updateType = isComplicationUpdateNeeded(poi: poi, distanceFromUser: distance)
-        if updateType == .none {
-            return
-        }
-        
-        let result = createComplicationUserInfos(poi: poi, distanceFromUser: distance)
-        switch updateType {
+        switch isComplicationUpdateNeeded(poi: poi, distanceFromUser: poi.distanceFrom(location:currentLocation)) {
         case .urgent:
-            // As we sent an urgent message, cancel all previous msg which are useless
+            let distance = poi.distanceFrom(location:currentLocation)
+            let result = createComplicationUserInfos(poi: poi, distanceFromUser: distance)
+            
             WatchSessionManager.sharedInstance.session.transferCurrentComplicationUserInfo(result)
+            
+            nearestPOI = poi
+            nearestDistance = distance
         case .notUrgent:
             debugNotUrgentMsgCounter += 1
-        default:
+        case .none:
             break
         }
-        
-        // Update cache
-        nearestPOI = poi
-        nearestDistance = Int(distance)
     }
-    
     
     /// Compute if the complication update is urgent, not urgent or none
     ///
@@ -94,10 +92,16 @@ class WatchComplicationUpdate {
     /// - Returns: urgent if the complication must be updated quickly, not urgent when the complication update is not mandatory and none when there's no update
     private func isComplicationUpdateNeeded(poi:PointOfInterest, distanceFromUser:CLLocationDistance) -> NeedUpdate {
         if poi != nearestPOI {
-            NSLog("\(#function) complication update because POI has changed")
             return .urgent
         } else {
-            return nearestDistance != Int(distanceFromUser) ? .notUrgent : .none
+            let distanceDiff = abs(nearestDistance - distanceFromUser)
+            if distanceDiff >= CommonProps.Cste.diffDistanceForUrgentUpdate {
+                return .urgent
+            } else if distanceFromUser != 0 {
+                return .notUrgent
+            } else {
+                return .none
+            }
         }
     }
     

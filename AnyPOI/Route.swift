@@ -256,7 +256,7 @@ class Route: NSManagedObject {
         
         // Add keywords that will contains:
         // - All words from the display name
-        let subStringFromDisplayName = routeName!.characters.split(separator: " ")
+        let subStringFromDisplayName = routeName!.split(separator: " ")
         var keywords = [String]()
         for currentString in subStringFromDisplayName {
             if currentString.count > 1 {

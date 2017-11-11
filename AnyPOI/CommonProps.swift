@@ -8,12 +8,14 @@
 
 import Foundation
 import UIKit
+import CoreLocation
 
 struct CommonProps {
     
     struct Cste {
         static let radiusInKm = 10.0
         static let maxRequestedResults = 10
+        static let diffDistanceForUrgentUpdate : CLLocationDistance = 300
     }
     
     static let isDebugEnabled = false
