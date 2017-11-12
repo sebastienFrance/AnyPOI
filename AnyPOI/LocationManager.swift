@@ -48,14 +48,17 @@ class LocationManager : NSObject {
         let isWatchAppReachableBefore:Bool
         
         struct WatchSessionMsg {
-            let sendMsgSuccess = WatchSessionManager.debugSendMsgSuccess
-            let sendMsgErrorResult = WatchSessionManager.debugSendMsgErrorResult
-            let sendMsgError = WatchSessionManager.debugSendMsgError
+            let sendMsgSuccess = WatchSessionManager.Debug.sendMsgSuccess
+            let sendMsgErrorResult = WatchSessionManager.Debug.sendMsgErrorResult
+            let sendMsgError = WatchSessionManager.Debug.sendMsgError
             
-            let sendApplicationContextSuccess = WatchSessionManager.debugSendApplicationContextSuccess
-            let sendApplicationContextError = WatchSessionManager.debugSendApplicationContextError
+            let sendApplicationContextSuccess = WatchSessionManager.Debug.sendApplicationContextSuccess
+            let sendApplicationContextError = WatchSessionManager.Debug.sendApplicationContextError
             
             let remainingComplication = WatchSessionManager.sharedInstance.session.remainingComplicationUserInfoTransfers
+            
+            let debugReceiveSendMsgSuccess = WatchSessionManager.Debug.receiveSendMsgSuccess
+            let debugReceiveSendMsgError = WatchSessionManager.Debug.receiveSendMsgError
         }
         
         let watchSessionMsg = WatchSessionMsg()
@@ -69,6 +72,28 @@ class LocationManager : NSObject {
         }
         
         let watchComplicationUpdate = WatchComplication()
+        
+        var debugTrace:String {
+            let dateLocation = DateFormatter.localizedString(from: locationInfos.timestamp, dateStyle: .medium, timeStyle: .medium)
+            let dateEvent = DateFormatter.localizedString(from: dateInfos, dateStyle: .medium, timeStyle: .medium)
+            
+            return """
+            WatchReach B4/after: \(isWatchAppReachableBefore)/\(isWatchAppReachable)
+            SendMsg ok/errRes/err: \(watchSessionMsg.sendMsgSuccess)/\(watchSessionMsg.sendMsgErrorResult)/\(watchSessionMsg.sendMsgError)
+            SendAppCtxt ok/err: \(watchSessionMsg.sendApplicationContextSuccess)/\(watchSessionMsg.sendApplicationContextError)
+            RemainCompUpd: \(watchSessionMsg.remainingComplication)
+            CompUpdate Urg/NotUrg/Empty: \(watchComplicationUpdate.sendUrgentComplicationUpdate)/\(watchComplicationUpdate.notUrgentComplicationUpdate)/\(watchComplicationUpdate.sendEmptyComplicationUpdate)
+            CompUpdate cancelled: \(watchComplicationUpdate.cancelTransferComplicationUpdate)
+            ReceivedMsg ok/err: \(watchSessionMsg.debugReceiveSendMsgSuccess)/\(watchSessionMsg.debugReceiveSendMsgError)
+            EventType: \(reason)
+            POI: \(nearestPOI)
+            POI Distance: \(distanceNearestPOI)
+            EventDate: \(dateEvent)
+            LocDate: \(dateLocation)
+            Latitude: \(locationInfos.coordinate.latitude)
+            Longitude: \(locationInfos.coordinate.longitude)
+            """
+        }
     }
     
     var debugLocationUpdates = [DebugLocationUpdateInfos]()

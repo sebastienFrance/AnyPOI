@@ -107,27 +107,7 @@ extension LeftMenuViewController : UITableViewDataSource, UITableViewDelegate {
     func debugLocationUpdate(cellForRowAt indexPath: IndexPath) -> UITableViewCell {
          let theCell = theTableView.dequeueReusableCell(withIdentifier: storyboard.debugLocationUpdateCellId, for: indexPath) as! LetMenuDebugLocationUpdateTableViewCell
         
-        let debugInfos = LocationManager.sharedInstance.debugLocationUpdates[indexPath.row]
-        let dateLocation = DateFormatter.localizedString(from: debugInfos.locationInfos.timestamp, dateStyle: .medium, timeStyle: .medium)
-        let dateEvent = DateFormatter.localizedString(from: debugInfos.dateInfos, dateStyle: .medium, timeStyle: .medium)
-        
-        let debugText = """
-        WatchReach B4/after: \(debugInfos.isWatchAppReachableBefore)/\(debugInfos.isWatchAppReachable)
-        SendMsg ok/errRes/err: \(debugInfos.watchSessionMsg.sendMsgSuccess)/\(debugInfos.watchSessionMsg.sendMsgErrorResult)/\(debugInfos.watchSessionMsg.sendMsgError)
-        SendAppCtxt ok/err: \(debugInfos.watchSessionMsg.sendApplicationContextSuccess)/\(debugInfos.watchSessionMsg.sendApplicationContextError)
-        RemainCompUpd: \(debugInfos.watchSessionMsg.remainingComplication)
-        CompUpdate Urg/NotUrg/Empty: \(debugInfos.watchComplicationUpdate.sendUrgentComplicationUpdate)/\(debugInfos.watchComplicationUpdate.notUrgentComplicationUpdate)/\(debugInfos.watchComplicationUpdate.sendEmptyComplicationUpdate)
-        CompUpdate cancelled: \(debugInfos.watchComplicationUpdate.cancelTransferComplicationUpdate)
-        EventType: \(debugInfos.reason)
-        POI: \(debugInfos.nearestPOI)
-        POI Distance: \(debugInfos.distanceNearestPOI)
-        EventDate: \(dateEvent)
-        LocDate: \(dateLocation)
-        Latitude: \(debugInfos.locationInfos.coordinate.latitude)
-        Longitude: \(debugInfos.locationInfos.coordinate.longitude)
-        """
-        
-        theCell.watchReachableState.text = debugText
+        theCell.watchReachableState.text = LocationManager.sharedInstance.debugLocationUpdates[indexPath.row].debugTrace
         
         return theCell
     }

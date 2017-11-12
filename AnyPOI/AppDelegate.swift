@@ -477,7 +477,12 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
                     }
                 }
             }
+        } else if response.actionIdentifier == "CallId" {
+            Utilities.startPhoneCall("0608183246")
         }
+        
+        
+        completionHandler()
     }
 }
 

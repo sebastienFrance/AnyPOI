@@ -75,12 +75,16 @@ class WatchSessionManager: NSObject, WCSessionDelegate {
         refreshWatchApp()
     }
     
-    static var debugSendMsgSuccess = 0
-    static var debugSendMsgErrorResult = 0
-    static var debugSendMsgError = 0
-    static var debugSendApplicationContextSuccess = 0
-    static var debugSendApplicationContextError = 0
-    
+    struct Debug {
+        static var sendMsgSuccess = 0
+        static var sendMsgErrorResult = 0
+        static var sendMsgError = 0
+        static var sendApplicationContextSuccess = 0
+        static var sendApplicationContextError = 0
+        static var receiveSendMsgSuccess = 0
+        static var receiveSendMsgError = 0
+    }
+        
     func refreshWatchApp() {
         NSLog("\(#function) \(WatchDebug.debugWCSession(session: session))")
 
@@ -101,30 +105,30 @@ class WatchSessionManager: NSObject, WCSessionDelegate {
                             let nearestPOI = pois.count > 0 ? pois[0] : nil
                             self.complicationUpdateManager.resetWith(poi: nearestPOI, currentLocation: location)
                         }
-                        WatchSessionManager.debugSendMsgSuccess += 1
+                        WatchSessionManager.Debug.sendMsgSuccess += 1
                     default:
                         NSLog("\(#function) Apple watch has replied with an error")
-                        WatchSessionManager.debugSendMsgErrorResult += 1
+                        WatchSessionManager.Debug.sendMsgErrorResult += 1
                         break
                     }
                 } else {
                     NSLog("\(#function) get an unknown response from Apple Watch!")
-                    WatchSessionManager.debugSendMsgErrorResult += 1
+                    WatchSessionManager.Debug.sendMsgErrorResult += 1
                 }
                 
             }) { error in
                 NSLog("\(#function) error with sendMessage, error: \(error.localizedDescription) ")
-                WatchSessionManager.debugSendMsgError += 1
+                WatchSessionManager.Debug.sendMsgError += 1
             }
         } else if isWatchAppReady {
 
             do {
                 try session.updateApplicationContext(propList)
                 NSLog("\(#function) updateApplicationContext has been sent")
-                WatchSessionManager.debugSendApplicationContextSuccess += 1
+                WatchSessionManager.Debug.sendApplicationContextSuccess += 1
             } catch let error {
                 NSLog("\(#function) updateApplicationContext has failed \(error.localizedDescription)")
-                WatchSessionManager.debugSendApplicationContextError += 1
+                WatchSessionManager.Debug.sendApplicationContextError += 1
             }
             
             complicationUpdateManager.updateComplicationWith(poi: pois.count > 0 ? pois[0] : nil)
@@ -176,8 +180,10 @@ class WatchSessionManager: NSObject, WCSessionDelegate {
             
             let (propList, _) = WatchUtilities.getPoisAround(maxRadius: maxRadius, maxPOIResults: maxPOIResults)
             replyHandler(propList)
+            WatchSessionManager.Debug.receiveSendMsgSuccess += 1
         } else {
             replyHandler([CommonProps.messageStatus : CommonProps.MessageStatusCode.erroriPhoneCannotExtractCoordinatesFromMessage.rawValue])
+            WatchSessionManager.Debug.receiveSendMsgError += 1
         }
         
     }
