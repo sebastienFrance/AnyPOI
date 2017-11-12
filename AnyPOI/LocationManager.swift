@@ -40,14 +40,39 @@ class LocationManager : NSObject {
 
     struct DebugLocationUpdateInfos {
         let locationInfos:CLLocation
-        let dateInfos:Date
+        let dateInfos:Date = Date()
         let reason:String
         let nearestPOI:String
         let distanceNearestPOI:CLLocationDistance
+        let isWatchAppReachable = WatchSessionManager.sharedInstance.isWatchAppReachable
+        let isWatchAppReachableBefore:Bool
+        
+        struct WatchSessionMsg {
+            let sendMsgSuccess = WatchSessionManager.debugSendMsgSuccess
+            let sendMsgErrorResult = WatchSessionManager.debugSendMsgErrorResult
+            let sendMsgError = WatchSessionManager.debugSendMsgError
+            
+            let sendApplicationContextSuccess = WatchSessionManager.debugSendApplicationContextSuccess
+            let sendApplicationContextError = WatchSessionManager.debugSendApplicationContextError
+            
+            let remainingComplication = WatchSessionManager.sharedInstance.session.remainingComplicationUserInfoTransfers
+        }
+        
+        let watchSessionMsg = WatchSessionMsg()
+        
+        
+        struct WatchComplication {
+            let sendEmptyComplicationUpdate = WatchComplicationUpdate.Debug.sendEmptyComplicationUpdate
+            let sendUrgentComplicationUpdate = WatchComplicationUpdate.Debug.sendUrgentComplicationUpdate
+            let notUrgentComplicationUpdate = WatchComplicationUpdate.Debug.notUrgentComplicationUpdate
+            let cancelTransferComplicationUpdate = WatchComplicationUpdate.Debug.cancelTransferComplicationUpdate
+        }
+        
+        let watchComplicationUpdate = WatchComplication()
     }
     
     var debugLocationUpdates = [DebugLocationUpdateInfos]()
-    var isDebugEnabled = true
+    var isDebugLocationUpdateEnabled = true
     
     // Initialize the Singleton
     class var sharedInstance: LocationManager {
@@ -263,14 +288,35 @@ class LocationManager : NSObject {
 }
 
 extension LocationManager: CLLocationManagerDelegate {
-    //MARK: CLLocationManagerDelegate
-    
+  
+    private func addDebugLocationUpdate(sourceUpdate:String, watchAppReachableBefore:Bool) {
+        if isDebugLocationUpdateEnabled, let location = locationManager?.location {
+            
+            var poiName = "no POI"
+            var distanceFromPOI:CLLocationDistance = -1
+            if let poi = WatchSessionManager.sharedInstance.complicationNearestPOI {
+                poiName = poi.title!
+                let poiLocation = CLLocation(latitude: poi.coordinate.latitude, longitude: poi.coordinate.longitude)
+                distanceFromPOI = location.distance(from: poiLocation)
+            }
+            
+            let debugInfos = DebugLocationUpdateInfos(locationInfos: location,
+                                                      reason: sourceUpdate,
+                                                      nearestPOI: poiName,
+                                                      distanceNearestPOI: distanceFromPOI,
+                                                      isWatchAppReachableBefore: watchAppReachableBefore)
+            debugLocationUpdates.append(debugInfos)
+        }
+    }
+
     // Called when a SignificantLocationChanges has occured
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         NSLog("\(#function) with latest location \(locations.last?.coordinate.latitude ?? -1) / \(locations.last?.coordinate.longitude ?? -1)")
+
+        let debugWatchAppReachableBefore = WatchSessionManager.sharedInstance.isWatchAppReachable
         WatchSessionManager.sharedInstance.refreshWatchApp()
         
-        addDebugLocationUpdate(sourceUpdate: "Update Locations")
+        addDebugLocationUpdate(sourceUpdate: "Update Locations", watchAppReachableBefore: debugWatchAppReachableBefore)
     }
     
     
@@ -281,9 +327,9 @@ extension LocationManager: CLLocationManagerDelegate {
             if poi.poiRegionNotifyEnter {
                 AppDelegate.notifyRegionUpdate(poi: poi, isEntering:true)
             }
-            
+            let debugWatchAppReachableBefore = WatchSessionManager.sharedInstance.isWatchAppReachable
             WatchSessionManager.sharedInstance.refreshWatchApp()
-            addDebugLocationUpdate(sourceUpdate: "Enter Region")
+            addDebugLocationUpdate(sourceUpdate: "Enter Region", watchAppReachableBefore: debugWatchAppReachableBefore)
         } else {
             NSLog("\(#function): Error, POI not found! This CLRegion \(region.identifier) will be removed!")
             dumpMonitoredRegions()
@@ -297,8 +343,9 @@ extension LocationManager: CLLocationManagerDelegate {
             if poi.poiRegionNotifyExit {
                 AppDelegate.notifyRegionUpdate(poi: poi, isEntering:false)
             }
+            let debugWatchAppReachableBefore = WatchSessionManager.sharedInstance.isWatchAppReachable
             WatchSessionManager.sharedInstance.refreshWatchApp()
-            addDebugLocationUpdate(sourceUpdate: "Exit Region")
+            addDebugLocationUpdate(sourceUpdate: "Exit Region", watchAppReachableBefore: debugWatchAppReachableBefore)
         } else {
             NSLog("\(#function): Error, POI not found! This CLRegion \(region.identifier) will be removed!")
             dumpMonitoredRegions()
@@ -307,25 +354,6 @@ extension LocationManager: CLLocationManagerDelegate {
         }
     }
     
-    private func addDebugLocationUpdate(sourceUpdate:String) {
-        if isDebugEnabled, let location =  locationManager?.location {
-            
-            var poiName = "no POI"
-            var distanceFromPOI:CLLocationDistance = -1
-            if let poi = WatchSessionManager.sharedInstance.complicationNearestPOI {
-                poiName = poi.title!
-                let poiLocation = CLLocation(latitude: poi.coordinate.latitude, longitude: poi.coordinate.longitude)
-                distanceFromPOI = location.distance(from: poiLocation)
-            }
-            
-            let debugInfos = DebugLocationUpdateInfos(locationInfos: location,
-                                                      dateInfos: Date(),
-                                                      reason: sourceUpdate,
-                                                      nearestPOI: poiName,
-                                                      distanceNearestPOI: distanceFromPOI)
-            debugLocationUpdates.append(debugInfos)
-        }
-    }
     
     func locationManager(_ manager: CLLocationManager, monitoringDidFailFor region: CLRegion?, withError error: Error) {
         NSLog("\(#function) has failed to start monitoring for \(region.debugDescription) with error \(error.localizedDescription)")

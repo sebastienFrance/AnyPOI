@@ -371,50 +371,29 @@ extension AppDelegate {
     /// - parameter poi:     POI near the current location
     /// - parameter message: Message to be displayed
     static func notifyRegionUpdate(poi:PointOfInterest, isEntering:Bool) {
-        if #available(iOS 10.0, *) {
-            let content = UNMutableNotificationContent()
-            content.title = poi.poiDisplayName ?? "Error"
-            content.subtitle = poi.address.replacingOccurrences(of: "\n", with: " ")
-            
-            var message:String
-            if isEntering {
-                message = String(format: NSLocalizedString("POI less than %d meters", comment: ""), Int(poi.poiRegionRadius))
-            } else {
-                message = String(format: NSLocalizedString("POI more than %d meters", comment: ""), Int(poi.poiRegionRadius))
-            }
-            
-            content.body = message
-            content.badge = 1
-            content.sound = UNNotificationSound.default()
-            content.userInfo[AppDelegate.LocalNotificationId.monitoringRegionPOI] = poi.objectID.uriRepresentation().absoluteString
-            content.userInfo[CommonProps.singlePOI] = poi.props
-            content.categoryIdentifier = "MonitoringRegionCategory"
-            let request = UNNotificationRequest(identifier: AppDelegate.LocalNotificationId.monitoringRegionId, content:content, trigger: nil)
-            UNUserNotificationCenter.current().add(request, withCompletionHandler: { error in
-                if let theError = error {
-                    NSLog("\(#function) Error with notification add \(theError.localizedDescription)")
-                }
-            })
+        let content = UNMutableNotificationContent()
+        content.title = poi.poiDisplayName ?? "Error"
+        content.subtitle = poi.address.replacingOccurrences(of: "\n", with: " ")
+        
+        var message:String
+        if isEntering {
+            message = String(format: NSLocalizedString("POI less than %d meters", comment: ""), Int(poi.poiRegionRadius))
         } else {
-            // Fallback on earlier versions
-            
-            var message:String
-            if isEntering {
-                message = "\(NSLocalizedString("EnteringRegionLocationManager", comment: "")) \(poi.poiDisplayName!)"
-            } else {
-                message = "\(NSLocalizedString("ExitingRegionLocationManager", comment: "")) \(poi.poiDisplayName!)"
-            }
-            let notification = UILocalNotification()
-            notification.fireDate = nil
-            // SEB: Swift3
-            //notification.timeZone = TimeZone()
-            notification.alertBody = message
-            //notification.repeatCalendar = .Day
-            notification.soundName = UILocalNotificationDefaultSoundName
-            notification.applicationIconBadgeNumber = 1
-            UIApplication.shared.presentLocalNotificationNow(notification)
+            message = String(format: NSLocalizedString("POI more than %d meters", comment: ""), Int(poi.poiRegionRadius))
         }
         
+        content.body = message
+        content.badge = 1
+        content.sound = UNNotificationSound.default()
+        content.userInfo[AppDelegate.LocalNotificationId.monitoringRegionPOI] = poi.objectID.uriRepresentation().absoluteString
+        content.userInfo[CommonProps.singlePOI] = poi.props
+        content.categoryIdentifier = "MonitoringRegionCategory"
+        let request = UNNotificationRequest(identifier: AppDelegate.LocalNotificationId.monitoringRegionId, content:content, trigger: nil)
+        UNUserNotificationCenter.current().add(request, withCompletionHandler: { error in
+            if let theError = error {
+                NSLog("\(#function) Error with notification add \(theError.localizedDescription)")
+            }
+        })
         
         AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
     }
@@ -477,12 +456,12 @@ extension AppDelegate: SKPaymentTransactionObserver {
 }
 
 extension AppDelegate: UNUserNotificationCenterDelegate {
-    @available(iOS 10.0, *)
+
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         completionHandler(UNNotificationPresentationOptions.alert)
     }
     
-    @available(iOS 10.0, *)
+
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         
         if response.actionIdentifier == UNNotificationDefaultActionIdentifier {

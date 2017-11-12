@@ -10,8 +10,6 @@ import UIKit
 
 class LetMenuDebugLocationUpdateTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var theDate: UILabel!
-    @IBOutlet weak var theSource: UILabel!
-    @IBOutlet weak var theCoordinates: UILabel!
-
+    @IBOutlet weak var watchReachableState: UILabel!
+    
 }

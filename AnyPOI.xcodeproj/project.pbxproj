@@ -142,6 +142,8 @@
 		BE721BBA1FAE43910092E3E6 /* WatchUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE721BB91FAE43910092E3E6 /* WatchUtilities.swift */; };
 		BE721BBC1FAE441D0092E3E6 /* WatchDebug.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE721BBB1FAE441D0092E3E6 /* WatchDebug.swift */; };
 		BE77AACC1E1A947F00DACC73 /* GPXXSD.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE77AACB1E1A947F00DACC73 /* GPXXSD.swift */; };
+		BE8891691FB8AE6000DCAB64 /* Categories.strings in Resources */ = {isa = PBXBuildFile; fileRef = BE1BAF081FB0E9A70077F78F /* Categories.strings */; };
+		BE88916A1FB8AEA700DCAB64 /* CommonAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BEABBEF51F97D08300B39EA4 /* CommonAssets.xcassets */; };
 		BE8C6EF91E3E843C00E961DC /* MapFilterShowAllPoisTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8C6EF81E3E843C00E961DC /* MapFilterShowAllPoisTableViewCell.swift */; };
 		BE8F7C3A1DB66B9300BE30C2 /* RouteMailActivityItemSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8F7C391DB66B9300BE30C2 /* RouteMailActivityItemSource.swift */; };
 		BE8F7C3C1DB6B28E00BE30C2 /* HTMLAnyPoi.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8F7C3B1DB6B28E00BE30C2 /* HTMLAnyPoi.swift */; };
@@ -1432,6 +1434,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				BE9833F71D8D55C600B174A7 /* MainInterface.storyboard in Resources */,
+				BE88916A1FB8AEA700DCAB64 /* CommonAssets.xcassets in Resources */,
+				BE8891691FB8AE6000DCAB64 /* Categories.strings in Resources */,
 				BE1D1B791E5F7F4700EE986F /* Localizable.strings in Resources */,
 				BEDB99221F7AE82B00F2F44B /* Assets.xcassets in Resources */,
 				BE9834151D8D654400B174A7 /* AnyPOITodayWidget.entitlements in Resources */,

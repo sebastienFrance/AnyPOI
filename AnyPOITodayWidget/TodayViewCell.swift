@@ -12,6 +12,7 @@ import MapKit
 class TodayViewCell: UITableViewCell {
     
     @IBOutlet weak var poiDisplayName: UILabel!
+    @IBOutlet weak var poiDistance: UILabel!
     
     @IBOutlet weak var markerAnnotation: MKMarkerAnnotationView!
     
@@ -34,15 +35,12 @@ class TodayViewCell: UITableViewCell {
             let distance = currentLocation.distance(from: targetLocation)
             let distanceFormater = MKDistanceFormatter()
             
-            poiDisplayName.text = "\(poi.poiDisplayName!) (\(distanceFormater.string(fromDistance: distance)))"
+            poiDisplayName.text = "\(poi.poiDisplayName!)"
+            poiDistance.text = "\(poi.category.localizedString), \(distanceFormater.string(fromDistance: distance))"
         } else {
             poiDisplayName.text = "\(poi.poiDisplayName!)"
         }
         
-        if #available(iOSApplicationExtension 10.0, *) {
-            poiDisplayName.textColor = UIColor.black
-        } else {
-            poiDisplayName.textColor = UIColor.lightGray
-        }
+        poiDisplayName.textColor = UIColor.black
     }
 }

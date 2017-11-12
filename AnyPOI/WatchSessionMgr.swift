@@ -75,8 +75,14 @@ class WatchSessionManager: NSObject, WCSessionDelegate {
         refreshWatchApp()
     }
     
+    static var debugSendMsgSuccess = 0
+    static var debugSendMsgErrorResult = 0
+    static var debugSendMsgError = 0
+    static var debugSendApplicationContextSuccess = 0
+    static var debugSendApplicationContextError = 0
+    
     func refreshWatchApp() {
-        NSLog("\(#function) sessionState: \(WatchDebug.debugWCSession(session: session))")
+        NSLog("\(#function) \(WatchDebug.debugWCSession(session: session))")
 
         // TODO: Check if something has changed before to send the message for update
         let (propList, pois) = WatchUtilities.getPoisAround(maxRadius: CommonProps.Cste.radiusInKm, maxPOIResults: CommonProps.Cste.maxRequestedResults)
@@ -84,20 +90,41 @@ class WatchSessionManager: NSObject, WCSessionDelegate {
         if isWatchAppReachable {
             NSLog("\(#function) WatchApp is reachable -> Send Message")
             session.sendMessage(propList, replyHandler: { resultValue in
-                if let location = LocationManager.sharedInstance.locationManager?.location {
-                    let nearestPOI = pois.count > 0 ? pois[0] : nil
-                    self.complicationUpdateManager.resetWith(poi: nearestPOI, currentLocation: location)
+                
+                if let status = resultValue[CommonProps.messageStatus] as? Int, let resultStatus = CommonProps.MessageStatusCode(rawValue:status) {
+                    switch resultStatus {
+                    case .ok:
+                        NSLog("\(#function) Sucessful response from Apple Watch")
+                        
+                        // We can reset safely the cache for the complication
+                        if let location = LocationManager.sharedInstance.locationManager?.location {
+                            let nearestPOI = pois.count > 0 ? pois[0] : nil
+                            self.complicationUpdateManager.resetWith(poi: nearestPOI, currentLocation: location)
+                        }
+                        WatchSessionManager.debugSendMsgSuccess += 1
+                    default:
+                        NSLog("\(#function) Apple watch has replied with an error")
+                        WatchSessionManager.debugSendMsgErrorResult += 1
+                        break
+                    }
+                } else {
+                    NSLog("\(#function) get an unknown response from Apple Watch!")
+                    WatchSessionManager.debugSendMsgErrorResult += 1
                 }
+                
             }) { error in
                 NSLog("\(#function) error with sendMessage, error: \(error.localizedDescription) ")
+                WatchSessionManager.debugSendMsgError += 1
             }
         } else if isWatchAppReady {
 
             do {
                 try session.updateApplicationContext(propList)
                 NSLog("\(#function) updateApplicationContext has been sent")
+                WatchSessionManager.debugSendApplicationContextSuccess += 1
             } catch let error {
                 NSLog("\(#function) updateApplicationContext has failed \(error.localizedDescription)")
+                WatchSessionManager.debugSendApplicationContextError += 1
             }
             
             complicationUpdateManager.updateComplicationWith(poi: pois.count > 0 ? pois[0] : nil)
@@ -108,7 +135,7 @@ class WatchSessionManager: NSObject, WCSessionDelegate {
 
     //MARK: WCSessionDelegate
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
-        NSLog("\(#function) sessionState: \(WatchDebug.debugWCSession(session: session))")
+        NSLog("\(#function) \(WatchDebug.debugWCSession(session: session))")
         if let theError = error {
             NSLog("\(#function) an error has occured: \(theError.localizedDescription)")
         } else {
@@ -121,18 +148,18 @@ class WatchSessionManager: NSObject, WCSessionDelegate {
     
     func sessionDidBecomeInactive(_ session: WCSession) {
         // Nothing to do here
-        NSLog("\(#function) sessionState: \(WatchDebug.debugWCSession(session: session))")
+        NSLog("\(#function) \(WatchDebug.debugWCSession(session: session))")
     }
     
     func sessionDidDeactivate(_ session: WCSession) {
         // When a new Watch has been paired we must activate the session again
-        NSLog("\(#function) sessionState: \(WatchDebug.debugWCSession(session: session))")
+        NSLog("\(#function) \(WatchDebug.debugWCSession(session: session))")
         session.activate()
     }
     
     // Update the LocationManager when the WatchApp is installed/uninstalled, when the AppleWatch is paired/not paired...
     func sessionWatchStateDidChange(_ session: WCSession) {
-        NSLog("\(#function) sessionState: \(WatchDebug.debugWCSession(session: session))")
+        NSLog("\(#function) \(WatchDebug.debugWCSession(session: session))")
         if isWatchAppReady {
             refreshWatchApp()
             LocationManager.sharedInstance.startLocationUpdateForWatchApp()
@@ -142,7 +169,7 @@ class WatchSessionManager: NSObject, WCSessionDelegate {
     }
     
     func session(_ session: WCSession, didReceiveMessage message: [String : Any], replyHandler: @escaping ([String : Any]) -> Void) {
-        NSLog("\(#function) sessionState: \(WatchDebug.debugWCSession(session: session))")
+        NSLog("\(#function) \(WatchDebug.debugWCSession(session: session))")
         
         if  let maxRadius = message[CommonProps.maxRadius] as? Double,
             let maxPOIResults = message[CommonProps.maxResults] as? Int {
