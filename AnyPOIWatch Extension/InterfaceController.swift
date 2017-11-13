@@ -42,15 +42,14 @@ class InterfaceController: WKInterfaceController {
         NSLog("\(#function) called")
     }
     
-    func refresh() {
-        NSLog("\(#function) called")
-    }
-    
     override func willActivate() {
         // This method is called when watch view controller is about to be visible to user
         super.willActivate()
         NSLog("\(#function) called")
         WatchSessionManager.sharedInstance.getPOIsAround()
+        
+        // While we are reloading we can still display what we have
+        refreshTable()
     }
     
     override func didDeactivate() {
