@@ -159,9 +159,11 @@ class CategoryUtils {
                                      GroupCategory(groupId: GroupId.transportationId, localizedString: "Transportation")]
     
     
-    static func getCategory(poi:PointOfInterest) -> Category {
+
+    
+    static func getCategory(groupCategory:Int16, categoryId:Int16) -> Category {
         for currentCategory in localSearchCategories {
-            if currentCategory.categoryId == poi.poiCategory && currentCategory.groupCategory == poi.poiGroupCategory {
+            if currentCategory.categoryId == categoryId && currentCategory.groupCategory == groupCategory {
                 return currentCategory
             }
         }

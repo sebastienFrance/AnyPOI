@@ -90,7 +90,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         actions.append(UNNotificationAction(identifier: "CallId", title: "Call", options:[] )) // UNNotificationActionOptions.authenticationRequired
         actions.append(UNNotificationAction(identifier: "CallId2", title: "Go To", options:[UNNotificationActionOptions.authenticationRequired] ))
 
-        let notificationCategory = UNNotificationCategory(identifier: "MonitoringRegionCategory", actions: actions, intentIdentifiers: [],  options: [])
+        let notificationCategory = UNNotificationCategory(identifier: CommonNotificationUtils.category, actions: actions, intentIdentifiers: [],  options: [])
         let categories: Set = [notificationCategory]
         UNUserNotificationCenter.current().setNotificationCategories(categories)
 
@@ -387,7 +387,7 @@ extension AppDelegate {
         content.sound = UNNotificationSound.default()
         content.userInfo[AppDelegate.LocalNotificationId.monitoringRegionPOI] = poi.objectID.uriRepresentation().absoluteString
         content.userInfo[CommonProps.singlePOI] = poi.props
-        content.categoryIdentifier = "MonitoringRegionCategory"
+        content.categoryIdentifier = CommonNotificationUtils.category
         let request = UNNotificationRequest(identifier: AppDelegate.LocalNotificationId.monitoringRegionId, content:content, trigger: nil)
         UNUserNotificationCenter.current().add(request, withCompletionHandler: { error in
             if let theError = error {

@@ -129,7 +129,7 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
     
     var category:CategoryUtils.Category! {
         get {
-            return CategoryUtils.getCategory(poi: self)
+            return CategoryUtils.getCategory(groupCategory: poiGroupCategory, categoryId: poiCategory)
         }
         set {
             poiGroupCategory = newValue.groupCategory
