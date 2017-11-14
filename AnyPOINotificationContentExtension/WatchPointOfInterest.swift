@@ -13,10 +13,15 @@ import CoreLocation
 import MapKit
 import UIKit
 
-class WatchPointOfInterest : Equatable {
-    static func == (lhs: WatchPointOfInterest, rhs: WatchPointOfInterest) -> Bool {
-        if lhs.title == rhs.title && lhs.distance == rhs.distance && lhs.color == rhs.color && lhs.category == rhs.category {
-            return true
+class WatchPointOfInterest : NSObject, MKAnnotation {
+    
+    override func isEqual(_ object: Any?) -> Bool {
+        if let other = object as? WatchPointOfInterest {
+            if title == other.title && distance == other.distance && color == other.color && category == other.category {
+                return true
+            } else {
+                return false
+            }
         } else {
             return false
         }
@@ -30,22 +35,7 @@ class WatchPointOfInterest : Equatable {
     }
     
     
-    var title:String {
-        if CommonProps.isDebugEnabled {
-            if let remaining = theProps[CommonProps.debugRemainingComplicationTransferInfo], let urgentCounter = theProps[CommonProps.debugNotUrgentComplicationTransferInfo] {
-                return  "(\(remaining)/\(urgentCounter)) \(theProps[CommonProps.POI.title]!)"
-            } else {
-                return  theProps[CommonProps.POI.title]  ?? "unknown"
-            }
-        } else {
-            if let theTitle = theProps[CommonProps.POI.title] {
-                return theTitle
-            } else {
-                return "unknown"
-            }
-        }
-    }
-    
+
     var phones:[String] {
         if let phones = theProps[CommonProps.POI.phones], phones.count > 0 {
             return phones.components(separatedBy: ",")
@@ -82,16 +72,37 @@ class WatchPointOfInterest : Equatable {
         }
     }
     
-    var coordinate: CLLocationCoordinate2D? {
+    //MARK: MKAnnotation protocol
+    var title:String? {
+        if CommonProps.isDebugEnabled {
+            if let remaining = theProps[CommonProps.debugRemainingComplicationTransferInfo], let urgentCounter = theProps[CommonProps.debugNotUrgentComplicationTransferInfo] {
+                return  "(\(remaining)/\(urgentCounter)) \(theProps[CommonProps.POI.title]!)"
+            } else {
+                return  theProps[CommonProps.POI.title]  ?? "unknown"
+            }
+        } else {
+            if let theTitle = theProps[CommonProps.POI.title] {
+                return theTitle
+            } else {
+                return "unknown"
+            }
+        }
+    }
+    
+    var subtitle: String? {
+        return "subTitle"
+    }
+    
+    var coordinate: CLLocationCoordinate2D {
         if let latitudeString = theProps[CommonProps.POI.latitude],
             let longitudeString = theProps[CommonProps.POI.longitude],
             let latitude = CLLocationDegrees(latitudeString),
             let longitude = CLLocationDegrees(longitudeString) {
             return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
         } else {
-            return nil
+            return CLLocationCoordinate2D(latitude: 0, longitude: 0)
         }
     }
-    
+
     
 }

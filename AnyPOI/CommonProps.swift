@@ -25,6 +25,7 @@ struct CommonProps {
         static let longitude = "long"
     }
     
+    static let regionRadius = "regionRadius"
     static let listOfPOIs = "pois"
     static let singlePOI = "poi"
     static let maxRadius = "maxRadius"

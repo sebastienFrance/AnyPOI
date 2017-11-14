@@ -14,10 +14,26 @@ import MapKit
 class NotificationViewController: UIViewController, UNNotificationContentExtension {
 
     @IBOutlet weak var topLabel: UILabel!
-    @IBOutlet weak var theMapView: MKMapView!
+    @IBOutlet weak var theMapView: MKMapView! {
+        didSet {
+            if let theMapView = theMapView {
+                theMapView.mapType = .standard
+                theMapView.showsBuildings = true
+                theMapView.showsPointsOfInterest = false
+                theMapView.showsCompass = false
+                theMapView.showsScale = true
+                theMapView.showsTraffic = false
+                theMapView.showsPointsOfInterest = false
+                theMapView.showsUserLocation = true
+                theMapView.delegate = self
+            }
+        }
+    }
     @IBOutlet weak var theOtherLabel: UILabel!
     @IBOutlet weak var theCategoryImage: UIImageView!
     @IBOutlet weak var theAddress: UILabel!
+    
+    var poi:WatchPointOfInterest? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,14 +49,50 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
         let userInfo = notification.request.content.userInfo
         
         if let pois = userInfo[CommonProps.singlePOI] as? [String:String] {
-            let poi = WatchPointOfInterest(properties:pois)
-            theMapView.setRegion(MKCoordinateRegionMakeWithDistance(poi.coordinate!, 200, 200), animated: false)
-            theOtherLabel.text = poi.category?.localizedString
-            theCategoryImage.image = poi.category?.glyph
-            theAddress.text = poi.address
-        } 
-        
-        
+           
+            poi = WatchPointOfInterest(properties:pois)
+            theMapView.addAnnotation(poi!)
+            theOtherLabel.text = poi!.category?.localizedString
+            theCategoryImage.image = poi!.category?.glyph
+            theAddress.text = poi!.address
+
+            if let regionRadius = userInfo[CommonProps.regionRadius] as? Double {
+                theMapView.setRegion(MKCoordinateRegionMakeWithDistance(poi!.coordinate, regionRadius * 2.2, regionRadius * 2.2), animated: false)
+                theMapView.add(MKCircle(center: poi!.coordinate, radius: regionRadius))
+            } else {
+                theMapView.setRegion(MKCoordinateRegionMakeWithDistance(poi!.coordinate, 200, 200), animated: false)
+            }
+            
+        }
     }
 
+}
+
+extension NotificationViewController: MKMapViewDelegate {
+    
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        if annotation is MKUserLocation {
+            return nil
+        }
+
+        let marker = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: "POINotifId")
+        
+        if let thePoi = poi {
+            marker.markerTintColor = thePoi.color
+            marker.glyphImage = thePoi.category?.glyph
+        }
+        
+        return marker
+    }
+    
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        //return MapUtils.getRendererForMonitoringRegion(overlay)
+        
+        let renderer = MKCircleRenderer(overlay: overlay)
+        renderer.strokeColor = UIColor.green
+        renderer.lineWidth = 1.0
+        renderer.fillColor = UIColor.green.withAlphaComponent(0.3)
+        return renderer
+
+    }
 }

@@ -86,11 +86,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
          })
         
-        var actions = [UNNotificationAction]()
-        actions.append(UNNotificationAction(identifier: "CallId", title: "Call", options:[] )) // UNNotificationActionOptions.authenticationRequired
-        actions.append(UNNotificationAction(identifier: "CallId2", title: "Go To", options:[UNNotificationActionOptions.authenticationRequired] ))
-
-        let notificationCategory = UNNotificationCategory(identifier: CommonNotificationUtils.category, actions: actions, intentIdentifiers: [],  options: [])
+        let notificationCategory = UNNotificationCategory(identifier: CommonNotificationUtils.category, actions: [], intentIdentifiers: [],  options: [])
         let categories: Set = [notificationCategory]
         UNUserNotificationCenter.current().setNotificationCategories(categories)
 
@@ -387,6 +383,7 @@ extension AppDelegate {
         content.sound = UNNotificationSound.default()
         content.userInfo[AppDelegate.LocalNotificationId.monitoringRegionPOI] = poi.objectID.uriRepresentation().absoluteString
         content.userInfo[CommonProps.singlePOI] = poi.props
+        content.userInfo[CommonProps.regionRadius] = poi.poiRegionRadius
         content.categoryIdentifier = CommonNotificationUtils.category
         let request = UNNotificationRequest(identifier: AppDelegate.LocalNotificationId.monitoringRegionId, content:content, trigger: nil)
         UNUserNotificationCenter.current().add(request, withCompletionHandler: { error in
@@ -464,24 +461,18 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         
-        if response.actionIdentifier == UNNotificationDefaultActionIdentifier {
-            if response.notification.request.identifier == LocalNotificationId.monitoringRegionId,
-                let poiAbsoluteString = response.notification.request.content.userInfo[LocalNotificationId.monitoringRegionPOI] as? String,
-                let urlPOI = URL(string: poiAbsoluteString) {
-                if let poi = POIDataManager.sharedInstance.getPOIWithURI(urlPOI) {
-                    poiToShowOnMap = poi
-                    if UserAuthentication.isUserAuthenticated {
-                        DispatchQueue.main.async {
-                            self.performNavigation()
-                        }
+        if response.actionIdentifier == UNNotificationDefaultActionIdentifier,
+            response.notification.request.content.categoryIdentifier == CommonNotificationUtils.category {
+            if let poiAbsoluteString = response.notification.request.content.userInfo[LocalNotificationId.monitoringRegionPOI] as? String,
+                let urlPOI = URL(string: poiAbsoluteString), let poi = POIDataManager.sharedInstance.getPOIWithURI(urlPOI) {
+                poiToShowOnMap = poi
+                if UserAuthentication.isUserAuthenticated {
+                    DispatchQueue.main.async {
+                        self.performNavigation()
                     }
                 }
             }
-        } else if response.actionIdentifier == "CallId" {
-            Utilities.startPhoneCall("0608183246")
         }
-        
-        
         completionHandler()
     }
 }

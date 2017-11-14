@@ -27,17 +27,17 @@ protocol PoiCalloutDelegate: class {
     func startOrStopMonitoring(_ sender:UIButton)
 }
 
-class SimpleAnnotation : NSObject, MKAnnotation {
-    var coordinate: CLLocationCoordinate2D
-    var title: String?
-    var subtitle: String?
-
-    init(sourceCoordinate:CLLocationCoordinate2D, sourceTitle:String?, sourceSubtitle:String?) {
-        coordinate = sourceCoordinate
-        title = sourceTitle
-        subtitle = sourceSubtitle
-    }
-}
+//class SimpleAnnotation : NSObject, MKAnnotation {
+//    var coordinate: CLLocationCoordinate2D
+//    var title: String?
+//    var subtitle: String?
+//
+//    init(sourceCoordinate:CLLocationCoordinate2D, sourceTitle:String?, sourceSubtitle:String?) {
+//        coordinate = sourceCoordinate
+//        title = sourceTitle
+//        subtitle = sourceSubtitle
+//    }
+//}
 
 class MapUtils {
     
