@@ -26,6 +26,13 @@ class WatchPointOfInterest : Equatable {
     
     init(properties:[String:String]) {
         theProps = properties
+        category = CommonProps.categoryFrom(props: theProps)
+        
+        if let theColor = CommonProps.poiColorFrom(props: theProps) {
+            color = theColor
+        } else {
+            color = UIColor.white
+        }
     }
     
     var complicationTitle:CLKTextProvider {
@@ -92,17 +99,8 @@ class WatchPointOfInterest : Equatable {
         }
     }
     
-    var category: CategoryUtils.Category? {
-        return CommonProps.categoryFrom(props: theProps)
-    }
-    
-    var color: UIColor {
-        if let color = CommonProps.poiColorFrom(props: theProps) {
-            return color
-        } else {
-            return UIColor.white
-        }
-    }
+    var category: CategoryUtils.Category?
+    var color: UIColor
     
     var coordinate: CLLocationCoordinate2D? {
         if let latitudeString = theProps[CommonProps.POI.latitude],
