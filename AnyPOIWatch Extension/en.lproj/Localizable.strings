@@ -14,7 +14,8 @@
 "POIList_internal"="Internal error";
 "POIList_cannotSentMsgToiPhone"="Error, Watch cannot send msg to iPhone";
 "POIList_UnknownError"="Unknown error";
-
+"POIList_No_POI"="No Point of Interest around your location";
+"POIList_Searching_POI"="Searching Point of Interests";
 
 "Complication_NoPOI"="No Point of interest";
 "Complication_AroundYourLocation"="around your location";

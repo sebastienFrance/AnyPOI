@@ -18,7 +18,7 @@ class WatchSessionManager: NSObject, WCSessionDelegate {
     private var internalMsgInProgress = false
     private let internalQueue = DispatchQueue(label:"protectSendMsg") // Serial or Concurrent?
 
-    private var msgInProgress: Bool {
+    private(set) var msgInProgress: Bool {
         get {
             return internalQueue.sync { internalMsgInProgress }
         }

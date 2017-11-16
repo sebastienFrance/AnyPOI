@@ -52,8 +52,9 @@
                                 <tableRow identifier="EmptyPOITable" id="Lbr-mF-DzK" customClass="EmptyRowController" customModule="AnyPOIWatch_Extension">
                                     <group key="rootItem" width="1" height="0.0" alignment="left" id="gJl-6T-RV3">
                                         <items>
-                                            <label alignment="left" text="No data available" textAlignment="left" numberOfLines="0" id="WDm-vR-vIH">
-                                                <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
+                                            <label alignment="center" text="No data available" textAlignment="center" numberOfLines="0" id="WDm-vR-vIH">
+                                                <color key="textColor" red="0.98039215690000003" green="0.066666666669999999" blue="0.30980392159999998" alpha="1" colorSpace="calibratedRGB"/>
+                                                <fontDescription key="font" style="UICTFontTextStyleBody"/>
                                             </label>
                                         </items>
                                     </group>
@@ -146,10 +147,40 @@
             <objects>
                 <controller id="4sK-HA-Art" customClass="NotificationController" customModule="AnyPOIWatch" customModuleProvider="target">
                     <items>
+                        <label alignment="left" text="Message" numberOfLines="0" id="nlf-Jm-rxW"/>
                         <map height="100" alignment="left" id="tBV-fg-ymH"/>
+                        <group width="1" alignment="left" id="1MM-HC-feo">
+                            <items>
+                                <group width="30" alignment="left" id="cQR-Hp-rau">
+                                    <items>
+                                        <imageView width="30" height="30" alignment="left" verticalAlignment="center" id="lJf-Uf-9II"/>
+                                    </items>
+                                </group>
+                                <group width="1" alignment="left" layout="vertical" id="3Rm-aQ-gBf">
+                                    <items>
+                                        <label alignment="left" text="Label" numberOfLines="0" id="dQB-zQ-MqJ"/>
+                                        <label alignment="left" text="Category" numberOfLines="0" id="ddO-nN-Pjd">
+                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <fontDescription key="font" style="UICTFontTextStyleSubhead"/>
+                                        </label>
+                                    </items>
+                                </group>
+                            </items>
+                        </group>
+                        <label alignment="left" text="Address" textAlignment="left" numberOfLines="0" id="BF5-Oj-xmO">
+                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <fontDescription key="font" style="UICTFontTextStyleSubhead"/>
+                        </label>
                     </items>
+                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <connections>
+                        <outlet property="theAddress" destination="BF5-Oj-xmO" id="UuN-lD-hZZ"/>
+                        <outlet property="theCategoryImage" destination="lJf-Uf-9II" id="VYO-nH-K9u"/>
+                        <outlet property="theDescriptionGroup" destination="1MM-HC-feo" id="U3x-L0-dAE"/>
                         <outlet property="theMap" destination="tBV-fg-ymH" id="ddP-gm-2VT"/>
+                        <outlet property="theMessage" destination="nlf-Jm-rxW" id="cOe-Me-d9F"/>
+                        <outlet property="thePoiCategory" destination="ddO-nN-Pjd" id="chm-G1-XFh"/>
+                        <outlet property="thePoiName" destination="dQB-zQ-MqJ" id="K9x-fK-1vs"/>
                     </connections>
                 </controller>
             </objects>

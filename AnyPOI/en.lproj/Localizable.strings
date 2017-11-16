@@ -117,8 +117,8 @@
 "SettingsLocationManager"="Settings";
 "EnteringRegionLocationManager"="Entering";
 "ExitingRegionLocationManager"="Exiting";
-"POI less than %d meters" = "Less than %d meters";
-"POI more than %d meters" = "More than %d meters";
+"POI less than %d meters" = "Less than %dm";
+"POI more than %d meters" = "More than %dm";
 "RouteFromCurrentLocationRouteManager"="Trip from current location";
 "HideRouteFromCurrentLocationRouteManager"="Hide trip from current location";
 "LoadingDirectionRouteManager"="Loading directions";

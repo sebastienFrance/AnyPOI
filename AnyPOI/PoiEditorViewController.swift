@@ -48,6 +48,7 @@ class PoiEditorViewController: UIViewController {
             newRegionEnter = thePoi.poiRegionNotifyEnter
             newRegionExit = thePoi.poiRegionNotifyExit
             newRadius = thePoi.poiRegionRadius
+            sliderRadius = Float(thePoi.poiRegionRadius)
             newCategory = thePoi.category
             newParentGroup = thePoi.parentGroup
             newDisplayName = thePoi.poiDisplayName
@@ -63,6 +64,8 @@ class PoiEditorViewController: UIViewController {
     fileprivate var newDescription:String!
     
     fileprivate var newCategory:CategoryUtils.Category!
+    
+    private var sliderRadius:Float = 0.0
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -165,10 +168,11 @@ class PoiEditorViewController: UIViewController {
     }
 
     @IBAction func sliderRadiusChanged(_ sender: UISlider) {
-        newRadius = Double(sender.value)
+        newRadius = Double((Int(sender.value) / 10) * 10)
+        sliderRadius = sender.value
         refreshMapImageForMonitoring()
         if let cell = theTableView.cellForRow(at: IndexPath(row: Rows.monitoringControls, section: Sections.regionMonitoring)) as? PoiRegionConfigurationViewCell {
-            cell.initWith(newRegionEnter, exitRegion:newRegionExit, radius:newRadius)
+            cell.initWith(newRegionEnter, exitRegion:newRegionExit, radiusSlider:sliderRadius, realRadius:newRadius)
         }
     }
 
@@ -296,7 +300,7 @@ extension PoiEditorViewController: UITableViewDataSource, UITableViewDelegate {
         case Sections.regionMonitoring:
             if indexPath.row == Rows.monitoringControls {
                 let theCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier.poiRegionConfigurationCellId, for: indexPath) as! PoiRegionConfigurationViewCell
-                theCell.initWith(newRegionEnter, exitRegion:newRegionExit, radius:newRadius)
+                theCell.initWith(newRegionEnter, exitRegion:newRegionExit, radiusSlider:sliderRadius, realRadius:newRadius)
                 return theCell
             } else {
                 let theCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier.poiRegionMapViewCellId, for: indexPath)
@@ -328,7 +332,7 @@ extension PoiEditorViewController: UITableViewDataSource, UITableViewDelegate {
     // MARK: Cell Update
     func refreshMonitoringSection() {
         if let monitoringCell = theTableView.cellForRow(at: IndexPath(row: Rows.monitoringControls, section: Sections.regionMonitoring)) as? PoiRegionConfigurationViewCell {
-            monitoringCell.initWith(newRegionEnter, exitRegion: newRegionExit, radius: newRadius)
+            monitoringCell.initWith(newRegionEnter, exitRegion: newRegionExit, radiusSlider:sliderRadius, realRadius:newRadius)
         }
         
         refreshMapImageForMonitoring()

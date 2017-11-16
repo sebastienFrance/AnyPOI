@@ -117,8 +117,8 @@
 "SettingsLocationManager"="Règlages";
 "EnteringRegionLocationManager"="Entrée";
 "ExitingRegionLocationManager"="Sortie";
-"POI less than %d meters" = "A moins de %d mètres";
-"POI more than %d meters" = "A plus de %d mètres";
+"POI less than %d meters" = "A moins de %dm";
+"POI more than %d meters" = "A plus de %dm";
 "RouteFromCurrentLocationRouteManager"="Itinéraire depuis vôtre position";
 "HideRouteFromCurrentLocationRouteManager"="Supprimer l'itinéraire depuis vôtre position";
 "LoadingDirectionRouteManager"="Calcul de l'itinéraire";

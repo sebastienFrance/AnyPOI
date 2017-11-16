@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import CoreLocation
+import MapKit
 
 struct CommonProps {
     
@@ -69,5 +70,51 @@ struct CommonProps {
         return nil
     }
     
+    static func titleFrom(properties:[String:String]) -> String? {
+        if CommonProps.isDebugEnabled {
+            if let remaining = properties[CommonProps.debugRemainingComplicationTransferInfo],
+                let urgentCounter = properties[CommonProps.debugNotUrgentComplicationTransferInfo] {
+                if let title = properties[CommonProps.POI.title] {
+                    return  "(\(remaining)/\(urgentCounter)) \(title)"
+                }
+            } else {
+                return  properties[CommonProps.POI.title]  ?? nil
+            }
+        } else if let theTitle = properties[CommonProps.POI.title] {
+                return theTitle
+        }
+        return nil
+    }
+    
+    static func phonesFrom(properties:[String:String]) -> [String]? {
+        if let phoneList = properties[CommonProps.POI.phones], phoneList.count > 0 {
+            return phoneList.components(separatedBy: ",")
+        }
+        return nil
+    }
+    
+    static func addressFrom(properties:[String:String]) -> String? {
+        if let theAddress = properties[CommonProps.POI.address] {
+            return theAddress
+        }
+        return nil
+    }
+    
+    static func coordinateFrom(properties:[String:String]) -> CLLocationCoordinate2D? {
+        if let latitudeString = properties[CommonProps.POI.latitude],
+            let longitudeString = properties[CommonProps.POI.longitude],
+            let latitude = CLLocationDegrees(latitudeString),
+            let longitude = CLLocationDegrees(longitudeString) {
+            return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        }
+        return nil
+    }
+    
+    static func distanceFrom(properties:[String:String]) -> String? {
+        if let distanceString = properties[CommonProps.POI.distance], let measuredDistance = CLLocationDistance(distanceString) {
+            return "\(MKDistanceFormatter().string(fromDistance: measuredDistance))"
+        }
+        return nil
+    }
 
 }

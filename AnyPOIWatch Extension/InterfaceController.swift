@@ -129,8 +129,15 @@ class InterfaceController: WKInterfaceController {
             // When there's no POI around the user, we just display a table with a message displaying there's no POI
             self.anyPOITable.setNumberOfRows(1, withRowType: Storyboard.emptyTableId)
             
+            
             if let controller = self.anyPOITable.rowController(at: 0) as? EmptyRowController {
-                controller.titleLabel.setText("(\(String(DebugInfos.sendMsgError)))(\(String(DebugInfos.nothingToRefresh)))No data available")
+                if WatchSessionManager.sharedInstance.msgInProgress {
+                    controller.titleLabel.setText(NSLocalizedString("POIList_Searching_POI", comment: ""))
+                    controller.titleLabel.setTextColor(UIColor.white)
+                } else {
+                    controller.titleLabel.setText(NSLocalizedString("POIList_No_POI", comment: ""))
+                    controller.titleLabel.setTextColor(UIColor.red)
+                }
             }
         } else {
             // A list of POIs were already displayed and we need to display a new one

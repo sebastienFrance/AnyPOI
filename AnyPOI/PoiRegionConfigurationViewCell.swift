@@ -18,7 +18,7 @@ class PoiRegionConfigurationViewCell: UITableViewCell {
     @IBOutlet weak var radiusLabel: UILabel!
     
     @IBOutlet weak var regionMonitoringDisabledLabel: UILabel!
-    func initWith(_ enterRegion:Bool, exitRegion:Bool, radius:Double) {
+    func initWith(_ enterRegion:Bool, exitRegion:Bool, radiusSlider:Float, realRadius:Double) {
         switchEnterRegion.isOn = enterRegion
         switchExitRegion.isOn = exitRegion
 
@@ -29,8 +29,8 @@ class PoiRegionConfigurationViewCell: UITableViewCell {
             slideRadius.isEnabled = true
         }
 
-        radiusLabel.text = "\(NSLocalizedString("Radius", comment: "")) \(Int(radius)) m"
-        slideRadius.setValue(Float(radius), animated: false)
+        radiusLabel.text = "\(NSLocalizedString("Radius", comment: "")) \(Int(realRadius)) m"
+        slideRadius.setValue(radiusSlider, animated: false)
         slideRadius.isContinuous = true
         
         regionMonitoringDisabledLabel.text = NSLocalizedString("POISettingEnableAlways", comment:"")

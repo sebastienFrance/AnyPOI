@@ -38,8 +38,8 @@ class POIDetailsInterfaceController: WKInterfaceController {
                 theCategoryLabel.setHidden(true)
             }
             theAddress.setText(watchPOI.address)
-            theMap.addAnnotation(watchPOI.coordinate!, with: WKInterfaceMapPinColor.green)
-            theMap.setRegion(MKCoordinateRegionMakeWithDistance(watchPOI.coordinate!, 200, 200))
+            theMap.addAnnotation(watchPOI.coordinate, with: WKInterfaceMapPinColor.green)
+            theMap.setRegion(MKCoordinateRegionMakeWithDistance(watchPOI.coordinate, 200, 200))
             
             if watchPOI.phones.count == 0 {
                 thePhoneButton.setHidden(true)

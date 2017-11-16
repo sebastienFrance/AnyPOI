@@ -33,7 +33,7 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
     @IBOutlet weak var theCategoryImage: UIImageView!
     @IBOutlet weak var theAddress: UILabel!
     
-    var poi:WatchPointOfInterest? = nil
+    var poi:NotifPointOfInterest? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,7 +50,7 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
         
         if let pois = userInfo[CommonProps.singlePOI] as? [String:String] {
            
-            poi = WatchPointOfInterest(properties:pois)
+            poi = NotifPointOfInterest(properties:pois)
             theMapView.addAnnotation(poi!)
             theOtherLabel.text = poi!.category?.localizedString
             theCategoryImage.image = poi!.category?.glyph

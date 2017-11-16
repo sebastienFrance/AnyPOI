@@ -140,7 +140,7 @@
 		BE6493601FBA22EF007CC98F /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE64935E1FBA22EF007CC98F /* MainInterface.storyboard */; };
 		BE6493641FBA22EF007CC98F /* AnyPOINotificationContentExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = BE6493561FBA22EF007CC98F /* AnyPOINotificationContentExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		BE6493691FBA241C007CC98F /* CommonNotificationUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE6493681FBA241C007CC98F /* CommonNotificationUtils.swift */; };
-		BE64936B1FBA257A007CC98F /* WatchPointOfInterest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE64936A1FBA257A007CC98F /* WatchPointOfInterest.swift */; };
+		BE64936B1FBA257A007CC98F /* NotifPointOfInterest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE64936A1FBA257A007CC98F /* NotifPointOfInterest.swift */; };
 		BE64936C1FBA25AD007CC98F /* CommonProps.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0F0DAC1F929DB8008C1EFA /* CommonProps.swift */; };
 		BE64936D1FBA26E3007CC98F /* Categories.strings in Resources */ = {isa = PBXBuildFile; fileRef = BE1BAF081FB0E9A70077F78F /* Categories.strings */; };
 		BE64936E1FBA26ED007CC98F /* CategoryUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2AD1D8B209A00344F8A /* CategoryUtils.swift */; };
@@ -461,7 +461,7 @@
 		BE64935F1FBA22EF007CC98F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		BE6493611FBA22EF007CC98F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BE6493681FBA241C007CC98F /* CommonNotificationUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonNotificationUtils.swift; sourceTree = "<group>"; };
-		BE64936A1FBA257A007CC98F /* WatchPointOfInterest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchPointOfInterest.swift; sourceTree = "<group>"; };
+		BE64936A1FBA257A007CC98F /* NotifPointOfInterest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotifPointOfInterest.swift; sourceTree = "<group>"; };
 		BE6D103A1F7FAD8F007A35FA /* AnyPOIWatch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AnyPOIWatch.entitlements; sourceTree = "<group>"; };
 		BE6D103B1F7FAF6F007A35FA /* AnyPOIWatch Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "AnyPOIWatch Extension.entitlements"; sourceTree = "<group>"; };
 		BE713DFE1FACF19800C7407A /* WatchSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSessionManager.swift; sourceTree = "<group>"; };
@@ -1034,7 +1034,7 @@
 				BE64935C1FBA22EF007CC98F /* NotificationViewController.swift */,
 				BE64935E1FBA22EF007CC98F /* MainInterface.storyboard */,
 				BE6493611FBA22EF007CC98F /* Info.plist */,
-				BE64936A1FBA257A007CC98F /* WatchPointOfInterest.swift */,
+				BE64936A1FBA257A007CC98F /* NotifPointOfInterest.swift */,
 			);
 			path = AnyPOINotificationContentExtension;
 			sourceTree = "<group>";
@@ -1629,7 +1629,7 @@
 				BE64936E1FBA26ED007CC98F /* CategoryUtils.swift in Sources */,
 				BE64936C1FBA25AD007CC98F /* CommonProps.swift in Sources */,
 				BE6493711FBA28D9007CC98F /* ColorsUtils.swift in Sources */,
-				BE64936B1FBA257A007CC98F /* WatchPointOfInterest.swift in Sources */,
+				BE64936B1FBA257A007CC98F /* NotifPointOfInterest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
