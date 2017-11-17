@@ -200,9 +200,9 @@ class InterfaceController: WKInterfaceController {
     
     static func updateRowWith(row:AnyPOIRowController, watchPOI:WatchPointOfInterest) {
         if CommonProps.isDebugEnabled {
-            row.titleLabel.setText("(\(String(DebugInfos.sendMsgError)))(\(String(DebugInfos.nothingToRefresh)))\(watchPOI.title)\n\(watchPOI.distance)")
+            row.titleLabel.setText("(\(String(DebugInfos.sendMsgError)))(\(String(DebugInfos.nothingToRefresh)))\(watchPOI.poiTitle)\n\(watchPOI.distance)")
         } else {
-            row.titleLabel.setText("\(watchPOI.title)\n\(watchPOI.distance)")
+            row.titleLabel.setText("\(watchPOI.poiTitle)\n\(watchPOI.distance)")
         }
         
         row.theCategory.setImage(watchPOI.category?.glyph)

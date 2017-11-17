@@ -12,54 +12,10 @@ import MapKit
 import UIKit
 import ClockKit
 
-class WatchPointOfInterest : Equatable {
-    
-    static func == (lhs: WatchPointOfInterest, rhs: WatchPointOfInterest) -> Bool {
-        if lhs.title == rhs.title && lhs.distance == rhs.distance && lhs.color == rhs.color && lhs.category == rhs.category {
-            return true
-        } else {
-            return false
-        }
-    }
-    
-    var title = "unknown"
-    var phones = [String]()
-    var address = "no Address available"
-    var distance = "?"
-    var category: CategoryUtils.Category?
-    var color = UIColor.white
-    var coordinate = CLLocationCoordinate2D(latitude: 0, longitude: 0)
-
-    init(properties:[String:String]) {
-        category = CommonProps.categoryFrom(props: properties) ?? CategoryUtils.defaultGroupCategory
-        
-        if let theColor = CommonProps.poiColorFrom(props: properties) {
-            color = theColor
-        }
-        
-        if let theTitle = CommonProps.titleFrom(properties: properties) {
-            title = theTitle
-        }
-        
-        if let phoneList = CommonProps.phonesFrom(properties: properties) {
-            phones = phoneList
-        }
-
-        if let theAddress = CommonProps.addressFrom(properties: properties){
-            address = theAddress
-        }
-        
-        if let theCoordinate = CommonProps.coordinateFrom(properties: properties) {
-            coordinate = theCoordinate
-        }
-
-        if let distanceString = CommonProps.distanceFrom(properties: properties) {
-            distance = distanceString
-        }
-    }
+class WatchPointOfInterest : BasicPointOfInterest {
     
     var complicationTitle:CLKTextProvider {
-        return CLKTextProvider.localizableTextProvider(withStringsFileTextKey: title)
+        return CLKTextProvider.localizableTextProvider(withStringsFileTextKey: poiTitle)
     }
     
     var complicationGlyph:CLKImageProvider {

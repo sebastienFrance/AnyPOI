@@ -32,12 +32,12 @@ class NotificationController: WKUserNotificationInterfaceController {
         super.willActivate()
  
         if let thePoi = poi {
-            theMap.addAnnotation(thePoi.coordinate, with: WKInterfaceMapPinColor.green)
-            theMap.setRegion(MKCoordinateRegionMakeWithDistance(thePoi.coordinate, 200, 200))
+            theMap.addAnnotation(thePoi.poiCoordinate, with: WKInterfaceMapPinColor.green)
+            theMap.setRegion(MKCoordinateRegionMakeWithDistance(thePoi.poiCoordinate, 200, 200))
             
             theCategoryImage.setImage(thePoi.category?.glyph)
             theCategoryImage.setTintColor(UIColor.white)
-            thePoiName.setText(thePoi.title)
+            thePoiName.setText(thePoi.poiTitle)
             thePoiCategory.setText(thePoi.category?.localizedString)
             theDescriptionGroup.setBackgroundColor(thePoi.color.withAlphaComponent(0.3))
             theAddress.setText(thePoi.address)

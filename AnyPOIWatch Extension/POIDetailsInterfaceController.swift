@@ -31,15 +31,15 @@ class POIDetailsInterfaceController: WKInterfaceController {
             theImage.setImage(watchPOI.category?.glyph)
             theImage.setTintColor(UIColor.white)
           
-            theLabel.setText(watchPOI.title)
+            theLabel.setText(watchPOI.poiTitle)
             if let category = watchPOI.category?.localizedString {
                 theCategoryLabel.setText(category)
             } else {
                 theCategoryLabel.setHidden(true)
             }
             theAddress.setText(watchPOI.address)
-            theMap.addAnnotation(watchPOI.coordinate, with: WKInterfaceMapPinColor.green)
-            theMap.setRegion(MKCoordinateRegionMakeWithDistance(watchPOI.coordinate, 200, 200))
+            theMap.addAnnotation(watchPOI.poiCoordinate, with: WKInterfaceMapPinColor.green)
+            theMap.setRegion(MKCoordinateRegionMakeWithDistance(watchPOI.poiCoordinate, 200, 200))
             
             if watchPOI.phones.count == 0 {
                 thePhoneButton.setHidden(true)
