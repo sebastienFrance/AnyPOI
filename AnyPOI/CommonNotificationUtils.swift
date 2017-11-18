@@ -11,4 +11,10 @@ import Foundation
 
 struct CommonNotificationUtils {
     static let category = "MonitoringRegionCategory"
+    
+    struct LocalNotificationId {
+        static let monitoringRegionId = "MonitoringRegion"
+        static let monitoringRegionPOI = "POI"
+    }
+
 }

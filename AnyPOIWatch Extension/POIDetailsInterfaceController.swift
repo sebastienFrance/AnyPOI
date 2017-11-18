@@ -23,14 +23,31 @@ class POIDetailsInterfaceController: WKInterfaceController {
     
     var poi:WatchPointOfInterest?
     
+    func refreshWith(poi:WatchPointOfInterest) {
+        self.poi = poi
+        
+        refreshController()
+
+        self.theGroupDescription.setBackgroundColor(self.poi!.color.withAlphaComponent(0.3))
+        self.theSpacerGroup.setWidth(0.0)
+    }
+    
     override func awake(withContext context: Any?) {
         super.awake(withContext: context)
         
         if let watchPOI = context as? WatchPointOfInterest {
             poi = watchPOI
+            refreshController()
+            
+            theGroupDescription.setBackgroundColor(watchPOI.color.withAlphaComponent(0.0))
+        }
+    }
+    
+    private func refreshController() {
+        if let watchPOI = poi {
             theImage.setImage(watchPOI.category?.glyph)
             theImage.setTintColor(UIColor.white)
-          
+            
             theLabel.setText(watchPOI.poiTitle)
             if let category = watchPOI.category?.localizedString {
                 theCategoryLabel.setText(category)
@@ -44,11 +61,9 @@ class POIDetailsInterfaceController: WKInterfaceController {
             if watchPOI.phones.count == 0 {
                 thePhoneButton.setHidden(true)
             }
-            
-            theGroupDescription.setBackgroundColor(watchPOI.color.withAlphaComponent(0.0))
         }
-        // Configure interface objects here.
     }
+    
     
     override func didAppear() {
         super.didAppear()

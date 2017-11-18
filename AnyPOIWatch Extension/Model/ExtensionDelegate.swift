@@ -17,25 +17,6 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate, UNUserNotificationCenter
         
         // Perform any final initialization of your application.
         UNUserNotificationCenter.current().delegate = self
-//        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound], completionHandler: { (granted, error) in
-//            if let theError = error {
-//                NSLog("\(#function) error when request localNotification \(theError.localizedDescription)")
-//            } else {
-//                if !granted {
-//                    NSLog("\(#function) Warning local notification not granted")
-//                }
-//            }
-//
-//        })
-
-//        var actions = [UNNotificationAction]()
-//        actions.append(UNNotificationAction(identifier: "CallId", title: "Call", options:[UNNotificationActionOptions.authenticationRequired] ))
-//        actions.append(UNNotificationAction(identifier: "CallId2", title: "Go To", options:[UNNotificationActionOptions.authenticationRequired] ))
-//
-//        let notificationCategory = UNNotificationCategory(identifier: "MonitoringRegionCategory", actions: actions, intentIdentifiers: [],  options: [])
-//        let categories: Set = [notificationCategory]
-//        UNUserNotificationCenter.current().setNotificationCategories(categories)
-
         
         WatchSessionManager.sharedInstance.startSession()
     }
@@ -112,10 +93,32 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate, UNUserNotificationCenter
         }
     }
     
+    func handleUserActivity(_ userInfo: [AnyHashable : Any]?) {
+        // When user has touched the Complication we display the details of the nearest POI
+        if let userInfo = userInfo, let _ = userInfo[CLKLaunchedTimelineEntryDateKey] as? Date, let watchPOI = WatchDataSource.sharedInstance.nearestPOI {
+            if let detailController = WKExtension.shared().visibleInterfaceController as? POIDetailsInterfaceController {
+                detailController.refreshWith(poi:watchPOI)
+            } else {
+                WKExtension.shared().visibleInterfaceController?.pushController(withName: "PoiDetailsController", context: watchPOI)
+            }
+        }
+    }
+    
     // MARK: UNUserNotificationCenterDelegate
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-        NSLog("\(#function)")
         
+        if response.notification.request.identifier == CommonNotificationUtils.LocalNotificationId.monitoringRegionId {
+            let userInfo = response.notification.request.content.userInfo
+            if let poiProperties = userInfo[CommonProps.singlePOI] as? [String:String] {
+                let watchPOI = WatchPointOfInterest(properties:poiProperties)
+                
+                if let detailController = WKExtension.shared().visibleInterfaceController as? POIDetailsInterfaceController {
+                    detailController.refreshWith(poi:watchPOI)
+                } else {
+                    WKExtension.shared().visibleInterfaceController?.pushController(withName: "PoiDetailsController", context: watchPOI)
+                }
+            }
+        }
         completionHandler()
     }
     

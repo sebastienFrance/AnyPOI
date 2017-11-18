@@ -54,8 +54,6 @@ class NotificationController: WKUserNotificationInterfaceController {
 
     
     override func didReceive(_ notification: UNNotification, withCompletion completionHandler: @escaping (WKUserNotificationInterfaceType) -> Swift.Void) {
-        NSLog("\(#function) notification has been received")
-        
         let userInfo = notification.request.content.userInfo
         if let pois = userInfo[CommonProps.singlePOI] as? [String:String] {
             poi = WatchPointOfInterest(properties:pois)

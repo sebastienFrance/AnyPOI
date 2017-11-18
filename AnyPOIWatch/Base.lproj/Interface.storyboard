@@ -90,10 +90,10 @@
             </objects>
             <point key="canvasLocation" x="220" y="643"/>
         </scene>
-        <!--Details Interface Controller-->
+        <!--Details-->
         <scene sceneID="Vkr-Rl-N5K">
             <objects>
-                <controller id="kIY-Sa-bxc" customClass="POIDetailsInterfaceController" customModule="AnyPOIWatch_Extension">
+                <controller identifier="PoiDetailsController" title="Details" id="kIY-Sa-bxc" customClass="POIDetailsInterfaceController" customModule="AnyPOIWatch_Extension">
                     <items>
                         <group width="1" alignment="left" id="wVO-Zj-qzR">
                             <items>

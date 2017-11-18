@@ -114,6 +114,7 @@
 		BE1BAF061FB0E9A70077F78F /* Categories.strings in Resources */ = {isa = PBXBuildFile; fileRef = BE1BAF081FB0E9A70077F78F /* Categories.strings */; };
 		BE1BAF0B1FB0ECF90077F78F /* Categories.strings in Resources */ = {isa = PBXBuildFile; fileRef = BE1BAF081FB0E9A70077F78F /* Categories.strings */; };
 		BE1D1B791E5F7F4700EE986F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BE1D1B771E5F7F4700EE986F /* Localizable.strings */; };
+		BE1E5D961FC0381100E0B650 /* CommonNotificationUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE6493681FBA241C007CC98F /* CommonNotificationUtils.swift */; };
 		BE2A80281E13C48A003B1BE5 /* GPXRouteWayPointAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2A80271E13C48A003B1BE5 /* GPXRouteWayPointAttributes.swift */; };
 		BE2E4A2F1F2C79B3001C22C0 /* NavigationUrlTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2E4A2E1F2C79B3001C22C0 /* NavigationUrlTests.swift */; };
 		BE2E4A411F2C8C13001C22C0 /* WikipediaRequestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2E4A401F2C8C13001C22C0 /* WikipediaRequestTests.swift */; };
@@ -1688,6 +1689,7 @@
 				BE96C3F51F7FA6A000D9ABDB /* WayPoint.swift in Sources */,
 				BE713E021FADAC8E00C7407A /* WatchDataSource.swift in Sources */,
 				BE0F0DB31F92B510008C1EFA /* POIDetailsInterfaceController.swift in Sources */,
+				BE1E5D961FC0381100E0B650 /* CommonNotificationUtils.swift in Sources */,
 				BE11F02A1F92135A00818A69 /* ColorsUtils.swift in Sources */,
 				BE96C3F31F7FA69800D9ABDB /* PointOfInterest.swift in Sources */,
 				BE96C3DC1F7FA1C700D9ABDB /* ExtensionDelegate.swift in Sources */,

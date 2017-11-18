@@ -39,10 +39,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         static let searchPOIs = "com.sebastien.AnyPOI.SearchPOI"
     }
     
-    struct LocalNotificationId {
-        static let monitoringRegionId = "MonitoringRegion"
-        static let monitoringRegionPOI = "POI"
-    }
     
     struct Notifications {
         // This notification is sent only when the product has been successfully purchased
@@ -381,11 +377,11 @@ extension AppDelegate {
         content.body = message
         content.badge = 1
         content.sound = UNNotificationSound.default()
-        content.userInfo[AppDelegate.LocalNotificationId.monitoringRegionPOI] = poi.objectID.uriRepresentation().absoluteString
+        content.userInfo[CommonNotificationUtils.LocalNotificationId.monitoringRegionPOI] = poi.objectID.uriRepresentation().absoluteString
         content.userInfo[CommonProps.singlePOI] = poi.props
         content.userInfo[CommonProps.regionRadius] = poi.poiRegionRadius
         content.categoryIdentifier = CommonNotificationUtils.category
-        let request = UNNotificationRequest(identifier: AppDelegate.LocalNotificationId.monitoringRegionId, content:content, trigger: nil)
+        let request = UNNotificationRequest(identifier: CommonNotificationUtils.LocalNotificationId.monitoringRegionId, content:content, trigger: nil)
         UNUserNotificationCenter.current().add(request, withCompletionHandler: { error in
             if let theError = error {
                 NSLog("\(#function) Error with notification add \(theError.localizedDescription)")
@@ -463,7 +459,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         
         if response.actionIdentifier == UNNotificationDefaultActionIdentifier,
             response.notification.request.content.categoryIdentifier == CommonNotificationUtils.category {
-            if let poiAbsoluteString = response.notification.request.content.userInfo[LocalNotificationId.monitoringRegionPOI] as? String,
+            if let poiAbsoluteString = response.notification.request.content.userInfo[CommonNotificationUtils.LocalNotificationId.monitoringRegionPOI] as? String,
                 let urlPOI = URL(string: poiAbsoluteString), let poi = POIDataManager.sharedInstance.getPOIWithURI(urlPOI) {
                 poiToShowOnMap = poi
                 if UserAuthentication.isUserAuthenticated {
