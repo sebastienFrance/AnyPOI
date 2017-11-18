@@ -11,12 +11,13 @@ import SafariServices
 
 class LeftMenuViewController: UIViewController {
     
-    let menuTitles = [NSLocalizedString("MapMenuTitle",comment:""),
+    var menuTitles = [NSLocalizedString("MapMenuTitle",comment:""),
                       NSLocalizedString("PointOfInterestMenuTitle",comment:""),
                       NSLocalizedString("TravelsMenuTitle",comment:""),
                       NSLocalizedString("OptionsMenuTitle",comment:""),
+                      
                       NSLocalizedString("HelpMenuTitle",comment:"")
-              //        NSLocalizedString("PurchaseMenuTitle", comment:"")
+    //        NSLocalizedString("PurchaseMenuTitle", comment:"")
     ]
 
     @IBOutlet weak var theTableView: UITableView! {
@@ -32,6 +33,10 @@ class LeftMenuViewController: UIViewController {
     weak var container:ContainerViewController!
     
     override func viewDidLoad() {
+        #if DEBUG
+            menuTitles.append("Debug")
+        #endif
+
         super.viewDidLoad()
     }
 
@@ -70,18 +75,19 @@ extension LeftMenuViewController : UITableViewDataSource, UITableViewDelegate {
         static let Route = 2
         static let Options = 3
         static let Help = 4
-        static let Purchase = 5
+        static let Debug = 5
+        //static let Purchase = 5
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-       return LocationManager.sharedInstance.isDebugLocationUpdateEnabled ? 2 : 1
+       return  1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
             return menuTitles.count + 1
         } else {
-            return LocationManager.sharedInstance.debugLocationUpdates.count
+            return 0
         }
     }
     
@@ -90,7 +96,6 @@ extension LeftMenuViewController : UITableViewDataSource, UITableViewDelegate {
         static let LeftMenuCellId = "LeftMenuCellId"
         static let MenuAboutCellId = "MenuAboutCellId"
         static let LeftMenuPurchaseTableViewCellId = "LeftMenuPurchaseTableViewCellId"
-        static let debugLocationUpdateCellId = "debugLocationUpdateCellId"
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -104,19 +109,8 @@ extension LeftMenuViewController : UITableViewDataSource, UITableViewDelegate {
         }
     }
     
-    func debugLocationUpdate(cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-         let theCell = theTableView.dequeueReusableCell(withIdentifier: storyboard.debugLocationUpdateCellId, for: indexPath) as! LetMenuDebugLocationUpdateTableViewCell
-        
-        theCell.watchReachableState.text = LocationManager.sharedInstance.debugLocationUpdates[indexPath.row].debugTrace
-        
-        return theCell
-    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        if indexPath.section == 1 {
-            return debugLocationUpdate(cellForRowAt: indexPath)
-        }
         
         if indexPath.row < menuTitles.count {
             if indexPath.row == Row.POIs {
@@ -137,7 +131,9 @@ extension LeftMenuViewController : UITableViewDataSource, UITableViewDelegate {
                     theCell.imageMenu.image = #imageLiteral(resourceName: "Settings-30")
                 case Row.Help:
                     theCell.imageMenu.image = #imageLiteral(resourceName: "Help-30")
-                case Row.Purchase:
+//                case Row.Purchase:
+//                    theCell.imageMenu.image = #imageLiteral(resourceName: "Apple App Store-30")
+                case Row.Debug:
                     theCell.imageMenu.image = #imageLiteral(resourceName: "Apple App Store-30")
                 default:
                     break
@@ -167,9 +163,12 @@ extension LeftMenuViewController : UITableViewDataSource, UITableViewDelegate {
             container.showCenterView(.options)
         } else if indexPath.row == Row.Help {
             performSegue(withIdentifier: "showHelpId", sender: nil)
-        } else if indexPath.row == Row.Purchase {
-            container.showCenterView(.purchase)
+        } else if indexPath.row == Row.Debug {
+            container.showCenterView(.debug)
         }
+//        } else if indexPath.row == Row.Purchase {
+//            container.showCenterView(.purchase)
+//        }
     }
     
  }

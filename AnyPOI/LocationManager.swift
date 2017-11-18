@@ -97,7 +97,6 @@ class LocationManager : NSObject {
     }
     
     var debugLocationUpdates = [DebugLocationUpdateInfos]()
-    var isDebugLocationUpdateEnabled = true
     
     // Initialize the Singleton
     class var sharedInstance: LocationManager {
@@ -315,7 +314,8 @@ class LocationManager : NSObject {
 extension LocationManager: CLLocationManagerDelegate {
   
     private func addDebugLocationUpdate(sourceUpdate:String, watchAppReachableBefore:Bool) {
-        if isDebugLocationUpdateEnabled, let location = locationManager?.location {
+        #if DEBUG
+        if let location = locationManager?.location {
             
             var poiName = "no POI"
             var distanceFromPOI:CLLocationDistance = -1
@@ -332,6 +332,7 @@ extension LocationManager: CLLocationManagerDelegate {
                                                       isWatchAppReachableBefore: watchAppReachableBefore)
             debugLocationUpdates.append(debugInfos)
         }
+        #endif
     }
 
     // Called when a SignificantLocationChanges has occured
@@ -411,7 +412,6 @@ extension LocationManager: CLLocationManagerDelegate {
     // Post an internal notification when the Authorization status has been changed
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         NSLog("\(#function): Warning the authorization status of Location Manager has changed to \(LocationManager.getStatus(status: status))")
-        NSLog("\(#function) background location update: \(locationManager?.allowsBackgroundLocationUpdates ?? false)")
         if status == .authorizedAlways {
             manager.allowsBackgroundLocationUpdates = true
             startMonitoringRegions()
@@ -420,7 +420,8 @@ extension LocationManager: CLLocationManagerDelegate {
             stopMonitoringRegions()
             stopSignificantLocationChanges()
         }
-        
+        NSLog("\(#function) background location update: \(locationManager?.allowsBackgroundLocationUpdates ?? false)")
+
         
         NotificationCenter.default.post(name: Notification.Name(rawValue: LocationNotifications.AuthorizationHasChanged), object: manager)
     }

@@ -25,7 +25,7 @@ protocol CenterViewControllerDelegate : class {
 class ContainerViewController: UIViewController {
 
     enum CenterViewOptions {
-        case map, poiManager, travels, options, purchase, about
+        case map, poiManager, travels, options, purchase, about, debug
     }
     
     fileprivate struct Cste {
@@ -36,7 +36,8 @@ class ContainerViewController: UIViewController {
     
     fileprivate var mainStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
     fileprivate var optionsStoryboard = UIStoryboard(name: "Options", bundle: Bundle.main)
-    
+    fileprivate var debugStoryboard = UIStoryboard(name: "Debug", bundle: Bundle.main)
+
     // Navigation Controller that contains the MapViewController
     fileprivate var mapViewNavigationController:UINavigationController!
     
@@ -121,7 +122,7 @@ class ContainerViewController: UIViewController {
         case .map:
             removeCurrentCenterViewController()
             currentApplicationViewController = mapViewNavigationController
-        case .options, .poiManager, .travels, .about, .purchase:
+        case .options, .poiManager, .travels, .about, .purchase, .debug:
             displayCenterView(viewType)
         }
         toggleLeftPanel()
@@ -147,6 +148,8 @@ class ContainerViewController: UIViewController {
                 viewController = mainStoryboard.instantiateViewController(withIdentifier: "Routes")
             case .purchase:
                 viewController = mainStoryboard.instantiateViewController(withIdentifier: "PurchaseViewControllerId")
+            case .debug:
+                viewController = debugStoryboard.instantiateViewController(withIdentifier: "DebugMenuViewController") as! DebugMenuTableViewController
             default:
                 viewController = nil
             }

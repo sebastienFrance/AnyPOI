@@ -226,6 +226,9 @@
 		BEDB99201F7AE74200F2F44B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEDB991F1F7AE74200F2F44B /* UIKit.framework */; };
 		BEDB99221F7AE82B00F2F44B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BEA7BAA81D8B01E5005D2D21 /* Assets.xcassets */; };
 		BEDC10541D97D4D1000C6A0D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BEDC10561D97D4D1000C6A0D /* InfoPlist.strings */; };
+		BEE1C6061FC0804F00D8EF6D /* Debug.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BEE1C6051FC0804F00D8EF6D /* Debug.storyboard */; };
+		BEE1C6091FC081CA00D8EF6D /* DebugMenuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE1C6081FC081CA00D8EF6D /* DebugMenuTableViewController.swift */; };
+		BEE1C60B1FC085B300D8EF6D /* DebugLocationUpdateTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE1C60A1FC085B300D8EF6D /* DebugLocationUpdateTableViewController.swift */; };
 		BEE7B8611F93B237007545F9 /* AnyPOIComplicationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE7B8601F93B237007545F9 /* AnyPOIComplicationController.swift */; };
 		BEE8707F1E0D7A6400196000 /* GPXImportOptionsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE8707E1E0D7A6400196000 /* GPXImportOptionsTableViewController.swift */; };
 		BEEACE0C1E09CD9900E7D202 /* GPXImportRouteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEEACE0B1E09CD9900E7D202 /* GPXImportRouteTableViewCell.swift */; };
@@ -542,6 +545,9 @@
 		BEDB991F1F7AE74200F2F44B /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		BEDC10551D97D4D1000C6A0D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		BEDC10571D97D4D7000C6A0D /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		BEE1C6051FC0804F00D8EF6D /* Debug.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Debug.storyboard; sourceTree = "<group>"; };
+		BEE1C6081FC081CA00D8EF6D /* DebugMenuTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugMenuTableViewController.swift; sourceTree = "<group>"; };
+		BEE1C60A1FC085B300D8EF6D /* DebugLocationUpdateTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugLocationUpdateTableViewController.swift; sourceTree = "<group>"; };
 		BEE7B8601F93B237007545F9 /* AnyPOIComplicationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyPOIComplicationController.swift; sourceTree = "<group>"; };
 		BEE8707E1E0D7A6400196000 /* GPXImportOptionsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPXImportOptionsTableViewController.swift; sourceTree = "<group>"; };
 		BEEACE0B1E09CD9900E7D202 /* GPXImportRouteTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPXImportRouteTableViewCell.swift; sourceTree = "<group>"; };
@@ -719,6 +725,7 @@
 				BE47BE391DAACA8E00862A0C /* POIManager.storyboard */,
 				BE957E5A1DA8FBBA006CF455 /* Options.storyboard */,
 				BE5FE28F1E81B849007128DF /* Launch Screen.storyboard */,
+				BEE1C6051FC0804F00D8EF6D /* Debug.storyboard */,
 			);
 			name = Storyboards;
 			sourceTree = "<group>";
@@ -812,7 +819,6 @@
 				BEC3104D1DBA9F9400A923AF /* LeftMenuPOIsTableViewCell.swift */,
 				BE0CF2CB1D8B209A00344F8A /* LeftMenuAboutTableViewCell.swift */,
 				BE0CF2CC1D8B209A00344F8A /* LeftMenuTableViewCell.swift */,
-				BE936FD11FB7044F00303694 /* LetMenuDebugLocationUpdateTableViewCell.swift */,
 			);
 			name = LeftMenuVC;
 			sourceTree = "<group>";
@@ -944,6 +950,7 @@
 				BE2FF2DE1D8B2F8600C0395A /* OptionsVC */,
 				BEF5D35B1E64905600941BAF /* PurchaseVC */,
 				BE0CF29F1D8B209A00344F8A /* ContainerViewController.swift */,
+				BEE1C6071FC0819000D8EF6D /* Debug */,
 			);
 			name = ContainerVC;
 			sourceTree = "<group>";
@@ -1262,6 +1269,16 @@
 			path = AnyPOIUITests;
 			sourceTree = "<group>";
 		};
+		BEE1C6071FC0819000D8EF6D /* Debug */ = {
+			isa = PBXGroup;
+			children = (
+				BEE1C6081FC081CA00D8EF6D /* DebugMenuTableViewController.swift */,
+				BEE1C60A1FC085B300D8EF6D /* DebugLocationUpdateTableViewController.swift */,
+				BE936FD11FB7044F00303694 /* LetMenuDebugLocationUpdateTableViewCell.swift */,
+			);
+			name = Debug;
+			sourceTree = "<group>";
+		};
 		BEF5D2751F9B93B500C8EE1D /* Watch */ = {
 			isa = PBXGroup;
 			children = (
@@ -1573,6 +1590,7 @@
 				BE2FF2CD1D8B280B00C0395A /* PickerGroupView.xib in Resources */,
 				BE2FF2CC1D8B280B00C0395A /* PickerCategoryView.xib in Resources */,
 				BE47BE3B1DAACA8E00862A0C /* POIManager.storyboard in Resources */,
+				BEE1C6061FC0804F00D8EF6D /* Debug.storyboard in Resources */,
 				BE2FF2C91D8B280B00C0395A /* CallOutAccessoryView.xib in Resources */,
 				BE5FE2901E81B849007128DF /* Launch Screen.storyboard in Resources */,
 				BE4A880C1D93137900A0DE2F /* Localizable.strings in Resources */,
@@ -1728,6 +1746,7 @@
 				BEA6FB7E1DFF3594004974B9 /* CountryDescription.swift in Sources */,
 				BE4628D91DEF5BEE00FB4C52 /* GPXImportViewController.swift in Sources */,
 				BE0CF3431D8B209A00344F8A /* RouteSummaryTableViewCell.swift in Sources */,
+				BEE1C6091FC081CA00D8EF6D /* DebugMenuTableViewController.swift in Sources */,
 				BE721BBA1FAE43910092E3E6 /* WatchUtilities.swift in Sources */,
 				BEA74FA31E70939000574E7D /* HelperViewController.swift in Sources */,
 				BE0CF3281D8B209A00344F8A /* Wikipedia.swift in Sources */,
@@ -1799,6 +1818,7 @@
 				BE0CF30B1D8B209A00344F8A /* WikipediaLocalSearchTableViewCell.swift in Sources */,
 				BE0CF2FD1D8B209A00344F8A /* ContactsUtilities.swift in Sources */,
 				BE0CF3491D8B209A00344F8A /* PickerGroupView.swift in Sources */,
+				BEE1C60B1FC085B300D8EF6D /* DebugLocationUpdateTableViewController.swift in Sources */,
 				BE0CF3611D8B21C800344F8A /* DatabaseAccess.swift in Sources */,
 				BE107D8F1DD72898008B09A1 /* MapFilterViewController.swift in Sources */,
 				BE982D0E1DD233E500C7941A /* PoisMailActivityItemSource.swift in Sources */,
@@ -2261,6 +2281,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_SWIFT_FLAGS = "\"-D\" \"COCOAPODS\" \"-DDEBUG\"";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
