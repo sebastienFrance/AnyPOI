@@ -107,7 +107,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate, UNUserNotificationCenter
     // MARK: UNUserNotificationCenterDelegate
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         
-        if response.notification.request.identifier == CommonNotificationUtils.LocalNotificationId.monitoringRegionId {
+        if response.notification.request.content.categoryIdentifier == CommonNotificationUtils.category {
             let userInfo = response.notification.request.content.userInfo
             if let poiProperties = userInfo[CommonProps.singlePOI] as? [String:String] {
                 let watchPOI = WatchPointOfInterest(properties:poiProperties)

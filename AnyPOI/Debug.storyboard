@@ -61,6 +61,46 @@
                                             <segue destination="WUv-zX-SsB" kind="show" identifier="RegionMonitoringId" id="rr9-fx-9bh"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" textLabel="zCd-6t-1ms" rowHeight="38" style="IBUITableViewCellStyleDefault" id="HQ7-f2-JsJ">
+                                        <rect key="frame" x="0.0" y="76" width="375" height="38"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="HQ7-f2-JsJ" id="cZX-t7-gm4">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="37.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Daily Travel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="zCd-6t-1ms">
+                                                    <rect key="frame" x="16" y="0.0" width="343" height="37.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="6AI-GW-yRM" kind="show" identifier="showDailyTravelId" id="ixw-Jf-mdS"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" textLabel="dP8-5v-XbU" rowHeight="38" style="IBUITableViewCellStyleDefault" id="XIx-B5-syC">
+                                        <rect key="frame" x="0.0" y="114" width="375" height="38"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="XIx-B5-syC" id="aDF-C7-kp6">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="37.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Notification History" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="dP8-5v-XbU">
+                                                    <rect key="frame" x="16" y="0.0" width="343" height="37.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="WUv-zX-SsB" kind="show" identifier="showNotificationHistory" id="ZJx-hg-pKl"/>
+                                        </connections>
+                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                         </sections>
@@ -72,7 +112,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="65Q-7z-qd7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1196" y="-383"/>
+            <point key="canvasLocation" x="-1399" y="-384"/>
         </scene>
         <!--Debug Location Update Table View Controller-->
         <scene sceneID="deC-6o-0Iu">
@@ -136,8 +176,37 @@
             </objects>
             <point key="canvasLocation" x="-268" y="-383"/>
         </scene>
+        <!--Daily Travel View Controller-->
+        <scene sceneID="dVT-Ua-3b9">
+            <objects>
+                <viewController id="6AI-GW-yRM" customClass="DailyTravelViewController" customModule="AnyPOI" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="lfq-sm-lbP">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="mQb-U1-H2o">
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                            </mapView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="mQb-U1-H2o" firstAttribute="top" secondItem="2I8-6w-TcT" secondAttribute="top" id="6yv-cm-MG9"/>
+                            <constraint firstItem="mQb-U1-H2o" firstAttribute="bottom" secondItem="2I8-6w-TcT" secondAttribute="bottom" id="HeQ-Zq-req"/>
+                            <constraint firstItem="mQb-U1-H2o" firstAttribute="trailing" secondItem="2I8-6w-TcT" secondAttribute="trailing" id="Tan-b8-qrO"/>
+                            <constraint firstItem="mQb-U1-H2o" firstAttribute="leading" secondItem="2I8-6w-TcT" secondAttribute="leading" id="b6k-6o-b0n"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="2I8-6w-TcT"/>
+                    </view>
+                    <connections>
+                        <outlet property="theMapView" destination="mQb-U1-H2o" id="11f-rS-Ec7"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="91m-9Y-uUq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-268" y="351"/>
+        </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="k8R-oZ-63I"/>
+        <segue reference="ZJx-hg-pKl"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -20,6 +20,8 @@ class DebugMenuTableViewController: UITableViewController, ContainerViewControll
     struct Segues {
         static let RegionMonitoringId = "RegionMonitoringId"
         static let LocationUpdateId = "LocationUpdateId"
+        static let showDailyTravelId = "showDailyTravelId"
+        static let showNotificationHistory = "showNotificationHistory"
     }
     
     func enableGestureRecognizer(_ enable:Bool) {
@@ -39,13 +41,19 @@ class DebugMenuTableViewController: UITableViewController, ContainerViewControll
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-        let debugController = segue.destination as! DebugLocationUpdateTableViewController
-        
+
         switch segue.identifier! {
         case Segues.LocationUpdateId:
+            let debugController = segue.destination as! DebugLocationUpdateTableViewController
             debugController.datasource = .LocationUpdate
         case Segues.RegionMonitoringId:
+            let debugController = segue.destination as! DebugLocationUpdateTableViewController
             debugController.datasource = .RegionMonitoring
+        case Segues.showNotificationHistory:
+            let debugController = segue.destination as! DebugLocationUpdateTableViewController
+            debugController.datasource = .NotificationHistory
+        case Segues.showDailyTravelId:
+            break
         default:
             break
         }

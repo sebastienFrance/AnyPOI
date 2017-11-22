@@ -23,7 +23,7 @@ class DebugLocationUpdateTableViewController: UIViewController {
     }
     
     enum DebugDataSource {
-        case LocationUpdate, RegionMonitoring
+        case LocationUpdate, RegionMonitoring, NotificationHistory
     }
     
     var datasource = DebugDataSource.LocationUpdate
@@ -46,6 +46,8 @@ extension DebugLocationUpdateTableViewController: UITableViewDataSource {
             return LocationManager.sharedInstance.debugLocationUpdates.count > 0 ? LocationManager.sharedInstance.debugLocationUpdates.count : 1
         case .RegionMonitoring:
             return 1
+        case .NotificationHistory:
+            return AppDelegate.DebugInfo.Notification.notificationHistory.count
         }
         
     }
@@ -71,7 +73,8 @@ extension DebugLocationUpdateTableViewController: UITableViewDataSource {
                 theCell.watchReachableState.text = "No monitored regions & Location Manager is null!"
             }
 
-            break
+        case .NotificationHistory:
+            theCell.watchReachableState.text = "\(AppDelegate.DebugInfo.Notification.notificationHistory[indexPath.row].debug)"
         }
         
         

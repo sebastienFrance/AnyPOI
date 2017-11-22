@@ -79,6 +79,7 @@ class WatchSessionManager: NSObject, WCSessionDelegate {
         static var sendMsgSuccess = 0
         static var sendMsgErrorResult = 0
         static var sendMsgError = 0
+        static var sendMsgLatestError = ""
         static var sendApplicationContextSuccess = 0
         static var sendApplicationContextError = 0
         static var receiveSendMsgSuccess = 0
@@ -119,9 +120,21 @@ class WatchSessionManager: NSObject, WCSessionDelegate {
             }) { error in
                 NSLog("\(#function) error with sendMessage, error: \(error.localizedDescription) ")
                 WatchSessionManager.Debug.sendMsgError += 1
+                WatchSessionManager.Debug.sendMsgLatestError = error.localizedDescription
+                
+                // On error, just send an application update to try to resync the Watch with the new data
+                self.sendApplicationUpdate(propList: propList, pois: pois)
             }
-        } else if isWatchAppReady {
-
+        } else {
+            sendApplicationUpdate(propList: propList, pois: pois)
+        }
+    }
+    
+    /// Refresh the WatchApp using an updateApplicationContext and sends a complication
+    /// update (if needed)
+    func sendApplicationUpdate(propList: [String : Any], pois: [PointOfInterest]) {
+        if isWatchAppReady {
+            
             do {
                 try session.updateApplicationContext(propList)
                 NSLog("\(#function) updateApplicationContext has been sent")

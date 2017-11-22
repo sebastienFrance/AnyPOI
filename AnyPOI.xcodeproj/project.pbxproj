@@ -229,6 +229,8 @@
 		BEE1C6061FC0804F00D8EF6D /* Debug.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BEE1C6051FC0804F00D8EF6D /* Debug.storyboard */; };
 		BEE1C6091FC081CA00D8EF6D /* DebugMenuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE1C6081FC081CA00D8EF6D /* DebugMenuTableViewController.swift */; };
 		BEE1C60B1FC085B300D8EF6D /* DebugLocationUpdateTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE1C60A1FC085B300D8EF6D /* DebugLocationUpdateTableViewController.swift */; };
+		BEE2BFA51FC189DC00264E95 /* DailyTravelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE2BFA41FC189DC00264E95 /* DailyTravelViewController.swift */; };
+		BEE2BFA71FC18C4500264E95 /* DailyTravelAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE2BFA61FC18C4500264E95 /* DailyTravelAnnotation.swift */; };
 		BEE7B8611F93B237007545F9 /* AnyPOIComplicationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE7B8601F93B237007545F9 /* AnyPOIComplicationController.swift */; };
 		BEE8707F1E0D7A6400196000 /* GPXImportOptionsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE8707E1E0D7A6400196000 /* GPXImportOptionsTableViewController.swift */; };
 		BEEACE0C1E09CD9900E7D202 /* GPXImportRouteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEEACE0B1E09CD9900E7D202 /* GPXImportRouteTableViewCell.swift */; };
@@ -548,6 +550,8 @@
 		BEE1C6051FC0804F00D8EF6D /* Debug.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Debug.storyboard; sourceTree = "<group>"; };
 		BEE1C6081FC081CA00D8EF6D /* DebugMenuTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugMenuTableViewController.swift; sourceTree = "<group>"; };
 		BEE1C60A1FC085B300D8EF6D /* DebugLocationUpdateTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugLocationUpdateTableViewController.swift; sourceTree = "<group>"; };
+		BEE2BFA41FC189DC00264E95 /* DailyTravelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyTravelViewController.swift; sourceTree = "<group>"; };
+		BEE2BFA61FC18C4500264E95 /* DailyTravelAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyTravelAnnotation.swift; sourceTree = "<group>"; };
 		BEE7B8601F93B237007545F9 /* AnyPOIComplicationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyPOIComplicationController.swift; sourceTree = "<group>"; };
 		BEE8707E1E0D7A6400196000 /* GPXImportOptionsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPXImportOptionsTableViewController.swift; sourceTree = "<group>"; };
 		BEEACE0B1E09CD9900E7D202 /* GPXImportRouteTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPXImportRouteTableViewCell.swift; sourceTree = "<group>"; };
@@ -568,6 +572,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		5E3660A4AD4F427B12D3396B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		BE6493531FBA22EF007CC98F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -1275,6 +1286,8 @@
 				BEE1C6081FC081CA00D8EF6D /* DebugMenuTableViewController.swift */,
 				BEE1C60A1FC085B300D8EF6D /* DebugLocationUpdateTableViewController.swift */,
 				BE936FD11FB7044F00303694 /* LetMenuDebugLocationUpdateTableViewCell.swift */,
+				BEE2BFA41FC189DC00264E95 /* DailyTravelViewController.swift */,
+				BEE2BFA61FC18C4500264E95 /* DailyTravelAnnotation.swift */,
 			);
 			name = Debug;
 			sourceTree = "<group>";
@@ -1340,6 +1353,7 @@
 			buildPhases = (
 				BE96C3C61F7FA1C700D9ABDB /* Resources */,
 				BE96C3EB1F7FA1C700D9ABDB /* Embed App Extensions */,
+				5E3660A4AD4F427B12D3396B /* Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1828,6 +1842,7 @@
 				BE0CF31A1D8B209A00344F8A /* PoiEditorViewController.swift in Sources */,
 				BE0CF3161D8B209A00344F8A /* MovePOIsTableViewCell.swift in Sources */,
 				BE0CF3051D8B209A00344F8A /* MapViewController.swift in Sources */,
+				BEE2BFA51FC189DC00264E95 /* DailyTravelViewController.swift in Sources */,
 				BE0CF30E1D8B209A00344F8A /* CategoryUtils.swift in Sources */,
 				BE0CF3371D8B209A00344F8A /* NavigationURL.swift in Sources */,
 				BE0CF3551D8B209A00344F8A /* DBAlertController.swift in Sources */,
@@ -1886,6 +1901,7 @@
 				BE0CF32C1D8B209A00344F8A /* LeftMenuAboutTableViewCell.swift in Sources */,
 				BE0CF2FE1D8B209A00344F8A /* ContactsViewController.swift in Sources */,
 				BEE8707F1E0D7A6400196000 /* GPXImportOptionsTableViewController.swift in Sources */,
+				BEE2BFA71FC18C4500264E95 /* DailyTravelAnnotation.swift in Sources */,
 				BE0CF3341D8B209A00344F8A /* ImageAcvitityItemSource.swift in Sources */,
 				BE4628D61DEF5A3900FB4C52 /* GPXPoi.swift in Sources */,
 				BE0CF32E1D8B209A00344F8A /* OptionsViewController.swift in Sources */,
@@ -2343,7 +2359,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CDCBBD2E0C1298BC8BCF96F5 /* Pods-AnyPOI.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = AnyPOI/AnyPOI.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -2363,7 +2378,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E2956FD8FFE921156333A19A /* Pods-AnyPOI.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = AnyPOI/AnyPOI.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";

@@ -51,6 +51,7 @@ class LocationManager : NSObject {
             let sendMsgSuccess = WatchSessionManager.Debug.sendMsgSuccess
             let sendMsgErrorResult = WatchSessionManager.Debug.sendMsgErrorResult
             let sendMsgError = WatchSessionManager.Debug.sendMsgError
+            let sendMsgLatestError = WatchSessionManager.Debug.sendMsgLatestError
             
             let sendApplicationContextSuccess = WatchSessionManager.Debug.sendApplicationContextSuccess
             let sendApplicationContextError = WatchSessionManager.Debug.sendApplicationContextError
@@ -59,6 +60,15 @@ class LocationManager : NSObject {
             
             let debugReceiveSendMsgSuccess = WatchSessionManager.Debug.receiveSendMsgSuccess
             let debugReceiveSendMsgError = WatchSessionManager.Debug.receiveSendMsgError
+            
+            let enterRegionTriggered = AppDelegate.DebugInfo.Notification.enterRegionTriggered
+            let enterRegionSuccess = AppDelegate.DebugInfo.Notification.enterRegionSuccess
+            let enterRegionFailure = AppDelegate.DebugInfo.Notification.enterRegionFailure
+            
+            let exitRegionTriggered = AppDelegate.DebugInfo.Notification.exitRegionTriggered
+            let exitRegionSuccess = AppDelegate.DebugInfo.Notification.exitRegionSuccess
+            let exitRegionFailure = AppDelegate.DebugInfo.Notification.exitRegionFailure
+
         }
         
         let watchSessionMsg = WatchSessionMsg()
@@ -80,6 +90,7 @@ class LocationManager : NSObject {
             return """
             WatchReach B4/after: \(isWatchAppReachableBefore)/\(isWatchAppReachable)
             SendMsg ok/errRes/err: \(watchSessionMsg.sendMsgSuccess)/\(watchSessionMsg.sendMsgErrorResult)/\(watchSessionMsg.sendMsgError)
+            SendMsg Latest error: \(watchSessionMsg.sendMsgLatestError)
             SendAppCtxt ok/err: \(watchSessionMsg.sendApplicationContextSuccess)/\(watchSessionMsg.sendApplicationContextError)
             RemainCompUpd: \(watchSessionMsg.remainingComplication)
             CompUpdate Urg/NotUrg/Empty: \(watchComplicationUpdate.sendUrgentComplicationUpdate)/\(watchComplicationUpdate.notUrgentComplicationUpdate)/\(watchComplicationUpdate.sendEmptyComplicationUpdate)
@@ -92,6 +103,8 @@ class LocationManager : NSObject {
             LocDate: \(dateLocation)
             Latitude: \(locationInfos.coordinate.latitude)
             Longitude: \(locationInfos.coordinate.longitude)
+            EnterRegionNofif Count/Succ/Fail:\(watchSessionMsg.enterRegionTriggered)/\(watchSessionMsg.enterRegionSuccess)/\(watchSessionMsg.enterRegionFailure)
+            ExitRegionNofif Count/Succ/Fail:\(watchSessionMsg.exitRegionTriggered)/\(watchSessionMsg.exitRegionSuccess)/\(watchSessionMsg.exitRegionFailure)
             """
         }
     }

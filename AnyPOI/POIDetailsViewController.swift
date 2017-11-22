@@ -608,11 +608,13 @@ extension POIDetailsViewController : UITableViewDataSource, UITableViewDelegate 
                 // If it's the first time we display the map, we fade in
                 if !snapshotAlreadyDisplayed {
                     snapshotAlreadyDisplayed = true
-                    snapshotMapImageView!.alpha = 0.0
-                    cell.backgroundView = snapshotMapImageView
-                    UIView.animate(withDuration: 0.5, animations: {
-                        self.snapshotMapImageView!.alpha = UserPreferences.sharedInstance.mapMode == .standard ? 0.3 : 0.4
-                    })
+                    if let snapshotImage = snapshotMapImageView {
+                        snapshotImage.alpha = 0.0
+                        cell.backgroundView = snapshotImage
+                        UIView.animate(withDuration: 0.5, animations: {
+                            self.snapshotMapImageView!.alpha = UserPreferences.sharedInstance.mapMode == .standard ? 0.3 : 0.4
+                        })
+                    }
                 } else {
                     // The map has been already display, we change it directly without animations
                     snapshotMapImageView!.alpha = UserPreferences.sharedInstance.mapMode == .standard ? 0.3 : 0.4

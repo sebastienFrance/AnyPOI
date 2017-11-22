@@ -23,18 +23,7 @@ class WatchUtilities {
                 NSLog("\(#function) found location \(centerLocation.coordinate.latitude) / \(centerLocation.coordinate.longitude)")
                 
                 pois = PoiBoundingBox.getPoiAroundCurrentLocation(centerLocation, radius: maxRadius, maxResult: maxPOIResults)
-                
-                // convert POIs to properties and add them in an Array
-                let poiArray : [[String:String]] = pois.map() {
-                    var poiProps = $0.props
-                    
-                    // Compute distance from current location to POI location
-                    let targetLocation = CLLocation(latitude: $0.poiLatitude , longitude: $0.poiLongitude)
-                    let distance = centerLocation.distance(from: targetLocation)
-                    
-                    poiProps[CommonProps.POI.distance] = String(distance)
-                    return poiProps
-                }
+                let poiArray = poisToArray(pois: pois, centerLocation: centerLocation)
                 
                 result[CommonProps.messageStatus] = CommonProps.MessageStatusCode.ok.rawValue
                 result[CommonProps.listOfPOIs] = poiArray
@@ -49,5 +38,33 @@ class WatchUtilities {
         }
         
         return (result, pois)
+    }
+    
+    static func getPoisAroundAsArray(maxRadius:Double, maxPOIResults:Int) -> [[String:String]] {
+        
+        if LocationManager.sharedInstance.isLocationAuthorized() {
+            
+            if let center = LocationManager.sharedInstance.locationManager?.location {
+                let poisAround = PoiBoundingBox.getPoiAroundCurrentLocation(center, radius: maxRadius, maxResult: maxPOIResults)
+                return poisToArray(pois: poisAround, centerLocation: center)
+            } else {
+                NSLog("\(#function) Cannot get CLLocation")
+            }
+        } else {
+            NSLog("\(#function) Location is not authorized")
+        }
+        
+        return [[String:String]]()
+    }
+    
+    private static func poisToArray(pois:[PointOfInterest], centerLocation:CLLocation) -> [[String:String]] {
+        // convert POIs to properties and add them in an Array
+        let poiArray : [[String:String]] = pois.map() {
+            var poiProps = $0.props
+            
+            poiProps[CommonProps.POI.distance] = "\($0.distanceFrom(location: centerLocation))"
+            return poiProps
+        }
+        return poiArray
     }
 }

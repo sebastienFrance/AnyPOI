@@ -55,8 +55,15 @@ class NotificationController: WKUserNotificationInterfaceController {
     
     override func didReceive(_ notification: UNNotification, withCompletion completionHandler: @escaping (WKUserNotificationInterfaceType) -> Swift.Void) {
         let userInfo = notification.request.content.userInfo
-        if let pois = userInfo[CommonProps.singlePOI] as? [String:String] {
-            poi = WatchPointOfInterest(properties:pois)
+        if let notifPoi = userInfo[CommonProps.singlePOI] as? [String:String] {
+            poi = WatchPointOfInterest(properties:notifPoi)
+        }
+        
+        if let receivedPOIs = userInfo[CommonProps.listOfPOIs] as? [[String:String]] {
+
+            let watchPOIs = receivedPOIs.map() { WatchPointOfInterest(properties:$0) }
+            NSLog("\(#function) called with first POI: \(watchPOIs[0].poiTitle)/\(watchPOIs[0].distance)")
+            WatchDataSource.sharedInstance.updateWith(newPOIs: watchPOIs)
         }
         
         theMessage.setText(notification.request.content.body)

@@ -44,6 +44,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // This notification is sent only when the product has been successfully purchased
         static let purchasedProduct = "purchasedProduct"
     }
+
+    struct DebugInfo {
+
+        struct SentNotification {
+            let date = Date()
+            let poiTitle:String
+            let isEntering:Bool
+
+            var debug:String {
+                return """
+                Date: \(date.description)
+                POI: \(poiTitle)
+                \(isEntering ? "Entering region" : "Exiting region")
+                """
+            }
+        }
+
+        struct Notification {
+            static var enterRegionTriggered = 0
+            static var enterRegionSuccess = 0
+            static var enterRegionFailure = 0
+            static var exitRegionTriggered = 0
+            static var exitRegionSuccess = 0
+            static var exitRegionFailure = 0
+
+            static var notificationHistory = [SentNotification]()
+        }
+    }
     
     // This method is called only when the App start from scratch. 
     // We must:
@@ -370,24 +398,44 @@ extension AppDelegate {
         var message:String
         if isEntering {
             message = String(format: NSLocalizedString("POI less than %d meters", comment: ""), Int(poi.poiRegionRadius))
+            DebugInfo.Notification.enterRegionTriggered += 1
         } else {
             message = String(format: NSLocalizedString("POI more than %d meters", comment: ""), Int(poi.poiRegionRadius))
+             DebugInfo.Notification.exitRegionTriggered += 1
         }
         
         content.body = message
         content.badge = 1
         content.sound = UNNotificationSound.default()
         content.userInfo[CommonNotificationUtils.LocalNotificationId.monitoringRegionPOI] = poi.objectID.uriRepresentation().absoluteString
+        
+        
+        // Compute distance from current location to POI location
         content.userInfo[CommonProps.singlePOI] = poi.props
+        content.userInfo[CommonProps.listOfPOIs] = WatchUtilities.getPoisAroundAsArray(maxRadius: CommonProps.Cste.radiusInKm, maxPOIResults: CommonProps.Cste.maxRequestedResults)
         content.userInfo[CommonProps.regionRadius] = poi.poiRegionRadius
         content.categoryIdentifier = CommonNotificationUtils.category
-        let request = UNNotificationRequest(identifier: CommonNotificationUtils.LocalNotificationId.monitoringRegionId, content:content, trigger: nil)
+        let request = UNNotificationRequest(identifier: "\(Date().timeIntervalSince1970)", content:content, trigger: nil)
         UNUserNotificationCenter.current().add(request, withCompletionHandler: { error in
             if let theError = error {
                 NSLog("\(#function) Error with notification add \(theError.localizedDescription)")
+                if isEntering {
+                    DebugInfo.Notification.enterRegionFailure += 1
+                } else {
+                    DebugInfo.Notification.exitRegionFailure += 1
+                }
+            } else {
+                if isEntering {
+                    DebugInfo.Notification.enterRegionSuccess += 1
+                } else {
+                    DebugInfo.Notification.exitRegionSuccess += 1
+                }
             }
         })
-        
+
+        let notifHistory = DebugInfo.SentNotification(poiTitle: content.title, isEntering: isEntering)
+        DebugInfo.Notification.notificationHistory.append(notifHistory)
+
         AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
     }
 
@@ -450,11 +498,13 @@ extension AppDelegate: SKPaymentTransactionObserver {
 
 extension AppDelegate: UNUserNotificationCenterDelegate {
 
+    // Called when the Notification is displayed as an Alert
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         completionHandler(UNNotificationPresentationOptions.alert)
     }
     
 
+    // Called when the user has selected the Notification to navigate to the POI in the App
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         
         if response.actionIdentifier == UNNotificationDefaultActionIdentifier,
