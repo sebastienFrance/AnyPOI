@@ -25,6 +25,7 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
     @IBOutlet weak var fromToLabel: UILabel!
     @IBOutlet weak var stackViewFromTo: UIStackView!
     @IBOutlet weak var distanceLabel: UILabel!
+    @IBOutlet weak var flyoverButton: UIButton!
     @IBOutlet weak var navigationButton: UIButton!
     @IBOutlet weak var selectedTransportType: UISegmentedControl!
     @IBOutlet weak var userLocationButton: UIButton!
@@ -37,15 +38,11 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
     
     // Route
     fileprivate var isRouteMode:Bool {
-        get {
-            return routeManager == nil ? false : true
-        }
+        return routeManager == nil ? false : true
     }
     
     var routeDatasource:RouteDataSource? {
-        get {
-            return routeManager?.routeDatasource
-        }
+        return routeManager?.routeDatasource
     }
     
     fileprivate(set) var routeManager:RouteManager?
@@ -328,7 +325,7 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
     
     /// Start an activity controller to share the content of a Route by email
     ///
-    /// - Parameter sender: <#sender description#>
+    /// - Parameter sender: button
     @IBAction func routeActionButtonPushed(_ sender: UIBarButtonItem) {
         if let routeDatasource = routeManager?.routeDatasource {
             let mailActivity = RouteMailActivityItemSource(datasource:routeDatasource)
@@ -386,7 +383,7 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
     /// When only a part of the route is displayed then we open a new modal view 
     /// to propose to start a navigation using Apple Maps / Google Maps / City Mapper...
     ///
-    /// - Parameter routeDatasource: <#routeDatasource description#>
+    /// - Parameter routeDatasource: datasource
     fileprivate func performNavigation(routeDatasource:RouteDataSource) {
         if routeDatasource.isFullRouteMode {
             var items = [MKMapItem]()
@@ -1265,6 +1262,7 @@ extension MapViewController : RouteDisplayInfos {
         distanceLabel.text = " "
         thirdActionBarStackView.isHidden = true
         navigationButton.isHidden = true
+        flyoverButton.isHidden = true
     }
     
     // Show the summary infos when we are displaying the full route
@@ -1276,6 +1274,7 @@ extension MapViewController : RouteDisplayInfos {
         fromToLabel.sizeToFit()
         thirdActionBarStackView.isHidden = true
         navigationButton.isHidden = true
+        flyoverButton.isHidden = true
    }
     
     // Show the infos about the route between the 2 wayPoints or between the current location and the To
@@ -1284,6 +1283,7 @@ extension MapViewController : RouteDisplayInfos {
         distanceFormatter.unitStyle = .short
         
         navigationButton.isHidden = false
+        flyoverButton.isHidden = false
         if let fromCurrentLocation = routeManager?.fromCurrentLocation {
             // Show information between the current location and the To
             fromToLabel.text = NSLocalizedString("FromCurrentLocationRouteManager", comment: "")
@@ -1479,9 +1479,27 @@ extension MapViewController {
     /// - Parameter poi: POI to be checked against the filter
     /// - Returns: True when the POI is filtered otherwise it returns false
     func isFiltered(poi:PointOfInterest) -> Bool {
+        
+        return false
+        
+//        guard poi.parentGroup!.isGroupDisplayed else { return true }
+//        guard !categoryFilter.contains(poi.category) else { return true }
+//
+//        if isRouteMode && filterPOIsNotInRoute {
+//            if let route = routeDatasource, route.contains(poi:poi) {
+//                return false
+//            } else {
+//                return true
+//            }
+//        } else {
+//            return false
+//        }
+    }
+    
+    func isFilteredOld(poi:PointOfInterest) -> Bool {
         if poi.parentGroup!.isGroupDisplayed && !categoryFilter.contains(poi.category) {
             if isRouteMode && filterPOIsNotInRoute {
-                if let datasource = routeDatasource, datasource.contains(poi:poi) {
+                if let route = routeDatasource, route.contains(poi:poi) {
                     return false
                 } else {
                     return true
@@ -1493,6 +1511,7 @@ extension MapViewController {
             return true
         }
     }
+
     
     
     /// Add on the MapView all POIs that were not displayed due to the route
@@ -1648,6 +1667,7 @@ extension MapViewController : MKMapViewDelegate {
                             type: routeManager?.getPinType(poi:thePoi) ?? MapUtils.PinAnnotationType.normal,
                             isFlyover:isFlyoverRunning)
         
+        annotationView.prepareForDisplay()
         return annotationView
     }
     

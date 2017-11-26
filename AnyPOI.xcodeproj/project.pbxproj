@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		B6F3E9C2364293FF3C089B78 /* Pods_AnyPOI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D59B652B845160828B9C22AB /* Pods_AnyPOI.framework */; };
 		BE01D4591E0835D800D0105F /* ExportAllMailActivityItemSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE01D4581E0835D800D0105F /* ExportAllMailActivityItemSource.swift */; };
+		BE06A9CF1FCB5786008F6945 /* ImportGPX.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE228BA31FCB5501006A47D8 /* ImportGPX.storyboard */; };
 		BE0CF2FD1D8B209A00344F8A /* ContactsUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF29C1D8B209A00344F8A /* ContactsUtilities.swift */; };
 		BE0CF2FE1D8B209A00344F8A /* ContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF29D1D8B209A00344F8A /* ContactsViewController.swift */; };
 		BE0CF2FF1D8B209A00344F8A /* ContactTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF29E1D8B209A00344F8A /* ContactTableViewCell.swift */; };
@@ -435,6 +436,7 @@
 		BE1BAF091FB0E9AE0077F78F /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Categories.strings; sourceTree = "<group>"; };
 		BE1D1B781E5F7F4700EE986F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BE1D1B7A1E5F7F5800EE986F /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		BE228BA31FCB5501006A47D8 /* ImportGPX.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = ImportGPX.storyboard; path = "/Users/sebastien/Documents/IOS Applications/AnyPOI/AnyPOI/ImportGPX.storyboard"; sourceTree = "<absolute>"; };
 		BE2A80271E13C48A003B1BE5 /* GPXRouteWayPointAttributes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPXRouteWayPointAttributes.swift; sourceTree = "<group>"; };
 		BE2E4A2E1F2C79B3001C22C0 /* NavigationUrlTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationUrlTests.swift; sourceTree = "<group>"; };
 		BE2E4A401F2C8C13001C22C0 /* WikipediaRequestTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WikipediaRequestTests.swift; sourceTree = "<group>"; };
@@ -725,9 +727,23 @@
 			name = WatchExtension_iPhone_iPhoneNotifExtension_TodayWidgets;
 			sourceTree = "<group>";
 		};
+		BE228BA11FCAD882006A47D8 /* SearchResultsCells */ = {
+			isa = PBXGroup;
+			children = (
+				BE0CF2C51D8B209A00344F8A /* searchGroupViewCell.swift */,
+				BE0CF2C61D8B209A00344F8A /* searchPoiViewCell.swift */,
+				BE0CF2B21D8B209A00344F8A /* LocalSearchTableViewCell.swift */,
+				BE0CF2ED1D8B209A00344F8A /* searchRouteTableViewCell.swift */,
+				BE0CF2AA1D8B209A00344F8A /* WikipediaLocalSearchTableViewCell.swift */,
+				BEFE00AB1DDE4E7B009AA1BF /* SearchLoadingTableViewCell.swift */,
+			);
+			name = SearchResultsCells;
+			sourceTree = "<group>";
+		};
 		BE2FF2CE1D8B284F00C0395A /* Storyboards */ = {
 			isa = PBXGroup;
 			children = (
+				BE228BA31FCB5501006A47D8 /* ImportGPX.storyboard */,
 				BE2FF2C41D8B280B00C0395A /* CallOutAccessoryView.xib */,
 				BE2FF2C71D8B280B00C0395A /* PickerCategoryView.xib */,
 				BE2FF2C81D8B280B00C0395A /* PickerGroupView.xib */,
@@ -810,15 +826,9 @@
 			children = (
 				BE2FF2C11D8B267D00C0395A /* SearchController.swift */,
 				BE0CF2DB1D8B209A00344F8A /* SearchControllerDelegate.swift */,
-				BE0CF2EF1D8B209A00344F8A /* CategoryCollectionViewCell.swift */,
-				BE0CF2C51D8B209A00344F8A /* searchGroupViewCell.swift */,
-				BE0CF2C61D8B209A00344F8A /* searchPoiViewCell.swift */,
-				BE0CF2B21D8B209A00344F8A /* LocalSearchTableViewCell.swift */,
-				BE0CF2AC1D8B209A00344F8A /* CategoryTableViewCell.swift */,
 				BE0CF2AB1D8B209A00344F8A /* CategoriesTableViewCell.swift */,
-				BE0CF2ED1D8B209A00344F8A /* searchRouteTableViewCell.swift */,
-				BE0CF2AA1D8B209A00344F8A /* WikipediaLocalSearchTableViewCell.swift */,
-				BEFE00AB1DDE4E7B009AA1BF /* SearchLoadingTableViewCell.swift */,
+				BE0CF2EF1D8B209A00344F8A /* CategoryCollectionViewCell.swift */,
+				BE228BA11FCAD882006A47D8 /* SearchResultsCells */,
 			);
 			name = SearchController;
 			sourceTree = "<group>";
@@ -896,6 +906,7 @@
 			isa = PBXGroup;
 			children = (
 				BE0CF2B91D8B209A00344F8A /* PoiEditorViewController.swift */,
+				BE0CF2AC1D8B209A00344F8A /* CategoryTableViewCell.swift */,
 				BE3BC5C31E61E35000822804 /* POIDescriptionTableViewCell.swift */,
 				BE0CF2B81D8B209A00344F8A /* PoiEditorGroupViewCell.swift */,
 				BE0CF2EA1D8B209A00344F8A /* PoiRegionConfigurationViewCell.swift */,
@@ -1603,6 +1614,7 @@
 				BE957E5C1DA8FBBA006CF455 /* Options.storyboard in Resources */,
 				BE2FF2CD1D8B280B00C0395A /* PickerGroupView.xib in Resources */,
 				BE2FF2CC1D8B280B00C0395A /* PickerCategoryView.xib in Resources */,
+				BE06A9CF1FCB5786008F6945 /* ImportGPX.storyboard in Resources */,
 				BE47BE3B1DAACA8E00862A0C /* POIManager.storyboard in Resources */,
 				BEE1C6061FC0804F00D8EF6D /* Debug.storyboard in Resources */,
 				BE2FF2C91D8B280B00C0395A /* CallOutAccessoryView.xib in Resources */,

@@ -132,7 +132,7 @@
                                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="ATj-5x-tH3" userLabel="Distance and Buttons">
                                                         <rect key="frame" x="0.0" y="40" width="0.0" height="40"/>
                                                         <subviews>
-                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BbV-Ji-eBm">
+                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BbV-Ji-eBm" userLabel="FlyoverButton">
                                                                 <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="width" priority="999" constant="40" identifier="FlyoverButtonWidth" id="78e-nL-LBX"/>
@@ -249,6 +249,7 @@
                     <connections>
                         <outlet property="distanceLabel" destination="1Yr-if-ntb" id="dta-EN-VGa"/>
                         <outlet property="exitRouteModeButton" destination="0f3-J6-fS3" id="FWX-Ih-5dp"/>
+                        <outlet property="flyoverButton" destination="BbV-Ji-eBm" id="BUx-CK-feS"/>
                         <outlet property="fromToLabel" destination="5Zb-Oe-5wh" id="7nM-lv-Rtl"/>
                         <outlet property="mapFilterButton" destination="tkV-Hc-4mn" id="7MM-jK-fjJ"/>
                         <outlet property="navigationButton" destination="1Ub-3m-huU" id="Wp1-DV-lAv"/>
@@ -265,7 +266,7 @@
                         <segue destination="DO2-pI-BM5" kind="presentation" identifier="openPhones" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="FJh-UX-8xy"/>
                         <segue destination="DO2-pI-BM5" kind="presentation" identifier="openEmails" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="ja5-0d-MwK"/>
                         <segue destination="lXl-lE-T7V" kind="presentation" identifier="startTableRouteId" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="mfN-cc-OwX"/>
-                        <segue destination="6Nv-07-S2T" kind="presentation" identifier="showGPXImportId" id="I6s-sB-kPZ"/>
+                        <segue destination="t76-VN-F1d" kind="presentation" identifier="showGPXImportId" id="I6s-sB-kPZ"/>
                         <segue destination="9Hi-Vi-uNu" kind="presentation" identifier="showHelperId" id="JCH-gZ-ywN"/>
                     </connections>
                 </viewController>
@@ -276,7 +277,7 @@
                     </connections>
                 </pongPressGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="840.79999999999995" y="570.76461769115451"/>
+            <point key="canvasLocation" x="753" y="539"/>
         </scene>
         <!--Purchase View Controller-->
         <scene sceneID="g3l-tY-qub">
@@ -408,7 +409,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hGE-yi-SqB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-946" y="439"/>
+            <point key="canvasLocation" x="-151" y="490"/>
         </scene>
         <!--Container View Controller-->
         <scene sceneID="jxC-eT-Oud">
@@ -427,7 +428,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5NG-ml-02J" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-39" y="493"/>
+            <point key="canvasLocation" x="-860" y="-323"/>
         </scene>
         <!--Left Menu View Controller-->
         <scene sceneID="yrP-pc-IPl">
@@ -648,7 +649,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="q1l-Bv-Jls" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-946.39999999999998" y="-340.47976011994007"/>
+            <point key="canvasLocation" x="-151" y="-323"/>
         </scene>
         <!--Contacts View Controller-->
         <scene sceneID="k80-lE-fdx">
@@ -766,7 +767,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BsG-sK-nd4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1736" y="682"/>
+            <point key="canvasLocation" x="1884" y="196"/>
         </scene>
         <!--Helper View Controller-->
         <scene sceneID="lc6-Yh-WoN">
@@ -885,7 +886,7 @@ Compute the route from current position to the displayed POI</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fCP-rA-ydg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="249" y="-321"/>
+            <point key="canvasLocation" x="753" y="-301"/>
         </scene>
         <!--Routes-->
         <scene sceneID="bbz-Zf-2o7">
@@ -992,7 +993,7 @@ Compute the route from current position to the displayed POI</string>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="seb-xb-2nm" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="baK-kN-Yyt" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="-983" y="1513"/>
+            <point key="canvasLocation" x="-470" y="1462"/>
         </scene>
         <!--Route details-->
         <scene sceneID="FMq-5D-z5h">
@@ -1339,7 +1340,7 @@ Compute the route from current position to the displayed POI</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VFf-yb-bZc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1052" y="-320"/>
+            <point key="canvasLocation" x="1884" y="866"/>
         </scene>
         <!--configureOptions-->
         <scene sceneID="jgT-gW-the">
@@ -1355,7 +1356,7 @@ Compute the route from current position to the displayed POI</string>
                 <viewControllerPlaceholder storyboardIdentifier="POIDetails" storyboardName="POIManager" referencedIdentifier="POIDetails" id="m8I-DW-PIT" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ixC-fs-rh1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1243" y="1123"/>
+            <point key="canvasLocation" x="1341" y="1021"/>
         </scene>
         <!--Filter-->
         <scene sceneID="hmV-Xz-xd8">
@@ -1530,563 +1531,15 @@ Compute the route from current position to the displayed POI</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iew-r8-bLZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2217" y="1501"/>
+            <point key="canvasLocation" x="1215" y="1522"/>
         </scene>
-        <!--UIViewController-miy-gh-wKC-->
+        <!--showGroupContentId-->
         <scene sceneID="nNo-HO-2QS">
             <objects>
-                <viewControllerPlaceholder storyboardName="POIManager" referencedIdentifier="UIViewController-miy-gh-wKC" id="fo1-hB-Gy6" sceneMemberID="viewController"/>
+                <viewControllerPlaceholder storyboardIdentifier="showGroupContentId" storyboardName="POIManager" referencedIdentifier="showGroupContentId" id="fo1-hB-Gy6" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gJs-nd-MUQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="909" y="1123"/>
-        </scene>
-        <!--Import View Controller-->
-        <scene sceneID="QuZ-YA-P0L">
-            <objects>
-                <viewController id="0MQ-GS-NXo" customClass="GPXImportViewController" customModule="AnyPOI" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="ONa-M1-vJ2"/>
-                        <viewControllerLayoutGuide type="bottom" id="jTX-8J-HDx"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="PhQ-zm-REm">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="71" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="wWx-rf-msw">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="checkmark" indentationWidth="10" reuseIdentifier="GPXImportCellId" rowHeight="103" id="1pV-Lc-3h1" customClass="GPXImportTableViewCell" customModule="AnyPOI" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="103"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="1pV-Lc-3h1" id="NDY-jL-JM4">
-                                            <rect key="frame" x="0.0" y="0.0" width="336" height="102.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Azr-HJ-Gr4">
-                                                    <rect key="frame" x="15" y="11" width="313" height="81"/>
-                                                    <subviews>
-                                                        <stackView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="11f-Rn-FE0">
-                                                            <rect key="frame" x="0.0" y="0.0" width="313" height="35"/>
-                                                            <subviews>
-                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="kqD-OW-NXf">
-                                                                    <rect key="frame" x="0.0" y="5" width="25" height="25"/>
-                                                                    <constraints>
-                                                                        <constraint firstAttribute="width" constant="25" id="4V2-rd-F1f"/>
-                                                                        <constraint firstAttribute="height" constant="25" id="Pqu-42-KYa"/>
-                                                                    </constraints>
-                                                                </imageView>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="750" text="PoiName" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qGJ-2d-bdo">
-                                                                    <rect key="frame" x="30" y="8.5" width="283" height="18"/>
-                                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
-                                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                    <nil key="highlightedColor"/>
-                                                                </label>
-                                                            </subviews>
-                                                        </stackView>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PoiDescription" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Obl-wM-JyU">
-                                                            <rect key="frame" x="0.0" y="40" width="313" height="18"/>
-                                                            <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
-                                                            <color key="textColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="New" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iTa-dr-7sY">
-                                                            <rect key="frame" x="0.0" y="63" width="313" height="18"/>
-                                                            <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
-                                                            <color key="textColor" red="0.98039215690000003" green="0.066666666669999999" blue="0.30980392159999998" alpha="1" colorSpace="calibratedRGB"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                    </subviews>
-                                                </stackView>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstAttribute="trailingMargin" secondItem="Azr-HJ-Gr4" secondAttribute="trailing" id="ETK-t6-2VE"/>
-                                                <constraint firstItem="Azr-HJ-Gr4" firstAttribute="leading" secondItem="NDY-jL-JM4" secondAttribute="leadingMargin" id="EnT-sE-LN1"/>
-                                                <constraint firstItem="Azr-HJ-Gr4" firstAttribute="top" secondItem="NDY-jL-JM4" secondAttribute="topMargin" id="HNM-wV-gUF"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="Azr-HJ-Gr4" secondAttribute="bottom" id="fGm-l7-uoK"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                        <connections>
-                                            <outlet property="poiDescription" destination="Obl-wM-JyU" id="VjK-jq-OiC"/>
-                                            <outlet property="poiDisplayName" destination="qGJ-2d-bdo" id="KQh-ly-foS"/>
-                                            <outlet property="poiImageCategory" destination="kqD-OW-NXf" id="qXy-Ku-nBq"/>
-                                            <outlet property="poiImportMode" destination="iTa-dr-7sY" id="m8y-k6-2xY"/>
-                                        </connections>
-                                    </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="ImportDescriptionCellId" id="os7-7g-lOq" customClass="ImportTextualDescriptionTableViewCell" customModule="AnyPOI" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="131" width="375" height="71"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="os7-7g-lOq" id="fLG-38-QW9">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="70.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Lip-xE-dkg">
-                                                    <rect key="frame" x="15" y="11" width="345" height="49"/>
-                                                    <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S7F-ia-vhT">
-                                                            <rect key="frame" x="0.0" y="0.0" width="345" height="49"/>
-                                                            <fontDescription key="fontDescription" type="italicSystem" pointSize="15"/>
-                                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                    </subviews>
-                                                </stackView>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="Lip-xE-dkg" firstAttribute="top" secondItem="fLG-38-QW9" secondAttribute="topMargin" id="1hK-18-OUY"/>
-                                                <constraint firstItem="Lip-xE-dkg" firstAttribute="leading" secondItem="fLG-38-QW9" secondAttribute="leadingMargin" id="GV4-xL-C9C"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="Lip-xE-dkg" secondAttribute="bottom" id="wyR-eh-JZJ"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="Lip-xE-dkg" secondAttribute="trailing" id="wys-Wg-ti5"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                        <connections>
-                                            <outlet property="texttualDescriptionLabel" destination="S7F-ia-vhT" id="Wcn-pL-IIY"/>
-                                        </connections>
-                                    </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="checkmark" indentationWidth="10" reuseIdentifier="GPXImportRouteTableViewCellId" rowHeight="116" id="JrL-V0-Mly" customClass="GPXImportRouteTableViewCell" customModule="AnyPOI" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="202" width="375" height="116"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="JrL-V0-Mly" id="3uB-2I-RbM">
-                                            <rect key="frame" x="0.0" y="0.0" width="336" height="115.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="C8z-zq-ZgJ">
-                                                    <rect key="frame" x="15" y="11" width="313" height="94"/>
-                                                    <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="750" text="Route vers Reims" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="squ-6p-CQT">
-                                                            <rect key="frame" x="0.0" y="0.0" width="313" height="20.5"/>
-                                                            <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
-                                                            <nil key="textColor"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Versailles -&gt; Reims" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rBm-A5-0dM">
-                                                            <rect key="frame" x="0.0" y="25.5" width="313" height="18"/>
-                                                            <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
-                                                            <nil key="textColor"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="249" text="127,4km in 02:40 with 4 steps" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4x2-gG-xIR">
-                                                            <rect key="frame" x="0.0" y="48.5" width="313" height="22.5"/>
-                                                            <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
-                                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="New" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Nm-RX-zMA">
-                                                            <rect key="frame" x="0.0" y="76" width="313" height="18"/>
-                                                            <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
-                                                            <color key="textColor" red="0.98039215690000003" green="0.066666666669999999" blue="0.30980392159999998" alpha="1" colorSpace="calibratedRGB"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                    </subviews>
-                                                </stackView>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="C8z-zq-ZgJ" firstAttribute="leading" secondItem="3uB-2I-RbM" secondAttribute="leadingMargin" id="4lY-7q-LgR"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="C8z-zq-ZgJ" secondAttribute="bottom" id="KRZ-Uj-lGc"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="C8z-zq-ZgJ" secondAttribute="trailing" id="gcU-xa-gQU"/>
-                                                <constraint firstItem="C8z-zq-ZgJ" firstAttribute="top" secondItem="3uB-2I-RbM" secondAttribute="topMargin" id="jSD-qT-fuz"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                        <connections>
-                                            <outlet property="routeDistanceAndDuration" destination="4x2-gG-xIR" id="Vm9-Ut-ZF7"/>
-                                            <outlet property="routeFromTo" destination="rBm-A5-0dM" id="FQL-Sz-PA7"/>
-                                            <outlet property="routeImportMode" destination="3Nm-RX-zMA" id="0qs-ps-1Yf"/>
-                                            <outlet property="routeName" destination="squ-6p-CQT" id="7dp-FW-11y"/>
-                                        </connections>
-                                    </tableViewCell>
-                                </prototypes>
-                            </tableView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="jTX-8J-HDx" firstAttribute="top" secondItem="wWx-rf-msw" secondAttribute="bottom" id="KTY-BJ-nMk"/>
-                            <constraint firstItem="wWx-rf-msw" firstAttribute="leading" secondItem="PhQ-zm-REm" secondAttribute="leading" id="Riy-Vt-nRs"/>
-                            <constraint firstItem="wWx-rf-msw" firstAttribute="top" secondItem="PhQ-zm-REm" secondAttribute="top" id="hYA-kt-Ad2"/>
-                            <constraint firstAttribute="trailing" secondItem="wWx-rf-msw" secondAttribute="trailing" id="hae-zu-gy2"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" id="Awk-qj-nNn">
-                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="7pQ-gM-vt5">
-                            <connections>
-                                <action selector="cancelButtonPushed:" destination="0MQ-GS-NXo" id="FHa-vQ-yJY"/>
-                            </connections>
-                        </barButtonItem>
-                        <rightBarButtonItems>
-                            <barButtonItem image="Settings-30" id="4Ko-EH-gbK">
-                                <connections>
-                                    <segue destination="ipi-Hr-rau" kind="show" identifier="openGPXImportOptionsId" id="s7R-hL-Vn6"/>
-                                </connections>
-                            </barButtonItem>
-                            <barButtonItem title="Import" id="nZg-j7-qQB">
-                                <connections>
-                                    <action selector="ImportButtonPushed:" destination="0MQ-GS-NXo" id="JMc-Lq-K5j"/>
-                                </connections>
-                            </barButtonItem>
-                        </rightBarButtonItems>
-                    </navigationItem>
-                    <connections>
-                        <outlet property="importButton" destination="nZg-j7-qQB" id="T9X-Ft-yef"/>
-                        <outlet property="theTableView" destination="wWx-rf-msw" id="tQI-gC-6Qo"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="ZUn-Nw-XeT" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="604" y="1500.8995502248877"/>
-        </scene>
-        <!--Import Options Table View Controller-->
-        <scene sceneID="3wA-TF-OlR">
-            <objects>
-                <tableViewController id="ipi-Hr-rau" customClass="GPXImportOptionsTableViewController" customModule="AnyPOI" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="xVq-EM-Z59">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                        <sections>
-                            <tableViewSection headerTitle="Route" id="2lW-7b-JW9">
-                                <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="cJU-Q6-aSv" userLabel="Textual description">
-                                        <rect key="frame" x="0.0" y="55.5" width="375" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cJU-Q6-aSv" id="zX0-qS-mnE">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Jg0-G5-YG2">
-                                                    <rect key="frame" x="16" y="11" width="343" height="22"/>
-                                                    <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QAI-F1-vz3">
-                                                            <rect key="frame" x="0.0" y="0.0" width="343" height="22"/>
-                                                            <fontDescription key="fontDescription" type="italicSystem" pointSize="15"/>
-                                                            <nil key="textColor"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                    </subviews>
-                                                </stackView>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="Jg0-G5-YG2" firstAttribute="leading" secondItem="zX0-qS-mnE" secondAttribute="leadingMargin" id="B6m-m7-eso"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="Jg0-G5-YG2" secondAttribute="bottom" id="cUu-1Y-o9M"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="Jg0-G5-YG2" secondAttribute="trailing" id="s2q-7w-wlS"/>
-                                                <constraint firstItem="Jg0-G5-YG2" firstAttribute="top" secondItem="zX0-qS-mnE" secondAttribute="topMargin" id="vK8-YY-V8z"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="91" id="T7e-Jz-ni8" userLabel="Import As new">
-                                        <rect key="frame" x="0.0" y="99.5" width="375" height="91"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="T7e-Jz-ni8" id="ERX-rH-SuC">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="90.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Oso-Ol-98P">
-                                                    <rect key="frame" x="16" y="11" width="343" height="69"/>
-                                                    <subviews>
-                                                        <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="W8c-pK-yMQ">
-                                                            <rect key="frame" x="0.0" y="0.0" width="343" height="33.5"/>
-                                                            <subviews>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Import all as new" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="51X-Q2-OHI">
-                                                                    <rect key="frame" x="0.0" y="6.5" width="294" height="20.5"/>
-                                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
-                                                                    <nil key="textColor"/>
-                                                                    <nil key="highlightedColor"/>
-                                                                </label>
-                                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="C0U-Wl-fZB">
-                                                                    <rect key="frame" x="294" y="1.5" width="51" height="31"/>
-                                                                    <connections>
-                                                                        <action selector="switchRouteImportAsNew:" destination="ipi-Hr-rau" eventType="valueChanged" id="jiU-3D-91o"/>
-                                                                    </connections>
-                                                                </switch>
-                                                            </subviews>
-                                                        </stackView>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Imported routes are created as new else they will be merged with existing" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3lw-Lr-ggy">
-                                                            <rect key="frame" x="0.0" y="38.5" width="343" height="30.5"/>
-                                                            <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
-                                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                    </subviews>
-                                                </stackView>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="Oso-Ol-98P" firstAttribute="top" secondItem="ERX-rH-SuC" secondAttribute="topMargin" id="VUM-lC-l9F"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="Oso-Ol-98P" secondAttribute="trailing" id="Zoj-Fl-vK1"/>
-                                                <constraint firstItem="Oso-Ol-98P" firstAttribute="leading" secondItem="ERX-rH-SuC" secondAttribute="leadingMargin" id="spf-8f-hcP"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="Oso-Ol-98P" secondAttribute="bottom" id="tPE-0x-fRm"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="119" id="YgW-ke-Dhk" userLabel="Merge options">
-                                        <rect key="frame" x="0.0" y="190.5" width="375" height="119"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="YgW-ke-Dhk" id="DfE-z8-ARD">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="118.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="gQY-JB-WLA">
-                                                    <rect key="frame" x="16" y="11" width="343" height="97"/>
-                                                    <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Merge options" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b4N-xz-EMU">
-                                                            <rect key="frame" x="0.0" y="0.0" width="343" height="18"/>
-                                                            <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
-                                                            <nil key="textColor"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                        <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="2S1-bW-Jw2">
-                                                            <rect key="frame" x="0.0" y="23" width="343" height="26.5"/>
-                                                            <subviews>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Import new routes" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gVn-Er-2Xy">
-                                                                    <rect key="frame" x="0.0" y="4" width="294" height="18"/>
-                                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
-                                                                    <nil key="textColor"/>
-                                                                    <nil key="highlightedColor"/>
-                                                                </label>
-                                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jVv-la-y7a">
-                                                                    <rect key="frame" x="294" y="0.0" width="51" height="26.5"/>
-                                                                    <connections>
-                                                                        <action selector="switchRouteMergeImportNew:" destination="ipi-Hr-rau" eventType="valueChanged" id="ZDL-JW-lg7"/>
-                                                                    </connections>
-                                                                </switch>
-                                                            </subviews>
-                                                        </stackView>
-                                                        <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="a5k-fu-pgD">
-                                                            <rect key="frame" x="0.0" y="54.5" width="343" height="27"/>
-                                                            <subviews>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Import route updates" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vfp-k6-vcO">
-                                                                    <rect key="frame" x="0.0" y="4.5" width="294" height="18"/>
-                                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
-                                                                    <nil key="textColor"/>
-                                                                    <nil key="highlightedColor"/>
-                                                                </label>
-                                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="acs-Ti-P2X">
-                                                                    <rect key="frame" x="294" y="0.0" width="51" height="27"/>
-                                                                    <connections>
-                                                                        <action selector="switchRouteMergeImportUpdate:" destination="ipi-Hr-rau" eventType="valueChanged" id="ON9-om-zER"/>
-                                                                    </connections>
-                                                                </switch>
-                                                            </subviews>
-                                                        </stackView>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Applicable only when imported Routes are merged" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HuS-rh-8QP">
-                                                            <rect key="frame" x="0.0" y="86.5" width="343" height="10.5"/>
-                                                            <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
-                                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                    </subviews>
-                                                </stackView>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="gQY-JB-WLA" firstAttribute="leading" secondItem="DfE-z8-ARD" secondAttribute="leadingMargin" id="5UT-S0-Ycf"/>
-                                                <constraint firstItem="gQY-JB-WLA" firstAttribute="top" secondItem="DfE-z8-ARD" secondAttribute="topMargin" id="kfh-1A-xmk"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="gQY-JB-WLA" secondAttribute="bottom" id="qK8-YD-3yg"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="gQY-JB-WLA" secondAttribute="trailing" id="x3J-YU-DWc"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </cells>
-                            </tableViewSection>
-                            <tableViewSection headerTitle="Point Of Interest" id="lax-OD-Rop">
-                                <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="czA-3e-SbK" userLabel="Textual description">
-                                        <rect key="frame" x="0.0" y="365.5" width="375" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="czA-3e-SbK" id="Iuy-43-ln9">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="YQP-et-Qgm">
-                                                    <rect key="frame" x="16" y="11" width="343" height="22"/>
-                                                    <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FsR-EL-tcb">
-                                                            <rect key="frame" x="0.0" y="0.0" width="343" height="22"/>
-                                                            <fontDescription key="fontDescription" type="italicSystem" pointSize="15"/>
-                                                            <nil key="textColor"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                    </subviews>
-                                                </stackView>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="YQP-et-Qgm" firstAttribute="top" secondItem="Iuy-43-ln9" secondAttribute="topMargin" id="VSU-2u-1rb"/>
-                                                <constraint firstItem="YQP-et-Qgm" firstAttribute="leading" secondItem="Iuy-43-ln9" secondAttribute="leadingMargin" id="YqP-dZ-fUb"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="YQP-et-Qgm" secondAttribute="trailing" id="mCq-SZ-Pu9"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="YQP-et-Qgm" secondAttribute="bottom" id="v5g-Jo-XLZ"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="59" id="xrr-zo-7Kq" userLabel="Text Filter">
-                                        <rect key="frame" x="0.0" y="409.5" width="375" height="59"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="xrr-zo-7Kq" id="s0N-p2-qxw">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="58.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="1mx-Dk-k0i">
-                                                    <rect key="frame" x="16" y="11" width="343" height="37"/>
-                                                    <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Filter" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7qs-c1-rUx">
-                                                            <rect key="frame" x="0.0" y="0.0" width="41" height="37"/>
-                                                            <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
-                                                            <nil key="textColor"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Point of interests filter" minimumFontSize="8" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="JIg-ni-MAR">
-                                                            <rect key="frame" x="46" y="0.0" width="297" height="37"/>
-                                                            <nil key="textColor"/>
-                                                            <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
-                                                            <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="done"/>
-                                                        </textField>
-                                                    </subviews>
-                                                </stackView>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstAttribute="trailingMargin" secondItem="1mx-Dk-k0i" secondAttribute="trailing" id="CV9-Mf-xLk"/>
-                                                <constraint firstItem="1mx-Dk-k0i" firstAttribute="leading" secondItem="s0N-p2-qxw" secondAttribute="leadingMargin" id="Ish-by-PKF"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="1mx-Dk-k0i" secondAttribute="bottom" id="Ofg-cN-Oc0"/>
-                                                <constraint firstItem="1mx-Dk-k0i" firstAttribute="top" secondItem="s0N-p2-qxw" secondAttribute="topMargin" id="kod-Bi-YCw"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="86" id="Ke9-eq-sRX" userLabel="Import As new">
-                                        <rect key="frame" x="0.0" y="468.5" width="375" height="86"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Ke9-eq-sRX" id="AtG-sH-Jv9">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="85.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="4qH-hM-LlI">
-                                                    <rect key="frame" x="16" y="11" width="343" height="64"/>
-                                                    <subviews>
-                                                        <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="fia-z2-hA6">
-                                                            <rect key="frame" x="0.0" y="0.0" width="343" height="28.5"/>
-                                                            <subviews>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Import all as new" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MCH-bC-y1O">
-                                                                    <rect key="frame" x="0.0" y="4" width="294" height="20.5"/>
-                                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
-                                                                    <nil key="textColor"/>
-                                                                    <nil key="highlightedColor"/>
-                                                                </label>
-                                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="89j-As-PS7">
-                                                                    <rect key="frame" x="294" y="0.0" width="51" height="28.5"/>
-                                                                    <connections>
-                                                                        <action selector="switchPOIImportAsNew:" destination="ipi-Hr-rau" eventType="valueChanged" id="LXa-Z7-1qh"/>
-                                                                    </connections>
-                                                                </switch>
-                                                            </subviews>
-                                                        </stackView>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Imported points of interests are created as new else they will be merged with existing" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PcO-63-oPa">
-                                                            <rect key="frame" x="0.0" y="33.5" width="343" height="30.5"/>
-                                                            <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
-                                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                    </subviews>
-                                                </stackView>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstAttribute="trailingMargin" secondItem="4qH-hM-LlI" secondAttribute="trailing" id="Ef1-3j-rlX"/>
-                                                <constraint firstItem="4qH-hM-LlI" firstAttribute="leading" secondItem="AtG-sH-Jv9" secondAttribute="leadingMargin" id="F1T-mh-nuj"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="4qH-hM-LlI" secondAttribute="bottom" id="VoL-KJ-pmt"/>
-                                                <constraint firstItem="4qH-hM-LlI" firstAttribute="top" secondItem="AtG-sH-Jv9" secondAttribute="topMargin" id="Zn4-tT-qPJ"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="119" id="JXO-le-oMn" userLabel="Merge Options">
-                                        <rect key="frame" x="0.0" y="554.5" width="375" height="119"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="JXO-le-oMn" id="12d-fk-iMV">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="118.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="LiR-qg-sOW">
-                                                    <rect key="frame" x="16" y="11" width="343" height="97"/>
-                                                    <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Merge options" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EWO-P4-oM6">
-                                                            <rect key="frame" x="0.0" y="0.0" width="343" height="18"/>
-                                                            <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
-                                                            <nil key="textColor"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                        <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Bgc-cz-sIv">
-                                                            <rect key="frame" x="0.0" y="23" width="343" height="26.5"/>
-                                                            <subviews>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Import new" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rxK-YA-Ri4">
-                                                                    <rect key="frame" x="0.0" y="4" width="294" height="18"/>
-                                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
-                                                                    <nil key="textColor"/>
-                                                                    <nil key="highlightedColor"/>
-                                                                </label>
-                                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6Ba-Y2-FZf">
-                                                                    <rect key="frame" x="294" y="0.0" width="51" height="26.5"/>
-                                                                    <connections>
-                                                                        <action selector="switchPOIMergeImportNew:" destination="ipi-Hr-rau" eventType="valueChanged" id="yFG-i5-WMV"/>
-                                                                    </connections>
-                                                                </switch>
-                                                            </subviews>
-                                                        </stackView>
-                                                        <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="6g9-5X-9Fz">
-                                                            <rect key="frame" x="0.0" y="54.5" width="343" height="27"/>
-                                                            <subviews>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Import update" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OOK-OE-2q1">
-                                                                    <rect key="frame" x="0.0" y="4.5" width="294" height="18"/>
-                                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
-                                                                    <nil key="textColor"/>
-                                                                    <nil key="highlightedColor"/>
-                                                                </label>
-                                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Mc8-cQ-7aW">
-                                                                    <rect key="frame" x="294" y="0.0" width="51" height="27"/>
-                                                                    <connections>
-                                                                        <action selector="switchPOIMergeImportUpdate:" destination="ipi-Hr-rau" eventType="valueChanged" id="BSx-DK-upn"/>
-                                                                    </connections>
-                                                                </switch>
-                                                            </subviews>
-                                                        </stackView>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Applicable only when imported Point of Interests are merged" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YNz-Mb-dmw">
-                                                            <rect key="frame" x="0.0" y="86.5" width="343" height="10.5"/>
-                                                            <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
-                                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                    </subviews>
-                                                </stackView>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstAttribute="trailingMargin" secondItem="LiR-qg-sOW" secondAttribute="trailing" id="0if-5P-uYg"/>
-                                                <constraint firstItem="LiR-qg-sOW" firstAttribute="top" secondItem="12d-fk-iMV" secondAttribute="topMargin" id="6aK-qe-UXA"/>
-                                                <constraint firstItem="LiR-qg-sOW" firstAttribute="leading" secondItem="12d-fk-iMV" secondAttribute="leadingMargin" id="IQa-mR-9g7"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="LiR-qg-sOW" secondAttribute="bottom" id="LUs-GV-iah"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </cells>
-                            </tableViewSection>
-                        </sections>
-                        <connections>
-                            <outlet property="dataSource" destination="ipi-Hr-rau" id="Ndf-Kl-Wd6"/>
-                            <outlet property="delegate" destination="ipi-Hr-rau" id="NDZ-n1-3Pq"/>
-                        </connections>
-                    </tableView>
-                    <connections>
-                        <outlet property="poiImportAsNewSwitch" destination="89j-As-PS7" id="Mjj-EB-TDr"/>
-                        <outlet property="poiMergeImportNewLabel" destination="rxK-YA-Ri4" id="apx-li-4sX"/>
-                        <outlet property="poiMergeImportNewSwitch" destination="6Ba-Y2-FZf" id="gVB-6R-aNN"/>
-                        <outlet property="poiMergeImportTitle" destination="EWO-P4-oM6" id="aDm-q3-f3r"/>
-                        <outlet property="poiMergeImportUpdateLabel" destination="OOK-OE-2q1" id="3sQ-q3-rJ4"/>
-                        <outlet property="poiMergeImportUpdateSwitch" destination="Mc8-cQ-7aW" id="mAO-Nr-F9r"/>
-                        <outlet property="poiTextFilter" destination="JIg-ni-MAR" id="7vn-SI-VQK"/>
-                        <outlet property="poiTextualDescription" destination="FsR-EL-tcb" id="puC-nn-D7M"/>
-                        <outlet property="routeImportAsNewLabel" destination="51X-Q2-OHI" id="eP6-tn-tqU"/>
-                        <outlet property="routeImportAsNewSwitch" destination="C0U-Wl-fZB" id="8Nn-no-Taj"/>
-                        <outlet property="routeMergeImportNewLabel" destination="gVn-Er-2Xy" id="CHf-Sv-YQU"/>
-                        <outlet property="routeMergeImportNewSwitch" destination="jVv-la-y7a" id="ULc-QC-15a"/>
-                        <outlet property="routeMergeImportTitle" destination="b4N-xz-EMU" id="hgx-D3-VJz"/>
-                        <outlet property="routeMergeImportUpdateLabel" destination="Vfp-k6-vcO" id="n7S-xN-EDO"/>
-                        <outlet property="routeMergeImportUpdateSwitch" destination="acs-Ti-P2X" id="caY-7e-SXy"/>
-                        <outlet property="routeTextualDescription" destination="QAI-F1-vz3" id="ztG-R1-icy"/>
-                    </connections>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="miF-nM-3xQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1381.5999999999999" y="1500.8995502248877"/>
+            <point key="canvasLocation" x="810" y="1098"/>
         </scene>
         <!--GroupConfiguratorControllerId-->
         <scene sceneID="oUZ-ao-RYl">
@@ -2094,7 +1547,7 @@ Compute the route from current position to the displayed POI</string>
                 <viewControllerPlaceholder storyboardIdentifier="GroupConfiguratorControllerId" storyboardName="POIManager" referencedIdentifier="GroupConfiguratorControllerId" id="82a-nN-Pga" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ty5-Bl-A1e" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="494" y="1123"/>
+            <point key="canvasLocation" x="417" y="1098"/>
         </scene>
         <!--POIsGroupListViewControllerId-->
         <scene sceneID="5S8-cI-wH9">
@@ -2104,23 +1557,13 @@ Compute the route from current position to the displayed POI</string>
             </objects>
             <point key="canvasLocation" x="-265" y="974"/>
         </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="8GX-Nm-Zi0">
+        <!--ImportGPXId-->
+        <scene sceneID="vzx-N0-Sie">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="6Nv-07-S2T" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="MRi-BN-c7b">
-                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="0MQ-GS-NXo" kind="relationship" relationship="rootViewController" id="f6B-rv-rSV"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Avl-ar-RTn" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewControllerPlaceholder storyboardIdentifier="ImportGPXId" storyboardName="ImportGPX" referencedIdentifier="ImportGPXId" id="t76-VN-F1d" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qvR-Wr-AdL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-306.39999999999998" y="1500.8995502248877"/>
+            <point key="canvasLocation" x="61" y="1098"/>
         </scene>
     </scenes>
     <resources>
@@ -2137,7 +1580,6 @@ Compute the route from current position to the displayed POI</string>
         <image name="Near Me Filled-30" width="30" height="30"/>
         <image name="RouteEditor-26" width="26" height="26"/>
         <image name="Sedan-30" width="30" height="30"/>
-        <image name="Settings-30" width="30" height="30"/>
         <image name="Walking-30" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>

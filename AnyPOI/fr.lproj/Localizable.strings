@@ -220,7 +220,7 @@
 
 
 // Help
-"HelpAddPOITitle"="Ajouter un Point d'interêt";
+"HelpAddPOITitle"="Ajouter un Point d'interêt (POI)";
 "HelpAddPOIDescription"="• Appui long sur la carte\n• Sélectionner un POI dans la barre de recherche\n• Importer vos contacts\n• Importer des POIs partagé par un ami avec AnyPOI";
 "HelpPOIDetailsTitle"="Détails d'un POI";
 "HelpPOIDetailsDescription"="• Afficher les détails d'un contact\n• Ajouter un rendez-vous sur ce lieu\n• Ouvrir le site WEB\n• Envoyer un mail \n• Passer un appel\n• Afficher vos photos prises sur ce lieu\n\nUniquement lorsque les données sont disponibles";

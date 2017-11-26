@@ -247,7 +247,7 @@
         <!--POI List-->
         <scene sceneID="0eE-gM-1UL">
             <objects>
-                <viewController storyboardIdentifier="UIViewController-miy-gh-wKC" title="POI List" id="miy-gh-wKC" customClass="POIsViewController" customModule="AnyPOI" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="showGroupContentId" title="POI List" id="miy-gh-wKC" customClass="POIsViewController" customModule="AnyPOI" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="EMy-Iu-Evv"/>
                         <viewControllerLayoutGuide type="bottom" id="mtb-jV-t0g"/>

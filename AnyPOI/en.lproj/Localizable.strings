@@ -218,7 +218,7 @@
 
 
 // Help
-"HelpAddPOITitle"="Add a Point of Interest";
+"HelpAddPOITitle"="Add a Point Of Interest (POI)";
 "HelpAddPOIDescription"="• Long press on the Map\n• Select a POI from the search bar\n• Import your contacts\n• Import AnyPOI data shared by a friend";
 "HelpPOIDetailsTitle"="POI details";
 "HelpPOIDetailsDescription"="• Show contact details\n• Add a meeting at this location\n• Open website\n• Send an email\n• Give a call\n• Show your photos shot at this location\n\nWhen data are available only";

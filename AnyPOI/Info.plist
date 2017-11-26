@@ -61,15 +61,15 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCalendarsUsageDescription</key>
-	<string>AnyPOI allows to create geo-localized events to your calendar.</string>
+	<string>To create geo-localized events to your calendar.</string>
 	<key>NSContactsUsageDescription</key>
-	<string>AnyPOI will create Point Of Interests for your contacts.</string>
+	<string>To create Point Of Interests for your contacts.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>AnyPOI will detect when you enter/exit from a region.</string>
+	<string>Used by the Apple Watch to show Point of Interests based on your location when your are moving. It&apos;s also used to warn you when approaching/leaving a monitored Point of Interest.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>AnyPOI will show your position on Map and for route.</string>
+	<string>Used to show your position on the map and to display on the Apple Watch Point of Interests around your location</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>AnyPOI will show your photos near your Point Of Interests. </string>
+	<string>To show your photos near your Point Of Interests.</string>
 	<key>UIApplicationShortcutItems</key>
 	<array>
 		<dict>

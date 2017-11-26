@@ -60,9 +60,7 @@ class NotificationController: WKUserNotificationInterfaceController {
         }
         
         if let receivedPOIs = userInfo[CommonProps.listOfPOIs] as? [[String:String]] {
-
             let watchPOIs = receivedPOIs.map() { WatchPointOfInterest(properties:$0) }
-            NSLog("\(#function) called with first POI: \(watchPOIs[0].poiTitle)/\(watchPOIs[0].distance)")
             WatchDataSource.sharedInstance.updateWith(newPOIs: watchPOIs)
         }
         

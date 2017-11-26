@@ -13,7 +13,9 @@ import CoreLocation
 class WatchSessionManager: NSObject, WCSessionDelegate {
     
     static let sharedInstance = WatchSessionManager()
-    let session = WCSession.default
+    var session:WCSession {
+        return WCSession.default
+    }
     
     private let complicationUpdateManager = WatchComplicationUpdate()
     var complicationNearestPOI:PointOfInterest? {
@@ -23,13 +25,8 @@ class WatchSessionManager: NSObject, WCSessionDelegate {
     private override init() {
         super.init()
         
-        if WCSession.isSupported() {
-            // When something is changed we need to update the WatchApp
-            NotificationCenter.default.addObserver(self,
-                                                   selector: #selector(WatchSessionManager.ManagedObjectContextObjectsDidChangeNotification(_:)),
-                                                   name: NSNotification.Name.NSManagedObjectContextObjectsDidChange,
-                                                   object: DatabaseAccess.sharedInstance.managedObjectContext)
-        }
+        // Subscribe or unsubscribe POI notification depending on the new App Watch state
+        updatePoiNotificationsSubscription()
     }
     
     // Activate Session
@@ -68,10 +65,31 @@ class WatchSessionManager: NSObject, WCSessionDelegate {
             return false
         }
     }
+    
+    /// Subscribe POI notification when the WatchApp is ready (paired/installed) otherwise
+    /// it's just unsubscribing notifications
+    private func updatePoiNotificationsSubscription() {
+        NotificationCenter.default.removeObserver(self)
+        if isWatchAppReady {
+            // When something is changed we need to update the WatchApp
+            NotificationCenter.default.addObserver(self,
+                                                   selector: #selector(WatchSessionManager.ManagedObjectContextObjectsDidChangeNotification(_:)),
+                                                   name: NSNotification.Name.NSManagedObjectContextObjectsDidChange,
+                                                   object: DatabaseAccess.sharedInstance.managedObjectContext)
+        }
+    }
 
     
     /// When something has been changed we update the WatchApp
     @objc func ManagedObjectContextObjectsDidChangeNotification(_ notification : Notification) {
+        
+        // If a POI is created but the location Always is disabled we ask user to enable it
+        if !LocationManager.sharedInstance.isAlwaysLocationAuthorized {
+            let notifContent = PoiNotificationUserInfo(userInfo: (notification as NSNotification).userInfo as [NSObject : AnyObject]?)
+            if notifContent.insertedPois.count > 0 {
+                LocationManager.sharedInstance.requestAlwaysAuthorization()
+            }
+        }
         refreshWatchApp()
     }
     
@@ -88,6 +106,9 @@ class WatchSessionManager: NSObject, WCSessionDelegate {
         
     func refreshWatchApp() {
         NSLog("\(#function) \(WatchDebug.debugWCSession(session: session))")
+        guard isWatchAppReady else {
+            NSLog("Watch App is not ready, so do nothing!")
+            return }
 
         // TODO: Check if something has changed before to send the message for update
         let (propList, pois) = WatchUtilities.getPoisAround(maxRadius: CommonProps.Cste.radiusInKm, maxPOIResults: CommonProps.Cste.maxRequestedResults)
@@ -153,6 +174,9 @@ class WatchSessionManager: NSObject, WCSessionDelegate {
     //MARK: WCSessionDelegate
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
         NSLog("\(#function) \(WatchDebug.debugWCSession(session: session))")
+        
+        // Subscribe or unsubscribe POI notification depending on the new App Watch state
+        updatePoiNotificationsSubscription()
         if let theError = error {
             NSLog("\(#function) an error has occured: \(theError.localizedDescription)")
         } else {
@@ -164,7 +188,7 @@ class WatchSessionManager: NSObject, WCSessionDelegate {
     }
     
     func sessionDidBecomeInactive(_ session: WCSession) {
-        // Nothing to do here
+        // Called when the user prepare to switch to a new AppleWatch
         NSLog("\(#function) \(WatchDebug.debugWCSession(session: session))")
     }
     
@@ -177,8 +201,12 @@ class WatchSessionManager: NSObject, WCSessionDelegate {
     // Update the LocationManager when the WatchApp is installed/uninstalled, when the AppleWatch is paired/not paired...
     func sessionWatchStateDidChange(_ session: WCSession) {
         NSLog("\(#function) \(WatchDebug.debugWCSession(session: session))")
+        
+        // Subscribe or unsubscribe POI notification depending on the new App Watch state
+        updatePoiNotificationsSubscription()
         if isWatchAppReady {
             refreshWatchApp()
+            LocationManager.sharedInstance.requestAlwaysAuthorization()
             LocationManager.sharedInstance.startLocationUpdateForWatchApp()
         } else {
             LocationManager.sharedInstance.stopLocationUpdateForWatchApp()
@@ -198,6 +226,5 @@ class WatchSessionManager: NSObject, WCSessionDelegate {
             replyHandler([CommonProps.messageStatus : CommonProps.MessageStatusCode.erroriPhoneCannotExtractCoordinatesFromMessage.rawValue])
             WatchSessionManager.Debug.receiveSendMsgError += 1
         }
-        
     }
 }

@@ -134,7 +134,7 @@ class LocationManager : NSObject {
             locationManager = CLLocationManager()
             locationManager?.delegate = self
             locationManager?.showsBackgroundLocationIndicator = true
-            NSLog("\(#function): Authorization is: \(LocationManager.getStatus(status: authorizationStatus))")
+            NSLog("\(#function): Authorization is: \(LocationManager.getDebugStatus(status: authorizationStatus))")
         }
     }
 
@@ -220,7 +220,7 @@ class LocationManager : NSObject {
     }
  
     /// Ask the user to enable the "Always Authorization"
-    fileprivate func requestAlwaysAuthorization() {
+    func requestAlwaysAuthorization() {
         let authorizationStatus  = CLLocationManager.authorizationStatus()
         if  authorizationStatus == .denied {
             // Open an Alert to request the user to enable the location services
@@ -289,13 +289,18 @@ class LocationManager : NSObject {
         return authorizationStatus == .authorizedAlways ? true : false
     }
     
+    var isAlwaysLocationAuthorized: Bool {
+        return CLLocationManager.authorizationStatus() == .authorizedAlways ? true : false
+    }
+
+    
   
-    /// Translate the status code to a human readable string
+    /// Translate the status code to a human readable string for debugging only
     ///
     /// - parameter status: status code to analyze
     ///
     /// - returns: String description of the status
-    fileprivate static func getStatus(status: CLAuthorizationStatus) -> String {
+    fileprivate static func getDebugStatus(status: CLAuthorizationStatus) -> String {
         var authorizationStatus = "Always"
         switch status {
         case .authorizedAlways:
@@ -424,7 +429,7 @@ extension LocationManager: CLLocationManagerDelegate {
     
     // Post an internal notification when the Authorization status has been changed
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        NSLog("\(#function): Warning the authorization status of Location Manager has changed to \(LocationManager.getStatus(status: status))")
+        NSLog("\(#function): Warning the authorization status of Location Manager has changed to \(LocationManager.getDebugStatus(status: status))")
         if status == .authorizedAlways {
             manager.allowsBackgroundLocationUpdates = true
             startMonitoringRegions()
