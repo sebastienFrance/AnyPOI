@@ -71,11 +71,16 @@ class WatchSessionManager: NSObject, WCSessionDelegate {
     private func updatePoiNotificationsSubscription() {
         NotificationCenter.default.removeObserver(self)
         if isWatchAppReady {
-            // When something is changed we need to update the WatchApp
-            NotificationCenter.default.addObserver(self,
-                                                   selector: #selector(WatchSessionManager.ManagedObjectContextObjectsDidChangeNotification(_:)),
-                                                   name: NSNotification.Name.NSManagedObjectContextObjectsDidChange,
-                                                   object: DatabaseAccess.sharedInstance.managedObjectContext)
+            // Warning: must be done on the Main Thread because the managedObjectContext must be called ONLY on the MAIN Thread
+            // else the managedObjectContext doesn't work as expected and POI may disappear from the Map
+            DispatchQueue.main.sync {
+                // When something is changed we need to update the WatchApp
+                NotificationCenter.default.addObserver(self,
+                                                       selector: #selector(WatchSessionManager.ManagedObjectContextObjectsDidChangeNotification(_:)),
+                                                       name: NSNotification.Name.NSManagedObjectContextObjectsDidChange,
+                                                       object: DatabaseAccess.sharedInstance.managedObjectContext)
+            }
+            
         }
     }
 
@@ -177,7 +182,7 @@ class WatchSessionManager: NSObject, WCSessionDelegate {
         
         // Subscribe or unsubscribe POI notification depending on the new App Watch state
         updatePoiNotificationsSubscription()
-        if let theError = error {
+        if let theError = error   {
             NSLog("\(#function) an error has occured: \(theError.localizedDescription)")
         } else {
             if isWatchAppReady {
@@ -218,7 +223,7 @@ class WatchSessionManager: NSObject, WCSessionDelegate {
         
         if  let maxRadius = message[CommonProps.maxRadius] as? Double,
             let maxPOIResults = message[CommonProps.maxResults] as? Int {
-            
+
             let (propList, _) = WatchUtilities.getPoisAround(maxRadius: maxRadius, maxPOIResults: maxPOIResults)
             replyHandler(propList)
             WatchSessionManager.Debug.receiveSendMsgSuccess += 1

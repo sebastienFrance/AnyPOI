@@ -55,6 +55,7 @@ class WatchComplicationUpdate {
     
     /// Send to the Apple Watch an urgent complication update when there's no more a POI around user location
     private func sendEmptyComplicationUpdate() {
+        NSLog("\(#function)")
         if nearestPOI != nil {
             NSLog("\(#function) There was a POI before but not now -> update the complication with no POI!")
             
@@ -83,7 +84,7 @@ class WatchComplicationUpdate {
     ///   - poi: the nearest POI
     ///   - currentLocation: user current location, use to compute the distance between the POI and the user location
     private func sendComplicationUpdate(poi:PointOfInterest, currentLocation: CLLocation) {
-        
+        NSLog("\(#function)")
         switch isComplicationUpdateNeeded(poi: poi, distanceFromUser: poi.distanceFrom(location:currentLocation)) {
         case .urgent:
             let distance = poi.distanceFrom(location:currentLocation)

@@ -94,7 +94,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             userAuthentication = UserAuthentication(delegate: self)
         }
         
-        SKPaymentQueue.default().add(self)
+        //SKPaymentQueue.default().add(self)
         
         // Register local notification (alert & sound)
         // They are used to notify the user when entering/exiting a monitored region

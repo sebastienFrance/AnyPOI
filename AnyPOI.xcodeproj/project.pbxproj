@@ -148,6 +148,10 @@
 		BE64936E1FBA26ED007CC98F /* CategoryUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2AD1D8B209A00344F8A /* CategoryUtils.swift */; };
 		BE64936F1FBA26FA007CC98F /* CommonAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BEABBEF51F97D08300B39EA4 /* CommonAssets.xcassets */; };
 		BE6493711FBA28D9007CC98F /* ColorsUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2E61D8B209A00344F8A /* ColorsUtils.swift */; };
+		BE6B3F891FCC1C7D000EAA2F /* Routes.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE6B3F881FCC1C7D000EAA2F /* Routes.storyboard */; };
+		BE6B3F8B1FCC1CFA000EAA2F /* PurchaseInApp.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE6B3F8A1FCC1CFA000EAA2F /* PurchaseInApp.storyboard */; };
+		BE6B3F8D1FCC1D78000EAA2F /* LeftMenuAndHelper.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE6B3F8C1FCC1D78000EAA2F /* LeftMenuAndHelper.storyboard */; };
+		BE6B3F8F1FCC24E5000EAA2F /* POIDetails.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE6B3F8E1FCC24E5000EAA2F /* POIDetails.storyboard */; };
 		BE713DFF1FACF19800C7407A /* WatchSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE713DFE1FACF19800C7407A /* WatchSessionManager.swift */; };
 		BE713E021FADAC8E00C7407A /* WatchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE713E011FADAC8E00C7407A /* WatchDataSource.swift */; };
 		BE71ADF41DFC76F5008FB6CD /* ImportTextualDescriptionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE71ADF31DFC76F5008FB6CD /* ImportTextualDescriptionTableViewCell.swift */; };
@@ -471,6 +475,10 @@
 		BE6493611FBA22EF007CC98F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BE6493681FBA241C007CC98F /* CommonNotificationUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonNotificationUtils.swift; sourceTree = "<group>"; };
 		BE64936A1FBA257A007CC98F /* NotifPointOfInterest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotifPointOfInterest.swift; sourceTree = "<group>"; };
+		BE6B3F881FCC1C7D000EAA2F /* Routes.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Routes.storyboard; sourceTree = "<group>"; };
+		BE6B3F8A1FCC1CFA000EAA2F /* PurchaseInApp.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = PurchaseInApp.storyboard; sourceTree = "<group>"; };
+		BE6B3F8C1FCC1D78000EAA2F /* LeftMenuAndHelper.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LeftMenuAndHelper.storyboard; sourceTree = "<group>"; };
+		BE6B3F8E1FCC24E5000EAA2F /* POIDetails.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = POIDetails.storyboard; sourceTree = "<group>"; };
 		BE6D103A1F7FAD8F007A35FA /* AnyPOIWatch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AnyPOIWatch.entitlements; sourceTree = "<group>"; };
 		BE6D103B1F7FAF6F007A35FA /* AnyPOIWatch Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "AnyPOIWatch Extension.entitlements"; sourceTree = "<group>"; };
 		BE713DFE1FACF19800C7407A /* WatchSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSessionManager.swift; sourceTree = "<group>"; };
@@ -743,6 +751,10 @@
 		BE2FF2CE1D8B284F00C0395A /* Storyboards */ = {
 			isa = PBXGroup;
 			children = (
+				BE6B3F8E1FCC24E5000EAA2F /* POIDetails.storyboard */,
+				BE6B3F8C1FCC1D78000EAA2F /* LeftMenuAndHelper.storyboard */,
+				BE6B3F8A1FCC1CFA000EAA2F /* PurchaseInApp.storyboard */,
+				BE6B3F881FCC1C7D000EAA2F /* Routes.storyboard */,
 				BE228BA31FCB5501006A47D8 /* ImportGPX.storyboard */,
 				BE2FF2C41D8B280B00C0395A /* CallOutAccessoryView.xib */,
 				BE2FF2C71D8B280B00C0395A /* PickerCategoryView.xib */,
@@ -1610,6 +1622,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BEABBEF61F97D08300B39EA4 /* CommonAssets.xcassets in Resources */,
+				BE6B3F891FCC1C7D000EAA2F /* Routes.storyboard in Resources */,
 				BEF5D3581E6473C600941BAF /* ProductIds.plist in Resources */,
 				BE957E5C1DA8FBBA006CF455 /* Options.storyboard in Resources */,
 				BE2FF2CD1D8B280B00C0395A /* PickerGroupView.xib in Resources */,
@@ -1620,10 +1633,13 @@
 				BE2FF2C91D8B280B00C0395A /* CallOutAccessoryView.xib in Resources */,
 				BE5FE2901E81B849007128DF /* Launch Screen.storyboard in Resources */,
 				BE4A880C1D93137900A0DE2F /* Localizable.strings in Resources */,
+				BE6B3F8B1FCC1CFA000EAA2F /* PurchaseInApp.storyboard in Resources */,
 				BEA7BAA91D8B01E5005D2D21 /* Assets.xcassets in Resources */,
+				BE6B3F8F1FCC24E5000EAA2F /* POIDetails.storyboard in Resources */,
 				BE1BAF061FB0E9A70077F78F /* Categories.strings in Resources */,
 				BEDC10541D97D4D1000C6A0D /* InfoPlist.strings in Resources */,
 				BEBB5ED91F767EF900191D75 /* Search.storyboard in Resources */,
+				BE6B3F8D1FCC1D78000EAA2F /* LeftMenuAndHelper.storyboard in Resources */,
 				BEA7BAA41D8B01E5005D2D21 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -155,6 +155,7 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        
         if UserPreferences.sharedInstance.isFirstStartup {
             UserPreferences.sharedInstance.isFirstStartup = false
             performSegue(withIdentifier: storyboard.showHelperId, sender: nil)
