@@ -269,6 +269,10 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
                                                object: nil)
    }
 
+    func refreshMap() {
+        theMapView.setRegion(UserPreferences.sharedInstance.mapLatestMapRegion, animated: false)
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         

@@ -343,7 +343,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 mapController.disableRouteMode()
                 mapController.importFile(gpx:importGPXFile)
             } else {
-                NSLog("\(#function) unknown action")
+                // For all others case (for example when the App is just entering foreground)
+                // We force a refresh of the Map to make sure all tiles are loaded again
+                mapController.refreshMap()
             }
         }
     }
