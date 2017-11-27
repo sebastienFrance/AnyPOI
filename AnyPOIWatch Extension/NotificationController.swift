@@ -34,6 +34,7 @@ class NotificationController: WKUserNotificationInterfaceController {
         if let thePoi = poi {
             theMap.addAnnotation(thePoi.poiCoordinate, with: WKInterfaceMapPinColor.green)
             theMap.setRegion(MKCoordinateRegionMakeWithDistance(thePoi.poiCoordinate, 200, 200))
+            theMap.setHidden(true)
             
             theCategoryImage.setImage(thePoi.category?.glyph)
             theCategoryImage.setTintColor(UIColor.white)

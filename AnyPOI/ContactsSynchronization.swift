@@ -145,7 +145,7 @@ class ContactsSynchronization {
     }
     
     private struct GeoCodingTimer {
-        static let afterSuccess = 3
+        static let afterSuccess = 1
         static let afterFailure = 60
     }
     
@@ -164,7 +164,7 @@ class ContactsSynchronization {
                 NSLog("\(#function) geocode has failed for address \(address) with error \(errorReverseGeocode.localizedDescription)")
                 switch errorReverseGeocode {
                 case CLError.network:
-                    NSLog("\(#function) Warning error because too many requests! (network error)")
+                    NSLog("\(#function) Error because too many requests! (network error)")
                     
                     // Remove from the contactToBeDeleted contacts that still exists in Contact and in database
                     for i in index...(self.contacts.count - 1) {
