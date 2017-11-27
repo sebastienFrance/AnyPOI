@@ -96,6 +96,11 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
                                                name: NSNotification.Name.NSManagedObjectContextObjectsDidChange,
                                                object: managedContext)
         
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(PoiEditorViewController.locationAuthorizationHasChanged(_:)),
+                                               name: NSNotification.Name(rawValue: LocationManager.LocationNotifications.AuthorizationHasChanged),
+                                               object: LocationManager.sharedInstance.locationManager)
+
         
         title = poi.poiDisplayName
         
@@ -251,7 +256,7 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
     
     
     /// Display the Map snapshot as the background of the cell displaying POI information
-    func refreshMapImage() {
+    private func refreshMapImage() {
         if let theMapSnapshot = mapSnapshot, let snapshotImage = MapUtils.configureMapImageFor(poi: poi, mapSnapshot: theMapSnapshot) {
             // Build the UIImageView only once for the tableView
             snapshotMapImageView = UIImageView(image: snapshotImage)
@@ -285,6 +290,11 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
             }
         }
     }
+    
+    @objc func locationAuthorizationHasChanged(_ notification : Notification) {
+        refreshMapImage()
+    }
+
 
     
     /// Update the section that displays Wikipedia articles. It's called when we get a notif that wikipedia articles are ready

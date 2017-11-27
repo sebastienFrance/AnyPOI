@@ -94,6 +94,7 @@ class PoiEditorViewController: UIViewController {
     @objc func locationAuthorizationHasChanged(_ notification : Notification) {
         let index = IndexPath(row: Rows.monitoringControls, section: Sections.regionMonitoring)
         theTableView.reloadRows(at: [index], with: .automatic)
+        refreshMapImageForMonitoring()
     }
 
     func pickerViewUpdated(_ picker:PickerViewCell, selectedCategory:CategoryUtils.Category) {
@@ -378,7 +379,8 @@ extension PoiEditorViewController: UITableViewDataSource, UITableViewDelegate {
                                                             mapSnapshot: theMapSnapshot,
                                                             withColor: newParentGroup!.color,
                                                             withMonitoringCircle: newRegionExit || newRegionEnter,
-                                                            radius: newRadius)
+                                                            radius: newRadius,
+                                                            isAlwaysLocation: LocationManager.sharedInstance.isAlwaysLocationAuthorized)
             let newImageView = UIImageView(image: newMapImage)
             
             snapshotMapImageView = newImageView

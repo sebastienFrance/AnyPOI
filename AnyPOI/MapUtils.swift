@@ -377,12 +377,29 @@ class MapUtils {
     }
     
     static func getRendererForMonitoringRegion(_ overlay:MKOverlay) -> MKOverlayRenderer {
-        let renderer = MKCircleRenderer(overlay: overlay)
-        renderer.strokeColor = UIColor.green
-        renderer.lineWidth = 1.0
-        renderer.fillColor = UIColor.green.withAlphaComponent(0.3)
-        return renderer
+        let circle = MKCircleRenderer(overlay: overlay)
+        updateRegioMonitoring(renderer: circle, isAlwaysEnabled: true)
+        return circle
     }
+    
+    static func getRendererForDisabledMonitoringRegion(_ overlay:MKOverlay) -> MKOverlayRenderer {
+        let circle = MKCircleRenderer(overlay: overlay)
+        updateRegioMonitoring(renderer: circle, isAlwaysEnabled: false)
+        return circle
+    }
+
+    static func updateRegioMonitoring(renderer:MKCircleRenderer, isAlwaysEnabled:Bool) {
+        if isAlwaysEnabled {
+            renderer.strokeColor = UIColor.green
+            renderer.lineWidth = 1.0
+            renderer.fillColor = UIColor.green.withAlphaComponent(0.3)
+        } else {
+            renderer.strokeColor = UIColor.lightGray
+            renderer.lineWidth = 1.0
+            renderer.fillColor = UIColor.lightGray.withAlphaComponent(0.3)
+        }
+    }
+
 
     static func getSnapshot(_ view:UIView) -> UIImage {
         UIGraphicsBeginImageContextWithOptions(view.bounds.size, false, (view.window?.screen.scale)!)
@@ -407,21 +424,23 @@ class MapUtils {
                                              mapSnapshot: mapSnapshot,
                                              withColor:poi.parentGroup!.color,
                                              withMonitoringCircle: poi.poiRegionNotifyEnter || poi.poiRegionNotifyExit,
-                                             radius: poi.poiRegionRadius)        
+                                             radius: poi.poiRegionRadius,
+                                             isAlwaysLocation: LocationManager.sharedInstance.isAlwaysLocationAuthorized)        
      }
     
     static func configureMapImageFor(poi:PointOfInterest,
                                      mapSnapshot:MKMapSnapshot,
                                      withColor:UIColor,
                                      withMonitoringCircle:Bool = false,
-                                     radius:Double = 0.0) -> UIImage? {
+                                     radius:Double = 0.0,
+                                     isAlwaysLocation:Bool = true) -> UIImage? {
         let mapImage = mapSnapshot.image
         UIGraphicsBeginImageContextWithOptions(mapImage.size, true, 0)
         // Put the Map in the Graphic Context
         mapImage.draw(at: CGPoint(x: 0, y: 0))
         
         if withMonitoringCircle {
-            MapUtils.addCircleIn(mapSnapshot: mapSnapshot, centerCoordinate:poi.coordinate, radius: radius)
+            MapUtils.addCircleIn(mapSnapshot: mapSnapshot, centerCoordinate:poi.coordinate, radius: radius, isAlwaysLocation: isAlwaysLocation)
         }
         MapUtils.addAnnotationIn(mapSnapshot: mapSnapshot, poi:poi, tintColor: withColor)
         
@@ -461,7 +480,7 @@ class MapUtils {
     }
     
     // MARK: MapSnapshot utils
-    static fileprivate func addCircleIn(mapSnapshot:MKMapSnapshot, centerCoordinate:CLLocationCoordinate2D, radius:Double) {
+    static fileprivate func addCircleIn(mapSnapshot:MKMapSnapshot, centerCoordinate:CLLocationCoordinate2D, radius:Double, isAlwaysLocation:Bool) {
         // Append the monitoring region
         let background = CAShapeLayer()
         
@@ -486,8 +505,11 @@ class MapUtils {
                                               width: deltaLatPoint, height: deltaLongPoint)
         let path = UIBezierPath(ovalIn: rectMonitoringRegion)
         background.path = path.cgPath
-        background.fillColor = UIColor.green.withAlphaComponent(0.3).cgColor
-        background.strokeColor = UIColor.green.cgColor
+        
+        let circleColor = isAlwaysLocation ? UIColor.green : UIColor.lightGray
+        
+        background.fillColor = circleColor.withAlphaComponent(0.3).cgColor
+        background.strokeColor = circleColor.cgColor
         background.lineWidth = 1
         background.setNeedsDisplay()
         background.render(in: UIGraphicsGetCurrentContext()!)

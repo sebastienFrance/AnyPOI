@@ -223,6 +223,12 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
                                                selector: #selector(MapViewController.ManagedObjectContextObjectsDidChangeNotification(_:)),
                                                name: NSNotification.Name.NSManagedObjectContextObjectsDidChange,
                                                object: DatabaseAccess.sharedInstance.managedObjectContext)
+        
+        // Location Authorization notification
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(MapViewController.locationAuthorizationHasChanged(_:)),
+                                               name: NSNotification.Name(rawValue: LocationManager.LocationNotifications.AuthorizationHasChanged),
+                                               object: LocationManager.sharedInstance.locationManager)
     }
     
     fileprivate func subscribeMapNotifications() {
@@ -409,20 +415,6 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
         routeManager?.set(transportType:MapUtils.segmentIndexToTransportType(sender))
     }
 
-    
-    /// Add overlayson map for monitored POIs
-    fileprivate func addMonitoredRegionOverlays() {
-        // Add MonitoredRegion overlays for annotations displayed on the Map
-        for currentAnnotation in theMapView.annotations {
-            if let currentPOI =  currentAnnotation as? PointOfInterest {
-                // Add overlays if the poi is monitored
-                if let monitoredRegionOverlay = currentPOI.getMonitordRegionOverlay() {
-                    theMapView.add(monitoredRegionOverlay)
-                }
-            }
-        }
-    }
-    
     
     
     // MARK: Route API
@@ -876,6 +868,17 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
         }
     }
     
+    @objc func locationAuthorizationHasChanged(_ notification : Notification) {
+        
+        let isAlways = LocationManager.sharedInstance.isAlwaysLocationAuthorized
+        for currentOverlay in theMapView.overlays {
+            if let circle = currentOverlay as? MKCircle {
+                let circleRenderer = theMapView.renderer(for: circle) as! MKCircleRenderer
+                MapUtils.updateRegioMonitoring(renderer:circleRenderer, isAlwaysEnabled:isAlways)
+            }
+        }
+     }
+
     
     /// Process notification on POI
     /// - Add POI notification to put a new POI on the Map
@@ -1688,7 +1691,11 @@ extension MapViewController : MKMapViewDelegate {
         if overlay is MKPolyline {
             return MapUtils.customizePolyLine(overlay as! MKPolyline)
         } else if overlay is MKCircle {
-            return MapUtils.getRendererForMonitoringRegion(overlay)
+            if LocationManager.sharedInstance.isAlwaysLocationAuthorized {
+                return MapUtils.getRendererForMonitoringRegion(overlay)
+            } else {
+                return MapUtils.getRendererForDisabledMonitoringRegion(overlay)
+            }
         } else {
             return MKOverlayRenderer()
         }
