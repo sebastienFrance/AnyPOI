@@ -218,6 +218,7 @@
 "RouteName %@ is empty"="%@ est vide";
 "ExportAllTitle"="Export d'AnyPOI";
 
+"POIs_No_address" = "🛠 POIs sans adresse";
 
 // Help
 "HelpAddPOITitle"="Ajouter un Point d'interêt (POI)";
@@ -232,5 +233,7 @@
 "HelpUtilitiesDescription"="• FlyOver au dessus du POI\n• Démarrer une navigation vers le POI \n• Démarrer/Arrêter la surveillance de la zone autour du POI";
 "HelpTripNavigationTitle"="Visualiser un voyage";
 "HelpTripNavigationDescription"="• Allez à l'étape précedente\n• Afficher le voyage complet\n• Allez à l'étape suivante\n\nDisponible uniquement en mode voyage";
+"HelpWatchAppTitle"="Point d'interêts sur Apple Watch";
+"HelpWatchAppDescription"="• Une complication avec le POI le plus proche\n• Les 10 points d'intérêts les plus proches\n• Les détails d'un points d'interêt (passez lui un coup de fil ou lancez une navigation GPS!)";
 
 

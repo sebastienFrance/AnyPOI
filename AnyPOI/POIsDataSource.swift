@@ -116,7 +116,7 @@ class POIsNoAddressDataSource: POIsDataSource {
     
     override init() {
         super.init()
-        poisDescription = "🛠 POIs without address"
+        poisDescription = NSLocalizedString("POIs_No_address", comment: "")
     }
     
     

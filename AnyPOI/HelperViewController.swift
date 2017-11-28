@@ -32,7 +32,8 @@ class HelperViewController: UIViewController {
         HelpData(backgroundScreenshot: #imageLiteral(resourceName: "CalloutTrip1x"), title: NSLocalizedString("HelpTripTitle", comment: ""), description: NSLocalizedString("HelpTripDescription", comment: "")),
         HelpData(backgroundScreenshot: #imageLiteral(resourceName: "CalloutSocial1x"), title: NSLocalizedString("HelpSocialTitle", comment: ""), description: NSLocalizedString("HelpSocialDescription", comment: "")),
         HelpData(backgroundScreenshot: #imageLiteral(resourceName: "CalloutUtilities1x"), title: NSLocalizedString("HelpUtilitiesTitle", comment: ""), description: NSLocalizedString("HelpUtilitiesDescription", comment: "")),
-        HelpData(backgroundScreenshot: #imageLiteral(resourceName: "TravelNavigation1x"), title: NSLocalizedString("HelpTripNavigationTitle", comment: ""), description: NSLocalizedString("HelpTripNavigationDescription", comment: ""))
+        HelpData(backgroundScreenshot: #imageLiteral(resourceName: "TravelNavigation1x"), title: NSLocalizedString("HelpTripNavigationTitle", comment: ""), description: NSLocalizedString("HelpTripNavigationDescription", comment: "")),
+        HelpData(backgroundScreenshot: #imageLiteral(resourceName: "WatchApp1x"), title: NSLocalizedString("HelpWatchAppTitle", comment: ""), description: NSLocalizedString("HelpWatchAppDescription", comment: ""))
     ]
 
     override func viewDidLoad() {
