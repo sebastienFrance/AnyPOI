@@ -331,7 +331,7 @@ class LocationManager : NSObject {
 
 extension LocationManager: CLLocationManagerDelegate {
   
-    private func addDebugLocationUpdate(sourceUpdate:String, watchAppReachableBefore:Bool) {
+    func addDebugLocationUpdate(sourceUpdate:String, watchAppReachableBefore:Bool) {
         #if DEBUG
         if let location = locationManager?.location {
             

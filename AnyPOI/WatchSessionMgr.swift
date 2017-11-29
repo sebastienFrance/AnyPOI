@@ -95,7 +95,10 @@ class WatchSessionManager: NSObject, WCSessionDelegate {
                 LocationManager.sharedInstance.requestAlwaysAuthorization()
             }
         }
+        
+        let debugWatchAppReachableBefore = WatchSessionManager.sharedInstance.isWatchAppReachable
         refreshWatchApp()
+        LocationManager.sharedInstance.addDebugLocationUpdate(sourceUpdate: "Database POI upd", watchAppReachableBefore: debugWatchAppReachableBefore)
     }
     
     struct Debug {
@@ -186,8 +189,11 @@ class WatchSessionManager: NSObject, WCSessionDelegate {
             NSLog("\(#function) an error has occured: \(theError.localizedDescription)")
         } else {
             if isWatchAppReady {
+                let debugWatchAppReachableBefore = WatchSessionManager.sharedInstance.isWatchAppReachable
                 refreshWatchApp()
                 LocationManager.sharedInstance.startLocationUpdateForWatchApp()
+                LocationManager.sharedInstance.addDebugLocationUpdate(sourceUpdate: "activationDidComplete", watchAppReachableBefore: debugWatchAppReachableBefore)
+
             }
         }
     }
@@ -210,7 +216,10 @@ class WatchSessionManager: NSObject, WCSessionDelegate {
         // Subscribe or unsubscribe POI notification depending on the new App Watch state
         updatePoiNotificationsSubscription()
         if isWatchAppReady {
+            let debugWatchAppReachableBefore = WatchSessionManager.sharedInstance.isWatchAppReachable
             refreshWatchApp()
+            LocationManager.sharedInstance.addDebugLocationUpdate(sourceUpdate: "sessionWatchStateDidChange", watchAppReachableBefore: debugWatchAppReachableBefore)
+            
             LocationManager.sharedInstance.requestAlwaysAuthorization()
             LocationManager.sharedInstance.startLocationUpdateForWatchApp()
         } else {
