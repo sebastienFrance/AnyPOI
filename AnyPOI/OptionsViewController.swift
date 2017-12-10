@@ -113,6 +113,13 @@ class OptionsViewController: UITableViewController, PasswordConfigurationDelegat
         }
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        // Make the height takes into account the safe area (especially for iPhone X)
+        view.frame.size = CGSize(width: view.frame.width, height: view.frame.height - view.safeAreaInsets.bottom)
+    }
+    
     @objc func productPurchased(_ notification:Notification) {
         synchronizeContactsButton.isEnabled = true
         synchronizeContactsPurchaseLabel.isHidden = true

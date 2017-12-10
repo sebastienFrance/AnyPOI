@@ -122,14 +122,7 @@ class UserAuthentication {
                     // Must be called on the Main thread because we need to display a new AlertController to request the password
                     // SEB: Swift3 to be checked if error handling is correct
                     DispatchQueue.main.async {
-                        switch (theError!) {
-                        case  LAError.userFallback:
-                            self.loopOnPasswordAuthentication()
-                        case  LAError.userCancel:
-                            self.loopOnPasswordAuthentication()
-                        default:
-                            self.loopOnPasswordAuthentication()
-                        }
+                        self.loopOnPasswordAuthentication()
                     }
                 }
             }
@@ -193,18 +186,19 @@ class UserAuthentication {
                     } else {
                         // Must be called on the Main thread because we need to display a new AlertController to request the password
                         DispatchQueue.main.async {
-                            // SEB: Swift3 to be check the error handling
-                            switch (theError!) {
-                            case LAError.userFallback:
-                                self.oneShotAuthenticationWithPassword(reason: reason)
-                            case LAError.userCancel:
-                                self.delegate.authenticationFailure()
-                                break
-                            default:
+                            if let error = theError {
+                                switch error {
+                                case LAError.userFallback:
+                                    self.oneShotAuthenticationWithPassword(reason: reason)
+                                case LAError.userCancel:
+                                    self.delegate.authenticationFailure()
+                                    break
+                                default:
+                                    self.oneShotAuthenticationWithPassword(reason:reason)
+                                }
+                            } else {
                                 self.oneShotAuthenticationWithPassword(reason:reason)
-                                break
                             }
-
                         }
                     }
                 }

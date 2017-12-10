@@ -41,6 +41,12 @@ class GPXImportOptionsTableViewController: UITableViewController {
         refreshDisplayedState()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        // Make the height takes into account the safe area (especially for iPhone X)
+        view.frame.size = CGSize(width: view.frame.width, height: view.frame.height - view.safeAreaInsets.bottom)
+    }
+    
     
     /// Refresh the buttons and textual description based on importOptions configuraton
     /// and update the GPXImportViewController with the new importOptions

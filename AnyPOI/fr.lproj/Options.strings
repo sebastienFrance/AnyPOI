@@ -37,6 +37,7 @@
 "n8S-Od-i8z.text" = "Carte standard";
 "2MJ-yC-3OW.text" = "Satellite";
 "ALA-Id-37n.text" = "Flyover avec 360°";
+"X94-fe-Tnt.text" = "Faire un 360 autour d'un Point d'interêt pendant un Flyover";
 
 /* Class = "UILabel"; text = "Near Location"; ObjectID = "Lt3-BU-kyN"; */
 "Lt3-BU-kyN.text" = "Lieux proches";

@@ -39,6 +39,12 @@ class DebugMenuTableViewController: UITableViewController, ContainerViewControll
         }
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        // Make the height takes into account the safe area (especially for iPhone X)
+        view.frame.size = CGSize(width: view.frame.width, height: view.frame.height - view.safeAreaInsets.bottom)
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
 

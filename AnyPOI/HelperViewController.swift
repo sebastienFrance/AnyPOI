@@ -73,8 +73,7 @@ extension HelperViewController: UICollectionViewDataSource, UICollectionViewDele
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         // Compute the height of the cell which is:
-        // Size of the screen - height of the status bar - height of the bottom page (button + paging controller)
-        return CGSize(width: view.frame.width, height: view.frame.height - bottomPageStackView.frame.height - UIApplication.shared.statusBarFrame.height)
+        return CGSize(width: view.frame.width, height: view.frame.height - bottomPageStackView.frame.height - view.safeAreaInsets.top - view.safeAreaInsets.bottom)
     }
     
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

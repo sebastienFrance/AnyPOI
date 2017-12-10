@@ -170,10 +170,11 @@ class Utilities {
     static func openSafariFrom(_ viewController:UIViewController, url:URL?, delegate:SFSafariViewControllerDelegate) {
         if let myURL = url {
             let safari = SFSafariViewController(url: myURL)
+            safari.modalPresentationStyle = .overFullScreen // Display it as a modal instead of push on Navigation Statck
             safari.dismissButtonStyle = .close
             safari.delegate = delegate
             viewController.navigationController?.isToolbarHidden = true
-            viewController.show(safari, sender: nil)
+            viewController.present(safari, animated: true, completion: nil)
         }
     }
 

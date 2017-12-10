@@ -11,6 +11,8 @@ import MapKit
 
 class WayPointPinAnnotationView : MKMarkerAnnotationView {
     
+   
+    
     fileprivate struct NibIdentifier {
         static let calloutAccessoryView = "CallOutAccessoryView"
     }
@@ -63,5 +65,6 @@ class WayPointPinAnnotationView : MKMarkerAnnotationView {
     // by a storyboard
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        
     }
 }
