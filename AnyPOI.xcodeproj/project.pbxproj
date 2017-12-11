@@ -116,6 +116,7 @@
 		BE1BAF0B1FB0ECF90077F78F /* Categories.strings in Resources */ = {isa = PBXBuildFile; fileRef = BE1BAF081FB0E9A70077F78F /* Categories.strings */; };
 		BE1D1B791E5F7F4700EE986F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BE1D1B771E5F7F4700EE986F /* Localizable.strings */; };
 		BE1E5D961FC0381100E0B650 /* CommonNotificationUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE6493681FBA241C007CC98F /* CommonNotificationUtils.swift */; };
+		BE23843B1FDF183C00359CA6 /* POIDetails.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE23843D1FDF183C00359CA6 /* POIDetails.storyboard */; };
 		BE2A80281E13C48A003B1BE5 /* GPXRouteWayPointAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2A80271E13C48A003B1BE5 /* GPXRouteWayPointAttributes.swift */; };
 		BE2E4A2F1F2C79B3001C22C0 /* NavigationUrlTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2E4A2E1F2C79B3001C22C0 /* NavigationUrlTests.swift */; };
 		BE2E4A411F2C8C13001C22C0 /* WikipediaRequestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2E4A401F2C8C13001C22C0 /* WikipediaRequestTests.swift */; };
@@ -151,7 +152,6 @@
 		BE6B3F891FCC1C7D000EAA2F /* Routes.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE6B3F881FCC1C7D000EAA2F /* Routes.storyboard */; };
 		BE6B3F8B1FCC1CFA000EAA2F /* PurchaseInApp.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE6B3F8A1FCC1CFA000EAA2F /* PurchaseInApp.storyboard */; };
 		BE6B3F8D1FCC1D78000EAA2F /* LeftMenuAndHelper.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE6B3F8C1FCC1D78000EAA2F /* LeftMenuAndHelper.storyboard */; };
-		BE6B3F8F1FCC24E5000EAA2F /* POIDetails.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE6B3F8E1FCC24E5000EAA2F /* POIDetails.storyboard */; };
 		BE713DFF1FACF19800C7407A /* WatchSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE713DFE1FACF19800C7407A /* WatchSessionManager.swift */; };
 		BE713E021FADAC8E00C7407A /* WatchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE713E011FADAC8E00C7407A /* WatchDataSource.swift */; };
 		BE71ADF41DFC76F5008FB6CD /* ImportTextualDescriptionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE71ADF31DFC76F5008FB6CD /* ImportTextualDescriptionTableViewCell.swift */; };
@@ -441,6 +441,8 @@
 		BE1D1B781E5F7F4700EE986F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BE1D1B7A1E5F7F5800EE986F /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BE228BA31FCB5501006A47D8 /* ImportGPX.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = ImportGPX.storyboard; path = "/Users/sebastien/Documents/IOS Applications/AnyPOI/AnyPOI/ImportGPX.storyboard"; sourceTree = "<absolute>"; };
+		BE23843C1FDF183C00359CA6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/POIDetails.storyboard; sourceTree = "<group>"; };
+		BE23843F1FDF184500359CA6 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/POIDetails.strings; sourceTree = "<group>"; };
 		BE2A80271E13C48A003B1BE5 /* GPXRouteWayPointAttributes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPXRouteWayPointAttributes.swift; sourceTree = "<group>"; };
 		BE2E4A2E1F2C79B3001C22C0 /* NavigationUrlTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationUrlTests.swift; sourceTree = "<group>"; };
 		BE2E4A401F2C8C13001C22C0 /* WikipediaRequestTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WikipediaRequestTests.swift; sourceTree = "<group>"; };
@@ -478,7 +480,6 @@
 		BE6B3F881FCC1C7D000EAA2F /* Routes.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Routes.storyboard; sourceTree = "<group>"; };
 		BE6B3F8A1FCC1CFA000EAA2F /* PurchaseInApp.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = PurchaseInApp.storyboard; sourceTree = "<group>"; };
 		BE6B3F8C1FCC1D78000EAA2F /* LeftMenuAndHelper.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LeftMenuAndHelper.storyboard; sourceTree = "<group>"; };
-		BE6B3F8E1FCC24E5000EAA2F /* POIDetails.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = POIDetails.storyboard; sourceTree = "<group>"; };
 		BE6D103A1F7FAD8F007A35FA /* AnyPOIWatch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AnyPOIWatch.entitlements; sourceTree = "<group>"; };
 		BE6D103B1F7FAF6F007A35FA /* AnyPOIWatch Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "AnyPOIWatch Extension.entitlements"; sourceTree = "<group>"; };
 		BE713DFE1FACF19800C7407A /* WatchSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSessionManager.swift; sourceTree = "<group>"; };
@@ -751,7 +752,7 @@
 		BE2FF2CE1D8B284F00C0395A /* Storyboards */ = {
 			isa = PBXGroup;
 			children = (
-				BE6B3F8E1FCC24E5000EAA2F /* POIDetails.storyboard */,
+				BE23843D1FDF183C00359CA6 /* POIDetails.storyboard */,
 				BE6B3F8C1FCC1D78000EAA2F /* LeftMenuAndHelper.storyboard */,
 				BE6B3F8A1FCC1CFA000EAA2F /* PurchaseInApp.storyboard */,
 				BE6B3F881FCC1C7D000EAA2F /* Routes.storyboard */,
@@ -1635,7 +1636,7 @@
 				BE4A880C1D93137900A0DE2F /* Localizable.strings in Resources */,
 				BE6B3F8B1FCC1CFA000EAA2F /* PurchaseInApp.storyboard in Resources */,
 				BEA7BAA91D8B01E5005D2D21 /* Assets.xcassets in Resources */,
-				BE6B3F8F1FCC24E5000EAA2F /* POIDetails.storyboard in Resources */,
+				BE23843B1FDF183C00359CA6 /* POIDetails.storyboard in Resources */,
 				BE1BAF061FB0E9A70077F78F /* Categories.strings in Resources */,
 				BEDC10541D97D4D1000C6A0D /* InfoPlist.strings in Resources */,
 				BEBB5ED91F767EF900191D75 /* Search.storyboard in Resources */,
@@ -2011,6 +2012,15 @@
 				BE1D1B7A1E5F7F5800EE986F /* fr */,
 			);
 			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		BE23843D1FDF183C00359CA6 /* POIDetails.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BE23843C1FDF183C00359CA6 /* Base */,
+				BE23843F1FDF184500359CA6 /* fr */,
+			);
+			name = POIDetails.storyboard;
 			sourceTree = "<group>";
 		};
 		BE47BE391DAACA8E00862A0C /* POIManager.storyboard */ = {

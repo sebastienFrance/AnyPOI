@@ -56,7 +56,7 @@
 "Navigation"="Navigation";
 "Wikipedia"="Wikipedia";
 "MaxMonitoredPOIReached"="Nombre maximal de POIs sous surveillance atteint. Désactivez en un autre pour activer celui-ci";
-"PoiEditorRegionMonitoringSectionName"="Surveillance de zone";
+"PoiEditorRegionMonitoringSectionName"="Surveillance de points d'interêts";
 "Unknown"="Inconnu";
 "PoiEditorPOINamePlaceholder"="Nom du POI";
 "PoiEditorPOIDescriptionPlaceholder"="Description du POI";
@@ -171,6 +171,7 @@
 "ShowPOIsNotUsedMapFilterVC"="Afficher les POIs non utilisés par l'itinéraire";
 "MapFilterShowAllPoisTitle"="Affichez tous les points d'intérêts";
 "MapFilterShowAllPoisDescription"="Si cette option n'est pas cochée, seuls les points d'intérêt utilisés dans l'itinéraire sont affichés";
+"CategoriesSectionMapFilterVC"="Catégories";
 "RouteSectionMapFilterVC"="POIs sur l'itinéraire";
 "GroupsSectionMapFilterVC"="Groupes";
 "ImportLoadingGPXFile"="Chargement du fichier GPX";
@@ -230,7 +231,7 @@
 "HelpSocialTitle"="Social";
 "HelpSocialDescription"="• Ouvrir le site WEB\n• Envoyer un mail \n• Passer un appel\n\nUniquement lorsque les données sont disponibles";
 "HelpUtilitiesTitle"="Outils";
-"HelpUtilitiesDescription"="• FlyOver au dessus du POI\n• Démarrer une navigation vers le POI \n• Démarrer/Arrêter la surveillance de la zone autour du POI";
+"HelpUtilitiesDescription"="• FlyOver au dessus du POI\n• Démarrer une navigation vers le POI \n• Démarrer/Arrêter la surveillance d'un point d'interêt";
 "HelpTripNavigationTitle"="Visualiser un voyage";
 "HelpTripNavigationDescription"="• Allez à l'étape précedente\n• Afficher le voyage complet\n• Allez à l'étape suivante\n\nDisponible uniquement en mode voyage";
 "HelpWatchAppTitle"="Point d'interêts sur Apple Watch";

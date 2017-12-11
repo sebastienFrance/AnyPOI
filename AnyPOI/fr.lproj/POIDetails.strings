@@ -1,0 +1,57 @@
+
+/* Class = "UILabel"; text = "Description"; ObjectID = "3zs-it-rnE"; */
+"3zs-it-rnE.text" = "Description";
+
+/* Class = "UILabel"; text = "No wikipedia articles found"; ObjectID = "4Fb-s5-wuP"; */
+"4Fb-s5-wuP.text" = "Aucun article Wikipedia disponible";
+
+/* Class = "UILabel"; text = "Region Monitoring is disabled"; ObjectID = "DlR-YP-yae"; */
+"DlR-YP-yae.text" = "La surveillance de point d'interêts est désactivée";
+
+/* Class = "UILabel"; text = "title"; ObjectID = "Esg-EQ-XdX"; */
+"Esg-EQ-XdX.text" = "title";
+
+/* Class = "UILabel"; text = "Distance"; ObjectID = "FB6-w6-bSj"; */
+"FB6-w6-bSj.text" = "Distance";
+
+/* Class = "UILabel"; text = "title"; ObjectID = "Fj7-DZ-3ux"; */
+"Fj7-DZ-3ux.text" = "title";
+
+/* Class = "UITextField"; text = "textField"; ObjectID = "GPB-Oe-4Vh"; */
+"GPB-Oe-4Vh.text" = "textField";
+
+/* Class = "UILabel"; text = "Use region monitoring to get notifications when you approach and/or leaves a Point of Interest. The maximum number of Point of Interests that can be monitored simultaneously is 20. "; ObjectID = "HPM-BK-8jG"; */
+"HPM-BK-8jG.text" = "La surveillance d'un point d'interêt permet de recevoir une notification lorsque vous vous en approchez/eloignez. Vous pouvez activer la surveillance d'au maximum 20 points d'interêts simultanément.";
+
+/* Class = "UILabel"; text = "Radius"; ObjectID = "MXO-SN-oHG"; */
+"MXO-SN-oHG.text" = "Radius";
+
+/* Class = "UITextView"; text = "POI Address"; ObjectID = "NxF-nI-LgV"; */
+"NxF-nI-LgV.text" = "POI Address";
+
+/* Class = "UILabel"; text = "Group"; ObjectID = "P0N-Sb-Vhe"; */
+"P0N-Sb-Vhe.text" = "Group";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "VKx-pQ-Vxb"; */
+"VKx-pQ-Vxb.text" = "Label";
+
+/* Class = "UILabel"; text = "Abstract article"; ObjectID = "cUz-o5-Sll"; */
+"cUz-o5-Sll.text" = "Abstract article";
+
+/* Class = "UILabel"; text = "Notify when exit region"; ObjectID = "ezJ-GF-B01"; */
+"ezJ-GF-B01.text" = "Notifier l'eloignement";
+
+/* Class = "UITextField"; placeholder = "Description"; ObjectID = "f50-HJ-hkN"; */
+"f50-HJ-hkN.placeholder" = "Description";
+
+/* Class = "UITextField"; text = "text"; ObjectID = "f50-HJ-hkN"; */
+"f50-HJ-hkN.text" = "text";
+
+/* Class = "UILabel"; text = "Notify when enter region"; ObjectID = "m7h-WG-BP9"; */
+"m7h-WG-BP9.text" = "Notifier l'approche";
+
+/* Class = "UILabel"; text = "Wikipedia Loading..."; ObjectID = "ozt-YL-gBH"; */
+"ozt-YL-gBH.text" = "Recherche Wikipedia...";
+
+/* Class = "UINavigationItem"; title = "POI Details"; ObjectID = "zh9-aw-7Yj"; */
+"zh9-aw-7Yj.title" = "POI Détails";
