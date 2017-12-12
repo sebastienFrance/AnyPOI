@@ -1,0 +1,12 @@
+
+/* Class = "UILabel"; text = "Route vers Reims"; ObjectID = "MIG-aw-uJe"; */
+"MIG-aw-uJe.text" = "Route vers Reims";
+
+/* Class = "UINavigationItem"; title = "Routes"; ObjectID = "WmH-dS-2vc"; */
+"WmH-dS-2vc.title" = "Voyages";
+
+/* Class = "UILabel"; text = "Versailles to Reims"; ObjectID = "dOo-bm-xcw"; */
+"dOo-bm-xcw.text" = "Versailles to Reims";
+
+/* Class = "UILabel"; text = "127.4km in 02:40 with 4 steps"; ObjectID = "gbH-Zp-Qr5"; */
+"gbH-Zp-Qr5.text" = "127.4km in 02:40 with 4 steps";

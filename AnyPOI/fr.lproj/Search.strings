@@ -1,0 +1,63 @@
+
+/* Class = "UILabel"; text = "title"; ObjectID = "4Ah-J9-dJu"; */
+"4Ah-J9-dJu.text" = "title";
+
+/* Class = "UILabel"; text = "Distance"; ObjectID = "7hm-Nb-0xe"; */
+"7hm-Nb-0xe.text" = "Distance";
+
+/* Class = "UIButton"; normalTitle = "Edit"; ObjectID = "BkF-e2-Lxu"; */
+"BkF-e2-Lxu.normalTitle" = "Edit";
+
+/* Class = "UILabel"; text = "Distance"; ObjectID = "Bta-Ft-YWn"; */
+"Bta-Ft-YWn.text" = "Distance";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "DUP-UF-C0Q"; */
+"DUP-UF-C0Q.text" = "Label";
+
+/* Class = "UIButton"; normalTitle = "Group details"; ObjectID = "ICG-Zk-Ve5"; */
+"ICG-Zk-Ve5.normalTitle" = "Group details";
+
+/* Class = "UILabel"; text = "RouteName"; ObjectID = "Iju-3j-vV7"; */
+"Iju-3j-vV7.text" = "RouteName";
+
+/* Class = "UILabel"; text = "Description"; ObjectID = "LlB-sB-d3h"; */
+"LlB-sB-d3h.text" = "Description";
+
+/* Class = "UILabel"; text = "Abstract article"; ObjectID = "Pew-en-duH"; */
+"Pew-en-duH.text" = "Abstract article";
+
+/* Class = "UILabel"; text = "From/To"; ObjectID = "Sov-u8-H6Y"; */
+"Sov-u8-H6Y.text" = "From/To";
+
+/* Class = "UILabel"; text = "Name"; ObjectID = "TYy-1f-TC3"; */
+"TYy-1f-TC3.text" = "Name";
+
+/* Class = "UILabel"; text = "Loading"; ObjectID = "d0m-R5-f5l"; */
+"d0m-R5-f5l.text" = "Chargement";
+
+/* Class = "UISegmentedControl"; e7h-DW-np7.segmentTitles[0] = "All"; ObjectID = "e7h-DW-np7"; */
+"e7h-DW-np7.segmentTitles[0]" = "Tout";
+
+/* Class = "UISegmentedControl"; e7h-DW-np7.segmentTitles[1] = "Local search"; ObjectID = "e7h-DW-np7"; */
+"e7h-DW-np7.segmentTitles[1]" = "Recherche locale";
+
+/* Class = "UISegmentedControl"; e7h-DW-np7.segmentTitles[2] = "POIs..."; ObjectID = "e7h-DW-np7"; */
+"e7h-DW-np7.segmentTitles[2]" = "POIs...";
+
+/* Class = "UILabel"; text = "Address"; ObjectID = "eOe-mF-vqU"; */
+"eOe-mF-vqU.text" = "Address";
+
+/* Class = "UILabel"; text = "title"; ObjectID = "fa7-al-Ubp"; */
+"fa7-al-Ubp.text" = "title";
+
+/* Class = "UILabel"; text = "title"; ObjectID = "iEJ-eG-WoY"; */
+"iEJ-eG-WoY.text" = "title";
+
+/* Class = "UILabel"; text = "Address"; ObjectID = "mv5-7d-Rzp"; */
+"mv5-7d-Rzp.text" = "Address";
+
+/* Class = "UILabel"; text = "Description"; ObjectID = "oTi-ge-yS5"; */
+"oTi-ge-yS5.text" = "Description";
+
+/* Class = "UILabel"; text = "Distance"; ObjectID = "pKO-HU-TWR"; */
+"pKO-HU-TWR.text" = "Distance";
