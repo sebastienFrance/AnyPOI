@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		B6F3E9C2364293FF3C089B78 /* Pods_AnyPOI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D59B652B845160828B9C22AB /* Pods_AnyPOI.framework */; };
 		BE01D4591E0835D800D0105F /* ExportAllMailActivityItemSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE01D4581E0835D800D0105F /* ExportAllMailActivityItemSource.swift */; };
-		BE06A9CF1FCB5786008F6945 /* ImportGPX.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE228BA31FCB5501006A47D8 /* ImportGPX.storyboard */; };
 		BE0CF2FD1D8B209A00344F8A /* ContactsUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF29C1D8B209A00344F8A /* ContactsUtilities.swift */; };
 		BE0CF2FE1D8B209A00344F8A /* ContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF29D1D8B209A00344F8A /* ContactsViewController.swift */; };
 		BE0CF2FF1D8B209A00344F8A /* ContactTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF29E1D8B209A00344F8A /* ContactTableViewCell.swift */; };
@@ -222,6 +221,7 @@
 		BEBB5ED91F767EF900191D75 /* Search.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BEBB5ED81F767E7900191D75 /* Search.storyboard */; };
 		BEBEBD1A1DB1621F003A81D0 /* AnyPOI.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BEA7BAA51D8B01E5005D2D21 /* AnyPOI.xcdatamodeld */; };
 		BEC3104E1DBA9F9400A923AF /* LeftMenuPOIsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC3104D1DBA9F9400A923AF /* LeftMenuPOIsTableViewCell.swift */; };
+		BEC6F5951FDFF27200617613 /* ImportGPX.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BEC6F5971FDFF27200617613 /* ImportGPX.storyboard */; };
 		BED407AA1E0571C9009EEA97 /* XMLElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED407A91E0571C9009EEA97 /* XMLElement.swift */; };
 		BED751951DA2D539004BC613 /* RouteProviderUberTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED751941DA2D539004BC613 /* RouteProviderUberTableViewCell.swift */; };
 		BED83BDA1DC8D2DA0025349E /* PoiImageCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED83BD91DC8D2DA0025349E /* PoiImageCollectionViewController.swift */; };
@@ -440,7 +440,6 @@
 		BE1BAF091FB0E9AE0077F78F /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Categories.strings; sourceTree = "<group>"; };
 		BE1D1B781E5F7F4700EE986F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BE1D1B7A1E5F7F5800EE986F /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
-		BE228BA31FCB5501006A47D8 /* ImportGPX.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = ImportGPX.storyboard; path = "/Users/sebastien/Documents/IOS Applications/AnyPOI/AnyPOI/ImportGPX.storyboard"; sourceTree = "<absolute>"; };
 		BE23843C1FDF183C00359CA6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/POIDetails.storyboard; sourceTree = "<group>"; };
 		BE23843F1FDF184500359CA6 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/POIDetails.strings; sourceTree = "<group>"; };
 		BE2A80271E13C48A003B1BE5 /* GPXRouteWayPointAttributes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPXRouteWayPointAttributes.swift; sourceTree = "<group>"; };
@@ -550,6 +549,8 @@
 		BEC3104A1DBA713600A923AF /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/POIManager.strings; sourceTree = "<group>"; };
 		BEC3104C1DBA735200A923AF /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Options.strings; sourceTree = "<group>"; };
 		BEC3104D1DBA9F9400A923AF /* LeftMenuPOIsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftMenuPOIsTableViewCell.swift; sourceTree = "<group>"; };
+		BEC6F5961FDFF27200617613 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/ImportGPX.storyboard; sourceTree = "<group>"; };
+		BEC6F5991FDFF28000617613 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/ImportGPX.strings; sourceTree = "<group>"; };
 		BED407A91E0571C9009EEA97 /* XMLElement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMLElement.swift; sourceTree = "<group>"; };
 		BED751941DA2D539004BC613 /* RouteProviderUberTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteProviderUberTableViewCell.swift; sourceTree = "<group>"; };
 		BED83BD91DC8D2DA0025349E /* PoiImageCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PoiImageCollectionViewController.swift; sourceTree = "<group>"; };
@@ -756,7 +757,7 @@
 				BE6B3F8C1FCC1D78000EAA2F /* LeftMenuAndHelper.storyboard */,
 				BE6B3F8A1FCC1CFA000EAA2F /* PurchaseInApp.storyboard */,
 				BE6B3F881FCC1C7D000EAA2F /* Routes.storyboard */,
-				BE228BA31FCB5501006A47D8 /* ImportGPX.storyboard */,
+				BEC6F5971FDFF27200617613 /* ImportGPX.storyboard */,
 				BE2FF2C41D8B280B00C0395A /* CallOutAccessoryView.xib */,
 				BE2FF2C71D8B280B00C0395A /* PickerCategoryView.xib */,
 				BE2FF2C81D8B280B00C0395A /* PickerGroupView.xib */,
@@ -1628,7 +1629,7 @@
 				BE957E5C1DA8FBBA006CF455 /* Options.storyboard in Resources */,
 				BE2FF2CD1D8B280B00C0395A /* PickerGroupView.xib in Resources */,
 				BE2FF2CC1D8B280B00C0395A /* PickerCategoryView.xib in Resources */,
-				BE06A9CF1FCB5786008F6945 /* ImportGPX.storyboard in Resources */,
+				BEC6F5951FDFF27200617613 /* ImportGPX.storyboard in Resources */,
 				BE47BE3B1DAACA8E00862A0C /* POIManager.storyboard in Resources */,
 				BEE1C6061FC0804F00D8EF6D /* Debug.storyboard in Resources */,
 				BE2FF2C91D8B280B00C0395A /* CallOutAccessoryView.xib in Resources */,
@@ -2093,6 +2094,16 @@
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
+		};
+		BEC6F5971FDFF27200617613 /* ImportGPX.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BEC6F5961FDFF27200617613 /* Base */,
+				BEC6F5991FDFF28000617613 /* fr */,
+			);
+			name = ImportGPX.storyboard;
+			path = "/Users/sebastien/Documents/IOS Applications/AnyPOI/AnyPOI";
+			sourceTree = "<absolute>";
 		};
 		BEDC10561D97D4D1000C6A0D /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;

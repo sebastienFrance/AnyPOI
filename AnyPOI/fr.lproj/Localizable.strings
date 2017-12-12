@@ -58,8 +58,8 @@
 "MaxMonitoredPOIReached"="Nombre maximal de POIs sous surveillance atteint. Désactivez en un autre pour activer celui-ci";
 "PoiEditorRegionMonitoringSectionName"="Surveillance de points d'interêts";
 "Unknown"="Inconnu";
-"PoiEditorPOINamePlaceholder"="Nom du POI";
-"PoiEditorPOIDescriptionPlaceholder"="Description du POI";
+"PoiEditorPOINamePlaceholder"="Nom du Point d'interêt";
+"PoiEditorPOIDescriptionPlaceholder"="Description du Point d'interêt";
 "Radius"="Rayon";
 "RouteNotDefined"="Ajoutez un départ et une destination";
 "RouteNoDestination"="Ajoutez une destination pour calculer un itinéraire";

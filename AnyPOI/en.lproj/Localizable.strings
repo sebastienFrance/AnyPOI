@@ -58,8 +58,8 @@
 "MaxMonitoredPOIReached"="Maximum number of POIs under monitoring reached. Disable another one to activate this one";
 "PoiEditorRegionMonitoringSectionName"="Region monitoring";
 "Unknown"="Unknown";
-"PoiEditorPOINamePlaceholder"="POI name";
-"PoiEditorPOIDescriptionPlaceholder"="POI description";
+"PoiEditorPOINamePlaceholder"="Name of Point of interest";
+"PoiEditorPOIDescriptionPlaceholder"="Description of Point of interest";
 "Radius"="Radius";
 "RouteNotDefined"="Add a start and destination";
 "RouteIsInvaliad"="Invalid route";

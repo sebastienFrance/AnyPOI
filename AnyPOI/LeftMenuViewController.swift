@@ -163,9 +163,12 @@ extension LeftMenuViewController : UITableViewDataSource, UITableViewDelegate {
             container.showCenterView(.options)
         } else if indexPath.row == Row.Help {
             performSegue(withIdentifier: "showHelpId", sender: nil)
-        } else if indexPath.row == Row.Debug {
+        }
+        #if DEBUG
+        if indexPath.row == Row.Debug {
             container.showCenterView(.debug)
         }
+        #endif
 //        } else if indexPath.row == Row.Purchase {
 //            container.showCenterView(.purchase)
 //        }

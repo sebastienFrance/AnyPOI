@@ -1,0 +1,84 @@
+
+/* Class = "UITableViewSection"; headerTitle = "Route"; ObjectID = "2lW-7b-JW9"; */
+"2lW-7b-JW9.headerTitle" = "Route";
+
+/* Class = "UILabel"; text = "New"; ObjectID = "3Nm-RX-zMA"; */
+"3Nm-RX-zMA.text" = "New";
+
+/* Class = "UILabel"; text = "Imported routes are created as new else they will be merged with existing"; ObjectID = "3lw-Lr-ggy"; */
+"3lw-Lr-ggy.text" = "Les itinéraires seront créés ou fusionnés";
+
+/* Class = "UILabel"; text = "127,4km in 02:40 with 4 steps"; ObjectID = "4x2-gG-xIR"; */
+"4x2-gG-xIR.text" = "127,4km en 02:40 avec 4 étapes";
+
+/* Class = "UILabel"; text = "Import all as new"; ObjectID = "51X-Q2-OHI"; */
+"51X-Q2-OHI.text" = "Importer comme nouveau";
+
+/* Class = "UIBarButtonItem"; title = "Cancel"; ObjectID = "7pQ-gM-vt5"; */
+"7pQ-gM-vt5.title" = "Annuler";
+
+/* Class = "UILabel"; text = "Filter"; ObjectID = "7qs-c1-rUx"; */
+"7qs-c1-rUx.text" = "Filtre";
+
+/* Class = "UILabel"; text = "Merge options"; ObjectID = "EWO-P4-oM6"; */
+"EWO-P4-oM6.text" = "Options de fusion";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "FsR-EL-tcb"; */
+"FsR-EL-tcb.text" = "Label";
+
+/* Class = "UILabel"; text = "Applicable only when imported Routes are merged"; ObjectID = "HuS-rh-8QP"; */
+"HuS-rh-8QP.text" = "Applicable uniquement lorsque les routes importées sont fusionnées";
+
+/* Class = "UITextField"; placeholder = "Point of interests filter"; ObjectID = "JIg-ni-MAR"; */
+"JIg-ni-MAR.placeholder" = "Point d'interêts";
+
+/* Class = "UILabel"; text = "Import all as new"; ObjectID = "MCH-bC-y1O"; */
+"MCH-bC-y1O.text" = "Tout importer comme nouveau";
+
+/* Class = "UILabel"; text = "Import update"; ObjectID = "OOK-OE-2q1"; */
+"OOK-OE-2q1.text" = "Importer les mises à jour";
+
+/* Class = "UILabel"; text = "PoiDescription"; ObjectID = "Obl-wM-JyU"; */
+"Obl-wM-JyU.text" = "PoiDescription";
+
+/* Class = "UILabel"; text = "Imported points of interests are created as new else they will be merged with existing"; ObjectID = "PcO-63-oPa"; */
+"PcO-63-oPa.text" = "Les points d'interêts seront créés ou fusionnés";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "QAI-F1-vz3"; */
+"QAI-F1-vz3.text" = "Label";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "S7F-ia-vhT"; */
+"S7F-ia-vhT.text" = "Label";
+
+/* Class = "UILabel"; text = "Import route updates"; ObjectID = "Vfp-k6-vcO"; */
+"Vfp-k6-vcO.text" = "Importer les mises à jour d'itinéraires";
+
+/* Class = "UILabel"; text = "Applicable only when imported Point of Interests are merged"; ObjectID = "YNz-Mb-dmw"; */
+"YNz-Mb-dmw.text" = "Applicable uniquement lorsque les points d'interêts sont fusionnés";
+
+/* Class = "UILabel"; text = "Merge options"; ObjectID = "b4N-xz-EMU"; */
+"b4N-xz-EMU.text" = "Options de fusion";
+
+/* Class = "UILabel"; text = "Import new routes"; ObjectID = "gVn-Er-2Xy"; */
+"gVn-Er-2Xy.text" = "Importer les nouveaux itinéraires";
+
+/* Class = "UILabel"; text = "New"; ObjectID = "iTa-dr-7sY"; */
+"iTa-dr-7sY.text" = "Nouveaux";
+
+/* Class = "UITableViewSection"; headerTitle = "Point Of Interest"; ObjectID = "lax-OD-Rop"; */
+"lax-OD-Rop.headerTitle" = "Point d'interêt";
+
+/* Class = "UIBarButtonItem"; title = "Import"; ObjectID = "nZg-j7-qQB"; */
+"nZg-j7-qQB.title" = "Importer";
+
+/* Class = "UILabel"; text = "PoiName"; ObjectID = "qGJ-2d-bdo"; */
+"qGJ-2d-bdo.text" = "PoiName";
+
+/* Class = "UILabel"; text = "Versailles -> Reims"; ObjectID = "rBm-A5-0dM"; */
+"rBm-A5-0dM.text" = "Versailles -> Reims";
+
+/* Class = "UILabel"; text = "Import new"; ObjectID = "rxK-YA-Ri4"; */
+"rxK-YA-Ri4.text" = "Importer les nouveaux";
+
+/* Class = "UILabel"; text = "Route vers Reims"; ObjectID = "squ-6p-CQT"; */
+"squ-6p-CQT.text" = "Route vers Reims";

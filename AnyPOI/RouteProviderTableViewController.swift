@@ -198,7 +198,7 @@ extension RouteProviderTableViewController : SKStoreProductViewControllerDelegat
 extension RouteProviderTableViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return  "\(sourceLabel!) to \(targetLabel!)"
+        return  "\(sourceLabel!) ➜ \(targetLabel!)"
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {

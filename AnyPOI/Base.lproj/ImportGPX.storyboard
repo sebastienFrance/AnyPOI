@@ -293,63 +293,68 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="137.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="gQY-JB-WLA">
+                                                <stackView opaque="NO" contentMode="scaleToFill" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="6ml-lA-XTD">
                                                     <rect key="frame" x="16" y="11" width="343" height="116"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Merge options" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b4N-xz-EMU">
-                                                            <rect key="frame" x="0.0" y="0.0" width="343" height="21"/>
-                                                            <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
-                                                            <nil key="textColor"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                        <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="2S1-bW-Jw2">
-                                                            <rect key="frame" x="0.0" y="26" width="343" height="32.5"/>
+                                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="gQY-JB-WLA">
+                                                            <rect key="frame" x="0.0" y="0.0" width="343" height="112"/>
                                                             <subviews>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Import new routes" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gVn-Er-2Xy">
-                                                                    <rect key="frame" x="0.0" y="7.5" width="286" height="18"/>
-                                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Merge options" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b4N-xz-EMU">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="343" height="20.5"/>
+                                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
-                                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jVv-la-y7a">
-                                                                    <rect key="frame" x="294" y="1" width="51" height="31"/>
-                                                                    <connections>
-                                                                        <action selector="switchRouteMergeImportNew:" destination="ipi-Hr-rau" eventType="valueChanged" id="ZDL-JW-lg7"/>
-                                                                    </connections>
-                                                                </switch>
-                                                            </subviews>
-                                                        </stackView>
-                                                        <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="a5k-fu-pgD">
-                                                            <rect key="frame" x="0.0" y="63.5" width="343" height="32"/>
-                                                            <subviews>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Import route updates" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vfp-k6-vcO">
-                                                                    <rect key="frame" x="0.0" y="7" width="286" height="18"/>
-                                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
-                                                                    <nil key="textColor"/>
+                                                                <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="2S1-bW-Jw2">
+                                                                    <rect key="frame" x="0.0" y="25.5" width="343" height="31"/>
+                                                                    <subviews>
+                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Import new routes" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gVn-Er-2Xy">
+                                                                            <rect key="frame" x="0.0" y="6.5" width="286" height="18"/>
+                                                                            <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                                                                            <nil key="textColor"/>
+                                                                            <nil key="highlightedColor"/>
+                                                                        </label>
+                                                                        <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jVv-la-y7a">
+                                                                            <rect key="frame" x="294" y="0.0" width="51" height="31"/>
+                                                                            <connections>
+                                                                                <action selector="switchRouteMergeImportNew:" destination="ipi-Hr-rau" eventType="valueChanged" id="ZDL-JW-lg7"/>
+                                                                            </connections>
+                                                                        </switch>
+                                                                    </subviews>
+                                                                </stackView>
+                                                                <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="a5k-fu-pgD">
+                                                                    <rect key="frame" x="0.0" y="61.5" width="343" height="31"/>
+                                                                    <subviews>
+                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Import route updates" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vfp-k6-vcO">
+                                                                            <rect key="frame" x="0.0" y="6.5" width="286" height="18"/>
+                                                                            <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                                                                            <nil key="textColor"/>
+                                                                            <nil key="highlightedColor"/>
+                                                                        </label>
+                                                                        <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="acs-Ti-P2X">
+                                                                            <rect key="frame" x="294" y="0.0" width="51" height="31"/>
+                                                                            <connections>
+                                                                                <action selector="switchRouteMergeImportUpdate:" destination="ipi-Hr-rau" eventType="valueChanged" id="ON9-om-zER"/>
+                                                                            </connections>
+                                                                        </switch>
+                                                                    </subviews>
+                                                                </stackView>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Applicable only when imported Routes are merged" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HuS-rh-8QP">
+                                                                    <rect key="frame" x="0.0" y="97.5" width="343" height="14.5"/>
+                                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
+                                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
-                                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="acs-Ti-P2X">
-                                                                    <rect key="frame" x="294" y="0.5" width="51" height="31"/>
-                                                                    <connections>
-                                                                        <action selector="switchRouteMergeImportUpdate:" destination="ipi-Hr-rau" eventType="valueChanged" id="ON9-om-zER"/>
-                                                                    </connections>
-                                                                </switch>
                                                             </subviews>
                                                         </stackView>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Applicable only when imported Routes are merged" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HuS-rh-8QP">
-                                                            <rect key="frame" x="0.0" y="100.5" width="343" height="15.5"/>
-                                                            <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
-                                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
                                                     </subviews>
                                                 </stackView>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="gQY-JB-WLA" firstAttribute="leading" secondItem="DfE-z8-ARD" secondAttribute="leadingMargin" id="5UT-S0-Ycf"/>
-                                                <constraint firstItem="gQY-JB-WLA" firstAttribute="top" secondItem="DfE-z8-ARD" secondAttribute="topMargin" id="kfh-1A-xmk"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="gQY-JB-WLA" secondAttribute="bottom" id="qK8-YD-3yg"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="gQY-JB-WLA" secondAttribute="trailing" id="x3J-YU-DWc"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="6ml-lA-XTD" secondAttribute="trailing" id="5NY-GO-3Sc"/>
+                                                <constraint firstItem="6ml-lA-XTD" firstAttribute="leading" secondItem="DfE-z8-ARD" secondAttribute="leadingMargin" id="OLg-0g-ACr"/>
+                                                <constraint firstItem="6ml-lA-XTD" firstAttribute="top" secondItem="DfE-z8-ARD" secondAttribute="topMargin" id="Usm-gj-Dzh"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="6ml-lA-XTD" secondAttribute="bottom" id="n6k-1f-viP"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -427,11 +432,11 @@
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="4qH-hM-LlI">
                                                     <rect key="frame" x="16" y="11" width="343" height="63"/>
                                                     <subviews>
-                                                        <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="fia-z2-hA6">
+                                                        <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="fia-z2-hA6">
                                                             <rect key="frame" x="0.0" y="0.0" width="343" height="31"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Import all as new" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MCH-bC-y1O">
-                                                                    <rect key="frame" x="0.0" y="5.5" width="294" height="20.5"/>
+                                                                    <rect key="frame" x="0.0" y="5.5" width="286" height="20.5"/>
                                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
@@ -468,63 +473,68 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="154.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="LiR-qg-sOW">
+                                                <stackView opaque="NO" contentMode="scaleToFill" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="O9w-uq-VRS">
                                                     <rect key="frame" x="16" y="11" width="343" height="133"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Merge options" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EWO-P4-oM6">
-                                                            <rect key="frame" x="0.0" y="0.0" width="343" height="24.5"/>
-                                                            <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
-                                                            <nil key="textColor"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                        <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Bgc-cz-sIv">
-                                                            <rect key="frame" x="0.0" y="29.5" width="343" height="36.5"/>
+                                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="LiR-qg-sOW">
+                                                            <rect key="frame" x="0.0" y="0.0" width="343" height="112"/>
                                                             <subviews>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Import new" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rxK-YA-Ri4">
-                                                                    <rect key="frame" x="0.0" y="9.5" width="286" height="18"/>
-                                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Merge options" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EWO-P4-oM6">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="343" height="20.5"/>
+                                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
-                                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6Ba-Y2-FZf">
-                                                                    <rect key="frame" x="294" y="3" width="51" height="31"/>
-                                                                    <connections>
-                                                                        <action selector="switchPOIMergeImportNew:" destination="ipi-Hr-rau" eventType="valueChanged" id="yFG-i5-WMV"/>
-                                                                    </connections>
-                                                                </switch>
-                                                            </subviews>
-                                                        </stackView>
-                                                        <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="6g9-5X-9Fz">
-                                                            <rect key="frame" x="0.0" y="71" width="343" height="37"/>
-                                                            <subviews>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Import update" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OOK-OE-2q1">
-                                                                    <rect key="frame" x="0.0" y="9.5" width="286" height="18"/>
-                                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
-                                                                    <nil key="textColor"/>
+                                                                <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Bgc-cz-sIv">
+                                                                    <rect key="frame" x="0.0" y="25.5" width="343" height="31"/>
+                                                                    <subviews>
+                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Import new" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rxK-YA-Ri4">
+                                                                            <rect key="frame" x="0.0" y="6.5" width="286" height="18"/>
+                                                                            <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                                                                            <nil key="textColor"/>
+                                                                            <nil key="highlightedColor"/>
+                                                                        </label>
+                                                                        <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6Ba-Y2-FZf">
+                                                                            <rect key="frame" x="294" y="0.0" width="51" height="31"/>
+                                                                            <connections>
+                                                                                <action selector="switchPOIMergeImportNew:" destination="ipi-Hr-rau" eventType="valueChanged" id="yFG-i5-WMV"/>
+                                                                            </connections>
+                                                                        </switch>
+                                                                    </subviews>
+                                                                </stackView>
+                                                                <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="6g9-5X-9Fz">
+                                                                    <rect key="frame" x="0.0" y="61.5" width="343" height="31"/>
+                                                                    <subviews>
+                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Import update" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OOK-OE-2q1">
+                                                                            <rect key="frame" x="0.0" y="6.5" width="286" height="18"/>
+                                                                            <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                                                                            <nil key="textColor"/>
+                                                                            <nil key="highlightedColor"/>
+                                                                        </label>
+                                                                        <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Mc8-cQ-7aW">
+                                                                            <rect key="frame" x="294" y="0.0" width="51" height="31"/>
+                                                                            <connections>
+                                                                                <action selector="switchPOIMergeImportUpdate:" destination="ipi-Hr-rau" eventType="valueChanged" id="BSx-DK-upn"/>
+                                                                            </connections>
+                                                                        </switch>
+                                                                    </subviews>
+                                                                </stackView>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Applicable only when imported Point of Interests are merged" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YNz-Mb-dmw">
+                                                                    <rect key="frame" x="0.0" y="97.5" width="343" height="14.5"/>
+                                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
+                                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
-                                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Mc8-cQ-7aW">
-                                                                    <rect key="frame" x="294" y="3" width="51" height="31"/>
-                                                                    <connections>
-                                                                        <action selector="switchPOIMergeImportUpdate:" destination="ipi-Hr-rau" eventType="valueChanged" id="BSx-DK-upn"/>
-                                                                    </connections>
-                                                                </switch>
                                                             </subviews>
                                                         </stackView>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Applicable only when imported Point of Interests are merged" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YNz-Mb-dmw">
-                                                            <rect key="frame" x="0.0" y="113" width="343" height="20"/>
-                                                            <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
-                                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
                                                     </subviews>
                                                 </stackView>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="trailingMargin" secondItem="LiR-qg-sOW" secondAttribute="trailing" id="0if-5P-uYg"/>
-                                                <constraint firstItem="LiR-qg-sOW" firstAttribute="top" secondItem="12d-fk-iMV" secondAttribute="topMargin" id="6aK-qe-UXA"/>
-                                                <constraint firstItem="LiR-qg-sOW" firstAttribute="leading" secondItem="12d-fk-iMV" secondAttribute="leadingMargin" id="IQa-mR-9g7"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="LiR-qg-sOW" secondAttribute="bottom" id="LUs-GV-iah"/>
+                                                <constraint firstItem="O9w-uq-VRS" firstAttribute="leading" secondItem="12d-fk-iMV" secondAttribute="leadingMargin" id="GYN-Og-R2c"/>
+                                                <constraint firstItem="O9w-uq-VRS" firstAttribute="top" secondItem="12d-fk-iMV" secondAttribute="topMargin" id="Umz-f2-hAY"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="O9w-uq-VRS" secondAttribute="trailing" id="rly-9D-irc"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="O9w-uq-VRS" secondAttribute="bottom" id="yHK-nx-4MH"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
