@@ -2151,7 +2151,7 @@
 				DEVELOPMENT_TEAM = 7VVU8FW2ME;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = AnyPOINotificationContentExtension/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sebastien.AnyPOI.AnyPOINotificationContentExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2174,7 +2174,7 @@
 				DEVELOPMENT_TEAM = 7VVU8FW2ME;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = AnyPOINotificationContentExtension/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sebastien.AnyPOI.AnyPOINotificationContentExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
