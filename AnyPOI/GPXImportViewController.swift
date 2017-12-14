@@ -66,7 +66,9 @@ class GPXImportViewController: UIViewController {
             DispatchQueue.global(qos: .userInitiated).async {
                 // Background thread
                 let parser = GPXParser(url: self.gpxURL)
-                _ = parser.parse()
+                if !parser.parse() {
+                    NSLog("\(#function) Warning, error during the parsing!")
+                }
                 
                 // Remove the GPX file from the disk
                 do {

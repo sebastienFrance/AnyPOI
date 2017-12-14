@@ -1,6 +1,6 @@
 
 /* Class = "UITableViewSection"; headerTitle = "Route"; ObjectID = "2lW-7b-JW9"; */
-"2lW-7b-JW9.headerTitle" = "Route";
+"2lW-7b-JW9.headerTitle" = "Voyage";
 
 /* Class = "UILabel"; text = "New"; ObjectID = "3Nm-RX-zMA"; */
 "3Nm-RX-zMA.text" = "New";
@@ -27,7 +27,7 @@
 "FsR-EL-tcb.text" = "Label";
 
 /* Class = "UILabel"; text = "Applicable only when imported Routes are merged"; ObjectID = "HuS-rh-8QP"; */
-"HuS-rh-8QP.text" = "Applicable uniquement lorsque les routes importées sont fusionnées";
+"HuS-rh-8QP.text" = "Applicable uniquement lorsque les voyages importées sont fusionnées";
 
 /* Class = "UITextField"; placeholder = "Point of interests filter"; ObjectID = "JIg-ni-MAR"; */
 "JIg-ni-MAR.placeholder" = "Point d'interêts";
@@ -60,7 +60,7 @@
 "b4N-xz-EMU.text" = "Options de fusion";
 
 /* Class = "UILabel"; text = "Import new routes"; ObjectID = "gVn-Er-2Xy"; */
-"gVn-Er-2Xy.text" = "Importer les nouveaux itinéraires";
+"gVn-Er-2Xy.text" = "Importer les nouveaux voyages";
 
 /* Class = "UILabel"; text = "New"; ObjectID = "iTa-dr-7sY"; */
 "iTa-dr-7sY.text" = "Nouveaux";

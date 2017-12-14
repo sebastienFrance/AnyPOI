@@ -8,6 +8,17 @@
 
 import Foundation
 
+// String extension to remove special characters when used in XML
+extension String {
+    func toXML() -> String {
+        return replacingOccurrences(of: "&", with: "&amp;")
+    }
+    
+    func fromXML() -> String {
+        return replacingOccurrences(of: "&amp;", with: "&")
+    }
+}
+
 struct XMLRoot {
     let attributes:[String:String]
     let xmlContent:XMLElement
@@ -32,7 +43,9 @@ struct XMLElement {
     
     init(elementName: String, attributes:[String:String]) {
         self.elementName = elementName
-        self.attributes = attributes
+        
+        // Make sure all values are initialized with a valid XML string
+        self.attributes = attributes.mapValues() { $0.toXML() }
     }
     
     init(elementName: String) {
@@ -43,7 +56,7 @@ struct XMLElement {
     init(elementName: String, withValue:String) {
         self.elementName = elementName
         self.attributes = [String:String]()
-        self.value = withValue
+        self.value = withValue.toXML()
     }
     
     mutating func addSub(element:XMLElement) {

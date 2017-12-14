@@ -86,13 +86,16 @@ class GPXParser: NSObject, XMLParserDelegate {
             elementHierarchy += ".\(elementName)"
         }
 
+        // Convert the XML strings to a "normal" string, for example "&amp;" are converted to "&"
+        let attributesFromXML = attributeDict.mapValues() { $0.fromXML() }
+        
         isParsing = ParsingElement.OTHERS
 
         if elementHierarchy.hasPrefix(GPXParser.POI_PREFIX) {
             switch elementName {
             case XSD.GPX.Elements.WPT.name:
                 isParsing = .WPT
-                wptAttributes = attributeDict
+                wptAttributes = attributesFromXML
             case XSD.GPX.Elements.WPT.Elements.desc.name:
                 isParsing = .WPT_Desc
             case XSD.GPX.Elements.WPT.Elements.link.name:
@@ -103,13 +106,13 @@ class GPXParser: NSObject, XMLParserDelegate {
                 isParsing = .WPT_SYM
             case XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.name:
                 isParsing = .WPT_POI
-                poiAttributes = attributeDict
+                poiAttributes = attributesFromXML
             case XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.group.name:
                 isParsing = .WPT_GROUP
-                groupAttributes = attributeDict
+                groupAttributes = attributesFromXML
             case XSD.GPX.Elements.WPT.Elements.customExtension.Elements.poi.Elements.regionMonitoring.name:
                 isParsing = .WPT_REGION_MONITORING
-                regionMonitoringAttributes = attributeDict
+                regionMonitoringAttributes = attributesFromXML
             case XSD.GPX.name:
                 if let theCreator = attributeDict[XSD.GPX.Attributes.creator] {
                     creator = theCreator
@@ -124,7 +127,7 @@ class GPXParser: NSObject, XMLParserDelegate {
                 case XSD.GPX.Elements.RTE.Elements.rtept.Elements.WPT.name:
                     isParsing = .RTE_WPT
                     currentRouteWayPointAttribute = GPXRouteWayPointAtttributes()
-                    currentRouteWayPointAttribute!.routeWptAttributes = attributeDict
+                    currentRouteWayPointAttribute!.routeWptAttributes = attributesFromXML
                 case XSD.GPX.Elements.RTE.Elements.rtept.Elements.WPT.Elements.name.name:
                     isParsing = .RTE_WPT_Name
                 case XSD.GPX.Elements.RTE.Elements.rtept.Elements.WPT.Elements.customExtension.Elements.wayPoint.name:
@@ -133,7 +136,7 @@ class GPXParser: NSObject, XMLParserDelegate {
                         NSLog("\(#function) Warning, found WayPoint element without WPT!")
                         return
                     }
-                    currentRouteWayPointAttribute!.wayPointAttributes = attributeDict
+                    currentRouteWayPointAttribute!.wayPointAttributes = attributesFromXML
                     routeWayPoints?.append(currentRouteWayPointAttribute!)
                 default:
                     break
@@ -147,7 +150,7 @@ class GPXParser: NSObject, XMLParserDelegate {
                     isParsing = .RTE_NAME
                 case XSD.GPX.Elements.RTE.Elements.customExtension.Elements.route.name:
                     isParsing = .RTE_ROUTE
-                    routeAttributes = attributeDict
+                    routeAttributes = attributesFromXML
                 default:
                     break
                 }
@@ -169,14 +172,15 @@ class GPXParser: NSObject, XMLParserDelegate {
             newGPXPoi.poiAttributes = poiAttributes
             newGPXPoi.groupAttributes = groupAttributes
             newGPXPoi.regionMonitoringAttributes = regionMonitoringAttributes
-            newGPXPoi.poiDescription = poiDescription.trimmingCharacters(in: CharacterSet(charactersIn: "\n "))
-            newGPXPoi.poiLink = poiLink.trimmingCharacters(in: CharacterSet(charactersIn: "\n "))
-            newGPXPoi.poiName = poiName.trimmingCharacters(in: CharacterSet(charactersIn: "\n "))
-            newGPXPoi.poiSym = poiSym.trimmingCharacters(in: CharacterSet(charactersIn: "\n "))
+            newGPXPoi.poiDescription = poiDescription.trimmingCharacters(in: CharacterSet(charactersIn: "\n ")).fromXML()
+            newGPXPoi.poiLink = poiLink.trimmingCharacters(in: CharacterSet(charactersIn: "\n ")).fromXML()
+            newGPXPoi.poiName = poiName.trimmingCharacters(in: CharacterSet(charactersIn: "\n ")).fromXML()
+            newGPXPoi.poiSym = poiSym.trimmingCharacters(in: CharacterSet(charactersIn: "\n ")).fromXML()
             
             importedPOICounter += 1
             
             GPXPois.append(newGPXPoi)
+            
 
             wptAttributes = nil
             poiAttributes = nil
@@ -191,7 +195,7 @@ class GPXParser: NSObject, XMLParserDelegate {
             if elementHierarchy.hasPrefix(GPXParser.ROUTE_WPT_PREFIX) {
                 if elementName == XSD.GPX.Elements.RTE.Elements.rtept.Elements.WPT.Elements.name.name {
                     if currentRouteWayPointAttribute != nil {
-                        currentRouteWayPointAttribute?.poiName = wayPointName.trimmingCharacters(in: CharacterSet(charactersIn: "\n "))
+                        currentRouteWayPointAttribute?.poiName = wayPointName.trimmingCharacters(in: CharacterSet(charactersIn: "\n ")).fromXML()
                         wayPointName = ""
                     } else {
                         NSLog("\(#function) cannot find wayPoint to initialize its name!")
@@ -201,7 +205,7 @@ class GPXParser: NSObject, XMLParserDelegate {
                 let newGPXRoute = GPXRoute()
                 newGPXRoute.routeAttributes = routeAttributes
                 newGPXRoute.routeWayPoints = routeWayPoints
-                newGPXRoute.routeName = routeName.trimmingCharacters(in: CharacterSet(charactersIn: "\n "))
+                newGPXRoute.routeName = routeName.trimmingCharacters(in: CharacterSet(charactersIn: "\n ")).fromXML()
                 
                 importedRouteCounter += 1
                 
@@ -211,8 +215,8 @@ class GPXParser: NSObject, XMLParserDelegate {
                 routeWayPoints = nil
                 routeName = ""
             }
-            
         }
+        
         
         if let range = elementHierarchy.range(of: ".", options: .backwards) {
             elementHierarchy = String(elementHierarchy[..<range.lowerBound])
