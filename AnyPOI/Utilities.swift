@@ -52,10 +52,6 @@ class Utilities {
         return vc
     }
     
-    static func showAlertMaxPOI(viewController: UIViewController) {
-        let fullMessage = String(format: NSLocalizedString("To create more than %d Point of Interest you need to purchase an In-App", comment: ""), MapViewController.MAX_POI_WITHOUT_LICENSE)
-        Utilities.showAlertMessage(viewController, title: NSLocalizedString("Error", comment: ""), message: fullMessage)
-    }
 
     static func showAlertMessage(_ viewController: UIViewController, title:String, message:String) {
         // Show that nothing was found for this search

@@ -148,7 +148,6 @@
 		BE64936E1FBA26ED007CC98F /* CategoryUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2AD1D8B209A00344F8A /* CategoryUtils.swift */; };
 		BE64936F1FBA26FA007CC98F /* CommonAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BEABBEF51F97D08300B39EA4 /* CommonAssets.xcassets */; };
 		BE6493711FBA28D9007CC98F /* ColorsUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2E61D8B209A00344F8A /* ColorsUtils.swift */; };
-		BE6B3F8B1FCC1CFA000EAA2F /* PurchaseInApp.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE6B3F8A1FCC1CFA000EAA2F /* PurchaseInApp.storyboard */; };
 		BE6B3F8D1FCC1D78000EAA2F /* LeftMenuAndHelper.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE6B3F8C1FCC1D78000EAA2F /* LeftMenuAndHelper.storyboard */; };
 		BE713DFF1FACF19800C7407A /* WatchSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE713DFE1FACF19800C7407A /* WatchSessionManager.swift */; };
 		BE713E021FADAC8E00C7407A /* WatchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE713E011FADAC8E00C7407A /* WatchDataSource.swift */; };
@@ -242,8 +241,6 @@
 		BEF580AB1DD8777D00306597 /* MapCategoryFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF580AA1DD8777D00306597 /* MapCategoryFilter.swift */; };
 		BEF5D2771F9B93D300C8EE1D /* WatchSessionMgr.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF5D2761F9B93D300C8EE1D /* WatchSessionMgr.swift */; };
 		BEF5D3581E6473C600941BAF /* ProductIds.plist in Resources */ = {isa = PBXBuildFile; fileRef = BEF5D3571E6473C600941BAF /* ProductIds.plist */; };
-		BEF5D35D1E64908F00941BAF /* PurchaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF5D35C1E64908F00941BAF /* PurchaseViewController.swift */; };
-		BEF5D35F1E6493F600941BAF /* PurchaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF5D35E1E6493F600941BAF /* PurchaseTableViewCell.swift */; };
 		BEFBDEFE1F291630000B350B /* UtilitiesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEFBDEFD1F291630000B350B /* UtilitiesTests.swift */; };
 		BEFBDF001F29279E000B350B /* CategoryUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEFBDEFF1F29279E000B350B /* CategoryUtilsTests.swift */; };
 		BEFBDF021F2930BD000B350B /* ColorsUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEFBDF011F2930BD000B350B /* ColorsUtilsTests.swift */; };
@@ -476,7 +473,6 @@
 		BE6493611FBA22EF007CC98F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BE6493681FBA241C007CC98F /* CommonNotificationUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonNotificationUtils.swift; sourceTree = "<group>"; };
 		BE64936A1FBA257A007CC98F /* NotifPointOfInterest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotifPointOfInterest.swift; sourceTree = "<group>"; };
-		BE6B3F8A1FCC1CFA000EAA2F /* PurchaseInApp.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = PurchaseInApp.storyboard; sourceTree = "<group>"; };
 		BE6B3F8C1FCC1D78000EAA2F /* LeftMenuAndHelper.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LeftMenuAndHelper.storyboard; sourceTree = "<group>"; };
 		BE6D103A1F7FAD8F007A35FA /* AnyPOIWatch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AnyPOIWatch.entitlements; sourceTree = "<group>"; };
 		BE6D103B1F7FAF6F007A35FA /* AnyPOIWatch Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "AnyPOIWatch Extension.entitlements"; sourceTree = "<group>"; };
@@ -572,8 +568,6 @@
 		BEF580AA1DD8777D00306597 /* MapCategoryFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapCategoryFilter.swift; sourceTree = "<group>"; };
 		BEF5D2761F9B93D300C8EE1D /* WatchSessionMgr.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSessionMgr.swift; sourceTree = "<group>"; };
 		BEF5D3571E6473C600941BAF /* ProductIds.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = ProductIds.plist; sourceTree = "<group>"; };
-		BEF5D35C1E64908F00941BAF /* PurchaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PurchaseViewController.swift; sourceTree = "<group>"; };
-		BEF5D35E1E6493F600941BAF /* PurchaseTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PurchaseTableViewCell.swift; sourceTree = "<group>"; };
 		BEFBDEFD1F291630000B350B /* UtilitiesTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UtilitiesTests.swift; sourceTree = "<group>"; };
 		BEFBDEFF1F29279E000B350B /* CategoryUtilsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryUtilsTests.swift; sourceTree = "<group>"; };
 		BEFBDF011F2930BD000B350B /* ColorsUtilsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorsUtilsTests.swift; sourceTree = "<group>"; };
@@ -757,7 +751,6 @@
 			children = (
 				BE23843D1FDF183C00359CA6 /* POIDetails.storyboard */,
 				BE6B3F8C1FCC1D78000EAA2F /* LeftMenuAndHelper.storyboard */,
-				BE6B3F8A1FCC1CFA000EAA2F /* PurchaseInApp.storyboard */,
 				BEC6F5A11FE0692600617613 /* Routes.storyboard */,
 				BEC6F5971FDFF27200617613 /* ImportGPX.storyboard */,
 				BE2FF2C41D8B280B00C0395A /* CallOutAccessoryView.xib */,
@@ -986,7 +979,6 @@
 				BE2FF2D61D8B2CCF00C0395A /* GroupListVC */,
 				BE2FF2D71D8B2D0C00C0395A /* RoutesVC */,
 				BE2FF2DE1D8B2F8600C0395A /* OptionsVC */,
-				BEF5D35B1E64905600941BAF /* PurchaseVC */,
 				BE0CF29F1D8B209A00344F8A /* ContainerViewController.swift */,
 				BEE1C6071FC0819000D8EF6D /* Debug */,
 			);
@@ -1330,15 +1322,6 @@
 			name = Watch;
 			sourceTree = "<group>";
 		};
-		BEF5D35B1E64905600941BAF /* PurchaseVC */ = {
-			isa = PBXGroup;
-			children = (
-				BEF5D35C1E64908F00941BAF /* PurchaseViewController.swift */,
-				BEF5D35E1E6493F600941BAF /* PurchaseTableViewCell.swift */,
-			);
-			name = PurchaseVC;
-			sourceTree = "<group>";
-		};
 		BEFDA7D91DE9C98D00D3104D /* GPX */ = {
 			isa = PBXGroup;
 			children = (
@@ -1637,7 +1620,6 @@
 				BE2FF2C91D8B280B00C0395A /* CallOutAccessoryView.xib in Resources */,
 				BE5FE2901E81B849007128DF /* Launch Screen.storyboard in Resources */,
 				BE4A880C1D93137900A0DE2F /* Localizable.strings in Resources */,
-				BE6B3F8B1FCC1CFA000EAA2F /* PurchaseInApp.storyboard in Resources */,
 				BEA7BAA91D8B01E5005D2D21 /* Assets.xcassets in Resources */,
 				BE23843B1FDF183C00359CA6 /* POIDetails.storyboard in Resources */,
 				BE1BAF061FB0E9A70077F78F /* Categories.strings in Resources */,
@@ -1817,7 +1799,6 @@
 				BE0CF33A1D8B209A00344F8A /* PoiDetailsImagesTableViewCell.swift in Sources */,
 				BE0CF3151D8B209A00344F8A /* MonitoredPoisGroupCell.swift in Sources */,
 				BE90C7B61DA166A800033DC9 /* RouteProviderWithTransportTypeTableViewCell.swift in Sources */,
-				BEF5D35D1E64908F00941BAF /* PurchaseViewController.swift in Sources */,
 				BE9440221F71A03500115BF3 /* POIsDataSource.swift in Sources */,
 				BE2A80281E13C48A003B1BE5 /* GPXRouteWayPointAttributes.swift in Sources */,
 				BE0CF2FF1D8B209A00344F8A /* ContactTableViewCell.swift in Sources */,
@@ -1854,7 +1835,6 @@
 				BE1BA9B61F6571C6001B6512 /* GroupOfInterest+CoreDataProperties.swift in Sources */,
 				BE0CF3501D8B209A00344F8A /* CategoryCollectionViewCell.swift in Sources */,
 				BE0CF32A1D8B209A00344F8A /* WikipediaRequest.swift in Sources */,
-				BEF5D35F1E6493F600941BAF /* PurchaseTableViewCell.swift in Sources */,
 				BE0CF3131D8B209A00344F8A /* LocalSearchTableViewCell.swift in Sources */,
 				BE0CF3041D8B209A00344F8A /* MapUtils.swift in Sources */,
 				BE957E611DA90147006CF455 /* WikipediaSliderTableViewCell.swift in Sources */,

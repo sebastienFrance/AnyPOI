@@ -368,9 +368,7 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
         }
         
         // Attach a GPX file containing the description of the POI
-        if UserPreferences.sharedInstance.isAnyPoiUnlimited {
-            activityItems.append(GPXActivityItemSource(pois: [poi]))
-        }
+        activityItems.append(GPXActivityItemSource(pois: [poi]))
         
         
         let activityController = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
@@ -663,23 +661,19 @@ extension POIDetailsViewController : UITableViewDataSource, UITableViewDelegate 
     ///   - indexPath: index of the selected row
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == Sections.wikipedia {
-            if MapViewController.isAddPoiAuthorized() {
-                let wikipedia = poi.wikipedias[indexPath.row]
-                
-                
-                let poiOfWiki = POIDataManager.sharedInstance.findPOIWith(wikipedia)
-                if poiOfWiki == nil {
-                    _ = POIDataManager.sharedInstance.addPOI(wikipedia, group:poi.parentGroup!)
-                }
-                
-                NotificationCenter.default.post(name: Notification.Name(rawValue: MapViewController.MapNotifications.showWikipedia),
-                                                object: wikipedia,
-                                                userInfo: [MapViewController.MapNotifications.showPOI_Parameter_Wikipedia: wikipedia])
-                ContainerViewController.sharedInstance.goToMap()
-            } else {
-                Utilities.showAlertMaxPOI(viewController: self)
+            let wikipedia = poi.wikipedias[indexPath.row]
+            
+            
+            let poiOfWiki = POIDataManager.sharedInstance.findPOIWith(wikipedia)
+            if poiOfWiki == nil {
+                _ = POIDataManager.sharedInstance.addPOI(wikipedia, group:poi.parentGroup!)
             }
-
+            
+            NotificationCenter.default.post(name: Notification.Name(rawValue: MapViewController.MapNotifications.showWikipedia),
+                                            object: wikipedia,
+                                            userInfo: [MapViewController.MapNotifications.showPOI_Parameter_Wikipedia: wikipedia])
+            ContainerViewController.sharedInstance.goToMap()
+            
         } else if indexPath.section == Sections.mapViewAndPhotos && indexPath.row == 0 {
             NotificationCenter.default.post(name: Notification.Name(rawValue: MapViewController.MapNotifications.showPOI),
                                                                       object: nil,

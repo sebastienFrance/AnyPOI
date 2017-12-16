@@ -349,6 +349,18 @@ class POIDataManager {
      
     }
 
+    var numberOfPOIs:Int {
+        let managedContext = DatabaseAccess.sharedInstance.managedObjectContext
+        let fetchRequest = NSFetchRequest<PointOfInterest>(entityName: entitiesCste.pointOfInterest)
+        
+        do {
+            return try managedContext.count(for: fetchRequest)
+        } catch let error as NSError {
+            NSLog("\(#function) cannot count the number of POIs! \(error.localizedDescription)")
+            return -1
+        }
+    }
+    
     func getAllPOI() -> [PointOfInterest] {
         let managedContext = DatabaseAccess.sharedInstance.managedObjectContext
         let fetchRequest = NSFetchRequest<PointOfInterest>(entityName: entitiesCste.pointOfInterest)

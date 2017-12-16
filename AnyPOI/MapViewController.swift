@@ -18,8 +18,6 @@ import Contacts
 
 class MapViewController: UIViewController, SearchControllerDelegate, ContainerViewControllerDelegate {
 
-    static let MAX_POI_WITHOUT_LICENSE = 15
-
     //MARK: var Information view
     @IBOutlet weak var thirdActionBarStackView: UIStackView!
     @IBOutlet weak var fromToLabel: UILabel!
@@ -168,11 +166,7 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
     ///
     /// - Parameter gpx: URL of the GPX file
     func importFile(gpx:URL) {
-        if UserPreferences.sharedInstance.isAnyPoiUnlimited {
-            performSegue(withIdentifier: storyboard.showGPXImportId, sender: gpx)
-        } else {
-            Utilities.showAlertMessage(self, title: NSLocalizedString("GPXImport", comment: ""), message: NSLocalizedString("NeedInAppPurchaseToUseFeature", comment: ""))
-        }
+        performSegue(withIdentifier: storyboard.showGPXImportId, sender: gpx)
     }
     
     
@@ -343,9 +337,7 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
             var activityItems:[UIActivityItemSource] = [mailActivity]
 
             // Append a GPX file with the content of the route
-            if UserPreferences.sharedInstance.isAnyPoiUnlimited {
-                activityItems.append(GPXActivityItemSource(route: [routeDatasource.theRoute]))
-            }
+            activityItems.append(GPXActivityItemSource(route: [routeDatasource.theRoute]))
             
             // Append an image with the map
             if let image = mapImage() {
@@ -1050,11 +1042,6 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
         }
     }
     
-    
-    static func isAddPoiAuthorized() -> Bool {
-        return UserPreferences.sharedInstance.isAnyPoiUnlimited || POIDataManager.sharedInstance.getAllPOI().count < MapViewController.MAX_POI_WITHOUT_LICENSE
-    }
-
     // MARK: Map Gestures 
     
     
@@ -1064,26 +1051,22 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
     @IBAction func handleLongPressGesture(_ sender: UILongPressGestureRecognizer) {
         switch (sender.state) {
         case .ended:
-            if MapViewController.isAddPoiAuthorized() {
-                
-                if #available(iOS 10.0, *) {
-                    let feedbackGenerator = UIImpactFeedbackGenerator.init(style: .medium)
-                    feedbackGenerator.impactOccurred()
-                } else {
-                    // Fallback on earlier versions
-                }
-                
-                // Add the new POI in database
-                // The Poi will be added on the Map thanks to DB notifications
-                let coordinates = theMapView.convert(sender.location(in: theMapView), toCoordinateFrom: theMapView)
-                let addedPoi = POIDataManager.sharedInstance.addPOI(coordinates: coordinates)
-                
-                if isRouteMode {
-                    // Add the POI as a new WayPoint in the route
-                    routeManager?.add(poi:addedPoi)
-                }
+            
+            if #available(iOS 10.0, *) {
+                let feedbackGenerator = UIImpactFeedbackGenerator.init(style: .medium)
+                feedbackGenerator.impactOccurred()
             } else {
-                Utilities.showAlertMaxPOI(viewController:self)
+                // Fallback on earlier versions
+            }
+            
+            // Add the new POI in database
+            // The Poi will be added on the Map thanks to DB notifications
+            let coordinates = theMapView.convert(sender.location(in: theMapView), toCoordinateFrom: theMapView)
+            let addedPoi = POIDataManager.sharedInstance.addPOI(coordinates: coordinates)
+            
+            if isRouteMode {
+                // Add the POI as a new WayPoint in the route
+                routeManager?.add(poi:addedPoi)
             }
         default:
             break

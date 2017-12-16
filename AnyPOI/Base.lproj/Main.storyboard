@@ -992,15 +992,7 @@
                 <viewControllerPlaceholder storyboardIdentifier="Routes" storyboardName="Routes" referencedIdentifier="Routes" id="q5N-fE-DuG" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pYZ-pd-oCv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="526" y="19"/>
-        </scene>
-        <!--PurchaseViewControllerId-->
-        <scene sceneID="yV3-rA-FOl">
-            <objects>
-                <viewControllerPlaceholder storyboardIdentifier="PurchaseViewControllerId" storyboardName="PurchaseInApp" referencedIdentifier="PurchaseViewControllerId" id="fCA-vW-MeD" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="hvo-Fm-Vtu" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="618" y="-19"/>
+            <point key="canvasLocation" x="524" y="23"/>
         </scene>
         <!--HelperViewControllerId-->
         <scene sceneID="xQE-BS-nRw">
@@ -1016,7 +1008,7 @@
                 <viewControllerPlaceholder storyboardIdentifier="LeftMenuViewControllerId" storyboardName="LeftMenuAndHelper" referencedIdentifier="LeftMenuViewControllerId" id="0ac-s7-nKe" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QNe-Y9-W7r" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="620" y="-62"/>
+            <point key="canvasLocation" x="617" y="-25"/>
         </scene>
     </scenes>
     <resources>

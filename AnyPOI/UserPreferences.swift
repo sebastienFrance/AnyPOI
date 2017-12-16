@@ -42,7 +42,6 @@ class UserPreferences {
         static let AuthenticationPasswordEnabled = "AuthenticationPasswordEnabled"
         static let AuthenticationPassword = "AuthenticationPassword"
         
-        static let AnyPoiUnlimited = "AnyPoiUnlimited"
         static let firstStartup = "firstStartup"
         
         static let TestParameter = "Test"
@@ -59,7 +58,6 @@ class UserPreferences {
             userDefaults.setValue("test", forKey: keys.TestParameter)
             
             isFirstStartup = true
-            isAnyPoiUnlimited = true
             
             mapMode = .standard
             mapShowTraffic = true
@@ -105,16 +103,6 @@ class UserPreferences {
         }
         set {
             UserDefaults.standard.set(newValue, forKey: keys.Flyover360Enabled)
-        }
-    }
-    
-    var isAnyPoiUnlimited:Bool {
-        get {
-            //return true
-            return UserDefaults.standard.bool(forKey: keys.AnyPoiUnlimited)
-        }
-        set {
-            UserDefaults.standard.set(newValue, forKey: keys.AnyPoiUnlimited)
         }
     }
     

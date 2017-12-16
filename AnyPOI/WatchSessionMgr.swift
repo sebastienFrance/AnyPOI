@@ -220,7 +220,9 @@ class WatchSessionManager: NSObject, WCSessionDelegate {
             refreshWatchApp()
             LocationManager.sharedInstance.addDebugLocationUpdate(sourceUpdate: "sessionWatchStateDidChange", watchAppReachableBefore: debugWatchAppReachableBefore)
             
-            LocationManager.sharedInstance.requestAlwaysAuthorization()
+            if POIDataManager.sharedInstance.numberOfPOIs > 0 {
+                LocationManager.sharedInstance.requestAlwaysAuthorization()
+            }
             LocationManager.sharedInstance.startLocationUpdateForWatchApp()
         } else {
             LocationManager.sharedInstance.stopLocationUpdateForWatchApp()

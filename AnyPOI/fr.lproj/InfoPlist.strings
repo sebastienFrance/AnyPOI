@@ -7,8 +7,8 @@
 */
 "NSCalendarsUsageDescription"="Pour créer des événements géo-localisées dans votre calendrier.";
 "NSContactsUsageDescription"="Pour importer vos contacts comme point d'intérêts.";
-"NSLocationAlwaysAndWhenInUsageDescription"="L'Apple Watch utilise vôtre position pour afficher les points d'intérêts à proximité lors de vos déplacements. Cela permet aussi de vous notifier lorsque vous approchez ou éloignez d'un point d'intérêts.";
-"NSLocationWhenInUseUsageDescription"="Utilisé pour montrer votre position sur la carte ainsi que les points d'interets à proximité sur l'Apple Watch.";
+"NSLocationAlwaysAndWhenInUseUsageDescription"="Pour afficher sur l'Apple Watch les points d'intérêts. Cela permet aussi d'être notifié lorsque vous êtes à proximité des points d'intérêts que vous surveillez.";
+"NSLocationWhenInUseUsageDescription"="Pour afficher votre position sur la carte et vos points d'interets sur l'Apple Watch.";
 "NSPhotoLibraryUsageDescription"="Pour afficher vos photos à proximité d'un point d'intérêt.";
 "SHORTCUT_ADD_CURRENT_LOCATION"="Créer un POI sur vôtre position";
 "SHORTCUT_SEARCH_POI"="Rechercher des points d'intérêts";

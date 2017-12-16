@@ -273,15 +273,9 @@
                                                             </subviews>
                                                         </stackView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="750" verticalCompressionResistancePriority="749" text="Import your contacts from Apple's Contacts App. " lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wCw-kb-LrG">
-                                                            <rect key="frame" x="0.0" y="38" width="343" height="18"/>
+                                                            <rect key="frame" x="0.0" y="38" width="343" height="56"/>
                                                             <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="In-App purchase required" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OM8-IP-CBB">
-                                                            <rect key="frame" x="0.0" y="61" width="343" height="33"/>
-                                                            <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
-                                                            <color key="textColor" red="0.98039215690000003" green="0.066666666669999999" blue="0.30980392159999998" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
@@ -348,10 +342,10 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="HkE-dU-Fft">
-                                                    <rect key="frame" x="8" y="11" width="359" height="80"/>
+                                                    <rect key="frame" x="0.0" y="11" width="0.0" height="80"/>
                                                     <subviews>
                                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="hTu-eM-ptW">
-                                                            <rect key="frame" x="0.0" y="0.0" width="359" height="34"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="0.0" height="34"/>
                                                             <subviews>
                                                                 <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eRn-me-nV9">
                                                                     <rect key="frame" x="0.0" y="0.0" width="78" height="34"/>
@@ -364,13 +358,13 @@
                                                             </subviews>
                                                         </stackView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Export all your points of interests and travels. " lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DOp-bc-coI">
-                                                            <rect key="frame" x="0.0" y="39" width="359" height="18"/>
+                                                            <rect key="frame" x="0.0" y="39" width="0.0" height="18"/>
                                                             <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="In-App purchase required" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ptv-Pz-rXb">
-                                                            <rect key="frame" x="0.0" y="62" width="359" height="18"/>
+                                                            <rect key="frame" x="0.0" y="62" width="0.0" height="18"/>
                                                             <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                                             <color key="textColor" red="0.98039215690000003" green="0.066666666669999999" blue="0.30980392159999998" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
@@ -511,7 +505,6 @@
                         <outlet property="synchronizationContactsActivity" destination="sJb-OR-sbZ" id="dj8-Yb-cyt"/>
                         <outlet property="synchronizationContactsProgressLabel" destination="d0s-8Z-SPW" id="Z3b-6H-DXH"/>
                         <outlet property="synchronizeContactsButton" destination="2iZ-K2-671" id="6mH-p9-l49"/>
-                        <outlet property="synchronizeContactsPurchaseLabel" destination="OM8-IP-CBB" id="p7u-He-PAN"/>
                         <outlet property="wikiDistanceAndResults" destination="qVY-Vf-Tgr" id="4b8-LF-5S9"/>
                         <outlet property="wikiLanguage" destination="YxM-CF-PzU" id="ShY-NF-bWS"/>
                     </connections>

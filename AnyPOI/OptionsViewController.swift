@@ -46,7 +46,6 @@ class OptionsViewController: UITableViewController, PasswordConfigurationDelegat
     @IBOutlet weak var changePasswordButton: UIButton!
     
   
-    @IBOutlet weak var synchronizeContactsPurchaseLabel: UILabel!
     @IBOutlet weak var synchronizeContactsButton: UIButton!
     @IBOutlet weak var synchronizationContactsProgressLabel: UILabel!
     @IBOutlet weak var synchronizationContactsActivity: UIActivityIndicatorView!
@@ -96,20 +95,13 @@ class OptionsViewController: UITableViewController, PasswordConfigurationDelegat
         
         NotificationCenter.default.addObserver(self, selector: #selector(OptionsViewController.contactsSynchronizationDone(_:)), name:  Notification.Name(rawValue: ContactsSynchronization.Notifications.synchronizationDone), object: ContactsSynchronization.sharedInstance)
         NotificationCenter.default.addObserver(self, selector: #selector(OptionsViewController.contactsSynchronizationUpdate(_:)), name:  Notification.Name(rawValue: ContactsSynchronization.Notifications.sycnhronizationUpdate), object: ContactsSynchronization.sharedInstance)
-        NotificationCenter.default.addObserver(self, selector: #selector(OptionsViewController.productPurchased(_:)), name:  Notification.Name(rawValue: AppDelegate.Notifications.purchasedProduct), object: UIApplication.shared.delegate)
 
         synchronizationContactsProgressLabel.text = ""
         
-        if UserPreferences.sharedInstance.isAnyPoiUnlimited {
-            synchronizeContactsPurchaseLabel.isHidden = true
-            exportAllDataPurchaseLabel.isHidden = true
-            if ContactsSynchronization.sharedInstance.isSynchronizing {
-                synchronizeContactsButton.isEnabled = false
-                synchronizationContactsActivity.startAnimating()
-            }
-        } else {
+        exportAllDataPurchaseLabel.isHidden = true
+        if ContactsSynchronization.sharedInstance.isSynchronizing {
             synchronizeContactsButton.isEnabled = false
-            exportAllData.isEnabled = false
+            synchronizationContactsActivity.startAnimating()
         }
     }
     
@@ -119,14 +111,6 @@ class OptionsViewController: UITableViewController, PasswordConfigurationDelegat
         // Make the height takes into account the safe area (especially for iPhone X)
         view.frame.size = CGSize(width: view.frame.width, height: view.frame.height - view.safeAreaInsets.bottom)
     }
-    
-    @objc func productPurchased(_ notification:Notification) {
-        synchronizeContactsButton.isEnabled = true
-        synchronizeContactsPurchaseLabel.isHidden = true
-        exportAllData.isEnabled = true
-        exportAllDataPurchaseLabel.isHidden = true
-    }
-
     
     @objc func contactsSynchronizationDone(_ notification:Notification) {
         synchronizeContactsButton.isEnabled = true

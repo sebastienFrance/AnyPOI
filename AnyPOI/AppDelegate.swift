@@ -40,10 +40,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     
-    struct Notifications {
-        // This notification is sent only when the product has been successfully purchased
-        static let purchasedProduct = "purchasedProduct"
-    }
 
     struct DebugInfo {
 
@@ -93,8 +89,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if userAuthentication == nil {
             userAuthentication = UserAuthentication(delegate: self)
         }
-        
-        //SKPaymentQueue.default().add(self)
         
         // Register local notification (alert & sound)
         // They are used to notify the user when entering/exiting a monitored region
@@ -279,8 +273,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         // Saves changes in the application's managed object context before the application terminates.
         DatabaseAccess.sharedInstance.saveContext()
-        
-        SKPaymentQueue.default().remove(self)
     }
     
     
@@ -324,12 +316,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
                 if let userCoordinate = LocationManager.sharedInstance.locationManager?.location?.coordinate {
                     mapController.showLocationOnMap(userCoordinate)
-                    if MapViewController.isAddPoiAuthorized() {
-                        let addedPOI = mapController.addPoiOnOnMapLocation(userCoordinate)
-                        mapController.selectPoiOnMap(addedPOI)
-                    } else {
-                        Utilities.showAlertMaxPOI(viewController:mapController)
-                    }
+                    let addedPOI = mapController.addPoiOnOnMapLocation(userCoordinate)
+                    mapController.selectPoiOnMap(addedPOI)
                 } else {
                     Utilities.showAlertMessage(mapController, title: NSLocalizedString("Warning", comment: ""), message: NSLocalizedString("UserLocationNotAvailableAppDelegate", comment: ""))
                 }
@@ -443,60 +431,6 @@ extension AppDelegate {
 
 }
 
-extension AppDelegate: SKPaymentTransactionObserver {
-    
-    func paymentQueueRestoreCompletedTransactionsFinished(_ queue: SKPaymentQueue) {
-        
-        
-        NSLog("received restored transactions: \(queue.transactions.count)")
-        for transaction in queue.transactions {
-            if transaction.transactionState == .restored {
-                //called when the user successfully restores a purchase
-                NSLog("\(#function) Transaction state -> Restored")
-
-                UserPreferences.sharedInstance.isAnyPoiUnlimited = true
-                SKPaymentQueue.default().finishTransaction(transaction)
-                
-                if let vc = Utilities.getCurrentViewController() {
-                    Utilities.showAlertMessage(vc, title: NSLocalizedString("Warning", comment: ""), message:  NSLocalizedString("PurchaseRestored", comment: ""))
-                }
-                
-                break;
-            }
-        }
-    }
-    
-    
-    func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
-        
-        for transaction in transactions {
-            switch transaction.transactionState {
-            case .purchasing: NSLog("\(#function) Transaction state -> Purchasing")
-            //called when the user is in the process of purchasing, do not add any of your own code here.
-            case .purchased:
-                //this is called when the user has successfully purchased the package (Cha-Ching!)
-                UserPreferences.sharedInstance.isAnyPoiUnlimited = true
-                SKPaymentQueue.default().finishTransaction(transaction)
-                NSLog("\(#function) Transaction state -> Purchased")
-                NotificationCenter.default.post(name: NSNotification.Name(rawValue: Notifications.purchasedProduct), object: self)
-            case .restored:
-                NSLog("\(#function) Transaction state -> Restored")
-                //add the same code as you did from SKPaymentTransactionStatePurchased here
-                UserPreferences.sharedInstance.isAnyPoiUnlimited = true
-                SKPaymentQueue.default().finishTransaction(transaction)
-                NotificationCenter.default.post(name: NSNotification.Name(rawValue: Notifications.purchasedProduct), object: self)
-            case .failed:
-                if let error = transaction.error {
-                    NSLog("\(#function) transaction has failed with \(error.localizedDescription)")
-                }
-                SKPaymentQueue.default().finishTransaction(transaction)
-            case .deferred:
-                // The transaction is in the queue, but its final status is pending external action.
-                NSLog("\(#function) Transaction state -> Deferred")
-            }
-        }
-    }
-}
 
 extension AppDelegate: UNUserNotificationCenterDelegate {
 

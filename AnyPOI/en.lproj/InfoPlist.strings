@@ -7,8 +7,8 @@
 */
 "NSCalendarsUsageDescription"="To create geo-localized events to your calendar.";
 "NSContactsUsageDescription"="To create Point Of Interests for your contacts.";
-"NSLocationAlwaysAndWhenInUsageDescription"="Used by the Apple Watch to show Point of Interests based on your location when your are moving. It's also used to warn you when approaching or leaving a monitored Point of Interest.";
-"NSLocationWhenInUseUsageDescription"="Used to show your position on the map and to display on the Apple Watch Point of Interests around your location.";
+"NSLocationAlwaysAndWhenInUseUsageDescription"="To display on Apple Watch your point of interests. It's also used to get notifications when your are near Point of Interests your are monitoring.";
+"NSLocationWhenInUseUsageDescription"="To show your position on the map and to display on the Apple Watch Point of Interests around your location.";
 "NSPhotoLibraryUsageDescription"="To show your photos near your Point Of Interests.";
 "SHORTCUT_ADD_CURRENT_LOCATION"="Add POI for current location";
 "SHORTCUT_SEARCH_POI"="Search Points of Interests";
