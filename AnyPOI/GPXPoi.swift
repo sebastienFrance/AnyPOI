@@ -209,6 +209,10 @@ class GPXPoi {
                 restorePoi.poiWikipediaPageId = wikipediaId
             }
             
+            if !poiLink.isEmpty {
+                restorePoi.poiURL = poiLink
+            }
+            
             // Configure the Region monitoring of the imported POI
             configureRegionMonitoring(poi: restorePoi)
             

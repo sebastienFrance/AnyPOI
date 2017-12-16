@@ -864,8 +864,7 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
         
         let isAlways = LocationManager.sharedInstance.isAlwaysLocationAuthorized
         for currentOverlay in theMapView.overlays {
-            if let circle = currentOverlay as? MKCircle {
-                let circleRenderer = theMapView.renderer(for: circle) as! MKCircleRenderer
+            if let circle = currentOverlay as? MKCircle, let circleRenderer = theMapView.renderer(for: circle) as? MKCircleRenderer {
                 MapUtils.updateRegioMonitoring(renderer:circleRenderer, isAlwaysEnabled:isAlways)
             }
         }
