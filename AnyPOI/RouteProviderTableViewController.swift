@@ -105,6 +105,8 @@ class RouteProviderTableViewController: UIViewController {
                 appleMapButtonPushed(cell.transportTypeSegment.selectedSegmentIndex)
             case appIndex.GoogleMaps:
                 googleMapButtonPushed(cell.transportTypeSegment.selectedSegmentIndex)
+            case appIndex.HereMaps:
+                hereMapButtonPushed(cell.transportTypeSegment.selectedSegmentIndex)
             case appIndex.Waze:
                 wazeButtonPushed()
             case appIndex.CityMapper:
@@ -154,6 +156,20 @@ class RouteProviderTableViewController: UIViewController {
         }
     }
     
+    func hereMapButtonPushed(_ selectedSegmentIndex:Int) {
+        if RouteUtilities.hasHereMap {
+            var transportType = "d"
+            if selectedSegmentIndex == 1 {
+                transportType = "w"
+            } 
+            
+            RouteUtilities.startHereMap(sourceCoordinate, destinationCoordinate: targetCoordinate, transportType: transportType)
+            endRouteController()
+        } else {
+            openAppStoreFor(RouteUtilities.hereMapProductId)
+        }
+    }
+
     
     func wazeButtonPushed() {
         if RouteUtilities.hasWaze() {
@@ -206,16 +222,17 @@ extension RouteProviderTableViewController: UITableViewDelegate, UITableViewData
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // SEB: Swift3 put 4 instead of 5 due to uber
-        return 4
+        // SEB: Swift3 put 5 instead of 6 due to uber
+        return 5
     }
     
     fileprivate struct appIndex {
         static let AppleMaps = 0
         static let GoogleMaps = 1
-        static let Waze = 2
-        static let CityMapper = 3
-        static let Uber = 4
+        static let HereMaps = 2
+        static let Waze = 3
+        static let CityMapper = 4
+        static let Uber = 5
     }
     
     fileprivate struct storyboard {
@@ -238,6 +255,8 @@ extension RouteProviderTableViewController: UITableViewDelegate, UITableViewData
                 cell.initForAppleMaps(appIndex.AppleMaps)
             case appIndex.GoogleMaps:
                 cell.initForGoogleMaps(appIndex.GoogleMaps)
+            case appIndex.HereMaps:
+                cell.initForHereMaps(appIndex.HereMaps)
             case appIndex.Waze:
                 cell.initForWaze(appIndex.Waze)
             case appIndex.CityMapper:

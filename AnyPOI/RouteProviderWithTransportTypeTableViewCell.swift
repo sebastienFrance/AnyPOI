@@ -17,29 +17,50 @@ class RouteProviderWithTransportTypeTableViewCell: UITableViewCell {
     
     func initForAppleMaps(_ id:Int) {
         titleLabel.text = "Apple Maps"
-        navigationButton.setImage(UIImage(named: "Apple Maps"), for: UIControlState())
+        navigationButton.setImage(#imageLiteral(resourceName: "Apple Maps"), for: UIControlState())
         transportTypeSegment.tag = id
         navigationButton.tag = id
         transportTypeSegment.isHidden = false
-        if transportTypeSegment.numberOfSegments == 4 {
-            transportTypeSegment.removeSegment(at: 3, animated: false)
-        }
+        
+        transportTypeSegment.removeAllSegments()
+        transportTypeSegment.insertSegment(with: #imageLiteral(resourceName: "Sedan-30"), at: 1, animated: false)
+        transportTypeSegment.insertSegment(with: #imageLiteral(resourceName: "Walking-30"), at: 2, animated: false)
+        transportTypeSegment.insertSegment(with: #imageLiteral(resourceName: "City Railway Station-30"), at: 3, animated: false)
+        transportTypeSegment.selectedSegmentIndex = 0
     }
     
     func initForGoogleMaps(_ id:Int) {
         titleLabel.text = "Google Maps"
-        navigationButton.setImage(UIImage(named: "Google_Maps"), for: UIControlState())
+        navigationButton.setImage(#imageLiteral(resourceName: "Google_Maps"), for: UIControlState())
         transportTypeSegment.tag = id
         navigationButton.tag = id
         transportTypeSegment.isHidden = false
-        if transportTypeSegment.numberOfSegments == 3 {
-            transportTypeSegment.insertSegment(with: UIImage(named: "Bicycle-30"), at: 4, animated: false)
-        }
-  }
+        
+        transportTypeSegment.removeAllSegments()
+        transportTypeSegment.insertSegment(with: #imageLiteral(resourceName: "Sedan-30"), at: 1, animated: false)
+        transportTypeSegment.insertSegment(with: #imageLiteral(resourceName: "Walking-30"), at: 2, animated: false)
+        transportTypeSegment.insertSegment(with: #imageLiteral(resourceName: "City Railway Station-30"), at: 3, animated: false)
+        transportTypeSegment.insertSegment(with: #imageLiteral(resourceName: "Bicycle-30"), at: 4, animated: false)
+        transportTypeSegment.selectedSegmentIndex = 0
+    }
+    
+    func initForHereMaps(_ id:Int) {
+        titleLabel.text = "Here Maps"
+        navigationButton.setImage(#imageLiteral(resourceName: "mapHere"), for: UIControlState())
+        transportTypeSegment.tag = id
+        navigationButton.tag = id
+        
+        transportTypeSegment.isHidden = false
+        transportTypeSegment.removeAllSegments()
+        transportTypeSegment.insertSegment(with: #imageLiteral(resourceName: "Sedan-30"), at: 1, animated: false)
+        transportTypeSegment.insertSegment(with: #imageLiteral(resourceName: "Walking-30"), at: 2, animated: false)
+        transportTypeSegment.selectedSegmentIndex = 0
+    }
+
     
     func initForWaze(_ id:Int) {
         titleLabel.text = "Waze"
-        navigationButton.setImage(UIImage(named: "Waze"), for: UIControlState())
+        navigationButton.setImage(#imageLiteral(resourceName: "Waze"), for: UIControlState())
         transportTypeSegment.tag = id
         navigationButton.tag = id
         transportTypeSegment.isHidden = true
@@ -47,7 +68,7 @@ class RouteProviderWithTransportTypeTableViewCell: UITableViewCell {
     
     func initForCityMapper(_ id:Int) {
         titleLabel.text = "City Mapper"
-        navigationButton.setImage(UIImage(named: "CityMapper"), for: UIControlState())
+        navigationButton.setImage(#imageLiteral(resourceName: "CityMapper"), for: UIControlState())
         transportTypeSegment.tag = id
         navigationButton.tag = id
         transportTypeSegment.isHidden = true

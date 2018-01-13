@@ -14,6 +14,7 @@ class RouteUtilities {
     static let wazeProductId = 323229106
     static let cityMapperProductId = 469463298
     static let googleMapsProductId = 585027354
+    static let hereMapProductId = 955837609
 
     
     static func getDirectionRequestFor(_ source:WayPoint, destination:WayPoint) -> MKDirections? {
@@ -37,6 +38,7 @@ class RouteUtilities {
 
     private struct URLs {
         static let Google = "comgooglemaps://"
+        static let HereRoute = "here-route://"
         static let Waze = "waze://"
         static let CityMapper = "citymapper://"
     }
@@ -80,6 +82,24 @@ class RouteUtilities {
         return UIApplication.shared.canOpenURL(URL(string:URLs.Google)!)
     }
     
+    
+    static func startHereMap(_ sourceCoordinate:CLLocationCoordinate2D, destinationCoordinate:CLLocationCoordinate2D, transportType:String) {
+        if RouteUtilities.hasHereMap {
+            let hereParameters = "\(sourceCoordinate.latitude),\(sourceCoordinate.longitude),Start/\(destinationCoordinate.latitude),\(destinationCoordinate.longitude),End?ref=AnyPOI&m=\(transportType)"
+            if let hereURL = URL(string:"\(URLs.HereRoute)\(hereParameters)"){
+                UIApplication.shared.open(hereURL, options:[ : ], completionHandler: nil)
+            } else {
+                NSLog("\(#function) Can't configure the URL");
+            }
+        } else {
+            NSLog("\(#function) Can't use \(URLs.HereRoute)");
+        }
+    }
+    
+    static var hasHereMap:Bool {
+        return UIApplication.shared.canOpenURL(URL(string:URLs.HereRoute)!)
+    }
+
     static func startWaze(_ sourceCoordinate:CLLocationCoordinate2D, destinationCoordinate:CLLocationCoordinate2D) {
         if RouteUtilities.hasWaze() {
             let wazeParameters = "ll=\(destinationCoordinate.latitude),\(destinationCoordinate.longitude)&navigate=yes"

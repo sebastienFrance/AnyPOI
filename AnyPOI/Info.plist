@@ -47,11 +47,12 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>40</string>
+	<string>42</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
+		<string>here-route</string>
 		<string>uberauth</string>
 		<string>uber</string>
 		<string>citymapper</string>
@@ -65,7 +66,7 @@
 	<key>NSContactsUsageDescription</key>
 	<string>To create Point Of Interests for your contacts.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>To display on Apple Watch your point of interests. It's also used to get notifications when your are near Point of Interests your are monitoring.</string>
+	<string>To display on Apple Watch your point of interests. It&apos;s also used to get notifications when your are near Point of Interests your are monitoring.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Used to show your position on the map and to display on the Apple Watch Point of Interests around your location</string>
 	<key>NSPhotoLibraryUsageDescription</key>
