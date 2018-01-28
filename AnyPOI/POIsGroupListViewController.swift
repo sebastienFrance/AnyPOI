@@ -13,7 +13,7 @@ import CoreLocation
 import PKHUD
 
 
-class POIsGroupListViewController: UIViewController, DismissModalViewController, ContainerViewControllerDelegate {
+class POIsGroupListViewController: UIViewController, DismissModalViewController {
 
     
     @IBOutlet fileprivate weak var theTableView: UITableView! {
@@ -34,33 +34,24 @@ class POIsGroupListViewController: UIViewController, DismissModalViewController,
     private var filteredGroups = [GroupOfInterest]()
 
     
-    @objc fileprivate func menuButtonPushed(_ button:UIBarButtonItem) {
-        container?.toggleLeftPanel()
-    }
+//    @objc fileprivate func menuButtonPushed(_ button:UIBarButtonItem) {
+//        container?.toggleLeftPanel()
+//    }
     
-    // MARK: ContainerViewControllerDelegate protocol
-    var isStartedByLeftMenu = false
-    weak var container:ContainerViewController?
-
-    func enableGestureRecognizer(_ enable:Bool) {
-        if isViewLoaded {
-            theTableView.isUserInteractionEnabled = enable
-        }
-    }
 
     
     //MARK: Initializations
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if isStartedByLeftMenu {
-            let menuButton =  UIBarButtonItem(image: UIImage(named: "Menu-30"),
-                                              style: .plain,
-                                              target: self,
-                                              action: #selector(POIsGroupListViewController.menuButtonPushed(_:)))
-            
-            navigationItem.leftBarButtonItem = menuButton
-        }
+//        if isStartedByLeftMenu {
+//            let menuButton =  UIBarButtonItem(image: UIImage(named: "Menu-30"),
+//                                              style: .plain,
+//                                              target: self,
+//                                              action: #selector(POIsGroupListViewController.menuButtonPushed(_:)))
+//
+//            navigationItem.leftBarButtonItem = menuButton
+//        }
         
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(POIsGroupListViewController.contextDidSaveNotification(_:)),

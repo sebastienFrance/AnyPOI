@@ -672,13 +672,14 @@ extension POIDetailsViewController : UITableViewDataSource, UITableViewDelegate 
             NotificationCenter.default.post(name: Notification.Name(rawValue: MapViewController.MapNotifications.showWikipedia),
                                             object: wikipedia,
                                             userInfo: [MapViewController.MapNotifications.showPOI_Parameter_Wikipedia: wikipedia])
-            ContainerViewController.sharedInstance.goToMap()
             
+            MainTabBarViewController.instance?.showMap()
         } else if indexPath.section == Sections.mapViewAndPhotos && indexPath.row == 0 {
             NotificationCenter.default.post(name: Notification.Name(rawValue: MapViewController.MapNotifications.showPOI),
                                                                       object: nil,
                                                                       userInfo: [MapViewController.MapNotifications.showPOI_Parameter_POI: poi])
-            ContainerViewController.sharedInstance.goToMap()
+            
+            MainTabBarViewController.instance?.showMap()
         }
     }
     

@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class RoutesViewController: UIViewController, ContainerViewControllerDelegate {
+class RoutesViewController: UIViewController {
 
     @IBOutlet weak var theTableView: UITableView! {
         didSet {
@@ -22,30 +22,8 @@ class RoutesViewController: UIViewController, ContainerViewControllerDelegate {
         }
     }
     
-    var isStartedByLeftMenu = false
-    weak var container:ContainerViewController?
-    
-    @objc fileprivate func menuButtonPushed(_ button:UIBarButtonItem) {
-        container?.toggleLeftPanel()
-    }
-
-    func enableGestureRecognizer(_ enable:Bool) {
-        if isViewLoaded {
-            theTableView.isUserInteractionEnabled = enable
-        }
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        if isStartedByLeftMenu {
-            let menuButton =  UIBarButtonItem(image: UIImage(named: "Menu-30"),
-                                              style: .plain,
-                                              target: self,
-                                              action: #selector(RoutesViewController.menuButtonPushed(_:)))
-            navigationItem.leftBarButtonItem = menuButton
-        }
-        
         
         let managedContext = DatabaseAccess.sharedInstance.managedObjectContext
         NotificationCenter.default.addObserver(self,

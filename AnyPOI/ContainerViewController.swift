@@ -72,17 +72,17 @@ class ContainerViewController: UIViewController {
     
     // Add the MapViewController in a NavigationController and then set it as the CenterView in the Container
     fileprivate func addMapViewControllerInContainer() {
-        let mapViewController = mainStoryboard.instantiateViewController(withIdentifier: "MapViewControllerId") as! MapViewController
-        mapViewController.container = self
-        mapViewController.isStartedByLeftMenu = false
-
-        mapViewNavigationController = UINavigationController(rootViewController: mapViewController)
-        currentApplicationViewController = mapViewNavigationController
-        
-        addChildViewController(currentApplicationViewController)
-        view.addSubview(currentApplicationViewController.view)
-        
-        currentApplicationViewController.didMove(toParentViewController: self)
+//        let mapViewController = mainStoryboard.instantiateViewController(withIdentifier: "MapViewControllerId") as! MapViewController
+//        mapViewController.container = self
+//        mapViewController.isStartedByLeftMenu = false
+//
+//        mapViewNavigationController = UINavigationController(rootViewController: mapViewController)
+//        currentApplicationViewController = mapViewNavigationController
+//
+//        addChildViewController(currentApplicationViewController)
+//        view.addSubview(currentApplicationViewController.view)
+//
+//        currentApplicationViewController.didMove(toParentViewController: self)
     }
     
     override func didReceiveMemoryWarning() {
@@ -142,7 +142,7 @@ class ContainerViewController: UIViewController {
                 viewController = mainStoryboard.instantiateViewController(withIdentifier: "POIsGroupListViewControllerId")
             case .options:
                 let optionsViewController = optionsStoryboard.instantiateViewController(withIdentifier: "configureOptions") as! OptionsViewController
-                optionsViewController.theMapView = MapViewController.instance?.theMapView
+                //optionsViewController.theMapView = MapViewController.instance?.theMapView
                 viewController = optionsViewController
             case .travels:
                 viewController = mainStoryboard.instantiateViewController(withIdentifier: "Routes")
@@ -246,22 +246,22 @@ extension ContainerViewController : CenterViewControllerDelegate {
     // Called by a centerViewController to display immediately the MapViewController
     func goToMap() {
         if currentApplicationViewController != mapViewNavigationController {
-            mapViewNavigationController.view.frame = view.frame // Put the map on the right place
-            
-            currentApplicationViewController.willMove(toParentViewController: nil)
-            let viewControllerToRemove = currentApplicationViewController
-            
-            UIView.animate(withDuration: 0.5, animations: {
-                viewControllerToRemove?.view.alpha = 0.0
-            }, completion: { result in
-                viewControllerToRemove?.view.removeFromSuperview()
-                viewControllerToRemove?.removeFromParentViewController()
-            }) 
-            
-            currentApplicationViewController = mapViewNavigationController
-            currentCenterDisplay = .map
-            currentState = .collapsed
-            MapViewController.instance?.enableGestureRecognizer(true)
+//            mapViewNavigationController.view.frame = view.frame // Put the map on the right place
+//            
+//            currentApplicationViewController.willMove(toParentViewController: nil)
+//            let viewControllerToRemove = currentApplicationViewController
+//            
+//            UIView.animate(withDuration: 0.5, animations: {
+//                viewControllerToRemove?.view.alpha = 0.0
+//            }, completion: { result in
+//                viewControllerToRemove?.view.removeFromSuperview()
+//                viewControllerToRemove?.removeFromParentViewController()
+//            }) 
+//            
+//            currentApplicationViewController = mapViewNavigationController
+//            currentCenterDisplay = .map
+//            currentState = .collapsed
+//            MapViewController.instance?.enableGestureRecognizer(true)
         } else {
             mapViewNavigationController.popToRootViewController(animated: true)
         }

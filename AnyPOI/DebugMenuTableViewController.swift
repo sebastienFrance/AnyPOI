@@ -8,14 +8,8 @@
 
 import UIKit
 
-class DebugMenuTableViewController: UITableViewController, ContainerViewControllerDelegate {
+class DebugMenuTableViewController: UITableViewController {
 
-    var isStartedByLeftMenu = false
-    weak var container:ContainerViewController?
-    
-    @objc fileprivate func menuButtonPushed(_ button:UIBarButtonItem) {
-        container?.toggleLeftPanel()
-    }
     
     struct Segues {
         static let RegionMonitoringId = "RegionMonitoringId"
@@ -32,11 +26,6 @@ class DebugMenuTableViewController: UITableViewController, ContainerViewControll
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        if isStartedByLeftMenu {
-            let menuButton =  UIBarButtonItem(image: UIImage(named: "Menu-30"), style: .plain, target: self, action: #selector(DebugMenuTableViewController.menuButtonPushed(_:)))
-            
-            navigationItem.leftBarButtonItem = menuButton
-        }
     }
     
     override func viewDidAppear(_ animated: Bool) {

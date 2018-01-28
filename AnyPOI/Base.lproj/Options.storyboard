@@ -487,9 +487,11 @@
                             <outlet property="delegate" destination="Au7-fF-1Oj" id="J0X-4l-gIu"/>
                         </connections>
                     </tableView>
+                    <tabBarItem key="tabBarItem" systemItem="history" id="tKd-YF-9Pq"/>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Options" id="ubp-8S-RpJ"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="cellHybridFlyover" destination="By4-TV-ptz" id="1hd-YZ-iKU"/>
                         <outlet property="cellStandard" destination="mig-Vz-f5I" id="yoN-27-V8C"/>
@@ -522,7 +524,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="53s-Qt-Hib">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="778"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="729"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="WikipediaSliderCellId" rowHeight="66" id="RnH-nd-BN9" customClass="WikipediaSliderTableViewCell" customModule="AnyPOI" customModuleProvider="target">

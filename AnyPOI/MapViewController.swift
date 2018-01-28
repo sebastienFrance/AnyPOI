@@ -16,7 +16,7 @@ import SafariServices
 import PKHUD
 import Contacts
 
-class MapViewController: UIViewController, SearchControllerDelegate, ContainerViewControllerDelegate {
+class MapViewController: UIViewController, SearchControllerDelegate {
 
     //MARK: var Information view
     @IBOutlet weak var thirdActionBarStackView: UIStackView!
@@ -58,8 +58,6 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
 
     var theSearchController:UISearchController?
 
-    var isStartedByLeftMenu = false
-    weak var container:ContainerViewController?
 
     fileprivate(set) static var instance:MapViewController?
     
@@ -116,14 +114,6 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
         static let showPOI_Parameter_Wikipedia = "Wikipedia"
         static let showMapLocation = "showMapLocation"
     }
-    
-    func enableGestureRecognizer(_ status:Bool) {
-        theMapView.isScrollEnabled = status
-        theMapView.isPitchEnabled = status
-        theMapView.isRotateEnabled = status
-        theMapView.isZoomEnabled = status
-    }
-    
     
     override func viewDidLoad() {
         
@@ -296,7 +286,7 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
     }
 
     @IBAction func leftMenuButtonPushed(_ sender: UIBarButtonItem) {
-        container!.toggleLeftPanel()
+       // container!.toggleLeftPanel()
     }
     
     @IBAction func userLocationButton(_ sender: UIButton) {
@@ -648,7 +638,7 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
         let routeViewController = segue.source as! RoutesViewController
         if let routeToDisplay = routeViewController.getSelectedRoute() {
             enableRouteModeWith(routeToDisplay)
-            container!.goToMap()
+    //        container!.goToMap()
         }
     }
     
@@ -1095,8 +1085,9 @@ class MapViewController: UIViewController, SearchControllerDelegate, ContainerVi
             let thePoi = sender as! PointOfInterest
             poiController.poi = thePoi
         } else if segue.identifier == storyboard.showMapOptions {
-            let viewController = segue.destination as! OptionsViewController
-            viewController.theMapView = theMapView
+            //TODO: to be removed
+            //let viewController = segue.destination as! OptionsViewController
+            //viewController.theMapView = theMapView
         } else if segue.identifier == storyboard.showGroupContent {
             let viewController = segue.destination as! POIsViewController
             let group = sender as! GroupOfInterest

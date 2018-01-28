@@ -12,10 +12,8 @@ import LocalAuthentication
 import Contacts
 import PKHUD
 
-class OptionsViewController: UITableViewController, PasswordConfigurationDelegate, UserAuthenticationDelegate, ContainerViewControllerDelegate {
+class OptionsViewController: UITableViewController, PasswordConfigurationDelegate, UserAuthenticationDelegate {
 
-    weak var theMapView: MKMapView!
-    
     @IBOutlet weak var switchApplePOIs: UISwitch!
     @IBOutlet weak var switchTraffic: UISwitch!
     
@@ -53,18 +51,6 @@ class OptionsViewController: UITableViewController, PasswordConfigurationDelegat
     @IBOutlet weak var exportAllDataPurchaseLabel: UILabel!
     var userAuthentication:UserAuthentication!
     
-    var isStartedByLeftMenu = false
-    weak var container:ContainerViewController?
-
-    @objc fileprivate func menuButtonPushed(_ button:UIBarButtonItem) {
-        container?.toggleLeftPanel()
-    }
-
-    func enableGestureRecognizer(_ enable:Bool) {
-        if isViewLoaded {
-            tableView.isUserInteractionEnabled = enable
-        }
-    }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
@@ -76,13 +62,6 @@ class OptionsViewController: UITableViewController, PasswordConfigurationDelegat
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 96
         
-        if isStartedByLeftMenu {
-            let menuButton =  UIBarButtonItem(image: UIImage(named: "Menu-30"), style: .plain, target: self, action: #selector(OptionsViewController.menuButtonPushed(_:)))
-            
-            navigationItem.leftBarButtonItem = menuButton
-        }
-
- 
         userAuthentication = UserAuthentication(delegate: self)
 
         switchApplePOIs.isOn = UserPreferences.sharedInstance.mapShowPointsOfInterest
@@ -184,7 +163,7 @@ class OptionsViewController: UITableViewController, PasswordConfigurationDelegat
         cellStandard.accessoryType = .none
         cellHybridFlyover.accessoryType = .none
         
-        switch(theMapView.mapType) {
+        switch(MapViewController.instance!.theMapView.mapType) {
         case .hybridFlyover:
             cellHybridFlyover.accessoryType = .checkmark
         case .standard:
@@ -202,10 +181,10 @@ class OptionsViewController: UITableViewController, PasswordConfigurationDelegat
     @IBAction func switchMapOptionsChanged(_ sender: UISwitch) {
         if sender == switchApplePOIs {
             UserPreferences.sharedInstance.mapShowPointsOfInterest = sender.isOn
-            theMapView.showsPointsOfInterest = sender.isOn
+            MapViewController.instance!.theMapView.showsPointsOfInterest = sender.isOn
        } else if sender == switchTraffic {
             UserPreferences.sharedInstance.mapShowTraffic = sender.isOn
-            theMapView.showsTraffic = sender.isOn
+            MapViewController.instance!.theMapView.showsTraffic = sender.isOn
        } else {
             NSLog("\(#function) Error unknown sender")
         }
@@ -315,11 +294,11 @@ class OptionsViewController: UITableViewController, PasswordConfigurationDelegat
         
         if indexPath.section == 0 {
             if indexPath.row == 0 {
-                theMapView.mapType = .standard
+                MapViewController.instance!.theMapView.mapType = .standard
             } else if indexPath.row == 1 {
-                theMapView.mapType = .hybridFlyover
+                MapViewController.instance!.theMapView.mapType = .hybridFlyover
             } 
-            UserPreferences.sharedInstance.mapMode = theMapView.mapType
+            UserPreferences.sharedInstance.mapMode = MapViewController.instance!.theMapView.mapType
             updateCellMapMode()
         }
     }

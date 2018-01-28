@@ -222,6 +222,7 @@
 		BEC6F59A1FE0685700617613 /* Search.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BEC6F59C1FE0685700617613 /* Search.storyboard */; };
 		BEC6F59F1FE0692600617613 /* Routes.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BEC6F5A11FE0692600617613 /* Routes.storyboard */; };
 		BED407AA1E0571C9009EEA97 /* XMLElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED407A91E0571C9009EEA97 /* XMLElement.swift */; };
+		BED415D9201E6A64004AEFCA /* MainTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED415D8201E6A64004AEFCA /* MainTabBarViewController.swift */; };
 		BED751951DA2D539004BC613 /* RouteProviderUberTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED751941DA2D539004BC613 /* RouteProviderUberTableViewCell.swift */; };
 		BED83BDA1DC8D2DA0025349E /* PoiImageCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED83BD91DC8D2DA0025349E /* PoiImageCollectionViewController.swift */; };
 		BED83BDC1DC8DBFF0025349E /* ImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED83BDB1DC8DBFF0025349E /* ImageCollectionViewCell.swift */; };
@@ -550,6 +551,7 @@
 		BEC6F5A01FE0692600617613 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Routes.storyboard; sourceTree = "<group>"; };
 		BEC6F5A31FE0692C00617613 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Routes.strings; sourceTree = "<group>"; };
 		BED407A91E0571C9009EEA97 /* XMLElement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMLElement.swift; sourceTree = "<group>"; };
+		BED415D8201E6A64004AEFCA /* MainTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarViewController.swift; sourceTree = "<group>"; };
 		BED751941DA2D539004BC613 /* RouteProviderUberTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteProviderUberTableViewCell.swift; sourceTree = "<group>"; };
 		BED83BD91DC8D2DA0025349E /* PoiImageCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PoiImageCollectionViewController.swift; sourceTree = "<group>"; };
 		BED83BDB1DC8DBFF0025349E /* ImageCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -981,6 +983,7 @@
 				BE2FF2DE1D8B2F8600C0395A /* OptionsVC */,
 				BE0CF29F1D8B209A00344F8A /* ContainerViewController.swift */,
 				BEE1C6071FC0819000D8EF6D /* Debug */,
+				BED415D8201E6A64004AEFCA /* MainTabBarViewController.swift */,
 			);
 			name = ContainerVC;
 			sourceTree = "<group>";
@@ -1822,6 +1825,7 @@
 				BE957E651DA94A03006CF455 /* WikiSelectedLanguageTableViewCell.swift in Sources */,
 				BE1BA9B81F6571C6001B6512 /* Route+CoreDataProperties.swift in Sources */,
 				BE0CF3211D8B209A00344F8A /* RouteDetailsViewCell.swift in Sources */,
+				BED415D9201E6A64004AEFCA /* MainTabBarViewController.swift in Sources */,
 				BE0CF34E1D8B209A00344F8A /* searchRouteTableViewCell.swift in Sources */,
 				BE0CF3101D8B209A00344F8A /* DrawingUtils.swift in Sources */,
 				BE0CF3001D8B209A00344F8A /* ContainerViewController.swift in Sources */,
