@@ -132,7 +132,6 @@ class OptionsViewController: UITableViewController, PasswordConfigurationDelegat
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.isToolbarHidden = true
         
         updateWikipediaDescription()
     }

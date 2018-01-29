@@ -28,8 +28,21 @@ class MainTabBarViewController: UITabBarController {
 
     public func showMap() {
         selectedIndex = 0
+        MapViewController.instance?.navigationController?.popToRootViewController(animated: true)
     }
     
+    //MARK: status bar
+    
+    // MapViewController controls the display of the Status bar
+    override var childViewControllerForStatusBarStyle : UIViewController? {
+        return MapViewController.instance
+    }
+    
+    // Status bar is given by the MapViewController
+    override var prefersStatusBarHidden : Bool {
+        return false
+    }
+
     /*
     // MARK: - Navigation
 

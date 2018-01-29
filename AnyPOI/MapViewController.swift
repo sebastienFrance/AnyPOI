@@ -150,6 +150,9 @@ class MapViewController: UIViewController, SearchControllerDelegate {
         }
     }
     
+    override var prefersStatusBarHidden : Bool {
+        return hideStatusBar
+    }
     
     /// The App has been opened with a GPX file to be imported.
     /// We open a dedicated viewController to manage the import of the GPX file.
@@ -1379,6 +1382,10 @@ extension MapViewController : FlyoverWayPointsDelegate {
         view.layoutIfNeeded() // Make sure the status bar will be remove smoothly
         
         navigationController?.isNavigationBarHidden = true
+        
+        // hide the tabbar
+        self.tabBarController?.tabBar.isHidden = true
+       // self.extendedLayoutIncludesOpaqueBars = true
     }
     
     
@@ -1410,6 +1417,11 @@ extension MapViewController : FlyoverWayPointsDelegate {
         
         setNeedsStatusBarAppearanceUpdate() // Request to show the status bar
         view.layoutIfNeeded() // Make sure the status bar will be displayed smoothly
+        
+        // hide the tabbar
+        self.tabBarController?.tabBar.isHidden = false
+   //     self.extendedLayoutIncludesOpaqueBars = false
+
     }
     
     /// Update the content of the MapView when the Flyover is finished

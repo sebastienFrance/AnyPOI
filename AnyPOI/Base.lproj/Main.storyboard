@@ -280,6 +280,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="barTintColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
                     </tabBar>
                     <connections>
                         <segue destination="A4W-F3-0AD" kind="relationship" relationship="viewControllers" id="b6f-d3-AZe"/>
@@ -757,10 +758,10 @@
             </objects>
             <point key="canvasLocation" x="3232.8000000000002" y="949.47526236881572"/>
         </scene>
-        <!--configureOptions-->
+        <!--NavigationControllerOptionsId-->
         <scene sceneID="jgT-gW-the">
             <objects>
-                <viewControllerPlaceholder storyboardIdentifier="configureOptions" storyboardName="Options" referencedIdentifier="configureOptions" id="mal-nZ-2lN" sceneMemberID="viewController">
+                <viewControllerPlaceholder storyboardIdentifier="configureOptions" storyboardName="Options" referencedIdentifier="NavigationControllerOptionsId" id="mal-nZ-2lN" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Item" id="d5w-pF-cdb"/>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZgP-pK-WCK" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1011,6 +1012,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="wys-sR-z6a">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
