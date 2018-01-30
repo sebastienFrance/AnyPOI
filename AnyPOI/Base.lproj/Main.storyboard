@@ -93,10 +93,10 @@
                                                     <constraint firstItem="0f3-J6-fS3" firstAttribute="centerY" secondItem="HfO-CL-lhE" secondAttribute="centerY" id="t62-hl-UxE"/>
                                                 </constraints>
                                             </view>
-                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="zP2-t1-0zQ" userLabel="Route Description and buttons">
+                                            <stackView contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="zP2-t1-0zQ" userLabel="Route Description and buttons">
                                                 <rect key="frame" x="40" y="0.0" width="335" height="114"/>
                                                 <subviews>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="GuO-3P-4KJ">
+                                                    <stackView contentMode="scaleToFill" horizontalHuggingPriority="249" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="GuO-3P-4KJ">
                                                         <rect key="frame" x="0.0" y="0.0" width="335" height="40"/>
                                                         <subviews>
                                                             <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="999" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xTm-go-fwR">
@@ -128,6 +128,7 @@
                                                                 </subviews>
                                                             </stackView>
                                                         </subviews>
+                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </stackView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="ATj-5x-tH3" userLabel="Distance and Buttons">
                                                         <rect key="frame" x="0.0" y="40" width="335" height="40"/>
@@ -194,12 +195,14 @@
                                                         </subviews>
                                                     </stackView>
                                                 </subviews>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </stackView>
                                         </subviews>
                                     </stackView>
                                 </subviews>
                             </stackView>
                         </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="JIH-eJ-Q5c" secondAttribute="bottom" identifier="BottomLayoutView" id="4gh-VO-emM"/>
                             <constraint firstItem="JIH-eJ-Q5c" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" identifier="TopLayoutView" id="FQR-3T-Gik"/>
@@ -237,8 +240,6 @@
                             </barButtonItem>
                         </rightBarButtonItems>
                     </navigationItem>
-                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
-                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="distanceLabel" destination="1Yr-if-ntb" id="dta-EN-VGa"/>
                         <outlet property="exitRouteModeButton" destination="0f3-J6-fS3" id="FWX-Ih-5dp"/>
@@ -270,7 +271,7 @@
                     </connections>
                 </pongPressGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="1570" y="537"/>
+            <point key="canvasLocation" x="1724" y="537"/>
         </scene>
         <!--Main Tab Bar View Controller-->
         <scene sceneID="GcC-z7-lzK">
@@ -1021,7 +1022,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3Gn-kZ-a5B" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="752" y="538.83058470764627"/>
+            <point key="canvasLocation" x="846" y="537"/>
         </scene>
     </scenes>
     <resources>
