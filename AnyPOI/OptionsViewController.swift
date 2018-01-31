@@ -11,6 +11,7 @@ import MapKit
 import LocalAuthentication
 import Contacts
 import PKHUD
+import SafariServices
 
 class OptionsViewController: UITableViewController, PasswordConfigurationDelegate, UserAuthenticationDelegate {
 
@@ -36,6 +37,7 @@ class OptionsViewController: UITableViewController, PasswordConfigurationDelegat
     }
 
 
+    @IBOutlet weak var AnyPOIButton: UIButton!
     @IBOutlet weak var wikiLanguage: UILabel!
 
     @IBOutlet weak var wikiDistanceAndResults: UILabel!
@@ -82,6 +84,15 @@ class OptionsViewController: UITableViewController, PasswordConfigurationDelegat
             synchronizeContactsButton.isEnabled = false
             synchronizationContactsActivity.startAnimating()
         }
+        
+        let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
+        let build = Bundle.main.infoDictionary?[kCFBundleVersionKey as String] as! String
+        let versionAndBuild = "\(version)-\(build)"
+
+        let anyPOITitle = String.localizedStringWithFormat(NSLocalizedString("BuildLeftMenuViewController %@", comment: ""), versionAndBuild)
+
+        
+        AnyPOIButton.setTitle(anyPOITitle, for: .normal)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -269,6 +280,24 @@ class OptionsViewController: UITableViewController, PasswordConfigurationDelegat
         performPasswordChange()
     }
     
+    @IBAction func showHelp(_ sender: UIButton) {
+    }
+    
+    
+    @IBAction func showAnyPOI(_ sender: UIButton) {
+        Utilities.openSafariFrom(self, url: "http://sebbrugalieres.fr/anypoi/AnyPOI/Presentation.html", delegate: self)
+    }
+    
+    @IBAction func showIcons8(_ sender: UIButton) {
+        Utilities.openSafariFrom(self, url: "https://icons8.com", delegate: self)
+    }
+    
+    @IBAction func showAlamoFire(_ sender: UIButton) {
+        Utilities.openSafariFrom(self, url: "https://github.com/Alamofire/Alamofire", delegate: self)    }
+    @IBAction func showPKHUD(_ sender: UIButton) {
+        Utilities.openSafariFrom(self, url: "https://github.com/pkluz/PKHUD", delegate: self)
+    }
+    
     fileprivate func performPasswordChange() {
         let passwordChangeRequest = ChangePassword()
         passwordChangeRequest.requestNewPassword(self, delegate: self, oldPassword: UserPreferences.sharedInstance.authenticationPassword)
@@ -301,4 +330,11 @@ class OptionsViewController: UITableViewController, PasswordConfigurationDelegat
             updateCellMapMode()
         }
     }
+}
+
+extension OptionsViewController : SFSafariViewControllerDelegate {
+    func safariViewController(_ controller: SFSafariViewController, didCompleteInitialLoad didLoadSuccessfully: Bool) {
+        // Nothing to do
+    }
+    
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
-    <device id="retina5_9" orientation="portrait">
+    <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -19,11 +19,11 @@
                         <viewControllerLayoutGuide type="bottom" id="jbw-I5-ZF7"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="RTP-WQ-1pF">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalCompressionResistancePriority="751" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="LST-7E-oDm">
-                                <rect key="frame" x="0.0" y="44" width="375" height="661"/>
+                                <rect key="frame" x="0.0" y="20" width="375" height="574"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="iHj-Fo-zLI">
                                     <size key="itemSize" width="375" height="574"/>
@@ -33,7 +33,7 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="HelperCellId" id="WYb-3B-VhN" customClass="HelperCollectionViewCell" customModule="AnyPOI" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="43.666666666666664" width="375" height="574"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="574"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="574"/>
@@ -43,17 +43,17 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="375" height="574"/>
                                                 </imageView>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="9I0-Ca-DMt">
-                                                    <rect key="frame" x="8" y="451.33333333333331" width="375" height="122.66666666666669"/>
+                                                    <rect key="frame" x="8" y="451" width="375" height="123"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" alpha="0.69999999999999996" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Trip tools" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3kw-np-ADD">
-                                                            <rect key="frame" x="0.0" y="0.0" width="375" height="31.333333333333332"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="375" height="31.5"/>
                                                             <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                                                             <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
                                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" alpha="0.69999999999999996" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VZR-Tf-95u">
-                                                            <rect key="frame" x="0.0" y="36.333333333333364" width="375" height="86.333333333333314"/>
+                                                            <rect key="frame" x="0.0" y="36.5" width="375" height="86.5"/>
                                                             <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" relation="lessThanOrEqual" constant="150" id="OMc-Ve-kHu"/>
@@ -88,7 +88,7 @@ Compute the route from current position to the displayed POI</string>
                                 </cells>
                             </collectionView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="ONr-J9-XO4" userLabel="StackView Close Button">
-                                <rect key="frame" x="16" y="705" width="343" height="73"/>
+                                <rect key="frame" x="16" y="594" width="343" height="73"/>
                                 <subviews>
                                     <pageControl opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="sNo-YT-T7Y">
                                         <rect key="frame" x="0.0" y="0.0" width="343" height="37"/>

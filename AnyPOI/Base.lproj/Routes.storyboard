@@ -116,12 +116,13 @@
             </objects>
             <point key="canvasLocation" x="-1748" y="1271"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Routes-->
         <scene sceneID="Qgt-vT-XTr">
             <objects>
                 <navigationController storyboardIdentifier="NavigationRoutesId" automaticallyAdjustsScrollViewInsets="NO" id="Lkd-Fw-go8" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" systemItem="downloads" id="5ub-JM-4wC"/>
+                    <tabBarItem key="tabBarItem" title="Routes" image="Waypoint Map-30" id="5ub-JM-4wC"/>
                     <toolbarItems/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="UBO-lc-oEu">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -139,5 +140,6 @@
     </scenes>
     <resources>
         <image name="EditRoute-26" width="26" height="26"/>
+        <image name="Waypoint Map-30" width="30" height="30"/>
     </resources>
 </document>

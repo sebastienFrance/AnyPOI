@@ -348,7 +348,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 presentedVC.dismiss(animated: true, completion: nil)
             }
             
-            ContainerViewController.sharedInstance.goToMap()
+            MainTabBarViewController.instance?.showMap()
             
             mapController.prepareViewFromNavigation()
         }

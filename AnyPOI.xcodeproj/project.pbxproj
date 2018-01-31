@@ -12,9 +12,7 @@
 		BE0CF2FD1D8B209A00344F8A /* ContactsUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF29C1D8B209A00344F8A /* ContactsUtilities.swift */; };
 		BE0CF2FE1D8B209A00344F8A /* ContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF29D1D8B209A00344F8A /* ContactsViewController.swift */; };
 		BE0CF2FF1D8B209A00344F8A /* ContactTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF29E1D8B209A00344F8A /* ContactTableViewCell.swift */; };
-		BE0CF3001D8B209A00344F8A /* ContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF29F1D8B209A00344F8A /* ContainerViewController.swift */; };
 		BE0CF3011D8B209A00344F8A /* CustomCalloutAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2A01D8B209A00344F8A /* CustomCalloutAccessoryView.swift */; };
-		BE0CF3031D8B209A00344F8A /* LeftMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2A21D8B209A00344F8A /* LeftMenuViewController.swift */; };
 		BE0CF3041D8B209A00344F8A /* MapUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2A31D8B209A00344F8A /* MapUtils.swift */; };
 		BE0CF3051D8B209A00344F8A /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2A41D8B209A00344F8A /* MapViewController.swift */; };
 		BE0CF3061D8B209A00344F8A /* PoiCalloutDelegateImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2A51D8B209A00344F8A /* PoiCalloutDelegateImpl.swift */; };
@@ -55,8 +53,6 @@
 		BE0CF3291D8B209A00344F8A /* WikipediaCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2C81D8B209A00344F8A /* WikipediaCell.swift */; };
 		BE0CF32A1D8B209A00344F8A /* WikipediaRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2C91D8B209A00344F8A /* WikipediaRequest.swift */; };
 		BE0CF32B1D8B209A00344F8A /* WikipediaUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2CA1D8B209A00344F8A /* WikipediaUtils.swift */; };
-		BE0CF32C1D8B209A00344F8A /* LeftMenuAboutTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2CB1D8B209A00344F8A /* LeftMenuAboutTableViewCell.swift */; };
-		BE0CF32D1D8B209A00344F8A /* LeftMenuTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2CC1D8B209A00344F8A /* LeftMenuTableViewCell.swift */; };
 		BE0CF32E1D8B209A00344F8A /* OptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2CD1D8B209A00344F8A /* OptionsViewController.swift */; };
 		BE0CF32F1D8B209A00344F8A /* POIDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2CE1D8B209A00344F8A /* POIDataManager.swift */; };
 		BE0CF3301D8B209A00344F8A /* RouteDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2CF1D8B209A00344F8A /* RouteDataSource.swift */; };
@@ -217,7 +213,6 @@
 		BEABBEF71F97D15700B39EA4 /* CommonAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BEABBEF51F97D08300B39EA4 /* CommonAssets.xcassets */; };
 		BEAE541C1DAEC07000D4D63D /* RouteInfos.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEAE541B1DAEC07000D4D63D /* RouteInfos.swift */; };
 		BEBEBD1A1DB1621F003A81D0 /* AnyPOI.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BEA7BAA51D8B01E5005D2D21 /* AnyPOI.xcdatamodeld */; };
-		BEC3104E1DBA9F9400A923AF /* LeftMenuPOIsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC3104D1DBA9F9400A923AF /* LeftMenuPOIsTableViewCell.swift */; };
 		BEC6F5951FDFF27200617613 /* ImportGPX.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BEC6F5971FDFF27200617613 /* ImportGPX.storyboard */; };
 		BEC6F59A1FE0685700617613 /* Search.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BEC6F59C1FE0685700617613 /* Search.storyboard */; };
 		BEC6F59F1FE0692600617613 /* Routes.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BEC6F5A11FE0692600617613 /* Routes.storyboard */; };
@@ -338,9 +333,7 @@
 		BE0CF29C1D8B209A00344F8A /* ContactsUtilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsUtilities.swift; sourceTree = "<group>"; };
 		BE0CF29D1D8B209A00344F8A /* ContactsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsViewController.swift; sourceTree = "<group>"; };
 		BE0CF29E1D8B209A00344F8A /* ContactTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactTableViewCell.swift; sourceTree = "<group>"; };
-		BE0CF29F1D8B209A00344F8A /* ContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContainerViewController.swift; sourceTree = "<group>"; };
 		BE0CF2A01D8B209A00344F8A /* CustomCalloutAccessoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomCalloutAccessoryView.swift; sourceTree = "<group>"; };
-		BE0CF2A21D8B209A00344F8A /* LeftMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftMenuViewController.swift; sourceTree = "<group>"; };
 		BE0CF2A31D8B209A00344F8A /* MapUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapUtils.swift; sourceTree = "<group>"; };
 		BE0CF2A41D8B209A00344F8A /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		BE0CF2A51D8B209A00344F8A /* PoiCalloutDelegateImpl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PoiCalloutDelegateImpl.swift; sourceTree = "<group>"; };
@@ -381,8 +374,6 @@
 		BE0CF2C81D8B209A00344F8A /* WikipediaCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WikipediaCell.swift; sourceTree = "<group>"; };
 		BE0CF2C91D8B209A00344F8A /* WikipediaRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WikipediaRequest.swift; sourceTree = "<group>"; };
 		BE0CF2CA1D8B209A00344F8A /* WikipediaUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WikipediaUtils.swift; sourceTree = "<group>"; };
-		BE0CF2CB1D8B209A00344F8A /* LeftMenuAboutTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftMenuAboutTableViewCell.swift; sourceTree = "<group>"; };
-		BE0CF2CC1D8B209A00344F8A /* LeftMenuTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftMenuTableViewCell.swift; sourceTree = "<group>"; };
 		BE0CF2CD1D8B209A00344F8A /* OptionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionsViewController.swift; sourceTree = "<group>"; };
 		BE0CF2CE1D8B209A00344F8A /* POIDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = POIDataManager.swift; sourceTree = "<group>"; };
 		BE0CF2CF1D8B209A00344F8A /* RouteDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteDataSource.swift; sourceTree = "<group>"; };
@@ -543,7 +534,6 @@
 		BEAE541B1DAEC07000D4D63D /* RouteInfos.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteInfos.swift; sourceTree = "<group>"; };
 		BEC3104A1DBA713600A923AF /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/POIManager.strings; sourceTree = "<group>"; };
 		BEC3104C1DBA735200A923AF /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Options.strings; sourceTree = "<group>"; };
-		BEC3104D1DBA9F9400A923AF /* LeftMenuPOIsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftMenuPOIsTableViewCell.swift; sourceTree = "<group>"; };
 		BEC6F5961FDFF27200617613 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/ImportGPX.storyboard; sourceTree = "<group>"; };
 		BEC6F5991FDFF28000617613 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/ImportGPX.strings; sourceTree = "<group>"; };
 		BEC6F59B1FE0685700617613 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Search.storyboard; sourceTree = "<group>"; };
@@ -844,17 +834,6 @@
 			name = SearchController;
 			sourceTree = "<group>";
 		};
-		BE2FF2D51D8B2B9C00C0395A /* LeftMenuVC */ = {
-			isa = PBXGroup;
-			children = (
-				BE0CF2A21D8B209A00344F8A /* LeftMenuViewController.swift */,
-				BEC3104D1DBA9F9400A923AF /* LeftMenuPOIsTableViewCell.swift */,
-				BE0CF2CB1D8B209A00344F8A /* LeftMenuAboutTableViewCell.swift */,
-				BE0CF2CC1D8B209A00344F8A /* LeftMenuTableViewCell.swift */,
-			);
-			name = LeftMenuVC;
-			sourceTree = "<group>";
-		};
 		BE2FF2D61D8B2CCF00C0395A /* GroupListVC */ = {
 			isa = PBXGroup;
 			children = (
@@ -976,12 +955,10 @@
 		BE2FF2E31D8B316200C0395A /* ContainerVC */ = {
 			isa = PBXGroup;
 			children = (
-				BE2FF2D51D8B2B9C00C0395A /* LeftMenuVC */,
 				BE2FF2D21D8B2AF800C0395A /* MapVC */,
 				BE2FF2D61D8B2CCF00C0395A /* GroupListVC */,
 				BE2FF2D71D8B2D0C00C0395A /* RoutesVC */,
 				BE2FF2DE1D8B2F8600C0395A /* OptionsVC */,
-				BE0CF29F1D8B209A00344F8A /* ContainerViewController.swift */,
 				BEE1C6071FC0819000D8EF6D /* Debug */,
 				BED415D8201E6A64004AEFCA /* MainTabBarViewController.swift */,
 			);
@@ -1828,12 +1805,10 @@
 				BED415D9201E6A64004AEFCA /* MainTabBarViewController.swift in Sources */,
 				BE0CF34E1D8B209A00344F8A /* searchRouteTableViewCell.swift in Sources */,
 				BE0CF3101D8B209A00344F8A /* DrawingUtils.swift in Sources */,
-				BE0CF3001D8B209A00344F8A /* ContainerViewController.swift in Sources */,
 				BE16DF461E2C1A8B0004A491 /* GPXPoisTableViewCell.swift in Sources */,
 				BE0CF3441D8B209A00344F8A /* UserPreferences.swift in Sources */,
 				BE0CF3191D8B209A00344F8A /* PoiEditorGroupViewCell.swift in Sources */,
 				BE187CF11DAA58C6007737B4 /* WikipediaLanguages.swift in Sources */,
-				BE0CF3031D8B209A00344F8A /* LeftMenuViewController.swift in Sources */,
 				BE936FD21FB7044F00303694 /* LetMenuDebugLocationUpdateTableViewCell.swift in Sources */,
 				BEF5D2771F9B93D300C8EE1D /* WatchSessionMgr.swift in Sources */,
 				BE1BA9B61F6571C6001B6512 /* GroupOfInterest+CoreDataProperties.swift in Sources */,
@@ -1869,13 +1844,11 @@
 				BE0CF3221D8B209A00344F8A /* RouteDetailsViewController.swift in Sources */,
 				BE2FF2C21D8B267D00C0395A /* SearchController.swift in Sources */,
 				BE0CF33C1D8B209A00344F8A /* SearchControllerDelegate.swift in Sources */,
-				BE0CF32D1D8B209A00344F8A /* LeftMenuTableViewCell.swift in Sources */,
 				BE0CF3401D8B209A00344F8A /* PoiDetailsImagesCollectionViewCell.swift in Sources */,
 				BE0CF31D1D8B209A00344F8A /* POISimpleViewCell.swift in Sources */,
 				BED751951DA2D539004BC613 /* RouteProviderUberTableViewCell.swift in Sources */,
 				BE0CF3171D8B209A00344F8A /* MovePOIsViewController.swift in Sources */,
 				BE0CF3241D8B209A00344F8A /* RoutesTableViewCell.swift in Sources */,
-				BEC3104E1DBA9F9400A923AF /* LeftMenuPOIsTableViewCell.swift in Sources */,
 				BE0CF3351D8B209A00344F8A /* PoiMailActivityItemSource.swift in Sources */,
 				BE0CF3251D8B209A00344F8A /* RouteUtilties.swift in Sources */,
 				BE187CF51DAA7739007737B4 /* NoWikipediaTableViewCell.swift in Sources */,
@@ -1914,7 +1887,6 @@
 				BE0CF3141D8B209A00344F8A /* LocationCell.swift in Sources */,
 				BE71ADF61DFC98A4008FB6CD /* GPXImportOptions.swift in Sources */,
 				BE4BF3C01DEB57ED0043891B /* GPXActivityItemSource.swift in Sources */,
-				BE0CF32C1D8B209A00344F8A /* LeftMenuAboutTableViewCell.swift in Sources */,
 				BE0CF2FE1D8B209A00344F8A /* ContactsViewController.swift in Sources */,
 				BEE8707F1E0D7A6400196000 /* GPXImportOptionsTableViewController.swift in Sources */,
 				BEE2BFA71FC18C4500264E95 /* DailyTravelAnnotation.swift in Sources */,

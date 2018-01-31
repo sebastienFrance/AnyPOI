@@ -607,7 +607,7 @@ extension POIsViewController : UITableViewDataSource, UITableViewDelegate {
                                             object: nil,
                                             userInfo: [MapViewController.MapNotifications.showPOIs_Parameter_POIs: pois])
             
-            ContainerViewController.sharedInstance.goToMap()
+            MainTabBarViewController.instance?.showMap()
         }
     }
     

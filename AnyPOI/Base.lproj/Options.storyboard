@@ -16,9 +16,9 @@
             <objects>
                 <tableViewController storyboardIdentifier="configureOptions" id="Au7-fF-1Oj" customClass="OptionsViewController" customModule="AnyPOI" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" sectionFooterHeight="-1" contentViewInsetsToSafeArea="NO" id="CMh-y1-m0M">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="554"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <inset key="scrollIndicatorInsets" minX="0.0" minY="22" maxX="0.0" maxY="0.0"/>
                         <sections>
                             <tableViewSection headerTitle="Map Mode" id="ERV-pZ-gX5">
@@ -239,10 +239,10 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="yC9-ht-CKl">
-                                                    <rect key="frame" x="16" y="11" width="343" height="94"/>
+                                                    <rect key="frame" x="0.0" y="11" width="0.0" height="94"/>
                                                     <subviews>
                                                         <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="HZi-kh-4LU">
-                                                            <rect key="frame" x="0.0" y="0.0" width="343" height="33"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="0.0" height="33"/>
                                                             <subviews>
                                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="9eL-mn-Ivf">
                                                                     <rect key="frame" x="0.0" y="0.0" width="174" height="33"/>
@@ -258,7 +258,7 @@
                                                                     </subviews>
                                                                 </stackView>
                                                                 <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="KPD-B4-g9a">
-                                                                    <rect key="frame" x="258.5" y="0.0" width="84.5" height="33"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="84.5" height="33"/>
                                                                     <subviews>
                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(50/100)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d0s-8Z-SPW">
                                                                             <rect key="frame" x="0.0" y="0.0" width="59.5" height="33"/>
@@ -267,14 +267,14 @@
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
                                                                         <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="sJb-OR-sbZ">
-                                                                            <rect key="frame" x="64.5" y="0.0" width="20" height="33"/>
+                                                                            <rect key="frame" x="0.0" y="0.0" width="20" height="33"/>
                                                                         </activityIndicatorView>
                                                                     </subviews>
                                                                 </stackView>
                                                             </subviews>
                                                         </stackView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="750" verticalCompressionResistancePriority="749" text="Import your contacts from Apple's Contacts App. " lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wCw-kb-LrG">
-                                                            <rect key="frame" x="0.0" y="38" width="343" height="56"/>
+                                                            <rect key="frame" x="0.0" y="38" width="0.0" height="56"/>
                                                             <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                             <nil key="highlightedColor"/>
@@ -482,6 +482,92 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
+                            <tableViewSection headerTitle="Help" id="zeY-T8-dHg">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="50" id="Ug4-fg-vfg" userLabel="Change Password">
+                                        <rect key="frame" x="0.0" y="1208.5" width="375" height="50"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Ug4-fg-vfg" id="Rys-bm-qXG">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="49.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="Oyd-lR-g3R">
+                                                    <rect key="frame" x="8" y="11" width="359" height="28"/>
+                                                    <subviews>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fmm-G5-PGz">
+                                                            <rect key="frame" x="0.0" y="0.0" width="83" height="28"/>
+                                                            <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                                            <state key="normal" title="Show help"/>
+                                                            <connections>
+                                                                <segue destination="AYS-iY-G5Y" kind="presentation" id="TKY-2r-iQe"/>
+                                                            </connections>
+                                                        </button>
+                                                    </subviews>
+                                                </stackView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="bottomMargin" secondItem="Oyd-lR-g3R" secondAttribute="bottom" id="7gy-aI-Zw6"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="Oyd-lR-g3R" secondAttribute="trailing" id="Dx0-84-B8i"/>
+                                                <constraint firstItem="Oyd-lR-g3R" firstAttribute="top" secondItem="Rys-bm-qXG" secondAttribute="topMargin" id="JBw-cf-doU"/>
+                                                <constraint firstItem="Oyd-lR-g3R" firstAttribute="leading" secondItem="Rys-bm-qXG" secondAttribute="leadingMargin" id="Qke-Sl-HVs"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                            <tableViewSection headerTitle="About" id="eFr-Bv-6OB">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="215" id="pmO-r2-DB8" userLabel="Change Password">
+                                        <rect key="frame" x="0.0" y="1314" width="375" height="215"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="pmO-r2-DB8" id="SHu-p6-lrj">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="214.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="41r-Jf-2PH">
+                                                    <rect key="frame" x="8" y="11" width="359" height="193"/>
+                                                    <subviews>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Moj-4h-XVA">
+                                                            <rect key="frame" x="0.0" y="0.0" width="359" height="48.5"/>
+                                                            <state key="normal" title="AnyPOI from Sébastien Brugalières"/>
+                                                            <connections>
+                                                                <action selector="showAnyPOI:" destination="Au7-fF-1Oj" eventType="touchUpInside" id="Afs-Gp-JqT"/>
+                                                            </connections>
+                                                        </button>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6DF-mn-PyU">
+                                                            <rect key="frame" x="0.0" y="48.5" width="359" height="48"/>
+                                                            <state key="normal" title="Icons: Icons8"/>
+                                                            <connections>
+                                                                <action selector="showIcons8:" destination="Au7-fF-1Oj" eventType="touchUpInside" id="tM1-it-NOb"/>
+                                                            </connections>
+                                                        </button>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XZV-zr-W5p">
+                                                            <rect key="frame" x="0.0" y="96.5" width="359" height="48.5"/>
+                                                            <state key="normal" title="HTTP networking: AlamoFire"/>
+                                                            <connections>
+                                                                <action selector="showAlamoFire:" destination="Au7-fF-1Oj" eventType="touchUpInside" id="uCJ-sl-6VP"/>
+                                                            </connections>
+                                                        </button>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="slk-Na-gdM">
+                                                            <rect key="frame" x="0.0" y="145" width="359" height="48"/>
+                                                            <state key="normal" title="HUD: PKHUD"/>
+                                                            <connections>
+                                                                <action selector="showPKHUD:" destination="Au7-fF-1Oj" eventType="touchUpInside" id="ZUP-Wg-Qok"/>
+                                                            </connections>
+                                                        </button>
+                                                    </subviews>
+                                                </stackView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="41r-Jf-2PH" firstAttribute="top" secondItem="SHu-p6-lrj" secondAttribute="topMargin" id="17k-ga-XCu"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="41r-Jf-2PH" secondAttribute="bottom" id="1xR-Cb-Mzt"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="41r-Jf-2PH" secondAttribute="trailing" id="FHh-yI-La7"/>
+                                                <constraint firstItem="41r-Jf-2PH" firstAttribute="leading" secondItem="SHu-p6-lrj" secondAttribute="leadingMargin" id="bZi-a5-FgB"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
                         </sections>
                         <connections>
                             <outlet property="dataSource" destination="Au7-fF-1Oj" id="ygA-dD-k2f"/>
@@ -492,6 +578,7 @@
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Options" id="KN6-uk-TaS"/>
                     <connections>
+                        <outlet property="AnyPOIButton" destination="Moj-4h-XVA" id="kAt-si-HDt"/>
                         <outlet property="cellHybridFlyover" destination="By4-TV-ptz" id="1hd-YZ-iKU"/>
                         <outlet property="cellStandard" destination="mig-Vz-f5I" id="yoN-27-V8C"/>
                         <outlet property="changePasswordButton" destination="gHu-tP-X1j" id="FOc-WT-R7V"/>
@@ -523,7 +610,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="53s-Qt-Hib">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="WikipediaSliderCellId" rowHeight="66" id="RnH-nd-BN9" customClass="WikipediaSliderTableViewCell" customModule="AnyPOI" customModuleProvider="target">
@@ -635,13 +722,22 @@
             </objects>
             <point key="canvasLocation" x="-1439.2" y="1218.440779610195"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--HelperViewControllerId-->
+        <scene sceneID="gdn-hu-aMX">
+            <objects>
+                <viewControllerPlaceholder storyboardIdentifier="HelperViewControllerId" storyboardName="LeftMenuAndHelper" referencedIdentifier="HelperViewControllerId" id="AYS-iY-G5Y" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="H3h-6y-2f9" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1721" y="1705"/>
+        </scene>
+        <!--options-->
         <scene sceneID="Mat-0d-heJ">
             <objects>
                 <navigationController storyboardIdentifier="NavigationControllerOptionsId" automaticallyAdjustsScrollViewInsets="NO" id="F8X-gn-LBj" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" systemItem="history" id="tKd-YF-9Pq"/>
+                    <tabBarItem key="tabBarItem" title="options" image="Settings-30" id="tKd-YF-9Pq"/>
                     <toolbarItems/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="AMq-dp-Zeg">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -660,6 +756,7 @@
     </scenes>
     <resources>
         <image name="Sedan-30" width="30" height="30"/>
+        <image name="Settings-30" width="30" height="30"/>
         <image name="Walking-30" width="30" height="30"/>
     </resources>
 </document>

@@ -1004,11 +1004,11 @@
             </objects>
             <point key="canvasLocation" x="-317" y="1097"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Map-->
         <scene sceneID="o2p-lO-Gx5">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="A4W-F3-0AD" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" systemItem="favorites" id="xK2-k4-F32"/>
+                    <tabBarItem key="tabBarItem" title="Map" image="Geography-30" id="xK2-k4-F32"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="wys-sR-z6a">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
@@ -1031,6 +1031,7 @@
         <image name="City Railway Station-30" width="30" height="30"/>
         <image name="Filter-30" width="30" height="30"/>
         <image name="Flyover-26" width="26" height="26"/>
+        <image name="Geography-30" width="30" height="30"/>
         <image name="Home-30" width="30" height="30"/>
         <image name="Navigation-26" width="26" height="26"/>
         <image name="Near Me Filled-30" width="30" height="30"/>

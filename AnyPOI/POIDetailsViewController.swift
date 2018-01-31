@@ -456,16 +456,16 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
     ///  - Close this viewController to show the MapViewController
     ///
     /// - Parameter sender: <#sender description#>
-    @IBAction func goToWikipedia(_ sender: UIButton) {
-        let wikipedia = poi.wikipedias[sender.tag]
-        
-        // Sends the notification to update the mapView location
-        NotificationCenter.default.post(name: Notification.Name(rawValue: MapViewController.MapNotifications.showWikipedia),
-                                                                  object: wikipedia,
-                                                                  userInfo: [MapViewController.MapNotifications.showPOI_Parameter_Wikipedia: wikipedia])
-        // Hide this view and display the mapViewController
-        ContainerViewController.sharedInstance.goToMap()
-    }
+//    @IBAction func goToWikipedia(_ sender: UIButton) {
+//        let wikipedia = poi.wikipedias[sender.tag]
+//
+//        // Sends the notification to update the mapView location
+//        NotificationCenter.default.post(name: Notification.Name(rawValue: MapViewController.MapNotifications.showWikipedia),
+//                                                                  object: wikipedia,
+//                                                                  userInfo: [MapViewController.MapNotifications.showPOI_Parameter_Wikipedia: wikipedia])
+//        // Hide this view and display the mapViewController
+//        MainTabBarViewController.instance?.showMap()
+//    }
 
     //MARK: EKEventEditViewDelegate
     func eventEditViewController(_ controller: EKEventEditViewController, didCompleteWith action: EKEventEditViewAction) {

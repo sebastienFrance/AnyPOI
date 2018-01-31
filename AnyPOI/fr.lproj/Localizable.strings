@@ -138,7 +138,7 @@
 "TryAgainPasswordUserAuthentication"="Essayez à nouveau";
 "AccessPrivateDataUserAuthentication"="L'accès aux données privées";
 "YourPasswordUserAuthentication"="Votre mot de passe";
-"BuildLeftMenuViewController"="Version";
+"BuildLeftMenuViewController %@"="AnyPOI (%@) créé par Sébastien Brugalières";
 "NearByWikipediaOptions"="Distance de";
 "MaxResultsWikipediaOptions"="Nombre résultats";
 "LanguageWikipediaOptionVC"="Langue";

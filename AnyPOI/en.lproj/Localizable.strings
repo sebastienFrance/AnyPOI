@@ -136,7 +136,7 @@
 "TryAgainPasswordUserAuthentication"="Please, try again";
 "AccessPrivateDataUserAuthentication"="Access to private data";
 "YourPasswordUserAuthentication"="Your password";
-"BuildLeftMenuViewController"="Build";
+"BuildLeftMenuViewController %@"="AnyPOI (%@) created by Sébastien Brugalières";
 "NearByWikipediaOptions"="Distance";
 "MaxResultsWikipediaOptions"="Max results";
 "LanguageWikipediaOptionVC"="Language";
