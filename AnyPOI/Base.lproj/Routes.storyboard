@@ -6,6 +6,7 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -87,6 +88,40 @@
                                             <segue destination="baK-kN-Yyt" kind="unwind" unwindAction="showRoute:" id="0Dc-n1-Tc4"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="RouteCellWhenEmptyId" id="BU2-L9-13h">
+                                        <rect key="frame" x="0.0" y="141" width="375" height="113"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="BU2-L9-13h" id="Ybs-Tq-Lyx">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="112.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="fOQ-PO-J28">
+                                                    <rect key="frame" x="15" y="11" width="345" height="91"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Hey! Build your next travels" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ytk-Ch-mqh">
+                                                            <rect key="frame" x="0.0" y="0.0" width="345" height="25.5"/>
+                                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="21"/>
+                                                            <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="750" textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3xn-xd-oUd">
+                                                            <rect key="frame" x="0.0" y="33.5" width="345" height="57.5"/>
+                                                            <string key="text">Use your Point of Interests to create your travel. A travel may have multiple destinations, updated at any time and it can be shared with your friends.</string>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                </stackView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailingMargin" secondItem="fOQ-PO-J28" secondAttribute="trailing" id="0P9-Ga-j93"/>
+                                                <constraint firstItem="fOQ-PO-J28" firstAttribute="top" secondItem="Ybs-Tq-Lyx" secondAttribute="topMargin" id="Q9x-Zv-WRB"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="fOQ-PO-J28" secondAttribute="bottom" id="Vrq-1j-gTQ"/>
+                                                <constraint firstItem="fOQ-PO-J28" firstAttribute="leading" secondItem="Ybs-Tq-Lyx" secondAttribute="leadingMargin" id="k4d-ZW-x2S"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
                                 </prototypes>
                             </tableView>
                         </subviews>
@@ -114,7 +149,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="seb-xb-2nm" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="baK-kN-Yyt" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="-1748" y="1271"/>
+            <point key="canvasLocation" x="-1748" y="1270.6146926536733"/>
         </scene>
         <!--Routes-->
         <scene sceneID="Qgt-vT-XTr">

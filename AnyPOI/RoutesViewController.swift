@@ -90,20 +90,34 @@ extension RoutesViewController: UITableViewDataSource, UITableViewDelegate {
  
     //MARK: UITableViewDataSource
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return POIDataManager.sharedInstance.getAllRoutes().count
+        if POIDataManager.sharedInstance.getAllRoutes().count == 0 {
+            return 1
+        } else {
+            return POIDataManager.sharedInstance.getAllRoutes().count
+        }
     }
     
     fileprivate struct cellIdentifier {
         static let routesCellId = "routesCellId"
+        static let routeCellWhenEmptyId = "RouteCellWhenEmptyId"
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let theCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier.routesCellId, for: indexPath) as! RoutesTableViewCell
-        
-        let theRoute = POIDataManager.sharedInstance.getAllRoutes()[indexPath.row]
-        theCell.initWith(theRoute, index: indexPath.row)
-        
-        return theCell
+        if POIDataManager.sharedInstance.getAllRoutes().count != 0 {
+            let theCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier.routesCellId, for: indexPath) as! RoutesTableViewCell
+            
+            let theRoute = POIDataManager.sharedInstance.getAllRoutes()[indexPath.row]
+            theCell.initWith(theRoute, index: indexPath.row)
+            
+            return theCell
+        } else {
+            let theCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier.routeCellWhenEmptyId, for: indexPath)
+            return theCell
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return POIDataManager.sharedInstance.getAllRoutes().count != 0
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
@@ -113,7 +127,13 @@ extension RoutesViewController: UITableViewDataSource, UITableViewDelegate {
             MapViewController.instance!.cleanup(withRoute:theRoute)
             POIDataManager.sharedInstance.deleteRoute(theRoute)
             POIDataManager.sharedInstance.commitDatabase()
+            
+            theTableView.beginUpdates()
             theTableView.deleteRows(at: [indexPath], with: .automatic)
+            if POIDataManager.sharedInstance.getAllRoutes().count == 0 {
+                theTableView.insertRows(at: [indexPath], with: .automatic)
+            }
+            theTableView.endUpdates()
         default: break
             // just ignore, manage only deletion
             

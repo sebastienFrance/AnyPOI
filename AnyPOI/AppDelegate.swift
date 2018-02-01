@@ -343,15 +343,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // - Move the Navigation controller on the top view, which is the MapViewController
     // - Prepare the MapViewController (stop Flyover, ...)
     fileprivate func navigateToMapViewControllerFromAnywhere(_ application: UIApplication) {
-        if let mapController = MapViewController.instance {
-            if let presentedVC = application.keyWindow?.rootViewController?.presentedViewController {
-                presentedVC.dismiss(animated: true, completion: nil)
-            }
-            
-            MainTabBarViewController.instance?.showMap()
-            
-            mapController.prepareViewFromNavigation()
-        }
+        MainTabBarViewController.instance?.showMap()
     }
  }
 
