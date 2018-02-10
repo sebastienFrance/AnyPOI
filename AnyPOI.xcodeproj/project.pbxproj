@@ -212,6 +212,7 @@
 		BEABBEF61F97D08300B39EA4 /* CommonAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BEABBEF51F97D08300B39EA4 /* CommonAssets.xcassets */; };
 		BEABBEF71F97D15700B39EA4 /* CommonAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BEABBEF51F97D08300B39EA4 /* CommonAssets.xcassets */; };
 		BEAE541C1DAEC07000D4D63D /* RouteInfos.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEAE541B1DAEC07000D4D63D /* RouteInfos.swift */; };
+		BEAE6DD3202F737500D3978E /* Screenshots in Resources */ = {isa = PBXBuildFile; fileRef = BEAE6DD2202F737400D3978E /* Screenshots */; };
 		BEBEBD1A1DB1621F003A81D0 /* AnyPOI.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BEA7BAA51D8B01E5005D2D21 /* AnyPOI.xcdatamodeld */; };
 		BEC6F5951FDFF27200617613 /* ImportGPX.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BEC6F5971FDFF27200617613 /* ImportGPX.storyboard */; };
 		BEC6F59A1FE0685700617613 /* Search.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BEC6F59C1FE0685700617613 /* Search.storyboard */; };
@@ -532,7 +533,7 @@
 		BEA7BAC31D8B01E5005D2D21 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BEABBEF51F97D08300B39EA4 /* CommonAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = CommonAssets.xcassets; sourceTree = "<group>"; };
 		BEAE541B1DAEC07000D4D63D /* RouteInfos.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteInfos.swift; sourceTree = "<group>"; };
-		BEAE6DD1202F6B7A00D3978E /* IMG_1299.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = IMG_1299.jpg; sourceTree = "<group>"; };
+		BEAE6DD2202F737400D3978E /* Screenshots */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Screenshots; sourceTree = "<group>"; };
 		BEC3104A1DBA713600A923AF /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/POIManager.strings; sourceTree = "<group>"; };
 		BEC3104C1DBA735200A923AF /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Options.strings; sourceTree = "<group>"; };
 		BEC6F5961FDFF27200617613 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/ImportGPX.storyboard; sourceTree = "<group>"; };
@@ -1221,7 +1222,7 @@
 		BEA7BA921D8B01E5005D2D21 = {
 			isa = PBXGroup;
 			children = (
-				BEAE6DD0202F6ABE00D3978E /* Screenshots */,
+				BEAE6DD2202F737400D3978E /* Screenshots */,
 				BEA7BA9D1D8B01E5005D2D21 /* AnyPOI */,
 				BEA7BAB51D8B01E5005D2D21 /* AnyPOITests */,
 				BEA7BAC01D8B01E5005D2D21 /* AnyPOIUITests */,
@@ -1279,14 +1280,6 @@
 				BEA7BAC31D8B01E5005D2D21 /* Info.plist */,
 			);
 			path = AnyPOIUITests;
-			sourceTree = "<group>";
-		};
-		BEAE6DD0202F6ABE00D3978E /* Screenshots */ = {
-			isa = PBXGroup;
-			children = (
-				BEAE6DD1202F6B7A00D3978E /* IMG_1299.jpg */,
-			);
-			path = Screenshots;
 			sourceTree = "<group>";
 		};
 		BEE1C6071FC0819000D8EF6D /* Debug */ = {
@@ -1602,6 +1595,7 @@
 				BEC6F59F1FE0692600617613 /* Routes.storyboard in Resources */,
 				BEF5D3581E6473C600941BAF /* ProductIds.plist in Resources */,
 				BE957E5C1DA8FBBA006CF455 /* Options.storyboard in Resources */,
+				BEAE6DD3202F737500D3978E /* Screenshots in Resources */,
 				BE2FF2CD1D8B280B00C0395A /* PickerGroupView.xib in Resources */,
 				BE2FF2CC1D8B280B00C0395A /* PickerCategoryView.xib in Resources */,
 				BEC6F5951FDFF27200617613 /* ImportGPX.storyboard in Resources */,
