@@ -1378,14 +1378,22 @@ extension MapViewController : FlyoverWayPointsDelegate {
         mapFilterButton.isHidden = true
         
         hideStatusBar = true
-        setNeedsStatusBarAppearanceUpdate() // Request to hide the status bar (managed by the ContainerVC)
-        view.layoutIfNeeded() // Make sure the status bar will be remove smoothly
         
         navigationController?.isNavigationBarHidden = true
         
         // hide the tabbar
-        self.tabBarController?.tabBar.isHidden = true
-       // self.extendedLayoutIncludesOpaqueBars = true
+        var frame = self.navigationController?.tabBarController?.tabBar.frame
+        let tabbarHeight = (frame?.size.height)!
+        frame?.origin.y = self.view.frame.size.height + tabbarHeight
+        self.navigationController?.tabBarController?.tabBar.frame = frame!
+        
+        // Extend the MapView to overlap the tabbar
+        var mapViewframe = self.theMapView.frame
+        mapViewframe.size.height = mapViewframe.size.height + tabbarHeight
+        theMapView.frame = mapViewframe
+        
+        setNeedsStatusBarAppearanceUpdate() // Request to hide the status bar (managed by the ContainerVC)
+        view.layoutIfNeeded() // Make sure the status bar will be remove smoothly
     }
     
     
@@ -1413,15 +1421,17 @@ extension MapViewController : FlyoverWayPointsDelegate {
                 routeMgr.displayRouteMapRegion()
             }
         }
-
         
+        // show the tabbar with animation
+        var frame = self.navigationController?.tabBarController?.tabBar.frame
+        let tabbarHeight = (frame?.size.height)!
+        frame?.origin.y = self.view.frame.size.height - tabbarHeight
+        self.navigationController?.tabBarController?.tabBar.frame = frame!
+        
+        // The Mapview restore by itself!
+
         setNeedsStatusBarAppearanceUpdate() // Request to show the status bar
         view.layoutIfNeeded() // Make sure the status bar will be displayed smoothly
-        
-        // hide the tabbar
-        self.tabBarController?.tabBar.isHidden = false
-   //     self.extendedLayoutIncludesOpaqueBars = false
-
     }
     
     /// Update the content of the MapView when the Flyover is finished
