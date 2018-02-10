@@ -534,6 +534,7 @@
 		BEABBEF51F97D08300B39EA4 /* CommonAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = CommonAssets.xcassets; sourceTree = "<group>"; };
 		BEAE541B1DAEC07000D4D63D /* RouteInfos.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteInfos.swift; sourceTree = "<group>"; };
 		BEAE6DD2202F737400D3978E /* Screenshots */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Screenshots; sourceTree = "<group>"; };
+		BEAE6DD4202F814100D3978E /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.markdown; };
 		BEC3104A1DBA713600A923AF /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/POIManager.strings; sourceTree = "<group>"; };
 		BEC3104C1DBA735200A923AF /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Options.strings; sourceTree = "<group>"; };
 		BEC6F5961FDFF27200617613 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/ImportGPX.storyboard; sourceTree = "<group>"; };
@@ -1222,6 +1223,7 @@
 		BEA7BA921D8B01E5005D2D21 = {
 			isa = PBXGroup;
 			children = (
+				BEAE6DD4202F814100D3978E /* README.md */,
 				BEAE6DD2202F737400D3978E /* Screenshots */,
 				BEA7BA9D1D8B01E5005D2D21 /* AnyPOI */,
 				BEA7BAB51D8B01E5005D2D21 /* AnyPOITests */,
