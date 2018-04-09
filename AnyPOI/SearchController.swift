@@ -9,7 +9,6 @@
 import UIKit
 import MapKit
 import SafariServices
-import PKHUD
 
 class SearchController: UITableViewController {
 

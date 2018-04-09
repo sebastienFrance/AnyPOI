@@ -10,8 +10,8 @@ import Foundation
 import UIKit
 import MapKit
 import SafariServices
-import PKHUD
 import MessageUI
+import PKHUD
 
 class PoiCalloutDelegateImpl: NSObject   {
     

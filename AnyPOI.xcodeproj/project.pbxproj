@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		B6F3E9C2364293FF3C089B78 /* Pods_AnyPOI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D59B652B845160828B9C22AB /* Pods_AnyPOI.framework */; };
 		BE01D4591E0835D800D0105F /* ExportAllMailActivityItemSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE01D4581E0835D800D0105F /* ExportAllMailActivityItemSource.swift */; };
+		BE04217B207A13B8004939B9 /* POIDetailImagesDismissAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE04217A207A13B8004939B9 /* POIDetailImagesDismissAnimationController.swift */; };
 		BE0CF2FD1D8B209A00344F8A /* ContactsUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF29C1D8B209A00344F8A /* ContactsUtilities.swift */; };
 		BE0CF2FE1D8B209A00344F8A /* ContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF29D1D8B209A00344F8A /* ContactsViewController.swift */; };
 		BE0CF2FF1D8B209A00344F8A /* ContactTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF29E1D8B209A00344F8A /* ContactTableViewCell.swift */; };
@@ -235,6 +236,7 @@
 		BEE7B8611F93B237007545F9 /* AnyPOIComplicationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE7B8601F93B237007545F9 /* AnyPOIComplicationController.swift */; };
 		BEE8707F1E0D7A6400196000 /* GPXImportOptionsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE8707E1E0D7A6400196000 /* GPXImportOptionsTableViewController.swift */; };
 		BEEACE0C1E09CD9900E7D202 /* GPXImportRouteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEEACE0B1E09CD9900E7D202 /* GPXImportRouteTableViewCell.swift */; };
+		BEF4206D207663E0005C5DC7 /* POIDetailImagesPresentAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF4206C207663E0005C5DC7 /* POIDetailImagesPresentAnimationController.swift */; };
 		BEF580AB1DD8777D00306597 /* MapCategoryFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF580AA1DD8777D00306597 /* MapCategoryFilter.swift */; };
 		BEF5D2771F9B93D300C8EE1D /* WatchSessionMgr.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF5D2761F9B93D300C8EE1D /* WatchSessionMgr.swift */; };
 		BEF5D3581E6473C600941BAF /* ProductIds.plist in Resources */ = {isa = PBXBuildFile; fileRef = BEF5D3571E6473C600941BAF /* ProductIds.plist */; };
@@ -331,6 +333,7 @@
 
 /* Begin PBXFileReference section */
 		BE01D4581E0835D800D0105F /* ExportAllMailActivityItemSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExportAllMailActivityItemSource.swift; sourceTree = "<group>"; };
+		BE04217A207A13B8004939B9 /* POIDetailImagesDismissAnimationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = POIDetailImagesDismissAnimationController.swift; sourceTree = "<group>"; };
 		BE0CF29C1D8B209A00344F8A /* ContactsUtilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsUtilities.swift; sourceTree = "<group>"; };
 		BE0CF29D1D8B209A00344F8A /* ContactsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsViewController.swift; sourceTree = "<group>"; };
 		BE0CF29E1D8B209A00344F8A /* ContactTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactTableViewCell.swift; sourceTree = "<group>"; };
@@ -560,6 +563,7 @@
 		BEE7B8601F93B237007545F9 /* AnyPOIComplicationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyPOIComplicationController.swift; sourceTree = "<group>"; };
 		BEE8707E1E0D7A6400196000 /* GPXImportOptionsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPXImportOptionsTableViewController.swift; sourceTree = "<group>"; };
 		BEEACE0B1E09CD9900E7D202 /* GPXImportRouteTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPXImportRouteTableViewCell.swift; sourceTree = "<group>"; };
+		BEF4206C207663E0005C5DC7 /* POIDetailImagesPresentAnimationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = POIDetailImagesPresentAnimationController.swift; sourceTree = "<group>"; };
 		BEF580AA1DD8777D00306597 /* MapCategoryFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapCategoryFilter.swift; sourceTree = "<group>"; };
 		BEF5D2761F9B93D300C8EE1D /* WatchSessionMgr.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSessionMgr.swift; sourceTree = "<group>"; };
 		BEF5D3571E6473C600941BAF /* ProductIds.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = ProductIds.plist; sourceTree = "<group>"; };
@@ -884,6 +888,7 @@
 				BE2FF2DB1D8B2E8B00C0395A /* POIEditorVC */,
 				BE2FF2DF1D8B2FB100C0395A /* POIDetailsImageVC */,
 				BE0CF2B71D8B209A00344F8A /* POIDetailsViewController.swift */,
+				BEF4206B2076637A005C5DC7 /* Animation Controller */,
 				BE187CF21DAA746D007737B4 /* LoadingTableViewCell.swift */,
 				BE187CF41DAA7739007737B4 /* NoWikipediaTableViewCell.swift */,
 				BE0CF2D91D8B209A00344F8A /* PoiDetailsImagesTableViewCell.swift */,
@@ -1296,6 +1301,15 @@
 			name = Debug;
 			sourceTree = "<group>";
 		};
+		BEF4206B2076637A005C5DC7 /* Animation Controller */ = {
+			isa = PBXGroup;
+			children = (
+				BEF4206C207663E0005C5DC7 /* POIDetailImagesPresentAnimationController.swift */,
+				BE04217A207A13B8004939B9 /* POIDetailImagesDismissAnimationController.swift */,
+			);
+			name = "Animation Controller";
+			sourceTree = "<group>";
+		};
 		BEF5D2751F9B93B500C8EE1D /* Watch */ = {
 			isa = PBXGroup;
 			children = (
@@ -1404,8 +1418,8 @@
 				BEA7BA991D8B01E5005D2D21 /* Resources */,
 				BE9833FF1D8D55C600B174A7 /* Embed App Extensions */,
 				6D5AFBBBAB3C2682E6C52E91 /* [CP] Embed Pods Frameworks */,
-				1C689AD73FFE95CEE26A792F /* [CP] Copy Pods Resources */,
 				BE96C3ED1F7FA1C700D9ABDB /* Embed Watch Content */,
+				F6526E980FA4D615044BBBCA /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1462,7 +1476,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0910;
-				LastUpgradeCheck = 0900;
+				LastUpgradeCheck = 0940;
 				ORGANIZATIONNAME = "Sébastien Brugalières";
 				TargetAttributes = {
 					BE6493551FBA22EF007CC98F = {
@@ -1633,21 +1647,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		1C689AD73FFE95CEE26A792F /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-AnyPOI/Pods-AnyPOI-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		206141AC655D132243393DEB /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1684,6 +1683,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-AnyPOI/Pods-AnyPOI-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F6526E980FA4D615044BBBCA /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-AnyPOI/Pods-AnyPOI-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -1878,6 +1892,7 @@
 				BED83BDA1DC8D2DA0025349E /* PoiImageCollectionViewController.swift in Sources */,
 				BEAE541C1DAEC07000D4D63D /* RouteInfos.swift in Sources */,
 				BE8C6EF91E3E843C00E961DC /* MapFilterShowAllPoisTableViewCell.swift in Sources */,
+				BEF4206D207663E0005C5DC7 /* POIDetailImagesPresentAnimationController.swift in Sources */,
 				BE0CF3361D8B209A00344F8A /* MessageActivityItemSource.swift in Sources */,
 				BE0CF3301D8B209A00344F8A /* RouteDataSource.swift in Sources */,
 				BE957E5F1DA8FDE7006CF455 /* WikipediaOptionsViewController.swift in Sources */,
@@ -1901,6 +1916,7 @@
 				BE0CF32E1D8B209A00344F8A /* OptionsViewController.swift in Sources */,
 				BE0CF33D1D8B209A00344F8A /* UserAuthentication.swift in Sources */,
 				BE0CF34F1D8B209A00344F8A /* TextFieldViewCell.swift in Sources */,
+				BE04217B207A13B8004939B9 /* POIDetailImagesDismissAnimationController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2294,12 +2310,14 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -2351,12 +2369,14 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;

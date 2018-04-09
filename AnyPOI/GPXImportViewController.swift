@@ -205,7 +205,7 @@ class GPXImportViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == storyboard.openImportOptions {
+        if segue.identifier == GPXImportViewController.storyboard.openImportOptions {
             let viewController = segue.destination as! GPXImportOptionsTableViewController
             viewController.importOptions = importOptions
             viewController.importViewController = self

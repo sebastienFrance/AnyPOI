@@ -10,7 +10,6 @@ import UIKit
 import Contacts
 import ContactsUI
 import CoreLocation
-import PKHUD
 
 class ContactsUtilities {
     

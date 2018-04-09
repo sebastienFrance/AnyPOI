@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14111" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -94,24 +94,24 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="2KW-t4-p7L">
-                                                    <rect key="frame" x="15" y="0.0" width="345" height="109"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="109"/>
                                                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="5" minimumInteritemSpacing="5" id="xjq-Hg-aip">
                                                         <size key="itemSize" width="110" height="101"/>
                                                         <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                                         <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                                        <inset key="sectionInset" minX="5" minY="5" maxX="5" maxY="5"/>
+                                                        <inset key="sectionInset" minX="5" minY="5" maxX="0.0" maxY="0.0"/>
                                                     </collectionViewFlowLayout>
                                                     <cells>
                                                         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="poiImageCellId" id="lQW-dg-vhy" customClass="PoiDetailsImagesCollectionViewCell" customModule="AnyPOI" customModuleProvider="target">
-                                                            <rect key="frame" x="5" y="4" width="110" height="101"/>
+                                                            <rect key="frame" x="5" y="6.5" width="110" height="101"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                                                 <rect key="frame" x="0.0" y="0.0" width="110" height="101"/>
                                                                 <autoresizingMask key="autoresizingMask"/>
                                                                 <subviews>
                                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Cup-30" translatesAutoresizingMaskIntoConstraints="NO" id="q1W-57-WiC">
-                                                                        <rect key="frame" x="8" y="8" width="110" height="101"/>
+                                                                        <rect key="frame" x="0.0" y="0.0" width="110" height="101"/>
                                                                     </imageView>
                                                                 </subviews>
                                                             </view>
@@ -119,8 +119,8 @@
                                                             <constraints>
                                                                 <constraint firstItem="q1W-57-WiC" firstAttribute="height" secondItem="lQW-dg-vhy" secondAttribute="height" id="OMZ-Pz-mba"/>
                                                                 <constraint firstItem="q1W-57-WiC" firstAttribute="width" secondItem="lQW-dg-vhy" secondAttribute="width" id="T1V-RD-UF7"/>
-                                                                <constraint firstItem="q1W-57-WiC" firstAttribute="top" secondItem="lQW-dg-vhy" secondAttribute="topMargin" id="aM0-Va-5tS"/>
-                                                                <constraint firstItem="q1W-57-WiC" firstAttribute="leading" secondItem="lQW-dg-vhy" secondAttribute="leadingMargin" id="rGE-IC-4s1"/>
+                                                                <constraint firstItem="q1W-57-WiC" firstAttribute="top" secondItem="lQW-dg-vhy" secondAttribute="top" id="aM0-Va-5tS"/>
+                                                                <constraint firstItem="q1W-57-WiC" firstAttribute="leading" secondItem="lQW-dg-vhy" secondAttribute="leading" id="rGE-IC-4s1"/>
                                                             </constraints>
                                                             <connections>
                                                                 <outlet property="PoiImageView" destination="q1W-57-WiC" id="g1j-cI-g2r"/>
@@ -131,8 +131,8 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstAttribute="bottomMargin" secondItem="2KW-t4-p7L" secondAttribute="bottom" id="4tf-Zj-5Oq"/>
-                                                <constraint firstItem="2KW-t4-p7L" firstAttribute="trailing" secondItem="yVz-Zz-BbH" secondAttribute="trailingMargin" id="bXp-2F-aBR"/>
-                                                <constraint firstItem="2KW-t4-p7L" firstAttribute="leading" secondItem="yVz-Zz-BbH" secondAttribute="leadingMargin" id="iAu-oF-jDL"/>
+                                                <constraint firstItem="2KW-t4-p7L" firstAttribute="trailing" secondItem="yVz-Zz-BbH" secondAttribute="trailing" id="bXp-2F-aBR"/>
+                                                <constraint firstItem="2KW-t4-p7L" firstAttribute="leading" secondItem="yVz-Zz-BbH" secondAttribute="leading" id="iAu-oF-jDL"/>
                                                 <constraint firstItem="2KW-t4-p7L" firstAttribute="top" secondItem="yVz-Zz-BbH" secondAttribute="top" id="ml9-1g-w5b"/>
                                             </constraints>
                                         </tableViewCellContentView>
@@ -387,7 +387,7 @@
                         <outlet property="theTableView" destination="0To-pq-cR2" id="L4B-LL-2PM"/>
                         <segue destination="ved-fd-njB" kind="presentation" identifier="openPhones" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="y9T-lr-gle"/>
                         <segue destination="ved-fd-njB" kind="presentation" identifier="openEmails" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="wND-00-xTV"/>
-                        <segue destination="fTp-qj-ONQ" kind="show" identifier="showImageCollectionId" id="lpb-SV-U4d"/>
+                        <segue destination="fTp-qj-ONQ" kind="presentation" identifier="showImageCollectionId" id="lpb-SV-U4d"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="08s-XZ-nAA" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -462,10 +462,20 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cb3-7m-ZCP">
+                                <rect key="frame" x="165" y="616" width="45" height="33"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                <state key="normal" title="Close"/>
+                                <connections>
+                                    <action selector="closeButtonPushed:" destination="fTp-qj-ONQ" eventType="touchUpInside" id="e2s-T3-iEF"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="Cb3-7m-ZCP" firstAttribute="centerX" secondItem="O9M-Fc-Aam" secondAttribute="centerX" id="03K-kC-RFk"/>
                             <constraint firstAttribute="trailing" secondItem="O9M-Fc-Aam" secondAttribute="trailing" id="GFO-Ne-lJD"/>
+                            <constraint firstItem="Cb3-7m-ZCP" firstAttribute="top" secondItem="O9M-Fc-Aam" secondAttribute="bottom" constant="-51" id="WSH-mz-bQN"/>
                             <constraint firstItem="dk6-Pu-dbD" firstAttribute="top" secondItem="O9M-Fc-Aam" secondAttribute="bottom" id="iQj-7N-Rsp"/>
                             <constraint firstItem="O9M-Fc-Aam" firstAttribute="top" secondItem="pmU-TW-9oW" secondAttribute="bottom" id="vtA-zh-4qH"/>
                             <constraint firstItem="O9M-Fc-Aam" firstAttribute="leading" secondItem="LJy-zT-uiO" secondAttribute="leading" id="zek-Ld-x63"/>
@@ -772,7 +782,7 @@
                                         <rect key="frame" x="0.0" y="696" width="375" height="85"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2fS-OV-4u1" id="JOx-uf-QzW">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="85"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="84.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>

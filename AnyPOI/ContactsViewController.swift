@@ -132,7 +132,7 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: storyboard.contactCellId, for: indexPath) as! ContactTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: ContactsViewController.storyboard.contactCellId, for: indexPath) as! ContactTableViewCell
         if let theContact = contact {
 
             switch mode {

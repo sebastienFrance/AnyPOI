@@ -47,9 +47,9 @@ extension MovePOIsViewController : UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row == 0 {
-            return theTableView.dequeueReusableCell(withIdentifier: storyboard.moveCellHeaderId, for: indexPath)
+            return theTableView.dequeueReusableCell(withIdentifier: MovePOIsViewController.storyboard.moveCellHeaderId, for: indexPath)
         } else {
-            let cell = theTableView.dequeueReusableCell(withIdentifier: storyboard.moveToGroupCellId, for: indexPath) as! MovePOIsTableViewCell            
+            let cell = theTableView.dequeueReusableCell(withIdentifier: MovePOIsViewController.storyboard.moveToGroupCellId, for: indexPath) as! MovePOIsTableViewCell            
             cell.initWithGroup(POIDataManager.sharedInstance.getGroups()[indexPath.row - 1])
             
             return cell

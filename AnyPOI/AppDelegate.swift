@@ -11,7 +11,6 @@ import CoreData
 import CoreLocation
 import LocalAuthentication
 import CoreSpotlight
-import PKHUD
 import UserNotifications
 import AudioToolbox
 import StoreKit

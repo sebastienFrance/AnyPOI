@@ -14,7 +14,7 @@ class PoiImageCollectionViewController: UIViewController {
 
     @IBOutlet weak var theCollectionView: UICollectionView! {
         didSet {
-            theCollectionView.backgroundColor = UIColor.black
+            //theCollectionView.backgroundColor = UIColor.black
             theCollectionView.delegate = self
             theCollectionView.dataSource = self
         }
@@ -23,6 +23,8 @@ class PoiImageCollectionViewController: UIViewController {
     @IBOutlet weak var theFlowLayout: UICollectionViewFlowLayout! {
         didSet {
             theFlowLayout.itemSize = theCollectionView.frame.size
+            //theFlowLayout.minimumLineSpacing = 40
+            //theFlowLayout.sectionInset = UIEdgeInsetsMake(0, 20, 0, 20)
             theFlowLayout.sectionInset = UIEdgeInsetsMake(0,0,0,0)
             theFlowLayout.minimumLineSpacing = 0.0
         }
@@ -31,19 +33,49 @@ class PoiImageCollectionViewController: UIViewController {
     var assets:[PHAsset]!
     var startAssetIndex = 0
 
+
+    private var selectedImageRect:CGRect?
+    private var selectedImage:UIImage?
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.black
+       // view.backgroundColor = UIColor.black
 
         theCollectionView.reloadData()
     }
     
-
+    /// This method is used to get the visible image and its rect when the viewController is dismissed
+    /// and we need to perform the animated transition. It provides the initial image and rect to start the animation
+    func getVisibleImageAndRect() -> (image:UIImage?, rect:CGRect?) {
+        if theCollectionView.visibleCells.count > 0  {
+            if let visibleCell = theCollectionView.visibleCells[0] as? ImageCollectionViewCell {
+                let targetFrame = theCollectionView.convert(visibleCell.frame, to: nil)
+                
+                return (image:visibleCell.theImageView.image, rect:targetFrame)
+            }
+        }
+        return (image: nil, rect: nil)
+    }
+    
+    func getSizeWhenImageWillAppear() -> CGSize {
+        let indexFirstCell = IndexPath(row: startAssetIndex, section: 0)
+        
+        let layoutAttr = theFlowLayout.layoutAttributesForItem(at: indexFirstCell)
+        //let size = CGSize(width: layoutAttr!.frame.size.width * UIScreen.main.scale , height: layoutAttr!.frame.size.height * UIScreen.main.scale)
+        return layoutAttr!.frame.size
+    }
+    
+    @IBAction func closeButtonPushed(_ sender: UIButton) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         theCollectionView.scrollToItem(at: IndexPath(row:startAssetIndex, section:0), at: .left, animated: true)
+        NSLog("collectionViewFrame: \(theCollectionView.frame)")
     }
     
+
     
     /// Resize the collectionView during device rotation
     ///
@@ -84,6 +116,10 @@ class PoiImageCollectionViewController: UIViewController {
         super.viewDidLayoutSubviews()
         theFlowLayout.itemSize = theCollectionView.frame.size
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -120,16 +156,25 @@ extension PoiImageCollectionViewController : UICollectionViewDelegateFlowLayout,
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if assets[indexPath.row].mediaType == .video {
-            let theCell = theCollectionView.dequeueReusableCell(withReuseIdentifier: storyboard.VideoCollectionViewCellId, for: indexPath) as! VideoCollectionViewCell
+            let theCell = theCollectionView.dequeueReusableCell(withReuseIdentifier: PoiImageCollectionViewController.storyboard.VideoCollectionViewCellId, for: indexPath) as! VideoCollectionViewCell
             
             theCell.configureWith(asset:assets[indexPath.row])
             return theCell
         } else {
-            let theCell = theCollectionView.dequeueReusableCell(withReuseIdentifier: storyboard.ImageCollectionViewCellId, for: indexPath) as! ImageCollectionViewCell
+            let theCell = theCollectionView.dequeueReusableCell(withReuseIdentifier: PoiImageCollectionViewController.storyboard.ImageCollectionViewCellId, for: indexPath) as! ImageCollectionViewCell
             
-            theCell.configureWith(asset:assets[indexPath.row])
+            theCell.configureWith(asset:assets[indexPath.row], size:theCollectionView.frame.size)
             return theCell
         }
     }
     
+}
+
+extension PoiImageCollectionViewController : UIViewControllerTransitioningDelegate {
+    func animationController(forPresented presented: UIViewController,
+                             presenting: UIViewController,
+                             source: UIViewController)
+        -> UIViewControllerAnimatedTransitioning? {
+            return POIDetailImagesDismissAnimationController(initialRect: self.selectedImageRect!, initialImage: self.selectedImage!)
+    }
 }

@@ -22,7 +22,7 @@ class ImageCollectionViewCell: UICollectionViewCell, UIScrollViewDelegate {
         return theImageView
     }
 
-    func configureWith(asset:PHAsset) {
+    func configureWith(asset:PHAsset, size:CGSize) {
         if isLoadingImage {
             PHImageManager.default().cancelImageRequest(requestId)
         } else {

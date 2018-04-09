@@ -9,7 +9,6 @@
 import UIKit
 import Contacts
 import CoreLocation
-import PKHUD
 
 
 /// This class synchronize all user contacts 

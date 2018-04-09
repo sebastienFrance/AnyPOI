@@ -336,10 +336,10 @@ class POIsViewController: UIViewController  {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let segueId = segue.identifier {
             switch segueId {
-            case storyboard.showPOIDetails:
+            case POIsViewController.storyboard.showPOIDetails:
                 let poiController = segue.destination as! POIDetailsViewController
                 poiController.poi = getFilteredPOI(sender as! IndexPath)
-            case storyboard.showMovePOISId :
+            case POIsViewController.storyboard.showMovePOISId :
                 let movePOIsController = segue.destination as! MovePOIsViewController
                 if theTableView.isEditing, let indexPaths = theTableView.indexPathsForSelectedRows {
                     movePOIsController.pois = indexPaths.map() {
@@ -597,7 +597,7 @@ extension POIsViewController : UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == Sections.POIs {
             if datasource.filteredPOIsCount > 0 && !theTableView.isEditing {
-                performSegue(withIdentifier: storyboard.showPOIDetails, sender: indexPath)
+                performSegue(withIdentifier: POIsViewController.storyboard.showPOIDetails, sender: indexPath)
             } else if theTableView.isEditing {
                 moveButton.isEnabled = true
             }

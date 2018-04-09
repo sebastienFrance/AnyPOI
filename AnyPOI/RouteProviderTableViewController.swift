@@ -248,7 +248,7 @@ extension RouteProviderTableViewController: UITableViewDelegate, UITableViewData
 //            return cell
               return UITableViewCell()
          } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: storyboard.routeProviderWithTransportTypeCellId, for: indexPath) as! RouteProviderWithTransportTypeTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: RouteProviderTableViewController.storyboard.routeProviderWithTransportTypeCellId, for: indexPath) as! RouteProviderWithTransportTypeTableViewCell
             
             switch indexPath.row {
             case appIndex.AppleMaps:

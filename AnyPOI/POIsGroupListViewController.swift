@@ -10,7 +10,6 @@ import UIKit
 import CoreData
 import Contacts
 import CoreLocation
-import PKHUD
 
 
 class POIsGroupListViewController: UIViewController, DismissModalViewController {
@@ -33,25 +32,9 @@ class POIsGroupListViewController: UIViewController, DismissModalViewController 
     private var searchFilter = "" // Use to perform filtering on list of groups
     private var filteredGroups = [GroupOfInterest]()
 
-    
-//    @objc fileprivate func menuButtonPushed(_ button:UIBarButtonItem) {
-//        container?.toggleLeftPanel()
-//    }
-    
-
-    
     //MARK: Initializations
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-//        if isStartedByLeftMenu {
-//            let menuButton =  UIBarButtonItem(image: UIImage(named: "Menu-30"),
-//                                              style: .plain,
-//                                              target: self,
-//                                              action: #selector(POIsGroupListViewController.menuButtonPushed(_:)))
-//
-//            navigationItem.leftBarButtonItem = menuButton
-//        }
         
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(POIsGroupListViewController.contextDidSaveNotification(_:)),
@@ -161,7 +144,7 @@ class POIsGroupListViewController: UIViewController, DismissModalViewController 
     //MARK: Action buttons
     
     @IBAction func groupModifyPushed(_ sender: UIButton) {
-        performSegue(withIdentifier: storyboard.updateGroupOfInterest, sender: filteredGroups[sender.tag])
+        performSegue(withIdentifier: POIsGroupListViewController.storyboard.updateGroupOfInterest, sender: filteredGroups[sender.tag])
     }
     
     @IBAction func searchButtonPushed(_ sender: UIBarButtonItem) {
@@ -185,26 +168,26 @@ class POIsGroupListViewController: UIViewController, DismissModalViewController 
   
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier! {
-        case storyboard.showPOIList:
+        case POIsGroupListViewController.storyboard.showPOIList:
             let poiController = segue.destination as! POIsViewController
             poiController.datasource = POIsGroupDataSource(group: filteredGroups[theTableView.indexPathForSelectedRow!.row])
-        case storyboard.showMonitoredPois:
+        case POIsGroupListViewController.storyboard.showMonitoredPois:
             let poiController = segue.destination as! POIsViewController
             poiController.datasource = POIsMonitoredDataSource()
-        case storyboard.showPOIsWithoutAddress:
+        case POIsGroupListViewController.storyboard.showPOIsWithoutAddress:
             let poiController = segue.destination as! POIsViewController
             poiController.datasource = POIsNoAddressDataSource()
-        case storyboard.showCityPois:
+        case POIsGroupListViewController.storyboard.showCityPois:
             if let indexPath = theTableView.indexPathForSelectedRow {
                 let poiController = segue.destination as! POIsViewController
                 showCountriesOrCitiesFor(indexPath:indexPath, viewController: poiController)
             }
-        case storyboard.updateGroupOfInterest:
+        case POIsGroupListViewController.storyboard.updateGroupOfInterest:
             startDim()
             let viewController = segue.destination as! GroupConfiguratorViewController
             viewController.delegate = self
             viewController.group = sender as? GroupOfInterest
-        case storyboard.openGroupConfiguratorId:
+        case POIsGroupListViewController.storyboard.openGroupConfiguratorId:
             startDim()
             let viewController = segue.destination as! GroupConfiguratorViewController
             viewController.delegate = self

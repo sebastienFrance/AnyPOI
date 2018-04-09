@@ -53,7 +53,7 @@ extension DebugLocationUpdateTableViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let theCell = theTableView.dequeueReusableCell(withIdentifier: storyboard.debugLocationUpdateCellId, for: indexPath) as! LetMenuDebugLocationUpdateTableViewCell
+        let theCell = theTableView.dequeueReusableCell(withIdentifier: DebugLocationUpdateTableViewController.storyboard.debugLocationUpdateCellId, for: indexPath) as! LetMenuDebugLocationUpdateTableViewCell
         
         switch datasource {
         case .LocationUpdate:

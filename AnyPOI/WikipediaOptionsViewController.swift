@@ -106,15 +106,15 @@ extension WikipediaOptionsViewController: UITableViewDelegate, UITableViewDataSo
         
         switch indexPath.row {
         case rowIndex.Language:
-            let cell = theTableView.dequeueReusableCell(withIdentifier: storyboard.WikiSelectedLanguage, for: indexPath) as! WikiSelectedLanguageTableViewCell
+            let cell = theTableView.dequeueReusableCell(withIdentifier: WikipediaOptionsViewController.storyboard.WikiSelectedLanguage, for: indexPath) as! WikiSelectedLanguageTableViewCell
             cell.theLabel.text = String.localizedStringWithFormat(NSLocalizedString("Wikipedia Language: %@", comment: ""), WikipediaLanguages.LanguageForISOcode(UserPreferences.sharedInstance.wikipediaLanguageISOcode))
             return cell
         case rowIndex.LanguagePicker:
-            let cell = theTableView.dequeueReusableCell(withIdentifier: storyboard.WikiLanguagesCellId, for: indexPath) as! WikiLanguagePickerTableViewCell
+            let cell = theTableView.dequeueReusableCell(withIdentifier: WikipediaOptionsViewController.storyboard.WikiLanguagesCellId, for: indexPath) as! WikiLanguagePickerTableViewCell
             cell.wikiUpdate = self
             return cell
         case rowIndex.MaxResults:
-            let cell = theTableView.dequeueReusableCell(withIdentifier: storyboard.WikipediaSliderCellId, for: indexPath) as! WikipediaSliderTableViewCell
+            let cell = theTableView.dequeueReusableCell(withIdentifier: WikipediaOptionsViewController.storyboard.WikipediaSliderCellId, for: indexPath) as! WikipediaSliderTableViewCell
             cell.theLabel.text = NSLocalizedString("MaxResultsWikipediaOptions", comment: "")
             cell.theSlider.isContinuous = true
             cell.theSlider.minimumValue = 10
@@ -124,7 +124,7 @@ extension WikipediaOptionsViewController: UITableViewDelegate, UITableViewDataSo
             cell.theSlider.tag = indexPath.row
             return cell
        case rowIndex.NearByDistance:
-            let cell = theTableView.dequeueReusableCell(withIdentifier: storyboard.WikipediaSliderCellId, for: indexPath) as! WikipediaSliderTableViewCell
+            let cell = theTableView.dequeueReusableCell(withIdentifier: WikipediaOptionsViewController.storyboard.WikipediaSliderCellId, for: indexPath) as! WikipediaSliderTableViewCell
             cell.theSlider.isContinuous = true
             cell.theSlider.minimumValue = 100 // 100 meters
             cell.theSlider.maximumValue = 10000 // 10 km

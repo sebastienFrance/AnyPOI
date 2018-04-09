@@ -86,7 +86,7 @@ extension HelperViewController: UICollectionViewDataSource, UICollectionViewDele
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let cell = theCollectionView.dequeueReusableCell(withReuseIdentifier: storyboard.helperCellId, for: indexPath) as! HelperCollectionViewCell
+        let cell = theCollectionView.dequeueReusableCell(withReuseIdentifier: HelperViewController.storyboard.helperCellId, for: indexPath) as! HelperCollectionViewCell
         
         let data = helpPages[indexPath.row]
         cell.theImage.image = data.backgroundScreenshot

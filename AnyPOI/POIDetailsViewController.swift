@@ -11,13 +11,13 @@ import MapKit
 import Alamofire
 import SafariServices
 import CoreData
-import PKHUD
 import Contacts
 import ContactsUI
 import Photos
 import AVKit
 import EventKitUI
 import MessageUI
+import PKHUD
 
 class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate,  EKEventEditViewDelegate, ContactsDelegate, PHPhotoLibraryChangeObserver {
 
@@ -69,6 +69,9 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
     fileprivate var mapSnapshot:MKMapSnapshot?
     
     fileprivate var photosFetchResult:PHFetchResult<PHAsset>!
+    
+    fileprivate var selectedImageRect:CGRect?
+    fileprivate var selectedImage:UIImage?
     
     //MARK: Initialization
     override func viewDidLoad() {
@@ -123,7 +126,18 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
         PHPhotoLibrary.shared().unregisterChangeObserver(self)
     }
 
-    
+
+    func showImageAt(indexPath:IndexPath) {
+        let cellImages = self.theTableView.cellForRow(at: IndexPath(row: 1, section: 0)) as! PoiDetailsImagesTableViewCell
+        cellImages.collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: false)
+    }
+
+    func getRectImageAt(indexPath:IndexPath) -> CGRect {
+        let cellImages = self.theTableView.cellForRow(at: IndexPath(row: 1, section: 0)) as! PoiDetailsImagesTableViewCell
+        let cellLayout = cellImages.collectionView.layoutAttributesForItem(at: indexPath)
+        return cellImages.collectionView.convert(cellLayout!.frame, to: nil)
+    }
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.isToolbarHidden = true
@@ -388,7 +402,7 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
     @IBAction func startMail(_ sender: UIButton) {
         if poi.poiIsContact, let contactId = poi.poiContactIdentifier, let contact = ContactsUtilities.getContactForDetailedDescription(contactId) {
             if contact.emailAddresses.count > 1 {
-                performSegue(withIdentifier: storyboard.openEmailsId, sender: poi)
+                performSegue(withIdentifier: POIDetailsViewController.storyboard.openEmailsId, sender: poi)
             } else {
                  if MFMailComposeViewController.canSendMail() {
                     let currentLabeledValue = contact.emailAddresses[0]
@@ -410,7 +424,7 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
         
         let phoneNumbers = poi.phoneNumbers
         if phoneNumbers.count > 1 {
-            performSegue(withIdentifier: storyboard.openPhonesId, sender: nil)
+            performSegue(withIdentifier: POIDetailsViewController.storyboard.openPhonesId, sender: nil)
         } else {
             Utilities.startPhoneCall(phoneNumbers[0].stringValue)
         }
@@ -450,22 +464,6 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
         Utilities.openSafariFrom(self, url: wikiURL, delegate: self)
     }
     
-    
-    /// When a Wikipedia article is selected we want to:
-    ///  - Center the map on the Wikipedia location 
-    ///  - Close this viewController to show the MapViewController
-    ///
-    /// - Parameter sender: <#sender description#>
-//    @IBAction func goToWikipedia(_ sender: UIButton) {
-//        let wikipedia = poi.wikipedias[sender.tag]
-//
-//        // Sends the notification to update the mapView location
-//        NotificationCenter.default.post(name: Notification.Name(rawValue: MapViewController.MapNotifications.showWikipedia),
-//                                                                  object: wikipedia,
-//                                                                  userInfo: [MapViewController.MapNotifications.showPOI_Parameter_Wikipedia: wikipedia])
-//        // Hide this view and display the mapViewController
-//        MainTabBarViewController.instance?.showMap()
-//    }
 
     //MARK: EKEventEditViewDelegate
     func eventEditViewController(_ controller: EKEventEditViewController, didCompleteWith action: EKEventEditViewAction) {
@@ -485,7 +483,7 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == storyboard.showPoiEditor {
+        if segue.identifier == POIDetailsViewController.storyboard.showPoiEditor {
             // Display the POI editor
             
 
@@ -493,7 +491,7 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
             let poiController = segue.destination as! PoiEditorViewController
             poiController.thePoi = poi
 
-        } else if segue.identifier == storyboard.showImageCollectionId {
+        } else if segue.identifier == POIDetailsViewController.storyboard.showImageCollectionId {
             // Display the image / video details
             let viewController = segue.destination as! PoiImageCollectionViewController
             var assets = [PHAsset]()
@@ -502,14 +500,15 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
             }
             viewController.assets = assets
             viewController.startAssetIndex = sender as! Int
-        } else if segue.identifier == storyboard.openPhonesId {
+            viewController.transitioningDelegate = self
+        } else if segue.identifier == POIDetailsViewController.storyboard.openPhonesId {
             // Display the list of Phones number related to the POI
             let viewController = segue.destination as! ContactsViewController
             viewController.delegate = self
             viewController.poi = poi
             viewController.mode = .phone
             startDim()
-        } else if segue.identifier == storyboard.openEmailsId {
+        } else if segue.identifier == POIDetailsViewController.storyboard.openEmailsId {
             // Display the list of emails related to the POI
             let viewController = segue.destination as! ContactsViewController
             viewController.delegate = self
@@ -752,6 +751,37 @@ extension POIDetailsViewController : UICollectionViewDelegate, UICollectionViewD
     
     //MARK: UICollectionViewDelegate
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        performSegue(withIdentifier: storyboard.showImageCollectionId, sender: indexPath.row)
+        let cell = collectionView.cellForItem(at: indexPath) as! PoiDetailsImagesCollectionViewCell
+        
+        // Keep in mind the CGRect and the image of the selected cell. These data are used for the Animated transition
+        self.selectedImageRect = collectionView.convert(cell.frame, to: nil)
+        self.selectedImage = cell.PoiImageView.image
+        
+        performSegue(withIdentifier: POIDetailsViewController.storyboard.showImageCollectionId, sender: indexPath.row)
+    }
+}
+
+extension POIDetailsViewController: UIViewControllerTransitioningDelegate {
+    
+    func animationController(forPresented presented: UIViewController,
+                             presenting: UIViewController,
+                             source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+            if let frame = self.selectedImageRect, let image = self.selectedImage {
+                return POIDetailImagesPresentAnimationController(initialRect: frame, initialImage: image)
+            } else {
+                return nil
+            }
+    }
+
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        if let imageVC = dismissed as? PoiImageCollectionViewController {
+            // Get the initial image and rect used to start the animation
+            let (targetImage, targetFrame) = imageVC.getVisibleImageAndRect()
+            if let frame = targetFrame, let image = targetImage {
+                return POIDetailImagesDismissAnimationController(initialRect: frame, initialImage: image)
+            }
+        }
+        
+        return nil
     }
 }

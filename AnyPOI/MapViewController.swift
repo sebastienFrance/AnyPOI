@@ -146,7 +146,7 @@ class MapViewController: UIViewController, SearchControllerDelegate {
         
         if UserPreferences.sharedInstance.isFirstStartup {
             UserPreferences.sharedInstance.isFirstStartup = false
-            performSegue(withIdentifier: storyboard.showHelperId, sender: nil)
+            performSegue(withIdentifier: MapViewController.storyboard.showHelperId, sender: nil)
         }
     }
     
@@ -159,7 +159,7 @@ class MapViewController: UIViewController, SearchControllerDelegate {
     ///
     /// - Parameter gpx: URL of the GPX file
     func importFile(gpx:URL) {
-        performSegue(withIdentifier: storyboard.showGPXImportId, sender: gpx)
+        performSegue(withIdentifier: MapViewController.storyboard.showGPXImportId, sender: gpx)
     }
     
     
@@ -352,7 +352,7 @@ class MapViewController: UIViewController, SearchControllerDelegate {
     //MARK: Actions from Information view
     
     @IBAction func editButtonPushed(_ sender: UIButton) {
-        performSegue(withIdentifier: storyboard.routeDetailsEditorId, sender: nil)
+        performSegue(withIdentifier: MapViewController.storyboard.routeDetailsEditorId, sender: nil)
     }
 
     
@@ -1082,20 +1082,20 @@ class MapViewController: UIViewController, SearchControllerDelegate {
     
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == storyboard.showPOIDetails {
+        if segue.identifier == MapViewController.storyboard.showPOIDetails {
             let poiController = segue.destination as! POIDetailsViewController
          //   let poiController = segue.destination as! TestViewController
             let thePoi = sender as! PointOfInterest
             poiController.poi = thePoi
-        } else if segue.identifier == storyboard.showMapOptions {
+        } else if segue.identifier == MapViewController.storyboard.showMapOptions {
             //TODO: to be removed
             //let viewController = segue.destination as! OptionsViewController
             //viewController.theMapView = theMapView
-        } else if segue.identifier == storyboard.showGroupContent {
+        } else if segue.identifier == MapViewController.storyboard.showGroupContent {
             let viewController = segue.destination as! POIsViewController
             let group = sender as! GroupOfInterest
             viewController.datasource = POIsGroupDataSource(group: group)
-        } else if segue.identifier == storyboard.editGroup {
+        } else if segue.identifier == MapViewController.storyboard.editGroup {
             startDim()
             let viewController = segue.destination as! GroupConfiguratorViewController
             viewController.group = sender as? GroupOfInterest
@@ -1103,30 +1103,30 @@ class MapViewController: UIViewController, SearchControllerDelegate {
         } else if segue.identifier == PoiCalloutDelegateImpl.storyboard.startTableRouteId {
             let viewController = segue.destination as! RouteProviderTableViewController
             startRouteProviderTable(viewController, sender: sender as AnyObject?)
-        } else if segue.identifier == storyboard.routeDetailsEditorId {
+        } else if segue.identifier == MapViewController.storyboard.routeDetailsEditorId {
             let viewController = segue.destination as! RouteDetailsViewController
             viewController.wayPointsDelegate = self
-        } else if segue.identifier == storyboard.openPhonesId {
+        } else if segue.identifier == MapViewController.storyboard.openPhonesId {
             startDim()
             let viewController = segue.destination as! ContactsViewController
             viewController.delegate = self
             viewController.poi = sender as? PointOfInterest
             viewController.mode = .phone
-        } else if segue.identifier == storyboard.openEmailsId {
+        } else if segue.identifier == MapViewController.storyboard.openEmailsId {
             startDim()
            let viewController = segue.destination as! ContactsViewController
             viewController.delegate = self
             viewController.poi = sender as? PointOfInterest
             viewController.mode = .email 
-        } else if segue.identifier == storyboard.openMapFilterId {
+        } else if segue.identifier == MapViewController.storyboard.openMapFilterId {
             let viewController = segue.destination as! MapFilterViewController
             show(mapFilterVC: viewController)
-        } else if segue.identifier == storyboard.showGPXImportId {
+        } else if segue.identifier == MapViewController.storyboard.showGPXImportId {
             let navController = segue.destination as! UINavigationController
             let viewController = navController.topViewController as! GPXImportViewController
             //let viewController = segue.destination as! GPXImportViewController
             viewController.gpxURL = sender as! URL
-        } else if segue.identifier == storyboard.showHelperId {
+        } else if segue.identifier == MapViewController.storyboard.showHelperId {
             let helpViewController = segue.destination as! HelperViewController
             helpViewController.isStartedFomMap = true
         }
@@ -1319,12 +1319,12 @@ extension MapViewController : UISearchResultsUpdating, UISearchControllerDelegat
                 // because the Dimmer is behind the Search Bar...
                 DispatchQueue.main.async {
                     if let group = viewController.selectedGroup {
-                        self.performSegue(withIdentifier: storyboard.editGroup, sender: group)
+                        self.performSegue(withIdentifier: MapViewController.storyboard.editGroup, sender: group)
                     }
                 }
             case .showGroupContent:
                 if let group = viewController.selectedGroup {
-                    performSegue(withIdentifier: storyboard.showGroupContent, sender: group)
+                    performSegue(withIdentifier: MapViewController.storyboard.showGroupContent, sender: group)
                 }
             case .showRoute:
                 if let route = viewController.selectedRoute {
@@ -1332,7 +1332,7 @@ extension MapViewController : UISearchResultsUpdating, UISearchControllerDelegat
                 }
             case .editPoi:
                 if let poi = viewController.selectedPoi {
-                    performSegue(withIdentifier: storyboard.showPOIDetails, sender: poi)
+                    performSegue(withIdentifier: MapViewController.storyboard.showPOIDetails, sender: poi)
                 }
             }
         }
