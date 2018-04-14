@@ -11,16 +11,10 @@ import Photos
 
 class POIDetailImagesDismissAnimationController: NSObject ,UIViewControllerAnimatedTransitioning {
 
-    // Initial image and its rect used to start the Animation
-    private let initialFrame:CGRect
-    private var initialCellImage:UIImage
-    
     
     private static let TRANSITION_DURATION = 0.6
 
-    init(initialRect:CGRect, initialImage:UIImage) {
-        self.initialFrame = initialRect
-        self.initialCellImage = initialImage
+    override init() {
     }
 
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
@@ -42,11 +36,10 @@ class POIDetailImagesDismissAnimationController: NSObject ,UIViewControllerAnima
                 transitionContext.completeTransition(true)
                 return
         }
-
-        // SEB: To be completed -> Must work also with Videos
         
         let containerView = transitionContext.containerView
         
+        //ToView is a TabBarController that contains the whole display
         toVC.view.frame = transitionContext.finalFrame(for: toVC)
 
 
@@ -56,48 +49,83 @@ class POIDetailImagesDismissAnimationController: NSObject ,UIViewControllerAnima
         visualEffectView.autoresizingMask = [.flexibleWidth,.flexibleHeight]
         containerView.addSubview(visualEffectView)
 
-        // Add the toVC at the end of the hierarchy
+        // Add the toVC at the bottom of the hierarchy (Blur will be on top of the ToVC)
         containerView.insertSubview(toVC.view, at: 0)
-
-        // Get the image currently displayed in the CollectionView of the From ViewController
+        
+        // Get the image currently displayed in the CollectionView of the From ViewController and make it invisible
         let indexVisibleCell = fromPoiImageVC.theCollectionView.indexPathsForVisibleItems[0]
         fromPoiImageVC.theCollectionView.alpha = 0.0 // Hide the collection view
 
         // Force the CollectionView to scroll at the index that is displaying the same image
         toPoiDetailsVC.showImageAt(indexPath: indexVisibleCell)
+        
+        var isVideoImage = true
+        var imageView:UIImageView?
+        var backgroundView = fromPoiImageVC.getSnapshotViewFromVideoCell()
+        if let theBackgroundView = backgroundView {
+            theBackgroundView.contentMode = .scaleAspectFit
+        } else {
+            isVideoImage = false
+            
+            // Create an imageView using the initial image. It has a higher resolution than the one that will be displayed
+            // in the target ViewController and so we don't need to request a new version of the image using the Asset
+            imageView = UIImageView(frame: fromPoiImageVC.getVisibleRect()!)
+            imageView?.clipsToBounds = true
+            imageView?.contentMode = .scaleAspectFit
+            imageView?.isUserInteractionEnabled = false
+            imageView?.image = fromPoiImageVC.getSnapshotImageFromImageCell()
+            
+            // The background view has the same size and position as the CollectionView
+            // It will just contain the image to clip the image in the "CollectionView" even when user has zoomed on the image
+            backgroundView = UIView(frame: fromPoiImageVC.theCollectionView.frame)
+            backgroundView!.addSubview(imageView!)
+            backgroundView!.clipsToBounds = true // Make sure the image will not exceed the size of the "collectionView"
+        }
 
         // Get the Rect where the image will be displayed in the target collection view
-        let newTargetFrame = toPoiDetailsVC.getRectImageAt(indexPath: indexVisibleCell)
-
-        // Create an imageView using the initial image. It has a higher resolution than the one that will be displayed
-        // in the target ViewController and so we don't need to request a new version of the image using the Asset
-        let imageView = UIImageView(frame: containerView.convert(initialFrame, from: nil))
-        imageView.clipsToBounds = true
-        imageView.contentMode = .scaleAspectFit
-        imageView.isUserInteractionEnabled = true
-        imageView.image = self.initialCellImage
-
+        var newTargetFrame = toPoiDetailsVC.getRectImageAt(indexPath: indexVisibleCell)
+        newTargetFrame = newTargetFrame.offsetBy(dx: 0, dy: isVideoImage ? 0 : -20)
+        
         // Add the UIImageView to the containerView
-        containerView.addSubview(imageView)
+        containerView.addSubview(backgroundView!)
+        
+        // Add the close Button in the containerView to progressively hide is during the animation
+        let viewCloseButton = fromPoiImageVC.theCloseButton.snapshotView(afterScreenUpdates: false)
+        viewCloseButton?.frame = fromPoiImageVC.theCloseButton.convert(fromPoiImageVC.theCloseButton.bounds, to: nil)
+        if let theViewCloseButton  = viewCloseButton {
+            containerView.addSubview(theViewCloseButton)
+        }
+        
         
         // At this step in the container View we have from the bottom to top: ToVC, VisualEffect, ImageView
-
-        // SEB: Check why the close button is not removing smoothly
         
         // Start the animation
         let animator = UIViewPropertyAnimator(duration: POIDetailImagesDismissAnimationController.TRANSITION_DURATION, curve: .easeOut) {
             // Make progressively the image smaller
-            imageView.frame = newTargetFrame
-            // Make progressively the from VC invislbe
+            if isVideoImage {
+                // It's directly the background view when it's a video
+                backgroundView?.frame = newTargetFrame
+            } else {
+                // It's an image when it's an image (because the image can be zoom
+                imageView?.frame = newTargetFrame
+            }
+            
+            // Make progressively the from VC and the close button to disappear
             fromPoiImageVC.view.alpha = 0.0
+            viewCloseButton?.alpha = 0.0
+            
             // Make progressively the blur to become non blurred !
             visualEffectView.effect = nil
         }
 
         animator.addCompletion() { position in
             // Remove useless view from the container
-            imageView.removeFromSuperview()
+            viewCloseButton?.removeFromSuperview()
+            if !isVideoImage {
+                imageView?.removeFromSuperview()
+            }
             visualEffectView.removeFromSuperview()
+
             
             // Tell the system the animation is completed
             transitionContext.completeTransition(true)

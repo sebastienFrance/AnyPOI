@@ -14,7 +14,6 @@ class PoiImageCollectionViewController: UIViewController {
 
     @IBOutlet weak var theCollectionView: UICollectionView! {
         didSet {
-            //theCollectionView.backgroundColor = UIColor.black
             theCollectionView.delegate = self
             theCollectionView.dataSource = self
         }
@@ -24,6 +23,7 @@ class PoiImageCollectionViewController: UIViewController {
         didSet {
             theFlowLayout.itemSize = theCollectionView.frame.size
             //theFlowLayout.minimumLineSpacing = 40
+            //theFlowLayout.minimumInteritemSpacing = 0
             //theFlowLayout.sectionInset = UIEdgeInsetsMake(0, 20, 0, 20)
             theFlowLayout.sectionInset = UIEdgeInsetsMake(0,0,0,0)
             theFlowLayout.minimumLineSpacing = 0.0
@@ -33,35 +33,62 @@ class PoiImageCollectionViewController: UIViewController {
     var assets:[PHAsset]!
     var startAssetIndex = 0
 
-
-    private var selectedImageRect:CGRect?
-    private var selectedImage:UIImage?
-
+    @IBOutlet weak var theCloseButton: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
-       // view.backgroundColor = UIColor.black
 
         theCollectionView.reloadData()
     }
     
     /// This method is used to get the visible image and its rect when the viewController is dismissed
     /// and we need to perform the animated transition. It provides the initial image and rect to start the animation
-    func getVisibleImageAndRect() -> (image:UIImage?, rect:CGRect?) {
+    func getVisibleRect() -> CGRect? {
         if theCollectionView.visibleCells.count > 0  {
             if let visibleCell = theCollectionView.visibleCells[0] as? ImageCollectionViewCell {
-                let targetFrame = theCollectionView.convert(visibleCell.frame, to: nil)
+                let targetFrame = CGRect(x: -visibleCell.theScrollView.contentOffset.x,
+                                         y: -visibleCell.theScrollView.contentOffset.y,
+                                         width: visibleCell.theImageView.frame.width,
+                                         height: visibleCell.theImageView.frame.height)
                 
-                return (image:visibleCell.theImageView.image, rect:targetFrame)
+                return targetFrame
+            } else if let visibleCell = theCollectionView.visibleCells[0] as? VideoCollectionViewCell {
+                let targetFrame = theCollectionView.convert(visibleCell.frame, to: nil)
+                return targetFrame
             }
         }
-        return (image: nil, rect: nil)
+        return nil
+    }
+    
+    var isDisplayedCellVideo:Bool {
+        if theCollectionView.visibleCells.count <= 0 {
+            return false
+        }
+        
+        let displayCell = theCollectionView.visibleCells[0]
+        return displayCell is VideoCollectionViewCell
+    }
+    
+    func getSnapshotViewFromVideoCell() -> UIView? {
+        if isDisplayedCellVideo {
+            let theVideoCell = theCollectionView.visibleCells[0] as! VideoCollectionViewCell
+            let theViedeoCellView = theVideoCell.playerViewController.view
+            return theViedeoCellView!.snapshotView(afterScreenUpdates: false)
+        }
+        
+        return nil
+    }
+    
+    func getSnapshotImageFromImageCell() -> UIImage? {
+        if theCollectionView.visibleCells.count > 0, let visibleCell = theCollectionView.visibleCells[0] as? ImageCollectionViewCell  {
+            return visibleCell.theImageView.image
+        }
+        return nil
     }
     
     func getSizeWhenImageWillAppear() -> CGSize {
         let indexFirstCell = IndexPath(row: startAssetIndex, section: 0)
         
         let layoutAttr = theFlowLayout.layoutAttributesForItem(at: indexFirstCell)
-        //let size = CGSize(width: layoutAttr!.frame.size.width * UIScreen.main.scale , height: layoutAttr!.frame.size.height * UIScreen.main.scale)
         return layoutAttr!.frame.size
     }
     
@@ -71,39 +98,13 @@ class PoiImageCollectionViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        theCollectionView.scrollToItem(at: IndexPath(row:startAssetIndex, section:0), at: .left, animated: true)
-        NSLog("collectionViewFrame: \(theCollectionView.frame)")
+        theCollectionView.scrollToItem(at: IndexPath(item:startAssetIndex, section:0), at: .left, animated: true)
+        theCollectionView.layoutSubviews() // It's mandatory to make sure the collection view display the selected cell
     }
     
-
     
-    /// Resize the collectionView during device rotation
-    ///
-    /// - Parameters:
-    ///   - size: New size of the viewController
-    ///   - coordinator: coordinator for the animation
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.viewWillTransition(to: size, with: coordinator)
-        
-        // Compute the index of the image/video currently displayed
-        let offset = self.theCollectionView.contentOffset;
-        let index = round(offset.x / self.theCollectionView.bounds.size.width);
-        
-        // hide the collection view to avoid horrible animation during the rotation
-        // animation is horrible due to the offset change
-        theCollectionView.alpha = 0.0
-        coordinator.animate(alongsideTransition: nil, completion: {
-            _ in
-            // display the collectionView during the animation
-            self.theCollectionView.alpha = 1.0
-            
-            // compute the new offset based on the index and the new size
-            let newOffset = CGPoint(x: index * self.theCollectionView.frame.size.width, y: offset.y)
-            self.theCollectionView.setContentOffset(newOffset, animated: false)
-        })
-    }
-
     
+
     /// Invalidate the layout of the FlowLayout, it's mandatory for the rotation
     override func viewWillLayoutSubviews() {
         theFlowLayout.invalidateLayout()
@@ -114,7 +115,7 @@ class PoiImageCollectionViewController: UIViewController {
     /// Set the size of the items (mandatory for the rotation)
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        theFlowLayout.itemSize = theCollectionView.frame.size
+        theFlowLayout.itemSize = theCollectionView.bounds.size
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -170,11 +171,3 @@ extension PoiImageCollectionViewController : UICollectionViewDelegateFlowLayout,
     
 }
 
-extension PoiImageCollectionViewController : UIViewControllerTransitioningDelegate {
-    func animationController(forPresented presented: UIViewController,
-                             presenting: UIViewController,
-                             source: UIViewController)
-        -> UIViewControllerAnimatedTransitioning? {
-            return POIDetailImagesDismissAnimationController(initialRect: self.selectedImageRect!, initialImage: self.selectedImage!)
-    }
-}

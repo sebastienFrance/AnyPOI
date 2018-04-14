@@ -127,8 +127,15 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
     }
 
 
+    // Scroll to the image at the given IndexPath when the image is not already visible
     func showImageAt(indexPath:IndexPath) {
         let cellImages = self.theTableView.cellForRow(at: IndexPath(row: 1, section: 0)) as! PoiDetailsImagesTableViewCell
+        
+        let indexPaths = cellImages.collectionView.indexPathsForVisibleItems
+        if indexPaths.contains(indexPath) {
+            return
+        }
+        
         cellImages.collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: false)
     }
 
@@ -774,12 +781,9 @@ extension POIDetailsViewController: UIViewControllerTransitioningDelegate {
     }
 
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        if let imageVC = dismissed as? PoiImageCollectionViewController {
+        if let _ = dismissed as? PoiImageCollectionViewController {
             // Get the initial image and rect used to start the animation
-            let (targetImage, targetFrame) = imageVC.getVisibleImageAndRect()
-            if let frame = targetFrame, let image = targetImage {
-                return POIDetailImagesDismissAnimationController(initialRect: frame, initialImage: image)
-            }
+            return POIDetailImagesDismissAnimationController()
         }
         
         return nil

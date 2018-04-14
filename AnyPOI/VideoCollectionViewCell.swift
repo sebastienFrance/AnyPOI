@@ -19,10 +19,11 @@ class VideoCollectionViewCell: UICollectionViewCell {
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        backgroundColor = UIColor.black
+        playerViewController.view.contentMode = .scaleAspectFit
+        playerViewController.view.frame = self.contentView.frame
+        playerViewController.view.backgroundColor = UIColor.clear
         addSubview(playerViewController.view)
         playerViewController.videoGravity = AVLayerVideoGravity.resizeAspect.rawValue
-        playerViewController.view.frame = CGRect(x:0, y:0, width:frame.size.width, height:frame.size.height)
     }
     
     func resetPlayer() {
@@ -40,7 +41,6 @@ class VideoCollectionViewCell: UICollectionViewCell {
             isLoadingVideo = true
         }
         
-
         playerViewController.player = nil
         let videoOptions = PHVideoRequestOptions()
         videoOptions.deliveryMode = .fastFormat
