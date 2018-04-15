@@ -21,12 +21,9 @@ class PoiImageCollectionViewController: UIViewController {
     
     @IBOutlet weak var theFlowLayout: UICollectionViewFlowLayout! {
         didSet {
-            theFlowLayout.itemSize = theCollectionView.frame.size
-            //theFlowLayout.minimumLineSpacing = 40
-            //theFlowLayout.minimumInteritemSpacing = 0
-            //theFlowLayout.sectionInset = UIEdgeInsetsMake(0, 20, 0, 20)
-            theFlowLayout.sectionInset = UIEdgeInsetsMake(0,0,0,0)
-            theFlowLayout.minimumLineSpacing = 0.0
+            theFlowLayout.minimumLineSpacing = 40 // Min space between items on the same row
+            theFlowLayout.minimumInteritemSpacing = 0 // Min Space between items on the same column (we have only 1 item)
+            theFlowLayout.sectionInset = UIEdgeInsetsMake(0, 0, 0, 40)
         }
     }
     
@@ -93,6 +90,16 @@ class PoiImageCollectionViewController: UIViewController {
     }
     
     @IBAction func closeButtonPushed(_ sender: UIButton) {
+        
+        for cell in theCollectionView.visibleCells {
+            if cell is VideoCollectionViewCell {
+                let videoCell = cell as! VideoCollectionViewCell
+                videoCell.resetPlayer()
+                videoCell.playerViewController.showsPlaybackControls = false
+            }
+        }
+
+        
         self.dismiss(animated: true, completion: nil)
     }
     
@@ -169,5 +176,12 @@ extension PoiImageCollectionViewController : UICollectionViewDelegateFlowLayout,
         }
     }
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        // Size of the item is the width of the view and the height is the height of the collectionView
+        // The collection view has a width > to te view because of linespacing between items (configured in Storyboard with constraints)
+        // The view has a height > collectionView because of the space at the bottom that is reserved for the "close" button
+        return CGSize(width: self.view.frame.width, height: theCollectionView.frame.height)
+    }
+
 }
 
