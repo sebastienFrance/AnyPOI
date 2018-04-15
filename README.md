@@ -15,3 +15,6 @@ More details on the CellMonitoring features: http://sebbrugalieres.fr/anypoi/Any
 ![Alt text](Screenshots/IMG_1299.jpg?raw=true "Geo view") ![Alt text](Screenshots/IMG_1300.jpg?raw=true "Cell details")
 ![Alt text](Screenshots/IMG_1301.jpg?raw=true "KPIs") ![Alt text](Screenshots/IMG_1302.jpg?raw=true "Dashboard")
 ![Alt text](Screenshots/IMG_1303.jpg?raw=true "KPIs")
+![Alt text](Screenshots/AppWatch_1.jpg?raw=true "Watch Complication")
+![Alt text](Screenshots/AppWatch_2.jpg?raw=true "POI list")
+![Alt text](Screenshots/AppWatch_3.jpg?raw=true "POI details")
