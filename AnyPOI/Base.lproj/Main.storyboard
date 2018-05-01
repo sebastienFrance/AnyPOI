@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="F4A-4t-dvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="F4A-4t-dvc">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
         <capability name="Segues with Peek and Pop" minToolsVersion="7.1"/>
+        <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -27,17 +28,17 @@
                                 <rect key="frame" x="0.0" y="64" width="375" height="554"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FOa-aD-AdC">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="440"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="428"/>
                                         <subviews>
                                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="9zU-77-0Vn">
-                                                <rect key="frame" x="0.0" y="0.0" width="375" height="440"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="375" height="428"/>
                                                 <gestureRecognizers/>
                                                 <connections>
                                                     <outletCollection property="gestureRecognizers" destination="9OJ-J3-ump" appends="YES" id="hJG-T0-U3G"/>
                                                 </connections>
                                             </mapView>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PgO-Ab-fYe">
-                                                <rect key="frame" x="337" y="402" width="30" height="30"/>
+                                                <rect key="frame" x="337" y="390" width="30" height="30"/>
                                                 <color key="tintColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 <state key="normal" image="Near Me Filled-30"/>
                                                 <connections>
@@ -45,7 +46,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tkV-Hc-4mn">
-                                                <rect key="frame" x="312" y="364" width="55" height="30"/>
+                                                <rect key="frame" x="312" y="352" width="55" height="30"/>
                                                 <state key="normal" title="No filter"/>
                                                 <connections>
                                                     <segue destination="mUb-Ux-CEN" kind="show" identifier="openMapFilterId" id="CJD-Yq-74I"/>
@@ -66,13 +67,13 @@
                                         </constraints>
                                     </view>
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BvY-6y-yMt">
-                                        <rect key="frame" x="0.0" y="440" width="375" height="114"/>
+                                        <rect key="frame" x="0.0" y="428" width="375" height="126"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HfO-CL-lhE">
-                                                <rect key="frame" x="0.0" y="0.0" width="40" height="114"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="40" height="126"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0f3-J6-fS3">
-                                                        <rect key="frame" x="5" y="37" width="30" height="40"/>
+                                                        <rect key="frame" x="5" y="43" width="30" height="40"/>
                                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" priority="999" constant="40" id="RzZ-ME-Yln"/>
@@ -94,13 +95,24 @@
                                                 </constraints>
                                             </view>
                                             <stackView contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="zP2-t1-0zQ" userLabel="Route Description and buttons">
-                                                <rect key="frame" x="40" y="0.0" width="335" height="114"/>
+                                                <rect key="frame" x="40" y="0.0" width="335" height="126"/>
                                                 <subviews>
                                                     <stackView contentMode="scaleToFill" horizontalHuggingPriority="249" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="GuO-3P-4KJ">
                                                         <rect key="frame" x="0.0" y="0.0" width="335" height="40"/>
                                                         <subviews>
+                                                            <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Pmb-jI-5LP">
+                                                                <rect key="frame" x="0.0" y="0.0" width="290" height="40"/>
+                                                                <subviews>
+                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" text="Paris to New-York city" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="5Zb-Oe-5wh">
+                                                                        <rect key="frame" x="0.0" y="8" width="290" height="24"/>
+                                                                        <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
+                                                                        <nil key="textColor"/>
+                                                                        <nil key="highlightedColor"/>
+                                                                    </label>
+                                                                </subviews>
+                                                            </stackView>
                                                             <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="999" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xTm-go-fwR">
-                                                                <rect key="frame" x="0.0" y="0.0" width="0.0" height="40"/>
+                                                                <rect key="frame" x="295" y="0.0" width="40" height="40"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" priority="999" constant="40" identifier="Editor button height" id="BNV-8d-Ovm"/>
                                                                     <constraint firstAttribute="width" priority="999" constant="40" identifier="Editor button width" id="Opo-Io-iwc"/>
@@ -116,51 +128,18 @@
                                                                     </segue>
                                                                 </connections>
                                                             </button>
-                                                            <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Pmb-jI-5LP">
-                                                                <rect key="frame" x="-40" y="0.0" width="0.0" height="40"/>
-                                                                <subviews>
-                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" text="Paris to New-York city" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="5Zb-Oe-5wh">
-                                                                        <rect key="frame" x="0.0" y="8" width="0.0" height="24"/>
-                                                                        <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
-                                                                        <nil key="textColor"/>
-                                                                        <nil key="highlightedColor"/>
-                                                                    </label>
-                                                                </subviews>
-                                                            </stackView>
                                                         </subviews>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </stackView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="ATj-5x-tH3" userLabel="Distance and Buttons">
                                                         <rect key="frame" x="0.0" y="40" width="335" height="40"/>
                                                         <subviews>
-                                                            <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BbV-Ji-eBm" userLabel="FlyoverButton">
-                                                                <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
-                                                                <constraints>
-                                                                    <constraint firstAttribute="width" priority="999" constant="40" identifier="FlyoverButtonWidth" id="78e-nL-LBX"/>
-                                                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" priority="999" constant="40" id="GKb-hV-UHz"/>
-                                                                </constraints>
-                                                                <state key="normal" image="Flyover-26"/>
-                                                                <connections>
-                                                                    <action selector="flyoverButtonPushed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="JiZ-YC-Uoe"/>
-                                                                </connections>
-                                                            </button>
-                                                            <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Ub-3m-huU">
-                                                                <rect key="frame" x="45" y="0.0" width="40" height="40"/>
-                                                                <constraints>
-                                                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" priority="999" constant="40" id="q8i-Rc-GfX"/>
-                                                                    <constraint firstAttribute="width" priority="999" constant="40" identifier="NavigationButtonWidth" id="reU-pE-Vus"/>
-                                                                </constraints>
-                                                                <state key="normal" image="Navigation-26"/>
-                                                                <connections>
-                                                                    <action selector="navigationButtonPushed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="6wk-Yc-chP"/>
-                                                                </connections>
-                                                            </button>
                                                             <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="US7-KY-mHu">
-                                                                <rect key="frame" x="90" y="0.0" width="245" height="40"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="335" height="40"/>
                                                                 <subviews>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="6300,02 km in 23:30" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1Yr-if-ntb">
-                                                                        <rect key="frame" x="0.0" y="10" width="245" height="20.5"/>
-                                                                        <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                                                        <rect key="frame" x="0.0" y="11" width="335" height="18"/>
+                                                                        <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                                                         <nil key="textColor"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
@@ -169,13 +148,13 @@
                                                         </subviews>
                                                     </stackView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="aXc-2o-EKx">
-                                                        <rect key="frame" x="0.0" y="80" width="335" height="34"/>
+                                                        <rect key="frame" x="0.0" y="80" width="335" height="46"/>
                                                         <subviews>
-                                                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="W6v-Mx-Hn8">
-                                                                <rect key="frame" x="0.0" y="0.0" width="89" height="28"/>
+                                                            <stackView opaque="NO" contentMode="scaleToFill" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="W6v-Mx-Hn8">
+                                                                <rect key="frame" x="0.0" y="0.0" width="185" height="40"/>
                                                                 <subviews>
                                                                     <segmentedControl opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="751" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="ld6-1T-i1Q">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="89" height="29"/>
+                                                                        <rect key="frame" x="0.0" y="0.0" width="89" height="41"/>
                                                                         <segments>
                                                                             <segment title="" image="Sedan-30"/>
                                                                             <segment title="" image="Walking-30"/>
@@ -184,10 +163,32 @@
                                                                             <action selector="selectedTransportTypeHasChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="Q58-AH-tHr"/>
                                                                         </connections>
                                                                     </segmentedControl>
+                                                                    <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BbV-Ji-eBm" userLabel="FlyoverButton">
+                                                                        <rect key="frame" x="97" y="0.0" width="40" height="40"/>
+                                                                        <constraints>
+                                                                            <constraint firstAttribute="width" priority="999" constant="40" identifier="FlyoverButtonWidth" id="78e-nL-LBX"/>
+                                                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" priority="999" constant="40" id="GKb-hV-UHz"/>
+                                                                        </constraints>
+                                                                        <state key="normal" image="Flyover-26"/>
+                                                                        <connections>
+                                                                            <action selector="flyoverButtonPushed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="JiZ-YC-Uoe"/>
+                                                                        </connections>
+                                                                    </button>
+                                                                    <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Ub-3m-huU">
+                                                                        <rect key="frame" x="145" y="0.0" width="40" height="40"/>
+                                                                        <constraints>
+                                                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" priority="999" constant="40" id="q8i-Rc-GfX"/>
+                                                                            <constraint firstAttribute="width" priority="999" constant="40" identifier="NavigationButtonWidth" id="reU-pE-Vus"/>
+                                                                        </constraints>
+                                                                        <state key="normal" image="Navigation-26"/>
+                                                                        <connections>
+                                                                            <action selector="navigationButtonPushed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="6wk-Yc-chP"/>
+                                                                        </connections>
+                                                                    </button>
                                                                 </subviews>
                                                             </stackView>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7dM-WV-H5j">
-                                                                <rect key="frame" x="0.0" y="28" width="50" height="6"/>
+                                                                <rect key="frame" x="0.0" y="40" width="50" height="6"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" priority="999" constant="6" identifier="BorderViewHeight" id="2x9-ET-hrB"/>
                                                                 </constraints>

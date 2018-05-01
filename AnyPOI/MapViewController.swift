@@ -1244,9 +1244,14 @@ extension MapViewController : RouteDisplayInfos {
         fromToLabel.sizeToFit()
         distanceLabel.textColor = UIColor.black
         distanceLabel.text = " "
-        thirdActionBarStackView.isHidden = true
-        navigationButton.isHidden = true
-        flyoverButton.isHidden = true
+        
+        // Check if it's already hidden to avoid this bug in UIKit http://www.openradar.me/22819594
+        if self.thirdActionBarStackView.isHidden == false {
+            UIView.animate(withDuration: 0.5) {
+                self.thirdActionBarStackView.isHidden = true
+            }
+        }
+
     }
     
     // Show the summary infos when we are displaying the full route
@@ -1256,9 +1261,14 @@ extension MapViewController : RouteDisplayInfos {
         distanceLabel.textColor = UIColor.black
         distanceLabel.text = datasource.routeDistanceAndTime
         fromToLabel.sizeToFit()
-        thirdActionBarStackView.isHidden = true
-        navigationButton.isHidden = true
-        flyoverButton.isHidden = true
+        
+        // Check if it's already hidden to avoid this bug in UIKit http://www.openradar.me/22819594
+        if self.thirdActionBarStackView.isHidden == false {
+            UIView.animate(withDuration: 0.5) {
+                self.thirdActionBarStackView.isHidden = true
+            }
+        }
+
    }
     
     // Show the infos about the route between the 2 wayPoints or between the current location and the To
@@ -1266,7 +1276,7 @@ extension MapViewController : RouteDisplayInfos {
         let distanceFormatter = LengthFormatter()
         distanceFormatter.unitStyle = .short
         
-        navigationButton.isHidden = false
+       navigationButton.isHidden = false
         flyoverButton.isHidden = false
         if let fromCurrentLocation = routeManager?.fromCurrentLocation {
             // Show information between the current location and the To
@@ -1291,8 +1301,12 @@ extension MapViewController : RouteDisplayInfos {
             selectedTransportType.selectedSegmentIndex = MapUtils.transportTypeToSegmentIndex(datasource.fromWayPoint!.transportType!)
         }
 
-        
-        thirdActionBarStackView.isHidden = false
+        // Check if it's already hidden to avoid this bug in UIKit http://www.openradar.me/22819594
+        if self.thirdActionBarStackView.isHidden == true {
+            UIView.animate(withDuration: 0.5) {
+                self.thirdActionBarStackView.isHidden = false
+            }
+        }
     }
 
 }

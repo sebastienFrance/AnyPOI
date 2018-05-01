@@ -91,15 +91,11 @@ class RouteDataSource {
     // Gives the name of the full route or of the WayPoint currently displayed
     var routeName:String! {
         get {
-            if isFullRouteMode {
-                return  "\(NSLocalizedString("FullDirectionRouteDatasource", comment: ""))"
+            if let fromDisplayName = fromPOI?.poiDisplayName,
+                let toDisplayName = toPOI?.poiDisplayName {
+                return "\(fromDisplayName) ➔ \(toDisplayName)"
             } else {
-                if let fromDisplayName = fromPOI?.poiDisplayName,
-                    let toDisplayName = toPOI?.poiDisplayName {
-                    return "\(fromDisplayName) ➔ \(toDisplayName)"
-                } else {
-                    return NSLocalizedString("UnknownFromToRouteDatasource", comment: "")
-                }
+                return NSLocalizedString("UnknownFromToRouteDatasource", comment: "")
             }
         }
     }
