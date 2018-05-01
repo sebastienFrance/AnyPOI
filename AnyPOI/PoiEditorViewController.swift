@@ -118,6 +118,10 @@ class PoiEditorViewController: UIViewController {
         thePoi.poiDescription = newDescription
         thePoi.category = newCategory
         
+        if let parentGroup = newParentGroup, thePoi.parentGroup != parentGroup {
+            UserPreferences.sharedInstance.lastUsedGroupOfInterest = parentGroup
+        }
+        
         thePoi.parentGroup = newParentGroup
         
         POIDataManager.sharedInstance.updatePOI(thePoi)

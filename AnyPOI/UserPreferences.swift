@@ -10,7 +10,6 @@ import Foundation
 
 import MapKit
 
-
 class UserPreferences {
     
     class var sharedInstance: UserPreferences {
@@ -45,6 +44,8 @@ class UserPreferences {
         static let firstStartup = "firstStartup"
         
         static let TestParameter = "Test"
+        
+        static let LastUsedGroupOfInterest = "LastUsedGroupOfInterest"
     }
     
     fileprivate let defaultCamera = MKMapCamera(lookingAtCenter: CLLocationCoordinate2DMake(0.0, 0.0), fromDistance: 38814229, pitch:0, heading: 0)
@@ -75,6 +76,8 @@ class UserPreferences {
             authenticationPasswordEnabled = false
             authenticationTouchIdEnabled = false
             authenticationPassword = ""
+            
+            lastUsedGroupOfInterest = POIDataManager.sharedInstance.getDefaultGroup()
         }
     }
     
@@ -169,6 +172,21 @@ class UserPreferences {
         }
         set {
             UserDefaults.standard.set(newValue, forKey: keys.WikipediaMaxResults)
+        }
+    }
+    
+    var lastUsedGroupOfInterest: GroupOfInterest {
+        get {
+            let groupId = UserDefaults.standard.integer(forKey: keys.LastUsedGroupOfInterest)
+            if let group = POIDataManager.sharedInstance.findGroup(groupId: groupId) {
+                return group
+            } else {
+                UserDefaults.standard.set(POIDataManager.defaultGroupCste.groupId, forKey: keys.LastUsedGroupOfInterest)
+                return POIDataManager.sharedInstance.getDefaultGroup()
+            }
+        }
+        set {
+            UserDefaults.standard.set(newValue.groupId, forKey: keys.LastUsedGroupOfInterest)
         }
     }
     

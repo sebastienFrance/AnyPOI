@@ -239,7 +239,8 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
         poiWikipediaPageId = constants.invalidWikipediaPage
         findWikipedia()
         
-        parentGroup = POIDataManager.sharedInstance.getDefaultGroup()
+        parentGroup = UserPreferences.sharedInstance.lastUsedGroupOfInterest
+        //parentGroup = POIDataManager.sharedInstance.getDefaultGroup()
         initRegionMonitoring()
     }
     
@@ -303,6 +304,7 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
         findWikipedia()
         
         parentGroup = group
+        
         initRegionMonitoring()
     }
     
@@ -329,7 +331,9 @@ class PointOfInterest : NSManagedObject, MKAnnotation, WikipediaRequestDelegate 
         poiWikipediaPageId = constants.invalidWikipediaPage
         findWikipedia()
         
-        parentGroup = POIDataManager.sharedInstance.getDefaultGroup()
+        
+        parentGroup = UserPreferences.sharedInstance.lastUsedGroupOfInterest
+        //parentGroup =   POIDataManager.sharedInstance.getDefaultGroup()
         initRegionMonitoring()
     }
     

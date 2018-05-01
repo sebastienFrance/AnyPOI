@@ -465,7 +465,7 @@ class SearchController: UITableViewController {
                 
                 poi = POIDataManager.sharedInstance.findPOIWith(wikipediaResults[indexPath.row])
                 if poi == nil {
-                    poi = POIDataManager.sharedInstance.addPOI(wikipediaResults[indexPath.row], group:POIDataManager.sharedInstance.getDefaultGroup())
+                    poi = POIDataManager.sharedInstance.addPOI(wikipediaResults[indexPath.row], group:UserPreferences.sharedInstance.lastUsedGroupOfInterest)
                 }
             } else {
                 if let theOngoingLocalSearch = localSearchRequest, theOngoingLocalSearch.isSearching {
