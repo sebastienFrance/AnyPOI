@@ -116,6 +116,8 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
         
         // Register changes and retreives all assets
         PHPhotoLibrary.shared().register(self)
+
+        
         photosFetchResult = PHAsset.fetchAssets(with: nil)
         
         findSortedImagesAroundPoi()
@@ -180,14 +182,17 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
         
         // find all images located near the POI
         var filteredImages = [LocalImage]()
+        
         for i in 0..<photosFetchResult.count {
             let currentObject = photosFetchResult.object(at: i) 
             if let imageLocation = currentObject.location {
                 let distanceFromPoi = poiLocation.distance(from: imageLocation)
                 if distanceFromPoi <= Cste.radiusSearchImage {
-                    filteredImages.append(LocalImage(image: getAssetThumbnail(asset:currentObject),
-                                                     asset: currentObject,
-                                                     distanceFrom: distanceFromPoi))
+                    if let image = getAssetThumbnail(asset:currentObject) {
+                        filteredImages.append(LocalImage(image: image,
+                                                         asset: currentObject,
+                                                         distanceFrom: distanceFromPoi))
+                    }
                 }
             }
         }
@@ -239,16 +244,16 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
     }
     
     /// Get a thumbnail from an Image. It will be displayed in the UICollectionView
-    fileprivate func getAssetThumbnail(asset: PHAsset) -> UIImage {
+    fileprivate func getAssetThumbnail(asset: PHAsset) -> UIImage? {
         let option = PHImageRequestOptions()
-        var thumbnail = UIImage()
+        var thumbnail:UIImage?
         option.isSynchronous = true
         PHImageManager.default().requestImage(for: asset,
                                               targetSize: CGSize(width: Cste.imageWidth, height: Cste.imageHeight),
                                               contentMode: .aspectFit,
                                               options: option,
                                               resultHandler: {(result, info)->Void in
-            thumbnail = result!
+            thumbnail = result
         })
         return thumbnail
     }

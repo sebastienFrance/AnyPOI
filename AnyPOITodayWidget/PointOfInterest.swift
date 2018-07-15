@@ -16,7 +16,8 @@ class PointOfInterest : NSManagedObject {
     
     var category:CategoryUtils.Category! {
         get {
-            return CategoryUtils.getCategory(groupCategory: poiGroupCategory, categoryId: poiCategory)
+            return CategoryUtils.Category(groupCategory: CategoryUtils.GroupId.othersId, categoryId: CategoryUtils.CategoryId.others.courtHouseId, icon: #imageLiteral(resourceName: "Courthouse-30"),  glyph: #imageLiteral(resourceName: "Courthouse Filled-80"), localizedString:  NSLocalizedString("CategoryLabelCourtHouse", tableName: "Categories", comment: ""))
+            //return CategoryUtils.getCategory(groupCategory: poiGroupCategory, categoryId: poiCategory)
         }
         set {
             poiGroupCategory = newValue.groupCategory

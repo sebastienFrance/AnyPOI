@@ -32,7 +32,7 @@ class CategoryUtils {
         return category.groupCategory == GroupId.defaultGroupId && category.categoryId == CategoryId.defaultGroup.wikipediaId
     }
     
-    fileprivate struct GroupId {
+     struct GroupId {
         static let defaultGroupId = Int16(0)
         static let cultureId = Int16(1)
         static let dailyLifeId = Int16(2)
@@ -42,7 +42,7 @@ class CategoryUtils {
         static let othersId = Int16(6)
     }
     
-    fileprivate struct CategoryId {
+     struct CategoryId {
         struct defaultGroup {
             static let questionMarkId = Int16(0)
             static let wikipediaId = Int16(1)

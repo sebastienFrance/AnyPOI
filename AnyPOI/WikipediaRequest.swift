@@ -36,6 +36,7 @@ class WikipediaRequest {
             if let error = response.result.error {
                 NSLog("\(#function) - \(error.localizedDescription)")
                 self.delegate?.wikipediaLoadingDidFailed()
+                return
             }
             
             var wikipedias = [Wikipedia]()
@@ -56,7 +57,7 @@ class WikipediaRequest {
                             
                             WikipediaUtils.getPageSummary(pageId.intValue).responseJSON { response in
                                 summaryCounter -= 1
-                                if let JSON = response.result.value {
+                                if response.result.error == nil, let JSON = response.result.value {
                                     let wikipedia = Wikipedia(initialValues:currentSearch)
                                     wikipedias.append(wikipedia)
                                     wikipedia.extract = WikipediaUtils.getExtractFromJSONResponse(JSON)
@@ -91,6 +92,9 @@ class WikipediaRequest {
                     NSLog("\(#function) - error query is missing in the response")
                     self.delegate?.wikipediaLoadingDidFailed()
                 }
+            } else {
+                NSLog("\(#function) - error due to invalid JSON")
+                self.delegate?.wikipediaLoadingDidFailed()
             }
         }
     }
