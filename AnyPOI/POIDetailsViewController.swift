@@ -33,7 +33,7 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
         }
     }
     
-    fileprivate struct Cste {
+    private struct Cste {
         static let mapViewCellSize = CGFloat(170.0)
         static let photosCellHeight = CGFloat(120.0)
         static let mapLatitudeDelta = CLLocationDegrees(0.01)
@@ -48,30 +48,30 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
     var poi: PointOfInterest!
     
     // Contact information related to the POI if it exists
-    fileprivate var contact:CNContact?
+    private var contact:CNContact?
 
-    fileprivate var storedOffsets = CGFloat(0.0)
+    private var storedOffsets = CGFloat(0.0)
     
     // Image/Videos information
-    fileprivate struct LocalImage {
-        let image:UIImage
+    private struct LocalImage {
         let asset:PHAsset
         let distanceFrom:CLLocationDistance
     }
     
     // Images to be displayed in the collection view
-    fileprivate var localImages = [LocalImage]()
+    private var localImages = [LocalImage]()
     
     // Used to take a snapshot of the map to be displayed as a background of the cell displaying the POI information
-    fileprivate var snapshotter:MKMapSnapshotter?
-    fileprivate var snapshotMapImageView:UIImageView?
-    fileprivate var snapshotAlreadyDisplayed = false
-    fileprivate var mapSnapshot:MKMapSnapshot?
+    private var snapshotter:MKMapSnapshotter?
+    private var snapshotMapImageView:UIImageView?
+    private var snapshotAlreadyDisplayed = false
+    private var mapSnapshot:MKMapSnapshot?
     
-    fileprivate var photosFetchResult:PHFetchResult<PHAsset>!
+    private var photosFetchResult:PHFetchResult<PHAsset>!
+    private var assetCache = PHCachingImageManager()
     
-    fileprivate var selectedImageRect:CGRect?
-    fileprivate var selectedImage:UIImage?
+    private var selectedImageRect:CGRect?
+    private var selectedImage:UIImage?
     
     //MARK: Initialization
     override func viewDidLoad() {
@@ -126,10 +126,12 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
     deinit {
         NotificationCenter.default.removeObserver(self)
         PHPhotoLibrary.shared().unregisterChangeObserver(self)
+        assetCache.stopCachingImagesForAllAssets()
     }
 
 
     // Scroll to the image at the given IndexPath when the image is not already visible
+    // Used for transition animation only
     func showImageAt(indexPath:IndexPath) {
         let cellImages = self.theTableView.cellForRow(at: IndexPath(row: 1, section: 0)) as! PoiDetailsImagesTableViewCell
         
@@ -141,6 +143,7 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
         cellImages.collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: false)
     }
 
+    // Used for transition animation only
     func getRectImageAt(indexPath:IndexPath) -> CGRect {
         let cellImages = self.theTableView.cellForRow(at: IndexPath(row: 1, section: 0)) as! PoiDetailsImagesTableViewCell
         let cellLayout = cellImages.collectionView.layoutAttributesForItem(at: indexPath)
@@ -150,13 +153,13 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.isToolbarHidden = true
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         initializeMapSnapshot()
     }
+    
     // MARK: utils
     
     /// Recompute list of images when photolibrary has changed
@@ -183,16 +186,14 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
         // find all images located near the POI
         var filteredImages = [LocalImage]()
         
+        
         for i in 0..<photosFetchResult.count {
             let currentObject = photosFetchResult.object(at: i) 
             if let imageLocation = currentObject.location {
                 let distanceFromPoi = poiLocation.distance(from: imageLocation)
                 if distanceFromPoi <= Cste.radiusSearchImage {
-                    if let image = getAssetThumbnail(asset:currentObject) {
-                        filteredImages.append(LocalImage(image: image,
-                                                         asset: currentObject,
-                                                         distanceFrom: distanceFromPoi))
-                    }
+                    filteredImages.append(LocalImage(asset: currentObject,
+                                                     distanceFrom: distanceFromPoi))
                 }
             }
         }
@@ -241,25 +242,37 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
                 return false
             }
         }
+        
+        var allAssetsForCache = [PHAsset]()
+        for currentLocalImage in localImages {
+            allAssetsForCache.append(currentLocalImage.asset)
+        }
+        
+        let options = PHImageRequestOptions()
+        options.isSynchronous = true
+        assetCache.startCachingImages(for: allAssetsForCache,
+                                      targetSize: CGSize(width: Cste.imageWidth, height: Cste.imageHeight),
+                                      contentMode: .aspectFit,
+                                      options: options)
     }
     
     /// Get a thumbnail from an Image. It will be displayed in the UICollectionView
-    fileprivate func getAssetThumbnail(asset: PHAsset) -> UIImage? {
+    fileprivate func getThumbnailFromCache(asset: PHAsset) -> UIImage? {
         let option = PHImageRequestOptions()
         var thumbnail:UIImage?
         option.isSynchronous = true
-        PHImageManager.default().requestImage(for: asset,
-                                              targetSize: CGSize(width: Cste.imageWidth, height: Cste.imageHeight),
-                                              contentMode: .aspectFit,
-                                              options: option,
-                                              resultHandler: {(result, info)->Void in
+        assetCache.requestImage(for: asset,
+                                targetSize: CGSize(width: Cste.imageWidth, height: Cste.imageHeight),
+                                contentMode: .aspectFit,
+                                options: option,
+                                resultHandler: {(result, info)->Void in
             thumbnail = result
         })
         return thumbnail
     }
     
     /// Request a snapshot of the map around the POI (async)
-    fileprivate func initializeMapSnapshot() {
+    private func initializeMapSnapshot() {
         
         let snapshotOptions = MKMapSnapshotOptions()
         snapshotOptions.region = MKCoordinateRegionMake(poi.coordinate, MKCoordinateSpanMake(Cste.mapLatitudeDelta, Cste.mapLatitudeDelta))
@@ -757,7 +770,14 @@ extension POIDetailsViewController : UICollectionViewDelegate, UICollectionViewD
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CollectionViewCell.poiImageCellId, for: indexPath) as! PoiDetailsImagesCollectionViewCell
-        cell.PoiImageView.image = localImages[indexPath.row].image
+        
+        if let cacheImage = getThumbnailFromCache(asset: localImages[indexPath.row].asset) {
+            cell.PoiImageView.image = cacheImage
+        } else {
+            cell.PoiImageView.image = UIImage()
+        }
+        
+        
         return cell
     }
     
