@@ -19,7 +19,8 @@ import EventKitUI
 import MessageUI
 import PKHUD
 
-class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate,  EKEventEditViewDelegate, ContactsDelegate, PHPhotoLibraryChangeObserver {
+
+class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate,  EKEventEditViewDelegate, ContactsDelegate {
 
     @IBOutlet weak var theTableView: UITableView! {
         didSet {
@@ -52,26 +53,16 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
 
     private var storedOffsets = CGFloat(0.0)
     
-    // Image/Videos information
-    private struct LocalImage {
-        let asset:PHAsset
-        let distanceFrom:CLLocationDistance
-    }
-    
-    // Images to be displayed in the collection view
-    private var localImages = [LocalImage]()
-    
     // Used to take a snapshot of the map to be displayed as a background of the cell displaying the POI information
     private var snapshotter:MKMapSnapshotter?
     private var snapshotMapImageView:UIImageView?
     private var snapshotAlreadyDisplayed = false
     private var mapSnapshot:MKMapSnapshot?
     
-    private var photosFetchResult:PHFetchResult<PHAsset>!
-    private var assetCache = PHCachingImageManager()
-    
     private var selectedImageRect:CGRect?
     private var selectedImage:UIImage?
+    
+    private let images = ImageDatasource()
     
     //MARK: Initialization
     override func viewDidLoad() {
@@ -114,19 +105,12 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
         
         poi.refreshIfNeeded()
         
-        // Register changes and retreives all assets
-        PHPhotoLibrary.shared().register(self)
-
-        
-        photosFetchResult = PHAsset.fetchAssets(with: nil)
-        
-        findSortedImagesAroundPoi()
+        images.delegate = self
+        images.searchImageAround(coordinate: poi.coordinate)
     }
     
     deinit {
         NotificationCenter.default.removeObserver(self)
-        PHPhotoLibrary.shared().unregisterChangeObserver(self)
-        assetCache.stopCachingImagesForAllAssets()
     }
 
 
@@ -162,114 +146,6 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
     
     // MARK: utils
     
-    /// Recompute list of images when photolibrary has changed
-    ///
-    /// - Parameter changeInstance: Changes from PhotoLibrary
-    func photoLibraryDidChange(_ changeInstance: PHChange) {
-        if let changeDetails = changeInstance.changeDetails(for: photosFetchResult) {
-            photosFetchResult = changeDetails.fetchResultAfterChanges
-            localImages.removeAll()
-            
-            DispatchQueue.main.sync {
-                findSortedImagesAroundPoi()
-                theTableView.reloadSections(IndexSet(arrayLiteral:0), with: .automatic)
-            }
-        }
-    }
-    
-    
-    /// extract images and videos from Photos and ordered them by date (most recent first) / distance
-    fileprivate func findSortedImagesAroundPoi() {
-        
-        let poiLocation = CLLocation(latitude: poi.coordinate.latitude, longitude: poi.coordinate.longitude)
-        
-        // find all images located near the POI
-        var filteredImages = [LocalImage]()
-        
-        
-        for i in 0..<photosFetchResult.count {
-            let currentObject = photosFetchResult.object(at: i) 
-            if let imageLocation = currentObject.location {
-                let distanceFromPoi = poiLocation.distance(from: imageLocation)
-                if distanceFromPoi <= Cste.radiusSearchImage {
-                    filteredImages.append(LocalImage(asset: currentObject,
-                                                     distanceFrom: distanceFromPoi))
-                }
-            }
-        }
-        // Filter the image to display only maxImagesToDisplay
-        if filteredImages.count > Cste.maxImagesToDisplay {
-            // Keep the nearest images and if two images are on the same location we keep the most recent
-            filteredImages.sort() {
-                if $0.distanceFrom < $1.distanceFrom {
-                    return true
-                } else if $0.distanceFrom == $1.distanceFrom {
-                    if let firstDate = $0.asset.creationDate, let secondDate = $1.asset.creationDate {
-                        switch firstDate.compare(secondDate) {
-                        case .orderedAscending:
-                            return false
-                        case .orderedDescending:
-                            return true
-                        case .orderedSame:
-                            return true
-                        }
-                    } else {
-                        return false
-                    }
-
-                } else {
-                    return false
-                }
-            }
-            
-            localImages = Array(filteredImages[0..<Cste.maxImagesToDisplay])
-        } else {
-            localImages = filteredImages
-        }
-        
-        // Reorder by date to display first the most recent photos & videos
-        localImages.sort() {
-            if let firstDate = $0.asset.creationDate, let secondDate = $1.asset.creationDate {
-                switch firstDate.compare(secondDate) {
-                case .orderedAscending:
-                    return false
-                case .orderedDescending:
-                    return true
-                case .orderedSame:
-                    return true
-                }
-            } else {
-                return false
-            }
-        }
-        
-        var allAssetsForCache = [PHAsset]()
-        for currentLocalImage in localImages {
-            allAssetsForCache.append(currentLocalImage.asset)
-        }
-        
-        let options = PHImageRequestOptions()
-        options.isSynchronous = true
-        assetCache.startCachingImages(for: allAssetsForCache,
-                                      targetSize: CGSize(width: Cste.imageWidth, height: Cste.imageHeight),
-                                      contentMode: .aspectFit,
-                                      options: options)
-    }
-    
-    /// Get a thumbnail from an Image. It will be displayed in the UICollectionView
-    fileprivate func getThumbnailFromCache(asset: PHAsset) -> UIImage? {
-        let option = PHImageRequestOptions()
-        var thumbnail:UIImage?
-        option.isSynchronous = true
-        assetCache.requestImage(for: asset,
-                                targetSize: CGSize(width: Cste.imageWidth, height: Cste.imageHeight),
-                                contentMode: .aspectFit,
-                                options: option,
-                                resultHandler: {(result, info)->Void in
-            thumbnail = result
-        })
-        return thumbnail
-    }
     
     /// Request a snapshot of the map around the POI (async)
     private func initializeMapSnapshot() {
@@ -519,11 +395,7 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
         } else if segue.identifier == POIDetailsViewController.storyboard.showImageCollectionId {
             // Display the image / video details
             let viewController = segue.destination as! PoiImageCollectionViewController
-            var assets = [PHAsset]()
-            for currentLocalImages in localImages {
-                assets.append(currentLocalImages.asset)
-            }
-            viewController.assets = assets
+            viewController.assets = images.assets
             viewController.startAssetIndex = sender as! Int
             viewController.transitioningDelegate = self
         } else if segue.identifier == POIDetailsViewController.storyboard.openPhonesId {
@@ -554,7 +426,7 @@ extension POIDetailsViewController : UITableViewDataSource, UITableViewDelegate 
     // MARK: UITableViewDataSource protocol
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == Sections.mapViewAndPhotos {
-            return localImages.count > 0 ? 2 : 1
+            return images.matchingImagesCount > 0 ? 2 : 1
         } else {
             if poi.isWikipediaLoading {
                 return 1
@@ -761,7 +633,7 @@ extension POIDetailsViewController : UICollectionViewDelegate, UICollectionViewD
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return localImages.count
+        return images.matchingImagesCount
     }
     
     fileprivate struct CollectionViewCell {
@@ -771,7 +643,7 @@ extension POIDetailsViewController : UICollectionViewDelegate, UICollectionViewD
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CollectionViewCell.poiImageCellId, for: indexPath) as! PoiDetailsImagesCollectionViewCell
         
-        if let cacheImage = getThumbnailFromCache(asset: localImages[indexPath.row].asset) {
+        if let cacheImage = images.getImage(index: indexPath.row) {
             cell.PoiImageView.image = cacheImage
         } else {
             cell.PoiImageView.image = UIImage()
@@ -812,5 +684,12 @@ extension POIDetailsViewController: UIViewControllerTransitioningDelegate {
         }
         
         return nil
+    }
+}
+
+extension POIDetailsViewController: ImageDatasourceDelegate {
+    
+    func imageSourceDidChange(datasource:ImageDatasource) {
+        theTableView.reloadSections(IndexSet(arrayLiteral:0), with: .automatic)
     }
 }
