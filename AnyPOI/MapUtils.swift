@@ -419,8 +419,11 @@ class MapUtils {
         return distanceFromTo
     }
     
-    static func configureMapImageFor(poi:PointOfInterest, mapSnapshot:MKMapSnapshot) -> UIImage? {
-        return MapUtils.configureMapImageFor(poi:poi,
+    // Create an image to display the Map with the POI (centered in the Map). The POI is displayed with its annotation
+    // if the POI is configured with a Monitored Region, the overlay is also automatically aded on the map (if the user
+    // has enabled the isAlwaysLocation)
+    static func mapImageWithAnnotationFor(poi:PointOfInterest, mapSnapshot:MKMapSnapshot) -> UIImage? {
+        return MapUtils.mapImageWithAnnotationFor(poi:poi,
                                              mapSnapshot: mapSnapshot,
                                              withColor:poi.parentGroup!.color,
                                              withMonitoringCircle: poi.poiRegionNotifyEnter || poi.poiRegionNotifyExit,
@@ -428,7 +431,10 @@ class MapUtils {
                                              isAlwaysLocation: LocationManager.sharedInstance.isAlwaysLocationAuthorized)        
      }
     
-    static func configureMapImageFor(poi:PointOfInterest,
+    
+    // Create an image to display the Map with the POI (centered in the Map). The POI is displayed with its annotation
+    // and a Monitoring Circle overlay is optionaly added
+    static func mapImageWithAnnotationFor(poi:PointOfInterest,
                                      mapSnapshot:MKMapSnapshot,
                                      withColor:UIColor,
                                      withMonitoringCircle:Bool = false,
@@ -450,7 +456,9 @@ class MapUtils {
         return snapshotImage
     }
     
-    static func configureMapImageFor(pois:[PointOfInterest], mapSnapshot:MKMapSnapshot, poiSizeInMap:CGFloat) -> UIImage? {
+    // Create an Image that display on the Map a list of POIs. Each POIis displayedin a small circle with a color
+    // depending on its group
+    static func mapImageFor(pois:[PointOfInterest], mapSnapshot:MKMapSnapshot, poiSizeInMap:CGFloat) -> UIImage? {
         let mapImage = mapSnapshot.image
         
         UIGraphicsBeginImageContextWithOptions(mapImage.size, true, mapImage.scale)

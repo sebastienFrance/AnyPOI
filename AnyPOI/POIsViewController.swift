@@ -34,15 +34,11 @@ class POIsViewController: UIViewController  {
     // Search
     fileprivate var searchController:UISearchController!
 
-    // Map image
-    fileprivate var snapshotter:MKMapSnapshotter?
-    fileprivate var snapshotImage:UIImage?
     
     fileprivate struct Cste {
         static let MapViewHeight = CGFloat(170.0)
-        static let POISizeInMapView = CGFloat(10.0)
     }
-
+    private var mapBackground = MapBackground()
     
     
     //MARK: Initialization
@@ -51,7 +47,6 @@ class POIsViewController: UIViewController  {
         
         registerForPreviewing(with: self, sourceView: theTableView)
         
-        getMapSnapshot()
         resetStateOfEditButtons()
         
         initSearchController()
@@ -65,16 +60,14 @@ class POIsViewController: UIViewController  {
                                                selector: #selector(POIsViewController.refreshDisplay(_:)),
                                                name: Notification.Name(rawValue: ContactsSynchronization.Notifications.synchronizationDone),
                                                object: ContactsSynchronization.sharedInstance)
+        
+        mapBackground.imageSize = CGSize(width: view.bounds.width, height: Cste.MapViewHeight)
+        mapBackground.delegate = self
    }
     
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        if let theSnapshotter = snapshotter, theSnapshotter.isLoading {
-            theSnapshotter.cancel()
-        }
-        
-        snapshotter = nil
     }
     
     
@@ -82,6 +75,11 @@ class POIsViewController: UIViewController  {
         super.viewWillAppear(animated)
         navigationController?.isToolbarHidden = true
         registerKeyboardNotifications()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        mapBackground.loadFor(POIs: datasource.allPOIs)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -130,7 +128,8 @@ class POIsViewController: UIViewController  {
         }
         
         resetStateOfEditButtons()
-        getMapSnapshot()
+        //getMapSnapshot()
+        mapBackground.loadFor(POIs: datasource.allPOIs)
     }
 
     
@@ -208,35 +207,6 @@ class POIsViewController: UIViewController  {
         resetStateOfEditButtons()
     }
 
-    /// Show all POIs without filter in the Map
-    fileprivate func getMapSnapshot() {
-        if let theSnapshotter = snapshotter, theSnapshotter.isLoading {
-            theSnapshotter.cancel()
-        }
-        
-        let snapshotOptions = MKMapSnapshotOptions()
-        snapshotOptions.region = MapUtils.boundingBoxForAnnotations(datasource.allPOIs)
-        snapshotOptions.mapType = UserPreferences.sharedInstance.mapMode == .standard ? .standard : .satellite
-        snapshotOptions.showsBuildings = false
-        snapshotOptions.showsPointsOfInterest = false
-        snapshotOptions.size = CGSize(width: view.bounds.width, height: Cste.MapViewHeight)
-        snapshotOptions.scale = 2.0
-        snapshotter = MKMapSnapshotter(options: snapshotOptions)
-        snapshotter!.start(completionHandler: { mapSnapshot, error in
-            if let error = error {
-                NSLog("\(#function) Error when loading Map image with Snapshotter \(error.localizedDescription)")
-            } else {
-                // Get the image and update the cell displaying the map
-                if let theMapSnapshot = mapSnapshot {
-                    self.snapshotImage = MapUtils.configureMapImageFor(pois:self.datasource.allPOIs,
-                                                                       mapSnapshot:theMapSnapshot,
-                                                                       poiSizeInMap:Cste.POISizeInMapView)
-                    self.theTableView.reloadSections(IndexSet(integer: 0), with: .fade)
-                }
-            }
-        })
-    }
-    
 
     // MARK: Action buttons
     @IBAction func actionButtonPushed(_ sender: UIBarButtonItem) {
@@ -246,11 +216,13 @@ class POIsViewController: UIViewController  {
         
         activityItems.append(GPXActivityItemSource(pois: datasource.filteredPOIs))
         
-        if let snapshot = snapshotter, !snapshot.isLoading {
-            let imageActivity = ImageAcvitityItemSource(image: snapshotImage!)
+        
+        // Get the Map image and attach it (useful for the email)
+        if let mapImage = mapBackground.mapImage {
+            let imageActivity = ImageAcvitityItemSource(image: mapImage)
             activityItems.append(imageActivity)
         }
-        
+
         let activityController = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
         activityController.excludedActivityTypes = [UIActivityType.print, UIActivityType.airDrop, UIActivityType.postToVimeo,
                                                     UIActivityType.postToWeibo, UIActivityType.openInIBooks, UIActivityType.postToFlickr, UIActivityType.postToFacebook,
@@ -478,19 +450,31 @@ extension POIsViewController : UITableViewDataSource, UITableViewDelegate {
         }
     }
     
+    private func backgroundImageViewFrom(image:UIImage) -> UIImageView {
+        let imageView = UIImageView(image: image)
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        
+        return imageView
+    }
+
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.section {
         case Sections.MapView:
             let theCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier.cellPoisMapAreaId, for: indexPath) as! PoisMapAreaTableViewCell
-            if let theSnapshotter = snapshotter , !theSnapshotter.isLoading {
-                let imageView = UIImageView(image: snapshotImage)
-                imageView.contentMode = .scaleAspectFill
-                imageView.clipsToBounds = true
-                imageView.alpha = UserPreferences.sharedInstance.mapMode == .standard ? 0.3 : 0.6
-                theCell.backgroundView = imageView
+
+            if mapBackground.isLoading {
+                if let oldImage = mapBackground.mapImage {
+                    theCell.backgroundView = backgroundImageViewFrom(image: oldImage)
+                }
+            } else if let mapImage = mapBackground.mapImage {
+                theCell.backgroundView = backgroundImageViewFrom(image: mapImage)
+                theCell.backgroundView?.contentMode = .scaleAspectFill
+                theCell.backgroundView?.clipsToBounds = true
+                theCell.backgroundView?.alpha = UserPreferences.sharedInstance.mapMode == .standard ? 0.3 : 0.6
             }
-            
+
             theCell.groupLabel?.text = datasource.poisDescription
             return theCell
         case Sections.POIs:
@@ -624,5 +608,11 @@ extension POIsViewController : UITableViewDataSource, UITableViewDelegate {
                 moveButton.isEnabled = false
             }
         }
+    }
+}
+
+extension POIsViewController: MapBackgroundDelegate {
+    func mapBackgroundDidLoad(mapBackground:MapBackground, mapImage:UIImage?) {
+        self.theTableView.reloadSections(IndexSet(integer: 0), with: .fade)
     }
 }

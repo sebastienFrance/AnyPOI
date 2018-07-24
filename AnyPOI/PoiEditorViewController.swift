@@ -39,9 +39,7 @@ class PoiEditorViewController: UIViewController {
     fileprivate var pickerIndex = 0
     
     // Map image
-    fileprivate var snapshotter:MKMapSnapshotter?
-    fileprivate var snapshotMapImageView:UIImageView?
-    fileprivate var mapSnapshot:MKMapSnapshot?
+    private var mapBackground = MapBackground()
 
     var thePoi:PointOfInterest! {
         didSet {
@@ -74,7 +72,8 @@ class PoiEditorViewController: UIViewController {
                                                name: NSNotification.Name(rawValue: LocationManager.LocationNotifications.AuthorizationHasChanged),
                                                object: LocationManager.sharedInstance.locationManager)
 
-        loadMapSnapshot()
+        mapBackground.imageSize = CGSize(width: view.bounds.width, height: Cste.MapViewHeight)
+        mapBackground.delegate = self
     }
     
     deinit {
@@ -88,7 +87,7 @@ class PoiEditorViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-
+        mapBackground.loadFor(POI:thePoi)
     }
     
     @objc func locationAuthorizationHasChanged(_ notification : Notification) {
@@ -345,55 +344,24 @@ extension PoiEditorViewController: UITableViewDataSource, UITableViewDelegate {
     
 
     fileprivate func refreshMapCell(_ theCell:UITableViewCell) {
-        if let theSnapshotter = snapshotter , !theSnapshotter.isLoading {
-            theCell.backgroundView = snapshotMapImageView
+        
+        mapBackground.monitoringRadius = newRadius
+        mapBackground.withMonitoringCircle = newRegionExit || newRegionEnter
+        
+        if !mapBackground.isLoading, let mapImage = mapBackground.mapImage {
+            theCell.backgroundView = UIImageView(image: mapImage)
             if !newRegionExit && !newRegionEnter {
                 theCell.backgroundView?.alpha = 0.3
             } else {
                 theCell.backgroundView?.alpha = 1.0
             }
-        }
+       }
     }
     
     // MARK: MapSnapshot
-    // Display all POIs without any filter in the Map
-    fileprivate func loadMapSnapshot() {
-        let snapshotOptions = MKMapSnapshotOptions()
-        
-        snapshotOptions.region = MKCoordinateRegionMakeWithDistance(thePoi.coordinate, Cste.MaxPerimeterInMeters, Cste.MaxPerimeterInMeters)
-        snapshotOptions.mapType = UserPreferences.sharedInstance.mapMode == .standard ? .standard : .satellite
-        snapshotOptions.showsBuildings = false
-        snapshotOptions.showsPointsOfInterest = false
-        snapshotOptions.size = CGSize(width: view.bounds.width, height: Cste.MapViewHeight)
-        snapshotter = MKMapSnapshotter(options: snapshotOptions)
-        snapshotter!.start(completionHandler: { mapSnapshot, error in
-            if let error = error {
-                NSLog("\(#function) Error when loading Map image with Snapshotter \(error.localizedDescription)")
-            } else {
-                self.mapSnapshot = mapSnapshot
-                self.refreshMapImageForMonitoring()
-            }
-        })
-    }
-    
     func refreshMapImageForMonitoring() {
-        if let theMapSnapshot = mapSnapshot {
-            
-            let newMapImage = MapUtils.configureMapImageFor(poi:thePoi,
-                                                            mapSnapshot: theMapSnapshot,
-                                                            withColor: newParentGroup!.color,
-                                                            withMonitoringCircle: newRegionExit || newRegionEnter,
-                                                            radius: newRadius,
-                                                            isAlwaysLocation: LocationManager.sharedInstance.isAlwaysLocationAuthorized)
-            let newImageView = UIImageView(image: newMapImage)
-            
-            snapshotMapImageView = newImageView
-            snapshotMapImageView!.contentMode = .scaleAspectFill
-            snapshotMapImageView!.clipsToBounds = true
-            
-            if let theCell = theTableView.cellForRow(at: IndexPath(row: Rows.monitoringMap, section: Sections.regionMonitoring)) {
-                refreshMapCell(theCell)
-            }
+        if let theCell = theTableView.cellForRow(at: IndexPath(row: Rows.monitoringMap, section: Sections.regionMonitoring)) {
+            refreshMapCell(theCell)
         }
     }
 
@@ -494,3 +462,10 @@ extension PoiEditorViewController: UITableViewDataSource, UITableViewDelegate {
     
     
 }
+
+extension PoiEditorViewController: MapBackgroundDelegate {
+    func mapBackgroundDidLoad(mapBackground:MapBackground, mapImage:UIImage?) {
+        refreshMapImageForMonitoring()
+    }
+}
+
