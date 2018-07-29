@@ -33,16 +33,12 @@ class MapBackground {
         // If there's only one POI, we put on the map the POI with its annotation and the monitoring circle if enabled
         // If there're more than one POI, we just put a small circle for each POI on the map
         if pois.count == 1 {
-            if withMonitoringCircle {
-                return MapUtils.mapImageWithAnnotationFor(poi: pois[0],
-                                                          mapSnapshot: theMapSnapshot,
-                                                          withColor:pois[0].parentGroup!.color,
-                                                          withMonitoringCircle:true,
-                                                          radius:monitoringRadius,
-                                                          isAlwaysLocation: LocationManager.sharedInstance.isAlwaysLocationAuthorized)
-            } else {
-                return  MapUtils.mapImageWithAnnotationFor(poi: pois[0], mapSnapshot: theMapSnapshot)
-            }
+            return MapUtils.mapImageWithAnnotationFor(poi: pois[0],
+                                                      mapSnapshot: theMapSnapshot,
+                                                      withColor:pois[0].parentGroup!.color,
+                                                      withMonitoringCircle:withMonitoringCircle,
+                                                      radius:monitoringRadius,
+                                                      isAlwaysLocation: LocationManager.sharedInstance.isAlwaysLocationAuthorized)
         } else {
             return MapUtils.mapImageFor(pois:pois,
                                         mapSnapshot:theMapSnapshot,
@@ -66,15 +62,10 @@ class MapBackground {
     // It can be used only when at most 1 Point of Interest is displayed on the map
     var withMonitoringCircle = false
     var monitoringRadius = Double(0.0)
-
-    
-    init() {
-    }
     
     // Create an Image showing the POI in a Map with its annotation
     func loadFor(POI:PointOfInterest) {
-        poisToShowOnMap = [POI]
-        downloadMapSnapshot()
+        loadFor(POIs:[POI])
     }
     
     // Create an Image showing all the POIs in a Map with a small circle for each POI
@@ -93,7 +84,9 @@ class MapBackground {
         if let oldSnapshotter = snapshotter, oldSnapshotter.isLoading {
             oldSnapshotter.cancel()
         }
-        snapshotter = MKMapSnapshotter(options: mapSnapshotOptionFrom(pois: pois))
+        
+        mapSnapshot = nil
+        snapshotter = MKMapSnapshotter(options: MapBackground.mapSnapshotOptionFrom(pois: pois, withImageSize: imageSize))
         
         snapshotter!.start(completionHandler: { mapSnapshot, error in
             if let error = error {
@@ -113,7 +106,7 @@ class MapBackground {
     // This method is used to configure a MKSnapshotOptions to request a map to show one or several POIs.
     // When several POIs are provided, it computes the bounding box of the map to show all POIs
     // When only one POI is provided, it requests a map that is centered on the POI
-    private func mapSnapshotOptionFrom(pois:[PointOfInterest]) -> MKMapSnapshotOptions {
+    private static func mapSnapshotOptionFrom(pois:[PointOfInterest], withImageSize:CGSize) -> MKMapSnapshotOptions {
         let snapshotOptions = MKMapSnapshotOptions()
         
         if pois.count == 1 {
@@ -127,7 +120,7 @@ class MapBackground {
         snapshotOptions.mapType = UserPreferences.sharedInstance.mapMode == .standard ? .standard : .satellite
         snapshotOptions.showsBuildings = false
         snapshotOptions.showsPointsOfInterest = false
-        snapshotOptions.size = imageSize
+        snapshotOptions.size = withImageSize
         snapshotOptions.scale = 2.0
         
         return snapshotOptions

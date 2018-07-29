@@ -131,17 +131,11 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        //initializeMapSnapshot()
         mapBackground.loadFor(POI:poi)
 
     }
     
-    // MARK: utils
-    
-    
-
     // MARK: Notifications
-    
     
     /// Update the cell displaying the POI details when something has been changed (Category, Group, Title...)
     ///
@@ -339,7 +333,6 @@ class POIDetailsViewController: UIViewController, SFSafariViewControllerDelegate
             // Display the POI editor
             let poiController = segue.destination as! PoiEditorViewController
             poiController.thePoi = poi
-
         } else if segue.identifier == POIDetailsViewController.storyboard.showImageCollectionId {
             // Display the image / video details
             let viewController = segue.destination as! PoiImageCollectionViewController
@@ -602,8 +595,7 @@ extension POIDetailsViewController : UICollectionViewDelegate, UICollectionViewD
         } else {
             cell.PoiImageView.image = UIImage()
         }
-        
-        
+    
         return cell
     }
     
@@ -624,11 +616,11 @@ extension POIDetailsViewController: UIViewControllerTransitioningDelegate {
     func animationController(forPresented presented: UIViewController,
                              presenting: UIViewController,
                              source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-            if let frame = self.selectedImageRect, let image = self.selectedImage {
-                return POIDetailImagesPresentAnimationController(initialRect: frame, initialImage: image)
-            } else {
-                return nil
-            }
+        if let frame = self.selectedImageRect, let image = self.selectedImage {
+            return POIDetailImagesPresentAnimationController(initialRect: frame, initialImage: image)
+        } else {
+            return nil
+        }
     }
 
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
@@ -642,6 +634,7 @@ extension POIDetailsViewController: UIViewControllerTransitioningDelegate {
 }
 
 extension POIDetailsViewController: MapBackgroundDelegate {
+    
     func mapBackgroundDidLoad(mapBackground:MapBackground, mapImage:UIImage?) {
         theTableView.reloadRows(at: [IndexPath(row: 0, section: Sections.mapViewAndPhotos)], with: .none)
     }

@@ -1496,40 +1496,19 @@ extension MapViewController {
     /// - Parameter poi: POI to be checked against the filter
     /// - Returns: True when the POI is filtered otherwise it returns false
     func isFiltered(poi:PointOfInterest) -> Bool {
-        
-        return false
-        
-//        guard poi.parentGroup!.isGroupDisplayed else { return true }
-//        guard !categoryFilter.contains(poi.category) else { return true }
-//
-//        if isRouteMode && filterPOIsNotInRoute {
-//            if let route = routeDatasource, route.contains(poi:poi) {
-//                return false
-//            } else {
-//                return true
-//            }
-//        } else {
-//            return false
-//        }
-    }
-    
-    func isFilteredOld(poi:PointOfInterest) -> Bool {
-        if poi.parentGroup!.isGroupDisplayed && !categoryFilter.contains(poi.category) {
-            if isRouteMode && filterPOIsNotInRoute {
-                if let route = routeDatasource, route.contains(poi:poi) {
-                    return false
-                } else {
-                    return true
-                }
-            } else {
+        guard poi.parentGroup!.isGroupDisplayed else { return true }
+        guard !categoryFilter.contains(poi.category) else { return true }
+
+        if isRouteMode && filterPOIsNotInRoute {
+            if let route = routeDatasource, route.contains(poi:poi) {
                 return false
+            } else {
+                return true
             }
         } else {
-            return true
+            return false
         }
     }
-
-    
     
     /// Add on the MapView all POIs that were not displayed due to the route
     func showPOIsNotInRoute() {

@@ -14,18 +14,18 @@ class TodayViewCell: UITableViewCell {
     @IBOutlet weak var poiDisplayName: UILabel!
     @IBOutlet weak var poiDistance: UILabel!
     
- //   @IBOutlet weak var markerAnnotation: MKMarkerAnnotationView!
+    @IBOutlet weak var markerAnnotation: MKMarkerAnnotationView!
     
     
-//    static func customizePinForTableView(_ thePinAnnotation: MKMarkerAnnotationView, poi:PointOfInterest) {
-//        thePinAnnotation.animatesWhenAdded = false
-//        thePinAnnotation.canShowCallout = false
-//        thePinAnnotation.markerTintColor = poi.parentGroup?.color
-//        thePinAnnotation.glyphImage = poi.glyphImage
-//    }
+    static func customizePinForTableView(_ thePinAnnotation: MKMarkerAnnotationView, poi:PointOfInterest) {
+        thePinAnnotation.animatesWhenAdded = false
+        thePinAnnotation.canShowCallout = false
+        thePinAnnotation.markerTintColor = poi.parentGroup?.color
+        thePinAnnotation.glyphImage = OnDemandCategoryUtils.getCategory(poi: poi).glyph 
+    }
 
     func initMarker(poi:PointOfInterest) {
- //       TodayViewCell.customizePinForTableView(markerAnnotation, poi: poi)
+        TodayViewCell.customizePinForTableView(markerAnnotation, poi: poi)
     }
 
     
@@ -35,8 +35,9 @@ class TodayViewCell: UITableViewCell {
             let distance = currentLocation.distance(from: targetLocation)
             let distanceFormater = MKDistanceFormatter()
             
+            let category = OnDemandCategoryUtils.getCategory(poi: poi).localizedString
+            poiDistance.text = "\(category), \(distanceFormater.string(fromDistance: distance))"
             poiDisplayName.text = "\(poi.poiDisplayName!)"
-            poiDistance.text = "\(poi.category.localizedString), \(distanceFormater.string(fromDistance: distance))"
         } else {
             poiDisplayName.text = "\(poi.poiDisplayName!)"
         }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14111" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -463,7 +463,7 @@
                                 </cells>
                             </collectionView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cb3-7m-ZCP">
-                                <rect key="frame" x="185" y="614" width="45" height="33"/>
+                                <rect key="frame" x="165" y="614" width="45" height="33"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                 <state key="normal" title="Close"/>
                                 <connections>
@@ -473,10 +473,10 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="Cb3-7m-ZCP" firstAttribute="centerX" secondItem="O9M-Fc-Aam" secondAttribute="centerX" id="03K-kC-RFk"/>
                             <constraint firstItem="O9M-Fc-Aam" firstAttribute="trailing" secondItem="LJy-zT-uiO" secondAttribute="trailing" constant="40" id="GFO-Ne-lJD"/>
                             <constraint firstItem="Cb3-7m-ZCP" firstAttribute="top" secondItem="O9M-Fc-Aam" secondAttribute="bottom" constant="8" id="Mha-x9-5ya"/>
                             <constraint firstItem="dk6-Pu-dbD" firstAttribute="top" secondItem="Cb3-7m-ZCP" secondAttribute="bottom" constant="20" id="NWU-PA-vIf"/>
+                            <constraint firstItem="Cb3-7m-ZCP" firstAttribute="centerX" secondItem="LJy-zT-uiO" secondAttribute="centerX" id="R1T-Xf-08o"/>
                             <constraint firstItem="O9M-Fc-Aam" firstAttribute="top" secondItem="pmU-TW-9oW" secondAttribute="bottom" id="vtA-zh-4qH"/>
                             <constraint firstItem="O9M-Fc-Aam" firstAttribute="leading" secondItem="LJy-zT-uiO" secondAttribute="leading" id="zek-Ld-x63"/>
                         </constraints>

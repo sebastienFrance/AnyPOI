@@ -121,6 +121,9 @@
 		BE2FF2CC1D8B280B00C0395A /* PickerCategoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE2FF2C71D8B280B00C0395A /* PickerCategoryView.xib */; };
 		BE2FF2CD1D8B280B00C0395A /* PickerGroupView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE2FF2C81D8B280B00C0395A /* PickerGroupView.xib */; };
 		BE3BC5C41E61E35000822804 /* POIDescriptionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE3BC5C31E61E35000822804 /* POIDescriptionTableViewCell.swift */; };
+		BE3EA7C3210DE06400951069 /* OnDemandCategoryUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE3EA7C2210DE06400951069 /* OnDemandCategoryUtils.swift */; };
+		BE3EA7C9210DF71300951069 /* WayPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE93D5231DB26E7F00104872 /* WayPoint.swift */; };
+		BE3EA7CA210DF9E100951069 /* PointOfInterest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE9834031D8D57CE00B174A7 /* PointOfInterest.swift */; };
 		BE40FA3C1F968E2300CDC97E /* EmptyRowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE40FA3B1F968E2300CDC97E /* EmptyRowController.swift */; };
 		BE44B58B1DE1DF3700D08EC0 /* MapFilterGroupTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE44B58A1DE1DF3700D08EC0 /* MapFilterGroupTableViewCell.swift */; };
 		BE4628D61DEF5A3900FB4C52 /* GPXPoi.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4628D51DEF5A3900FB4C52 /* GPXPoi.swift */; };
@@ -183,9 +186,7 @@
 		BE96C3E51F7FA1C700D9ABDB /* AnyPOIWatch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = BE96C3C81F7FA1C700D9ABDB /* AnyPOIWatch.app */; };
 		BE96C3F11F7FA67800D9ABDB /* GroupOfInterest+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1BA9AE1F6571C6001B6512 /* GroupOfInterest+CoreDataProperties.swift */; };
 		BE96C3F21F7FA68200D9ABDB /* PointOfInterest+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1BA9B41F6571C6001B6512 /* PointOfInterest+CoreDataProperties.swift */; };
-		BE96C3F31F7FA69800D9ABDB /* PointOfInterest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE9834031D8D57CE00B174A7 /* PointOfInterest.swift */; };
 		BE96C3F41F7FA69C00D9ABDB /* GroupOfInterest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE9834051D8D580600B174A7 /* GroupOfInterest.swift */; };
-		BE96C3F51F7FA6A000D9ABDB /* WayPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE93D5231DB26E7F00104872 /* WayPoint.swift */; };
 		BE96C3F61F7FA72D00D9ABDB /* CategoryUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0CF2AD1D8B209A00344F8A /* CategoryUtils.swift */; };
 		BE982D0E1DD233E500C7941A /* PoisMailActivityItemSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE982D0D1DD233E500C7941A /* PoisMailActivityItemSource.swift */; };
 		BE9833F11D8D55C600B174A7 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE9833F01D8D55C600B174A7 /* NotificationCenter.framework */; };
@@ -235,6 +236,10 @@
 		BEE1C60B1FC085B300D8EF6D /* DebugLocationUpdateTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE1C60A1FC085B300D8EF6D /* DebugLocationUpdateTableViewController.swift */; };
 		BEE2BFA51FC189DC00264E95 /* DailyTravelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE2BFA41FC189DC00264E95 /* DailyTravelViewController.swift */; };
 		BEE2BFA71FC18C4500264E95 /* DailyTravelAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE2BFA61FC18C4500264E95 /* DailyTravelAnnotation.swift */; };
+		BEE30A37210E147D003FCBE2 /* CategoryIds.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE30A36210E147D003FCBE2 /* CategoryIds.swift */; };
+		BEE30A38210E14B3003FCBE2 /* CategoryIds.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE30A36210E147D003FCBE2 /* CategoryIds.swift */; };
+		BEE30A39210E16A9003FCBE2 /* CategoryIds.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE30A36210E147D003FCBE2 /* CategoryIds.swift */; };
+		BEE30A3A210E16A9003FCBE2 /* CategoryIds.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE30A36210E147D003FCBE2 /* CategoryIds.swift */; };
 		BEE7B8611F93B237007545F9 /* AnyPOIComplicationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE7B8601F93B237007545F9 /* AnyPOIComplicationController.swift */; };
 		BEE8707F1E0D7A6400196000 /* GPXImportOptionsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE8707E1E0D7A6400196000 /* GPXImportOptionsTableViewController.swift */; };
 		BEEACE0C1E09CD9900E7D202 /* GPXImportRouteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEEACE0B1E09CD9900E7D202 /* GPXImportRouteTableViewCell.swift */; };
@@ -446,6 +451,7 @@
 		BE2FF2C71D8B280B00C0395A /* PickerCategoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PickerCategoryView.xib; sourceTree = "<group>"; };
 		BE2FF2C81D8B280B00C0395A /* PickerGroupView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PickerGroupView.xib; sourceTree = "<group>"; };
 		BE3BC5C31E61E35000822804 /* POIDescriptionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = POIDescriptionTableViewCell.swift; sourceTree = "<group>"; };
+		BE3EA7C2210DE06400951069 /* OnDemandCategoryUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnDemandCategoryUtils.swift; sourceTree = "<group>"; };
 		BE40FA3B1F968E2300CDC97E /* EmptyRowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyRowController.swift; sourceTree = "<group>"; };
 		BE44B58A1DE1DF3700D08EC0 /* MapFilterGroupTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapFilterGroupTableViewCell.swift; sourceTree = "<group>"; };
 		BE4628D51DEF5A3900FB4C52 /* GPXPoi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPXPoi.swift; sourceTree = "<group>"; };
@@ -564,6 +570,7 @@
 		BEE1C60A1FC085B300D8EF6D /* DebugLocationUpdateTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugLocationUpdateTableViewController.swift; sourceTree = "<group>"; };
 		BEE2BFA41FC189DC00264E95 /* DailyTravelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyTravelViewController.swift; sourceTree = "<group>"; };
 		BEE2BFA61FC18C4500264E95 /* DailyTravelAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyTravelAnnotation.swift; sourceTree = "<group>"; };
+		BEE30A36210E147D003FCBE2 /* CategoryIds.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryIds.swift; sourceTree = "<group>"; };
 		BEE7B8601F93B237007545F9 /* AnyPOIComplicationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyPOIComplicationController.swift; sourceTree = "<group>"; };
 		BEE8707E1E0D7A6400196000 /* GPXImportOptionsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPXImportOptionsTableViewController.swift; sourceTree = "<group>"; };
 		BEEACE0B1E09CD9900E7D202 /* GPXImportRouteTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPXImportRouteTableViewCell.swift; sourceTree = "<group>"; };
@@ -732,6 +739,7 @@
 			children = (
 				BE0CF2AD1D8B209A00344F8A /* CategoryUtils.swift */,
 				BE1BAF081FB0E9A70077F78F /* Categories.strings */,
+				BEE30A36210E147D003FCBE2 /* CategoryIds.swift */,
 			);
 			name = WatchExtension_iPhone_iPhoneNotifExtension_TodayWidgets;
 			sourceTree = "<group>";
@@ -1185,6 +1193,7 @@
 				BE9834021D8D57AC00B174A7 /* DataModel */,
 				BE9833F31D8D55C600B174A7 /* TodayViewController.swift */,
 				BE9834001D8D578A00B174A7 /* TodayViewCell.swift */,
+				BE3EA7C2210DE06400951069 /* OnDemandCategoryUtils.swift */,
 				BE1D1B771E5F7F4700EE986F /* Localizable.strings */,
 				BE9833F51D8D55C600B174A7 /* MainInterface.storyboard */,
 				BE9833F81D8D55C600B174A7 /* Info.plist */,
@@ -1716,6 +1725,7 @@
 				BE64935D1FBA22EF007CC98F /* NotificationViewController.swift in Sources */,
 				BE64936E1FBA26ED007CC98F /* CategoryUtils.swift in Sources */,
 				BE64936C1FBA25AD007CC98F /* CommonProps.swift in Sources */,
+				BEE30A3A210E16A9003FCBE2 /* CategoryIds.swift in Sources */,
 				BE6493711FBA28D9007CC98F /* ColorsUtils.swift in Sources */,
 				BEFE92B71FBF4C8000AF690B /* BasicPointOfInterest.swift in Sources */,
 				BE64936B1FBA257A007CC98F /* NotifPointOfInterest.swift in Sources */,
@@ -1734,16 +1744,17 @@
 				BEE7B8611F93B237007545F9 /* AnyPOIComplicationController.swift in Sources */,
 				BE40FA3C1F968E2300CDC97E /* EmptyRowController.swift in Sources */,
 				BEFE92B61FBF4C7D00AF690B /* BasicPointOfInterest.swift in Sources */,
+				BE3EA7C9210DF71300951069 /* WayPoint.swift in Sources */,
 				BE96C3F41F7FA69C00D9ABDB /* GroupOfInterest.swift in Sources */,
 				BE0F0DB11F92A8EA008C1EFA /* WatchPointOfInterest.swift in Sources */,
 				BE96C3F21F7FA68200D9ABDB /* PointOfInterest+CoreDataProperties.swift in Sources */,
 				BE96C3DE1F7FA1C700D9ABDB /* NotificationController.swift in Sources */,
-				BE96C3F51F7FA6A000D9ABDB /* WayPoint.swift in Sources */,
+				BE3EA7CA210DF9E100951069 /* PointOfInterest.swift in Sources */,
 				BE713E021FADAC8E00C7407A /* WatchDataSource.swift in Sources */,
 				BE0F0DB31F92B510008C1EFA /* POIDetailsInterfaceController.swift in Sources */,
 				BE1E5D961FC0381100E0B650 /* CommonNotificationUtils.swift in Sources */,
 				BE11F02A1F92135A00818A69 /* ColorsUtils.swift in Sources */,
-				BE96C3F31F7FA69800D9ABDB /* PointOfInterest.swift in Sources */,
+				BEE30A39210E16A9003FCBE2 /* CategoryIds.swift in Sources */,
 				BE96C3DC1F7FA1C700D9ABDB /* ExtensionDelegate.swift in Sources */,
 				BE96C3DA1F7FA1C700D9ABDB /* InterfaceController.swift in Sources */,
 				BE96C3F61F7FA72D00D9ABDB /* CategoryUtils.swift in Sources */,
@@ -1763,6 +1774,8 @@
 				BE9834041D8D57CE00B174A7 /* PointOfInterest.swift in Sources */,
 				BE9834091D8D583B00B174A7 /* SimpleLocationManager.swift in Sources */,
 				BE9833F41D8D55C600B174A7 /* TodayViewController.swift in Sources */,
+				BE3EA7C3210DE06400951069 /* OnDemandCategoryUtils.swift in Sources */,
+				BEE30A38210E14B3003FCBE2 /* CategoryIds.swift in Sources */,
 				BE98340E1D8D598400B174A7 /* GeoLocation.swift in Sources */,
 				BE1BA9C01F657271001B6512 /* PointOfInterest+CoreDataProperties.swift in Sources */,
 				BE98340C1D8D58EF00B174A7 /* PoiBoundingBox.swift in Sources */,
@@ -1892,6 +1905,7 @@
 				BE0CF34B1D8B209A00344F8A /* PoiRegionConfigurationViewCell.swift in Sources */,
 				BE721BBC1FAE441D0092E3E6 /* WatchDebug.swift in Sources */,
 				BE0CF30D1D8B209A00344F8A /* CategoryTableViewCell.swift in Sources */,
+				BEE30A37210E147D003FCBE2 /* CategoryIds.swift in Sources */,
 				BE0CF3231D8B209A00344F8A /* RouteEditorController.swift in Sources */,
 				BE0CF35B1D8B209A00344F8A /* DescriptionCell.swift in Sources */,
 				BED83BDE1DC8DC140025349E /* VideoCollectionViewCell.swift in Sources */,
